@@ -1,0 +1,50 @@
+name: Frontend Build and Deploy  # 워크플로우 이름
+
+on:
+  push:
+    branches: [ "main" ]
+    # main 브랜치에 push할 때마다 트리거
+
+jobs:
+  build-and-deploy:              # 잡(job) 이름
+    runs-on: ubuntu-latest       # CI/CD 실행할 가상 환경 (Ubuntu 최신)
+
+    steps:
+      - name: Checkout code      # (1) 깃헙 리포지토리 코드 다운로드
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js      # (2) Node.js 버전 세팅
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18       # 원하는 Node 버전 (16, 18 등)
+
+      - name: Install deps       # (3) npm 의존성 설치
+        run: npm ci
+
+      - name: Build             # (4) Vite 빌드
+        run: npm run build      
+        # package.json의 "build" = "tsc && vite build"
+        # => 타입스크립트 체크 후 vite build 진행
+        # => dist/ 폴더 생성
+
+      - name: List dist folder   # (옵션) dist 폴더 확인 (디버깅용)
+        run: ls -alh dist
+
+      - name: Install AWS CLI    # (5) AWS CLI 설치
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
+      - name: Deploy to S3       # (6) 빌드 산출물 S3에 배포
+        run: aws s3 sync dist/ s3://YOUR_S3_BUCKET_NAME --delete
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}        # 깃헙 시크릿
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-1  # 실제 리전
+
+      - name: Invalidate CF cache  # (7) CloudFront 캐시 무효화
+        run: aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-1
