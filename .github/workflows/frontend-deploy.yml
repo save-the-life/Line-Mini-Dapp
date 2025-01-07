@@ -43,7 +43,7 @@ jobs:
           AWS_DEFAULT_REGION: ap-northeast-1  # 실제 리전
 
       - name: Invalidate CF cache  # (7) CloudFront 캐시 무효화
-        run: aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id E2CL56B2QXHA8S --paths "/*"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
