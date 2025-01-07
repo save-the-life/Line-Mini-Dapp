@@ -22,6 +22,11 @@ jobs:
         run: npm ci
 
       - name: Build             # (4) Vite 빌드
+        env:                    # 깃헙 시크릿에서 환경변수 주입
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+          VITE_LIFF_ID: ${{ secrets.VITE_LIFF_ID }}
+          VITE_LINE_CLIENT_ID: ${{ secrets.VITE_LINE_CLIENT_ID }}
+          VITE_OPEN_AI_API_KEY: ${{ secrets.VITE_OPEN_AI_API_KEY }}
         run: npm run build      
         # package.json의 "build" = "tsc && vite build"
         # => 타입스크립트 체크 후 vite build 진행
