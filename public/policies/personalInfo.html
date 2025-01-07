@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consent to Collection and Use of Personal Information</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* 전체 높이 차지 */
+            overflow-y: auto; /* 필요한 경우 스크롤 활성화 */
+        }   
+        .container {
+            box-sizing: border-box; /* 내부 패딩 포함 */
+            height: 100%; /* 컨테이너 높이 설정 */
+            display: flex;
+            flex-direction: column;
+            color:white;
+            justify-content: space-between; /* 콘텐츠가 짤리지 않도록 분배 */
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1E90FF; /* 강조된 파란색 */
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color:white;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            color:white;
+        }
+
+        .font-light {
+            font-weight: 300;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .text-gray {
+            color: #AAAAAA;
+            font-size: 0.875rem;
+        }
+    </style>
+    <script>
+        function sendHeightToParent() {
+          const body = document.body;
+          const html = document.documentElement;
+          const height = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight
+          );
+          parent.postMessage({ type: "resizeIframe", height }, "*");
+        }
+  
+        window.addEventListener("load", sendHeightToParent);
+        window.addEventListener("resize", sendHeightToParent);
+      </script>
+  </head>
+  <body class="flex flex-col bg-[#0D1226] items-center max-w-[600px] w-full h-full text-white leading-relaxed m-5">
+    <div class="container">
+      <h1>Consent to Collection and Use of Personal Information</h1>
+
+      <h2>Purpose of Collection and Use of Personal Information:</h2>
+      <p>
+        Your email information is collected to deliver newsletters. The collected
+        personal information will not be used for any purpose other than the
+        specified purpose, and in the event of any change in the purpose of the
+        collection, you will be notified in advance for your consent.
+      </p>
+
+      <h2>Personal Information Collected:</h2>
+      <p class="font-semibold">Email</p>
+
+      <h2>Period of Use and Retention:</h2>
+      <p class="font-semibold">2 years</p>
+
+      <h2>Right to Refuse Consent:</h2>
+      <p class="font-light">
+        You have the right to refuse to consent to the collection and use of your
+        personal data, and if you do not agree, you will not be able to receive the
+        newsletter.
+      </p>
+
+      <p class="text-gray font-semibold">
+        This consent is required for newsletter subscription. Please read the
+        information carefully before proceeding.
+      </p>
+    </div>
+  </body>
+</html>
