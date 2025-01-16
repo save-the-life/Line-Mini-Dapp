@@ -152,6 +152,7 @@ import SpinRapple1Black from "./spinRapple1Black.png";
 import SplashBackground from "./splashbackground.png"
 import SplashTitle from "./splashtitle.png"
 import ConnectButton from "./connectbutton.png"
+import UploadArrow from "./uploaderarrow.png"
 
 
 const Images = {
@@ -308,6 +309,7 @@ const Images = {
   SplashBackground,
   SplashTitle,
   ConnectButton,
+  UploadArrow
 };
 
 export default Images;
