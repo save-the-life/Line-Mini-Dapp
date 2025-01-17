@@ -114,11 +114,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     if (!accessToken) {
       console.log("[AppInitializer] 서버용 토큰이 없음 -> 라인 로그인 여부 확인");
 
-      if (!liff.isLoggedIn()) {
-        console.log("[AppInitializer] liff.isLoggedIn() = false -> liff.login() 호출");
-        liff.login();
-        return;
-      }
+      // if (!liff.isLoggedIn()) {
+      //   console.log("[AppInitializer] liff.isLoggedIn() = false -> liff.login() 호출");
+      //   liff.login();
+      //   return;
+      // }
 
       // 이미 LIFF 로그인되어 있으면 lineToken 추출
       const lineToken = liff.getAccessToken();
@@ -128,6 +128,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         // 사용자가 로그인 플로우를 취소했거나 브라우저 쿠키 문제로 실패했을 수 있음
         console.log("[AppInitializer] lineToken 없음 -> 자동로그인 실패 또는 사용자가 취소한 상황 추정");
         // 필요하다면 여기서 재로그인 유도 가능 (UI에서 '다시 로그인' 버튼 등)
+        liff.login();
         return;
       }
 
