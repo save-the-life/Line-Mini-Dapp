@@ -35,12 +35,19 @@ jobs:
       - name: List dist folder   # (옵션) dist 폴더 확인 (디버깅용)
         run: ls -alh dist
 
-      - name: Install AWS CLI    # (5) AWS CLI 설치
+      - name: Check if AWS CLI is installed    # (5) AWS CLI가 이미 설치되어 있으면 건너뛰기
         run: |
-          # AWS CLI v2 설치
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
+          if ! command -v aws &> /dev/null
+          then
+            # AWS CLI가 없으면 설치
+            echo "AWS CLI가 설치되어 있지 않습니다. 설치 중..."
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+          else
+            # AWS CLI가 이미 설치되어 있으면 건너뛰기
+            echo "AWS CLI가 이미 설치되어 있습니다. 건너뛰기..."
+          fi
           # awscli가 설치된 후 버전 확인 (옵션)
           aws --version
 
