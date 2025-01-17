@@ -37,8 +37,12 @@ jobs:
 
       - name: Install AWS CLI    # (5) AWS CLI 설치
         run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
+          # AWS CLI v2 설치
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+          # awscli가 설치된 후 버전 확인 (옵션)
+          aws --version
 
       - name: Deploy to S3       # (6) 빌드 산출물 S3에 배포
         run: aws s3 sync dist/ s3://digiray-prd-s3 --delete
