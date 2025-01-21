@@ -14,19 +14,19 @@ const ConnectWalletPage: React.FC = () => {
         try {
             console.log("초기화 시작");
 
-            // const sdk = await DappPortalSDK.init({
-            //     clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            //     chainId: "8217", // Klaytn 메인넷
-            // });
+            const sdk = await DappPortalSDK.init({
+                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+                chainId: "8217", // Klaytn 메인넷
+            });
 
-            // const walletProvider = sdk.getWalletProvider();
-            // const accounts = (await walletProvider.request({
-            //     method: "kaia_requestAccounts",
-            // })) as string[];
+            const walletProvider = sdk.getWalletProvider();
+            const accounts = (await walletProvider.request({
+                method: "kaia_requestAccounts",
+            })) as string[];
 
-            // setAccount(accounts[0]);
-            // console.log("지갑 연결 성공:", accounts[0]);
-            navigate("/dice-event");
+            setAccount(accounts[0]);
+            console.log("지갑 연결 성공:", accounts[0]);
+            // navigate("/dice-event");
         } catch (error: any) {
             console.error("에러 발생:", error.message);
             console.error("에러 응답:", error.response?.data || "응답 없음");
