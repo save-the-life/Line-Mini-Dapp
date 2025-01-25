@@ -245,7 +245,7 @@ const MyAssets: React.FC = () => {
                 <div className="flex justify-between items-center">
                     <h2 className="text-lg font-semibold">{t("asset_page.My_NFT_Collection")}</h2>
                     
-                    <button
+                    {/* <button
                         className="flex items-center text-white text-xs"
                         onClick={() => {
                             playSfx(Audios.button_click);
@@ -254,7 +254,7 @@ const MyAssets: React.FC = () => {
                         aria-label="View All NFTs"
                         >
                         {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
-                    </button>
+                    </button> */}
                 </div>
                 <div className="mt-4 w-full">
                     {nft === 0 ? (
@@ -303,7 +303,14 @@ const MyAssets: React.FC = () => {
                 <div className="flex justify-between items-center">
                     <h2 className="text-lg font-semibold">{t("asset_page.claimable")}</h2>
                     
-                    <button
+                    <div className="mt-4 bg-[#1F1E27] rounded-3xl border-[2px] border-[#35383F] py-3 px-4">
+                        <div className='flex justify-between items-center py-4'>
+                            <p>{t("asset_page.prepare_service")}</p>
+                        </div>
+
+                    </div>
+                    
+                    {/* <button
                         className="flex items-center text-white text-xs"
                         onClick={() => {
                             playSfx(Audios.button_click);
@@ -312,11 +319,11 @@ const MyAssets: React.FC = () => {
                         aria-label="View Claim History"
                         >
                         {t("asset_page.view_claim")} <FaChevronRight className="ml-1 w-2 h-2" />
-                    </button>
+                    </button> */}
                 </div>
 
                  {/* SL Balance */}
-                <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-4">
+                {/* <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-4">
                     <div className="flex items-center">
                         <img
                             src={Images.SLToken} // SL 이미지 경로를 설정
@@ -326,10 +333,10 @@ const MyAssets: React.FC = () => {
                         <span className="text-base font-medium text-gray-300">SL</span>
                     </div>
                     <span className="text-lg font-bold">750SL</span>
-                </div>
+                </div> */}
 
                 {/* USDC Balance */}
-                <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-2">
+                {/* <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-2">
                     <div className="flex items-center">
                         <img
                             src={Images.USDC} // USDC 이미지 경로를 설정
@@ -348,14 +355,14 @@ const MyAssets: React.FC = () => {
                     }}
                     >
                     {t("asset_page.claim_reward")}
-                </button>
+                </button> */}
             </div>
 
             {/* 보상 내역 */}
             <div className="mt-8 w-full">
                 <div className="flex justify-between items-center">
                     <h2 className="text-lg font-semibold">{t("asset_page.Rewards_History")}</h2>
-                    <button
+                    {/* <button
                         className="flex items-center text-white text-xs"
                         onClick={() => {
                             playSfx(Audios.button_click);
@@ -363,10 +370,13 @@ const MyAssets: React.FC = () => {
                         }}
                         >
                         {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
-                    </button>
+                    </button> */}
                 </div>
                 <div className="mt-4 bg-[#1F1E27] rounded-3xl border-[2px] border-[#35383F] py-3 px-4">
-                    {rewardHistory.map((reward, index) => (
+                    <div className='flex justify-between items-center py-4'>
+                        <p>{t("asset_page.prepare_service")}</p>
+                    </div>
+                    {/* {rewardHistory.map((reward, index) => (
                         <div
                             key={reward.id}
                             className={`flex justify-between items-center py-4 ${
@@ -385,7 +395,7 @@ const MyAssets: React.FC = () => {
                                 {reward.points}
                             </p>
                         </div>
-                    ))}
+                    ))} */}
                 </div>
             </div>
 
