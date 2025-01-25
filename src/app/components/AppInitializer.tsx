@@ -121,7 +121,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
       // 이미 LIFF 로그인되어 있으면 lineToken 추출
       const lineToken = liff.getAccessToken();
-      console.log("[AppInitializer] liff.isLoggedIn() = true, lineToken:", lineToken);
+      console.log("[AppInitializer] liff.isLoggedIn() = true");
 
       if (!lineToken) {
         // 사용자가 로그인 플로우를 취소했거나 브라우저 쿠키 문제로 실패했을 수 있음
