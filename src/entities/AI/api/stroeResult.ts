@@ -18,10 +18,8 @@ async function storeResult(formData: FormData, type: string): Promise<boolean> {
 
     if (response.data.code === 'OK') {
       if(response.data.data !== null){
-        console.log("뭐하카나: ", response.data);
         return true;
       }else {
-        console.log("뭐하카나: ", response.data);
         return false;
       }
     } else {

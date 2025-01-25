@@ -7,6 +7,8 @@ import { FaChevronRight } from 'react-icons/fa';
 import { useTranslation } from "react-i18next";
 import LoadingSpinner from '@/shared/components/ui/loadingSpinner';
 import getMyslToken from '@/entities/Asset/api/getSL';
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 interface AIMenuProps {
   title: string;
@@ -42,6 +44,7 @@ const AIMenus: React.FC<AIMenuProps> = ({
 const AIMenu: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { playSfx } = useSound();
   const setSelectedMenu = useMainPageStore((state) => state.setSelectedMenu);
   const [slToken, setSlToken] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -71,6 +74,7 @@ const AIMenu: React.FC = () => {
   });
 
   const handleCloseModal = () => {
+    playSfx(Audios.button_click);
     setShowModal(false);
     localStorage.setItem('modalDisplayed', 'true'); // 모달 표시 여부 기록
   };
@@ -78,15 +82,25 @@ const AIMenu: React.FC = () => {
   // 각 메뉴 클릭 시 전역 상태 설정 후 반려동물 선택 페이지로 이동
   const handleMenuClick = (menu: 'x-ray' | 'ai-analysis' | 'records') => {
     // x-ray 또는 ai-analysis 선택 시 전역 상태에 저장 후 반려동물 선택 페이지로 이동
-    if(slToken < 5 && menu === 'x-ray'){
-      setShowModal(true);
-    } else if(slToken < 5 && menu === 'ai-analysis') {
-      setShowModal(true);
-    } else {
-      setSelectedMenu(menu);
-      navigate('/select-pet');
-    }
+    setSelectedMenu(menu);
+    playSfx(Audios.button_click);
+    navigate('/select-pet');
   };
+
+  // const handleMenuClick = (menu: 'x-ray' | 'ai-analysis' | 'records') => {
+  //   // x-ray 또는 ai-analysis 선택 시 전역 상태에 저장 후 반려동물 선택 페이지로 이동
+  //   if(slToken < 5 && menu === 'x-ray'){
+    // playSfx(Audios.button_click);/
+  //     setShowModal(true);
+  //   } else if(slToken < 5 && menu === 'ai-analysis') {
+    // playSfx(Audios.button_click);
+  //     setShowModal(true);
+  //   } else {
+  //     setSelectedMenu(menu);
+  //     navigate('/select-pet');
+    // playSfx(Audios.button_click);
+  //   }
+  // };
 
   if (loading) {
     // 로딩 중일 때는 로딩스피너만 보여줌

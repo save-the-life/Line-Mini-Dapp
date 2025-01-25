@@ -12,14 +12,19 @@ import { TopTitle } from "@/shared/components/ui";
 import "./MissionPage.css";
 import Images from "@/shared/assets/images";
 import missionImageMap from "@/shared/assets/images/missionImageMap";
+// ★ 미션 이름 번역용 매핑 테이블
+import { missionNamesMap } from "./missionNameMap"; 
 import { Link } from "react-router-dom";
 import {
   useMissionStore,
   Mission,
 } from "@/entities/Mission/model/missionModel";
 import { formatNumber } from "@/shared/utils/formatNumber";
-import LoadingSpinner from "@/shared/components/ui/loadingSpinner";   // ★ 로딩 스피너
-import { preloadImages } from "@/shared/utils/preloadImages";         // ★ 이미지 프리로딩 함수
+import LoadingSpinner from "@/shared/components/ui/loadingSpinner"; // 로딩 스피너
+import { preloadImages } from "@/shared/utils/preloadImages";       // 이미지 프리로딩 함수
+import { useTranslation } from "react-i18next";
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -35,8 +40,17 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
   const mapping = missionImageMap[mission.name];
   const imageSrc = mapping ? Images[mapping.imageKey] : Images.TokenReward;
   const className = mapping ? mapping.className : "";
+  const { t } = useTranslation();
+  const { playSfx } = useSound();
+
+  // 번역 키로부터 실제 번역된 문자열을 가져옴
+  const translatedName = missionNamesMap[mission.name]
+    ? t(missionNamesMap[mission.name])
+    : mission.name;
 
   const handleClick = () => {
+    playSfx(Audios.button_click);
+    
     if (!mission.isCleared) {
       // 미션 이동 링크 열기
       if (mission.redirectUrl) {
@@ -69,7 +83,8 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
       <div className="relative flex flex-col items-center justify-center z-0">
         <img src={imageSrc} alt={mission.name} className="w-9 h-9" />
         <div className="flex flex-col items-center justify-center">
-          <p className="text-sm font-medium">{mission.name}</p>
+          {/* ★ mission.name → translatedName 사용 */}
+          <p className="text-sm font-medium">{translatedName}</p>
           <p className="font-semibold text-sm flex flex-row items-center gap-1">
             +{mission.diceReward}{" "}
             <img src={Images.Dice} alt="dice" className="w-4 h-4" /> +
@@ -81,13 +96,13 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
 
       {/* Completed Badge */}
       {mission.isCleared && (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-semibold rounded-full px-4 py-2 z-20 flex items-center justify-center gap-2">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white text-sm font-semibold rounded-full px-4 py-2 z-20 flex items-center justify-center gap-2">
           <img
             src={Images.MissionCompleted}
             alt="Mission Completed"
             className="w-5 h-5"
           />
-          <p>Completed</p>
+          <p>{t("mission_page.Completed")}</p>
         </div>
       )}
     </div>
@@ -105,13 +120,14 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
   image,
   alt,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between mb-3">
       <div className="space-y-3">
         <p className="text-xl font-semibold">{title}</p>
         <p className="text-sm">
-          Earn various rewards <br className="md:hidden" /> such as dice,
-          points, SL coins
+          {t("mission_page.Earn_various_rewards")} <br className="md:hidden" />
+          {t("mission_page.such_as_dice,_points,_SL_coins")}
         </p>
       </div>
       <img src={image} alt={alt} className="w-24 h-24" />
@@ -124,6 +140,8 @@ const MissionPage: React.FC = () => {
   // 1) 이미지 로딩 상태
   // ---------------------------
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
+  const { playSfx } = useSound();
 
   // ---------------------------
   // 2) 미션 스토어
@@ -147,7 +165,7 @@ const MissionPage: React.FC = () => {
   //    - missionImageMap에 들어있는 이미지들 + 기본 이미지들
   // ---------------------------
   const mappedImages = Object.values(missionImageMap).flatMap((item) => {
-    // item.imageKey가 Images 내부에 있는 key 라고 가정
+    // item.imageKey가 Images 내부에 있는 key라고 가정
     return Images[item.imageKey] ? [Images[item.imageKey]] : [];
   });
 
@@ -178,7 +196,7 @@ const MissionPage: React.FC = () => {
   }, [imagesToLoad]);
 
   // ---------------------------
-  // 6) 미션 데이터 불러오기 (기존 로직)
+  // 6) 미션 데이터 불러오기
   // ---------------------------
   useEffect(() => {
     fetchMissions();
@@ -197,6 +215,7 @@ const MissionPage: React.FC = () => {
   };
 
   const handleCloseDialog = () => {
+    playSfx(Audios.button_click);
     setIsDialogOpen(false);
     setRewardData(null);
   };
@@ -213,7 +232,7 @@ const MissionPage: React.FC = () => {
   // 8) 이미지 로딩 중이면 Spinner 표시
   // ---------------------------
   if (isLoading) {
-    return <LoadingSpinner className="h-screen"/>;
+    return <LoadingSpinner className="h-screen" />;
   }
 
   // ---------------------------
@@ -221,97 +240,122 @@ const MissionPage: React.FC = () => {
   // ---------------------------
   return (
     <div className="flex flex-col text-white mx-6 mb-20 md:mb-96">
-      <TopTitle title="Mission" />
+      <TopTitle title={t("mission_page.Mission")} />
 
-      <h1 className="font-semibold text-lg ml-[2px] mb-4">One-Time Missions</h1>
+      <h1 className="font-semibold text-lg ml-[2px] mb-4">
+        {t("mission_page.One_Time_Mission")}
+      </h1>
 
       {/* 미션 스토어 로딩 or 에러 */}
-      {loading && <LoadingSpinner />}
-      {error && <p className="text-red-500">{error}</p>}
+      {/* {loading && <LoadingSpinner />}
+      {error && <p className="text-red-500">{error}</p>} */}
 
       {/* 미션 리스트 */}
       <div className="grid grid-cols-2 gap-3">
-        {missions.map((mission) =>
-          mission.name !== "Leave a Supportive Comment on SL X" ? (
-            <OneTimeMissionCard
-              key={mission.id}
-              mission={mission}
-              onClear={handleClearMission}
-              onMissionCleared={handleMissionCleared}
-            />
-          ) : (
-            <div className="col-span-2" key={mission.id}>
-              <div
-                className={`basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between relative cursor-pointer ${
-                  mission.isCleared ? "pointer-events-none" : ""
-                }`}
-                onClick={() => {
-                  if (!mission.isCleared) {
-                    if (mission.redirectUrl) {
-                      window.open(mission.redirectUrl, "_blank");
-                    }
-                    handleClearMission(mission.id);
-                  }
-                }}
-                role="button"
-                aria-label={`Mission: ${mission.name}`}
-                tabIndex={0}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter" && !mission.isCleared) {
-                    if (mission.redirectUrl) {
-                      window.open(mission.redirectUrl, "_blank");
-                    }
-                    handleClearMission(mission.id);
-                  }
-                }}
-              >
-                {mission.isCleared && (
-                  <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10"></div>
-                )}
+        {missions.map((mission) => {
+          // 분기 처리: "Leave a Supportive Comment on SL X" → else 구간
+          if (mission.name !== "Leave a Supportive Comment on SL X") {
+            return (
+              <OneTimeMissionCard
+                key={mission.id}
+                mission={mission}
+                onClear={handleClearMission}
+                onMissionCleared={handleMissionCleared}
+              />
+            );
+          } else {
+            // ★ else 구간에서도 translatedName 사용
+            const translatedName = missionNamesMap[mission.name]
+              ? t(missionNamesMap[mission.name])
+              : mission.name;
 
-                <div className="relative flex flex-row items-center justify-between z-0 w-full">
-                  <div className="md:space-y-3">
-                    <p className="text-sm font-medium">{mission.name}</p>
-                    <p className="font-semibold flex flex-row items-center gap-1 mt-2">
-                      +{mission.diceReward}{" "}
-                      <img src={Images.Dice} alt="dice" className="w-5 h-5" />
-                      &nbsp; +{formatNumber(mission.starReward)}{" "}
-                      <img src={Images.Star} alt="star" className="w-5 h-5" />
-                    </p>
+            return (
+              <div className="col-span-2" key={mission.id}>
+                <div
+                  className={`basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between relative cursor-pointer ${
+                    mission.isCleared ? "pointer-events-none" : ""
+                  }`}
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    if (!mission.isCleared) {
+                      if (mission.redirectUrl) {
+                        window.open(mission.redirectUrl, "_blank");
+                      }
+                      handleClearMission(mission.id);
+                    }
+                  }}
+                  role="button"
+                  aria-label={`Mission: ${mission.name}`}
+                  tabIndex={0}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter" && !mission.isCleared) {
+                      if (mission.redirectUrl) {
+                        window.open(mission.redirectUrl, "_blank");
+                      }
+                      handleClearMission(mission.id);
+                    }
+                  }}
+                >
+                  {mission.isCleared && (
+                    <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10"></div>
+                  )}
+
+                  <div className="relative flex flex-row items-center justify-between z-0 w-full">
+                    <div className="md:space-y-3">
+                      {/* ★ 영문 대신 translatedName 표시 */}
+                      <p className="text-sm font-medium">{translatedName}</p>
+                      <p className="font-semibold flex flex-row items-center gap-1 mt-2">
+                        +{mission.diceReward}{" "}
+                        <img
+                          src={Images.Dice}
+                          alt="dice"
+                          className="w-5 h-5"
+                        />
+                        &nbsp; +{formatNumber(mission.starReward)}{" "}
+                        <img
+                          src={Images.Star}
+                          alt="star"
+                          className="w-5 h-5"
+                        />
+                      </p>
+                    </div>
+                    <img
+                      src={Images.LargeTwitter}
+                      alt="Large Twitter"
+                      className="w-20 h-20"
+                    />
                   </div>
-                  <img
-                    src={Images.LargeTwitter}
-                    alt="Large Twitter"
-                    className="w-20 h-20"
-                  />
+
+                  {mission.isCleared && (
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-sm font-semibold rounded-full px-4 py-2 z-20 flex items-center justify-center gap-2">
+                      <img
+                        src={Images.MissionCompleted}
+                        alt="Mission Completed"
+                        className="w-5 h-5"
+                      />
+                      <p>{t("mission_page.Completed")}</p>
+                    </div>
+                  )}
                 </div>
 
-                {mission.isCleared && (
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-semibold rounded-full px-4 py-2 z-20 flex items-center justify-center gap-2">
-                    <img
-                      src={Images.MissionCompleted}
-                      alt="Mission Completed"
-                      className="w-5 h-5"
-                    />
-                    <p>Completed</p>
-                  </div>
-                )}
+                <p className="text-xs mb-8 mt-2 text-white">
+                  {t(
+                    "mission_page.*_If_the_mission_is_not_performed_correctly,_you_may_be_excluded_from_the_final_reward."
+                  )}
+                </p>
               </div>
-
-              <p className="text-xs mb-8 mt-2 text-white">
-                * If the mission is not performed correctly, you may be excluded
-                from the final reward.
-              </p>
-            </div>
-          )
-        )}
+            );
+          }
+        })}
       </div>
 
-      <h1 className="font-semibold text-lg ml-[2px] mb-4">Daily Missions</h1>
+      <h1 className="font-semibold text-lg ml-[2px] mb-4">
+        {t("mission_page.Daily_Mission")}
+      </h1>
 
-      <Link to="/invite-friends">
+      <Link to="/invite-friends" onClick={() => playSfx(Audios.button_click)}>
         <DailyMissionCard
-          title="Invite Friends"
+          title={t("mission_page.Invite_friends")}
           alt="Invite Friend"
           image={Images.InviteFriend}
         />

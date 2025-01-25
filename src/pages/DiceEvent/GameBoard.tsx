@@ -27,6 +27,9 @@ import { PiSpinnerBallFill } from "react-icons/pi";
 import { formatNumber } from "@/shared/utils/formatNumber";
 import { FaBookTanakh  } from "react-icons/fa6";
 import { useTour } from "@reactour/tour";
+import { useTranslation } from "react-i18next";
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 dayjs.extend(duration);
 dayjs.extend(utc); // UTC 플러그인 적용
@@ -48,6 +51,7 @@ interface GameBoardProps {
   handleMouseDown: () => void;
   handleMouseUp: () => void;
   isLuckyVisible: boolean;
+  rollDice: () => void;
 }
 
 const GameBoard: React.FC<GameBoardProps> = ({
@@ -66,6 +70,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   handleMouseDown,
   handleMouseUp,
   isLuckyVisible,
+  rollDice,
 }) => {
   // Zustand 스토어에서 필요한 상태와 함수 가져오기
   const {
@@ -98,6 +103,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const [timeUntilRefill, setTimeUntilRefill] = useState("");
   const [isRefilling, setIsRefilling] = useState(false); // 리필 중 상태 관리
   const {setIsOpen} = useTour();
+  const { playSfx } = useSound();
 
   // timeUntilRefill 최신값을 보관할 ref 생성
   const timeUntilRefillRef = useRef(timeUntilRefill);
@@ -122,12 +128,16 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
     // Refill Dice API 호출 함수
   const handleRefillDice = async () => {
+    // 소리 추가
+    playSfx(Audios.button_click);
+
     try {
       setIsRefilling(true);
       await refillDice();
       // refillDice 호출 후 fetchUserData를 통해 diceRefilledAt이 갱신된다고 가정
       // 여기서 별도로 diceRefilledAt을 조정할 필요 없음
       setIsRefilling(false);
+      playSfx(Audios.reward);
     } catch (error: any) {
       console.error("주사위 리필 실패:", error);
       setIsRefilling(false);
@@ -135,6 +145,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
   };
 
   const handleAutoSwitch = async () => {
+    // 소리 추가
+    playSfx(Audios.button_click);
+    
     try {
       await autoSwitch();
     } catch (error: any) {
@@ -179,7 +192,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
         const currentTimeUntilRefill = timeUntilRefillRef.current; 
 
         if (diceCount > 0 && !buttonDisabled) {
-          diceRef.current?.roll();
+          // diceRef.current?.roll();
+          rollDice();
         } else if (diceCount === 0) {
           if (currentTimeUntilRefill === "Refill dice" && !isRefilling) {
             handleRefillDice().catch((err) => console.error("오토 리필 실패:", err));
@@ -194,7 +208,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         clearInterval(autoInterval);
       }
     };
-  }, [isAuto, diceCount, buttonDisabled, diceRef,]); 
+  }, [isAuto, diceCount, buttonDisabled, rollDice, isRefilling]); 
   // timeUntilRefill 제거
 
 
@@ -434,6 +448,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
     }
   };
 
+  
+  const { t } = useTranslation();
+
   return (
     <div className="grid grid-cols-6 grid-rows-6 gap-1 text-xs md:text-base relative">
       {/* 에러 메시지 표시 */}
@@ -588,27 +605,27 @@ const GameBoard: React.FC<GameBoardProps> = ({
             </DialogTrigger>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh md:h-auto overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <DialogHeader className="">
-                <DialogTitle>Your Current Inventory</DialogTitle>
+                <DialogTitle>{t("dice_event.inventory")}</DialogTitle>
               </DialogHeader>
               <div className="flex flex-col mt-4 gap-4">
                 <div className="flex flex-col bg-[#1F1E27] p-5 rounded-3xl border-2 border-[#35383F] font-medium gap-2">
                   <div className="flex flex-row items-center gap-2">
                     <IoGameController className="w-6 h-6" />
-                    <p>Game Board Points : x{items.boardRewardTimes}</p>
+                    <p>{t("dice_event.points")} : x{items.boardRewardTimes}</p>
                   </div>
                   <div className="flex flex-row items-center gap-2">
                     <IoTicket className="w-6 h-6" />
-                    <p>Raffle Tickets : x{items.ticketTimes}</p>
+                    <p>{t("dice_event.tickets")} : x{items.ticketTimes}</p>
                   </div>
                   <div className="flex flex-row items-center gap-2">
                     <PiSpinnerBallFill className="w-6 h-6" />
-                    <p>Spin Rewards: x{items.spinTimes}</p>
+                    <p>{t("dice_event.spin")}: x{items.spinTimes}</p>
                   </div>
                 </div>
                 <div className="flex flex-row items-center justify-end gap-1">
                   <AiOutlineInfoCircle className=" w-5 h-5" />
                   <p className="text-end text-sm font-medium">
-                    The NFT reward multiplier is additive.
+                    {t("dice_event.additive")}
                   </p>
                 </div>
                 <NFTRewardList />
@@ -771,7 +788,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               }}
             >
               <BsDice5Fill className="w-3 h-3" />
-              <p>: Refill Dice</p>
+              <p>: {t("dice_event.refill")}</p>
             </motion.div>
           ) : (
             <>

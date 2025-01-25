@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
+import { FaSearch, FaCaretDown, FaCaretUp } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,6 +7,8 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { TopTitle } from "@/shared/components/ui";
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 import getFriendsList from "@/entities/RewardPage/api/friendsList";
 import getReferralDetail from "@/entities/RewardPage/api/referralRewards";
@@ -14,6 +16,7 @@ import getReferralDetail from "@/entities/RewardPage/api/referralRewards";
 const FriendRewards: React.FC = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const { playSfx } = useSound();
 
   // 날짜 필터
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -153,21 +156,23 @@ const FriendRewards: React.FC = () => {
   
   return (
     <div className="flex flex-col text-white mb-32 px-6 min-h-screen">
-      <TopTitle title="Friend Referral Rewards" back={true} />
+      <TopTitle title={t("reward_page.ref_reward")} back={true} />
 
       {/* 드롭다운 필터 */}
       <div>
         <div
           className="flex items-center justify-between cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        >
+          onClick={() => {
+            playSfx(Audios.button_click);
+            setIsOpen(!isOpen);
+          }}>
           <div className="flex items-center">
-            <p className="text-lg font-semibold">Filter Option</p>
+            <p className="text-lg font-semibold">{t("reward_page.filter")}</p>
           </div>
           {isOpen ? (
-            <FaChevronUp className="text-lg" />
+            <FaCaretUp className="text-lg" />
           ) : (
-            <FaChevronDown className="text-lg" />
+            <FaCaretDown className="text-lg" />
           )}
         </div>
 
@@ -179,11 +184,11 @@ const FriendRewards: React.FC = () => {
         >
           <div className="mt-4 mx-3">
             {/* 친구 이름 검색 */}
-            <p className="text-lg font-medium text-left mb-2">Search Friend</p>
+            <p className="text-lg font-medium text-left mb-2">{t("reward_page.search")}</p>
             <div className="relative w-full mb-4">
               <input
                 type="text"
-                placeholder="Search Name..."
+                placeholder={t("reward_page.name")}
                 value={searchText}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="w-full h-14 px-4 py-2 pr-14 bg-[#1F1E27] border-[#35383F] border-2 text-white text-center rounded-full focus:outline-none focus:ring focus:ring-blue-500"
@@ -217,7 +222,7 @@ const FriendRewards: React.FC = () => {
             </div>
 
             {/* 자산 종류 필터 (하나만 선택) */}
-            <p className="text-lg font-medium text-left mb-2">Asset Types</p>
+            <p className="text-lg font-medium text-left mb-2">{t("reward_page.type")}</p>
             <div className="flex flex-col gap-2 ml-3">
               {["USDC", "SL", "Point"].map((asset) => (
                 <label
@@ -227,7 +232,10 @@ const FriendRewards: React.FC = () => {
                   <input
                     type="checkbox"
                     checked={selectedAsset === asset}
-                    onChange={() => handleAssetChange(asset)}
+                    onChange={() => {
+                      playSfx(Audios.button_click);
+                      handleAssetChange(asset);
+                    }}
                     className="mr-2"
                   />
                   {asset}
@@ -236,13 +244,14 @@ const FriendRewards: React.FC = () => {
             </div>
 
             {/* 날짜 범위 선정 */}
-            <p className="text-lg font-medium text-left mt-4">Date Ranges</p>
+            <p className="text-lg font-medium text-left mt-4">{t("reward_page.range")}</p>
             <div className="flex items-center gap-4 mt-4">
               {/* 시작일 */}
               <div className="w-full">
                 <DatePicker
                   selected={startDate}
                   onChange={(date) => {
+                    playSfx(Audios.button_click);
                     setStartDate(date);
                   }}
                   placeholderText="Start Date"
@@ -256,7 +265,10 @@ const FriendRewards: React.FC = () => {
               <div className="w-full">
                 <DatePicker
                   selected={endDate}
-                  onChange={(date) => setEndDate(date)}
+                  onChange={(date) => {
+                    playSfx(Audios.button_click);
+                    setEndDate(date);
+                  }}
                   placeholderText="End Date"
                   customInput={<CustomDateInput placeholder="End Date" />}
                   dateFormat="yyyy-MM-dd"
@@ -291,7 +303,7 @@ const FriendRewards: React.FC = () => {
           ))
         ) : (
           <p className="text-center text-lg font-semibold text-gray-400">
-            No records found
+            {t("reward_page.no_record")}
           </p>
         )}
       </div>

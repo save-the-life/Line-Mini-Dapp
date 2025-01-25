@@ -6,6 +6,8 @@ import { useRPSGameStore } from "../RPSGame/store";
 import { useUserStore, Board } from "@/entities/User/model/userModel"; // 'Board' 임포트 추가
 import { anywhereAPI } from "@/features/DiceEvent/api/anywhereApi";
 import { RollDiceResponseData } from '@/features/DiceEvent/api/rollDiceApi';
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 export interface Reward {
   type: string;
@@ -43,6 +45,7 @@ export const useDiceGame = () => {
   const [rolledValue, setRolledValue] = useState<number>(0);
   const [reward, setReward] = useState<Reward | null>(null);
   const [tileSequence, setTileSequence] = useState<number>(position);
+  const { playSfx, stopSfx } = useSound();
 
   // RPS 게임 및 스핀 게임 상태
   const [isRPSGameActive, setIsRPSGameActive] = useState(false);
@@ -91,6 +94,7 @@ export const useDiceGame = () => {
       onMoveComplete: (finalPosition: number) => void
     ) => {
       setMoving(true);
+      playSfx(Audios.move, { loop: true });
       console.log('movePiece 호출됨:', startPosition, endPosition);
       let currentPosition = startPosition;
 
@@ -105,11 +109,11 @@ export const useDiceGame = () => {
         }
 
         if (currentPosition !== (endPosition % 20)) {
-          setTimeout(moveStep, 300);
+          setTimeout(moveStep, 305);
         } else {
           // 보상 적용 제거
           // applyReward(currentPosition);
-
+          stopSfx(Audios.move);
           switch (currentPosition) {
             case 2:
               setTimeout(() => {
@@ -206,6 +210,11 @@ export const useDiceGame = () => {
           showReward(tileData.rewardType, tileData.rewardAmount);
         }
 
+        // 무인도 도착 시 효과음
+        if (tileData?.tileType === "JAIL") {
+          playSfx(Audios.island);
+        }
+
         if (isAuto && [5, 15, 18].includes(finalPosition)) {
           // Auto 모드이고 특정 타일에 도착했을 때 게임을 활성화하지 않음
           console.log(`Auto 모드: 타일 ${finalPosition} 도착, 게임 활성화 건너뜀`);
@@ -258,6 +267,7 @@ export const useDiceGame = () => {
   // 주사위 굴리기 함수
   const rollDice = useCallback(() => {
     if (diceCount > 0 && !isRolling) {
+      playSfx(Audios.roll_dice);
       setIsRolling(true);
       setButtonDisabled(true);
       diceRef.current?.roll(); // Dice 컴포넌트의 roll 메소드 호출
@@ -267,6 +277,8 @@ export const useDiceGame = () => {
   const handleTileClick = useCallback(
     async (tileId: number) => {
       if (!selectingTile || tileId === 18) return; // 타일 18 클릭 시 아무 동작도 하지 않음
+
+      playSfx(Audios.high_pass);
 
       try {
         setButtonDisabled(true); // 버튼 비활성화
@@ -326,6 +338,7 @@ export const useDiceGame = () => {
       setError,
       isAuto, // isAuto 필요 시 추가
       boards, // boards 필요 시 추가
+      playSfx,
     ]
   );
 

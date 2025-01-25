@@ -8,11 +8,15 @@ import storeResult from '@/entities/AI/api/stroeResult';
 import OpenAI from 'openai';
 import { TopTitle } from '@/shared/components/ui';
 import getBalance from '@/entities/AI/api/checkBalance';
+import slPayment from '@/entities/AI/api/paySL';
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 const AIXrayAnalysis: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const { playSfx } = useSound();
 
   const [model, setModel] = useState<tmImage.CustomMobileNet | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -31,6 +35,7 @@ const AIXrayAnalysis: React.FC = () => {
 
   const petData = location.state as { id: string };
   const petId = petData?.id || '';
+  const [probability, setProbability] = useState("");
 
   const openai = new OpenAI({
     apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
@@ -76,6 +81,8 @@ const AIXrayAnalysis: React.FC = () => {
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    playSfx(Audios.button_click);
+
     if (event.target.files && event.target.files[0]) {
       setSelectedImage(event.target.files[0]);
 
@@ -126,6 +133,8 @@ const AIXrayAnalysis: React.FC = () => {
   };
 
   const analyzeImage = async () => {
+    playSfx(Audios.button_click);
+
     if (!selectedImage) {
       showModalFunction(t("ai_page.Please_upload_an_image_before_analysis."));
       return;
@@ -206,37 +215,99 @@ const AIXrayAnalysis: React.FC = () => {
           setSelectedImage(null);
           setPredictedLabel('');
         } else if (parsedData.image_type === "pet_xray") {
-          // 실제 분류 모델 동작
-          if (loadedModel && selectedImage) {
-            const imageElement = new Image();
-            imageElement.src = URL.createObjectURL(selectedImage);
-            imageElement.onload = async () => {
-              const predictions = await loadedModel.predict(imageElement);
+          // sl 차감 api 진행
+          try {
+            // const slResponse = await slPayment();
+            // if(slResponse.message === 'Success'){
+            //   // 실제 분류 모델 동작
+            //   if (loadedModel && selectedImage) {
+            //     const imageElement = new Image();
+            //     imageElement.src = URL.createObjectURL(selectedImage);
+            //     imageElement.onload = async () => {
+            //       const predictions = await loadedModel.predict(imageElement);
+            //       const highestPrediction = predictions.reduce((prev, current) =>
+            //         prev.probability > current.probability ? prev : current
+            //       );
+
+            //       // ① 예측 결과(영어 원본)
+            //       const rawLabel = highestPrediction.className;
+
+            //       // ② 번역된 문자열
+            //       const translatedLabel =
+            //         highestPrediction.probability > 0.95
+            //           ? t(`ai_page.reuslts.${rawLabel.replace(/ /g, "_")}`, {
+            //               defaultValue: t("ai_page.reuslts.Normal"),
+            //             })
+            //           : t("ai_page.reuslts.Normal");
+
+            //       // state에 둘 다 반영
+            //       setPredictedLabel(rawLabel);
+            //       setDisplayLabel(translatedLabel);
+
+            //       setIsAnalyzed(true);
+            //       setLoading(false);
+            //     };
+            //   } else {
+            //     setLoading(false);
+            //   }
+            // }else {
+            //   setShowModal(true);
+            //   setSelectedImage(null);
+            //   setIsAnalyzed(false);
+            //   showModalFunction(t("ai_page.5SL_tokens"));
+            // }
+            // 실제 분류 모델 동작
+            if (loadedModel && selectedImage) {
+              const imageElement = new Image();
+              imageElement.src = URL.createObjectURL(selectedImage);
+              imageElement.onload = async () => {
+                const predictions = await loadedModel.predict(imageElement);
+
+              // 각 클래스별 확률 콘솔 출력
+              predictions.forEach((p) => {
+                const percentage = (p.probability * 100).toFixed(2);
+                console.log(`Class: ${p.className}, Probability: ${percentage}%`);
+              });
+              
               const highestPrediction = predictions.reduce((prev, current) =>
                 prev.probability > current.probability ? prev : current
               );
 
-              // ① 예측 결과(영어 원본)
-              const rawLabel = highestPrediction.className;
+              const highestPercentage = Math.round(highestPrediction.probability * 100);
+              setProbability(highestPercentage.toString());
+              console.log(
+                `Highest Probability Class: ${highestPrediction.className}, Probability: ${highestPercentage}%`
+              );
+                // ① 예측 결과(영어 원본)
+                const rawLabel = highestPrediction.className;
 
-              // ② 번역된 문자열
-              const translatedLabel =
-                highestPrediction.probability > 0.95
-                  ? t(`ai_page.reuslts.${rawLabel.replace(/ /g, "_")}`, {
-                      defaultValue: t("ai_page.reuslts.Normal"),
-                    })
-                  : t("ai_page.reuslts.Normal");
+                // ② 번역된 문자열
+                const translatedLabel =
+                  highestPrediction.probability > 0.95
+                    ? t(`ai_page.reuslts.${rawLabel.replace(/ /g, "_")}`, {
+                        defaultValue: t("ai_page.reuslts.Normal"),
+                      })
+                    : t("ai_page.reuslts.Normal");
 
-              // state에 둘 다 반영
-              setPredictedLabel(rawLabel);
-              setDisplayLabel(translatedLabel);
+                // state에 둘 다 반영
+                setPredictedLabel(rawLabel);
+                setDisplayLabel(translatedLabel);
 
-              setIsAnalyzed(true);
+                setIsAnalyzed(true);
+                setLoading(false);
+              };
+            } else {
               setLoading(false);
-            };
-          } else {
-            setLoading(false);
+            }
+          } catch(error:any){
+            console.error("sl payment Error:", error);
+            showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
+            setIsAnalyzed(false);
+            setSelectedImage(null);
+            setDisplayLabel(t("ai_page.Analysis_failed"));
+            setPredictedLabel(""); // 설명 초기화
           }
+
         } else {
           showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
           setIsAnalyzed(false);
@@ -254,6 +325,8 @@ const AIXrayAnalysis: React.FC = () => {
       }
     } catch (error: any) {
       console.error("OpenAI Error:", error);
+      setIsAnalyzed(false);
+      setSelectedImage(null);
       showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
     } finally {
       setLoading(false);
@@ -268,6 +341,8 @@ const AIXrayAnalysis: React.FC = () => {
   });
 
   const saveResult = () => {
+    playSfx(Audios.button_click);
+
     if (!selectedImage || !isAnalyzed) {
       showModalFunction(t("ai_page.Please_analyze_the_image_before_saving."));
       return;
@@ -277,7 +352,15 @@ const AIXrayAnalysis: React.FC = () => {
     const formData = new FormData();
     formData.append(
       'json',
-      new Blob([JSON.stringify({ petId, result: predictedLabel })], { type: 'application/json' })
+      new Blob([JSON.stringify({ 
+        petId, 
+        details: [{
+          label: predictedLabel,
+          probability: parseInt(probability, 10),
+          description: "",
+          caution: ""
+        }],
+      })], { type: 'application/json' })
     );
     formData.append('file', selectedImage);
 
@@ -285,11 +368,17 @@ const AIXrayAnalysis: React.FC = () => {
   };
 
   const resetAnalysis = () => {
+    playSfx(Audios.button_click);
     setDisplayLabel(t("ai_page.Upload_an_X-ray_image_to_start_analysis"));
     setPredictedLabel('');
     setSelectedImage(null);
     setIsAnalyzed(false);
   };
+
+  const handleSeeMore = () => {
+    playSfx(Audios.button_click);
+    setShowFullText(!showFullText)
+  }
 
   return (
     <div className="flex flex-col items-center text-white mx-6 h-screen overflow-x-hidden">
@@ -335,7 +424,7 @@ const AIXrayAnalysis: React.FC = () => {
           <button
             className={`w-full h-14 text-white text-base font-medium py-2 px-4 rounded-full ${loading ? 'cursor-wait' : ''}`}
             style={{ backgroundColor: '#0147E5' }}
-            onClick={checkBalance}
+            onClick={analyzeImage}
             disabled={loading}
           >
             {loading ? t("ai_page.Analyzing...") : t("ai_page.Upload_image_and_analysis")}
@@ -358,7 +447,7 @@ const AIXrayAnalysis: React.FC = () => {
               <button
                 className="mt-2 w-1/2 text-black font-semibold py-2 px-4 rounded-xl"
                 style={{ backgroundColor: '#FFFFFF' }}
-                onClick={() => setShowFullText(!showFullText)}
+                onClick={handleSeeMore}
               >
                 {t(showFullText ? "ai_page.See_less" : "ai_page.See_more")}
               </button>
@@ -371,7 +460,7 @@ const AIXrayAnalysis: React.FC = () => {
               style={{ backgroundColor: '#252932', borderColor: '#35383F' }}
               onClick={resetAnalysis}
             >
-              Retest
+              {t('ai_page.Retest')} 
             </button>
             <button
               className={`w-[48%] h-14 text-white text-base py-2 px-4 rounded-full ${isSaving ? 'cursor-wait' : ''}`}
@@ -393,6 +482,7 @@ const AIXrayAnalysis: React.FC = () => {
             <button
               className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
               onClick={() => {
+                playSfx(Audios.button_click);
                 setShowModal(false);
                 setModalInfo({ isVisible: false, message: '' });
               }}

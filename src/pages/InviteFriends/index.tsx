@@ -8,6 +8,9 @@ import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '@/shared/components/ui/loadingSpinner';
 import getFriends from '@/entities/Mission/api/friends';
 import liff from "@line/liff";
+import { formatNumber } from '@/shared/utils/formatNumber';
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 interface TruncateMiddleProps {
   text: string;
@@ -45,6 +48,7 @@ interface Friend {
 const InviteFriends: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { playSfx } = useSound();
   const [copySuccess, setCopySuccess] = useState<string>(''); // 클립보드 복사 결과 메시지
   const [referralLink, setReferralLink] = useState<string>(''); // 레퍼럴 코드 상태
   const [friends, setFriends] = useState<Friend[]>([]); // 친구 목록 상태
@@ -52,6 +56,8 @@ const InviteFriends: React.FC = () => {
 
   // 클립보드 복사 함수
   const copyToClipboard = async () => {
+    playSfx(Audios.button_click);
+
     try {
       await navigator.clipboard.writeText(referralLink);
       setCopySuccess('Copied to clipboard!');
@@ -78,20 +84,70 @@ const InviteFriends: React.FC = () => {
     fetchFriendsData();
   }, []);
 
-  const shareButton = async () => {
-    if (liff.isApiAvailable('shareTargetPicker')) {
-      console.log("targetpicker 시작");
-      liff.shareTargetPicker([
-        {
-          type: "text",
-          text: "Hello, World!"
-        }
-      ]).catch(function(res) {
-        console.log("Failed to launch ShareTargetPicker")
-      })
-    }
-  }
+  const handleInviteClick = async () => {
+    playSfx(Audios.button_click);
+    
+    try {
+      if (liff.isInClient()) {
+        // LINE 앱 내의 LIFF 브라우저에서 실행 중인 경우
+        console.log("LIFF 앱이 LINE 앱 내에서 실행되고 있습니다.");
 
+        // 라인 로그인 확인 먼저
+        if (!liff.isLoggedIn()) {
+          liff.login({ redirectUri: window.location.href });
+          return;
+        }
+
+        // shareTargetPicker api 사용
+        if (liff.isApiAvailable('shareTargetPicker')) {
+          await liff.shareTargetPicker([
+            {
+              type: 'text',
+              text: `Join me on this awesome app! Use my referral link: ${referralLink}`
+            }
+          ]);
+          console.log('Message sent!');
+        } else {
+          console.error('Share Target Picker API is not available.');
+        }
+      } else {
+        // 외부 브라우저에서 실행 중인 경우
+        console.log("LIFF 앱이 외부 브라우저에서 실행되고 있습니다.");
+
+        // Web Share API 사용
+        const shareData = {
+          title: 'Awesome App Invitation',
+          text: 'Join me on this awesome app! Use my referral link:',
+          url: referralLink,
+        };
+  
+        if (navigator.share) {
+          // Web Share API 지원 여부 확인
+          if (navigator.canShare && navigator.canShare(shareData)) {
+            try {
+              await navigator.share(shareData);
+              console.log('Content shared successfully');
+            } catch (error) {
+              console.error('Error sharing content:', error);
+            }
+          } else {
+            console.error('This data type cannot be shared using Web Share API.');
+            // 대체 처리: 클립보드에 링크 복사
+            await navigator.clipboard.writeText(referralLink);
+            console.log('Referral link copied to clipboard.');
+          }
+        } else {
+          console.error('Web Share API is not supported in this browser.');
+          // 대체 처리: 클립보드에 링크 복사
+          await navigator.clipboard.writeText(referralLink);
+          console.log('Referral link copied to clipboard.');
+        }
+      }
+    } catch (error) {
+      console.error('Error sharing message:', error);
+    }
+  };
+  
   // 로딩 상태 처리
   if (loading) {
     return <LoadingSpinner className="h-screen" />;
@@ -117,7 +173,7 @@ const InviteFriends: React.FC = () => {
         <div className="flex flex-row items-center">
           <div className="flex flex-col items-center gap-2 justify-center">
             <img src={Images.Star} alt="star" className="h-11" />
-            <p className="font-medium text-sm">1000 P</p>
+            <p className="font-medium text-sm">{formatNumber(10000)} P</p>
           </div>
         </div>
         <p className="text-sm ">
@@ -130,17 +186,8 @@ const InviteFriends: React.FC = () => {
         </p>
         <button 
           className="h-14 w-[302px] rounded-full bg-[#21212f]"
-          onClick={()=>navigate("/invite-friends-list")}>
+          onClick={handleInviteClick}>
           {t('mission_page.Invite_Friends_and_Get_Reward')}
-        </button>
-      </div>
-
-      {/* 공유 버튼 테스트 */}
-      <div className="w-[80%] h-10 my-8">
-        <button 
-          className="w-full h-full bg-green-700 rounded-full"
-          onClick={shareButton}>
-          testing share
         </button>
       </div>
 
@@ -148,7 +195,12 @@ const InviteFriends: React.FC = () => {
         <div className="flex flex-col mt-8 w-full gap-3">
           <div className="flex flex-row justify-between items-center mb-[6px]">
             <p className="text-lg font-medium">{t('mission_page.Invited_Friends')}</p>
-            <div className="flex items-center justify-center text-sm font-medium w-[72px] h-8 rounded-full bg-[#21212f]">
+            <div
+              className="flex items-center justify-center text-sm font-medium w-[72px] h-8 rounded-full bg-[#21212f]"
+              onClick={()=>{
+                playSfx(Audios.button_click);
+                navigate("/invite-friends-list");
+              }}>
               Total : <span className="text-[#FDE047]">{friends.length}</span>
             </div>
           </div>

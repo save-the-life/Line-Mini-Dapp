@@ -20,6 +20,9 @@ import LevelRewards from "@/widgets/LevelRewards";
 import LeaderBoard from "@/widgets/LeaderBoard";
 import { HiX } from "react-icons/hi";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useTranslation } from "react-i18next";
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -64,9 +67,11 @@ const DiceEventPage: React.FC = () => {
   } = useUserStore();
 
   const game = useDiceGame();
+  const { playSfx } = useSound();
   const [initialX, setInitialX] = useState<number>(140);
   const [initialY, setInitialY] = useState<number>(474);
   const [delta, setDelta] = useState<number>(56);
+  const { t } = useTranslation();
 
   // 레벨 업 시 팝업 표시를 위한 상태
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
@@ -75,6 +80,7 @@ const DiceEventPage: React.FC = () => {
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
     if (userLv > prevLevel) {
+      playSfx(Audios.level_up);
       setShowLevelUpDialog(true);
     }
     setPrevLevel(userLv);
@@ -183,7 +189,7 @@ const DiceEventPage: React.FC = () => {
         <>
           <div className="w-full flex justify-center mb-4 mt-8 gap-4">
             <Dialog>
-              <DialogTrigger>
+              <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
                 <UserLevel
                   userLv={userLv}
                   charactorImageSrc={charactorImageSrc}
@@ -220,6 +226,7 @@ const DiceEventPage: React.FC = () => {
             handleMouseDown={game.handleMouseDown}
             handleMouseUp={game.handleMouseUp}
             isLuckyVisible={game.isLuckyVisible}
+            rollDice={game.rollDice}
           />
           {game.selectingTile && !isAuto && (
             <div className="absolute md:-top-40 -top-20 left-0 w-full h-full flex justify-center items-center z-20">
@@ -230,7 +237,7 @@ const DiceEventPage: React.FC = () => {
                   alt="airplane"
                   className="h-20 md:h-28"
                 />
-                Select a tile to move
+                {t("dice_event.select_tile")}
               </div>
             </div>
           )}
@@ -243,7 +250,7 @@ const DiceEventPage: React.FC = () => {
           />
           <br />
           <Dialog>
-            <DialogTrigger className="w-full flex justify-center">
+            <DialogTrigger className="w-full flex justify-center" onClick={() => playSfx(Audios.button_click)}>
               <MyRankingWidget className="max-w-[332px] md:max-w-full" titleHidden={true} />
             </DialogTrigger>
             <DialogContent className=" flex flex-col bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto  max-h-[80%]">
@@ -266,7 +273,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className=" font-jalnan text-5xl text-[#FDE047]">
-                    Level up!
+                    {t("dice_event.level_up")}
                   </h1>
                   <img
                     src={getLevelEffectImageSrc()}
@@ -275,7 +282,7 @@ const DiceEventPage: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-6">
-                  <p className="font-jalnan text-center">Grap your prize!</p>
+                  <p className="font-jalnan text-center">{t("dice_event.grap_prize")}</p>
                   {currentReward && (
                     <div className="flex flex-row items-center gap-2">
                       <div className="box-bg rounded-xl w-16 h-16 border-2 border-[#2660f4] flex flex-col items-center gap-2 justify-center ">

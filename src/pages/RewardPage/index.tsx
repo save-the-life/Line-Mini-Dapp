@@ -10,8 +10,13 @@ import RewardItem from "@/widgets/RewardItem";
 import { Link } from "react-router-dom"; 
 import { formatNumber } from "@/shared/utils/formatNumber";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 const Reward: React.FC = () => {
+  const { t } = useTranslation();
+  const { playSfx } = useSound();
   const {
     fetchLeaderHome,
     rankingAwards,
@@ -50,15 +55,28 @@ const Reward: React.FC = () => {
     return str.slice(0, num) + '...';
   };
 
+  const handleShowMoreRanking = () => {
+    playSfx(Audios.button_click);
+    setShowMoreRanking(true);
+  }
+
+  const handleShowMoreRaffle = () => {
+    playSfx(Audios.button_click);
+    setShowMoreRaffle(true);
+  }
+
   return (
     <div className="flex flex-col px-6 md:px-0 text-white mb-44 w-full ">
-      <TopTitle title="Rewards" />
+      <TopTitle title={t("reward_page.reward")} />
 
-      <Link to="/previous-rewards" className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer">
+      <Link 
+        to="/previous-rewards" 
+        className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer"
+        onClick={() => playSfx(Audios.button_click)}>
         <div className="flex flex-col gap-2">
-          <p className="text-xl font-semibold">Previous Rewards</p>
+          <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
           <p className="text-sm">
-            See your rankings and rewards from last month!
+            {t("reward_page.see_ranking_reward")}
           </p>
         </div>
         <img src={Images.Trophy} alt="trophy" className="w-24 h-24" />
@@ -69,9 +87,9 @@ const Reward: React.FC = () => {
         {/* This Month's Ranking Awards */}
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
-            This Month's
+            {t("reward_page.this_month")}
             <br />
-            Ranking Awards
+            {t("reward_page.awards")}
           </h1>
           <img
             src={Images.GoldMedal}
@@ -112,10 +130,10 @@ const Reward: React.FC = () => {
 
         {rankingOthers.length > 0 && !showMoreRanking && (
           <button
-            onClick={() => setShowMoreRanking(true)}
+            onClick={handleShowMoreRanking}
             className="border border-[#ffffff] text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
           >
-            View More
+            {t("reward_page.view_more")}
           </button>
         )}
       </div>
@@ -124,9 +142,9 @@ const Reward: React.FC = () => {
       <div className="flex flex-col gap-3 justify-center items-center mb-14">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
-            This Month's
+            {t("reward_page.this_month")}
             <br />
-            Raffle Awards
+            {t("reward_page.raffle")}
           </h1>
           <img
             src={Images.LotteryTicket}
@@ -167,10 +185,10 @@ const Reward: React.FC = () => {
 
         {raffleOthers.length > 0 && !showMoreRaffle && (
           <button
-            onClick={() => setShowMoreRaffle(true)}
+            onClick={handleShowMoreRaffle}
             className="border border-[#ffffff] text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
           >
-            View More
+            {t("reward_page.view_more")}
           </button>
         )}
       
@@ -181,9 +199,9 @@ const Reward: React.FC = () => {
         <div className="flex flex-col gap-3 justify-center items-center mb-14 text-sm font-medium">
           <div className="relative text-center font-jalnan text-3xl z-10">
             <h1 className="z-30">
-              This Month's
-              <br />
-              AirDrop Event
+            {t("reward_page.this_month")}
+            <br />
+            {t("reward_page.air_drop")}
             </h1>
             <img
               src={Images.AirDrop}

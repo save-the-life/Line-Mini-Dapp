@@ -7,6 +7,7 @@ import { rollDiceAPI, RollDiceResponseData } from '@/features/DiceEvent/api/roll
 import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi'; // 분리된 API 함수 임포트
 import { autoAPI } from '@/features/DiceEvent/api/autoApi';
 import { completeTutorialAPI} from '@/features/DiceEvent/api/completeTutorialApi';
+import { useSoundStore } from '@/shared/store/useSoundStore';
 
 
 // 월간 보상 정보 인터페이스
@@ -350,6 +351,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         weekAttendance,
         items,
         boards,
+        bgm
       } = data;
   
       set({
@@ -411,6 +413,18 @@ export const useUserStore = create<UserState>((set, get) => ({
         isLoading: false,
         error: null,
       });
+      const soundStore = useSoundStore.getState();
+
+      soundStore.setMasterVolume(bgm.masterVolume / 10);
+      soundStore.setBgmVolume(bgm.backVolume / 10);
+      soundStore.setSfxVolume(bgm.effectVolume / 10);
+
+      useSoundStore.setState({
+        masterMuted: bgm.masterMute,
+        bgmMuted: bgm.backMute,
+        sfxMuted: bgm.effectMute,
+      });
+
     } catch (error: any) {
       console.error('fetchUserData 실패:', error);
       set({ isLoading: false, error: error.message });

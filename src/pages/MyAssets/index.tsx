@@ -15,6 +15,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/shared/components/ui';
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
+
 
 interface TruncateMiddleProps {
     text: any;
@@ -49,6 +52,7 @@ const TruncateMiddle: React.FC<TruncateMiddleProps> = ({
 const MyAssets: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { playSfx } = useSound();
     const { userId, userLv, characterType } = useUserStore();
     const [loading, setLoading] = useState(true);
     const [nft, setNFT] = useState(0);
@@ -192,13 +196,19 @@ const MyAssets: React.FC = () => {
                     {/* 지갑 페이지 이동 */}
                     <button 
                         className="w-8 h-8 rounded-full flex items-center justify-center"
-                        onClick={()=>navigate('/wallet')}>
+                        onClick={()=>{
+                            playSfx(Audios.button_click);
+                            navigate('/wallet');
+                        }}>
                         <BiWallet className="w-6 h-6" />
                     </button>
                     {/* 설정 페이지 이동 */}
                     <button 
                         className="w-8 h-8 rounded-full flex items-center justify-center"
-                        onClick={()=>navigate('/settings')}>
+                        onClick={()=>{
+                            playSfx(Audios.button_click);
+                            navigate('/settings');
+                        }}>
                         <IoSettingsOutline className="w-6 h-6" />
                     </button>
                 </div>
@@ -207,7 +217,10 @@ const MyAssets: React.FC = () => {
             {/* NFT 상점 이동 영역 - 추후 수정 예정 */}
             <div 
                 className="rounded-2xl p-5 mt-6 w-full flex items-center justify-between"
-                onClick={()=>setShowModal(true)}
+                onClick={()=>{
+                    playSfx(Audios.button_click);
+                    setShowModal(true);
+                }}
                 style={{
                     background: "linear-gradient(to bottom, #19203CB2 0%, #304689 100%)",
                 }}>
@@ -227,7 +240,6 @@ const MyAssets: React.FC = () => {
                 />
             </div>
             
-
             {/* 내 NFT 컬렉션 */}
             <div className="mt-9 w-full">
                 <div className="flex justify-between items-center">
@@ -235,7 +247,10 @@ const MyAssets: React.FC = () => {
                     
                     <button
                         className="flex items-center text-white text-xs"
-                        onClick={() => navigate("/my-nfts")}
+                        onClick={() => {
+                            playSfx(Audios.button_click);
+                            navigate("/my-nfts");
+                        }}
                         aria-label="View All NFTs"
                         >
                         {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
@@ -245,18 +260,18 @@ const MyAssets: React.FC = () => {
                     {nft === 0 ? (
                         <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
                             <p className="text-center text-[#737373] text-sm font-medium">
-                                {/* {t("asset_page.no_nft")}<br />
-                                {t("asset_page.own_nft")} */}
-                                No NFTs in your colletion yet.<br />
-                                Own NFT and Boost your rank!
+                                {t("asset_page.no_nft")}<br />
+                                {t("asset_page.own_nft")}
                             </p>
                             <button
                                 className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
                                 style={{ backgroundColor: '#0147E5' }}
-                                onClick={()=>setShowModal(true)}
+                                onClick={()=>{
+                                    playSfx(Audios.button_click);
+                                    setShowModal(true);
+                                }}
                                 >
-                                {/* {t("asset_page.shop_nft")} */}
-                                Shop NFT
+                                {t("asset_page.shop_nft")}
                             </button>
                         </div>
 
@@ -286,14 +301,17 @@ const MyAssets: React.FC = () => {
             {/* 클래임 */}
             <div className="mt-8 w-full">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">Claimable Balance</h2>
+                    <h2 className="text-lg font-semibold">{t("asset_page.claimable")}</h2>
                     
                     <button
                         className="flex items-center text-white text-xs"
-                        onClick={() => navigate("/claim-history")}
+                        onClick={() => {
+                            playSfx(Audios.button_click);
+                            navigate("/claim-history");
+                        }}
                         aria-label="View Claim History"
                         >
-                        View Claim History <FaChevronRight className="ml-1 w-2 h-2" />
+                        {t("asset_page.view_claim")} <FaChevronRight className="ml-1 w-2 h-2" />
                     </button>
                 </div>
 
@@ -324,9 +342,12 @@ const MyAssets: React.FC = () => {
                 </div>
                 <button
                     className="w-full h-14 mt-3 py-4 rounded-full text-base font-medium bg-[#0147E5] text-white"
-                    onClick={() => setClaimModalOpen(true)}
+                    onClick={() => {
+                        playSfx(Audios.button_click);
+                        setClaimModalOpen(true);
+                    }}
                     >
-                    Claim Rewards
+                    {t("asset_page.claim_reward")}
                 </button>
             </div>
 
@@ -336,7 +357,10 @@ const MyAssets: React.FC = () => {
                     <h2 className="text-lg font-semibold">{t("asset_page.Rewards_History")}</h2>
                     <button
                         className="flex items-center text-white text-xs"
-                        onClick={() => navigate("/reward-history")}
+                        onClick={() => {
+                            playSfx(Audios.button_click);
+                            navigate("/reward-history");
+                        }}
                         >
                         {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                     </button>
@@ -369,10 +393,13 @@ const MyAssets: React.FC = () => {
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
                     <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
-                        <p>We're preparing for the service.</p>
+                        <p>{t("asset_page.prepare_service")}</p>
                         <button
                             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-                            onClick={()=>setShowModal(false)}
+                            onClick={()=>{
+                                playSfx(Audios.button_click);
+                                setShowModal(false);
+                            }}
                             >
                             {t("OK")}
                         </button>
@@ -390,19 +417,25 @@ const MyAssets: React.FC = () => {
                         <AlertDialogTitle className="text-center font-bold text-xl">
                             <div className="flex flex-row items-center justify-between">
                                 <div> &nbsp;</div>
-                                <p>Claim Tokens</p>
-                                <HiX className={'w-6 h-6 cursor-pointer'} onClick={() => setClaimModalOpen(false)} />
+                                <p>{t("asset_page.claim.claim_token")}</p>
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setClaimModalOpen(false);
+                                    }}/>
                             </div>
                         </AlertDialogTitle>
                     </AlertDialogHeader>
                     <div className="flex flex-col items-center justify-center">
                         <p className="text-base font-semibold text-gray-200 mt-5 mb-3 text-center">
-                            Select the token you want to claim :
+                            {t("asset_page.claim.select_token")}
                         </p>
                         <div className="flex items-center w-[300px] h-[120px] rounded-2xl border-[#35383F] border-2 bg-[#181A20]">
                             {/* SL 버튼 */}
                             <button
                                 onClick={() => {
+                                    playSfx(Audios.button_click);
                                     setClaimModalOpen(false);
                                     // 만약 지갑 연결이 필요한 경우:
                                     setWalletConnection(true);
@@ -424,6 +457,7 @@ const MyAssets: React.FC = () => {
                             {/* USDC 버튼 */}
                             <button
                                 onClick={() => {
+                                    playSfx(Audios.button_click);
                                     // USDC 선택 시 로직 (예: 모달 닫고 USDC Claim 모달 열기)
                                     setClaimModalOpen(false);
                                     setUsdcCaim(true);
@@ -453,22 +487,27 @@ const MyAssets: React.FC = () => {
                         <AlertDialogTitle className="text-center font-bold text-xl">
                             <div className="flex flex-row items-center justify-between">
                                 <div> &nbsp;</div>
-                                <p>Wallet Connection</p>
-                                <HiX className={'w-6 h-6 cursor-pointer'} onClick={() => setWalletConnection(false)} />
+                                <p>{t("asset_page.claim.wallet_connect")}</p>
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setWalletConnection(false);
+                                    }}/>
                             </div>
                         </AlertDialogTitle>
                     </AlertDialogHeader>
                     <div className="flex flex-col items-center justify-center text-center space-y-6">
                         <p className="text-base font-semibold mt-4">
-                            To claim SL, you need to connect <br />
-                            your Kaikas wallet. <br />
-                            Would you like to connect your wallet?
+                            {t("asset_page.claim.to_claim_sl")} <br />
+                            {t("asset_page.claim.would_you")}
                         </p>
 
                         <div className="flex flex-row items-center justify-center gap-4 w-full">
                             {/* Connect Wallet 버튼 */}
                             <button
                                 onClick={() => {
+                                    playSfx(Audios.button_click);
                                     // 여기에 실제 지갑 연결 로직
                                     // 예: connectKaikasWallet()
                                     // 모달 닫기 or 다음 단계 열기
@@ -477,15 +516,18 @@ const MyAssets: React.FC = () => {
                                 }}
                                 className="w-full md:w-[180px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                                 >
-                                Connect Wallet
+                                {t("asset_page.claim.connect")}
                             </button>
 
                             {/* Cancel 버튼 */}
                             <button
-                                onClick={() => setWalletConnection(false)}
+                                onClick={() => {
+                                    playSfx(Audios.button_click);
+                                    setWalletConnection(false);
+                                }}
                                 className="w-full md:w-[180px] h-14 rounded-full border-[2px] border-[#737373] text-white font-medium"
                                 >
-                                Cancel
+                                {t("asset_page.claim.cancel")}
                             </button>
                         </div>
                     </div>
@@ -503,29 +545,34 @@ const MyAssets: React.FC = () => {
                         <AlertDialogTitle className="text-center font-bold text-xl">
                             <div className="flex flex-row items-center justify-between">
                                 <div> &nbsp;</div>
-                                <p>SL Claim</p>
-                                <HiX className={'w-6 h-6 cursor-pointer'} onClick={() => setSLClaim(false)} />
+                                <p>{t("asset_page.claim.sl")}</p>
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setSLClaim(false);
+                                    }} />
                             </div>
                         </AlertDialogTitle>
                     </AlertDialogHeader>
                     <div className="flex flex-col items-center justify-center text-center">
                         {/* 연결된 지갑 주소 표시 (예시) */}
                         <p className="mb-2 mt-4 text-base font-semibold">
-                            Connected wallet address : <br />
+                            {t("asset_page.claim.connected")} <br />
                             <span>0x0x3Aa5ebB10DC79...</span>
                         </p>
 
                         {/* 안내 문구 */}
                         <p className="text-sm text-[#A3A3A3] mb-5 leading-5 font-normal">
-                            Note: A gas fee will be deducted from your claim. <br />
-                            Minimum claim amount is 100SL.
+                            {t("asset_page.claim.gas_note")} <br />
+                            {t("asset_page.claim.min_claim")}
                         </p>
 
                         {/* 수량 입력 필드 */}
-                        <label className="block text-base font-semibold mb-1">Enter the amount of SL to claim :</label>
+                        <label className="block text-base font-semibold mb-1">{t("asset_page.claim.enter_sl")}</label>
                         <input
                             type="number"
-                            placeholder="Enter the amount of SL"
+                            placeholder={t("asset_page.claim.enter_sl_placeholder")}
                             className="w-full h-16 rounded-2xl bg-[#181A20] border border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                         />
 
@@ -534,11 +581,11 @@ const MyAssets: React.FC = () => {
                             onClick={() => {
                                 // 실제로 SL을 Claim할 때 지갑 호출 로직
                                 setSLClaim(false);
-                                setLoadingModal(true)
+                                setLoadingModal(true);
                             }}
                             className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                         >
-                            Claim
+                            {t("asset_page.claim.claim_btn")}
                         </button>
                     </div>
                 </AlertDialogContent>
@@ -555,15 +602,20 @@ const MyAssets: React.FC = () => {
                         <AlertDialogTitle className="text-center font-bold text-xl">
                             <div className="flex flex-row items-center justify-between">
                                 <div> &nbsp;</div>
-                                <p>USDC Claim</p>
-                                <HiX className={'w-6 h-6 cursor-pointer'} onClick={() => setUsdcCaim(false)} />
+                                <p>{t("asset_page.claim.usdc")}</p>
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setUsdcCaim(false);
+                                    }}/>
                             </div>
                         </AlertDialogTitle>
                     </AlertDialogHeader>
                     <div className="flex flex-col items-center justify-center text-center">
                         {/* 지갑 주소 입력 */}
                         <label className="block text-base font-semibold mb-2">
-                            Enter the wallet address to receive USDC :
+                            {t("asset_page.claim.enter_address")}
                         </label>
                         <input
                             type="text"
@@ -573,30 +625,31 @@ const MyAssets: React.FC = () => {
 
                         {/* 안내 문구 */}
                         <p className="text-sm font-normal text-[#A3A3A3] mb-5 leading-5">
-                            Note: A gas fee will be deducted from your claim. <br />
-                            Minimum claim amount is 100SL.
+                            {t("asset_page.claim.gas_note")} <br />
+                            {t("asset_page.claim.min_claim")}
                         </p>
 
                         {/* USDC 수량 입력 */}
                         <label className="block text-base font-semibold mb-1">
-                            Enter the amount of USDC to claim :
+                            {t("asset_page.claim.enter_usdc")}
                         </label>
                         <input
                             type="number"
-                            placeholder="Enter the amount of USDC"
+                            placeholder={t("asset_page.claim.enter_usdc_placeholder")}
                             className="w-full h-16 rounded-2xl bg-[#181A20] border-2 border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                         />
 
                         {/* Claim 버튼 */}
                         <button
                             onClick={() => {
-                            // 실제 Claim 로직
-                            setLoadingModal(true);
-                            setUsdcCaim(false);
+                                playSfx(Audios.button_click);
+                                // 실제 Claim 로직
+                                setLoadingModal(true);
+                                setUsdcCaim(false);
                             }}
                             className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                         >
-                            Claim
+                            {t("asset_page.claim.claim_btn")}
                         </button>
                     </div>
                 </AlertDialogContent>
@@ -613,15 +666,20 @@ const MyAssets: React.FC = () => {
                         <AlertDialogTitle className="text-center font-bold text-xl">
                             <div className="flex flex-row items-center justify-between">
                                 <div> &nbsp;</div>
-                                <p>Processing</p>
-                                <HiX className={'w-6 h-6 cursor-pointer'} onClick={() => setLoadingModal(false)} />
+                                <p>{t("asset_page.claim.process")}</p>
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setLoadingModal(false);
+                                    }}/>
                             </div>
                         </AlertDialogTitle>
                     </AlertDialogHeader>
                     <div className="flex flex-col items-center justify-center text-center">
                         {/* 상태 안내 문구 */}
-                        <p className="text-sm mt-4 mb-1">Processing SL claim...</p>
-                        <p className="text-xs text-gray-400 mb-4">Please wait.</p>
+                        <p className="text-sm mt-4 mb-1">{t("asset_page.claim.processing")}</p>
+                        <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
 
                         {/* LoadingSpinner 사용 */}
                         <LoadingSpinner 
@@ -632,6 +690,7 @@ const MyAssets: React.FC = () => {
                             {/* 모달 확인용 버튼 */}
                             <button
                                 onClick={() => {
+                                    playSfx(Audios.button_click);
                                     // 성공 모달
                                     setSuccess(true);
                                     setLoadingModal(false);
@@ -644,6 +703,7 @@ const MyAssets: React.FC = () => {
                             {/* Close 버튼 */}
                             <button
                                 onClick={() => {
+                                    playSfx(Audios.button_click);
                                     // 실패 모달
                                     setFailed(true);
                                     setLoadingModal(false);
@@ -668,15 +728,20 @@ const MyAssets: React.FC = () => {
                         <AlertDialogTitle className="text-center font-bold text-xl">
                             <div className="flex flex-row items-center justify-between">
                                 <div> &nbsp;</div>
-                                <p>Claim Falied</p>
-                                <HiX className={'w-6 h-6 cursor-pointer'} onClick={() => setFailed(false)} />
+                                <p>{t("asset_page.claim.failed")}</p>
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setFailed(false);
+                                    }}/>
                             </div>
                         </AlertDialogTitle>
                     </AlertDialogHeader>
                     <div className="flex flex-col items-center justify-center text-center space-y-4">
                         {/* 실패 안내 문구 */}
                         <p className="text-base font-semibold mt-4">
-                            SL claim failed. Please try again later.
+                        {t("asset_page.claim.try_agein")}
                         </p>
 
                         {/* 오류 메시지 */}
@@ -689,21 +754,25 @@ const MyAssets: React.FC = () => {
                             {/* Try Again 버튼 */}
                             <button
                                 onClick={() => {
+                                    playSfx(Audios.button_click);
                                     // 재시도 로직
                                     setFailed(false);
                                     setLoadingModal(true); // 다시 로딩 모달 띄울 수도 있음
                                 }}
                                 className="w-[120px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                                 >
-                                Try Again
+                                {t("asset_page.claim.try_agein_btn")}
                             </button>
 
                             {/* Close 버튼 */}
                             <button
-                                onClick={() => setFailed(false)}
+                                onClick={() => {
+                                    playSfx(Audios.button_click);
+                                    setFailed(false);
+                                }}
                                 className="w-[120px] h-14 rounded-full border-[2px] border-[#737373] text-white text-base font-medium"
                                 >
-                                Close
+                                {t("asset_page.claim.close")}
                             </button>
                         </div>
                     </div>
@@ -721,15 +790,20 @@ const MyAssets: React.FC = () => {
                         <AlertDialogTitle className="text-center font-bold text-xl">
                             <div className="flex flex-row items-center justify-between">
                                 <div> &nbsp;</div>
-                                <p>Claim Completed</p>
-                                <HiX className={'w-6 h-6 cursor-pointer'} onClick={() => setSuccess(false)} />
+                                <p>{t("asset_page.claim.complete")}</p>
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setSuccess(false);
+                                    }}/>
                             </div>
                         </AlertDialogTitle>
                     </AlertDialogHeader>
                     <div className="flex flex-col items-center justify-center text-center space-y-4">
                         {/* 성공 안내 문구 */}
                         <p className="text-sm font-semibold mt-4">
-                            SL claim was successful!
+                            {t("asset_page.claim.success")}
                         </p>
                         
                         <div className="text-base">
@@ -741,12 +815,13 @@ const MyAssets: React.FC = () => {
                         {/* View History 버튼 */}
                         <button
                             onClick={() => {
+                                playSfx(Audios.button_click);;
                                 setSuccess(false);
                                 navigate('/claim-history');
                             }}
                             className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4"
                             >
-                            View History
+                            {t("asset_page.claim.view_history")}
                         </button>
                     </div>
                 </AlertDialogContent>

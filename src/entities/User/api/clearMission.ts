@@ -23,7 +23,6 @@ export const clearMission = async (missionId: number): Promise<Mission[]> => {
         const response = await api.post<ClearMissionResponse>('/onetime/mission', { id: missionId });
 
         if (response.data.code === 'OK') {
-            console.log(response.data.message); // 성공 메시지 출력
             return response.data.data;
         } else {
             console.error('Unexpected response:', response);
