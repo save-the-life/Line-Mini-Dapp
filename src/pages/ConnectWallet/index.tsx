@@ -16,7 +16,7 @@ const ConnectWalletPage: React.FC = () => {
 
             const sdk = await DappPortalSDK.init({
                 clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-                chainId: "8217", // Klaytn 메인넷
+                // chainId: "8217", 
             });
 
             const walletProvider = sdk.getWalletProvider();
