@@ -1,13 +1,14 @@
 // src/pages/RewardPage/index.tsx
 
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { TopTitle } from "@/shared/components/ui";
 import "./Reward.css";
 import Images from "@/shared/assets/images";
 import { useRewardStore } from "@/entities/RewardPage/model/rewardModel";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import RewardItem from "@/widgets/RewardItem"; 
-import { Link } from "react-router-dom"; 
+import api from '@/shared/api/axiosInstance';
 import { formatNumber } from "@/shared/utils/formatNumber";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -15,6 +16,7 @@ import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 
 const Reward: React.FC = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { playSfx } = useSound();
   const {
@@ -29,6 +31,8 @@ const Reward: React.FC = () => {
 
   const [showMoreRanking, setShowMoreRanking] = useState(false);
   const [showMoreRaffle, setShowMoreRaffle] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchLeaderHome();
@@ -65,14 +69,29 @@ const Reward: React.FC = () => {
     setShowMoreRaffle(true);
   }
 
+  const handlePreviousRewardPage = async() => {
+    playSfx(Audios.button_click);
+
+    const response = await api.get("/leader/ranking/initial");
+    if(response.data.data === null) {
+      setShowModal(true);
+    } else {
+      navigate('/previous-rewards');
+    }
+  }
+
+  const handleCloseModal = () => {
+    playSfx(Audios.button_click);
+    setShowModal(false);
+  };
+
   return (
-    <div className="flex flex-col px-6 md:px-0 text-white mb-44 w-full ">
+    <div className="flex flex-col px-6 md:px-0 text-white mb-44 w-full min-h-screen">
       <TopTitle title={t("reward_page.reward")} />
 
-      <Link 
-        to="/previous-rewards" 
+      <div 
         className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer"
-        onClick={() => playSfx(Audios.button_click)}>
+        onClick={handlePreviousRewardPage}>
         <div className="flex flex-col gap-2">
           <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
           <p className="text-sm">
@@ -80,7 +99,7 @@ const Reward: React.FC = () => {
           </p>
         </div>
         <img src={Images.Trophy} alt="trophy" className="w-24 h-24" />
-      </Link>
+      </div>
 
       {/** 이번달 경품 보여주기 */}
       <div className="flex flex-col gap-3 justify-center items-center mb-14">
@@ -236,6 +255,19 @@ const Reward: React.FC = () => {
         </div>
       )}
 
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+            <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+                <p>{t("reward_page.no_previous_rewards")}</p>
+                <button
+                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                    onClick={handleCloseModal}
+                    >
+                    {t("OK")}
+                </button>
+            </div>
+        </div>
+      )}
     </div>
   );
 };
