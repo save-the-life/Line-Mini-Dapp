@@ -51,11 +51,6 @@ const ConnectWalletPage: React.FC = () => {
         // 필요시 로컬 스토리지 key 제거
         localStorage.removeItem("sdk.dappportal.io:1001:walletType");
         return;
-      } else if (isMobile && (walletType === "Web" || walletType === "Extension")) {
-        alert(
-          "현재 모바일 환경에서 '웹/익스텐션 지갑'은 연결할 수 없습니다.\nPC 환경에서 다시 시도해주세요."
-        );
-        return;
       }
 
       // 4) 문제없으면 연결 성공
