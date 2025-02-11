@@ -8,6 +8,14 @@ import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import paymentSession from "@/entities/Asset/api/payment";
 import getItemInfo from "@/entities/Asset/api/getItemInfo";
+import { HiX } from 'react-icons/hi';
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/shared/components/ui'
 
 const nftCollection = [
     {
@@ -26,6 +34,7 @@ const ItemStore: React.FC = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { playSfx } = useSound();
+    const [showModal, setShowModal] = useState(false);
 
     const [selectedItem, setSelectedItem] = useState<string | null>(null);
     const [agreeRefund, setAgreeRefund] = useState(false);
@@ -217,6 +226,54 @@ const ItemStore: React.FC = () => {
                     </button>
                 </div>
             </div>
+            <AlertDialog open={showModal}>
+                <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+                    <AlertDialogHeader>
+                        <AlertDialogDescription className="sr-only">
+                           Item details
+                        </AlertDialogDescription>
+                        <AlertDialogTitle className="text-center font-bold text-xl">
+                            <div className="flex flex-row items-center justify-between">
+                                <div> &nbsp;</div>
+                                {selectedItem === "auto" ? <p>Auto Item</p>: <p>Reward Booster</p>}
+                                <HiX 
+                                    className={'w-6 h-6 cursor-pointer'} 
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setShowModal(false);
+                                    }}/>
+                            </div>
+                        </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <div className="flex flex-col items-center justify-center">
+                        <div
+                            className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                            style={{
+                                background:
+                                selectedItem === "auto"
+                                    ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
+                                    : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
+                            }}
+                            >
+                            <img
+                                src={selectedItem === "auto" ? Images.AutoNFT : Images.RewardNFT}
+                                alt={selectedItem === "auto" ? "auto item" : "reward booster"}
+                                className="w-[80px] h-[80px] object-cover"
+                            />
+                        </div>
+                        <p className="mt-2">date....</p>
+                        <div className="mt-6 text-lg font-semibold">
+                            {selectedItem === "auto" ? 
+                                <p>Dice Auto Roller</p> : <p>Reward Booster</p>}
+                        </div>
+                        <div className="mt-1 text-base font-normal">
+                            {selectedItem === "auto" ? 
+                                <p>Rolls the dice automatically</p> :
+                                <p>Board & Spin Reward Upgrade : 5x</p>}
+                        </div>
+                    </div>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 };
