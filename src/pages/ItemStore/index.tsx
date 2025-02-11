@@ -58,7 +58,7 @@ const ItemStore: React.FC = () => {
             chainId: '1001',
         });
         
-        const response = await paymentSession(1, "STRIPE", "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af");
+        const response = await paymentSession(1, "STRIPE", "0x2bdd3eC0dBDC4aA30adbDc10a502ee7B10357A3D");
         
         // 0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af
         
@@ -81,7 +81,7 @@ const ItemStore: React.FC = () => {
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         });
         
-        const response = await paymentSession(1,"CRYPTO","0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af");
+        const response = await paymentSession(1,"CRYPTO","0x2bdd3eC0dBDC4aA30adbDc10a502ee7B10357A3D");
         
         if(response){
             console.log("결제 진행 payment id : ", response.id);
