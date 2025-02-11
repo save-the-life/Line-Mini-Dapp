@@ -8,6 +8,7 @@ import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import paymentSession from "@/entities/Asset/api/payment";
 import getItemInfo from "@/entities/Asset/api/getItemInfo";
+import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import { HiX } from 'react-icons/hi';
 import {
     AlertDialog,
@@ -46,6 +47,15 @@ const ItemStore: React.FC = () => {
         const getItems = async () =>{
             try{
                 const items = await getItemInfo();
+                const response: KaiaRpcResponse<string> = await kaiaGetBalance(
+                    '0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af'
+                  );
+                  if (response.error) {
+                    console.log("잔고 확인 에러: ", response.error);
+                  } else if (response.result) {
+                    console.log("잔고: ", response.result);
+                  }
+
 
                 if(items){
                     console.log("아이템 정보 확인", items);
