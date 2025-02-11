@@ -84,7 +84,7 @@ const ItemStore: React.FC = () => {
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         });
         
-        const response = await paymentSession(1,"STRIPE","0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af");
+        const response = await paymentSession(1,"STRIPE","0xE7173731309E07da77DA0452179212B9Ea7DBfd7");
         
         if(response){
             console.log("결제 진행 payment id : ", response.id);
@@ -103,7 +103,7 @@ const ItemStore: React.FC = () => {
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         });
         
-        const response = await paymentSession(1,"CRYPTO","0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af");
+        const response = await paymentSession(1,"CRYPTO","0xE7173731309E07da77DA0452179212B9Ea7DBfd7");
         
         if(response){
             console.log("결제 진행 payment id : ", response.id);
