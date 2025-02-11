@@ -57,12 +57,17 @@ const ItemStore: React.FC = () => {
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         });
         
-        const response = await paymentSession(1,"STRIPE","0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af");
+        const response = await paymentSession(1, "STRIPE", "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af");
+        
+        // 0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af
         
         if(response){
             console.log("결제 진행 payment id : ", response.id);
             const walletProvider = sdk.getWalletProvider();
-            await walletProvider.request({ method: 'kaia_requestAccounts' });
+            await walletProvider.request({
+                method: 'kaia_requestAccounts',
+                chainId: '1001',
+            });
             const paymentProvider = sdk.getPaymentProvider();
             await paymentProvider.startPayment(response.id);
         }
@@ -81,7 +86,10 @@ const ItemStore: React.FC = () => {
         if(response){
             console.log("결제 진행 payment id : ", response.id);
             const walletProvider = sdk.getWalletProvider();
-            await walletProvider.request({ method: 'kaia_requestAccounts' });
+            await walletProvider.request({
+                method: 'kaia_requestAccounts',
+                chainId: '1001',
+            });
             const paymentProvider = sdk.getPaymentProvider();
             await paymentProvider.startPayment(response.id);
         }

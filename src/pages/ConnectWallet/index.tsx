@@ -37,6 +37,7 @@ const ConnectWalletPage: React.FC = () => {
       //    이 로직을 통해 사용자가 실제로 Web/Extension/Mobile 지갑 등을 선택하게 됩니다.
       const accounts = (await walletProvider.request({
         method: "kaia_requestAccounts",
+        chainId: '1001',
       })) as string[];
 
       // 지갑 선택이 끝난 후, walletType이 갱신됨
