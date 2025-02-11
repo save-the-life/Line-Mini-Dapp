@@ -55,6 +55,7 @@ const ItemStore: React.FC = () => {
         // 1) SDK 초기화
         const sdk = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: '1001',
         });
         
         const response = await paymentSession(1, "STRIPE", "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af");
@@ -65,8 +66,7 @@ const ItemStore: React.FC = () => {
             console.log("결제 진행 payment id : ", response.id);
             const walletProvider = sdk.getWalletProvider();
             await walletProvider.request({
-                method: 'kaia_requestAccounts',
-                chainId: '1001',
+                method: 'kaia_requestAccounts'
             });
             const paymentProvider = sdk.getPaymentProvider();
             await paymentProvider.startPayment(response.id);
@@ -87,8 +87,7 @@ const ItemStore: React.FC = () => {
             console.log("결제 진행 payment id : ", response.id);
             const walletProvider = sdk.getWalletProvider();
             await walletProvider.request({
-                method: 'kaia_requestAccounts',
-                chainId: '1001',
+                method: 'kaia_requestAccounts'
             });
             const paymentProvider = sdk.getPaymentProvider();
             await paymentProvider.startPayment(response.id);
