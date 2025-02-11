@@ -35,7 +35,7 @@ const TruncateMiddle: React.FC<TruncateMiddleProps> = ({
     const truncateMiddle = (str: string, maxLen: number): string => {
         if (str.length <= maxLen) return str;
 
-        const charsToShow = maxLen - 3; // 3 characters for "..."
+        const charsToShow = maxLen - 9;
         const frontChars = Math.ceil(charsToShow / 2);
         const backChars = Math.floor(charsToShow / 2);
 
@@ -66,6 +66,7 @@ const MyAssets: React.FC = () => {
     const [falied, setFailed] = useState(false);
     const [success, setSuccess] = useState(false);
     const [rewardHistoryData, setRewardHistoryData] = useState<any[]>([]);
+    const [balance, setBalance] = useState("164.00");
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -165,7 +166,7 @@ const MyAssets: React.FC = () => {
     }, []);
 
     const displayHistory = rewardHistoryData.map((reward) => {
-        const displayAsset = reward.currencyType === "STAR" ? "POINT" : reward.currencyType;
+        const displayAsset = reward.currencyType === "STAR" ? "P" : reward.currencyType;
         const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
         return {
             ...reward,
@@ -208,6 +209,18 @@ const MyAssets: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-4">
+                        {/* kaia 잔액 확인 */}
+                        <div className="relative flex items-center">
+                            <img
+                                src={Images.KaiaLogo}
+                                alt="Kaia Icon"
+                                className="relative w-9 h-9 z-10 rounded-full object-cover"
+                            />
+                            <div className="-ml-[20px] flex items-center justify-end bg-[#1F1E27] rounded-full px-3 py-2 w-20 h-7 z-0">
+                                <span className="text-white text-xs">{balance}</span>
+                            </div>
+                        </div>
+
                         {/* 지갑 페이지 이동 */}
                         <button 
                             className="w-8 h-8 rounded-full flex items-center justify-center"
@@ -313,6 +326,65 @@ const MyAssets: React.FC = () => {
                     </div>
                 </div>
 
+                {/* 내 Non-NFT Items */}
+                <div className="mt-9 w-full">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-lg font-semibold">{t("asset_page.non_nft")}</h2>
+                        
+                        <button
+                            className="flex items-center text-white text-xs"
+                            onClick={() => {
+                                playSfx(Audios.button_click);
+                                navigate("/payment-history");
+                            }}
+                            aria-label="View All Items"
+                            >
+                            {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
+                        </button>
+                    </div>
+                    <div className="mt-4 w-full">
+                        {nft === 0 ? (
+                            <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
+                                <p className="text-center text-[#737373] text-sm font-medium">
+                                    {t("asset_page.no_item")}<br />
+                                    {t("asset_page.own_item")}
+                                </p>
+                                <button
+                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    style={{ backgroundColor: '#0147E5' }}
+                                    onClick={()=>{
+                                        playSfx(Audios.button_click);
+                                        // setShowModal(true);
+                                        navigate("/item-store");
+                                    }}
+                                    >
+                                    {t("asset_page.shop_item")}
+                                </button>
+                            </div>
+
+                        ) : (
+                            <div className="grid grid-cols-2 gap-4 mt-4 w-full">
+                                {nftCollection.map((nftItem) => (
+                                    <div
+                                        key={nftItem.id}
+                                        className="bg-[#1F1E27] border border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
+                                        >
+                                        {/* 비율을 유지하며 크기가 리니어하게 바뀌도록 설정 */}
+                                        <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
+                                            <img
+                                            src={nftItem.image}
+                                            alt={nftItem.name}
+                                            className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <p className="mt-2 font-bold">{nftItem.name}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
                 {/* 클래임 */}
                 <div className="mt-8 w-full">
                     <div className="flex justify-between items-center">
@@ -390,14 +462,14 @@ const MyAssets: React.FC = () => {
                                     }`}
                                 >
                                     <div>
-                                        <p className="text-base font-normal">{reward.content}</p>
+                                        <p className="text-sm font-normal">{reward.content}</p>
                                         {/* API에서 제공하는 날짜 필드명이 loggedAt 또는 다른 이름일 수 있으므로 확인 후 사용 */}
                                         <p className="text-xs font-normal text-[#A3A3A3]">
                                             {formatDate(reward.loggedAt)}
                                         </p>
                                     </div>
                                     <p
-                                        className={`text-lg font-semibold ${
+                                        className={`text-base font-semibold ${
                                             reward.displayChangeType === "INCREASE"
                                                 ? "text-[#3B82F6]"
                                                 : "text-[#DD2726]"

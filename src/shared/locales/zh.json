@@ -267,7 +267,24 @@
         "claim_pending": "待處理",
         "claim_failed": "失敗",
         "claim_waiting": "等待中"
-      }
+      },
+      "non_nft": "我的非 NFT 項目",
+      "buy_more": "購買更多物品",
+      "item_store": "非 NFT 物品商店",
+      "payment_history": "付款記錄",
+      "agree_non_refundable": "我同意該產品不可退費。",
+      "provide_encrypted_id": "我同意在使用 LINE IAP 付款時，向 LY Corporation 提供加密後的 ID 資訊。",
+      "learn_more": "了解更多",
+      "purchase_success": "購買成功！",
+      "purchase_fail": "購買失敗。",
+      "purchase_canceled": "購買已取消。",
+      "insufficient_balance": "餘額不足。",
+      "try_again": "請稍後再試。",
+      "close": "關閉",
+      "no_item": "您目前沒有任何物品。",
+      "own_item": "擁有物品並提升您的等級！",
+      "shop_item": "選購物品",
+      "detail": "付款方式"
     },
     "dice_event": {
       "attendance": "簽到",
@@ -332,7 +349,9 @@
         "include": "您的獎勵包含以下內容：",
         "booster": "獎勵加速器",
         "spin_reward": "轉盤獎勵",
-        "ok": "確認"
+        "ok": "確認",
+        "spin": "轉轉樂",
+        "spinning":"公司简介"
       },
       "inventory": "你目前的庫存",
       "points": "遊戲棋盤積分",

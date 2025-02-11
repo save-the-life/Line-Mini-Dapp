@@ -267,7 +267,24 @@
             "claim_pending": "保留",
             "claim_failed": "失敗",
             "claim_waiting": "待機中"
-        }
+        },
+        "non_nft": "私のNon-NFTアイテム",
+        "buy_more": "アイテムをもっと購入する",
+        "item_store": "Non-NFTアイテムストア",
+        "payment_history": "支払い履歴",
+        "agree_non_refundable": "この商品は返金不可であることに同意します。",
+        "provide_encrypted_id": "LINE IAPによる支払いの際に、暗号化されたID情報をLY Corporationに提供することに同意します。",
+        "learn_more": "詳しくはこちら",
+        "purchase_success": "購入成功！",
+        "purchase_fail": "購入失敗。",
+        "purchase_canceled": "購入キャンセル済み。",
+        "insufficient_balance": "残高不足。",
+        "try_again": "後でもう一度お試しください。",
+        "close": "閉じる",
+        "no_item": "まだ所有しているアイテムがありません。",
+        "own_item": "アイテムを所有して、ランクを上げよう！",
+        "shop_item": "アイテムを購入する",
+        "detail": "支払詳細"
     },
     "dice_event": {
         "attendance": "出席",
@@ -332,7 +349,9 @@
             "include": "獲得した報酬には以下が含まれます:",
             "booster": "報酬ブースター",
             "spin_reward": "ルーレット報酬",
-            "ok": "OK"
+            "ok": "OK",
+            "spin": "ルーレットを回す",
+            "spinning":"回転..."
         },
         "inventory": "現在の所持品",
         "points": "ゲームボードポイント",

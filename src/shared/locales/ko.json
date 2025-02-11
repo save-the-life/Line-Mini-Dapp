@@ -267,7 +267,24 @@
         "claim_pending": "보류",
         "claim_failed": "실패",
         "claim_waiting": "대기 중"
-      }
+      },
+      "non_nft": "내 Non-NFT 아이템",
+      "buy_more": "아이템 더 구매하기",
+      "item_store": "Non-NFT 아이템 스토어",
+      "payment_history": "결제 내역",
+      "agree_non_refundable": "해당 제품은 환불되지 않는다는 것에 동의합니다.",
+      "provide_encrypted_id": "LINE IAP를 통한 결제 시, 암호화된 ID 정보를 LY Corporation에 제공하는 것에 동의합니다.",
+      "learn_more": "자세히 알아보기",
+      "purchase_success": "구매 성공!",
+      "purchase_fail": "구매 실패.",
+      "purchase_canceled": "구매 취소됨.",
+      "insufficient_balance": "잔액 부족.",
+      "try_again": "잠시 후 다시 시도해 주세요.",
+      "close": "닫기",
+      "no_item": "아직 보유 중인 item이 없습니다.",
+      "own_item": "item을 소유하고 랭크를 올려보세요!",
+      "shop_item": "item 쇼핑하기",
+      "detail": "구매 내역 상세"
     },
     "dice_event": {
       "attendance": "출석",
@@ -332,7 +349,9 @@
         "include": "획득한 보상에는 다음이 포함됩니다:",
         "booster": "보상 부스터",
         "spin_reward": "룰렛 보상",
-        "ok": "확인"
+        "ok": "확인",
+        "spin": "룰렛 돌리기",
+        "spinning":"돌리는 중..."
       },
       "inventory": "현재 인벤토리",
       "points": "게임보드 포인트",
