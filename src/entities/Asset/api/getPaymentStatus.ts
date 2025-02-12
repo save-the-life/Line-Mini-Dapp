@@ -42,7 +42,6 @@ export async function getPaymentStatus(
 
   // JSON 응답 파싱 후 결과를 확인하기 위해 console.log 추가
   const data: PaymentStatusResponse = await response.json();
-  console.log('Payment status response:', data);
 
   return data;
 }

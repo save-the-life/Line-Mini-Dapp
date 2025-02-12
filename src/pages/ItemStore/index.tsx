@@ -140,15 +140,26 @@ const ItemStore: React.FC = () => {
         await walletProvider.request({ method: "kaia_requestAccounts" });
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.startPayment(response.id);
-        // 결제창 종료 후 paymentId 설정 → 폴링은 paymentId가 설정된 후 시작됨
         setPaymentId(response.id);
       }
     } catch (error: any) {
       console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
-      setIsLoading(false);
-      setPaymentMessage("결제 진행 중 오류가 발생하였습니다.");
+      if(error.code === "-32001"){
+        // 사용자가 거부 버튼 클릭 혹은 결제창 닫기
+        setPaymentMessage("Purchase Cancled.");
+      } else if (error.code === "-32002") {
+        // 결제 실패
+        setPaymentMessage("Purchase Failed.");
+      } else if(error.code === "-3200") {
+        // 잔액 부족 결제 실패
+        setPaymentMessage("Insufficient Balance.");
+      } else {
+        // 기타 결제 실패
+        setPaymentMessage("Please try again later.");
+      }
       setIsSuccess(false);
       setFinish(true);
+      setIsLoading(false);
     }
   };
 
