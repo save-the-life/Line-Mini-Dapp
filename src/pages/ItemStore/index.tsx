@@ -22,16 +22,8 @@ import { BigNumber, ethers } from "ethers";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 
 const nftCollection = [
-  {
-    id: "auto",
-    name: "Auto Item",
-    image: Images.AutoNFT,
-  },
-  {
-    id: "booster",
-    name: "Reward Booster(5x)",
-    image: Images.RewardNFT,
-  },
+  { id: "auto", name: "Auto Item", image: Images.AutoNFT },
+  { id: "booster", name: "Reward Booster(5x)", image: Images.RewardNFT },
 ];
 
 const ItemStore: React.FC = () => {
@@ -49,8 +41,8 @@ const ItemStore: React.FC = () => {
   const [balance, setBalance] = useState<string>("");
   const [itemData, setItemData] = useState<any[]>([]);
 
+  // 결제 관련 상태
   const [paymentId, setPaymentId] = useState<string | null>(null);
-  const [paymentWindowClosed, setPaymentWindowClosed] = useState(false);
   const [isPolling, setIsPolling] = useState(false);
 
   const isEnabled = selectedItem !== null && agreeRefund && agreeEncrypted;
@@ -58,7 +50,6 @@ const ItemStore: React.FC = () => {
   useEffect(() => {
     const getItems = async () => {
       try {
-        // 아이템 정보 조회 api
         const items = await getItemInfo();
         if (items) {
           console.log("아이템 정보 확인", items);
@@ -67,11 +58,9 @@ const ItemStore: React.FC = () => {
           console.log("아이템 정보 실패", items);
         }
 
-        // 지갑 잔고 조회 api
         const response: KaiaRpcResponse<string> = await kaiaGetBalance(
           "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"
         );
-
         if (response.error) {
           console.log("잔고 확인 에러: ", response.error);
         } else if (response.result) {
@@ -79,27 +68,25 @@ const ItemStore: React.FC = () => {
           const KAIA_DECIMALS = 18;
           const balanceBigNumber = BigNumber.from(rawBalanceHex);
           const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
-          setBalance(Number(formattedBalance).toFixed(4));
+          // 소수점 두 자리로 표기
+          setBalance(Number(formattedBalance).toFixed(2));
         }
       } catch (err: any) {
-        console.error("Failed to fetch sl token count:", err);
+        console.error("Failed to fetch token count:", err);
       }
     };
     getItems();
   }, []);
 
-
-  // 결제창 종료 후 1초마다 결제 상태 폴링
+  // paymentId가 확인된 후 1초마다 결제 상태 폴링 시작
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-    if (paymentWindowClosed && paymentId && !isPolling) {
+    if (paymentId && !isPolling) {
       setIsPolling(true);
       intervalId = setInterval(async () => {
         try {
-          // getPaymentStatus는 공식 문서에 따라 문자열을 반환함
           const status = await getPaymentStatus(paymentId);
           console.log("Payment status polling:", status);
-          // 최종 상태에 도달하면 폴링 종료
           if (status === "CONFIRMED") {
             setPaymentMessage("결제가 성공적으로 완료되었습니다.");
             setIsSuccess(true);
@@ -121,49 +108,39 @@ const ItemStore: React.FC = () => {
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [paymentWindowClosed, paymentId, isPolling]);
+  }, [paymentId, isPolling]);
 
-  // 뒤로 가기 버튼
   const handleBackClick = () => {
     playSfx(Audios.button_click);
     navigate(-1);
   };
 
-  // 아이템 선택
   const handleSelectItem = (itemId: string) => {
     playSfx(Audios.button_click);
     setSelectedItem(itemId);
   };
 
-  // 공통 결제 처리 함수 (paymentMethod: "STRIPE" 또는 "CRYPTO")
   const handleCheckout = async (paymentMethod: "STRIPE" | "CRYPTO", sdkOptions = {}) => {
     playSfx(Audios.button_click);
     setIsLoading(true);
-
     try {
-      // SDK 초기화 (USD 결제 시 chainId 옵션 포함)
       const sdk = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         ...sdkOptions,
       });
-      // 선택한 아이템에 따라 인덱스 결정 ("auto"이면 1, 그 외 2)
       const itemIndex = selectedItem === "auto" ? 1 : 2;
-      // 결제 세션 api 요청
       const response = await paymentSession(
         itemIndex,
         paymentMethod,
         "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"
       );
-
       if (response) {
         console.log("결제 진행 payment id :", response.id);
-        // 지갑 연동 먼저 진행
         const walletProvider = sdk.getWalletProvider();
         await walletProvider.request({ method: "kaia_requestAccounts" });
-        // 결제 진행
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.startPayment(response.id);
-        setPaymentWindowClosed(true);
+        // 결제창 종료 후 paymentId 설정 → 폴링은 paymentId가 설정된 후 시작됨
         setPaymentId(response.id);
       }
     } catch (error: any) {
@@ -175,24 +152,19 @@ const ItemStore: React.FC = () => {
     }
   };
 
-  // USD로 결제
   const handleUSDCheckout = async () => {
     await handleCheckout("STRIPE", { chainId: "1001" });
   };
 
-  // KAIA로 결제
   const handleKaiaCheckout = async () => {
     await handleCheckout("CRYPTO", { chainId: "1001" });
   };
 
-  // 아이템 정보 모달창
   const handleInfo = () => {
     playSfx(Audios.button_click);
     setShowModal(true);
-  }
+  };
 
-  // 선택한 아이템에 해당하는 가격 정보를 찾음
-  // nftCollection의 id와 getItemInfo에서 받아온 itemName을 연결(예: "auto" → "AUTO", "booster" → "REWARD")
   const selectedItemInfo = useMemo(() => {
     if (!selectedItem || itemData.length === 0) return null;
     if (selectedItem === "auto") {
@@ -203,220 +175,205 @@ const ItemStore: React.FC = () => {
     return null;
   }, [selectedItem, itemData]);
 
-
-  if (isLoading) {
-    // 로딩 중일 때는 로딩스피너만 보여줌
-    return <LoadingSpinner className="h-screen"/>;
-  }
-
   return (
-    <div className="flex flex-col items-center text-white px-6 min-h-screen">
-      {/* 상단 영역 */}
-      <div className="h-14 flex items-center w-full font-bold text-xl mb-4 justify-between">
-        <IoChevronBackOutline className="w-6 h-6 cursor-pointer" onClick={handleBackClick} />
-        <p>{t("asset_page.item_store")}</p>
-        <img
-          src={Images.Receipt}
-          className="w-6 h-6 cursor-pointer"
-          onClick={() => {
-            playSfx(Audios.button_click);
-            navigate("/payment-history");
-          }}
-        />
-      </div>
+    isLoading ? <LoadingSpinner className="h-screen" /> : (
+      <div className="flex flex-col items-center text-white px-6 min-h-screen">
+        {/* 상단 영역 */}
+        <div className="h-14 flex items-center w-full font-bold text-xl mb-4 justify-between">
+          <IoChevronBackOutline className="w-6 h-6 cursor-pointer" onClick={handleBackClick} />
+          <p>{t("asset_page.item_store")}</p>
+          <img
+            src={Images.Receipt}
+            className="w-6 h-6 cursor-pointer"
+            onClick={() => {
+              playSfx(Audios.button_click);
+              navigate("/payment-history");
+            }}
+          />
+        </div>
 
-      {/* 아이템 목록 (2열 그리드) */}
-      <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-40">
-        {nftCollection.map((nftItem) => (
-          <div
-            key={nftItem.id}
-            // 선택된 아이템이면 테두리 강조
-            className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center
-            ${
-                selectedItem === nftItem.id
-                ? "border-blue-400"
-                : "border-[#737373]"
-            }
-            `}
-            onClick={() => handleSelectItem(nftItem.id)}
-          >
+        {/* 아이템 목록 (2열 그리드) */}
+        <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-40">
+          {nftCollection.map((nftItem) => (
             <div
-              className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
-              style={{
-                background:
-                nftItem.name === "Auto Item"
-                  ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
-                  : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
-              }}
+              key={nftItem.id}
+              className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${
+                selectedItem === nftItem.id ? "border-blue-400" : "border-[#737373]"
+              }`}
+              onClick={() => handleSelectItem(nftItem.id)}
+            >
+              <div
+                className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                style={{
+                  background:
+                    nftItem.name === "Auto Item"
+                      ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
+                      : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
+                }}
               >
-              <img
-                src={nftItem.image}
-                alt={nftItem.name}
-                className="w-[80px] h-[80px] object-cover"
-              />
-              <img
-                src={Images.infoMark}
-                alt="info"
-                className="absolute top-1 right-1 w-5 h-5"
-                onClick={handleInfo}
-              />
-            </div>
-            <p className="mt-2 text-sm font-semibold">{nftItem.name}</p>
-          </div>
-        ))}
-    </div>
-
-      {/* 체크박스 및 결제 버튼 영역 */}
-      <div className="fixed bottom-0 px-6">
-        <div className="flex flex-col gap-3 mb-5">
-          <label className="flex items-start gap-2">
-            <input
-              type="checkbox"
-              checked={agreeRefund}
-              onChange={() => {
-                playSfx(Audios.button_click);
-                setAgreeRefund(!agreeRefund);
-              }}
-            />
-            <span className="text-xs font-medium">
-              {t("asset_page.agree_non_refundable")}
-              <span className="text-xs font-semibold text-[#3B82F6] ml-1">
-                {t("asset_page.learn_more")}
-              </span>
-            </span>
-          </label>
-          <label className="flex items-start gap-2">
-            <input
-              type="checkbox"
-              checked={agreeEncrypted}
-              onChange={() => {
-                playSfx(Audios.button_click);
-                setAgreeEncrypted(!agreeEncrypted);
-              }}
-            />
-            <span className="text-xs font-medium">
-              {t("asset_page.provide_encrypted_id")}
-              <span className="text-xs font-semibold text-[#3B82F6] ml-1">
-                {t("asset_page.learn_more")}
-              </span>
-            </span>
-          </label>
-        </div>
-
-        <div className="mb-3 flex justify-center items-center">
-          <span className="text-sm text-[#A3A3A3]">Available Balance :</span>
-          <span className="text-sm text-white ml-1">{balance} KAIA</span>
-        </div>
-
-        <div className="flex w-full gap-3 mb-5">
-          <button
-            disabled={!isEnabled}
-            onClick={handleKaiaCheckout}
-            className={
-              isEnabled
-                ? "w-1/2 bg-[#0147E5] px-6 py-3 rounded-full text-base font-medium"
-                : "w-1/2 bg-[#555] px-6 py-3 rounded-full text-base font-medium text-white"
-            }
-          >
-            {/* 선택한 아이템의 kaiaPrice가 있으면 해당 값을 출력 */}
-            {selectedItemInfo ? `${selectedItemInfo.kaiaPrice} KAIA` : "KAIA"}
-          </button>
-          <button
-            disabled={!isEnabled}
-            onClick={handleUSDCheckout}
-            className={
-              isEnabled
-                ? "w-1/2 border-2 border-[#0147E5] text-white px-6 py-3 rounded-full text-base font-medium"
-                : "w-1/2 border-2 border-[#555] text-[#555] px-6 py-3 rounded-full text-base font-medium"
-            }
-          >
-            {selectedItemInfo ? `USD $${selectedItemInfo.usdPrice}` : "USD"}
-          </button>
-        </div>
-      </div>
-
-      {/* 아이템 설명 모달창 */}
-      <AlertDialog open={showModal}>
-        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
-          <AlertDialogHeader>
-            <AlertDialogDescription className="sr-only">Item details</AlertDialogDescription>
-            <AlertDialogTitle className="text-center font-bold text-xl">
-              <div className="flex flex-row items-center justify-between">
-                <div>&nbsp;</div>
-                {selectedItem === "auto" ? <p>Auto Item</p> : <p>Reward Booster</p>}
-                <HiX
-                  className={"w-6 h-6 cursor-pointer"}
-                  onClick={() => {
-                    playSfx(Audios.button_click);
-                    setShowModal(false);
-                  }}
+                <img src={nftItem.image} alt={nftItem.name} className="w-[80px] h-[80px] object-cover" />
+                <img
+                  src={Images.infoMark}
+                  alt="info"
+                  className="absolute top-1 right-1 w-5 h-5"
+                  onClick={handleInfo}
                 />
               </div>
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-          <div className="flex flex-col items-center justify-center">
-            <div
-              className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
-              style={{
-                background:
-                  selectedItem === "auto"
-                    ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
-                    : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
-              }}
-            >
-              <img
-                src={selectedItem === "auto" ? Images.AutoNFT : Images.RewardNFT}
-                alt={selectedItem === "auto" ? "auto item" : "reward booster"}
-                className="w-[80px] h-[80px] object-cover"
-              />
+              <p className="mt-2 text-sm font-semibold">{nftItem.name}</p>
             </div>
-            <p className="mt-2">date....</p>
-            <div className="mt-6 text-lg font-semibold">
-              {selectedItem === "auto" ? <p>Dice Auto Roller</p> : <p>Reward Booster</p>}
-            </div>
-            <div className="mt-1 text-base font-normal">
-              {selectedItem === "auto" ? (
-                <p>Rolls the dice automatically</p>
-              ) : (
-                <p>Board & Spin Reward Upgrade : 5x</p>
-              )}
-            </div>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
+          ))}
+        </div>
 
-      {/* 아이템 구매 성공 여부 모달창 */}
-      <AlertDialog open={finish}>
-        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
-          <AlertDialogHeader>
-            <AlertDialogDescription className="sr-only">Item details</AlertDialogDescription>
-            <AlertDialogTitle className="text-center font-bold text-xl">
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-          <div className="flex flex-col items-center justify-center">
-            <div className="relative w-full rounded-full mt-12 mx-1 overflow-hidden flex items-center justify-center">
-              <img
-                src={isSuccess  ? Images.success : Images.failed}
-                alt={isSuccess ? "success" : "failed"}
-                className="w-[50px] h-[50px] object-cover"
+        {/* 체크박스 및 결제 버튼 영역 */}
+        <div className="fixed bottom-0 px-6">
+          <div className="flex flex-col gap-3 mb-5">
+            <label className="flex items-start gap-2">
+              <input
+                type="checkbox"
+                checked={agreeRefund}
+                onChange={() => {
+                  playSfx(Audios.button_click);
+                  setAgreeRefund(!agreeRefund);
+                }}
               />
+              <span className="text-xs font-medium">
+                {t("asset_page.agree_non_refundable")}
+                <span className="text-xs font-semibold text-[#3B82F6] ml-1">
+                  {t("asset_page.learn_more")}
+                </span>
+              </span>
+            </label>
+            <label className="flex items-start gap-2">
+              <input
+                type="checkbox"
+                checked={agreeEncrypted}
+                onChange={() => {
+                  playSfx(Audios.button_click);
+                  setAgreeEncrypted(!agreeEncrypted);
+                }}
+              />
+              <span className="text-xs font-medium">
+                {t("asset_page.provide_encrypted_id")}
+                <span className="text-xs font-semibold text-[#3B82F6] ml-1">
+                  {t("asset_page.learn_more")}
+                </span>
+              </span>
+            </label>
+          </div>
+
+          <div className="mb-3 flex justify-center items-center">
+            <span className="text-sm text-[#A3A3A3]">Available Balance :</span>
+            <span className="text-sm text-white ml-1">{balance} KAIA</span>
+          </div>
+
+          <div className="flex w-full gap-3 mb-5">
+            <button
+              disabled={!isEnabled}
+              onClick={handleKaiaCheckout}
+              className={
+                isEnabled
+                  ? "w-1/2 bg-[#0147E5] px-6 py-3 rounded-full text-base font-medium"
+                  : "w-1/2 bg-[#555] px-6 py-3 rounded-full text-base font-medium text-white"
+              }
+            >
+              {selectedItemInfo ? `${selectedItemInfo.kaiaPrice} KAIA` : "KAIA"}
+            </button>
+            <button
+              disabled={!isEnabled}
+              onClick={handleUSDCheckout}
+              className={
+                isEnabled
+                  ? "w-1/2 border-2 border-[#0147E5] text-white px-6 py-3 rounded-full text-base font-medium"
+                  : "w-1/2 border-2 border-[#555] text-[#555] px-6 py-3 rounded-full text-base font-medium"
+              }
+            >
+              {selectedItemInfo ? `USD $${selectedItemInfo.usdPrice}` : "USD"}
+            </button>
+          </div>
+        </div>
+
+        {/* 아이템 설명 모달창 */}
+        <AlertDialog open={showModal}>
+          <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+            <AlertDialogHeader>
+              <AlertDialogDescription className="sr-only">Item details</AlertDialogDescription>
+              <AlertDialogTitle className="text-center font-bold text-xl">
+                <div className="flex flex-row items-center justify-between">
+                  <div>&nbsp;</div>
+                  {selectedItem === "auto" ? <p>Auto Item</p> : <p>Reward Booster</p>}
+                  <HiX
+                    className="w-6 h-6 cursor-pointer"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      setShowModal(false);
+                    }}
+                  />
+                </div>
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <div className="flex flex-col items-center justify-center">
+              <div
+                className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                style={{
+                  background:
+                    selectedItem === "auto"
+                      ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
+                      : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
+                }}
+              >
+                <img
+                  src={selectedItem === "auto" ? Images.AutoNFT : Images.RewardNFT}
+                  alt={selectedItem === "auto" ? "auto item" : "reward booster"}
+                  className="w-[80px] h-[80px] object-cover"
+                />
+              </div>
+              <p className="mt-2">date....</p>
+              <div className="mt-6 text-lg font-semibold">
+                {selectedItem === "auto" ? <p>Dice Auto Roller</p> : <p>Reward Booster</p>}
+              </div>
+              <div className="mt-1 text-base font-normal">
+                {selectedItem === "auto" ? (
+                  <p>Rolls the dice automatically</p>
+                ) : (
+                  <p>Board & Spin Reward Upgrade : 5x</p>
+                )}
+              </div>
             </div>
-            <p className="mt-5 text-xl font-semibold">{paymentMessage}</p>
-            <div className="mt-10">
-              <button
-                onClick={() => {
+          </AlertDialogContent>
+        </AlertDialog>
+
+        {/* 결제 결과(성공/실패) 안내 모달창 */}
+        <AlertDialog open={finish}>
+          <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+            <AlertDialogHeader>
+              <AlertDialogDescription className="sr-only">Payment result</AlertDialogDescription>
+              <AlertDialogTitle className="text-center font-bold text-xl"></AlertDialogTitle>
+            </AlertDialogHeader>
+            <div className="flex flex-col items-center justify-center">
+              <div className="relative w-full rounded-full mt-12 mx-1 overflow-hidden flex items-center justify-center">
+                <img
+                  src={isSuccess ? Images.success : Images.failed}
+                  alt={isSuccess ? "success" : "failed"}
+                  className="w-[50px] h-[50px] object-cover"
+                />
+              </div>
+              <p className="mt-5 text-xl font-semibold">{paymentMessage}</p>
+              <div className="mt-10">
+                <button
+                  onClick={() => {
                     playSfx(Audios.button_click);
                     setFinish(false);
-                }}
-                className="w-[165px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
+                  }}
+                  className="w-[165px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                 >
-                {isSuccess ? "Continue" : "Close"}
-              </button>
+                  {isSuccess ? "Continue" : "Close"}
+                </button>
+              </div>
             </div>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    )
   );
 };
 
