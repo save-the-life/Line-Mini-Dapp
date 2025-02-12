@@ -8,6 +8,7 @@ import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import paymentSession from "@/entities/Asset/api/payment";
 import getItemInfo from "@/entities/Asset/api/getItemInfo";
+import getPaymentStatus from "@/entities/Asset/api/getPaymentStatus";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import { HiX } from "react-icons/hi";
 import {
@@ -18,6 +19,7 @@ import {
   AlertDialogTitle,
 } from "@/shared/components/ui";
 import { BigNumber, ethers } from "ethers";
+import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 
 const nftCollection = [
   {
@@ -37,6 +39,7 @@ const ItemStore: React.FC = () => {
   const navigate = useNavigate();
   const { playSfx } = useSound();
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [agreeRefund, setAgreeRefund] = useState(false);
   const [agreeEncrypted, setAgreeEncrypted] = useState(false);
@@ -48,6 +51,7 @@ const ItemStore: React.FC = () => {
   useEffect(() => {
     const getItems = async () => {
       try {
+        // 아이템 정보 조회 api
         const items = await getItemInfo();
         if (items) {
           console.log("아이템 정보 확인", items);
@@ -56,6 +60,7 @@ const ItemStore: React.FC = () => {
           console.log("아이템 정보 실패", items);
         }
 
+        // 지갑 잔고 조회 api
         const response: KaiaRpcResponse<string> = await kaiaGetBalance(
           "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"
         );
@@ -76,11 +81,13 @@ const ItemStore: React.FC = () => {
     getItems();
   }, []);
 
+  // 뒤로 가기 버튼
   const handleBackClick = () => {
     playSfx(Audios.button_click);
     navigate(-1);
   };
 
+  // 아이템 선택
   const handleSelectItem = (itemId: string) => {
     playSfx(Audios.button_click);
     setSelectedItem(itemId);
@@ -89,6 +96,8 @@ const ItemStore: React.FC = () => {
   // 공통 결제 처리 함수 (paymentMethod: "STRIPE" 또는 "CRYPTO")
   const handleCheckout = async (paymentMethod: "STRIPE" | "CRYPTO", sdkOptions = {}) => {
     playSfx(Audios.button_click);
+    setIsLoading(true);
+
     try {
       // SDK 초기화 (USD 결제 시 chainId 옵션 포함)
       const sdk = await DappPortalSDK.init({
@@ -97,15 +106,19 @@ const ItemStore: React.FC = () => {
       });
       // 선택한 아이템에 따라 인덱스 결정 ("auto"이면 1, 그 외 2)
       const itemIndex = selectedItem === "auto" ? 1 : 2;
+      // 결제 세션 api 요청
       const response = await paymentSession(
         itemIndex,
         paymentMethod,
         "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"
       );
+
       if (response) {
         console.log("결제 진행 payment id :", response.id);
+        // 지갑 연동 먼저 진행
         const walletProvider = sdk.getWalletProvider();
         await walletProvider.request({ method: "kaia_requestAccounts" });
+        // 결제 진행
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.startPayment(response.id);
       }
@@ -114,13 +127,21 @@ const ItemStore: React.FC = () => {
     }
   };
 
+  // USD로 결제
   const handleUSDCheckout = async () => {
     await handleCheckout("STRIPE", { chainId: "1001" });
   };
 
+  // KAIA로 결제
   const handleKaiaCheckout = async () => {
     await handleCheckout("CRYPTO", { chainId: "1001" });
   };
+
+  // 아이템 정보 모달창
+  const handleInfo = () => {
+    playSfx(Audios.button_click);
+    setShowModal(true);
+  }
 
   // 선택한 아이템에 해당하는 가격 정보를 찾음
   // nftCollection의 id와 getItemInfo에서 받아온 itemName을 연결(예: "auto" → "AUTO", "booster" → "REWARD")
@@ -133,6 +154,12 @@ const ItemStore: React.FC = () => {
     }
     return null;
   }, [selectedItem, itemData]);
+
+
+  if (isLoading) {
+    // 로딩 중일 때는 로딩스피너만 보여줌
+    return <LoadingSpinner className="h-screen"/>;
+  }
 
   return (
     <div className="flex flex-col items-center text-white px-6 min-h-screen">
@@ -155,26 +182,41 @@ const ItemStore: React.FC = () => {
         {nftCollection.map((nftItem) => (
           <div
             key={nftItem.id}
-            className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${
-              selectedItem === nftItem.id ? "border-blue-400" : "border-[#737373]"
-            }`}
+            // 선택된 아이템이면 테두리 강조
+            className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center
+            ${
+                selectedItem === nftItem.id
+                ? "border-blue-400"
+                : "border-[#737373]"
+            }
+            `}
             onClick={() => handleSelectItem(nftItem.id)}
           >
             <div
-              className="w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+              className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
               style={{
                 background:
-                  nftItem.name === "Auto Item"
-                    ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
-                    : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
+                nftItem.name === "Auto Item"
+                  ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
+                  : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
               }}
-            >
-              <img src={nftItem.image} alt={nftItem.name} className="w-[80px] h-[80px] object-cover" />
+              >
+              <img
+                src={nftItem.image}
+                alt={nftItem.name}
+                className="w-[80px] h-[80px] object-cover"
+              />
+              <img
+                src={Images.infoMark}
+                alt="info"
+                className="absolute top-1 right-1 w-5 h-5"
+                onClick={handleInfo}
+              />
             </div>
             <p className="mt-2 text-sm font-semibold">{nftItem.name}</p>
           </div>
         ))}
-      </div>
+    </div>
 
       {/* 체크박스 및 결제 버튼 영역 */}
       <div className="fixed bottom-0 px-6">
