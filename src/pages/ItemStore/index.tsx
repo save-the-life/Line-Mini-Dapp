@@ -144,13 +144,13 @@ const ItemStore: React.FC = () => {
       }
     } catch (error: any) {
       console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
-      if(error.code === "-32001"){
+      if(error.code === -32001){
         // 사용자가 거부 버튼 클릭 혹은 결제창 닫기
         setPaymentMessage("Purchase Cancled.");
-      } else if (error.code === "-32002") {
+      } else if (error.code === -32002) {
         // 결제 실패
         setPaymentMessage("Purchase Failed.");
-      } else if(error.code === "-3200") {
+      } else if(error.code === -3200) {
         // 잔액 부족 결제 실패
         setPaymentMessage("Insufficient Balance.");
       } else {
