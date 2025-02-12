@@ -5,12 +5,14 @@
  */
 async function getPaymentStatus(paymentId: string): Promise<string> {
   try {
+    console.log("getPaymentStatus 호출됨. paymentId:", paymentId);
     const response = await fetch(`https://payment.dappportal.io/api/payment-v1/payment/status?id=${paymentId}`);
+    console.log("응답 상태 코드:", response.status);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("결제 진행 상황: ", data);
+    console.log("결제 진행 상황 (API 응답): ", data);
     return data.status;
   } catch (error) {
     console.error("Error fetching payment status:", error);
