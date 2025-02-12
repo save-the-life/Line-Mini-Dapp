@@ -88,7 +88,7 @@ const ItemStore: React.FC = () => {
         try {
           const status = await getPaymentStatus(paymentId);
           console.log("Payment status polling:", status);
-          if (status === "CONFIRMED") {
+          if (status === "FINALZED") {
             setPaymentMessage("결제가 성공적으로 완료되었습니다.");
             setIsSuccess(true);
             setFinish(true);

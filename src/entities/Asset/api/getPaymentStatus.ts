@@ -3,7 +3,7 @@
  * @param {string} paymentId - 결제 세션의 ID
  * @returns {Promise<string>} - 결제 상태 (예: "CREATED", "STARTED", "CONFIRMED" 등)
  */
-async function getPaymentStatus(paymentId: string): Promise<string> {
+export const getPaymentStatus = async(paymentId: string): Promise<string> => {
   try {
     console.log("getPaymentStatus 호출됨. paymentId:", paymentId);
     const response = await fetch(`https://payment.dappportal.io/api/payment-v1/payment/status?id=${paymentId}`);
