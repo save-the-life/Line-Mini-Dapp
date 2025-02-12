@@ -40,11 +40,18 @@ const ItemStore: React.FC = () => {
   const { playSfx } = useSound();
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [finish, setFinish] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [paymentMessage, setPaymentMessage] = useState("");
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [agreeRefund, setAgreeRefund] = useState(false);
   const [agreeEncrypted, setAgreeEncrypted] = useState(false);
   const [balance, setBalance] = useState<string>("");
   const [itemData, setItemData] = useState<any[]>([]);
+
+  const [paymentId, setPaymentId] = useState<string | null>(null);
+  const [paymentWindowClosed, setPaymentWindowClosed] = useState(false);
+  const [isPolling, setIsPolling] = useState(false);
 
   const isEnabled = selectedItem !== null && agreeRefund && agreeEncrypted;
 
@@ -80,6 +87,41 @@ const ItemStore: React.FC = () => {
     };
     getItems();
   }, []);
+
+
+  // 결제창 종료 후 1초마다 결제 상태 폴링
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    if (paymentWindowClosed && paymentId && !isPolling) {
+      setIsPolling(true);
+      intervalId = setInterval(async () => {
+        try {
+          // getPaymentStatus는 공식 문서에 따라 문자열을 반환함
+          const status = await getPaymentStatus(paymentId);
+          console.log("Payment status polling:", status);
+          // 최종 상태에 도달하면 폴링 종료
+          if (status === "CONFIRMED") {
+            setPaymentMessage("결제가 성공적으로 완료되었습니다.");
+            setIsSuccess(true);
+            setFinish(true);
+            setIsLoading(false);
+            clearInterval(intervalId);
+          } else if (status === "CANCELED" || status === "CONFIRM_FAILED") {
+            setPaymentMessage("결제에 실패하였습니다.");
+            setIsSuccess(false);
+            setFinish(true);
+            setIsLoading(false);
+            clearInterval(intervalId);
+          }
+        } catch (error) {
+          console.error("결제 상태 조회 에러:", error);
+        }
+      }, 1000);
+    }
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [paymentWindowClosed, paymentId, isPolling]);
 
   // 뒤로 가기 버튼
   const handleBackClick = () => {
@@ -121,9 +163,15 @@ const ItemStore: React.FC = () => {
         // 결제 진행
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.startPayment(response.id);
+        setPaymentWindowClosed(true);
+        setPaymentId(response.id);
       }
     } catch (error: any) {
       console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
+      setIsLoading(false);
+      setPaymentMessage("결제 진행 중 오류가 발생하였습니다.");
+      setIsSuccess(false);
+      setFinish(true);
     }
   };
 
@@ -287,6 +335,7 @@ const ItemStore: React.FC = () => {
         </div>
       </div>
 
+      {/* 아이템 설명 모달창 */}
       <AlertDialog open={showModal}>
         <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
           <AlertDialogHeader>
@@ -331,6 +380,38 @@ const ItemStore: React.FC = () => {
               ) : (
                 <p>Board & Spin Reward Upgrade : 5x</p>
               )}
+            </div>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* 아이템 구매 성공 여부 모달창 */}
+      <AlertDialog open={finish}>
+        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+          <AlertDialogHeader>
+            <AlertDialogDescription className="sr-only">Item details</AlertDialogDescription>
+            <AlertDialogTitle className="text-center font-bold text-xl">
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <div className="flex flex-col items-center justify-center">
+            <div className="relative w-full rounded-full mt-12 mx-1 overflow-hidden flex items-center justify-center">
+              <img
+                src={isSuccess  ? Images.success : Images.failed}
+                alt={isSuccess ? "success" : "failed"}
+                className="w-[50px] h-[50px] object-cover"
+              />
+            </div>
+            <p className="mt-5 text-xl font-semibold">{paymentMessage}</p>
+            <div className="mt-10">
+              <button
+                onClick={() => {
+                    playSfx(Audios.button_click);
+                    setFinish(false);
+                }}
+                className="w-[165px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
+                >
+                {isSuccess ? "Continue" : "Close"}
+              </button>
             </div>
           </div>
         </AlertDialogContent>

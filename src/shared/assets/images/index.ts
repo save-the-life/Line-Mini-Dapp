@@ -161,6 +161,8 @@ import UploadArrow from "./uploaderarrow.png"
 import Receipt from "./receipt.png"
 import KaiaLogo from "./kaialogo.png"
 import infoMark from "./infomark.png"
+import failed from "./failed.png"
+import success from "./success.png"
 
 const Images = {
   HorizontalLogo,
@@ -324,7 +326,9 @@ const Images = {
   UploadArrow,
   Receipt,
   KaiaLogo,
-  infoMark
+  infoMark,
+  failed,
+  success
 };
 
 export default Images;
