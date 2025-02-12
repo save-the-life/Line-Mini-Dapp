@@ -82,6 +82,7 @@ const ItemStore: React.FC = () => {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (paymentId && !isPolling) {
+      console.log("Polling started for paymentId:", paymentId, "isPolling:", isPolling);
       setIsPolling(true);
       intervalId = setInterval(async () => {
         try {
@@ -109,7 +110,7 @@ const ItemStore: React.FC = () => {
       if (intervalId) clearInterval(intervalId);
     };
   }, [paymentId, isPolling]);
-
+  
   const handleBackClick = () => {
     playSfx(Audios.button_click);
     navigate(-1);

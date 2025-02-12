@@ -10,7 +10,7 @@ async function getPaymentStatus(paymentId: string): Promise<string> {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("결제 어캐됨: ", data.status);
+    console.log("결제 진행 상황: ", data);
     return data.status;
   } catch (error) {
     console.error("Error fetching payment status:", error);
