@@ -8,7 +8,7 @@ import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import paymentSession from "@/entities/Asset/api/payment";
 import getItemInfo from "@/entities/Asset/api/getItemInfo";
-import getPaymentStatus from "@/entities/Asset/api/getPaymentStatus";
+import { getPaymentStatus, PaymentStatusResponse  } from "@/entities/Asset/api/getPaymentStatus";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import { HiX } from "react-icons/hi";
 import {
@@ -40,10 +40,7 @@ const ItemStore: React.FC = () => {
   const [agreeEncrypted, setAgreeEncrypted] = useState(false);
   const [balance, setBalance] = useState<string>("");
   const [itemData, setItemData] = useState<any[]>([]);
-
-  // 결제 관련 상태
   const [paymentId, setPaymentId] = useState<string | null>(null);
-  const [isPolling, setIsPolling] = useState(false);
 
   const isEnabled = selectedItem !== null && agreeRefund && agreeEncrypted;
 
@@ -78,38 +75,40 @@ const ItemStore: React.FC = () => {
     getItems();
   }, []);
 
+  
   // paymentId가 확인된 후 1초마다 결제 상태 폴링 시작
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-    if (paymentId && !isPolling) {
-      console.log("Polling started for paymentId:", paymentId, "isPolling:", isPolling);
-      setIsPolling(true);
-      intervalId = setInterval(async () => {
-        try {
-          const status = await getPaymentStatus(paymentId);
-          console.log("Payment status polling:", status);
-          if (status === "FINALZED") {
-            setPaymentMessage("결제가 성공적으로 완료되었습니다.");
-            setIsSuccess(true);
-            setFinish(true);
-            setIsLoading(false);
-            clearInterval(intervalId);
-          } else if (status === "CANCELED" || status === "CONFIRM_FAILED") {
-            setPaymentMessage("결제에 실패하였습니다.");
-            setIsSuccess(false);
-            setFinish(true);
-            setIsLoading(false);
-            clearInterval(intervalId);
-          }
-        } catch (error) {
-          console.error("결제 상태 조회 에러:", error);
+    if (!paymentId) return;
+
+    const intervalId = setInterval(async () => {
+      try {
+        const statusResponse: PaymentStatusResponse = await getPaymentStatus(paymentId);
+        console.log("Polling payment status:", statusResponse);
+
+        if (statusResponse.status === "FINALZED") {
+          setPaymentMessage("결제가 성공적으로 완료되었습니다.");
+          setIsLoading(false);
+          setFinish(true);
+          setIsSuccess(true);
+          clearInterval(intervalId);
+        } else if (
+          statusResponse.status === "CANCELED" ||
+          statusResponse.status === "CONFIRM_FAILED"
+        ) {
+          setPaymentMessage("결제에 실패하였습니다.");
+          setIsLoading(false);
+          setFinish(true);
+          setIsSuccess(false);
+          clearInterval(intervalId);
         }
-      }, 1000);
-    }
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [paymentId, isPolling]);
+      } catch (error) {
+        console.error("Error polling payment status:", error);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [paymentId]);
+
   
   const handleBackClick = () => {
     playSfx(Audios.button_click);
@@ -328,7 +327,6 @@ const ItemStore: React.FC = () => {
                   className="w-[80px] h-[80px] object-cover"
                 />
               </div>
-              <p className="mt-2">date....</p>
               <div className="mt-6 text-lg font-semibold">
                 {selectedItem === "auto" ? <p>Dice Auto Roller</p> : <p>Reward Booster</p>}
               </div>
