@@ -47,6 +47,7 @@ const ItemStore: React.FC = () => {
   useEffect(() => {
     const getItems = async () => {
       try {
+        // 아이템 정보 조회 api
         const items = await getItemInfo();
         if (items) {
           console.log("아이템 정보 확인", items);
@@ -55,6 +56,7 @@ const ItemStore: React.FC = () => {
           console.log("아이템 정보 실패", items);
         }
 
+        // KAIA 잔액 조회 api
         const response: KaiaRpcResponse<string> = await kaiaGetBalance(
           "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"
         );
@@ -90,6 +92,7 @@ const ItemStore: React.FC = () => {
           setIsLoading(false);
           setFinish(true);
           setIsSuccess(true);
+          setPaymentId(null);
           clearInterval(intervalId);
         } else if (
           statusResponse.status === "CANCELED" ||
@@ -99,6 +102,7 @@ const ItemStore: React.FC = () => {
           setIsLoading(false);
           setFinish(true);
           setIsSuccess(false);
+          setPaymentId(null);
           clearInterval(intervalId);
         }
       } catch (error) {
@@ -157,8 +161,24 @@ const ItemStore: React.FC = () => {
         // 기타 결제 실패
         setPaymentMessage("Please try again later.");
       }
+
+      if (paymentMethod === "STRIPE") {
+        // STRIPE 결제 시 문서에 따른 두 가지 케이스 분기
+        if (error.message.includes("SDK's startPayment")) {
+          // Case 1: create API는 호출되었으나 SDK의 startPayment가 실행되지 않은 상태에서 결제 실행 시
+          setPaymentMessage("Purchase Failed.");
+        } else if (error.message.includes("expiration")) {
+          // Case 2: SDK의 startPayment가 실행되었으나 사용자가 STRIPE 페이지에서 결제를 승인하지 않은 경우
+          setPaymentMessage("Purchase Cancled.");
+        } else {
+          setPaymentMessage("Please try again later.");
+        }
+      } else {
+        setPaymentMessage("Please try again later.");
+      }
       setIsSuccess(false);
       setFinish(true);
+      setPaymentId(null);
       setIsLoading(false);
     }
   };

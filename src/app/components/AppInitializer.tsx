@@ -113,7 +113,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
     // 1) 우리 서버용 accessToken 확인
     const accessToken = localStorage.getItem("accessToken");
-    console.log("[AppInitializer] 현재 localStorage의 accessToken:", accessToken);
+    console.log("[AppInitializer] 현재 localStorage의 accessToken 확인");
 
     // 2) 서버용 토큰이 없으면 -> LIFF 로그인 여부 확인
     if (!accessToken) {
