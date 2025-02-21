@@ -76,7 +76,7 @@ const Reward: React.FC = () => {
     if(response.data.data === null) {
       setShowModal(true);
     } else {
-      navigate('/previous-rewards');
+      navigate('/previous-ranking');
     }
   }
 

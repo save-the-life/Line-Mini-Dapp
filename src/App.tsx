@@ -46,6 +46,9 @@ import LanguagePage from "./pages/ChooseLanguage";
 import SoundSetting from "./pages/SoundSetting";
 import ItemStore from "./pages/ItemStore";
 
+import PreviousRanking from "./pages/PreviousRanking";
+import PreviousRaffle from "./pages/PreviousRaffle";
+import PreviousAirdrop from "./pages/PreviousAirdrop";
 
 const App:React.FC = () =>{
   const [isInitialized, setIsInitialized] = useState(false);
@@ -207,6 +210,12 @@ const App:React.FC = () =>{
                   <Route path="/sound-setting" element={<DiceEventLayout hidden={true}><SoundSetting /></DiceEventLayout>} />
                   <Route path="/connect-wallet" element={<ConnectWalletPage />} />
                   <Route path="/item-store" element={<DiceEventLayout hidden={true}><ItemStore /></DiceEventLayout>} />
+                  <Route path="/previous-ranking" element={<DiceEventLayout hidden={true}><PreviousRanking /></DiceEventLayout>} />
+                  <Route path="/previous-raffle" element={<DiceEventLayout hidden={true}><PreviousRaffle /></DiceEventLayout>} />
+                  <Route path="/previous-airdrop" element={<DiceEventLayout hidden={true}><PreviousAirdrop /></DiceEventLayout>} />
+                  
+              
+
               </Routes>
             </SoundProvider>
           )}
