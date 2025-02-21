@@ -119,12 +119,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     if (!accessToken) {
       console.log("[AppInitializer] 서버용 토큰이 없음 -> 라인 로그인 여부 확인");
 
-      // if (!liff.isLoggedIn()) {
-      //   console.log("[AppInitializer] liff.isLoggedIn() = false -> liff.login() 호출");
-      //   liff.login();
-      //   return;
-      // }
-
       // 이미 LIFF 로그인되어 있으면 lineToken 추출
       const lineToken = liff.getAccessToken();
       console.log("[AppInitializer] liff.isLoggedIn() = true, lineToken:", lineToken);
