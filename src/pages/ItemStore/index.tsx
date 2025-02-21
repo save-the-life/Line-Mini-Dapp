@@ -471,7 +471,7 @@ const ItemStore: React.FC = () => {
               </p>
               <img
                 src={Images.ConnectButton}
-                className="relative w-[340px] h-[150px] object-fill"
+                className="relative w-[342px] h-[56px] object-fill"
                 onClick={handleConnectWallet}
                 alt="Wallet Icon"
               />
