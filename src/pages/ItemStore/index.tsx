@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
@@ -8,7 +8,7 @@ import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import paymentSession from "@/entities/Asset/api/payment";
 import getItemInfo from "@/entities/Asset/api/getItemInfo";
-import { getPaymentStatus, PaymentStatusResponse  } from "@/entities/Asset/api/getPaymentStatus";
+import { getPaymentStatus, PaymentStatusResponse } from "@/entities/Asset/api/getPaymentStatus";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import { HiX } from "react-icons/hi";
 import {
@@ -29,25 +29,33 @@ const nftCollection = [
 const ItemStore: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { playSfx } = useSound();
+
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [finish, setFinish] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [needWallet, setNeedWallet] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [agreeRefund, setAgreeRefund] = useState(false);
   const [agreeEncrypted, setAgreeEncrypted] = useState(false);
   const [balance, setBalance] = useState<string>("");
+  const [account, setAccount] = useState("");
+  // location.state로 전달된 값이 있다면 초기값으로 설정
+  const balanceFromState = location.state?.balance || null;
+  const walletAddressFromState = location.state?.walletAddress || null;
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
 
+  // 결제 버튼 활성화 여부
   const isEnabled = selectedItem !== null && agreeRefund && agreeEncrypted;
 
+  // 아이템 데이터만 조회 (잔액 조회는 별도 처리)
   useEffect(() => {
-    const getItems = async () => {
+    const fetchItems = async () => {
       try {
-        // 아이템 정보 조회 api
         const items = await getItemInfo();
         if (items) {
           console.log("아이템 정보 확인", items);
@@ -55,30 +63,44 @@ const ItemStore: React.FC = () => {
         } else {
           console.log("아이템 정보 실패", items);
         }
+      } catch (err) {
+        console.error("Failed to fetch items:", err);
+      }
+    };
+    fetchItems();
+  }, []);
 
-        // KAIA 잔액 조회 api
-        const response: KaiaRpcResponse<string> = await kaiaGetBalance(
-          "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"
-        );
+  // 계정(account)이 변경되면 잔액 조회 진행
+  useEffect(() => {
+    const fetchBalance = async () => {
+      if (!account) return;
+      try {
+        const response: KaiaRpcResponse<string> = await kaiaGetBalance(account);
         if (response.error) {
           console.log("잔고 확인 에러: ", response.error);
         } else if (response.result) {
-          const rawBalanceHex = response.result;
           const KAIA_DECIMALS = 18;
-          const balanceBigNumber = BigNumber.from(rawBalanceHex);
+          const balanceBigNumber = BigNumber.from(response.result);
           const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
-          // 소수점 두 자리로 표기
           setBalance(Number(formattedBalance).toFixed(2));
         }
-      } catch (err: any) {
-        console.error("Failed to fetch token count:", err);
+      } catch (err) {
+        console.error("Failed to fetch balance:", err);
       }
     };
-    getItems();
-  }, []);
+    fetchBalance();
+  }, [account]);
 
-  
-  // paymentId가 확인된 후 1초마다 결제 상태 폴링 시작
+  // 만약 location.state에 walletAddress가 있다면 account에 설정
+  useEffect(() => {
+    if (walletAddressFromState) {
+      setAccount(walletAddressFromState);
+    } else {
+      setNeedWallet(true);
+    }
+  }, [walletAddressFromState]);
+
+  // 결제 상태 폴링
   useEffect(() => {
     if (!paymentId) return;
 
@@ -113,18 +135,24 @@ const ItemStore: React.FC = () => {
     return () => clearInterval(intervalId);
   }, [paymentId]);
 
-  
+  // 뒤로가기 버튼
   const handleBackClick = () => {
     playSfx(Audios.button_click);
     navigate(-1);
   };
 
+  // 아이템 선택
   const handleSelectItem = (itemId: string) => {
     playSfx(Audios.button_click);
     setSelectedItem(itemId);
   };
 
+  // 결제 로직 진행 (account 값이 반드시 있어야 함)
   const handleCheckout = async (paymentMethod: "STRIPE" | "CRYPTO", sdkOptions = {}) => {
+    if (!account) {
+      setNeedWallet(true);
+      return;
+    }
     playSfx(Audios.button_click);
     setIsLoading(true);
     try {
@@ -136,7 +164,7 @@ const ItemStore: React.FC = () => {
       const response = await paymentSession(
         itemIndex,
         paymentMethod,
-        "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"
+        account
       );
       if (response) {
         console.log("결제 진행 payment id :", response.id);
@@ -148,27 +176,20 @@ const ItemStore: React.FC = () => {
       }
     } catch (error: any) {
       console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
-      if(error.code === -32001){
-        // 사용자가 거부 버튼 클릭 혹은 결제창 닫기
+      if (error.code === -32001) {
         setPaymentMessage("Purchase Cancled.");
       } else if (error.code === -32002) {
-        // 결제 실패
         setPaymentMessage("Purchase Failed.");
-      } else if(error.code === -3200) {
-        // 잔액 부족 결제 실패
+      } else if (error.code === -3200) {
         setPaymentMessage("Insufficient Balance.");
       } else {
-        // 기타 결제 실패
         setPaymentMessage("Please try again later.");
       }
 
       if (paymentMethod === "STRIPE") {
-        // STRIPE 결제 시 문서에 따른 두 가지 케이스 분기
         if (error.message.includes("SDK's startPayment")) {
-          // Case 1: create API는 호출되었으나 SDK의 startPayment가 실행되지 않은 상태에서 결제 실행 시
           setPaymentMessage("Purchase Failed.");
         } else if (error.message.includes("expiration")) {
-          // Case 2: SDK의 startPayment가 실행되었으나 사용자가 STRIPE 페이지에서 결제를 승인하지 않은 경우
           setPaymentMessage("Purchase Cancled.");
         } else {
           setPaymentMessage("Please try again later.");
@@ -183,19 +204,52 @@ const ItemStore: React.FC = () => {
     }
   };
 
+  // USD 결제 선택
   const handleUSDCheckout = async () => {
     await handleCheckout("STRIPE", { chainId: "1001" });
   };
 
+  // KAIA 결제 선택
   const handleKaiaCheckout = async () => {
     await handleCheckout("CRYPTO", { chainId: "1001" });
   };
 
+  // 아이템 정보 모달
   const handleInfo = () => {
     playSfx(Audios.button_click);
     setShowModal(true);
   };
 
+  // 지갑 연결 및 잔액 조회
+  const handleConnectWallet = async () => {
+    playSfx(Audios.button_click);
+    setNeedWallet(false);
+    const sdk = await DappPortalSDK.init({
+      clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+      chainId: "1001",
+    });
+    const walletProvider = sdk.getWalletProvider();
+    const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
+    if (accounts.length === 0) return;
+    const walletAddr = accounts[0];
+    setAccount(walletAddr);
+
+    try {
+      const response: KaiaRpcResponse<string> = await kaiaGetBalance(walletAddr);
+      if (response.error) {
+        console.log("잔고 확인 에러: ", response.error);
+      } else if (response.result) {
+        const KAIA_DECIMALS = 18;
+        const balanceBigNumber = BigNumber.from(response.result);
+        const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
+        setBalance(Number(formattedBalance).toFixed(2));
+      }
+    } catch (err: any) {
+      console.error("Failed to fetch balance:", err);
+    }
+  };
+
+  // 선택된 아이템 정보 조회
   const selectedItemInfo = useMemo(() => {
     if (!selectedItem || itemData.length === 0) return null;
     if (selectedItem === "auto") {
@@ -294,7 +348,8 @@ const ItemStore: React.FC = () => {
 
           <div className="mb-3 flex justify-center items-center">
             <span className="text-sm text-[#A3A3A3]">Available Balance :</span>
-            <span className="text-sm text-white ml-1">{balance} KAIA</span>
+            {/* 잔액은 account가 연결되었으면 로컬 balance를, 아니면 location.state의 잔액 사용 */}
+            <span className="text-sm text-white ml-1">{balance || balanceFromState} KAIA</span>
           </div>
 
           <div className="flex w-full gap-3 mb-5">
@@ -400,6 +455,27 @@ const ItemStore: React.FC = () => {
                 </button>
               </div>
             </div>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        {/* 지갑 연결 안내 모달창 */}
+        <AlertDialog open={needWallet}>
+          <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+            <AlertDialogHeader>
+              <AlertDialogDescription className="sr-only">Wallet Connection</AlertDialogDescription>
+              <AlertDialogTitle className="text-center font-bold text-xl"></AlertDialogTitle>
+            </AlertDialogHeader>
+            <div className="flex flex-col items-center justify-center text-center space-y-4">
+              <p className="text-sm font-semibold mt-4">
+                  You need to connect Wallet to check your balance.
+              </p>
+              <img
+                src={Images.ConnectButton}
+                className="relative w-[340px] h-[150px] object-fill"
+                onClick={handleConnectWallet}
+                alt="Wallet Icon"
+              />
+          </div>
           </AlertDialogContent>
         </AlertDialog>
       </div>

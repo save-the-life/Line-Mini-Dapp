@@ -18,6 +18,9 @@ import {
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardsHistory from "@/entities/Asset/api/getRewardsHistory";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
+import { BigNumber, ethers } from "ethers";
+import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 
 
 interface TruncateMiddleProps {
@@ -66,7 +69,8 @@ const MyAssets: React.FC = () => {
     const [falied, setFailed] = useState(false);
     const [success, setSuccess] = useState(false);
     const [rewardHistoryData, setRewardHistoryData] = useState<any[]>([]);
-    const [balance, setBalance] = useState("164.00");
+    const [balance, setBalance] = useState("0.00");
+    const [walletAccount, setWalletAcount] = useState("");
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -183,6 +187,43 @@ const MyAssets: React.FC = () => {
         return `${day} ${monthName} ${year}`;
     };
 
+    // 지갑 연결 및 잔액 확인
+    const handleBalance = async () => {
+        playSfx(Audios.button_click);
+
+        // sdk 초기화
+        const sdk = await DappPortalSDK.init({
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: '1001',
+        });
+
+        // walletProvider 호출 및 지갑 주소 확인
+        const walletProvider = sdk.getWalletProvider();
+
+        const accounts = (await walletProvider.request({
+            method: "kaia_requestAccounts",
+        })) as string[];
+
+        setWalletAcount(accounts[0]);
+        
+        // Kaia 지갑 잔액 확인
+        try {
+            const response: KaiaRpcResponse<string> = await kaiaGetBalance(walletAccount);
+            if (response.error) {
+                console.log("잔고 확인 에러: ", response.error);
+            } else if (response.result) {
+                const rawBalanceHex = response.result;
+                const KAIA_DECIMALS = 18;
+                const balanceBigNumber = BigNumber.from(rawBalanceHex);
+                const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
+                // 소수점 두 자리로 표기
+                setBalance(Number(formattedBalance).toFixed(2));
+            }
+        } catch (err: any) {
+            console.error("Failed to fetch token count:", err);
+        }
+    }
+
     return (  
         loading 
           ? <LoadingSpinner className="h-screen" /> 
@@ -213,7 +254,8 @@ const MyAssets: React.FC = () => {
                         <div className="relative flex items-center">
                             <img
                                 src={Images.KaiaLogo}
-                                alt="Kaia Icon"
+                                    alt="Kaia Icon"
+                                    onClick={handleBalance}
                                 className="relative w-9 h-9 z-10 rounded-full object-cover"
                             />
                             <div className="-ml-[20px] flex items-center justify-end bg-[#1F1E27] rounded-full px-3 py-2 w-20 h-7 z-0">
@@ -355,13 +397,12 @@ const MyAssets: React.FC = () => {
                                     onClick={()=>{
                                         playSfx(Audios.button_click);
                                         // setShowModal(true);
-                                        navigate("/item-store");
+                                        navigate("/item-store", { state: { balance, walletAccount } });
                                     }}
                                     >
                                     {t("asset_page.shop_item")}
                                 </button>
                             </div>
-
                         ) : (
                             <div className="grid grid-cols-2 gap-4 mt-4 w-full">
                                 {nftCollection.map((nftItem) => (
