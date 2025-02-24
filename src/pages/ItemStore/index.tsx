@@ -108,11 +108,12 @@ const ItemStore: React.FC = () => {
   useEffect(() => {
     if (!paymentId) return;
 
-    const intervalId = setInterval(async () => {
+    let isPollingActive = true;
+
+    const pollPaymentStatus = async () => {
+      if (!isPollingActive) return;
       try {
-        const statusResponse: PaymentStatusResponse = await getPaymentStatus(
-          paymentId
-        );
+        const statusResponse: PaymentStatusResponse = await getPaymentStatus(paymentId);
         console.log("Polling payment status:", statusResponse);
 
         if (statusResponse.status === "FINALIZED") {
@@ -121,7 +122,7 @@ const ItemStore: React.FC = () => {
           setFinish(true);
           setIsSuccess(true);
           setPaymentId(null);
-          clearInterval(intervalId);
+          return; // polling 종료
         } else if (
           statusResponse.status === "CANCELED" ||
           statusResponse.status === "CONFIRM_FAILED"
@@ -131,15 +132,25 @@ const ItemStore: React.FC = () => {
           setFinish(true);
           setIsSuccess(false);
           setPaymentId(null);
-          clearInterval(intervalId);
+          return; // polling 종료
         }
       } catch (error) {
         console.error("Error polling payment status:", error);
       }
-    }, 1000);
+      // 1초 후 다음 폴링 호출
+      if (isPollingActive) {
+        setTimeout(pollPaymentStatus, 1000);
+      }
+    };
 
-    return () => clearInterval(intervalId);
+    pollPaymentStatus();
+
+    return () => {
+      // 컴포넌트 언마운트 시 또는 paymentId가 변경될 때 폴링 중단
+      isPollingActive = false;
+    };
   }, [paymentId]);
+
 
   // 뒤로가기 버튼
   const handleBackClick = () => {
