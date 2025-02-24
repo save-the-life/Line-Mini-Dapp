@@ -260,6 +260,18 @@ const ItemStore: React.FC = () => {
     return null;
   }, [selectedItem, itemData]);
 
+  // 결제 내역 조회
+  const handlePaymentHistory = async () => {
+    playSfx(Audios.button_click);
+    const sdk = await DappPortalSDK.init({
+      clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+      chainId: "1001",
+    });
+    const paymentProvider = sdk.getPaymentProvider();
+    await paymentProvider.openPaymentHistory()
+  }
+
+
   return (
     isLoading ? <LoadingSpinner className="h-screen" /> : (
       <div className="flex flex-col items-center text-white px-6 min-h-screen">
@@ -270,10 +282,7 @@ const ItemStore: React.FC = () => {
           <img
             src={Images.Receipt}
             className="w-6 h-6 cursor-pointer"
-            onClick={() => {
-              playSfx(Audios.button_click);
-              navigate("/payment-history");
-            }}
+            onClick={handlePaymentHistory}
           />
         </div>
 
@@ -323,9 +332,14 @@ const ItemStore: React.FC = () => {
               />
               <span className="text-xs font-medium">
                 {t("asset_page.agree_non_refundable")}
-                <span className="text-xs font-semibold text-[#3B82F6] ml-1">
+                <a
+                  href="https://docs.dappportal.io/mini-dapp/mini-dapp-sdk/payment-provider/policy/refund"
+                  className="text-xs font-semibold text-[#3B82F6] ml-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {t("asset_page.learn_more")}
-                </span>
+                </a>
               </span>
             </label>
             <label className="flex items-start gap-2">
@@ -339,9 +353,14 @@ const ItemStore: React.FC = () => {
               />
               <span className="text-xs font-medium">
                 {t("asset_page.provide_encrypted_id")}
-                <span className="text-xs font-semibold text-[#3B82F6] ml-1">
+                <a
+                  href="https://www.lycorp.co.jp/en/company/privacypolicy/"
+                  className="text-xs font-semibold text-[#3B82F6] ml-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {t("asset_page.learn_more")}
-                </span>
+                </a>
               </span>
             </label>
           </div>
