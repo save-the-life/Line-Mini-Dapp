@@ -115,7 +115,7 @@ const ItemStore: React.FC = () => {
         );
         console.log("Polling payment status:", statusResponse);
 
-        if (statusResponse.status === "FINALZED") {
+        if (statusResponse.status === "FINALIZED") {
           setPaymentMessage("결제가 성공적으로 완료되었습니다.");
           setIsLoading(false);
           setFinish(true);
