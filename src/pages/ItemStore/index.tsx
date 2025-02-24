@@ -20,11 +20,7 @@ import {
 } from "@/shared/components/ui";
 import { BigNumber, ethers } from "ethers";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
-
-const nftCollection = [
-  { id: "auto", name: "Auto Item", image: Images.AutoNFT },
-  { id: "booster", name: "Reward Booster(5x)", image: Images.RewardNFT },
-];
+import { v4 as uuidv4 } from "uuid";
 
 const ItemStore: React.FC = () => {
   const { t } = useTranslation();
@@ -38,7 +34,8 @@ const ItemStore: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [needWallet, setNeedWallet] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState("");
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  // selectedItem를 아이템의 itemId (number)로 관리합니다.
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [agreeRefund, setAgreeRefund] = useState(false);
   const [agreeEncrypted, setAgreeEncrypted] = useState(false);
   const [balance, setBalance] = useState<string>("");
@@ -49,10 +46,14 @@ const ItemStore: React.FC = () => {
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
 
-  // 결제 버튼 활성화 여부
-  const isEnabled = selectedItem !== null && agreeRefund && agreeEncrypted;
+  // 중복 결제 방지를 위한 idempotencyKey
+  const [idempotencyKey, setIdempotencyKey] = useState("");
 
-  // 아이템 데이터만 조회 (잔액 조회는 별도 처리)
+  // 결제 버튼은 아이템 선택, 체크박스 동의, 결제 진행 중이 아닐 때 활성화됩니다.
+  const isEnabled =
+    selectedItem !== null && agreeRefund && agreeEncrypted && !isLoading;
+
+  // API를 통해 아이템 데이터 조회
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -81,7 +82,10 @@ const ItemStore: React.FC = () => {
         } else if (response.result) {
           const KAIA_DECIMALS = 18;
           const balanceBigNumber = BigNumber.from(response.result);
-          const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
+          const formattedBalance = ethers.utils.formatUnits(
+            balanceBigNumber,
+            KAIA_DECIMALS
+          );
           setBalance(Number(formattedBalance).toFixed(2));
         }
       } catch (err) {
@@ -91,7 +95,7 @@ const ItemStore: React.FC = () => {
     fetchBalance();
   }, [account]);
 
-  // 만약 location.state에 walletAddress가 있다면 account에 설정
+  // location.state에 walletAddress가 있다면 account에 설정, 없으면 지갑 연결 안내 표시
   useEffect(() => {
     if (walletAddressFromState) {
       setAccount(walletAddressFromState);
@@ -106,7 +110,9 @@ const ItemStore: React.FC = () => {
 
     const intervalId = setInterval(async () => {
       try {
-        const statusResponse: PaymentStatusResponse = await getPaymentStatus(paymentId);
+        const statusResponse: PaymentStatusResponse = await getPaymentStatus(
+          paymentId
+        );
         console.log("Polling payment status:", statusResponse);
 
         if (statusResponse.status === "FINALZED") {
@@ -141,14 +147,17 @@ const ItemStore: React.FC = () => {
     navigate(-1);
   };
 
-  // 아이템 선택
-  const handleSelectItem = (itemId: string) => {
+  // 아이템 선택 (itemId를 selectedItem에 저장)
+  const handleSelectItem = (itemId: number) => {
     playSfx(Audios.button_click);
     setSelectedItem(itemId);
   };
 
-  // 결제 로직 진행 (account 값이 반드시 있어야 함)
-  const handleCheckout = async (paymentMethod: "STRIPE" | "CRYPTO", sdkOptions = {}) => {
+  // 결제 로직 진행
+  const handleCheckout = async (
+    paymentMethod: "STRIPE" | "CRYPTO",
+    sdkOptions = {}
+  ) => {
     if (!account) {
       setNeedWallet(true);
       return;
@@ -156,15 +165,20 @@ const ItemStore: React.FC = () => {
     playSfx(Audios.button_click);
     setIsLoading(true);
     try {
+      // UUID 생성 후 idempotencyKey에 저장
+      const key = uuidv4();
+      setIdempotencyKey(key);
+
       const sdk = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         ...sdkOptions,
       });
-      const itemIndex = selectedItem === "auto" ? 1 : 2;
+      // selectedItem는 itemId로 관리되므로 그대로 사용합니다.
       const response = await paymentSession(
-        itemIndex,
+        selectedItem as number,
         paymentMethod,
-        account
+        account,
+        key
       );
       if (response) {
         console.log("결제 진행 payment id :", response.id);
@@ -214,7 +228,7 @@ const ItemStore: React.FC = () => {
     await handleCheckout("CRYPTO", { chainId: "1001" });
   };
 
-  // 아이템 정보 모달
+  // 아이템 정보 모달 표시
   const handleInfo = () => {
     playSfx(Audios.button_click);
     setShowModal(true);
@@ -229,7 +243,9 @@ const ItemStore: React.FC = () => {
       chainId: "1001",
     });
     const walletProvider = sdk.getWalletProvider();
-    const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
+    const accounts = (await walletProvider.request({
+      method: "kaia_requestAccounts",
+    })) as string[];
     if (accounts.length === 0) return;
     const walletAddr = accounts[0];
     setAccount(walletAddr);
@@ -241,7 +257,10 @@ const ItemStore: React.FC = () => {
       } else if (response.result) {
         const KAIA_DECIMALS = 18;
         const balanceBigNumber = BigNumber.from(response.result);
-        const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
+        const formattedBalance = ethers.utils.formatUnits(
+          balanceBigNumber,
+          KAIA_DECIMALS
+        );
         setBalance(Number(formattedBalance).toFixed(2));
       }
     } catch (err: any) {
@@ -249,15 +268,10 @@ const ItemStore: React.FC = () => {
     }
   };
 
-  // 선택된 아이템 정보 조회
+  // 선택된 아이템 정보 조회 (selectedItem의 itemId와 매칭)
   const selectedItemInfo = useMemo(() => {
-    if (!selectedItem || itemData.length === 0) return null;
-    if (selectedItem === "auto") {
-      return itemData.find((item) => item.itemName.toUpperCase() === "AUTO");
-    } else if (selectedItem === "booster") {
-      return itemData.find((item) => item.itemName.toUpperCase() === "REWARD");
-    }
-    return null;
+    if (selectedItem === null || itemData.length === 0) return null;
+    return itemData.find((item) => item.itemId === selectedItem);
   }, [selectedItem, itemData]);
 
   // 결제 내역 조회
@@ -268,16 +282,32 @@ const ItemStore: React.FC = () => {
       chainId: "1001",
     });
     const paymentProvider = sdk.getPaymentProvider();
-    await paymentProvider.openPaymentHistory()
-  }
+    await paymentProvider.openPaymentHistory();
+  };
 
+  // 아이템별 배경색 결정 함수
+  const getBackgroundGradient = (itemName: string) => {
+    const name = itemName.toUpperCase();
+    if (name === "AUTO") {
+      return "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)";
+    } else if (name === "REWARD") {
+      return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
+    } else {
+      return "linear-gradient(180deg, #AAAAAA 0%, #FFFFFF 100%)"; // 기본 그라데이션
+    }
+  };
 
   return (
-    isLoading ? <LoadingSpinner className="h-screen" /> : (
+    isLoading ? (
+      <LoadingSpinner className="h-screen" />
+    ) : (
       <div className="flex flex-col items-center text-white px-6 min-h-screen">
         {/* 상단 영역 */}
         <div className="h-14 flex items-center w-full font-bold text-xl mb-4 justify-between">
-          <IoChevronBackOutline className="w-6 h-6 cursor-pointer" onClick={handleBackClick} />
+          <IoChevronBackOutline
+            className="w-6 h-6 cursor-pointer"
+            onClick={handleBackClick}
+          />
           <p>{t("asset_page.item_store")}</p>
           <img
             src={Images.Receipt}
@@ -288,32 +318,34 @@ const ItemStore: React.FC = () => {
 
         {/* 아이템 목록 (2열 그리드) */}
         <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-40">
-          {nftCollection.map((nftItem) => (
+          {itemData.map((item) => (
             <div
-              key={nftItem.id}
+              key={item.itemId}
               className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${
-                selectedItem === nftItem.id ? "border-blue-400" : "border-[#737373]"
+                selectedItem === item.itemId ? "border-blue-400" : "border-[#737373]"
               }`}
-              onClick={() => handleSelectItem(nftItem.id)}
+              onClick={() => handleSelectItem(item.itemId)}
             >
               <div
                 className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
-                style={{
-                  background:
-                    nftItem.name === "Auto Item"
-                      ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
-                      : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
-                }}
+                style={{ background: getBackgroundGradient(item.itemName) }}
               >
-                <img src={nftItem.image} alt={nftItem.name} className="w-[80px] h-[80px] object-cover" />
+                <img
+                  src={item.itemUrl}
+                  alt={item.itemName}
+                  className="w-[80px] h-[80px] object-cover"
+                />
                 <img
                   src={Images.infoMark}
                   alt="info"
                   className="absolute top-1 right-1 w-5 h-5"
-                  onClick={handleInfo}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleInfo();
+                  }}
                 />
               </div>
-              <p className="mt-2 text-sm font-semibold">{nftItem.name}</p>
+              <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
             </div>
           ))}
         </div>
@@ -367,8 +399,9 @@ const ItemStore: React.FC = () => {
 
           <div className="mb-3 flex justify-center items-center">
             <span className="text-sm text-[#A3A3A3]">Available Balance :</span>
-            {/* 잔액은 account가 연결되었으면 로컬 balance를, 아니면 location.state의 잔액 사용 */}
-            <span className="text-sm text-white ml-1">{balance || balanceFromState} KAIA</span>
+            <span className="text-sm text-white ml-1">
+              {balance || balanceFromState} KAIA
+            </span>
           </div>
 
           <div className="flex w-full gap-3 mb-5">
@@ -381,7 +414,9 @@ const ItemStore: React.FC = () => {
                   : "w-1/2 bg-[#555] px-6 py-3 rounded-full text-base font-medium text-white"
               }
             >
-              {selectedItemInfo ? `${selectedItemInfo.kaiaPrice} KAIA` : "KAIA"}
+              {selectedItemInfo
+                ? `${selectedItemInfo.kaiaPrice} KAIA`
+                : "KAIA"}
             </button>
             <button
               disabled={!isEnabled}
@@ -392,7 +427,9 @@ const ItemStore: React.FC = () => {
                   : "w-1/2 border-2 border-[#555] text-[#555] px-6 py-3 rounded-full text-base font-medium"
               }
             >
-              {selectedItemInfo ? `USD $${selectedItemInfo.usdPrice}` : "USD"}
+              {selectedItemInfo
+                ? `USD $${selectedItemInfo.usdPrice}`
+                : "USD"}
             </button>
           </div>
         </div>
@@ -401,11 +438,13 @@ const ItemStore: React.FC = () => {
         <AlertDialog open={showModal}>
           <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
             <AlertDialogHeader>
-              <AlertDialogDescription className="sr-only">Item details</AlertDialogDescription>
+              <AlertDialogDescription className="sr-only">
+                Item details
+              </AlertDialogDescription>
               <AlertDialogTitle className="text-center font-bold text-xl">
                 <div className="flex flex-row items-center justify-between">
                   <div>&nbsp;</div>
-                  {selectedItem === "auto" ? <p>Auto Item</p> : <p>Reward Booster</p>}
+                  <p>{selectedItemInfo?.itemName}</p>
                   <HiX
                     className="w-6 h-6 cursor-pointer"
                     onClick={() => {
@@ -420,27 +459,22 @@ const ItemStore: React.FC = () => {
               <div
                 className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                 style={{
-                  background:
-                    selectedItem === "auto"
-                      ? "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)"
-                      : "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
+                  background: selectedItemInfo
+                    ? getBackgroundGradient(selectedItemInfo.itemName)
+                    : "linear-gradient(180deg, #AAAAAA 0%, #FFFFFF 100%)",
                 }}
               >
                 <img
-                  src={selectedItem === "auto" ? Images.AutoNFT : Images.RewardNFT}
-                  alt={selectedItem === "auto" ? "auto item" : "reward booster"}
+                  src={selectedItemInfo?.itemUrl}
+                  alt={selectedItemInfo?.itemName}
                   className="w-[80px] h-[80px] object-cover"
                 />
               </div>
               <div className="mt-6 text-lg font-semibold">
-                {selectedItem === "auto" ? <p>Dice Auto Roller</p> : <p>Reward Booster</p>}
+                <p>{selectedItemInfo?.itemName}</p>
               </div>
               <div className="mt-1 text-base font-normal">
-                {selectedItem === "auto" ? (
-                  <p>Rolls the dice automatically</p>
-                ) : (
-                  <p>Board & Spin Reward Upgrade : 5x</p>
-                )}
+                <p>{selectedItemInfo?.description}</p>
               </div>
             </div>
           </AlertDialogContent>
@@ -450,7 +484,9 @@ const ItemStore: React.FC = () => {
         <AlertDialog open={finish}>
           <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
             <AlertDialogHeader>
-              <AlertDialogDescription className="sr-only">Payment result</AlertDialogDescription>
+              <AlertDialogDescription className="sr-only">
+                Payment result
+              </AlertDialogDescription>
               <AlertDialogTitle className="text-center font-bold text-xl"></AlertDialogTitle>
             </AlertDialogHeader>
             <div className="flex flex-col items-center justify-center">
@@ -481,12 +517,14 @@ const ItemStore: React.FC = () => {
         <AlertDialog open={needWallet}>
           <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
             <AlertDialogHeader>
-              <AlertDialogDescription className="sr-only">Wallet Connection</AlertDialogDescription>
+              <AlertDialogDescription className="sr-only">
+                Wallet Connection
+              </AlertDialogDescription>
               <AlertDialogTitle className="text-center font-bold text-xl"></AlertDialogTitle>
             </AlertDialogHeader>
             <div className="flex flex-col items-center justify-center text-center space-y-4">
               <p className="text-sm font-semibold mt-4">
-                  You need to connect Wallet to check your balance.
+                You need to connect Wallet to check your balance.
               </p>
               <img
                 src={Images.ConnectButton}
@@ -494,7 +532,7 @@ const ItemStore: React.FC = () => {
                 onClick={handleConnectWallet}
                 alt="Wallet Icon"
               />
-          </div>
+            </div>
           </AlertDialogContent>
         </AlertDialog>
       </div>
