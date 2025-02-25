@@ -58,7 +58,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     try {
       await fetchUserData();
       console.log("[AppInitializer] 사용자 데이터 정상적으로 가져옴");
-      if(liff.isInClient()){
+      if (liff.isInClient()) {
         console.log("[AppInitializer] line 브라우저 사용 -> /dice-event 이동");
         navigate("/dice-event");
       } else {
@@ -151,8 +151,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         console.error("[AppInitializer] userAuthenticationWithServer() 중 에러:", error);
         throw error;
       }
-    } 
-
+    }
     // 3) 서버용 토큰이 이미 있는 경우 -> 곧바로 사용자 정보 가져오기
     else {
       console.log("[AppInitializer] 서버용 토큰이 있음 -> getUserInfo() 시도");
@@ -201,18 +200,37 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         });
         console.log("[AppInitializer] LIFF 초기화 완료");
 
-        // 2) 언어 설정
-        const userLanguage = liff.getLanguage();
-        const languageMap: { [key: string]: string } = {
-          "en-US": "en",
-          "ja-JP": "ja",
-          "zh-TW": "zh",
-          "th-TH": "th",
-          "ko-KR": "ko",
-        };
-        const i18nLanguage = languageMap[userLanguage] || "en";
+        // 2) 언어 설정 - IP 기반
+        console.log("[AppInitializer] IP 기반 언어 설정 시작");
+        let i18nLanguage = "en";
+        try {
+          const response = await fetch("https://ipapi.co/json/");
+          const data = await response.json();
+          const countryCode = data.country; // 예: "KR", "US" 등
+          const languageMapByCountry: { [key: string]: string } = {
+            KR: "ko",
+            US: "en",
+            JP: "ja",
+            TW: "zh",
+            TH: "th",
+          };
+          i18nLanguage = languageMapByCountry[countryCode] || "en";
+          console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
+        } catch (error) {
+          console.error("IP 기반 위치 정보 조회 실패:", error);
+          // fallback: LIFF의 언어 정보를 사용
+          const userLanguage = liff.getLanguage();
+          const languageMap: { [key: string]: string } = {
+            "en-US": "en",
+            "ja-JP": "ja",
+            "zh-TW": "zh",
+            "th-TH": "th",
+            "ko-KR": "ko",
+          };
+          i18nLanguage = languageMap[userLanguage] || "en";
+          console.log(`[AppInitializer] fallback LIFF 언어 설정: ${userLanguage} -> ${i18nLanguage}`);
+        }
         i18n.changeLanguage(i18nLanguage);
-        console.log(`[AppInitializer] 언어 설정 완료 -> ${userLanguage} -> ${i18nLanguage}`);
 
         // 3) 서버 Access Token 및 자동 로그인 결과 확인
         console.log("[AppInitializer] handleTokenFlow() 호출");
