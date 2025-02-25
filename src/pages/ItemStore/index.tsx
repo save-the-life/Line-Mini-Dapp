@@ -201,11 +201,11 @@ const ItemStore: React.FC = () => {
       }
     } catch (error: any) {
       console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
-      if (error.code === -32001) {
+      if (error.code === "-32001") {
         setPaymentMessage("Purchase Cancled.");
-      } else if (error.code === -32002) {
+      } else if (error.code === "-32002") {
         setPaymentMessage("Purchase Failed.");
-      } else if (error.code === -3200) {
+      } else if (error.code === "-3200") {
         setPaymentMessage("Insufficient Balance.");
       } else {
         setPaymentMessage("Please try again later.");
