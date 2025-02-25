@@ -519,6 +519,7 @@ const ItemStore: React.FC = () => {
                   onClick={() => {
                     playSfx(Audios.button_click);
                     setFinish(false);
+                    navigate("/my-assets")
                   }}
                   className="w-[165px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                 >
