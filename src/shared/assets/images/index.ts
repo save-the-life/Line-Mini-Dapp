@@ -163,6 +163,7 @@ import KaiaLogo from "./kaialogo.png"
 import infoMark from "./infomark.png"
 import failed from "./failed.png"
 import success from "./success.png"
+import airDropBox from "./airdropbox.png"
 
 const Images = {
   HorizontalLogo,
@@ -328,7 +329,8 @@ const Images = {
   KaiaLogo,
   infoMark,
   failed,
-  success
+  success,
+  airDropBox
 };
 
 export default Images;

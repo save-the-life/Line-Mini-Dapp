@@ -80,6 +80,19 @@ const Reward: React.FC = () => {
     }
   }
 
+  
+  const handlePreviousAirdropPage = async() => {
+    playSfx(Audios.button_click);
+
+    const response = await api.get("/leader/ranking/initial");
+    if(response.data.data === null) {
+      setShowModal(true);
+    } else {
+      navigate('/previous-ranking');
+    }
+  }
+
+
   const handleCloseModal = () => {
     playSfx(Audios.button_click);
     setShowModal(false);
@@ -157,13 +170,26 @@ const Reward: React.FC = () => {
         )}
       </div>
 
-      {/** 이번달 추첨권 경품 보여주기 */}
+      
+      <div 
+        className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer"
+        onClick={handlePreviousAirdropPage}>
+        <div className="flex flex-col gap-2">
+          <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
+          <p className="text-sm">
+            {t("reward_page.see_ranking_reward")}
+          </p>
+        </div>
+        <img src={Images.airDropBox} alt="trophy" className="w-24 h-24" />
+      </div>
+
+      {/** 지난 에어드랍 경품 보여주기 */}
       <div className="flex flex-col gap-3 justify-center items-center mb-14">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
             {t("reward_page.this_month")}
             <br />
-            {t("reward_page.raffle")}
+            {t("reward_page.air_drop")}
           </h1>
           <img
             src={Images.LotteryTicket}
