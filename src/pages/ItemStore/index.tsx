@@ -201,26 +201,31 @@ const ItemStore: React.FC = () => {
       }
     } catch (error: any) {
       console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
-      if (error.code === "-32001") {
-        setPaymentMessage("Purchase Cancled.");
-      } else if (error.code === "-32002") {
-        setPaymentMessage("Purchase Failed.");
-      } else if (error.code === "-3200") {
-        setPaymentMessage("Insufficient Balance.");
-      } else {
-        setPaymentMessage("Please try again later.");
-      }
-
+      
       if (paymentMethod === "STRIPE") {
-        if (error.message.includes("SDK's startPayment")) {
+        if (error.code === -32001) {
+          setPaymentMessage("Purchase Cancled.");
+        } else if (error.code === -32002) {
           setPaymentMessage("Purchase Failed.");
-        } else if (error.message.includes("expiration")) {
+        } else if (error.code === -3200) {
+          setPaymentMessage("Insufficient Balance.");
+        } else if (error.message && error.message.includes("SDK's startPayment")) {
+          setPaymentMessage("Purchase Failed.");
+        } else if (error.message && error.message.includes("expiration")) {
           setPaymentMessage("Purchase Cancled.");
         } else {
           setPaymentMessage("Please try again later.");
         }
-      } else {
-        setPaymentMessage("Please try again later.");
+      } else { // CRYPTO 결제 처리
+        if (error.code === -32001) {
+          setPaymentMessage("Purchase Cancled.");
+        } else if (error.code === -32002) {
+          setPaymentMessage("Purchase Failed.");
+        } else if (error.code === -3200) {
+          setPaymentMessage("Insufficient Balance.");
+        } else {
+          setPaymentMessage("Please try again later.");
+        }
       }
       setIsSuccess(false);
       setFinish(true);
