@@ -152,7 +152,9 @@
       "daily_attendance": "每日出席：1,000 點數",
       "welcom_gift": "歡迎加入禮",
       "rewards": "7,777 點數 + 10SL 代幣 + 30 骰子",
-      "start_now": "立即領取獎勵並開始！"
+      "start_now": "立即領取獎勵並開始！",
+      "raffle_airdrop": "抽獎空投活動",
+      "Check_winner": "檢查你是否成為幸運得主之一！"
     },
     "wallet_page": {
       "wallet": "錢包",

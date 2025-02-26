@@ -152,7 +152,9 @@
       "daily_attendance": "Daily Attendance : 1,000 Points",
       "welcom_gift": "Welcome gift for joining",
       "rewards": "7,777 Points + 10SL Tokens + 30 Dice",
-      "start_now": "Receive Reward & Start Now!"
+      "start_now": "Receive Reward & Start Now!",
+      "raffle_airdrop" : "Raffle AirDrop Event",
+      "Check_winner": "Check if you're one of the lucky winners!"
     },
     "wallet_page": {
         "wallet": "Wallet",

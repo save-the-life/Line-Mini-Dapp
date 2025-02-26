@@ -88,7 +88,7 @@ const Reward: React.FC = () => {
     if(response.data.data === null) {
       setShowModal(true);
     } else {
-      navigate('/previous-ranking');
+      navigate('/previous-raffle');
     }
   }
 
@@ -175,9 +175,9 @@ const Reward: React.FC = () => {
         className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer"
         onClick={handlePreviousAirdropPage}>
         <div className="flex flex-col gap-2">
-          <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
+          <p className="text-xl font-semibold">{t("reward_page.raffle_airdrop")}</p>
           <p className="text-sm">
-            {t("reward_page.see_ranking_reward")}
+            {t("reward_page.Check_winner")}
           </p>
         </div>
         <img src={Images.airDropBox} alt="trophy" className="w-24 h-24" />
