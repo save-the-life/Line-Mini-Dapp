@@ -46,8 +46,8 @@ const ItemStore: React.FC = () => {
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
 
-  // 중복 결제 방지를 위한 idempotencyKey
-  const [idempotencyKey, setIdempotencyKey] = useState("");
+  // USD(STRIPE) 결제 진행 시 시작 시간을 기록합니다.
+  const [paymentStartTime, setPaymentStartTime] = useState<number | null>(null);
 
   // 결제 버튼은 아이템 선택, 체크박스 동의, 결제 진행 중이 아닐 때 활성화됩니다.
   const isEnabled =
@@ -178,12 +178,18 @@ const ItemStore: React.FC = () => {
     try {
       // UUID 생성 후 idempotencyKey에 저장
       const key = uuidv4();
-      setIdempotencyKey(key);
+      console.log("결제 중복 방지 uuid: ", key);
 
       const sdk = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         ...sdkOptions,
       });
+
+      // STRIPE 결제의 경우 startPayment 전에 시작 시간 기록
+      if (paymentMethod === "STRIPE") {
+        setPaymentStartTime(Date.now());
+      }
+
       // selectedItem는 itemId로 관리되므로 그대로 사용합니다.
       const response = await paymentSession(
         selectedItem as number,
@@ -213,6 +219,17 @@ const ItemStore: React.FC = () => {
           setPaymentMessage("Purchase Failed.");
         } else if (error.message && error.message.includes("expiration")) {
           setPaymentMessage("Purchase Cancled.");
+        } else if(paymentStartTime){
+          const elapsedSeconds = (Date.now() - paymentStartTime) / 1000;
+          if (elapsedSeconds >= 580 && elapsedSeconds < 2280) {
+            // Case.2 : startPayment 실행 후 사용자가 승인하지 않아 취소된 경우
+            setPaymentMessage("Purchase Canceled (Expired approval).");
+          } else if (elapsedSeconds >= 2280) {
+            // Case.1 : create API는 호스팅되었으나 startPayment가 실행되지 않은 경우
+            setPaymentMessage("Purchase Canceled (Payment not executed).");
+          } else {
+            setPaymentMessage("Purchase Canceled.");
+          }
         } else {
           setPaymentMessage("Please try again later.");
         }
