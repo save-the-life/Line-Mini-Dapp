@@ -58,7 +58,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       navigate("/dice-event");
     } catch (error: any) {
       console.error("[AppInitializer] getUserInfo() 중 에러:", error);
-      if (error.response?.message === "Please choose your character first.") {
+      if (error.message === "Please choose your character first.") {
         console.error("[AppInitializer] 오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");
         return;
@@ -130,9 +130,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   // 에러 핸들링
   const handleError = (error: any, navigate: (path: string) => void) => {
     console.error("[AppInitializer] 앱 초기화 중 오류:", error);
-    if (error.response?.status === 500) {
-      console.error("[AppInitializer] 500 오류 -> /choose-character 이동");
+    if (error.message === "Please choose your character first.") {
+      console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
       navigate("/choose-character");
+      return;
     } else {
       console.error("[AppInitializer] 그 외 오류 발생:", error);
       throw error;
