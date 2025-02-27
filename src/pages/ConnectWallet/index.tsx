@@ -94,31 +94,29 @@ const ConnectWalletPage: React.FC = () => {
       className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
       style={{ backgroundImage: `url(${Images.SplashBackground})` }}
     >
-        <>
-          {/* 애니메이션 로고 */}
-          <motion.img
-            src={Images.SplashTitle}
-            alt="Lucky Dice Logo"
-            className="w-[272px] mb-[90px]"
-            initial={{ y: 80 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          />
+      {/* 애니메이션 로고 */}
+      <motion.img
+        src={Images.SplashTitle}
+        alt="Lucky Dice Logo"
+        className="w-[272px] mb-[90px]"
+        initial={{ y: 80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      />
 
-          {/* 애니메이션 버튼 */}
-          <motion.button
-            onClick={handleConnectWallet}
-            className="relative w-[342px] h-[56px]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
-          >
-            <img
-              src={Images.ConnectButton}
-              alt="Wallet Icon"
-            />
-          </motion.button>
-        </>
+      {/* 애니메이션 버튼 */}
+      <motion.button
+        onClick={handleConnectWallet}
+        className="relative w-[342px] h-[56px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
+      >
+        <img
+          src={Images.ConnectButton}
+          alt="Wallet Icon"
+        />
+      </motion.button>
     </div>
   );
 };
