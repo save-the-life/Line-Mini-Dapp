@@ -58,6 +58,7 @@ const ConnectWalletPage: React.FC = () => {
       console.log("지갑 로그인 완료 및 데이터 확인");
       navigate("/dice-event");
     } catch (error: any) {
+      console.error("getUserInfo() 중 에러:", error.message);
       if (error.response?.message === "Please choose your character first.") {
         console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");

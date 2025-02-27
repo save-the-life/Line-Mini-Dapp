@@ -426,9 +426,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       });
 
     } catch (error: any) {
-      console.error('fetchUserData 실패:', error);
-      set({ isLoading: false, error: error.message });
-      throw error;
+      // error.response.data.message가 있으면 그 값을 사용
+      const errorMessage = error.response?.data?.message || error.message;
+      console.error('fetchUserData 실패:', errorMessage);
+      set({ isLoading: false, error: errorMessage });
+      // 새로운 에러 객체를 던져서 error.message에 원하는 메시지가 포함되도록 함
+      throw new Error(errorMessage);
     }
   },
   
