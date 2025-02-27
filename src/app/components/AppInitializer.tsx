@@ -148,6 +148,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     if (!liff.isInClient()) {
       console.log("[AppInitializer] 외부 브라우저 접근 감지 -> /connect-wallet 이동");
       navigate("/connect-wallet");
+      setShowSplash(false);
+      onInitialized();
       return;
     }
 
