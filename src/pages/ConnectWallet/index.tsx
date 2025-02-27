@@ -19,15 +19,15 @@ const ConnectWalletPage: React.FC = () => {
 
   // 페이지 접근 시 모바일/웹 체크
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  // 지갑 연결 버튼 표시 여부 (연결 진행 중 숨김)
-  const [showConnectButton, setShowConnectButton] = useState<boolean>(true);
+  // 지갑 연결 진행 상태 (버튼 비활성화를 위한 상태)
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
   }, []);
 
   const handleConnectWallet = async () => {
-    setShowConnectButton(false);
+    setIsConnecting(true);
     try {
       console.log("DappPortal SDK 초기화 시작");
       const sdk = await DappPortalSDK.init({
@@ -36,34 +36,34 @@ const ConnectWalletPage: React.FC = () => {
       });
       const walletProvider = sdk.getWalletProvider();
 
-      // 사용자에게 계정 요청 (지갑 선택 UI 노출)
+      // 1) 계정 요청: 사용자에게 지갑 선택 UI가 표시됨
       const accounts = (await walletProvider.request({
         method: "kaia_requestAccounts",
       })) as string[];
 
-      // 선택 후 walletType 업데이트
+      // 2) 선택 후 walletType 업데이트
       const walletType = walletProvider.getWalletType() || null;
       console.log("사용자가 선택한 지갑 타입:", walletType);
 
-      // PC 환경에서 모바일 지갑 연결 시도 시 에러 처리
+      // 3) PC 환경에서 모바일 지갑을 선택한 경우 오류 처리
       if (!isMobile && walletType === "Mobile") {
         alert(
           "현재 PC 웹 브라우저 환경에서 '모바일 지갑'은 연결할 수 없습니다.\n모바일 환경에서 다시 시도해주세요."
         );
         localStorage.removeItem("sdk.dappportal.io:1001:walletType");
-        setShowConnectButton(true);
+        setIsConnecting(false);
         return;
       }
 
       console.log("지갑 연결 성공:", accounts[0]);
 
-      // Web 로그인 시도 (주소 기반 로그인)
+      // 4) 주소 기반 Web 로그인 시도
       const webLogin = await webLoginWithAddress(accounts[0]);
       if (!webLogin) {
         throw new Error("Web login failed.");
       }
 
-      // 사용자 데이터 확인
+      // 5) 사용자 데이터 확인 후 다음 페이지 이동
       await fetchUserData();
       console.log("지갑 로그인 완료 및 데이터 확인");
       navigate("/dice-event");
@@ -75,48 +75,36 @@ const ConnectWalletPage: React.FC = () => {
         return;
       }
       alert("지갑 연결 중 오류가 발생했습니다. 다시 시도해주세요.");
-      setShowConnectButton(true);
+      setIsConnecting(false);
     }
   };
 
   return (
     <div
       className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${Images.SplashBackground})`,
-      }}
+      style={{ backgroundImage: `url(${Images.SplashBackground})` }}
     >
-      {showConnectButton ? (
-        <>
-          {/* 애니메이션 로고 */}
-          <motion.img
-            src={Images.SplashTitle}
-            alt="Lucky Dice Logo"
-            className="w-[272px] mb-[90px]"
-            initial={{ y: 80 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          />
+      {/* 애니메이션 로고 */}
+      <motion.img
+        src={Images.SplashTitle}
+        alt="Lucky Dice Logo"
+        className="w-[272px] mb-[90px]"
+        initial={{ y: 80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      />
 
-          {/* 애니메이션 버튼 */}
-          <motion.button
-            onClick={handleConnectWallet}
-            className="relative w-[342px] h-[56px]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
-          >
-            <img src={Images.ConnectButton} alt="Wallet Icon" />
-          </motion.button>
-        </>
-      ) : (
-        // 기본 UI (버튼이 숨겨진 상태)
-        <img
-          src={Images.SplashTitle}
-          alt="Lucky Dice Logo"
-          className="w-[272px] mb-[90px]"
-        />
-      )}
+      {/* 애니메이션 버튼 (항상 표시, 연결 중일 경우 비활성화) */}
+      <motion.button
+        onClick={handleConnectWallet}
+        className="relative w-[342px] h-[56px]"
+        disabled={isConnecting}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
+      >
+        <img src={Images.ConnectButton} alt="Wallet Icon" />
+      </motion.button>
     </div>
   );
 };
