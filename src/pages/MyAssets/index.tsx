@@ -21,6 +21,7 @@ import getRewardsHistory from "@/entities/Asset/api/getRewardsHistory";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { BigNumber, ethers } from "ethers";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
+import getMyAssets from "@/entities/Asset/api/getMyAssets";
 
 
 interface TruncateMiddleProps {
@@ -71,6 +72,12 @@ const MyAssets: React.FC = () => {
     const [rewardHistoryData, setRewardHistoryData] = useState<any[]>([]);
     const [balance, setBalance] = useState("0.00");
     const [walletAccount, setWalletAcount] = useState("");
+
+
+  const [nonNftItems, setNonNftItems] = useState<any[]>([]);
+  const [nftCollection, setNftCollection] = useState<any[]>([]);
+  const [claimBalance, setClaimBalance] = useState<{ slPoints: number; usdcPoints: number }>({ slPoints: 0, usdcPoints: 0 });
+  
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -149,12 +156,34 @@ const MyAssets: React.FC = () => {
     };
 
     // nft 더미 데이터
-    const nftCollection: any[] = [
-        { id: 1, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-        { id: 2, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-        { id: 3, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-        { id: 4, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-    ];
+    // const nftCollection: any[] = [
+    //     { id: 1, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
+    //     { id: 2, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
+    //     { id: 3, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
+    //     { id: 4, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
+    // ];
+
+    // API 호출: 자산 정보 (Non-NFT 아이템, NFT 컬렉션, Claim Balance)
+    useEffect(() => {
+        const fetchAssets = async () => {
+        try {
+            const assets = await getMyAssets();
+            if (assets) {
+            setNonNftItems(assets.items || []);
+            setNftCollection(assets.nfts || []);
+            if (assets.claimBalance) {
+                setClaimBalance({
+                slPoints: assets.claimBalance.slPoints,
+                usdcPoints: assets.claimBalance.usdcPoints,
+                });
+            }
+            }
+        } catch (err) {
+            console.error("Failed to fetch assets:", err);
+        }
+        };
+        fetchAssets();
+    }, []);
 
     useEffect(() => {
         const fetchRewardsHistory = async () => {
@@ -321,79 +350,80 @@ const MyAssets: React.FC = () => {
                     />
                 </div>
 
-                {/* 내 Non-NFT Items */}
+                {/* Non-NFT Items 영역 */}
                 <div className="mt-9 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.non_nft")}</h2>
-                        
                         <button
-                            className="flex items-center text-white text-xs"
-                            onClick={handlePaymentHistory}
-                            aria-label="View All Items"
-                            >
-                            {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
+                        className="flex items-center text-white text-xs"
+                        onClick={() => {
+                            playSfx(Audios.button_click);
+                            navigate("/reward-history");
+                        }}
+                        aria-label="View All Items">
+                        {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
                     <div className="mt-4 w-full">
-                        {nft === 0 ? (
-                            <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
-                                <p className="text-center text-[#737373] text-sm font-medium">
-                                    {t("asset_page.no_item")}<br />
-                                    {t("asset_page.own_item")}
-                                </p>
-                                <button
-                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
-                                    style={{ backgroundColor: '#0147E5' }}
-                                    onClick={()=>{
-                                        playSfx(Audios.button_click);
-                                        // setShowModal(true);
-                                        navigate("/item-store", { state: { balance, walletAccount } });
-                                    }}
-                                    >
-                                    {t("asset_page.shop_item")}
-                                </button>
-                            </div>
+                        {nonNftItems.length === 0 ? (
+                        <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
+                            <p className="text-center text-[#737373] text-sm font-medium">
+                            {t("asset_page.no_item")}<br />
+                            {t("asset_page.own_item")}
+                            </p>
+                            <button
+                            className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                            style={{ backgroundColor: '#0147E5' }}
+                            onClick={() => {
+                                playSfx(Audios.button_click);
+                                navigate("/item-store", { state: { balance, walletAccount } });
+                            }}>
+                            {t("asset_page.shop_item")}
+                            </button>
+                        </div>
                         ) : (
-                            <div className="grid grid-cols-2 gap-4 mt-4 w-full">
-                                {nftCollection.map((nftItem) => (
-                                    <div
-                                        key={nftItem.id}
-                                        className="bg-[#1F1E27] border border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
-                                        >
-                                        {/* 비율을 유지하며 크기가 리니어하게 바뀌도록 설정 */}
-                                        <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
-                                            <img
-                                            src={nftItem.image}
-                                            alt={nftItem.name}
-                                            className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                        <p className="mt-2 font-bold">{nftItem.name}</p>
-                                    </div>
-                                ))}
+                        <div className="grid grid-cols-2 gap-4 mt-4 w-full">
+                            {nonNftItems.map((item, index) => (
+                            <div
+                                key={`${item.itemType}-${index}`}
+                                className="bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center"
+                                onClick={() => {
+                                    playSfx(Audios.button_click);
+                                    // 아이템 상세 정보 모달 등 처리
+                                    }}>
+                                <div
+                                className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                                style={{ background: "linear-gradient(180deg, #AAAAAA 0%, #FFFFFF 100%)" }}>
+                                <img
+                                    src={item.imgUrl}
+                                    alt={item.name}
+                                    className="w-[80px] h-[80px] object-cover"
+                                />
+                                </div>
+                                <p className="mt-2 text-sm font-semibold">{item.name}</p>
                             </div>
+                            ))}
+                        </div>
                         )}
                     </div>
                 </div>
                 
-                {/* 내 NFT 컬렉션 */}
+                {/* NFT 컬렉션 영역 */}
                 <div className="mt-9 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.My_NFT_Collection")}</h2>
-                        
                         <button
                             className="flex items-center text-white text-xs"
                             onClick={() => {
                                 playSfx(Audios.button_click);
                                 navigate("/my-nfts");
                             }}
-                            aria-label="View All NFTs"
-                            >
+                            aria-label="View All NFTs">
                             {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
                     <div className="mt-4 w-full">
-                        {nft === 0 ? (
+                        {nftCollection.length === 0 ? (
                             <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
                                 <p className="text-center text-[#737373] text-sm font-medium">
                                     {t("asset_page.no_nft")}<br />
@@ -402,88 +432,71 @@ const MyAssets: React.FC = () => {
                                 <button
                                     className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
-                                    onClick={()=>{
+                                    onClick={() => {
                                         playSfx(Audios.button_click);
                                         setShowModal(true);
-                                    }}
-                                    >
+                                    }}>
                                     {t("asset_page.shop_nft")}
                                 </button>
                             </div>
-
-                        ) : (
+                            ) : (
                             <div className="grid grid-cols-2 gap-4 mt-4 w-full">
                                 {nftCollection.map((nftItem) => (
-                                    <div
-                                        key={nftItem.id}
-                                        className="bg-[#1F1E27] border border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
-                                        >
-                                        {/* 비율을 유지하며 크기가 리니어하게 바뀌도록 설정 */}
-                                        <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
-                                            <img
-                                            src={nftItem.image}
-                                            alt={nftItem.name}
-                                            className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                        <p className="mt-2 font-bold">{nftItem.name}</p>
+                                <div
+                                    key={nftItem.id}
+                                    className="bg-[#1F1E27] border border-[#737373] p-[10px] rounded-xl flex flex-col items-center">
+                                    <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
+                                    <img
+                                        src={nftItem.imgUrl}
+                                        alt={nftItem.name}
+                                        className="w-full h-full object-cover"
+                                    />
                                     </div>
+                                    <p className="mt-2 font-bold">{nftItem.name}</p>
+                                </div>
                                 ))}
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* 클래임 */}
+                {/* Claim Balance 영역 */}
                 <div className="mt-8 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.claimable")}</h2>
-                        
                         <button
                             className="flex items-center text-white text-xs"
                             onClick={() => {
                                 playSfx(Audios.button_click);
                                 navigate("/claim-history");
                             }}
-                            aria-label="View Claim History"
-                            >
+                            aria-label="View Claim History">
                             {t("asset_page.view_claim")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
-
                     {/* SL Balance */}
                     <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-4">
                         <div className="flex items-center">
-                            <img
-                                src={Images.SLToken} // SL 이미지 경로를 설정
-                                alt="SL Icon"
-                                className="w-6 h-6 mr-1"
-                            />
+                            <img src={Images.SLToken} alt="SL Icon" className="w-6 h-6 mr-1" />
                             <span className="text-base font-medium text-gray-300">SL</span>
                         </div>
-                        <span className="text-lg font-bold">750SL</span>
+                        <span className="text-lg font-bold">{claimBalance.slPoints} SL</span>
                     </div>
-
                     {/* USDC Balance */}
                     <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-2">
                         <div className="flex items-center">
-                            <img
-                                src={Images.USDC} // USDC 이미지 경로를 설정
-                                alt="USDC Icon"
-                                className="w-6 h-6 mr-1"
-                            />
+                            <img src={Images.USDC} alt="USDC Icon" className="w-6 h-6 mr-1" />
                             <span className="text-base font-medium text-gray-300">USDC</span>
                         </div>
-                        <span className="text-lg font-bold">20.00USDC</span>
+                        <span className="text-lg font-bold">{claimBalance.usdcPoints} USDC</span>
                     </div>
                     <button
                         className="w-full h-14 mt-3 py-4 rounded-full text-base font-medium bg-[#0147E5] text-white"
                         onClick={() => {
                             playSfx(Audios.button_click);
                             setClaimModalOpen(true);
-                        }}
-                        >
-                        {t("asset_page.claim_reward")}
+                            }}>
+                            {t("asset_page.claim_reward")}
                     </button>
                 </div>
 
