@@ -144,6 +144,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     console.log("[AppInitializer] useEffect() - initializeApp() 진입");
 
     // 가장 먼저 라인 브라우저 여부를 체크하여, 외부 브라우저이면 즉시 /connect-wallet으로 이동
+    console.log("라인브라우저 확인 : ", liff.isInClient());
     if (!liff.isInClient()) {
       console.log("[AppInitializer] 외부 브라우저 접근 감지 -> /connect-wallet 이동");
       navigate("/connect-wallet");

@@ -104,7 +104,7 @@ const ConnectWalletPage: React.FC = () => {
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
 
-      {/* <motion.button
+      <motion.button
         onClick={handleConnectWallet}
         className="relative w-[342px] h-[56px]"
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
@@ -112,11 +112,7 @@ const ConnectWalletPage: React.FC = () => {
         transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
       >
         <img src={Images.ConnectButton} alt="Wallet Icon" />
-      </motion.button> */}
-
-      <button onClick={handleConnectWallet} className="relative w-[342px] h-[56px]">
-        <img src={Images.ConnectButton} alt="Wallet Icon" />
-      </button>
+      </motion.button>
     </div>
   );
 };
