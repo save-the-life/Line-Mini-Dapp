@@ -164,6 +164,8 @@ import infoMark from "./infomark.png"
 import failed from "./failed.png"
 import success from "./success.png"
 import airDropBox from "./airdropbox.png"
+import airDropBoxes from "./airdrop_boxes.png"
+import rankingModal from "./ranking_modal.png"
 
 const Images = {
   HorizontalLogo,
@@ -330,7 +332,9 @@ const Images = {
   infoMark,
   failed,
   success,
-  airDropBox
+  airDropBox,
+  airDropBoxes,
+  rankingModal
 };
 
 export default Images;

@@ -372,13 +372,13 @@ const MyAssets: React.FC = () => {
                             {t("asset_page.own_item")}
                             </p>
                             <button
-                            className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
-                            style={{ backgroundColor: '#0147E5' }}
-                            onClick={() => {
-                                playSfx(Audios.button_click);
-                                navigate("/item-store", { state: { balance, walletAccount } });
-                            }}>
-                            {t("asset_page.shop_item")}
+                                className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                style={{ backgroundColor: '#0147E5' }}
+                                onClick={() => {
+                                    playSfx(Audios.button_click);
+                                    navigate("/item-store", { state: { balance, walletAccount } });
+                                }}>
+                                {t("asset_page.shop_item")}
                             </button>
                         </div>
                         ) : (
@@ -403,6 +403,15 @@ const MyAssets: React.FC = () => {
                                 <p className="mt-2 text-sm font-semibold">{item.name}</p>
                             </div>
                             ))}
+                            <button
+                                className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                style={{ backgroundColor: '#0147E5' }}
+                                onClick={() => {
+                                    playSfx(Audios.button_click);
+                                    navigate("/item-store", { state: { balance, walletAccount } });
+                                }}>
+                                {t("asset_page.shop_item")}
+                            </button>
                         </div>
                         )}
                     </div>
@@ -455,6 +464,15 @@ const MyAssets: React.FC = () => {
                                     <p className="mt-2 font-bold">{nftItem.name}</p>
                                 </div>
                                 ))}
+                                <button
+                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    style={{ backgroundColor: '#0147E5' }}
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setShowModal(true);
+                                    }}>
+                                    {t("asset_page.shop_nft")}
+                                </button>
                             </div>
                         )}
                     </div>
