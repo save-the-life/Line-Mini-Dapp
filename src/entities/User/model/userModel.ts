@@ -356,7 +356,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         items,
         boards,
         bgm
-      } = data;
+      } = data.data;
   
       set({
         userId: user.userId,
