@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import webLoginWithAddress from "@/entities/User/api/webLogin";
@@ -15,6 +15,7 @@ const checkIsMobile = (): boolean => {
 
 const ConnectWalletPage: React.FC = () => {
   const navigate = useNavigate();
+  const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
 
   // 0. 페이지 접근 시 모바일/웹 체크
@@ -94,28 +95,23 @@ const ConnectWalletPage: React.FC = () => {
       className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
       style={{ backgroundImage: `url(${Images.SplashBackground})` }}
     >
-      {/* 애니메이션 로고 */}
-      <motion.img
+       <motion.img
         src={Images.SplashTitle}
         alt="Lucky Dice Logo"
         className="w-[272px] mb-[90px]"
-        initial={{ y: 80 }}
-        animate={{ y: 0 }}
+        initial={shouldReduceMotion ? {} : { y: 80 }}
+        animate={shouldReduceMotion ? {} : { y: 0 }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
 
-      {/* 애니메이션 버튼 */}
       <motion.button
         onClick={handleConnectWallet}
         className="relative w-[342px] h-[56px]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={shouldReduceMotion ? {} : { opacity: 0 }}
+        animate={shouldReduceMotion ? {} : { opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
       >
-        <img
-          src={Images.ConnectButton}
-          alt="Wallet Icon"
-        />
+        <img src={Images.ConnectButton} alt="Wallet Icon" />
       </motion.button>
     </div>
   );
