@@ -326,7 +326,7 @@ const ItemStore: React.FC = () => {
     } else if (name === "REWARD") {
       return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
     } else {
-      return "linear-gradient(180deg, #AAAAAA 0%, #FFFFFF 100%)"; // 기본 그라데이션
+      return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
     }
   };
 
@@ -374,6 +374,7 @@ const ItemStore: React.FC = () => {
                   className="absolute top-1 right-1 w-5 h-5"
                   onClick={(e) => {
                     e.stopPropagation();
+                    setSelectedItem(item.itemId);
                     handleInfo();
                   }}
                 />

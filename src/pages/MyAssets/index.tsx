@@ -401,7 +401,7 @@ const MyAssets: React.FC = () => {
                                     {nonNftItems.map((item, index) => (
                                     <div
                                         key={`${item.itemType}-${index}`}
-                                        className="bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center"
+                                        className="bg-[#1F1E27] border-2 border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
                                         onClick={() => {
                                             playSfx(Audios.button_click);
                                             // 아이템 상세 정보 모달 등 처리
@@ -416,7 +416,7 @@ const MyAssets: React.FC = () => {
                                         />
                                         </div>
                                         <p className="mt-2 text-sm font-semibold">{item.name}</p>
-                                        <p className="mt-2 text-xs font-normal text-[#A3A3A3]">
+                                        <p className="mt-2 text-xs font-normal text-[#A3A3A3] whitespace-nowrap">
                                             {formatDateRange(item.gainedAt, item.expirationTime)}
                                         </p>
                                     </div>
@@ -482,7 +482,7 @@ const MyAssets: React.FC = () => {
                                             className="w-full h-full object-cover"
                                         />
                                         </div>
-                                        <p className="mt-2 font-bold">{nftItem.name}</p>
+                                        <p className="mt-2 text-sm font-semibold">{nftItem.name}</p>
                                     </div>
                                     ))}
                                 </div>
