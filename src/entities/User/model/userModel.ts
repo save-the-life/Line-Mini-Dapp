@@ -326,7 +326,11 @@ export const useUserStore = create<UserState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       let data = await fetchHomeData();
-      if (!data) {
+      if (!data || data.data === null) {
+        // 응답 객체가 있고, message가 "Please choose your character first."인 경우 바로 에러 발생
+        if (data && data.message === "Please choose your character first.") {
+          throw new Error(data.message);
+        }
         // 데이터가 없는 경우 토큰 갱신
         console.warn('No data returned from /home API, trying token refresh...');
         const tokenRefreshed = await get().refreshToken();
