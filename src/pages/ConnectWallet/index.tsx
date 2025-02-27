@@ -19,7 +19,6 @@ const ConnectWalletPage: React.FC = () => {
 
   // 0. 페이지 접근 시 모바일/웹 체크
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [showConnectButton, setShowConnectButton] = useState<boolean>(true);
 
   useEffect(() => {
     // 페이지 진입 시 1회만 체크
@@ -95,7 +94,6 @@ const ConnectWalletPage: React.FC = () => {
       className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
       style={{ backgroundImage: `url(${Images.SplashBackground})` }}
     >
-      {showConnectButton ? (
         <>
           {/* 애니메이션 로고 */}
           <motion.img
@@ -121,14 +119,6 @@ const ConnectWalletPage: React.FC = () => {
             />
           </motion.button>
         </>
-      ) : (
-        // 기본 UI
-        <img
-          src={Images.SplashTitle}
-          alt="Lucky Dice Logo"
-          className="w-[272px] mb-[90px]"
-        />
-      )}
     </div>
   );
 };
