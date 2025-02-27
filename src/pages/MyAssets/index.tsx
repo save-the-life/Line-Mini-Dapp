@@ -366,53 +366,55 @@ const MyAssets: React.FC = () => {
                     </div>
                     <div className="mt-4 w-full">
                         {nonNftItems.length === 0 ? (
-                        <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
-                            <p className="text-center text-[#737373] text-sm font-medium">
-                            {t("asset_page.no_item")}<br />
-                            {t("asset_page.own_item")}
-                            </p>
-                            <button
-                                className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
-                                style={{ backgroundColor: '#0147E5' }}
-                                onClick={() => {
-                                    playSfx(Audios.button_click);
-                                    navigate("/item-store", { state: { balance, walletAccount } });
-                                }}>
-                                {t("asset_page.shop_item")}
-                            </button>
-                        </div>
-                        ) : (
-                        <div className="grid grid-cols-2 gap-4 mt-4 w-full">
-                            {nonNftItems.map((item, index) => (
-                            <div
-                                key={`${item.itemType}-${index}`}
-                                className="bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center"
-                                onClick={() => {
-                                    playSfx(Audios.button_click);
-                                    // 아이템 상세 정보 모달 등 처리
+                            <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
+                                <p className="text-center text-[#737373] text-sm font-medium">
+                                {t("asset_page.no_item")}<br />
+                                {t("asset_page.own_item")}
+                                </p>
+                                <button
+                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    style={{ backgroundColor: '#0147E5' }}
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        navigate("/item-store", { state: { balance, walletAccount } });
                                     }}>
-                                <div
-                                className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
-                                style={{ background: "linear-gradient(180deg, #AAAAAA 0%, #FFFFFF 100%)" }}>
-                                <img
-                                    src={item.imgUrl}
-                                    alt={item.name}
-                                    className="w-[80px] h-[80px] object-cover"
-                                />
-                                </div>
-                                <p className="mt-2 text-sm font-semibold">{item.name}</p>
+                                    {t("asset_page.shop_item")}
+                                </button>
                             </div>
-                            ))}
-                            <button
-                                className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
-                                style={{ backgroundColor: '#0147E5' }}
-                                onClick={() => {
-                                    playSfx(Audios.button_click);
-                                    navigate("/item-store", { state: { balance, walletAccount } });
-                                }}>
-                                {t("asset_page.shop_item")}
-                            </button>
-                        </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center">
+                                <div className="grid grid-cols-2 gap-4 mt-4 w-full">
+                                    {nonNftItems.map((item, index) => (
+                                    <div
+                                        key={`${item.itemType}-${index}`}
+                                        className="bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center"
+                                        onClick={() => {
+                                            playSfx(Audios.button_click);
+                                            // 아이템 상세 정보 모달 등 처리
+                                            }}>
+                                        <div
+                                        className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                                        style={{ background: "linear-gradient(180deg, #AAAAAA 0%, #FFFFFF 100%)" }}>
+                                        <img
+                                            src={item.imgUrl}
+                                            alt={item.name}
+                                            className="w-[80px] h-[80px] object-cover"
+                                        />
+                                        </div>
+                                        <p className="mt-2 text-sm font-semibold">{item.name}</p>
+                                    </div>
+                                    ))}
+                                </div>
+                                <button
+                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    style={{ backgroundColor: '#0147E5' }}
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        navigate("/item-store", { state: { balance, walletAccount } });
+                                    }}>
+                                    {t("asset_page.shop_item")}
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -448,22 +450,24 @@ const MyAssets: React.FC = () => {
                                     {t("asset_page.shop_nft")}
                                 </button>
                             </div>
-                            ) : (
-                            <div className="grid grid-cols-2 gap-4 mt-4 w-full">
-                                {nftCollection.map((nftItem) => (
-                                <div
-                                    key={nftItem.id}
-                                    className="bg-[#1F1E27] border border-[#737373] p-[10px] rounded-xl flex flex-col items-center">
-                                    <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
-                                    <img
-                                        src={nftItem.imgUrl}
-                                        alt={nftItem.name}
-                                        className="w-full h-full object-cover"
-                                    />
+                        ) : (
+                            <div className="flex flex-col items-center justify-center">
+                                <div className="grid grid-cols-2 gap-4 mt-4 w-full">
+                                    {nftCollection.map((nftItem) => (
+                                    <div
+                                        key={nftItem.id}
+                                        className="bg-[#1F1E27] border border-[#737373] p-[10px] rounded-xl flex flex-col items-center">
+                                        <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
+                                        <img
+                                            src={nftItem.imgUrl}
+                                            alt={nftItem.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        </div>
+                                        <p className="mt-2 font-bold">{nftItem.name}</p>
                                     </div>
-                                    <p className="mt-2 font-bold">{nftItem.name}</p>
+                                    ))}
                                 </div>
-                                ))}
                                 <button
                                     className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
