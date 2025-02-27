@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
+import webLoginWithAddress from "@/entities/User/api/webLogin";
 
 // 간단한 모바일 체크 함수 (정교함은 상황에 따라 보완 가능)
 const checkIsMobile = (): boolean => {
@@ -58,8 +59,16 @@ const ConnectWalletPage: React.FC = () => {
       console.log("지갑 연결 성공:", accounts[0]);
       // setAccount(accounts[0]); // 필요 시 상태 저장
 
-      // 5) 다음 페이지 이동
-      navigate("/dice-event");
+      try{
+        const webLogin = await webLoginWithAddress(accounts[0]);
+        if(webLogin){
+          // 5) 다음 페이지 이동
+          console.log("지갑 로그인 완료");
+          navigate("/dice-event");
+        }
+      } catch (error: any) {
+        console.error("에러 발생:", error.message);        
+      }
     } catch (error: any) {
       console.error("에러 발생:", error.message);
       console.error("에러 응답:", error.response?.data || "응답 없음");
