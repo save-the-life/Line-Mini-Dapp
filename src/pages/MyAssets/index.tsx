@@ -52,7 +52,6 @@ const TruncateMiddle: React.FC<TruncateMiddleProps> = ({
 
     return <div className={`text-sm font-bold ${className}`}>{truncatedText}</div>;
 };
-  
 
 const MyAssets: React.FC = () => {
     const navigate = useNavigate();
@@ -155,32 +154,24 @@ const MyAssets: React.FC = () => {
         return months[monthNumber - 1] || "Unknown"; // 1월 = index 0
     };
 
-    // nft 더미 데이터
-    // const nftCollection: any[] = [
-    //     { id: 1, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-    //     { id: 2, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-    //     { id: 3, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-    //     { id: 4, name: "Cool Cat #1", image: "https://via.placeholder.com/100" },
-    // ];
-
     // API 호출: 자산 정보 (Non-NFT 아이템, NFT 컬렉션, Claim Balance)
     useEffect(() => {
         const fetchAssets = async () => {
-        try {
-            const assets = await getMyAssets();
-            if (assets) {
-            setNonNftItems(assets.items || []);
-            setNftCollection(assets.nfts || []);
-            if (assets.claimBalance) {
-                setClaimBalance({
-                slPoints: assets.claimBalance.slPoints,
-                usdcPoints: assets.claimBalance.usdcPoints,
-                });
+            try {
+                const assets = await getMyAssets();
+                if (assets) {
+                    setNonNftItems(assets.items || []);
+                    setNftCollection(assets.nfts || []);
+                    if (assets.claimBalance) {
+                        setClaimBalance({
+                            slPoints: assets.claimBalance.slPoints,
+                            usdcPoints: assets.claimBalance.usdcPoints,
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch assets:", err);
             }
-            }
-        } catch (err) {
-            console.error("Failed to fetch assets:", err);
-        }
         };
         fetchAssets();
     }, []);
@@ -214,6 +205,32 @@ const MyAssets: React.FC = () => {
         const [day, month, year] = date.split("-").map(Number);
         const monthName = getMonthName(month);
         return `${day} ${monthName} ${year}`;
+    };
+
+    // 날짜 포맷팅 헬퍼 함수
+    const formatDuration = (dateStr: string): string => {
+        const date = new Date(dateStr);
+        const day = date.getDate();
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
+    
+    const formatDateRange = (gainedAt: string, expirationTime: string): string => {
+        return `${formatDuration(gainedAt)} ~ ${formatDuration(expirationTime)}`;
+    };
+
+    // 아이템별 배경색 결정 함수
+    const getBackgroundGradient = (itemName: string) => {
+        const name = itemName.toUpperCase();
+        if (name === "AUTO") {
+        return "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)";
+        } else if (name === "REWARD") {
+        return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
+        } else {
+        return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
+        }
     };
 
     // 지갑 연결 및 잔액 확인
@@ -253,12 +270,12 @@ const MyAssets: React.FC = () => {
         }
     }
     
-    // 결제 내역 조회
+    // 결제 내역 조회(dapp-portal sdk 사용)
     const handlePaymentHistory = async () => {
         playSfx(Audios.button_click);
         const sdk = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "1001",
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: "1001",
         });
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.openPaymentHistory();
@@ -355,13 +372,10 @@ const MyAssets: React.FC = () => {
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.non_nft")}</h2>
                         <button
-                        className="flex items-center text-white text-xs"
-                        onClick={() => {
-                            playSfx(Audios.button_click);
-                            navigate("/reward-history");
-                        }}
-                        aria-label="View All Items">
-                        {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
+                            className="flex items-center text-white text-xs"
+                            onClick={handlePaymentHistory}
+                            aria-label="View All Items">
+                            {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
                     <div className="mt-4 w-full">
@@ -394,7 +408,7 @@ const MyAssets: React.FC = () => {
                                             }}>
                                         <div
                                         className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
-                                        style={{ background: "linear-gradient(180deg, #AAAAAA 0%, #FFFFFF 100%)" }}>
+                                        style={{ background: getBackgroundGradient(item.itemType) }}>
                                         <img
                                             src={item.imgUrl}
                                             alt={item.name}
@@ -402,6 +416,9 @@ const MyAssets: React.FC = () => {
                                         />
                                         </div>
                                         <p className="mt-2 text-sm font-semibold">{item.name}</p>
+                                        <p className="mt-2 text-xs font-normal text-[#A3A3A3]">
+                                            {formatDateRange(item.gainedAt, item.expirationTime)}
+                                        </p>
                                     </div>
                                     ))}
                                 </div>
@@ -423,7 +440,8 @@ const MyAssets: React.FC = () => {
                 <div className="mt-9 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.My_NFT_Collection")}</h2>
-                        <button
+                        {/* 내가 소유한 모든 NFT 확인 */}
+                        {/* <button
                             className="flex items-center text-white text-xs"
                             onClick={() => {
                                 playSfx(Audios.button_click);
@@ -431,7 +449,7 @@ const MyAssets: React.FC = () => {
                             }}
                             aria-label="View All NFTs">
                             {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
-                        </button>
+                        </button> */}
                     </div>
                     <div className="mt-4 w-full">
                         {nftCollection.length === 0 ? (
