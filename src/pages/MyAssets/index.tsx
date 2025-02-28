@@ -307,12 +307,11 @@ const MyAssets: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        {/* kaia 잔액 확인 */}
+                        {/* kaia 잔액 표시 */}
                         <div className="relative flex items-center">
                             <img
                                 src={Images.KaiaLogo}
-                                    alt="Kaia Icon"
-                                    onClick={handleBalance}
+                                alt="Kaia Icon"
                                 className="relative w-9 h-9 z-10 rounded-full object-cover"
                             />
                             <div className="-ml-[20px] flex items-center justify-end bg-[#1F1E27] rounded-full px-3 py-2 w-20 h-7 z-0">
@@ -323,10 +322,7 @@ const MyAssets: React.FC = () => {
                         {/* 지갑 페이지 이동 */}
                         <button 
                             className="w-8 h-8 rounded-full flex items-center justify-center"
-                            onClick={()=>{
-                                playSfx(Audios.button_click);
-                                navigate('/wallet');
-                            }}>
+                            onClick={handleBalance}>
                             <BiWallet className="w-6 h-6" />
                         </button>
                         {/* 설정 페이지 이동 */}
