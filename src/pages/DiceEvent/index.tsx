@@ -78,6 +78,9 @@ const DiceEventPage: React.FC = () => {
 
   // AirDrop 팝업 표시를 위한 상태
   const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
+
+  // URL 보상 팝업 표시를 위한 상태
+  const [showUrlReward, setShowUrlReward] = useState<boolean>(false);
   
 
   // 레벨 업 시 팝업 표시를 위한 상태
@@ -407,6 +410,45 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
+
+          {/* dapp-portal URL 보상 다이얼로그 */}
+          <Dialog open={showUrlReward}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      setShowUrlReward(false);
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className=" flex flex-col items-center gap-2">
+                  <h1 className=" font-Pretendard text-base font-semibold text-white text-center">
+                    Claim Your Point Reward.
+                  </h1>
+                  <img
+                    src={Images.urlReward}
+                    alt="airdrop boxes"
+                    className="mt-2 w-16 h-16"
+                  />
+                </div>
+                <button
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    setShowUrlReward(false);
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  Claim now
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
           <br />
           <br />
           <br />

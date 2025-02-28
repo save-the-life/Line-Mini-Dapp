@@ -166,6 +166,7 @@ import success from "./success.png"
 import airDropBox from "./airdropbox.png"
 import airDropBoxes from "./airdrop_boxes.png"
 import rankingModal from "./ranking_modal.png"
+import urlReward from "./urlreward.png"
 
 const Images = {
   HorizontalLogo,
@@ -334,7 +335,8 @@ const Images = {
   success,
   airDropBox,
   airDropBoxes,
-  rankingModal
+  rankingModal,
+  urlReward
 };
 
 export default Images;
