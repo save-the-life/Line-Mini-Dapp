@@ -271,7 +271,7 @@ const MissionPage: React.FC = () => {
         <Attendance />
       </div>
 
-      <h1 className="font-semibold text-lg mb-4 ml-6 mt-5">
+      <h1 className="font-semibold text-lg mb-4 ml-7 mt-5">
         {t("mission_page.One_Time_Mission")}
       </h1>
 
@@ -378,7 +378,7 @@ const MissionPage: React.FC = () => {
         })}
       </div>
 
-      <h1 className="font-semibold text-lg mb-4 ml-6">
+      <h1 className="font-semibold text-lg mb-4 ml-7">
         {t("mission_page.Daily_Mission")}
       </h1>
 

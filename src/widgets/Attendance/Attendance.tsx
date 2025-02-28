@@ -43,13 +43,13 @@ const Attendance: React.FC = () => {
 
   return (
     <div>
-      <h1 className="mt-6 flex items-center justify-center text-white font-jalnan text-3xl">
+      {/* <h1 className="mt-6 flex items-center justify-center text-white font-jalnan text-3xl">
         {t("dice_event.attendance")}
-      </h1>
+      </h1> */}
 
       <div
         id="attendance"
-        className="grid grid-cols-7 gap-2 bg-box mt-4 w-[332px] px-8 md:w-[595.95px] min-h-24 md:h-32 text-white text-xs"
+        className="grid grid-cols-7 gap-2 bg-box mt-4 w-full px-8 md:w-[595.95px] min-h-24 md:h-32 text-white text-xs"
       >
         {days.map((day) => {
           // day: "SUN" | "MON" etc. (식별자)
