@@ -267,6 +267,11 @@ const MissionPage: React.FC = () => {
         </div>
       )}
 
+
+      <h1 className="font-semibold text-lg mb-4 ml-7 mt-5">
+        {t("dice_event.attendance")}
+      </h1>
+
       <div className="mx-6">
         <Attendance />
       </div>

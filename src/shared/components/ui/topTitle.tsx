@@ -25,7 +25,7 @@ const TopTitle: React.FC<TopTitleProps> = ({ title, className, back }) => {
 
   return (
     <div
-      className={`h-14 flex items-center  w-full font-bold text-xl mb-8 ${className} ${back ? "justify-between" :"justify-center"}`}
+      className={`h-14 flex items-center  w-full font-bold text-xl ${className} ${back ? "justify-between" :"justify-center"}`}
       onClick={handleBackClick}
     >
       <IoChevronBackOutline className={`w-6 h-6 ${back ? "" : "hidden"}`} />
