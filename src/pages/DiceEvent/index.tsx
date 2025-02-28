@@ -74,7 +74,7 @@ const DiceEventPage: React.FC = () => {
   const { t } = useTranslation();
 
   // 랭킹 보상 팝업 표시를 위한 상태
-  const [showRankingModal, setShowRankingModal] = useState<boolean>(true);
+  const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
 
   // AirDrop 팝업 표시를 위한 상태
   const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
