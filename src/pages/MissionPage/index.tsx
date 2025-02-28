@@ -485,12 +485,6 @@ const MissionPage: React.FC = () => {
                     </div>
                   )}
                 </div>
-
-                <p className="text-xs mb-8 mt-2 text-white">
-                  {t(
-                    "mission_page.*_If_the_mission_is_not_performed_correctly,_you_may_be_excluded_from_the_final_reward."
-                  )}
-                </p>
               </div>
             );
           }
