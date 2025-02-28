@@ -73,9 +73,9 @@ const MyAssets: React.FC = () => {
     const [walletAccount, setWalletAcount] = useState("");
 
 
-  const [nonNftItems, setNonNftItems] = useState<any[]>([]);
-  const [nftCollection, setNftCollection] = useState<any[]>([]);
-  const [claimBalance, setClaimBalance] = useState<{ slPoints: number; usdcPoints: number }>({ slPoints: 0, usdcPoints: 0 });
+    const [nonNftItems, setNonNftItems] = useState<any[]>([]);
+    const [nftCollection, setNftCollection] = useState<any[]>([]);
+    const [claimBalance, setClaimBalance] = useState<{ slPoints: number; usdcPoints: number }>({ slPoints: 0, usdcPoints: 0 });
   
 
     const getCharacterImageSrc = () => {
@@ -225,36 +225,18 @@ const MyAssets: React.FC = () => {
     const getBackgroundGradient = (itemName: string) => {
         const name = itemName.toUpperCase();
         if (name === "AUTO") {
-        return "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)";
+            return "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)";
         } else if (name === "REWARD") {
-        return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
+            return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
         } else {
-        return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
+            return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
         }
     };
 
-    // 지갑 연결 및 잔액 확인
-    const handleBalance = async () => {
-        playSfx(Audios.button_click);
-
-        // sdk 초기화
-        const sdk = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: '1001',
-        });
-
-        // walletProvider 호출 및 지갑 주소 확인
-        const walletProvider = sdk.getWalletProvider();
-
-        const accounts = (await walletProvider.request({
-            method: "kaia_requestAccounts",
-        })) as string[];
-
-        setWalletAcount(accounts[0]);
-        
-        // Kaia 지갑 잔액 확인
+    // 잔액 조회를 수행하는 함수
+    const fetchBalance = async (account: string) => {
         try {
-            const response: KaiaRpcResponse<string> = await kaiaGetBalance(accounts[0]);
+            const response: KaiaRpcResponse<string> = await kaiaGetBalance(account);
             if (response.error) {
                 console.log("잔고 확인 에러: ", response.error);
             } else if (response.result) {
@@ -268,7 +250,44 @@ const MyAssets: React.FC = () => {
         } catch (err: any) {
             console.error("Failed to fetch token count:", err);
         }
-    }
+    };
+
+    // 지갑 연결 및 잔액 확인 함수 (버튼 클릭 시 호출)
+    const handleBalance = async () => {
+        playSfx(Audios.button_click);
+
+        // sdk 초기화
+        const sdk = await DappPortalSDK.init({
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: '1001',
+        });
+
+        // walletProvider 호출 및 지갑 주소 확인
+        const walletProvider = sdk.getWalletProvider();
+        const accounts = (await walletProvider.request({
+            method: "kaia_requestAccounts",
+        })) as string[];
+
+        if (accounts && accounts[0]) {
+            const account = accounts[0];
+            setWalletAcount(account);
+            await fetchBalance(account);
+            setShowModal(true);
+        }
+    };
+
+    // 페이지 접근 시 로컬스토리지에서 지갑 주소가 있는지 확인 후 잔액 조회
+    useEffect(() => {
+        const checkStoredWallet = async () => {
+            const storedWalletAddress = window.localStorage.getItem("sdk.dappportal.io:1001:selectedWalletAddress");
+            if (storedWalletAddress) {
+                setWalletAcount(storedWalletAddress);
+                await fetchBalance(storedWalletAddress);
+            }
+        };
+        checkStoredWallet();
+    }, []);
+
     
     // 결제 내역 조회(dapp-portal sdk 사용)
     const handlePaymentHistory = async () => {
@@ -591,6 +610,26 @@ const MyAssets: React.FC = () => {
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
                         <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
                             <p>{t("asset_page.prepare_service")}</p>
+                            <button
+                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                onClick={()=>{
+                                    playSfx(Audios.button_click);
+                                    setShowModal(false);
+                                }}
+                                >
+                                {t("OK")}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                    
+
+                {/* 지갑 연결 알림 모달창 */}
+                {showModal && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+                        <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+                            <p>Wallet Connected</p>
                             <button
                                 className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
                                 onClick={()=>{
