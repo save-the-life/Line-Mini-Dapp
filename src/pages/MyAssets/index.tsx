@@ -254,7 +254,7 @@ const MyAssets: React.FC = () => {
         
         // Kaia 지갑 잔액 확인
         try {
-            const response: KaiaRpcResponse<string> = await kaiaGetBalance(walletAccount);
+            const response: KaiaRpcResponse<string> = await kaiaGetBalance(accounts[0]);
             if (response.error) {
                 console.log("잔고 확인 에러: ", response.error);
             } else if (response.result) {
