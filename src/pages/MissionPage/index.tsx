@@ -384,7 +384,7 @@ const MissionPage: React.FC = () => {
       </div>
 
       {/* 일일 미션 */}
-      <h1 className="font-semibold text-lg mb-4 ml-7">
+      <h1 className="font-semibold text-lg my-4 ml-7">
         {t("mission_page.Daily_Mission")}
       </h1>
       <div className="mx-6 mb-8">
