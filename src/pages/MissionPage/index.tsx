@@ -143,6 +143,7 @@ const MissionPage: React.FC = () => {
   const { t } = useTranslation();
   const { playSfx } = useSound();
 
+  const [eventShow, setEventShow] = useState(true);
   // ---------------------------
   // 2) 미션 스토어
   // ---------------------------
@@ -241,6 +242,29 @@ const MissionPage: React.FC = () => {
   return (
     <div className="flex flex-col text-white mx-6 mb-20 md:mb-96">
       <TopTitle title={t("mission_page.Mission")} />
+
+      {/* 이벤트 배너 표시 */}
+      {eventShow && (
+        <div
+          className="w-full h-[150px] bg-cover bg-center flex items-center justify-between px-6 mb-4"
+          style={{
+            backgroundImage: `url(${Images.eventBanner})`,
+          }}
+        >
+          {/* 왼쪽 텍스트 */}
+          <div className="text-white">
+            <p className="font-semibold">Limited-Time Airdrop!</p>
+            <p className="font-semibold">Grab Yours Today!</p>
+          </div>
+
+          {/* 오른쪽 이미지 */}
+          <img
+            src={Images.eventBox}
+            alt="Event Box"
+            className="w-[100px] h-[108px]"
+          />
+        </div>
+      )}
 
       <h1 className="font-semibold text-lg ml-[2px] mb-4">
         {t("mission_page.One_Time_Mission")}
