@@ -240,7 +240,7 @@ const MissionPage: React.FC = () => {
   // 9) 로딩 끝난 후 실제 페이지 렌더
   // ---------------------------
   return (
-    <div className="flex flex-col text-white mx-6 mb-20 md:mb-96">
+    <div className="flex flex-col text-white mb-20 md:mb-96">
       <TopTitle title={t("mission_page.Mission")} />
 
       {/* 이벤트 배너 표시 */}
@@ -253,8 +253,8 @@ const MissionPage: React.FC = () => {
         >
           {/* 왼쪽 텍스트 */}
           <div className="text-white">
-            <p className="font-semibold">Limited-Time Airdrop!</p>
-            <p className="font-semibold">Grab Yours Today!</p>
+            <p className="font-bold text-2xl">Limited-Time Airdrop!</p>
+            <p className="font-bold text-2xl">Grab Yours Today!</p>
           </div>
 
           {/* 오른쪽 이미지 */}
@@ -266,7 +266,7 @@ const MissionPage: React.FC = () => {
         </div>
       )}
 
-      <h1 className="font-semibold text-lg ml-[2px] mb-4">
+      <h1 className="font-semibold text-lg ml-[2px] mb-4 mx-6">
         {t("mission_page.One_Time_Mission")}
       </h1>
 
@@ -275,7 +275,7 @@ const MissionPage: React.FC = () => {
       {error && <p className="text-red-500">{error}</p>} */}
 
       {/* 미션 리스트 */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 mx-6">
         {missions.map((mission) => {
           // 분기 처리: "Leave a Supportive Comment on SL X" → else 구간
           if (mission.name !== "Leave a Supportive Comment on SL X") {
@@ -373,7 +373,7 @@ const MissionPage: React.FC = () => {
         })}
       </div>
 
-      <h1 className="font-semibold text-lg ml-[2px] mb-4">
+      <h1 className="font-semibold text-lg ml-[2px] mb-4 mx-6">
         {t("mission_page.Daily_Mission")}
       </h1>
 
