@@ -266,7 +266,7 @@ const MissionPage: React.FC = () => {
         </div>
       )}
 
-      <h1 className="font-semibold text-lg ml-[2px] mb-4 mx-6">
+      <h1 className="font-semibold text-lg mb-4 ml-6">
         {t("mission_page.One_Time_Mission")}
       </h1>
 
@@ -373,17 +373,19 @@ const MissionPage: React.FC = () => {
         })}
       </div>
 
-      <h1 className="font-semibold text-lg ml-[2px] mb-4 mx-6">
+      <h1 className="font-semibold text-lg mb-4 ml-6">
         {t("mission_page.Daily_Mission")}
       </h1>
 
-      <Link to="/invite-friends" onClick={() => playSfx(Audios.button_click)}>
-        <DailyMissionCard
-          title={t("mission_page.Invite_friends")}
-          alt="Invite Friend"
-          image={Images.InviteFriend}
-        />
-      </Link>
+      <div className="mx-6">
+        <Link to="/invite-friends" onClick={() => playSfx(Audios.button_click)}>
+          <DailyMissionCard
+            title={t("mission_page.Invite_friends")}
+            alt="Invite Friend"
+            image={Images.InviteFriend}
+          />
+        </Link>
+      </div>
 
       {/* 페이지 하단 여백 */}
       <div className="my-10"></div>
