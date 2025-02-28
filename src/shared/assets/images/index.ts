@@ -167,6 +167,8 @@ import airDropBox from "./airdropbox.png"
 import airDropBoxes from "./airdrop_boxes.png"
 import rankingModal from "./ranking_modal.png"
 import urlReward from "./urlreward.png"
+import eventBanner from "./eventbanner.png"
+import eventBox from "./eventbox.png"
 
 const Images = {
   HorizontalLogo,
@@ -336,7 +338,9 @@ const Images = {
   airDropBox,
   airDropBoxes,
   rankingModal,
-  urlReward
+  urlReward,
+  eventBanner,
+  eventBox
 };
 
 export default Images;

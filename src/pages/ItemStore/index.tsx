@@ -42,7 +42,7 @@ const ItemStore: React.FC = () => {
   const [account, setAccount] = useState("");
   // location.state로 전달된 값이 있다면 초기값으로 설정
   const balanceFromState = location.state?.balance || null;
-  const walletAddressFromState = location.state?.walletAddress || null;
+  const walletAddressFromState = location.state?.walletAccount || null;
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
 
