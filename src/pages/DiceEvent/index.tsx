@@ -77,7 +77,7 @@ const DiceEventPage: React.FC = () => {
   const [showRankingModal, setShowRankingModal] = useState<boolean>(true);
 
   // AirDrop 팝업 표시를 위한 상태
-  const [showAirDrop, setShowAirDrop] = useState<boolean>(true);
+  const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
   
 
   // 레벨 업 시 팝업 표시를 위한 상태
@@ -332,23 +332,31 @@ const DiceEventPage: React.FC = () => {
           {/* 지난 달 보상 다이얼로그 */}
           <Dialog open={showRankingModal}>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <DialogClose>
+                <HiX 
+                  className="w-5 h-5"
+                  onClick={()=>{
+                    playSfx(Audios.button_click);
+                    setShowAirDrop(false)
+                  }} />
+              </DialogClose>
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
-                  <h1 className=" font-jalnan text-4xl text-[#DD2726]">
+                  <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
                     Check your rank this mnonth!
                   </h1>
                   <img
                     src={Images.rankingModal}
                     alt="ranking modal"
-                    className=" w-60 h-60"
+                    className="mt-2 w-60 h-60"
                   />
                 </div>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col mt-4">
                   <p className="font-Pretendard text-center text-base font-semibold">Check your ranking and claim your rewards!</p>
                 </div>
                 <button
                   onClick={() => setShowAirDrop(false)}
-                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14"
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   Check now
                 </button>
@@ -359,23 +367,31 @@ const DiceEventPage: React.FC = () => {
           {/* AirDrop 다이얼로그 */}
           <Dialog open={showAirDrop}>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <DialogClose>
+                <HiX 
+                  className="w-5 h-5"
+                  onClick={()=>{
+                    playSfx(Audios.button_click);
+                    setShowRankingModal(false)
+                  }} />
+              </DialogClose>
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
-                  <h1 className=" font-jalnan text-4xl text-[#DD2726]">
+                  <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
                     Lucky Airdrop Event!
                   </h1>
                   <img
                     src={Images.airDropBoxes}
                     alt="airdrop boxes"
-                    className=" w-60 h-60"
+                    className="mt-2 w-60 h-60"
                   />
                 </div>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col mt-4">
                   <p className="font-Pretendard text-center text-base font-semibold">Check if you're one of the lucky winners!</p>
                 </div>
                 <button
                   onClick={() => setShowRankingModal(false)}
-                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14"
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   Check now
                 </button>
