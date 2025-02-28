@@ -468,7 +468,7 @@ const MyAssets: React.FC = () => {
                     </div>
                     <div className="mt-4 w-full">
                         {nftCollection.length === 0 ? (
-                            <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
+                            <div className="mx-20 h-[150px] flex flex-col items-center justify-center">
                                 <p className="text-center text-[#737373] text-sm font-medium">
                                     {t("asset_page.no_nft")}<br />
                                     {t("asset_page.own_nft")}
@@ -622,8 +622,6 @@ const MyAssets: React.FC = () => {
                         </div>
                     </div>
                 )}
-
-                    
 
                 {/* 지갑 연결 알림 모달창 */}
                 {showModal && (

@@ -274,7 +274,7 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-          <Attendance />
+          <Attendance customWidth="w-[332px] md:w-[595.95px]"  />
           <MissionWidget />
 
           {/* 레벨업 시 다이얼로그: 이전보다 레벨이 올라갔을 때만 표시 */}
