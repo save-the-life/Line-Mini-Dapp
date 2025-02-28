@@ -25,6 +25,7 @@ import { preloadImages } from "@/shared/utils/preloadImages";       // 이미지
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
+import Attendance from "@/widgets/Attendance";
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -266,7 +267,11 @@ const MissionPage: React.FC = () => {
         </div>
       )}
 
-      <h1 className="font-semibold text-lg mb-4 ml-6">
+      <div className="mx-6">
+        <Attendance />
+      </div>
+
+      <h1 className="font-semibold text-lg mb-4 ml-6 mt-5">
         {t("mission_page.One_Time_Mission")}
       </h1>
 
