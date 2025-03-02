@@ -21,7 +21,7 @@ import {
 } from "@/entities/Mission/model/missionModel";
 import { formatNumber } from "@/shared/utils/formatNumber";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner"; // 로딩 스피너
-import { preloadImages } from "@/shared/utils/preloadImages";       // 이미지 프리로딩 함수
+import { preloadImages } from "@/shared/utils/preloadImages"; // 이미지 프리로딩 함수
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
@@ -49,20 +49,17 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
     ? t(missionNamesMap[mission.name])
     : mission.name;
 
-  // 추가: status가 "pending"인 경우 체크
+  // 추가: status가 "pending" 인지 체크
   const isPending = mission.status === "PENDING";
 
   const handleClick = () => {
     playSfx(Audios.button_click);
 
     if (!mission.isCleared && !isPending) {
-      // 미션 이동 링크 열기
       if (mission.redirectUrl) {
         window.open(mission.redirectUrl, "_blank");
       }
-      // 미션 클리어 API 호출
       onClear(mission.id);
-      // 보상 다이얼로그 오픈
       onMissionCleared(mission);
     }
   };
@@ -80,7 +77,8 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
         if (e.key === "Enter") handleClick();
       }}
     >
-      {mission.isCleared && (
+      {/* 미션이 완료되었거나 pending이면 어둡게 처리 */}
+      {(mission.isCleared || isPending) && (
         <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10" />
       )}
 
@@ -97,7 +95,7 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
         </div>
       </div>
 
-      {/* 미션 완료 오버레이 */}
+      {/* 완료된 미션이면 Completed 배지 표시 */}
       {mission.isCleared && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white text-sm font-semibold rounded-full px-4 py-2 z-20 flex items-center justify-center gap-2">
           <img
@@ -109,7 +107,7 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
         </div>
       )}
 
-      {/* 추가: status가 pending이면 로딩 스피너 오버레이 */}
+      {/* pending 상태이면 로딩 스피너 오버레이 (어둡게 처리된 위에 표시) */}
       {isPending && (
         <div className="absolute inset-0 flex items-center justify-center z-30">
           <LoadingSpinner className="w-6 h-6" />
@@ -125,11 +123,7 @@ interface DailyMissionProps {
   alt: string;
 }
 
-const DailyMissionCard: React.FC<DailyMissionProps> = ({
-  title,
-  image,
-  alt,
-}) => {
+const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) => {
   const { t } = useTranslation();
   return (
     <div className="basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between mb-3">
@@ -146,9 +140,7 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
 };
 
 const MissionPage: React.FC = () => {
-  // ---------------------------
   // 1) 이미지 로딩 상태
-  // ---------------------------
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const { playSfx } = useSound();
@@ -156,15 +148,11 @@ const MissionPage: React.FC = () => {
   // 이벤트 배너 표시 여부
   const [eventShow, setEventShow] = useState(true);
 
-  // ---------------------------
   // 2) 미션 스토어
-  // ---------------------------
   const { missions, loading, error, fetchMissions, clearMission } =
     useMissionStore();
 
-  // ---------------------------
   // 3) 보상 다이얼로그
-  // ---------------------------
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [rewardData, setRewardData] = useState<{
     diceReward: number;
@@ -173,12 +161,8 @@ const MissionPage: React.FC = () => {
     spinType: string;
   } | null>(null);
 
-  // ---------------------------
   // 4) Preload할 이미지 목록 구성
-  //    - missionImageMap에 들어있는 이미지들 + 기본 이미지들
-  // ---------------------------
   const mappedImages = Object.values(missionImageMap).flatMap((item) => {
-    // item.imageKey가 Images 내부에 있는 key라고 가정
     return Images[item.imageKey] ? [Images[item.imageKey]] : [];
   });
 
@@ -192,9 +176,7 @@ const MissionPage: React.FC = () => {
     ...mappedImages,
   ];
 
-  // ---------------------------
   // 5) 이미지 프리로딩 후 isLoading = false
-  // ---------------------------
   useEffect(() => {
     const loadAllImages = async () => {
       try {
@@ -208,16 +190,12 @@ const MissionPage: React.FC = () => {
     loadAllImages();
   }, [imagesToLoad]);
 
-  // ---------------------------
   // 6) 미션 데이터 불러오기
-  // ---------------------------
   useEffect(() => {
     fetchMissions();
   }, [fetchMissions]);
 
-  // ---------------------------
   // 7) 미션 클리어 시 보상 처리
-  // ---------------------------
   const handleMissionCleared = (mission: Mission) => {
     setRewardData({
       diceReward: mission.diceReward,
@@ -241,9 +219,7 @@ const MissionPage: React.FC = () => {
     }
   };
 
-  // ---------------------------
   // 8) 이미지 로딩 중이면 Spinner 표시
-  // ---------------------------
   if (isLoading) {
     return <LoadingSpinner className="h-screen" />;
   }
@@ -252,9 +228,7 @@ const MissionPage: React.FC = () => {
   const incompleteMissions = missions.filter((m) => !m.isCleared);
   const completedMissions = missions.filter((m) => m.isCleared);
 
-  // ---------------------------
   // 9) 로딩 끝난 후 실제 페이지 렌더
-  // ---------------------------
   return (
     <div className="flex flex-col text-white mb-20 md:mb-96">
       <TopTitle title={t("mission_page.Mission")} />
@@ -267,13 +241,10 @@ const MissionPage: React.FC = () => {
             backgroundImage: `url(${Images.eventBanner})`,
           }}
         >
-          {/* 왼쪽 텍스트 */}
           <div className="text-white">
             <p className="font-bold text-2xl">Limited-Time Airdrop!</p>
             <p className="font-bold text-2xl">Grab Yours Today!</p>
           </div>
-
-          {/* 오른쪽 이미지 */}
           <img
             src={Images.eventBox}
             alt="Event Box"
@@ -297,7 +268,6 @@ const MissionPage: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-3 mx-6">
         {incompleteMissions.map((mission) => {
-          // 분기 처리: "Leave a Supportive Comment on SL X"
           if (mission.name !== "Leave a Supportive Comment on SL X") {
             return (
               <OneTimeMissionCard
@@ -308,11 +278,9 @@ const MissionPage: React.FC = () => {
               />
             );
           } else {
-            // translatedName 처리
             const translatedName = missionNamesMap[mission.name]
               ? t(missionNamesMap[mission.name])
               : mission.name;
-
             return (
               <div className="col-span-2" key={mission.id}>
                 <div
@@ -346,8 +314,8 @@ const MissionPage: React.FC = () => {
                     }
                   }}
                 >
-                  {mission.isCleared && (
-                    <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10"></div>
+                  {(mission.isCleared || mission.status === "PENDING") && (
+                    <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10" />
                   )}
 
                   <div className="relative flex flex-row items-center justify-between z-0 w-full">
@@ -386,14 +354,12 @@ const MissionPage: React.FC = () => {
                     </div>
                   )}
 
-                  {/* 추가: pending 상태이면 로딩 스피너 오버레이 */}
                   {mission.status === "PENDING" && (
                     <div className="absolute inset-0 flex items-center justify-center z-30">
                       <LoadingSpinner className="w-6 h-6" />
                     </div>
                   )}
                 </div>
-
                 <p className="text-xs mb-8 mt-2 text-white">
                   {t(
                     "mission_page.*_If_the_mission_is_not_performed_correctly,_you_may_be_excluded_from_the_final_reward."
@@ -423,7 +389,6 @@ const MissionPage: React.FC = () => {
       <h1 className="font-semibold text-lg mb-4 ml-7">Completed Mission</h1>
       <div className="grid grid-cols-2 gap-3 mx-6">
         {completedMissions.map((mission) => {
-          // 분기 처리: "Leave a Supportive Comment on SL X"
           if (mission.name !== "Leave a Supportive Comment on SL X") {
             return (
               <OneTimeMissionCard
@@ -437,7 +402,6 @@ const MissionPage: React.FC = () => {
             const translatedName = missionNamesMap[mission.name]
               ? t(missionNamesMap[mission.name])
               : mission.name;
-
             return (
               <div className="col-span-2" key={mission.id}>
                 <div
@@ -471,8 +435,8 @@ const MissionPage: React.FC = () => {
                     }
                   }}
                 >
-                  {mission.isCleared && (
-                    <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10"></div>
+                  {(mission.isCleared || mission.status === "PENDING") && (
+                    <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10" />
                   )}
 
                   <div className="relative flex flex-row items-center justify-between z-0 w-full">
@@ -511,7 +475,6 @@ const MissionPage: React.FC = () => {
                     </div>
                   )}
 
-                  {/* 추가: pending 상태이면 로딩 스피너 오버레이 */}
                   {mission.status === "PENDING" && (
                     <div className="absolute inset-0 flex items-center justify-center z-30">
                       <LoadingSpinner className="w-6 h-6" />
