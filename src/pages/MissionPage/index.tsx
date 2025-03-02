@@ -27,6 +27,7 @@ import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import Attendance from "@/widgets/Attendance";
 
+
 interface OneTimeMissionCardProps {
   mission: Mission;
   onClear: (id: number) => void;
@@ -110,7 +111,7 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
       {/* pending 상태이면 로딩 스피너 오버레이 (어둡게 처리된 위에 표시) */}
       {isPending && (
         <div className="absolute inset-0 flex items-center justify-center z-30">
-          <LoadingSpinner className="w-6 h-6" />
+          <LoadingSpinner />
         </div>
       )}
     </div>
@@ -356,7 +357,7 @@ const MissionPage: React.FC = () => {
 
                   {mission.status === "PENDING" && (
                     <div className="absolute inset-0 flex items-center justify-center z-30">
-                      <LoadingSpinner className="w-6 h-6" />
+                      <LoadingSpinner />
                     </div>
                   )}
                 </div>
@@ -477,7 +478,7 @@ const MissionPage: React.FC = () => {
 
                   {mission.status === "PENDING" && (
                     <div className="absolute inset-0 flex items-center justify-center z-30">
-                      <LoadingSpinner className="w-6 h-6" />
+                      <LoadingSpinner />
                     </div>
                   )}
                 </div>
