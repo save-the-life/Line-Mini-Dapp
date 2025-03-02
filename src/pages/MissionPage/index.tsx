@@ -49,10 +49,13 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
     ? t(missionNamesMap[mission.name])
     : mission.name;
 
+  // 추가: status가 "pending"인 경우 체크
+  const isPending = mission.status === "PENDING";
+
   const handleClick = () => {
     playSfx(Audios.button_click);
 
-    if (!mission.isCleared) {
+    if (!mission.isCleared && !isPending) {
       // 미션 이동 링크 열기
       if (mission.redirectUrl) {
         window.open(mission.redirectUrl, "_blank");
@@ -67,7 +70,7 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
   return (
     <div
       className={`relative flex flex-col rounded-3xl h-36 items-center justify-center gap-3 cursor-pointer ${className} ${
-        mission.isCleared ? "pointer-events-none" : ""
+        mission.isCleared || isPending ? "pointer-events-none" : ""
       }`}
       onClick={handleClick}
       role="button"
@@ -84,7 +87,6 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
       <div className="relative flex flex-col items-center justify-center z-0">
         <img src={imageSrc} alt={mission.name} className="w-9 h-9" />
         <div className="flex flex-col items-center justify-center">
-          {/* ★ mission.name → translatedName 사용 */}
           <p className="text-sm font-medium">{translatedName}</p>
           <p className="font-semibold text-sm flex flex-row items-center gap-1">
             +{mission.diceReward}{" "}
@@ -95,7 +97,7 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
         </div>
       </div>
 
-      {/* Completed Badge */}
+      {/* 미션 완료 오버레이 */}
       {mission.isCleared && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-white text-sm font-semibold rounded-full px-4 py-2 z-20 flex items-center justify-center gap-2">
           <img
@@ -104,6 +106,13 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
             className="w-5 h-5"
           />
           <p>{t("mission_page.Completed")}</p>
+        </div>
+      )}
+
+      {/* 추가: status가 pending이면 로딩 스피너 오버레이 */}
+      {isPending && (
+        <div className="absolute inset-0 flex items-center justify-center z-30">
+          <LoadingSpinner className="w-6 h-6" />
         </div>
       )}
     </div>
@@ -308,11 +317,13 @@ const MissionPage: React.FC = () => {
               <div className="col-span-2" key={mission.id}>
                 <div
                   className={`basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between relative cursor-pointer ${
-                    mission.isCleared ? "pointer-events-none" : ""
+                    mission.isCleared || mission.status === "PENDING"
+                      ? "pointer-events-none"
+                      : ""
                   }`}
                   onClick={() => {
                     playSfx(Audios.button_click);
-                    if (!mission.isCleared) {
+                    if (!mission.isCleared && mission.status !== "PENDING") {
                       if (mission.redirectUrl) {
                         window.open(mission.redirectUrl, "_blank");
                       }
@@ -323,7 +334,11 @@ const MissionPage: React.FC = () => {
                   aria-label={`Mission: ${mission.name}`}
                   tabIndex={0}
                   onKeyPress={(e) => {
-                    if (e.key === "Enter" && !mission.isCleared) {
+                    if (
+                      e.key === "Enter" &&
+                      !mission.isCleared &&
+                      mission.status !== "PENDING"
+                    ) {
                       if (mission.redirectUrl) {
                         window.open(mission.redirectUrl, "_blank");
                       }
@@ -368,6 +383,13 @@ const MissionPage: React.FC = () => {
                         className="w-5 h-5"
                       />
                       <p>{t("mission_page.Completed")}</p>
+                    </div>
+                  )}
+
+                  {/* 추가: pending 상태이면 로딩 스피너 오버레이 */}
+                  {mission.status === "PENDING" && (
+                    <div className="absolute inset-0 flex items-center justify-center z-30">
+                      <LoadingSpinner className="w-6 h-6" />
                     </div>
                   )}
                 </div>
@@ -398,9 +420,7 @@ const MissionPage: React.FC = () => {
       </div>
 
       {/* 완료된 미션 */}
-      <h1 className="font-semibold text-lg mb-4 ml-7">
-        Completed Mission
-      </h1>
+      <h1 className="font-semibold text-lg mb-4 ml-7">Completed Mission</h1>
       <div className="grid grid-cols-2 gap-3 mx-6">
         {completedMissions.map((mission) => {
           // 분기 처리: "Leave a Supportive Comment on SL X"
@@ -422,11 +442,13 @@ const MissionPage: React.FC = () => {
               <div className="col-span-2" key={mission.id}>
                 <div
                   className={`basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between relative cursor-pointer ${
-                    mission.isCleared ? "pointer-events-none" : ""
+                    mission.isCleared || mission.status === "PENDING"
+                      ? "pointer-events-none"
+                      : ""
                   }`}
                   onClick={() => {
                     playSfx(Audios.button_click);
-                    if (!mission.isCleared) {
+                    if (!mission.isCleared && mission.status !== "PENDING") {
                       if (mission.redirectUrl) {
                         window.open(mission.redirectUrl, "_blank");
                       }
@@ -437,7 +459,11 @@ const MissionPage: React.FC = () => {
                   aria-label={`Mission: ${mission.name}`}
                   tabIndex={0}
                   onKeyPress={(e) => {
-                    if (e.key === "Enter" && !mission.isCleared) {
+                    if (
+                      e.key === "Enter" &&
+                      !mission.isCleared &&
+                      mission.status !== "PENDING"
+                    ) {
                       if (mission.redirectUrl) {
                         window.open(mission.redirectUrl, "_blank");
                       }
@@ -482,6 +508,13 @@ const MissionPage: React.FC = () => {
                         className="w-5 h-5"
                       />
                       <p>{t("mission_page.Completed")}</p>
+                    </div>
+                  )}
+
+                  {/* 추가: pending 상태이면 로딩 스피너 오버레이 */}
+                  {mission.status === "PENDING" && (
+                    <div className="absolute inset-0 flex items-center justify-center z-30">
+                      <LoadingSpinner className="w-6 h-6" />
                     </div>
                   )}
                 </div>
