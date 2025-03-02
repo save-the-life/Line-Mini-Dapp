@@ -61,6 +61,7 @@ const MyAssets: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [nft, setNFT] = useState(0);
     const [showModal, setShowModal] = useState(false);
+    const [showWalletModal, setShowWalletModal] = useState(false);
     const [claimModalOpen, setClaimModalOpen] = useState(false);
     const [walletConnection, setWalletConnection] = useState(false);
     const [SLClaim, setSLClaim]= useState(false);
@@ -272,7 +273,7 @@ const MyAssets: React.FC = () => {
             const account = accounts[0];
             setWalletAcount(account);
             await fetchBalance(account);
-            setShowModal(true);
+            setShowWalletModal(true);
         }
     };
 
@@ -438,7 +439,7 @@ const MyAssets: React.FC = () => {
                                     ))}
                                 </div>
                                 <button
-                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    className="w-40 h-14 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
@@ -474,7 +475,7 @@ const MyAssets: React.FC = () => {
                                     {t("asset_page.own_nft")}
                                 </p>
                                 <button
-                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    className="w-40 h-14 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
@@ -624,15 +625,15 @@ const MyAssets: React.FC = () => {
                 )}
 
                 {/* 지갑 연결 알림 모달창 */}
-                {showModal && (
+                {showWalletModal && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
                         <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
-                            <p>Wallet Connected</p>
+                            <p>{t("asset_page.wallet_connect")}</p>
                             <button
                                 className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
                                 onClick={()=>{
                                     playSfx(Audios.button_click);
-                                    setShowModal(false);
+                                    setShowWalletModal(false);
                                 }}
                                 >
                                 {t("OK")}

@@ -213,7 +213,14 @@
       "points": "적립된 포인트",
       "sl": "적립된 SL",
       "usdc": "적립된 USDC",
-      "friend_list": "친구 초대 목록"
+      "friend_list": "친구 초대 목록",  
+      "air_drop": "한정 기간 에어드랍!",
+      "grab": "오늘 바로 받아가세요!",
+      "Completed_mission": "완료 미션",
+      "mission_reward": "미션 보상",
+      "congrate": "축하합니다!",
+      "reward_added": "이 보상이 계정에 추가되었습니다.",
+      "ok": "확인"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "특별한 NFT 구매하기",
@@ -286,7 +293,8 @@
       "no_item": "아직 보유 중인 item이 없습니다.",
       "own_item": "item을 소유하고 랭크를 올려보세요!",
       "shop_item": "item 쇼핑하기",
-      "detail": "구매 내역 상세"
+      "detail": "구매 내역 상세",
+      "wallet_connect": "지갑이 연결되었습니다."
     },
     "dice_event": {
       "attendance": "출석",
@@ -369,7 +377,14 @@
       "mission": "미션",
       "get_more_dice": "주사위 더 얻기",
       "Earn_extra_rolls": "추가로 주사위를 굴릴 기회를 얻어",
-      "to_boost_your_chances": "당첨 확률을 높이세요!"
+      "to_boost_your_chances": "당첨 확률을 높이세요!",
+      "check_rank": "이번 달 순위를 확인해보세요!",
+      "claim_rewards": "순위를 확인하고 보상을 받으세요!",
+      "lucyk_airdrop": "럭키 에어드랍 이벤트!",
+      "lucky_winner": "당첨자 여부를 확인하세요!",
+      "claim_point": "포인트 보상을 받으세요.",
+      "check": "지금 확인",
+      "claim": "지금 받기"
     },
     "setting": {
       "terms_of_service": "이용 약관",

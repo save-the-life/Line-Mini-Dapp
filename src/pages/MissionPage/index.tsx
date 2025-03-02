@@ -243,8 +243,8 @@ const MissionPage: React.FC = () => {
           }}
         >
           <div className="text-white">
-            <p className="font-bold text-2xl">Limited-Time Airdrop!</p>
-            <p className="font-bold text-2xl">Grab Yours Today!</p>
+            <p className="font-bold text-2xl">{t("mission_page.air_drop")}</p>
+            <p className="font-bold text-2xl">{t("mission_page.grab")}</p>
           </div>
           <img
             src={Images.eventBox}
@@ -387,7 +387,7 @@ const MissionPage: React.FC = () => {
       </div>
 
       {/* 완료된 미션 */}
-      <h1 className="font-semibold text-lg mb-4 ml-7">Completed Mission</h1>
+      <h1 className="font-semibold text-lg mb-4 ml-7">{t("mission_page.Completed_mission")}</h1>
       <div className="grid grid-cols-2 gap-3 mx-6">
         {completedMissions.map((mission) => {
           if (mission.name !== "Leave a Supportive Comment on SL X") {
@@ -498,7 +498,7 @@ const MissionPage: React.FC = () => {
             <AlertDialogTitle className="text-center font-bold text-xl">
               <div className="flex flex-row items-center justify-between">
                 <div>&nbsp;</div>
-                <p>Mission Reward</p>
+                <p>{t("mission_page.mission_reward")}</p>
                 <HiX
                   className="w-6 h-6 cursor-pointer"
                   onClick={handleCloseDialog}
@@ -534,10 +534,9 @@ const MissionPage: React.FC = () => {
               </div>
             </div>
             <div className="text-center space-y-2">
-              <p className="text-xl font-semibold">Congratulations!</p>
+              <p className="text-xl font-semibold">{t("mission_page.congrate")}</p>
               <p className="text-[#a3a3a3]">
-                This reward has been added to <br />
-                your account.
+                {t("mission_page.reward_added")}
               </p>
             </div>
             <div className="space-y-3 w-full">
@@ -545,7 +544,7 @@ const MissionPage: React.FC = () => {
                 className="w-full h-14 rounded-full bg-[#0147e5]"
                 onClick={handleCloseDialog}
               >
-                OK
+                {t("mission_page.ok")}
               </button>
             </div>
           </div>

@@ -350,7 +350,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
-                    Check your rank this mnonth!
+                    {t("dice_event.check_rank")}
                   </h1>
                   <img
                     src={Images.rankingModal}
@@ -359,13 +359,13 @@ const DiceEventPage: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col mt-4">
-                  <p className="font-Pretendard text-center text-base font-semibold">Check your ranking and claim your rewards!</p>
+                  <p className="font-Pretendard text-center text-base font-semibold">{t("dice_event.claim_rewards")}</p>
                 </div>
                 <button
                   onClick={() => setShowAirDrop(false)}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
-                  Check now
+                  {t("dice_event.check")}
                 </button>
               </div>
             </DialogContent>
@@ -389,7 +389,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
-                    Lucky Airdrop Event!
+                    {t("dice_event.lucyk_airdrop")}
                   </h1>
                   <img
                     src={Images.airDropBoxes}
@@ -398,13 +398,13 @@ const DiceEventPage: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col mt-4">
-                  <p className="font-Pretendard text-center text-base font-semibold">Check if you're one of the lucky winners!</p>
+                  <p className="font-Pretendard text-center text-base font-semibold">{t("dice_event.lucky_winner")}</p>
                 </div>
                 <button
                   onClick={() => setShowRankingModal(false)}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
-                  Check now
+                  {t("dice_event.check")}
                 </button>
               </div>
             </DialogContent>
@@ -429,7 +429,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className=" font-Pretendard text-base font-semibold text-white text-center">
-                    Claim Your Point Reward.
+                    {t("dice_event.claim_point")}
                   </h1>
                   <img
                     src={Images.urlReward}
@@ -444,7 +444,7 @@ const DiceEventPage: React.FC = () => {
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
-                  Claim now
+                  {t("dice_event.claim")}
                 </button>
               </div>
             </DialogContent>
