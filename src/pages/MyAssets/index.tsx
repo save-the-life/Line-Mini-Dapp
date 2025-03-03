@@ -22,6 +22,7 @@ import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { BigNumber, ethers } from "ethers";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import getMyAssets from "@/entities/Asset/api/getMyAssets";
+import requestClaim from "@/entities/Asset/api/requestClaim";
 
 
 interface TruncateMiddleProps {
@@ -53,6 +54,14 @@ const TruncateMiddle: React.FC<TruncateMiddleProps> = ({
     return <div className={`text-sm font-bold ${className}`}>{truncatedText}</div>;
 };
 
+interface ClaimData {
+    claimId: number;
+    walletAddress: string;
+    claimType: string;
+    claimStatus: string;
+    amount: number;
+}
+
 const MyAssets: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -63,12 +72,11 @@ const MyAssets: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [showWalletModal, setShowWalletModal] = useState(false);
     const [claimModalOpen, setClaimModalOpen] = useState(false);
-    const [walletConnection, setWalletConnection] = useState(false);
+    const [walletConnectionSLT, setWalletConnectionSLT] = useState(false);
+    const [walletConnectionUSDC, setWalletConnectionUSDC] = useState(false);
     const [SLClaim, setSLClaim]= useState(false);
     const [USDCClaim, setUsdcCaim] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
-    const [falied, setFailed] = useState(false);
-    const [success, setSuccess] = useState(false);
     const [rewardHistoryData, setRewardHistoryData] = useState<any[]>([]);
     const [balance, setBalance] = useState("0.00");
     const [walletAccount, setWalletAcount] = useState("");
@@ -77,7 +85,12 @@ const MyAssets: React.FC = () => {
     const [nonNftItems, setNonNftItems] = useState<any[]>([]);
     const [nftCollection, setNftCollection] = useState<any[]>([]);
     const [claimBalance, setClaimBalance] = useState<{ slPoints: number; usdcPoints: number }>({ slPoints: 0, usdcPoints: 0 });
-  
+
+    const [claimSuccess, setClaimSuccess] = useState(false);
+    const [claimFailed, setClaimFailed] = useState(false);
+    const [failMessage, setFailMessage] = useState("");
+    const [claimData, setClaimData] = useState<ClaimData | null>(null);
+    const [userClaimAmount, setUserClaimAmount] = useState("");  
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -300,6 +313,34 @@ const MyAssets: React.FC = () => {
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.openPaymentHistory();
     };
+
+    // 클래임 요청 함수
+    const handleClaim = async (type: string, amount: string, address: string) => {
+        playSfx(Audios.button_click);
+        setSLClaim(false);
+        setUsdcCaim(false);
+        setLoadingModal(true);
+        try {
+            const claim = await requestClaim(type, amount, address);
+            if (claim.message === "Success"){
+                setClaimData(claim.data);
+                setLoadingModal(false);
+                setClaimSuccess(true);
+            } else if (claim.message === "Please check your balance."){
+                setFailMessage("Please check your balance.")
+                setLoadingModal(false);
+                setClaimFailed(true);
+            } else{
+                setFailMessage("Network error occurred")
+                setLoadingModal(false);
+                setClaimFailed(true);
+            }
+        } catch(err: any){
+            setFailMessage("Network error occurred")
+            setLoadingModal(false);
+            setClaimFailed(true);
+        }
+    }
 
     return (  
         loading 
@@ -672,10 +713,7 @@ const MyAssets: React.FC = () => {
                                     onClick={() => {
                                         playSfx(Audios.button_click);
                                         setClaimModalOpen(false);
-                                        // 만약 지갑 연결이 필요한 경우:
-                                        setWalletConnection(true);
-                                        // 아니면 바로 SL Claim 모달:
-                                        // setSLClaim(true);
+                                        setWalletConnectionSLT(true);
                                     }}
                                     className="flex flex-col items-center justify-center w-[100px] h-[80px] ml-6 bg-[#1F1E27] rounded-2xl border-2 border-[#737373]"
                                     >
@@ -695,7 +733,7 @@ const MyAssets: React.FC = () => {
                                         playSfx(Audios.button_click);
                                         // USDC 선택 시 로직 (예: 모달 닫고 USDC Claim 모달 열기)
                                         setClaimModalOpen(false);
-                                        setUsdcCaim(true);
+                                        setWalletConnectionUSDC(true);
                                     }}
                                     className="flex flex-col items-center justify-center w-[100px] h-[80px] ml-3 bg-[#1F1E27] rounded-2xl border-2 border-[#737373]"
                                     >
@@ -712,8 +750,8 @@ const MyAssets: React.FC = () => {
                 </AlertDialog>
 
 
-                {/* 2번 모달창 - 지갑 연결 */}
-                <AlertDialog open={walletConnection}>
+                {/* 2-1번 모달창 - SL 선택 -> 지갑 연결 */}
+                <AlertDialog open={walletConnectionSLT}>
                     <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
                         <AlertDialogHeader>
                             <AlertDialogDescription className="sr-only">
@@ -727,7 +765,7 @@ const MyAssets: React.FC = () => {
                                         className={'w-6 h-6 cursor-pointer'} 
                                         onClick={() => {
                                             playSfx(Audios.button_click);
-                                            setWalletConnection(false);
+                                            setWalletConnectionSLT(false);
                                         }}/>
                                 </div>
                             </AlertDialogTitle>
@@ -743,10 +781,8 @@ const MyAssets: React.FC = () => {
                                 <button
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        // 여기에 실제 지갑 연결 로직
-                                        // 예: connectKaikasWallet()
-                                        // 모달 닫기 or 다음 단계 열기
-                                        setWalletConnection(false);
+                                        // 운영 버전에서는 지갑 연결 확인 로직 필요
+                                        setWalletConnectionSLT(false);
                                         setSLClaim(true); // SLClaim 모달 열기
                                     }}
                                     className="w-full md:w-[180px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
@@ -758,7 +794,7 @@ const MyAssets: React.FC = () => {
                                 <button
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        setWalletConnection(false);
+                                        setWalletConnectionSLT(false);
                                     }}
                                     className="w-full md:w-[180px] h-14 rounded-full border-[2px] border-[#737373] text-white font-medium"
                                     >
@@ -768,6 +804,62 @@ const MyAssets: React.FC = () => {
                         </div>
                     </AlertDialogContent>
                 </AlertDialog>
+
+                {/* 2-2번 모달창 - USDC 선택 -> 지갑 연결 */}
+                <AlertDialog open={walletConnectionUSDC}>
+                    <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+                        <AlertDialogHeader>
+                            <AlertDialogDescription className="sr-only">
+                                Connect Wallet
+                            </AlertDialogDescription>
+                            <AlertDialogTitle className="text-center font-bold text-xl">
+                                <div className="flex flex-row items-center justify-between">
+                                    <div> &nbsp;</div>
+                                    <p>{t("asset_page.claim.wallet_connect")}</p>
+                                    <HiX 
+                                        className={'w-6 h-6 cursor-pointer'} 
+                                        onClick={() => {
+                                            playSfx(Audios.button_click);
+                                            setWalletConnectionUSDC(false);
+                                        }}/>
+                                </div>
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
+                        <div className="flex flex-col items-center justify-center text-center space-y-6">
+                            <p className="text-base font-semibold mt-4">
+                                {t("asset_page.claim.to_claim_sl")} <br />
+                                {t("asset_page.claim.would_you")}
+                            </p>
+
+                            <div className="flex flex-row items-center justify-center gap-4 w-full">
+                                {/* Connect Wallet 버튼 */}
+                                <button
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        // 운영 버전에서는 지갑 연결 확인 로직 필요
+                                        setWalletConnectionUSDC(false);
+                                        setUsdcCaim(true); // SLClaim 모달 열기
+                                    }}
+                                    className="w-full md:w-[180px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
+                                    >
+                                    {t("asset_page.claim.connect")}
+                                </button>
+
+                                {/* Cancel 버튼 */}
+                                <button
+                                    onClick={() => {
+                                        playSfx(Audios.button_click);
+                                        setWalletConnectionUSDC(false);
+                                    }}
+                                    className="w-full md:w-[180px] h-14 rounded-full border-[2px] border-[#737373] text-white font-medium"
+                                    >
+                                    {t("asset_page.claim.cancel")}
+                                </button>
+                            </div>
+                        </div>
+                    </AlertDialogContent>
+                </AlertDialog>
+
 
 
                 {/* 3-1번 모달창 - SL토큰 클래임 */}
@@ -794,7 +886,7 @@ const MyAssets: React.FC = () => {
                             {/* 연결된 지갑 주소 표시 (예시) */}
                             <p className="mb-2 mt-4 text-base font-semibold">
                                 {t("asset_page.claim.connected")} <br />
-                                <span>0x0x3Aa5ebB10DC79...</span>
+                                <span><TruncateMiddle text={"0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"} maxLength={20} /></span>
                             </p>
 
                             {/* 안내 문구 */}
@@ -808,16 +900,15 @@ const MyAssets: React.FC = () => {
                             <input
                                 type="number"
                                 placeholder={t("asset_page.claim.enter_sl_placeholder")}
+                                value={userClaimAmount}
+                                onChange={(e) => setUserClaimAmount(e.target.value)}
                                 className="w-full h-16 rounded-2xl bg-[#181A20] border border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                             />
 
-                            {/* 버튼 (지갑 연결 or 실제 Claim) */}
+                            {/* 클래임 버튼 */}
                             <button
-                                onClick={() => {
-                                    // 실제로 SL을 Claim할 때 지갑 호출 로직
-                                    setSLClaim(false);
-                                    setLoadingModal(true);
-                                }}
+                                // 운영 버전에서는 지갑 주소 하드코딩 X
+                                onClick={() => handleClaim("SLT", userClaimAmount, "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af")}
                                 className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                             >
                                 {t("asset_page.claim.claim_btn")}
@@ -849,14 +940,10 @@ const MyAssets: React.FC = () => {
                         </AlertDialogHeader>
                         <div className="flex flex-col items-center justify-center text-center">
                             {/* 지갑 주소 입력 */}
-                            <label className="block text-base font-semibold mb-2">
-                                {t("asset_page.claim.enter_address")}
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="Enter the wallet address"
-                                className="w-full h-16 rounded-2xl bg-[#181A20] border-2 border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
-                            />
+                            <p className="mb-2 mt-4 text-base font-semibold">
+                                {t("asset_page.claim.connected")} <br />
+                                <span><TruncateMiddle text={"0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"} maxLength={20} /></span>
+                            </p>
 
                             {/* 안내 문구 */}
                             <p className="text-sm font-normal text-[#A3A3A3] mb-5 leading-5">
@@ -871,17 +958,15 @@ const MyAssets: React.FC = () => {
                             <input
                                 type="number"
                                 placeholder={t("asset_page.claim.enter_usdc_placeholder")}
+                                value={userClaimAmount}
+                                onChange={(e) => setUserClaimAmount(e.target.value)}
                                 className="w-full h-16 rounded-2xl bg-[#181A20] border-2 border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                             />
 
                             {/* Claim 버튼 */}
                             <button
-                                onClick={() => {
-                                    playSfx(Audios.button_click);
-                                    // 실제 Claim 로직
-                                    setLoadingModal(true);
-                                    setUsdcCaim(false);
-                                }}
+                                // 운영 버전에서는 지갑 주소 하드코딩 X
+                                onClick={() => handleClaim("USDC", userClaimAmount, "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af")}
                                 className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
                             >
                                 {t("asset_page.claim.claim_btn")}
@@ -921,40 +1006,13 @@ const MyAssets: React.FC = () => {
                                 size={6}
                                 className="h-[80px]"  
                             />
-                            <div className="flex flex-row items-center justify-center gap-4 mt-6">
-                                {/* 모달 확인용 버튼 */}
-                                <button
-                                    onClick={() => {
-                                        playSfx(Audios.button_click);
-                                        // 성공 모달
-                                        setSuccess(true);
-                                        setLoadingModal(false);
-                                    }}
-                                    className="w-[120px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
-                                    >
-                                    성공 확인
-                                </button>
-
-                                {/* Close 버튼 */}
-                                <button
-                                    onClick={() => {
-                                        playSfx(Audios.button_click);
-                                        // 실패 모달
-                                        setFailed(true);
-                                        setLoadingModal(false);
-                                    }}
-                                    className="w-[120px] h-14 rounded-full border-[2px] border-[#737373] text-white text-base font-medium"
-                                    >
-                                    실패 확인
-                                </button>
-                            </div>
                         </div>
                     </AlertDialogContent>
                 </AlertDialog>
 
 
                 {/* 5-1번 모달창 - 실패 */}
-                <AlertDialog open={falied}>
+                <AlertDialog open={claimFailed}>
                     <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
                         <AlertDialogHeader>
                             <AlertDialogDescription className="sr-only">
@@ -968,7 +1026,7 @@ const MyAssets: React.FC = () => {
                                         className={'w-6 h-6 cursor-pointer'} 
                                         onClick={() => {
                                             playSfx(Audios.button_click);
-                                            setFailed(false);
+                                            setClaimFailed(false);
                                         }}/>
                                 </div>
                             </AlertDialogTitle>
@@ -981,7 +1039,7 @@ const MyAssets: React.FC = () => {
 
                             {/* 오류 메시지 */}
                             <p className="text-sm font-normal text-[#A3A3A3]">
-                                Error message : Network error occurred
+                                Error message : {failMessage}
                             </p>
 
                             {/* 버튼들 */}
@@ -991,7 +1049,7 @@ const MyAssets: React.FC = () => {
                                     onClick={() => {
                                         playSfx(Audios.button_click);
                                         // 재시도 로직
-                                        setFailed(false);
+                                        setClaimFailed(false);
                                         setLoadingModal(true); // 다시 로딩 모달 띄울 수도 있음
                                     }}
                                     className="w-[120px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium"
@@ -1003,7 +1061,7 @@ const MyAssets: React.FC = () => {
                                 <button
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        setFailed(false);
+                                        setClaimFailed(false);
                                     }}
                                     className="w-[120px] h-14 rounded-full border-[2px] border-[#737373] text-white text-base font-medium"
                                     >
@@ -1016,7 +1074,7 @@ const MyAssets: React.FC = () => {
 
 
                 {/* 5-2번 모달창 - 성공 */}
-                <AlertDialog open={success}>
+                <AlertDialog open={claimSuccess}>
                     <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
                         <AlertDialogHeader>
                             <AlertDialogDescription className="sr-only">
@@ -1030,7 +1088,7 @@ const MyAssets: React.FC = () => {
                                         className={'w-6 h-6 cursor-pointer'} 
                                         onClick={() => {
                                             playSfx(Audios.button_click);
-                                            setSuccess(false);
+                                            setClaimSuccess(false);
                                         }}/>
                                 </div>
                             </AlertDialogTitle>
@@ -1041,17 +1099,18 @@ const MyAssets: React.FC = () => {
                                 {t("asset_page.claim.success")}
                             </p>
                             
-                            <div className="text-base">
-                                {/* 예시: 기획안에 나온 Claim된 수량, Transaction ID 표시 */}
-                                Claimed SL amount : <span className="font-bold">500SL</span> <br />
-                                Transaction ID : <span className="font-bold">0X123456789...</span>
-                            </div>
+                            {claimData && (
+                                <div className="text-base">
+                                    Claimed amount : <span className="font-bold">{claimData!.amount} {claimData!.claimType}</span> <br />
+                                    Claim ID : <span className="font-bold">{claimData!.claimId}</span> <br />
+                                </div>
+                            )}
 
                             {/* View History 버튼 */}
                             <button
                                 onClick={() => {
                                     playSfx(Audios.button_click);;
-                                    setSuccess(false);
+                                    setClaimSuccess(false);
                                     navigate('/claim-history');
                                 }}
                                 className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4"
