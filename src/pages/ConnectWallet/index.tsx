@@ -20,7 +20,7 @@ const ConnectWalletPage: React.FC = () => {
     setIsMobile(checkIsMobile());
   }, []);
 
-  const handleConnectWallet = async () => {
+  const handleConnectWallet = async (retry = false) => {
     try {
       console.log("DappPortal SDK 초기화 시작");
       const sdk = await DappPortalSDK.init({
@@ -28,15 +28,15 @@ const ConnectWalletPage: React.FC = () => {
         chainId: "1001",
       });
       const walletProvider = sdk.getWalletProvider();
-
+  
       // 계정 요청 (사용자에게 지갑 선택 UI 표시)
       const accounts = (await walletProvider.request({
         method: "kaia_requestAccounts",
       })) as string[];
-
+  
       const walletType = walletProvider.getWalletType() || null;
       console.log("사용자가 선택한 지갑 타입:", walletType);
-
+  
       // PC 환경에서 모바일 지갑 선택 시 예외 처리
       if (!isMobile && walletType === "Mobile") {
         alert(
@@ -45,20 +45,34 @@ const ConnectWalletPage: React.FC = () => {
         localStorage.removeItem("sdk.dappportal.io:1001:walletType");
         return;
       }
-
+  
       console.log("지갑 연결 성공:", accounts[0]);
-
+  
       // 주소 기반 Web 로그인 및 사용자 데이터 확인
       const webLogin = await webLoginWithAddress(accounts[0]);
       if (!webLogin) {
         throw new Error("Web login failed.");
       }
-
+  
       await fetchUserData();
       console.log("지갑 로그인 완료 및 데이터 확인");
       navigate("/dice-event");
     } catch (error: any) {
       console.error("getUserInfo() 중 에러:", error.message);
+  
+      // 토큰 관련 에러라면 한 번만 재시도
+      if (
+        !retry &&
+        (error.response?.data === "Token not found in Redis or expired" ||
+          error.message === "Web login failed.")
+      ) {
+        console.warn("토큰 문제 발생: 재시도합니다.");
+        // 토큰 초기화 (필요 시)
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        return handleConnectWallet(true);
+      }
+  
       if (error.message === "Please choose your character first.") {
         console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");
@@ -68,6 +82,7 @@ const ConnectWalletPage: React.FC = () => {
       console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
+  
 
   return (
     <div
@@ -83,7 +98,7 @@ const ConnectWalletPage: React.FC = () => {
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
       <motion.button
-        onClick={handleConnectWallet}
+        onClick={() => handleConnectWallet()}
         className="relative w-[342px] h-[56px]"
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
         animate={shouldReduceMotion ? {} : { opacity: 1 }}
