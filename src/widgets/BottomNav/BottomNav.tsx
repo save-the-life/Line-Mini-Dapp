@@ -27,7 +27,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({hidden}) => {
   return (
     <div
       id="bottomNav"
-      className={`fixed bottom-8 self-center rounded-full flex flex-row items-center justify-evenly bottomNav-bg h-16 w-80 font-medium text-[10px] bg-white shadow-lg z-10 ${hidden ? 'hidden' : ''}`}
+      className={`fixed bottom-8 self-center rounded-full flex flex-row items-center justify-evenly bottomNav-bg h-16 w-80 font-medium text-[10px] bg-white shadow-lg z-40 ${hidden ? 'hidden' : ''}`}
   
    >
       <Link to="/AI-menu" onClick={() => handleNavigation("/AI-menu")}>
