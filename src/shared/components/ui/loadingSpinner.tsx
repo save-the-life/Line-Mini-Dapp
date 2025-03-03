@@ -29,7 +29,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       role="status"
     >
       <div
-        className="animate-spin rounded-full border-t-4 border-b-4"
+        className="animate-spin rounded-full border-t-4 border-b-4 z-5"
         style={{
           width: `${size * 4}px`,
           height: `${size * 4}px`,
