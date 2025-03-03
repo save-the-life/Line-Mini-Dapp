@@ -23,6 +23,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
+import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -95,6 +96,27 @@ const DiceEventPage: React.FC = () => {
     }
     setPrevLevel(userLv);
   }, [userLv, prevLevel]);
+
+
+  // 보상 링크를 통한 접근 여부 확인 및 보상 API 호출
+  useEffect(() => {
+    const referralCode = localStorage.getItem("referralCode");
+    if (referralCode === "from-dapp-portal") {
+      console.log("[DiceEventPage] Dapp Portal referral detected. Calling reward API...");
+      getRewardPoints()
+        .then((message) => {
+          console.log("[DiceEventPage] Reward API response:", message);
+          // API 응답 메시지에 따라 다이얼로그를 표시할 수 있음
+          setShowUrlReward(true);
+          // 한번 호출 후 중복 호출 방지를 위해 referralCode 삭제
+          localStorage.removeItem("referralCode");
+        })
+        .catch((error) => {
+          console.error("[DiceEventPage] Reward API error:", error);
+        });
+    }
+  }, []);
+
 
   // 현재 레벨 보상 찾기
   const currentReward = levelRewards.find((r) => r.level === userLv);
