@@ -282,9 +282,9 @@ const MyAssets: React.FC = () => {
             method: "kaia_requestAccounts",
         })) as string[];
 
-        const message = 'Welcome to Lucky Dice!';
-        const signature = await walletProvider.request({method: 'personal_sign', params: [message, accounts]});
-        console.log("서명? ", signature);
+        // const message = 'Welcome to Lucky Dice!';
+        // const signature = await walletProvider.request({method: 'personal_sign', params: [message, accounts]});
+        // console.log("서명? ", signature);
 
         if (accounts && accounts[0]) {
             const account = accounts[0];
