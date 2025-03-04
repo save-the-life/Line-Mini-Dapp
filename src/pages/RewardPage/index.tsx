@@ -170,8 +170,8 @@ const Reward: React.FC = () => {
         )}
       </div>
 
-      
-      <div 
+      {/* 래플-에어드랍 영역 */}
+      {/* <div 
         className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer"
         onClick={handlePreviousAirdropPage}>
         <div className="flex flex-col gap-2">
@@ -181,10 +181,10 @@ const Reward: React.FC = () => {
           </p>
         </div>
         <img src={Images.airDropBox} alt="trophy" className="w-24 h-24" />
-      </div>
+      </div> */}
 
       {/** 지난 에어드랍 경품 보여주기 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14">
+      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
             {t("reward_page.this_month")}
@@ -196,20 +196,20 @@ const Reward: React.FC = () => {
             alt="Raffle"
             className="absolute -top-1 -right-12 w-[68px] h-[68px] -z-10"
           />
-        </div>
+        </div> */}
       
         {/* 상위 3위 래플 보상 */}
-        {raffleProducts.map((award, index) =>
+        {/* {raffleProducts.map((award, index) =>
           <RewardItem
             key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
             rank={index + 1}
             award={award}
             isTop={true}
           />
-        )}
+        )} */}
 
         {/* AnimatePresence로 4위 이후 래플 보상 슬라이드 인 애니메이션 */}
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {showMoreRaffle && raffleOthers.map((award, index) => (
             <motion.div
               key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
@@ -226,9 +226,9 @@ const Reward: React.FC = () => {
               />
             </motion.div>
           ))}
-        </AnimatePresence>
+        </AnimatePresence> */}
 
-        {raffleOthers.length > 0 && !showMoreRaffle && (
+        {/* {raffleOthers.length > 0 && !showMoreRaffle && (
           <button
             onClick={handleShowMoreRaffle}
             className="border border-[#ffffff] text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
@@ -237,10 +237,10 @@ const Reward: React.FC = () => {
           </button>
         )}
       
-      </div>
+      </div> */}
 
       {/** 이번달 에어드랍 보상 : 있는 경우만 보여주기 */}
-      {airDropAwards && airDropAwards.length > 0 && (
+      {/* {airDropAwards && airDropAwards.length > 0 && (
         <div className="flex flex-col gap-3 justify-center items-center mb-14 text-sm font-medium">
           <div className="relative text-center font-jalnan text-3xl z-10">
             <h1 className="z-30">
@@ -279,21 +279,21 @@ const Reward: React.FC = () => {
             ))}
           </div>
         </div>
-      )}
+      )} */}
 
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
-            <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
-                <p>{t("reward_page.no_previous_rewards")}</p>
-                <button
-                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-                    onClick={handleCloseModal}
-                    >
-                    {t("OK")}
-                </button>
-            </div>
-        </div>
-      )}
+    {showModal && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+          <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+              <p>{t("reward_page.no_previous_rewards")}</p>
+              <button
+                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                  onClick={handleCloseModal}
+                  >
+                  {t("OK")}
+              </button>
+          </div>
+      </div>
+    )}
     </div>
   );
 };
