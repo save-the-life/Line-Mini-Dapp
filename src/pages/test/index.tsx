@@ -31,7 +31,7 @@ const WalletConnect: React.FC = () => {
         from: accounts[0],
         to: '0x3cF9cDA72413e2E5F6eeD64dbd101C311830277a',
         value: '10',
-        gas: '10',
+        gas: '21000',
       };
 
       const txHash = await walletProvider.request({method: 'kaia_sendTransaction', params: [tx]});
