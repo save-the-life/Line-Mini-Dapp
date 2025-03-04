@@ -11,24 +11,31 @@ const WalletConnect: React.FC = () => {
       // SDK 초기화
       const sdk = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "", // 환경 변수에서 clientId 가져오기
-        // chainId: "1001", // 테스트 체인 ID
-        chainId: "8217", // Klaytn 메인넷
+        chainId: "1001", // 테스트 체인 ID
       });
 
       // console.log("clientId 확인:", import.meta.env.VITE_LINE_CLIENT_ID);
       // console.log("SDK 초기화 완료:", sdk);
 
-      // WalletProvider 가져오기
-      const walletProvider = sdk.getWalletProvider();
-      console.log("WalletProvider 가져오기 성공:", walletProvider);
 
       // 지갑 연결 요청
-      const accounts = (await walletProvider.request({
-        method: "kaia_requestAccounts", // Dapp Portal 가이드에 따라 사용
-      })) as string[];
+        const walletProvider = sdk.getWalletProvider();
+        const accounts = (await walletProvider.request({
+            method: "kaia_requestAccounts",
+        })) as string[];
 
       setAccount(accounts[0]);
       console.log("지갑 연결 성공:", accounts[0]);
+
+      const tx = {
+        from: accounts[0],
+        to: '0x0718e60c1F8751B26BFa491a7196a5EED8D829B3',
+        value: '10',
+        gas: '21000',
+      };
+
+      const txHash = await walletProvider.request({method: 'kaia_sendTransaction', params: [tx]});
+      console.log("트랜잭션 확인: ", txHash);
     } catch (error: any) {
       console.error("에러 발생:", error.message);
       console.error("에러 응답:", error.response?.data || "응답 없음");
