@@ -231,7 +231,7 @@ const MissionPage: React.FC = () => {
 
   // 9) 로딩 끝난 후 실제 페이지 렌더
   return (
-    <div className="flex flex-col text-white mb-20 md:mb-96">
+    <div className="flex flex-col text-white mb-20 md:mb-96 min-h-screen">
       <TopTitle title={t("mission_page.Mission")} />
 
       {/* 이벤트 배너 표시 */}

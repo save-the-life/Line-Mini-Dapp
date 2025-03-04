@@ -50,7 +50,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const referralPattern = /^[A-Za-z0-9]{4,16}$/;
 
   // 사용자 정보 가져오기
-  const getUserInfo = async () => {
+  const getUserInfo = async (retryCount = 0) => {
     console.log("[AppInitializer] getUserInfo() 호출");
     try {
       await fetchUserData();
@@ -58,9 +58,18 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       navigate("/dice-event");
     } catch (error: any) {
       console.error("[AppInitializer] getUserInfo() 중 에러:", error);
+
       if (error.message === "Please choose your character first.") {
         console.error("[AppInitializer] 오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");
+        return;
+      }
+
+      // 에러 코드가 500인 경우 accessToken 삭제 후 한 번만 재시도
+      if ((error.code === 500 || error.response?.status === 500) && retryCount < 1) {
+        console.error("[AppInitializer] 에러 코드 500 감지 -> localStorage의 accessToken 제거 후 재시도");
+        localStorage.removeItem("accessToken");
+        await getUserInfo(retryCount + 1);
         return;
       }
       throw error;

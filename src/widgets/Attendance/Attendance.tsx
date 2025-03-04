@@ -52,7 +52,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         id="attendance"
         className={`grid grid-cols-7 gap-2 bg-box mt-4 px-8 min-h-24 md:h-32 text-white text-xs ${
           // customWidth가 있으면 그 클래스를, 없으면 기본 너비를 사용
-          customWidth ? customWidth : "w-full md:w-[595.95px]"
+          customWidth ? customWidth : "w-full md:w-[552px]"
         }`}
       >
         {days.map((day) => {
