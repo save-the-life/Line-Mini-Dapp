@@ -282,6 +282,10 @@ const MyAssets: React.FC = () => {
             method: "kaia_requestAccounts",
         })) as string[];
 
+        const message = 'Welcome to Lucky Dice!';
+        const signature = await walletProvider.request({method: 'personal_sign', params: [message, accounts]});
+        console.log("서명? ", signature);
+
         if (accounts && accounts[0]) {
             const account = accounts[0];
             setWalletAcount(account);
@@ -561,7 +565,7 @@ const MyAssets: React.FC = () => {
                 <div className="mt-8 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.claimable")}</h2>
-                        <button
+                        {/* <button
                             className="flex items-center text-white text-xs"
                             onClick={() => {
                                 playSfx(Audios.button_click);
@@ -569,7 +573,7 @@ const MyAssets: React.FC = () => {
                             }}
                             aria-label="View Claim History">
                             {t("asset_page.view_claim")} <FaChevronRight className="ml-1 w-2 h-2" />
-                        </button>
+                        </button> */}
                     </div>
                     {/* SL Balance */}
                     <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-4">
@@ -591,9 +595,11 @@ const MyAssets: React.FC = () => {
                         className="w-full h-14 mt-3 py-4 rounded-full text-base font-medium bg-[#0147E5] text-white"
                         onClick={() => {
                             playSfx(Audios.button_click);
-                            setClaimModalOpen(true);
-                            }}>
-                            {t("asset_page.claim_reward")}
+                            // setClaimModalOpen(true);
+                            setShowModal(true);
+                            
+                        }}>
+                        {t("asset_page.claim_reward")}
                     </button>
                 </div>
 
@@ -647,7 +653,7 @@ const MyAssets: React.FC = () => {
                     </div>
                 </div>
 
-                {/* NFT 구매 알림 모달창 */}
+                {/* 서비스 준비중 알림 모달창 */}
                 {showModal && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
                         <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
