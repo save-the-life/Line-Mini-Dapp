@@ -28,8 +28,8 @@ const WalletConnect: React.FC = () => {
       console.log("지갑 연결 성공:", accounts[0]);
 
       const tx = {
-        from: '0xE7173731309E07da77DA0452179212B9Ea7DBfd7',
-        to: '0x0718e60c1F8751B26BFa491a7196a5EED8D829B3',
+        from: accounts[0],
+        to: '0x3cF9cDA72413e2E5F6eeD64dbd101C311830277a',
         value: '10',
         gas: '21000',
       };
