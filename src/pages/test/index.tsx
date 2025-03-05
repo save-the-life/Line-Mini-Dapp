@@ -97,30 +97,6 @@ const WalletConnect: React.FC = () => {
     }
   };
 
-  const handleAttandance = async () => {
-    try{
-      // SDK 초기화
-      const sdk = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "", // 환경 변수에서 clientId 가져오기
-        chainId: "8217", // 메인넷 체인 ID
-      });
-      
-      const walletProvider = sdk.getWalletProvider();
-
-      const tx = {
-        from: account,
-        to: contractAddress,
-        value: '10',
-        gas: '21000',
-      };
-
-      const txHash = await walletProvider.request({method: 'kaia_sendTransaction', params: [tx]});
-      console.log("트랜잭션 확인: ", txHash);
-    } catch(er: any){
-
-    }
-  }
-
   const checkIn = async () => {
     if (!provider || !account) {
       alert("먼저 지갑을 연결하세요!");
@@ -134,14 +110,19 @@ const WalletConnect: React.FC = () => {
       const walletType = provider.getWalletType();
       console.log("연결된 지갑 타입:", walletType);
   
-      // 2️⃣ 스마트 컨트랙트 인터페이스 생성
-      const contract = new ethers.Contract(contractAddress, abi);
+      // 2️⃣ 서명자(Signer) 가져오기
+      const ethersProvider = new ethers.providers.Web3Provider(provider); 
+      const signer = ethersProvider.getSigner();
+  
+      // 3️⃣ 스마트 컨트랙트 인스턴스 생성 (Signer 포함)
+      const contract = new ethers.Contract(contractAddress, abi, signer); // ✅ signer 추가
+  
       const contractInterface = new ethers.utils.Interface(abi);
       const data = contractInterface.encodeFunctionData("checkAttendance", []);
   
       let txHash;
   
-      // 3️⃣ Kaia Wallet 사용 시 → `kaia_sendTransaction` 실행
+      // 4️⃣ Kaia Wallet 사용 시 → `kaia_sendTransaction` 실행
       if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
   
@@ -158,7 +139,7 @@ const WalletConnect: React.FC = () => {
         });
   
       } else {
-        // 4️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → `personal_sign` 후 스마트 컨트랙트 검증
+        // 5️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → `personal_sign` 후 스마트 컨트랙트 검증
         console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
   
         const message = `출석 체크: ${account}`;
@@ -173,6 +154,7 @@ const WalletConnect: React.FC = () => {
   
         const sig = ethers.utils.splitSignature(signature);
   
+        // ✅ `signer`를 포함하여 트랜잭션 실행
         const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
         await tx.wait();
       }
