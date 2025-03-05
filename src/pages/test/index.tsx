@@ -2,94 +2,70 @@ import React, { useState } from "react";
 import DappPortalSDK from "@linenext/dapp-portal-sdk"; // Default export로 SDK 가져오기
 import { ethers } from "ethers";
 
-const contractAddress = "0x01AE259aAc479862eA609D6771AA18fB1b1E097e";
+const contractAddress = "0x3bD64E9A8166Cc97FFA489BFD742cAA6b652C29F";
 
 const abi = [
-  {
-     "anonymous": false,
-     "inputs": [
-        {
-           "indexed": true,
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
-        }
-     ],
-     "name": "AttendanceChecked",
-     "type": "event"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "bytes32",
-           "name": "messageHash",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "uint8",
-           "name": "v",
-           "type": "uint8"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "r",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "s",
-           "type": "bytes32"
-        }
-     ],
-     "name": "checkAttendance",
-     "outputs": [],
-     "stateMutability": "nonpayable",
-     "type": "function"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "",
-           "type": "address"
-        }
-     ],
-     "name": "users",
-     "outputs": [
-        {
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
-        }
-     ],
-     "stateMutability": "view",
-     "type": "function"
-  }
-]
-
+   {
+      "anonymous": false,
+      "inputs": [
+         {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+         },
+         {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "lastAttendance",
+            "type": "uint256"
+         },
+         {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "consecutiveDays",
+            "type": "uint256"
+         }
+      ],
+      "name": "AttendanceChecked",
+      "type": "event"
+   },
+   {
+      "inputs": [],
+      "name": "checkAttendance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+   },
+   {
+      "inputs": [
+         {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+         }
+      ],
+      "name": "users",
+      "outputs": [
+         {
+            "internalType": "uint256",
+            "name": "lastAttendance",
+            "type": "uint256"
+         },
+         {
+            "internalType": "uint256",
+            "name": "consecutiveDays",
+            "type": "uint256"
+         }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+   }
+];
 
 const WalletConnect: React.FC = () => {
   const [account, setAccount] = useState<string | null>(null);
   const [provider, setProvider] = useState<any>(null);
-
-
 
   const connectWallet = async () => {
     try {
@@ -125,21 +101,18 @@ const WalletConnect: React.FC = () => {
     }
   
     try {
-      console.log("출석 체크 서명 요청 중...");
+      console.log("출석 체크 요청 중...");
   
       // 1️⃣ 현재 연결된 지갑 타입 확인
       const walletType = provider.getWalletType();
       console.log("연결된 지갑 타입:", walletType);
   
-      // 2️⃣ 서명자(Signer) 가져오기
-      const ethersProvider = new ethers.providers.Web3Provider(provider); 
+      // 2️⃣ Kaia SDK의 Provider를 Ethers.js의 Web3Provider로 변환
+      const ethersProvider = new ethers.providers.Web3Provider(provider);
       const signer = ethersProvider.getSigner();
   
       // 3️⃣ 스마트 컨트랙트 인스턴스 생성 (Signer 포함)
-      const contract = new ethers.Contract(contractAddress, abi, signer); // ✅ signer 추가
-  
-      const contractInterface = new ethers.utils.Interface(abi);
-      const data = contractInterface.encodeFunctionData("checkAttendance", []);
+      const contract = new ethers.Contract(contractAddress, abi, signer);
   
       let txHash;
   
@@ -147,25 +120,15 @@ const WalletConnect: React.FC = () => {
       if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
   
-        const tx = {
-          from: account,
-          to: contractAddress,
-          data: data,
-          value: "0x0",
-        };
-  
-        txHash = await provider.request({
-          method: "kaia_sendTransaction",
-          params: [tx],
-        });
-  
+        const tx = await contract.checkAttendance(); // ✅ 인자 없이 함수 실행
+        await tx.wait();
+        txHash = tx.hash;
+        
       } else {
         // 5️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → `personal_sign` 후 스마트 컨트랙트 검증
         console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
   
         const message = `출석 체크: ${account}`;
-        const messageHash = ethers.utils.hashMessage(message);
-  
         const signature = await provider.request({
           method: "personal_sign",
           params: [message, account],
@@ -173,11 +136,10 @@ const WalletConnect: React.FC = () => {
   
         console.log("✅ 서명 완료:", signature);
   
-        const sig = ethers.utils.splitSignature(signature);
-  
-        // ✅ `signer`를 포함하여 트랜잭션 실행
-        const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+        // ✅ 인자 없이 checkAttendance() 실행
+        const tx = await contract.checkAttendance();
         await tx.wait();
+        txHash = tx.hash;
       }
   
       console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", txHash);
@@ -187,7 +149,6 @@ const WalletConnect: React.FC = () => {
       alert("출석 체크 중 오류 발생!");
     }
   };
-  
 
   return (
     <div className="flex flex-col text-white mb-32 px-6 min-h-screen">
