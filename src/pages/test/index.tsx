@@ -150,7 +150,6 @@ const WalletConnect: React.FC = () => {
           to: contractAddress,
           data: data,
           value: "0x0",
-          gas: '21000',
         };
   
         txHash = await provider.request({
