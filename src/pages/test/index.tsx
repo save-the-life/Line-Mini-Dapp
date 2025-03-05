@@ -128,50 +128,64 @@ const WalletConnect: React.FC = () => {
     }
   
     try {
-      console.log("출석 체크 트랜잭션 생성 중...");
+      console.log("출석 체크 서명 요청 중...");
   
-      // 1. Kaia SDK의 Wallet Provider에서 지갑 타입 확인
+      // 1️⃣ 현재 연결된 지갑 타입 확인
       const walletType = provider.getWalletType();
       console.log("연결된 지갑 타입:", walletType);
   
-      // 2. 스마트 컨트랙트 인터페이스 생성
+      // 2️⃣ 스마트 컨트랙트 인터페이스 생성
       const contract = new ethers.Contract(contractAddress, abi);
       const contractInterface = new ethers.utils.Interface(abi);
       const data = contractInterface.encodeFunctionData("checkAttendance", []);
   
-      // 3. 트랜잭션 객체 생성
-      let tx = {
-        from: account,
-        to: contractAddress,
-        data: data,
-        value: "0x0",
-        gas: '21000',
-      };
-  
-      // 4. 지갑 타입별 서명 방식 적용
       let txHash;
   
-      if (walletType === "WalletType.OKX" || walletType === "WalletType.Web") {
-        // OKX Wallet 또는 소셜 ID 로그인(Liff)은 `eth_sendTransaction` 방식 사용
-        txHash = await provider.request({
-          method: "eth_sendTransaction",
-          params: [tx],
-        });
-      } else {
-        // 기본적으로 `kaia_sendTransaction` 사용 (Kaia Wallet)
+      // 3️⃣ Kaia Wallet 사용 시 → `kaia_sendTransaction` 실행
+      if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
+        console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
+  
+        const tx = {
+          from: account,
+          to: contractAddress,
+          data: data,
+          value: "0x0",
+          gas: '21000',
+        };
+  
         txHash = await provider.request({
           method: "kaia_sendTransaction",
           params: [tx],
         });
+  
+      } else {
+        // 4️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → `personal_sign` 후 스마트 컨트랙트 검증
+        console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
+  
+        const message = `출석 체크: ${account}`;
+        const messageHash = ethers.utils.hashMessage(message);
+  
+        const signature = await provider.request({
+          method: "personal_sign",
+          params: [message, account],
+        });
+  
+        console.log("✅ 서명 완료:", signature);
+  
+        const sig = ethers.utils.splitSignature(signature);
+  
+        const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+        await tx.wait();
       }
   
-      console.log("출석 체크 트랜잭션 실행 완료! TX Hash:", txHash);
-      alert("출석 체크 성공!");
+      console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", txHash);
+      alert("출석 체크 완료!");
     } catch (error) {
-      console.error("출석 체크 실패:", error);
+      console.error("❌ 출석 체크 실패:", error);
       alert("출석 체크 중 오류 발생!");
     }
   };
+  
 
   return (
     <div className="flex flex-col text-white mb-32 px-6 min-h-screen">
