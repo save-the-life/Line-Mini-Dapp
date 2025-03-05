@@ -145,16 +145,14 @@ const WalletConnect: React.FC = () => {
         txHash = tx.hash;
   
       } else {
-        // 5️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → `personal_sign` 후 스마트 컨트랙트 검증
+        // 5️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → Ethers.js의 signMessage() 사용하여 서명 요청
         console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
   
         const message = `출석 체크: ${account}`;
         const messageHash = ethers.utils.hashMessage(message); // ✅ 메시지 해시 생성
   
-        const signature = await provider.request({
-          method: "personal_sign",
-          params: [message, account],
-        });
+        // ✅ `provider.request()` 대신 `signer.signMessage()` 사용
+        const signature = await signer.signMessage(message);
   
         console.log("✅ 서명 완료:", signature);
   
