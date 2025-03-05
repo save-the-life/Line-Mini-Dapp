@@ -2,67 +2,87 @@ import React, { useState } from "react";
 import DappPortalSDK from "@linenext/dapp-portal-sdk"; // Default export로 SDK 가져오기
 import { ethers } from "ethers";
 
-const contractAddress = "0x3bD64E9A8166Cc97FFA489BFD742cAA6b652C29F";
+const contractAddress = "0x01AE259aAc479862eA609D6771AA18fB1b1E097e";
 
 const abi = [
-   {
-      "anonymous": false,
-      "inputs": [
-         {
-            "indexed": true,
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "name": "AttendanceChecked",
-      "type": "event"
-   },
-   {
-      "inputs": [],
-      "name": "checkAttendance",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-         }
-      ],
-      "name": "users",
-      "outputs": [
-         {
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-   }
-];
-
+  {
+     "anonymous": false,
+     "inputs": [
+        {
+           "indexed": true,
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "name": "AttendanceChecked",
+     "type": "event"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "bytes32",
+           "name": "messageHash",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "uint8",
+           "name": "v",
+           "type": "uint8"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "r",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "s",
+           "type": "bytes32"
+        }
+     ],
+     "name": "checkAttendance",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
+        }
+     ],
+     "name": "users",
+     "outputs": [
+        {
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  }
+]
 const WalletConnect: React.FC = () => {
   const [account, setAccount] = useState<string | null>(null);
   const [provider, setProvider] = useState<any>(null);
@@ -101,7 +121,7 @@ const WalletConnect: React.FC = () => {
     }
   
     try {
-      console.log("출석 체크 요청 중...");
+      console.log("출석 체크 서명 요청 중...");
   
       // 1️⃣ 현재 연결된 지갑 타입 확인
       const walletType = provider.getWalletType();
@@ -120,15 +140,17 @@ const WalletConnect: React.FC = () => {
       if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
   
-        const tx = await contract.checkAttendance(); // ✅ 인자 없이 함수 실행
+        const tx = await contract.checkAttendance(); // ✅ 인자 없이 실행
         await tx.wait();
         txHash = tx.hash;
-        
+  
       } else {
         // 5️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → `personal_sign` 후 스마트 컨트랙트 검증
         console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
   
         const message = `출석 체크: ${account}`;
+        const messageHash = ethers.utils.hashMessage(message); // ✅ 메시지 해시 생성
+  
         const signature = await provider.request({
           method: "personal_sign",
           params: [message, account],
@@ -136,8 +158,11 @@ const WalletConnect: React.FC = () => {
   
         console.log("✅ 서명 완료:", signature);
   
-        // ✅ 인자 없이 checkAttendance() 실행
-        const tx = await contract.checkAttendance();
+        // 6️⃣ 서명 데이터 분해 (v, r, s 값 추출)
+        const sig = ethers.utils.splitSignature(signature);
+  
+        // 7️⃣ 컨트랙트 함수 호출 (서명 데이터 전달)
+        const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
         await tx.wait();
         txHash = tx.hash;
       }
@@ -149,6 +174,7 @@ const WalletConnect: React.FC = () => {
       alert("출석 체크 중 오류 발생!");
     }
   };
+  
 
   return (
     <div className="flex flex-col text-white mb-32 px-6 min-h-screen">
