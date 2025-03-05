@@ -126,31 +126,44 @@ const WalletConnect: React.FC = () => {
       alert("먼저 지갑을 연결하세요!");
       return;
     }
-
+  
     try {
       console.log("출석 체크 트랜잭션 생성 중...");
-
-      // 1. 스마트 컨트랙트 인스턴스 생성
+  
+      // 1. Kaia SDK의 Wallet Provider에서 지갑 타입 확인
+      const walletType = provider.getWalletType();
+      console.log("연결된 지갑 타입:", walletType);
+  
+      // 2. 스마트 컨트랙트 인터페이스 생성
       const contract = new ethers.Contract(contractAddress, abi);
-      const contractInterface = new ethers.utils.Interface(abi); // ✅ Ethers 5.x에서는 `ethers.utils.Interface` 사용
-
-      // 2. checkAttendance() 함수 실행을 위한 `data` 값 생성
+      const contractInterface = new ethers.utils.Interface(abi);
       const data = contractInterface.encodeFunctionData("checkAttendance", []);
-
+  
       // 3. 트랜잭션 객체 생성
-      const tx = {
-        from: account, // 사용자의 지갑 주소
-        to: contractAddress, // 스마트 컨트랙트 주소
-        data: data, // 함수 실행을 위한 data 필드 추가
-        value: "0x0", // 스마트 컨트랙트 실행이므로 KAIA 전송 없음
+      let tx = {
+        from: account,
+        to: contractAddress,
+        data: data,
+        value: "0x0",
       };
-
-      // 4. 지갑에서 트랜잭션 실행 요청
-      const txHash = await provider.request({
-        method: "kaia_sendTransaction",
-        params: [tx],
-      });
-
+  
+      // 4. 지갑 타입별 서명 방식 적용
+      let txHash;
+  
+      if (walletType === "WalletType.OKX" || walletType === "WalletType.Liff") {
+        // OKX Wallet 또는 소셜 ID 로그인(Liff)은 `eth_sendTransaction` 방식 사용
+        txHash = await provider.request({
+          method: "eth_sendTransaction",
+          params: [tx],
+        });
+      } else {
+        // 기본적으로 `kaia_sendTransaction` 사용 (Kaia Wallet)
+        txHash = await provider.request({
+          method: "kaia_sendTransaction",
+          params: [tx],
+        });
+      }
+  
       console.log("출석 체크 트랜잭션 실행 완료! TX Hash:", txHash);
       alert("출석 체크 성공!");
     } catch (error) {
