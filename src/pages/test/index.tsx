@@ -2,66 +2,87 @@ import React, { useState } from "react";
 import DappPortalSDK from "@linenext/dapp-portal-sdk"; // Default export로 SDK 가져오기
 import { ethers } from "ethers";
 
-const contractAddress = "0x3bD64E9A8166Cc97FFA489BFD742cAA6b652C29F";
+const contractAddress = "0x01AE259aAc479862eA609D6771AA18fB1b1E097e";
 
 const abi = [
-   {
-      "anonymous": false,
-      "inputs": [
-         {
-            "indexed": true,
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "name": "AttendanceChecked",
-      "type": "event"
-   },
-   {
-      "inputs": [],
-      "name": "checkAttendance",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-         }
-      ],
-      "name": "users",
-      "outputs": [
-         {
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-   }
-];
+  {
+     "anonymous": false,
+     "inputs": [
+        {
+           "indexed": true,
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "name": "AttendanceChecked",
+     "type": "event"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "bytes32",
+           "name": "messageHash",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "uint8",
+           "name": "v",
+           "type": "uint8"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "r",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "s",
+           "type": "bytes32"
+        }
+     ],
+     "name": "checkAttendance",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
+        }
+     ],
+     "name": "users",
+     "outputs": [
+        {
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  }
+]
 
 
 const WalletConnect: React.FC = () => {
