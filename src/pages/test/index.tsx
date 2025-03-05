@@ -150,7 +150,7 @@ const WalletConnect: React.FC = () => {
       // 4. 지갑 타입별 서명 방식 적용
       let txHash;
   
-      if (walletType === "WalletType.OKX" || walletType === "WalletType.Liff") {
+      if (walletType === "WalletType.OKX" || walletType === "WalletType.Web") {
         // OKX Wallet 또는 소셜 ID 로그인(Liff)은 `eth_sendTransaction` 방식 사용
         txHash = await provider.request({
           method: "eth_sendTransaction",
