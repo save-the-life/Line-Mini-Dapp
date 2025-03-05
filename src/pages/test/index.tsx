@@ -145,6 +145,7 @@ const WalletConnect: React.FC = () => {
         to: contractAddress,
         data: data,
         value: "0x0",
+        gas: '21000',
       };
   
       // 4. 지갑 타입별 서명 방식 적용
