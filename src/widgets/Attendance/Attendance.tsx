@@ -261,7 +261,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
           <img
             src={Images.attendanceNote}
             alt="Attendance Note"
-            className="absolute top-0 right-0 w-[20px] h-[20px]"
+            className="absolute top-[-4px] right-[-4px] w-[20px] h-[20px]"
           />
         )}
       </div>
