@@ -8,88 +8,87 @@ import { ethers } from "ethers";
 import requestAttendance from "@/entities/User/api/requestAttendance";
 import Images from "@/shared/assets/images";
 
-
 const contractAddress = "0x01AE259aAc479862eA609D6771AA18fB1b1E097e";
 
 const abi = [
   {
-     "anonymous": false,
-     "inputs": [
-        {
-           "indexed": true,
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
-        }
-     ],
-     "name": "AttendanceChecked",
-     "type": "event"
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lastAttendance",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "consecutiveDays",
+        "type": "uint256"
+      }
+    ],
+    "name": "AttendanceChecked",
+    "type": "event"
   },
   {
-     "inputs": [
-        {
-           "internalType": "bytes32",
-           "name": "messageHash",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "uint8",
-           "name": "v",
-           "type": "uint8"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "r",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "s",
-           "type": "bytes32"
-        }
-     ],
-     "name": "checkAttendance",
-     "outputs": [],
-     "stateMutability": "nonpayable",
-     "type": "function"
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "messageHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint8",
+        "name": "v",
+        "type": "uint8"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "r",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "s",
+        "type": "bytes32"
+      }
+    ],
+    "name": "checkAttendance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "",
-           "type": "address"
-        }
-     ],
-     "name": "users",
-     "outputs": [
-        {
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
-        }
-     ],
-     "stateMutability": "view",
-     "type": "function"
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "users",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "lastAttendance",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "consecutiveDays",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
-]
+];
 
 type DayKeys = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
@@ -110,7 +109,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const { t } = useTranslation();
   const [account, setAccount] = useState<string | null>(null);
   const [provider, setProvider] = useState<any>(null);
-  const [isConnecting, setIsConnecting] = useState(false); 
+  const [isConnecting, setIsConnecting] = useState(false);
 
   // 출석 상태 결정 로직
   const getStatus = (day: DayKeys) => {
@@ -135,10 +134,10 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   };
 
   const days: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-  // 출석하지 않은 "today"가 존재하는지 여부
+  // "오늘"에 해당하면서 아직 출석하지 않은 상태가 있는지 여부
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
+  // 지갑 연결 함수
   const handleWalletConnection = async () => {
     try {
       console.log("초기화 시작");
@@ -158,19 +157,17 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
     }
   };
 
+  // 출석 체크 함수 (지갑 연결 후 바로 서명 요청 로직 실행)
   const handleAttendanceClick = async () => {
     if (!provider || !account) {
-      if (isConnecting) {
-        // 이미 연결 중이면 중복 연결 시도를 막음
-        return;
-      }
+      if (isConnecting) return; // 이미 연결 중이면 중복 시도 방지
       setIsConnecting(true);
       await handleWalletConnection();
       setIsConnecting(false);
       // 연결 후에도 provider나 account가 없는 경우 종료
       if (!provider || !account) return;
     }
-  
+
     try {
       console.log("출석 체크 서명 요청 중...");
       const walletType = provider.getWalletType();
@@ -179,7 +176,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       const signer = ethersProvider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       let txHash;
-  
+
       if (
         walletType === "WalletType.Web" ||
         walletType === "WalletType.Extension" ||
@@ -200,9 +197,9 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         await tx.wait();
         txHash = tx.hash;
       }
-  
+
       console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", txHash);
-  
+
       try {
         const checkIn = await requestAttendance(txHash);
         if (checkIn) {
@@ -221,7 +218,6 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       alert("출석 체크 중 오류 발생!");
     }
   };
-
 
   return (
     <div className="mt-4">
