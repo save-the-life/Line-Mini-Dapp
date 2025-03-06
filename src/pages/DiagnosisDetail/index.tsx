@@ -120,7 +120,7 @@ const DiagnosisDetail: React.FC = () => {
 
   return (
     <div className="relative flex flex-col items-center text-white mx-6 md:mx-28 min-h-screen">
-      <div className="flex-1 w-full overflow-y-auto pb-6">
+      <div className="flex-1 w-full overflow-y-auto pb-24"> 
         <TopTitle title={t("ai_page.Record_Details")} back={true} />
 
         {/* 이미지 표시 */}
