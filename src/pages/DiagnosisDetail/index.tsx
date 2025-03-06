@@ -35,7 +35,7 @@ const DiagnosisDetail: React.FC = () => {
   // 실사 이미지 분석 결과
   const renderDentalRealUI = () => {
     return (
-      <div className="w-full">
+      <div className="w-full mb-6">
         <div className="mt-4 text-lg font-semibold">
           <p>Analysis results</p>
         </div>
