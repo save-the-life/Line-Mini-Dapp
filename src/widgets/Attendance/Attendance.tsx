@@ -104,7 +104,7 @@ const getTodayDay = (): DayKeys => {
 };
 
 const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
-  const { weekAttendance } = useUserStore();
+  const { weekAttendance, setWeekAttendance } = useUserStore();
   const [today] = useState<DayKeys>(getTodayDay());
   const { t } = useTranslation();
   const [account, setAccount] = useState<string | null>(null);
@@ -213,6 +213,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       try{
         const checkIn = await requestAttendance(txHash);
         if(checkIn){
+          const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
+          setWeekAttendance(updatedAttendance);
           alert("출석 체크 완료!");
         } else {
           alert("출석 체크 중 오류 발생!");
