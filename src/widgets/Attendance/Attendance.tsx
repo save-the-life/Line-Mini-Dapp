@@ -235,7 +235,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
 
   return (
-    <div className="mt-4 px-8">
+    <div>
       <div
         id="attendance"
         className={`relative grid grid-cols-7 gap-2 bg-box min-h-24 md:h-32 text-white text-xs ${
