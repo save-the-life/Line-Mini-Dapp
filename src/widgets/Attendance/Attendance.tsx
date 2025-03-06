@@ -158,8 +158,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   
         setAccount(accounts[0]);
         console.log("지갑 연결 성공:", accounts[0]);
-  
         
+        return await handleAttendanceClick();
       } catch (error: any) {
         console.error("에러 발생:", error.message);
         console.error("에러 응답:", error.response?.data || "응답 없음");
