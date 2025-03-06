@@ -234,20 +234,13 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   };
 
 
-
   return (
-    // 전체 출석 위젯을 감싸는 컨테이너를 relative로 설정
-    // isTodayUnattended === true이면 테두리 + 깜빡임
-    <div
-      className={`relative mt-4 px-8 ${
-        isTodayUnattended ? "border-2 border-yellow-400 animate-pulse rounded-lg" : ""
-      }`}
-    >
+    <div className="mt-4 px-8">
       <div
         id="attendance"
-        className={`grid grid-cols-7 gap-2 bg-box mt-4 px-8 min-h-24 md:h-32 text-white text-xs ${
+        className={`relative grid grid-cols-7 gap-2 bg-box min-h-24 md:h-32 text-white text-xs ${
           customWidth ? customWidth : "w-full md:w-[552px]"
-        }`}
+        } ${isTodayUnattended ? "border-2 border-yellow-400 animate-pulse rounded-lg" : ""}`}
       >
         {days.map((day) => {
           const status = getStatus(day);
@@ -262,18 +255,18 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             />
           );
         })}
+
+        {/* 출석하지 않은 "today"가 있을 때, id="attendance" 영역의 우측 상단에 아이콘 표시 */}
+        {isTodayUnattended && (
+          <img
+            src={Images.attendanceNote}
+            alt="Attendance Note"
+            className="absolute top-0 right-0 w-[20px] h-[20px]"
+          />
+        )}
       </div>
 
-      {/* 출석하지 않은 "today"가 있을 때, 우측 상단에 아이콘 표시 */}
-      {isTodayUnattended && (
-        <img
-          src={Images.attendanceNote}
-          alt="Attendance Note"
-          className="absolute top-0 right-0 w-[20px] h-[20px]"
-        />
-      )}
-
-      <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 px-2 text-white">
+      <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 text-white">
         * {t("dice_event.star_rewards")}
       </p>
     </div>
