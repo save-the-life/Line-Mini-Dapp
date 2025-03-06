@@ -308,9 +308,9 @@ const DentalAnalysis: React.FC = () => {
             const slResponse = await slPayment();
 
             if(slResponse.message === "Success"){
-              const originalExplanation = parsedData.diagnosis.description;
-              setLabel(parsedData.diagnosis.diagnostic_name);
-              setExplanation(originalExplanation);
+              const firstAnalysis = parsedData.analysis[0];
+              setLabel(firstAnalysis.disease_name);
+              setExplanation(firstAnalysis.description);
               setIsAnalyzed(true);
             }else {
               setShowModal(true);
