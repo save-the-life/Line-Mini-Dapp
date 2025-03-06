@@ -309,7 +309,6 @@ const DentalAnalysis: React.FC = () => {
 
             if(slResponse.message === "Success"){
               const originalExplanation = parsedData.diagnosis.description;
-  
               setLabel(parsedData.diagnosis.diagnostic_name);
               setExplanation(originalExplanation);
               setIsAnalyzed(true);

@@ -169,6 +169,7 @@ import rankingModal from "./ranking_modal.png"
 import urlReward from "./urlreward.png"
 import eventBanner from "./eventbanner.png"
 import eventBox from "./eventbox.png"
+import attendanceNote from "./attendancenote.png"
 
 const Images = {
   HorizontalLogo,
@@ -340,7 +341,8 @@ const Images = {
   rankingModal,
   urlReward,
   eventBanner,
-  eventBox
+  eventBox,
+  attendanceNote
 };
 
 export default Images;
