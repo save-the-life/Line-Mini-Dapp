@@ -5,9 +5,10 @@ interface AttendanceDayProps {
   day: string;
   status: 'checked' | 'missed' | 'default' | 'today';
   displayDay: string;
+  onClick?: () => void;
 }
 
-const AttendanceDay: React.FC<AttendanceDayProps> = ({ day, status, displayDay }) => {
+const AttendanceDay: React.FC<AttendanceDayProps> = ({ day, status, displayDay, onClick  }) => {
   const getStatusClass = () => {
     switch (status) {
       case 'checked':
@@ -24,7 +25,10 @@ const AttendanceDay: React.FC<AttendanceDayProps> = ({ day, status, displayDay }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2">
+    <div 
+      className={`flex flex-col items-center justify-center gap-2 ${onClick ? "cursor-pointer" : ""}`}
+      onClick={onClick} // 클릭 핸들러 부여
+    >
       <p className="font-semibold">{displayDay}</p>
       <div
         className={`w-7 h-7 rounded-full flex justify-center items-center border-2 ${getStatusClass()}`}
