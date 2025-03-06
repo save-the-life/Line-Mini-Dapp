@@ -269,123 +269,80 @@ const DentalAnalysis: React.FC = () => {
       console.log("Parsed data:", parsedData);
 
       const { image_type, analysis, is_tooth } = parsedData;
-
-      if (image_type === "x-ray") {
-        // x-ray 이미지를 업로드한 경우
-        console.log("여기는 x-ray 취급 안해요.");
-        showModalFunction(t("ai_page.actual_photo"));
-        setIsAnalyzed(false);
-        setSelectedImage(null);
-        setLabel("X ray");
-        setExplanation("");
-      } else if (image_type === "other") {
-        // 전혀 다른 이미지를 업로드한 경우
-        console.log("전혀 다른 이미지를 올리셨어요.");
-        showModalFunction(t("ai_page.Please_upload_tooth_image"));
-        setIsAnalyzed(false);
-        setSelectedImage(null);
-        setLabel("Non dental");
-        setExplanation("");
-      } else if (!is_tooth) { 
-        // 치아가 보이지 않는 이미지를 업로드한 경우
-        console.log("이빨 좀 보이는 사진 올려주세요.");
-        showModalFunction(t("ai_page.Please_upload_pets_tooth_image"));
-        setIsAnalyzed(false);
-        setLabel("Non dental");
-        setSelectedImage(null);
-        setExplanation(""); // 설명 초기화
-      } else if ((image_type === "dog" || image_type === "cat") && is_tooth) {
-        // 치아가 보이는 반려동물 이미지를 업로드한 경우(정상 케이스)
-        console.log("분석을 정상적으로 했어요.");
-        setIsAnalyzed(true);
-        setImageType(image_type);
-        setAnalysisResult(analysis);
-        // try{
-        // } catch(error: any){
-
-        // }
-      };
-
       // 5) 응답에 따른 분기 처리
-      // try {
-      //     // assistantMessage를 JSON 객체로 파싱
-      //     const parsedData = JSON.parse(assistantMessage);
-      //     console.log("Parsed Response Data:", parsedData);
-      
-      //     // 데이터 유효성 검사 및 분기 처리
-      //     if (parsedData.is_x_ray === "x-ray") {
-      //         // 업로드한 사진이 x-ray 이미지인 경우
-      //         console.log("여기는 x-ray 취급 안해요.");
-      //         showModalFunction(t("ai_page.actual_photo"));
-      //         setIsAnalyzed(false);
-      //         setLabel("Non dental");
-      //         setSelectedImage(null);
-      //         setExplanation(""); // 설명 초기화
-      //     } else if(parsedData.image_type === "other" && parsedData.is_tooth_image === false && parsedData.diagnosis){
-      //         // 업로드한 사진이 전혀 다른 사진인 경우
-      //         console.log("전혀 다른 이미지를 올리셨어요.");
-      //         showModalFunction(t("ai_page.Please_upload_tooth_image"));
-      //         setIsAnalyzed(false);
-      //         setLabel("Non dental");
-      //         setSelectedImage(null);
-      //         setExplanation(""); // 설명 초기화
-      //     } else if((parsedData.image_type === "dog" || parsedData.image_type === "cat") && parsedData.is_tooth_image === false && parsedData.diagnosis){
-      //         // 업로드한 사진이 반려 동물의 사진이지만 치아가 보이지 않는 경우
-      //         console.log("이빨 좀 보이는 사진 올려주세요.");
-      //         showModalFunction(t("ai_page.Please_upload_pets_tooth_image"));
-      //         setIsAnalyzed(false);
-      //         setLabel("Non dental");
-      //         setSelectedImage(null);
-      //         setExplanation(""); // 설명 초기화
-      //     } else if (parsedData.is_tooth_image === true && parsedData.diagnosis) {
-      //         // 분석 성공: 진단 결과 표시
-      //         console.log("분석을 정상적으로 했어요.");
-      //         const originalExplanation = parsedData.diagnosis.description;
-      
-      //         setLabel(parsedData.diagnosis.diagnostic_name);
-      //         setExplanation(originalExplanation);
-      //         setIsAnalyzed(true);
+      try {
+        // assistantMessage를 JSON 객체로 파싱
+        const parsedData = JSON.parse(assistantMessage);
+        console.log("Parsed Response Data:", parsedData);
+    
+        // 데이터 유효성 검사 및 분기 처리
+        if (image_type === "x-ray") {
+          // x-ray 이미지를 업로드한 경우
+          showModalFunction(t("ai_page.actual_photo"));
+          setIsAnalyzed(false);
+          setSelectedImage(null);
+          setLabel("X ray");
+          setExplanation("");
+        } else if (image_type === "other") {
+          // 전혀 다른 이미지를 업로드한 경우
+          showModalFunction(t("ai_page.Please_upload_tooth_image"));
+          setIsAnalyzed(false);
+          setSelectedImage(null);
+          setLabel("Non dental");
+          setExplanation("");
+        } else if (!is_tooth) { 
+          // 치아가 보이지 않는 이미지를 업로드한 경우
+          showModalFunction(t("ai_page.Please_upload_pets_tooth_image"));
+          setIsAnalyzed(false);
+          setLabel("Non dental");
+          setSelectedImage(null);
+          setExplanation(""); // 설명 초기화
+        } else if ((image_type === "dog" || image_type === "cat") && is_tooth) {
+          // 치아가 보이는 반려동물 이미지를 업로드한 경우(정상 케이스)
+          setIsAnalyzed(true);
+          setImageType(image_type);
+          setAnalysisResult(analysis);
+          
+          // sl 차감 api 진행
+          try{
+            const slResponse = await slPayment();
 
-      //         // sl 차감 api 진행
-      //         // try{
-      //         //   const slResponse = await slPayment();
-
-      //         //   if(slResponse.message === "Success"){
-      //         //     const originalExplanation = parsedData.diagnosis.description;
-      
-      //         //     setLabel(parsedData.diagnosis.diagnostic_name);
-      //         //     setExplanation(originalExplanation);
-      //         //     setIsAnalyzed(true);
-      //         //   }else {
-      //         //     setShowModal(true);
-      //         //     setSelectedImage(null);
-      //         //     setIsAnalyzed(false);
-      //         //     showModalFunction(t("ai_page.5SL_tokens"));
-      //         //   }
-      //         // }catch(error: any){
-      //         //   console.error("sl payment Error:", error);
-      //         //   showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
-      //         //   setIsAnalyzed(false);
-      //         //   setSelectedImage(null);
-      //         //   setLabel(t("ai_page.Analysis_failed"));
-      //         //   setExplanation(""); // 설명 초기화
-      //         // }
-      //     } else {
-      //         // 예외 처리: 유효하지 않은 응답
-      //         showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
-      //         setIsAnalyzed(false);
-      //         setSelectedImage(null);
-      //         setLabel(t("ai_page.Analysis_failed"));
-      //         setExplanation(""); // 설명 초기화
-      //     }
-      // } catch (error) {
-      //     console.error("JSON Parsing Error:", error);
-      //     showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
-      //     setIsAnalyzed(false);
-      //     setSelectedImage(null);
-      //     setLabel(t("ai_page.Analysis_failed"));
-      //     setExplanation(""); // 설명 초기화
-      // }            
+            if(slResponse.message === "Success"){
+              const originalExplanation = parsedData.diagnosis.description;
+  
+              setLabel(parsedData.diagnosis.diagnostic_name);
+              setExplanation(originalExplanation);
+              setIsAnalyzed(true);
+            }else {
+              setShowModal(true);
+              setSelectedImage(null);
+              setIsAnalyzed(false);
+              showModalFunction(t("ai_page.5SL_tokens"));
+            }
+          }catch(error: any){
+            console.error("sl payment Error:", error);
+            showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
+            setIsAnalyzed(false);
+            setSelectedImage(null);
+            setLabel(t("ai_page.Analysis_failed"));
+            setExplanation(""); // 설명 초기화
+          }
+        } else {
+            // 예외 처리: 유효하지 않은 응답
+            showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
+            setIsAnalyzed(false);
+            setSelectedImage(null);
+            setLabel(t("ai_page.Analysis_failed"));
+            setExplanation(""); // 설명 초기화
+        }
+    } catch (error) {
+        console.error("JSON Parsing Error:", error);
+        showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
+        setIsAnalyzed(false);
+        setSelectedImage(null);
+        setLabel(t("ai_page.Analysis_failed"));
+        setExplanation(""); // 설명 초기화
+    }            
     } catch (error: any) {
         console.error("OpenAI Error:", error);
         setIsAnalyzed(false);
@@ -501,7 +458,7 @@ const DentalAnalysis: React.FC = () => {
                     <button
                         className={`w-full h-14 text-white text-base font-medium py-2 px-4 rounded-full ${loading ? 'cursor-wait' : ''}`}
                         style={{ backgroundColor: '#0147E5' }}
-                        onClick={analyzeImage}
+                        onClick={checkBalance}
                         disabled={loading}
                     >
                         {loading ? t("ai_page.Analyzing...") : t("ai_page.Upload_image_and_analysis")}

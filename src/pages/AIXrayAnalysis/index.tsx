@@ -217,45 +217,45 @@ const AIXrayAnalysis: React.FC = () => {
         } else if (parsedData.image_type === "pet_xray") {
           // sl 차감 api 진행
           try {
-            // const slResponse = await slPayment();
-            // if(slResponse.message === 'Success'){
-            //   // 실제 분류 모델 동작
-            //   if (loadedModel && selectedImage) {
-            //     const imageElement = new Image();
-            //     imageElement.src = URL.createObjectURL(selectedImage);
-            //     imageElement.onload = async () => {
-            //       const predictions = await loadedModel.predict(imageElement);
-            //       const highestPrediction = predictions.reduce((prev, current) =>
-            //         prev.probability > current.probability ? prev : current
-            //       );
+            const slResponse = await slPayment();
+            if(slResponse.message === 'Success'){
+              // 실제 분류 모델 동작
+              if (loadedModel && selectedImage) {
+                const imageElement = new Image();
+                imageElement.src = URL.createObjectURL(selectedImage);
+                imageElement.onload = async () => {
+                  const predictions = await loadedModel.predict(imageElement);
+                  const highestPrediction = predictions.reduce((prev, current) =>
+                    prev.probability > current.probability ? prev : current
+                  );
 
-            //       // ① 예측 결과(영어 원본)
-            //       const rawLabel = highestPrediction.className;
+                  // ① 예측 결과(영어 원본)
+                  const rawLabel = highestPrediction.className;
 
-            //       // ② 번역된 문자열
-            //       const translatedLabel =
-            //         highestPrediction.probability > 0.95
-            //           ? t(`ai_page.reuslts.${rawLabel.replace(/ /g, "_")}`, {
-            //               defaultValue: t("ai_page.reuslts.Normal"),
-            //             })
-            //           : t("ai_page.reuslts.Normal");
+                  // ② 번역된 문자열
+                  const translatedLabel =
+                    highestPrediction.probability > 0.95
+                      ? t(`ai_page.reuslts.${rawLabel.replace(/ /g, "_")}`, {
+                          defaultValue: t("ai_page.reuslts.Normal"),
+                        })
+                      : t("ai_page.reuslts.Normal");
 
-            //       // state에 둘 다 반영
-            //       setPredictedLabel(rawLabel);
-            //       setDisplayLabel(translatedLabel);
+                  // state에 둘 다 반영
+                  setPredictedLabel(rawLabel);
+                  setDisplayLabel(translatedLabel);
 
-            //       setIsAnalyzed(true);
-            //       setLoading(false);
-            //     };
-            //   } else {
-            //     setLoading(false);
-            //   }
-            // }else {
-            //   setShowModal(true);
-            //   setSelectedImage(null);
-            //   setIsAnalyzed(false);
-            //   showModalFunction(t("ai_page.5SL_tokens"));
-            // }
+                  setIsAnalyzed(true);
+                  setLoading(false);
+                };
+              } else {
+                setLoading(false);
+              }
+            }else {
+              setShowModal(true);
+              setSelectedImage(null);
+              setIsAnalyzed(false);
+              showModalFunction(t("ai_page.5SL_tokens"));
+            }
             // 실제 분류 모델 동작
             if (loadedModel && selectedImage) {
               const imageElement = new Image();
@@ -424,7 +424,7 @@ const AIXrayAnalysis: React.FC = () => {
           <button
             className={`w-full h-14 text-white text-base font-medium py-2 px-4 rounded-full ${loading ? 'cursor-wait' : ''}`}
             style={{ backgroundColor: '#0147E5' }}
-            onClick={analyzeImage}
+            onClick={checkBalance}
             disabled={loading}
           >
             {loading ? t("ai_page.Analyzing...") : t("ai_page.Upload_image_and_analysis")}
