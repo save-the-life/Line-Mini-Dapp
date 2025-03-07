@@ -480,10 +480,12 @@ const MyAssets: React.FC = () => {
                                     {nftCollection.map((nftItem) => (
                                         <div
                                             key={nftItem.id}
-                                            className="border border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
+                                            className="bg-[#1F1E27] border-2 border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
+                                        >
+                                        <div 
+                                            className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                                             style={{ background: "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)" }}
                                         >
-                                        <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
                                             <img
                                             src={nftItem.imgUrl}
                                             alt={nftItem.name}
