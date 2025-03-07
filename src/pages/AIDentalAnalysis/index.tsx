@@ -145,26 +145,26 @@ const DentalAnalysis: React.FC = () => {
     playSfx(Audios.button_click);
     console.log("현재 사용 언어", i18n.language);
     let useLanguage = "English";
-
-    if(i18n.language === "ko"){
-      useLanguage = "Korean"
-      console.log("바뀜요: ", useLanguage);
-    }
-    else if(i18n.language === "en"){
-      useLanguage = "English"
-      console.log("바뀜요: ", useLanguage);
-    }
-    else if(i18n.language === "ja"){
-      useLanguage = "Japanese"
-      console.log("바뀜요: ", useLanguage);
-    }
-    else if(i18n.language === "zh"){
-      useLanguage = "Taiwanese"
-      console.log("바뀜요: ", useLanguage);
-    }
-    else if(i18n.language === "th"){
-      useLanguage = "Thai"
-      console.log("바뀜요: ", useLanguage);
+    
+    if (i18n.language === "ko-KR") {
+      useLanguage = "Korean";
+      console.log("Language set to: Korean (ko-KR)");
+    } else if (i18n.language === "ja-JP") {
+      useLanguage = "Japanese";
+      console.log("Language set to: Japanese (ja-JP)");
+    } else if (i18n.language === "zh-CN" || i18n.language === "zh-TW") {
+      useLanguage = "Taiwanese";
+      console.log("Language set to: Taiwanese (zh-CN/zh-TW)");
+    } else if (i18n.language === "th-TH") {
+      useLanguage = "Thai";
+      console.log("Language set to: Thai (th-TH)");
+    } else if (i18n.language === "en-US") {
+      useLanguage = "English";
+      console.log("Language set to: English (en-US)");
+    } else {
+      // 그 외의 경우 대문자로 시작하는 언어 코드를 처리하는 예시
+      console.log("Language not explicitly matched. Defaulting to English.");
+      useLanguage = "English";
     }
 
     if (!selectedImage) {
