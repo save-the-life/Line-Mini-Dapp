@@ -483,7 +483,7 @@ const MyAssets: React.FC = () => {
                                             className="bg-[#1F1E27] border-2 border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
                                         >
                                         <div 
-                                            className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                                            className="relative w-full aspect-[150/150] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                                             style={{ background: "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)" }}
                                         >
                                             <img
