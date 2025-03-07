@@ -1,7 +1,7 @@
 import api from '@/shared/api/axiosInstance';
 
-export const getMyAssets = async(): Promise<any> => {
-    const response = await api.get('/assets');
+export const getMyAssets = async(walletAddress: string): Promise<any> => {
+    const response = await api.post('/assets', {walletAddress});
 
     if(response.data.code === 'OK'){
         console.log("my asset response: ", response);
