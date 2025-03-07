@@ -21,6 +21,7 @@ import {
 import { BigNumber, ethers } from "ethers";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import { v4 as uuidv4 } from "uuid";
+import useWalletStore from "@/shared/store/useWalletStore";
 
 const ItemStore: React.FC = () => {
   const { t } = useTranslation();
@@ -39,12 +40,12 @@ const ItemStore: React.FC = () => {
   const [agreeRefund, setAgreeRefund] = useState(false);
   const [agreeEncrypted, setAgreeEncrypted] = useState(false);
   const [balance, setBalance] = useState<string>("");
-  const [account, setAccount] = useState("");
   // location.state로 전달된 값이 있다면 초기값으로 설정
   const balanceFromState = location.state?.balance || null;
-  const walletAddressFromState = location.state?.walletAccount || null;
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
+
+  const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
   // USD(STRIPE) 결제 진행 시 시작 시간을 기록합니다.
   const [paymentStartTime, setPaymentStartTime] = useState<number | null>(null);
@@ -74,9 +75,9 @@ const ItemStore: React.FC = () => {
   // 계정(account)이 변경되면 잔액 조회 진행
   useEffect(() => {
     const fetchBalance = async () => {
-      if (!account) return;
+      if (!walletAddress) return;
       try {
-        const response: KaiaRpcResponse<string> = await kaiaGetBalance(account);
+        const response: KaiaRpcResponse<string> = await kaiaGetBalance(walletAddress);
         if (response.error) {
           console.log("잔고 확인 에러: ", response.error);
         } else if (response.result) {
@@ -93,16 +94,14 @@ const ItemStore: React.FC = () => {
       }
     };
     fetchBalance();
-  }, [account]);
+  }, [walletAddress]);
 
-  // location.state에 walletAddress가 있다면 account에 설정, 없으면 지갑 연결 안내 표시
+  // walletAddress가 없으면 지갑 연결 안내 표시
   useEffect(() => {
-    if (walletAddressFromState) {
-      setAccount(walletAddressFromState);
-    } else {
+    if (!walletAddress) {
       setNeedWallet(true);
     }
-  }, [walletAddressFromState]);
+  }, [walletAddress]);
 
   // 결제 상태 폴링
   useEffect(() => {
@@ -169,7 +168,7 @@ const ItemStore: React.FC = () => {
     paymentMethod: "STRIPE" | "CRYPTO",
     sdkOptions = {}
   ) => {
-    if (!account) {
+    if (!walletAddress) {
       setNeedWallet(true);
       return;
     }
@@ -194,7 +193,7 @@ const ItemStore: React.FC = () => {
       const response = await paymentSession(
         selectedItem as number,
         paymentMethod,
-        account,
+        walletAddress,
         key
       );
       if (response) {
@@ -276,30 +275,39 @@ const ItemStore: React.FC = () => {
       chainId: "1001",
     });
     const walletProvider = sdk.getWalletProvider();
+    const checkWalletType = walletProvider.getWalletType() || null;
+  
     const accounts = (await walletProvider.request({
       method: "kaia_requestAccounts",
     })) as string[];
+    
     if (accounts.length === 0) return;
+    
     const walletAddr = accounts[0];
-    setAccount(walletAddr);
-
+    
+    // 전역 상태 업데이트 (중복 호출 없이 한 번만)
+    setWalletAddress(walletAddr);
+    setProvider(walletProvider);
+    if (checkWalletType) {
+      setWalletType(checkWalletType);
+    }
+    
     try {
+      // 로컬 변수 walletAddr를 사용하여 잔액 조회
       const response: KaiaRpcResponse<string> = await kaiaGetBalance(walletAddr);
       if (response.error) {
         console.log("잔고 확인 에러: ", response.error);
       } else if (response.result) {
         const KAIA_DECIMALS = 18;
         const balanceBigNumber = BigNumber.from(response.result);
-        const formattedBalance = ethers.utils.formatUnits(
-          balanceBigNumber,
-          KAIA_DECIMALS
-        );
+        const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
         setBalance(Number(formattedBalance).toFixed(2));
       }
     } catch (err: any) {
       console.error("Failed to fetch balance:", err);
     }
   };
+  
 
   // 선택된 아이템 정보 조회 (selectedItem의 itemId와 매칭)
   const selectedItemInfo = useMemo(() => {

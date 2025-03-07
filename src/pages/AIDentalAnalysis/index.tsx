@@ -11,6 +11,7 @@ import getBalance from '@/entities/AI/api/checkBalance';
 import slPayment from '@/entities/AI/api/paySL';
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
+import useWalletStore from '@/shared/store/useWalletStore';
 
 const DentalAnalysis: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const DentalAnalysis: React.FC = () => {
   const [imageType, setImageType] = useState<string>("unknown");
   const petData = location.state as { id: string };
   const petId = petData?.id || '';
+
+  const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
   const openai = new OpenAI({
       apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
@@ -305,7 +308,7 @@ const DentalAnalysis: React.FC = () => {
           
           // sl 차감 api 진행
           try{
-            const slResponse = await slPayment();
+            const slResponse = await slPayment(walletAddress);
 
             if(slResponse.message === "Success"){
               const firstAnalysis = parsedData.analysis[0];

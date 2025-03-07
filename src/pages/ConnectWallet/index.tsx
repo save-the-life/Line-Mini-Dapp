@@ -5,6 +5,7 @@ import Images from "@/shared/assets/images";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import webLoginWithAddress from "@/entities/User/api/webLogin";
 import { useUserStore } from "@/entities/User/model/userModel";
+import useWalletStore from "@/shared/store/useWalletStore";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -15,6 +16,7 @@ const ConnectWalletPage: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const { setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
@@ -47,6 +49,17 @@ const ConnectWalletPage: React.FC = () => {
       }
   
       console.log("지갑 연결 성공:", accounts[0]);
+
+      if (accounts && accounts[0]) {
+        // 전역 상태에 지갑 주소 저장
+        setWalletAddress(accounts[0]);
+        // 전역 상태에 dappPortal의 provider 저장
+        setProvider(walletProvider);
+        // 전역 상태에 지갑 타입 저장 (null 체크)
+        if (walletType) {
+          setWalletType(walletType);
+        }
+      }
   
       // 주소 기반 Web 로그인 및 사용자 데이터 확인
       const webLogin = await webLoginWithAddress(accounts[0]);

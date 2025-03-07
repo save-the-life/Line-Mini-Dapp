@@ -11,6 +11,7 @@ import getBalance from '@/entities/AI/api/checkBalance';
 import slPayment from '@/entities/AI/api/paySL';
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
+import useWalletStore from '@/shared/store/useWalletStore';
 
 const AIXrayAnalysis: React.FC = () => {
   const navigate = useNavigate();
@@ -36,6 +37,8 @@ const AIXrayAnalysis: React.FC = () => {
   const petData = location.state as { id: string };
   const petId = petData?.id || '';
   const [probability, setProbability] = useState("");
+  
+  const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
   const openai = new OpenAI({
     apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
@@ -217,7 +220,7 @@ const AIXrayAnalysis: React.FC = () => {
         } else if (parsedData.image_type === "pet_xray") {
           // sl 차감 api 진행
           try {
-            const slResponse = await slPayment();
+            const slResponse = await slPayment(walletAddress);
             if(slResponse.message === 'Success'){
               // 실제 분류 모델 동작
               if (loadedModel && selectedImage) {

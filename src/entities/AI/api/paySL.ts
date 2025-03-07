@@ -1,10 +1,11 @@
 import api from '@/shared/api/axiosInstance';
 
 // SL 차감
-export const slPayment = async (): Promise<any> => {
-  const response = await api.get('/diagnosis/sl/pay');
+export const slPayment = async (walletAddress: string): Promise<any> => {
+  const response = await api.post('/diagnosis/sl/pay', {walletAddress});
   
   if (response.data.code === 'OK') {
+    console.log("결제 진행: ", response);
     return response.data;
   } else {
     console.error('Unexpected response:', response);

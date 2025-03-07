@@ -23,6 +23,7 @@ import { BigNumber, ethers } from "ethers";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import getMyAssets from "@/entities/Asset/api/getMyAssets";
 import requestClaim from "@/entities/Asset/api/requestClaim";
+import useWalletStore from "@/shared/store/useWalletStore";
 
 interface TruncateMiddleProps {
     text: any;
@@ -69,7 +70,6 @@ const MyAssets: React.FC = () => {
     const [loadingModal, setLoadingModal] = useState(false);
     const [rewardHistoryData, setRewardHistoryData] = useState<any[]>([]);
     const [balance, setBalance] = useState("0.00");
-    const [walletAccount, setWalletAccount] = useState("");
 
     const [nonNftItems, setNonNftItems] = useState<any[]>([]);
     const [nftCollection, setNftCollection] = useState<any[]>([]);
@@ -79,6 +79,8 @@ const MyAssets: React.FC = () => {
     const [failMessage, setFailMessage] = useState("");
     const [claimData, setClaimData] = useState<ClaimData | null>(null);
     const [userClaimAmount, setUserClaimAmount] = useState("");  
+    
+    const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -223,22 +225,25 @@ const MyAssets: React.FC = () => {
             chainId: '1001',
         });
         const walletProvider = sdk.getWalletProvider();
+        const checkWalletType = walletProvider.getWalletType() || null;
         const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
         if (accounts && accounts[0]) {
             const account = accounts[0];
-            setWalletAccount(account);
+            setWalletAddress(account);
+            setProvider(walletProvider);
+            if (checkWalletType) {
+                setWalletType(checkWalletType);
+              }
             await fetchBalance(account);
             setShowWalletModal(true);
         }
     };
 
-    // 통합 useEffect: 로컬스토리지에서 지갑 주소 확인 후, 없으면 자동 지갑 연결, 있으면 잔액 조회
+    // 통합 useEffect: useWalletStore 에서 지갑 주소 확인 후, 없으면 자동 지갑 연결, 있으면 잔액 조회
     useEffect(() => {
         const checkStoredWallet = async () => {
-            const storedWalletAddress = window.localStorage.getItem("sdk.dappportal.io:1001:selectedWalletAddress");
-            if (storedWalletAddress) {
-                setWalletAccount(storedWalletAddress);
-                await fetchBalance(storedWalletAddress);
+            if (walletAddress) {
+                await fetchBalance(walletAddress);
             } else {
                 await handleBalance();
             }
@@ -250,8 +255,8 @@ const MyAssets: React.FC = () => {
     useEffect(() => {
         const fetchAssets = async () => {
             try {
-                if (!walletAccount) return;
-                const assets = await getMyAssets(walletAccount);
+                if (!walletAddress) return;
+                const assets = await getMyAssets(walletAddress);
                 if (assets) {
                     setNonNftItems(assets.items || []);
                     setNftCollection(assets.nfts || []);
@@ -267,7 +272,7 @@ const MyAssets: React.FC = () => {
             }
         };
         fetchAssets();
-    }, [walletAccount]);
+    }, [walletAddress]);
 
     // 결제 내역 조회 (dapp-portal sdk 사용)
     const handlePaymentHistory = async () => {
@@ -402,7 +407,7 @@ const MyAssets: React.FC = () => {
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        navigate("/item-store", { state: { balance, walletAccount } });
+                                        navigate("/item-store", { state: { balance, walletAddress } });
                                     }}>
                                     {t("asset_page.shop_item")}
                                 </button>
@@ -438,7 +443,7 @@ const MyAssets: React.FC = () => {
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        navigate("/item-store", { state: { balance, walletAccount } });
+                                        navigate("/item-store", { state: { balance, walletAddress } });
                                     }}>
                                     {t("asset_page.shop_item")}
                                 </button>
@@ -781,7 +786,7 @@ const MyAssets: React.FC = () => {
                         <div className="flex flex-col items-center justify-center text-center">
                             <p className="mb-2 mt-4 text-base font-semibold">
                                 {t("asset_page.claim.connected")} <br />
-                                <span><TruncateMiddle text={"0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"} maxLength={20} /></span>
+                                <span><TruncateMiddle text={walletAddress} maxLength={20} /></span>
                             </p>
                             <p className="text-sm text-[#A3A3A3] mb-5 leading-5 font-normal">
                                 {t("asset_page.claim.gas_note")} <br />
@@ -796,7 +801,7 @@ const MyAssets: React.FC = () => {
                                 className="w-full h-16 rounded-2xl bg-[#181A20] border border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                             />
                             <button
-                                onClick={() => handleClaim("SLT", userClaimAmount, "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af")}
+                                onClick={() => handleClaim("SLT", userClaimAmount, walletAddress)}
                                 className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium">
                                 {t("asset_page.claim.claim_btn")}
                             </button>
@@ -827,7 +832,7 @@ const MyAssets: React.FC = () => {
                         <div className="flex flex-col items-center justify-center text-center">
                             <p className="mb-2 mt-4 text-base font-semibold">
                                 {t("asset_page.claim.connected")} <br />
-                                <span><TruncateMiddle text={"0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af"} maxLength={20} /></span>
+                                <span><TruncateMiddle text={walletAddress} maxLength={20} /></span>
                             </p>
                             <p className="text-sm font-normal text-[#A3A3A3] mb-5 leading-5">
                                 {t("asset_page.claim.gas_note")} <br />
@@ -844,7 +849,7 @@ const MyAssets: React.FC = () => {
                                 className="w-full h-16 rounded-2xl bg-[#181A20] border-2 border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                             />
                             <button
-                                onClick={() => handleClaim("USDC", userClaimAmount, "0xf80fF1B467Ce45100A1E2dB89d25F1b78c0d22af")}
+                                onClick={() => handleClaim("USDC", userClaimAmount, walletAddress)}
                                 className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium">
                                 {t("asset_page.claim.claim_btn")}
                             </button>

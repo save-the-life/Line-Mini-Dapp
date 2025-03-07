@@ -7,6 +7,7 @@ import DappPortalSDK from "@linenext/dapp-portal-sdk"; // Default export로 SDK 
 import { ethers } from "ethers";
 import requestAttendance from "@/entities/User/api/requestAttendance";
 import Images from "@/shared/assets/images";
+import useWalletStore from "@/shared/store/useWalletStore";
 
 const contractAddress = "0x01AE259aAc479862eA609D6771AA18fB1b1E097e";
 
@@ -14,50 +15,19 @@ const abi = [
   {
     "anonymous": false,
     "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "lastAttendance",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "consecutiveDays",
-        "type": "uint256"
-      }
+      { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "lastAttendance", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "consecutiveDays", "type": "uint256" }
     ],
     "name": "AttendanceChecked",
     "type": "event"
   },
   {
     "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "messageHash",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint8",
-        "name": "v",
-        "type": "uint8"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "r",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "s",
-        "type": "bytes32"
-      }
+      { "internalType": "bytes32", "name": "messageHash", "type": "bytes32" },
+      { "internalType": "uint8", "name": "v", "type": "uint8" },
+      { "internalType": "bytes32", "name": "r", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "s", "type": "bytes32" }
     ],
     "name": "checkAttendance",
     "outputs": [],
@@ -66,24 +36,12 @@ const abi = [
   },
   {
     "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
+      { "internalType": "address", "name": "", "type": "address" }
     ],
     "name": "users",
     "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "lastAttendance",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "consecutiveDays",
-        "type": "uint256"
-      }
+      { "internalType": "uint256", "name": "lastAttendance", "type": "uint256" },
+      { "internalType": "uint256", "name": "consecutiveDays", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -107,8 +65,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const { weekAttendance, setWeekAttendance } = useUserStore();
   const [today] = useState<DayKeys>(getTodayDay());
   const { t } = useTranslation();
-  const [account, setAccount] = useState<string | null>(null);
-  const [provider, setProvider] = useState<any>(null);
+  const { walletAddress, provider, setWalletAddress, setProvider, setWalletType } = useWalletStore();
   const [isConnecting, setIsConnecting] = useState(false);
 
   // 출석 상태 결정 로직
@@ -134,7 +91,6 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   };
 
   const days: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  // "오늘"에 해당하면서 아직 출석하지 않은 상태가 있는지 여부
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
   // 지갑 연결 함수
@@ -146,41 +102,63 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         chainId: "8217",
       });
       const walletProvider = sdk.getWalletProvider();
+      // 전역 상태에 provider 업데이트
       setProvider(walletProvider);
+      const checkWalletType = walletProvider.getWalletType() || null;
+      
       const accounts = (await walletProvider.request({
         method: "kaia_requestAccounts",
       })) as string[];
-      setAccount(accounts[0]);
+      
+      if (accounts && accounts[0]) {
+        // 전역 상태에 지갑 주소 저장
+        setWalletAddress(accounts[0]);
+        // 전역 상태에 dappPortal의 provider 저장 (이미 설정된 상태)
+        setProvider(walletProvider);
+        // 전역 상태에 지갑 타입 저장
+        if (checkWalletType) {
+          setWalletType(checkWalletType);
+        }
+      }
       console.log("지갑 연결 성공:", accounts[0]);
     } catch (error: any) {
       console.error("지갑 연결 에러:", error.message);
     }
   };
 
-  // 출석 체크 함수 (지갑 연결 후 바로 서명 요청 로직 실행)
+  // 출석 체크 함수 (지갑 연결 후 바로 서명 요청)
   const handleAttendanceClick = async () => {
-    if (!provider || !account) {
+    // 연결되지 않은 경우 지갑 연결 시도
+    if (!provider || !walletAddress) {
       if (isConnecting) return; // 이미 연결 중이면 중복 시도 방지
       setIsConnecting(true);
       await handleWalletConnection();
       setIsConnecting(false);
-      // 연결 후에도 provider나 account가 없는 경우 종료
-      if (!provider || !account) return;
+      // 연결 후 최신 상태 가져오기 (Zustand getState 사용)
+      const { walletAddress: updatedAddress, provider: updatedProvider } = useWalletStore.getState();
+      if (!updatedProvider || !updatedAddress) {
+        console.error("지갑 연결 상태 업데이트 실패");
+        return;
+      }
     }
 
     try {
       console.log("출석 체크 서명 요청 중...");
-      const walletType = provider.getWalletType();
-      console.log("연결된 지갑 타입:", walletType);
-      const ethersProvider = new ethers.providers.Web3Provider(provider);
+      // 최신 provider를 사용
+      const currentProvider = useWalletStore.getState().provider;
+      const currentWalletAddress = useWalletStore.getState().walletAddress;
+      const currentWalletType = currentProvider.getWalletType();
+      console.log("연결된 지갑 타입:", currentWalletType);
+
+      const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
       const signer = ethersProvider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       let txHash;
 
       if (
-        walletType === "WalletType.Web" ||
-        walletType === "WalletType.Extension" ||
-        walletType === "WalletType.Mobile"
+        currentWalletType === "Web" ||
+        currentWalletType === "Extension" ||
+        currentWalletType === "Mobile"
       ) {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
         const tx = await contract.checkAttendance();
@@ -188,7 +166,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         txHash = tx.hash;
       } else {
         console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
-        const message = `출석 체크: ${account}`;
+        const message = `출석 체크: ${currentWalletAddress}`;
         const messageHash = ethers.utils.hashMessage(message);
         const signature = await signer.signMessage(message);
         console.log("✅ 서명 완료:", signature);
@@ -240,8 +218,6 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             />
           );
         })}
-
-        {/* 출석하지 않은 "today"가 있을 때, id="attendance" 영역의 우측 상단에 아이콘 표시 */}
         {isTodayUnattended && (
           <img
             src={Images.attendanceNote}
@@ -250,7 +226,6 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
           />
         )}
       </div>
-
       <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 text-white">
         * {t("dice_event.star_rewards")}
       </p>
