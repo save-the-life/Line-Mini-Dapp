@@ -185,6 +185,7 @@ const DentalAnalysis: React.FC = () => {
             role: "system",
             content: `
               You are an AI specialized in pet dental analysis.
+              Please respond exclusively in ${useLanguage}.
               1) Return "image_type": one of ['dog','cat','x-ray','other'].
               2) Return "analysis": an array of objects => { disease_name, probability, description, caution } 
                 - probability: number(0~1)
