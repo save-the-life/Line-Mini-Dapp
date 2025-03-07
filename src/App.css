@@ -96,7 +96,7 @@ img {
   -moz-user-select: none; /* Prevent text selection in Firefox */
   -ms-user-select: none; /* Prevent text selection in Internet Explorer/Edge */
   user-select: none; /* Standard property */
-
+  -webkit-touch-callout: none;
   -webkit-user-drag: none; /* Prevent image drag in WebKit browsers */
 }
 
