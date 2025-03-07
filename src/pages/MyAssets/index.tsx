@@ -478,18 +478,20 @@ const MyAssets: React.FC = () => {
                             <div className="flex flex-col items-center justify-center">
                                 <div className="grid grid-cols-2 gap-4 mt-4 w-full">
                                     {nftCollection.map((nftItem) => (
-                                    <div
-                                        key={nftItem.id}
-                                        className="bg-[#1F1E27] border border-[#737373] p-[10px] rounded-xl flex flex-col items-center">
+                                        <div
+                                            key={nftItem.id}
+                                            className="border border-[#737373] p-[10px] rounded-xl flex flex-col items-center"
+                                            style={{ background: "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)" }}
+                                        >
                                         <div className="w-full aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden">
-                                        <img
+                                            <img
                                             src={nftItem.imgUrl}
                                             alt={nftItem.name}
                                             className="w-full h-full object-cover"
-                                        />
+                                            />
                                         </div>
                                         <p className="mt-2 text-sm font-semibold">{nftItem.name}</p>
-                                    </div>
+                                        </div>
                                     ))}
                                 </div>
                                 <button
@@ -505,6 +507,7 @@ const MyAssets: React.FC = () => {
                         )}
                     </div>
                 </div>
+
 
                 {/* Claim Balance 영역 */}
                 <div className="mt-8 w-full">
