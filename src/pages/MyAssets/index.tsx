@@ -385,7 +385,7 @@ const MyAssets: React.FC = () => {
                 </div>
 
                 {/* Non-NFT Items 영역 */}
-                <div className="mt-9 w-full">
+                <div className="mt-10 mb-10 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.non_nft")}</h2>
                         <button
@@ -397,7 +397,7 @@ const MyAssets: React.FC = () => {
                     </div>
                     <div className="mt-10 w-full">
                         {nonNftItems.length === 0 ? (
-                            <div className="mx-0 mb-36 w-full h-[150px] flex flex-col items-center justify-center">
+                            <div className="mx-0 w-full h-[150px] flex flex-col items-center justify-center">
                                 <p className="text-center text-[#737373] text-sm font-medium">
                                     <span className="whitespace-nowrap">{t("asset_page.no_item")}</span>
                                     <br />
