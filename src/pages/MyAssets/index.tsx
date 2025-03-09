@@ -611,7 +611,10 @@ const MyAssets: React.FC = () => {
                                             {formatDate(reward.loggedAt)}
                                         </p>
                                     </div>
-                                    <p className={`text-base font-semibold ${reward.displayChangeType === "INCREASE" ? "text-[#3B82F6]" : "text-[#DD2726]"}`}>
+                                    <p 
+                                        className={`text-base font-semibold ${
+                                            reward.displayChangeType === "INCREASE" ? "text-[#3B82F6]" : "text-[#DD2726]"
+                                    }`}>
                                         {reward.displayChangeType === "INCREASE" ? "+" : "-"}
                                         {reward.amount} {reward.displayAsset}
                                     </p>
