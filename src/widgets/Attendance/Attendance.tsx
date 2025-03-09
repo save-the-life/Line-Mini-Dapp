@@ -159,7 +159,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       let txHash;
 
       
-      if (walletType === "Web" || walletType === "Extension" || walletType === "Mobile") {
+      if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
         const tx = await contract.checkAttendance();
         await tx.wait();
@@ -171,6 +171,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         const signature = await signer.signMessage(message);
         console.log("✅ 서명 완료:", signature);
         const sig = ethers.utils.splitSignature(signature);
+      
+        console.log("sig 확인: ", sig);
         const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
         await tx.wait();
         txHash = tx.hash;
