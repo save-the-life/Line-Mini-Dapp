@@ -395,9 +395,9 @@ const MyAssets: React.FC = () => {
                             {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
-                    <div className="mt-20 w-full">
+                    <div className="mt-10 w-full">
                         {nonNftItems.length === 0 ? (
-                            <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
+                            <div className="mx-0 mb-36 w-full h-[150px] flex flex-col items-center justify-center">
                                 <p className="text-center text-[#737373] text-sm font-medium">
                                     <span className="whitespace-nowrap">{t("asset_page.no_item")}</span>
                                     <br />
@@ -459,12 +459,13 @@ const MyAssets: React.FC = () => {
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.My_NFT_Collection")}</h2>
                     </div>
-                    <div className="mt-4 w-full">
+                    <div className="mt-10 w-full">
                         {nftCollection.length === 0 ? (
-                            <div className="mx-20 h-[150px] flex flex-col items-center justify-center">
+                            <div className="mx-0 w-full h-[150px] flex flex-col items-center justify-center">
                                 <p className="text-center text-[#737373] text-sm font-medium">
-                                    {t("asset_page.no_nft")}<br />
-                                    {t("asset_page.own_nft")}
+                                    <span className="whitespace-nowrap">{t("asset_page.no_nft")}</span>
+                                    <br />
+                                    <span className="whitespace-nowrap">{t("asset_page.own_nft")}</span>
                                 </p>
                                 <button
                                     className="w-40 h-14 py-4 rounded-full text-base font-medium mt-12"
