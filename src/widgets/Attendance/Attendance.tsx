@@ -159,7 +159,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       let txHash;
 
       
-      if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
+      if (walletType === "Web" || walletType === "Extension" || walletType === "Mobile") {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
         const tx = await contract.checkAttendance();
         await tx.wait();
