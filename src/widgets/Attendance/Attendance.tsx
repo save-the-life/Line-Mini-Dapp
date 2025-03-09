@@ -159,23 +159,52 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       let txHash;
 
       
-      if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
-        console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
-        const tx = await contract.checkAttendance();
-        await tx.wait();
-        txHash = tx.hash;
-      } else {
-        console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
-        const message = `출석 체크: ${currentWalletAddress}`;
-        const messageHash = ethers.utils.hashMessage(message);
-        const signature = await signer.signMessage(message);
-        console.log("✅ 서명 완료:", signature);
-        const sig = ethers.utils.splitSignature(signature);
+      // if (walletType === "Web" || walletType === "Extension" || walletType === "Mobile") {
+      //   console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
+      //   const message = `출석 체크: ${currentWalletAddress}`;
+      //   const messageHash = ethers.utils.hashMessage(message);
+      //   const signature = await signer.signMessage(message);
+      //   console.log("✅ 서명 완료:", signature);
+      //   const sig = ethers.utils.splitSignature(signature);
+      //   console.log("sig 확인: ", sig);
+      //   const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+      //   await tx.wait();
+      //   txHash = tx.hash;
+      // } else {
+      //   console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
+      //   const message = `출석 체크: ${currentWalletAddress}`;
+      //   const messageHash = ethers.utils.hashMessage(message);
+      //   const signature = await signer.signMessage(message);
+      //   console.log("✅ 서명 완료:", signature);
+      //   const sig = ethers.utils.splitSignature(signature);
       
-        console.log("sig 확인: ", sig);
-        const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
-        await tx.wait();
-        txHash = tx.hash;
+      //   console.log("sig 확인: ", sig);
+      //   const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+      //   await tx.wait();
+      //   txHash = tx.hash;
+      // }
+      
+      if (
+        currentWalletType === "WalletType.Web" ||
+        currentWalletType === "WalletType.Extension" ||
+        currentWalletType === "WalletType.Mobile"
+      ) {
+        console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
+  
+        // ✅ 트랜잭션 객체 생성 (Kaia Wallet에서는 `kaia_sendTransaction` 사용)
+        const txData = {
+          from: currentWalletAddress,
+          to: contractAddress,
+          data: contract.interface.encodeFunctionData("checkAttendance", []), // ✅ 인자 없이 실행
+          value: "0x0",
+        };
+  
+        txHash = await currentProvider.request({
+          method: "kaia_sendTransaction",
+          params: [txData],
+        });
+  
+        console.log("✅ Kaia Wallet 트랜잭션 실행 완료! TX Hash:", txHash);
       }
 
       console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", txHash);
