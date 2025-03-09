@@ -163,11 +163,54 @@ const MyAssets: React.FC = () => {
         fetchRewardsHistory();
     }, []);
 
+    // const displayHistory = rewardHistoryData.map((reward) => {
+    //     const displayAsset = reward.currencyType === "STAR" ? "P" : reward.currencyType;
+    //     const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
+    //     return { ...reward, displayAsset, displayChangeType };
+    // });
+
     const displayHistory = rewardHistoryData.map((reward) => {
-        const displayAsset = reward.currencyType === "STAR" ? "P" : reward.currencyType;
-        const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
-        return { ...reward, displayAsset, displayChangeType };
-    });
+        let contentKey = "";
+        switch (reward.content) {
+          case "Dice Game Reward":
+            contentKey = "dice_game_reward";
+            break;
+          case "Level Up":
+            contentKey = "level_up";
+            break;
+          case "Monthly Ranking Compensation":
+            contentKey = "monthly_ranking_compensation";
+            break;
+          case "Spin Game Reward":
+            contentKey = "spin_game_reward";
+            break;
+          case "Daily Attendance Reward":
+            contentKey = "daily_attendance_reward";
+            break;
+          case "RPS Game Win":
+            contentKey = "rps_game_win";
+            break;
+          case "Follow on X":
+            contentKey = "follow_on_x";
+            break;
+          case "Join Telegram":
+            contentKey = "join_telegram";
+            break;
+          case "Subscribe to Email":
+            contentKey = "subscribe_to_email";
+            break;
+          case "Follow on LinkedIn":
+            contentKey = "follow_on_linkedin";
+            break;
+          case "Leave a Supportive Comment on SL X":
+            contentKey = "leave_supportive_comment";
+            break;
+          default:
+            contentKey = reward.content;
+        }
+        return { ...reward, contentKey };
+      });
+      
 
     const formatDate = (date: string): string => {
         const [day, month, year] = date.split("-").map(Number);
@@ -563,7 +606,7 @@ const MyAssets: React.FC = () => {
                                     key={`${reward.loggedAt}-${index}`}
                                     className={`flex justify-between items-center py-4 ${index !== displayHistory.length - 1 ? "border-b border-[#35383F]" : ""}`}>
                                     <div>
-                                        <p className="text-sm font-normal">{reward.content}</p>
+                                        <p className="text-sm font-normal">{t(`reward_page.${reward.contentKey}`)}</p>
                                         <p className="text-xs font-normal text-[#A3A3A3]">
                                             {formatDate(reward.loggedAt)}
                                         </p>

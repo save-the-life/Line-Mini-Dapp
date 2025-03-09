@@ -154,7 +154,18 @@
       "rewards": "7,777 Points + 10SL Tokens + 30 Dice",
       "start_now": "Receive Reward & Start Now!",
       "raffle_airdrop" : "Raffle AirDrop Event",
-      "Check_winner": "Check if you're one of the lucky winners!"
+      "Check_winner": "Check if you're one of the lucky winners!",
+      "dice_game_reward": "Dice Game Reward",
+      "level_up": "Level Up",
+      "monthly_ranking_compensation": "Monthly Ranking Compensation",
+      "spin_game_reward": "Spin Game Reward",
+      "daily_attendance_reward": "Daily Attendance Reward",
+      "rps_game_win": "RPS Game Win",
+      "follow_on_x": "Follow on X",
+      "join_telegram": "Join Telegram",
+      "subscribe_to_email": "Subscribe to Email",
+      "follow_on_linkedin": "Follow on LinkedIn",
+      "leave_supportive_comment": "Leave a Supportive Comment on SL X"
     },
     "wallet_page": {
         "wallet": "Wallet",

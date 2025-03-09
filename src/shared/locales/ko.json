@@ -154,7 +154,18 @@
       "rewards": "7,777 포인트 + 10SL 토큰 + 30 다이스",
       "start_now": "보상 받기 & 지금 시작하기!",
       "raffle_airdrop": "에어드롭 추첨 이벤트",
-      "Check_winner": "여러분이 행운의 당첨자 중 한 명인지 확인해보세요!"
+      "Check_winner": "여러분이 행운의 당첨자 중 한 명인지 확인해보세요!",
+      "dice_game_reward": "주사위 게임 보상",
+      "level_up": "레벨 업",
+      "monthly_ranking_compensation": "월간 순위 보상",
+      "spin_game_reward": "스핀 게임 보상",
+      "daily_attendance_reward": "일일 출석 보상",
+      "rps_game_win": "가위바위보 게임 승리",
+      "follow_on_x": "X에서 팔로우",
+      "join_telegram": "텔레그램 참여",
+      "subscribe_to_email": "이메일 구독",
+      "follow_on_linkedin": "링크드인 팔로우",
+      "leave_supportive_comment": "SL X에 격려 댓글 남기기"
     },
     "wallet_page": {
       "wallet": "지갑",

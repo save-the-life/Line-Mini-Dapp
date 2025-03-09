@@ -154,7 +154,18 @@
         "rewards": "7,777ポイント + 10SLトークン + 30ダイス",
         "start_now": "報酬を受け取って、今すぐ始めよう！",
         "raffle_airdrop": "抽選エアドロップイベント",
-        "Check_winner": "あなたが幸運な当選者の一人かどうか確認してください！"
+        "Check_winner": "あなたが幸運な当選者の一人かどうか確認してください！",
+        "dice_game_reward": "サイコロゲーム報酬",
+        "level_up": "レベルアップ",
+        "monthly_ranking_compensation": "月間ランキング報酬",
+        "spin_game_reward": "スピンゲーム報酬",
+        "daily_attendance_reward": "デイリー出席報酬",
+        "rps_game_win": "じゃんけん勝利",
+        "follow_on_x": "Xでフォロー",
+        "join_telegram": "Telegramに参加",
+        "subscribe_to_email": "メール購読",
+        "follow_on_linkedin": "LinkedInでフォロー",
+        "leave_supportive_comment": "SL Xに応援コメントを残す"
     },
     "wallet_page": {
         "wallet": "ウォレット",

@@ -154,7 +154,18 @@
       "rewards": "7,777 點數 + 10SL 代幣 + 30 骰子",
       "start_now": "立即領取獎勵並開始！",
       "raffle_airdrop": "抽獎空投活動",
-      "Check_winner": "檢查你是否成為幸運得主之一！"
+      "Check_winner": "檢查你是否成為幸運得主之一！",
+      "dice_game_reward": "擲骰遊戲獎勵",
+      "level_up": "升級",
+      "monthly_ranking_compensation": "每月排名獎勵",
+      "spin_game_reward": "轉盤遊戲獎勵",
+      "daily_attendance_reward": "每日出席獎勵",
+      "rps_game_win": "剪刀石頭布遊戲勝利",
+      "follow_on_x": "在 X 上關注",
+      "join_telegram": "加入 Telegram",
+      "subscribe_to_email": "訂閱電子郵件",
+      "follow_on_linkedin": "在 LinkedIn 上關注",
+      "leave_supportive_comment": "在 SL X 上留下支持的評論"
     },
     "wallet_page": {
       "wallet": "錢包",
