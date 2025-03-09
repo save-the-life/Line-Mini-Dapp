@@ -1,5 +1,4 @@
 // src/pages/MissionPage.tsx
-
 import React, { useEffect, useState } from "react";
 import {
   AlertDialog,
@@ -43,17 +42,15 @@ const OneTimeMissionCard: React.FC<OneTimeMissionCardProps> = ({
   const { t } = useTranslation();
   const { playSfx } = useSound();
 
-  // 번역 처리
   const translatedName = missionNamesMap[mission.name]
     ? t(missionNamesMap[mission.name])
     : mission.name;
 
-  // PENDING 상태 체크 (이제 오버레이 없이 클릭은 그대로 허용)
+  // PENDING 상태 체크 (오버레이 없이 클릭 기능 유지)
   const isPending = mission.status === "PENDING";
 
   const handleClick = () => {
     playSfx(Audios.button_click);
-
     if (!mission.isCleared) {
       if (mission.redirectUrl) {
         window.open(mission.redirectUrl, "_blank");
@@ -131,15 +128,10 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
 };
 
 const MissionPage: React.FC = () => {
-  // 이미지 로딩 상태
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const { playSfx } = useSound();
-
-  // 이벤트 배너 표시 여부
   const [eventShow, setEventShow] = useState(true);
-
-  // 미션 스토어
   const { missions, fetchMissions, clearMission } = useMissionStore();
 
   // 보상 다이얼로그 상태
@@ -151,10 +143,12 @@ const MissionPage: React.FC = () => {
     spinType: string;
   } | null>(null);
 
-  // 추가: 보상이 이미 표시된 미션 ID를 추적하는 상태 (한 번만 표시)
-  const [rewardShownMissions, setRewardShownMissions] = useState<number[]>([]);
+  // 로컬 스토리지에서 보상 표시된 미션 ID를 초기화
+  const [rewardShownMissions, setRewardShownMissions] = useState<number[]>(() => {
+    const stored = localStorage.getItem("rewardShownMissions");
+    return stored ? JSON.parse(stored) : [];
+  });
 
-  // Preload할 이미지 목록 구성
   const mappedImages = Object.values(missionImageMap).flatMap((item) =>
     Images[item.imageKey] ? [Images[item.imageKey]] : []
   );
@@ -169,7 +163,6 @@ const MissionPage: React.FC = () => {
     ...mappedImages,
   ];
 
-  // 이미지 프리로딩 후 로딩 해제
   useEffect(() => {
     const loadAllImages = async () => {
       try {
@@ -183,12 +176,11 @@ const MissionPage: React.FC = () => {
     loadAllImages();
   }, [imagesToLoad]);
 
-  // 미션 데이터 불러오기
   useEffect(() => {
     fetchMissions();
   }, [fetchMissions]);
 
-  // 미션 클리어 시 보상 처리 (이미 보상이 표시된 미션은 건너뜁니다)
+  // 미션 클리어 시 보상 처리 (이미 보상 모달이 표시된 미션은 건너뜁니다)
   const handleMissionCleared = (mission: Mission) => {
     if (rewardShownMissions.includes(mission.id)) {
       return;
@@ -199,7 +191,12 @@ const MissionPage: React.FC = () => {
       spinType: "MISSION",
     });
     setIsDialogOpen(true);
-    setRewardShownMissions((prev) => [...prev, mission.id]);
+    // 상태와 로컬 스토리지에 미션 ID 추가
+    setRewardShownMissions((prev) => {
+      const updated = [...prev, mission.id];
+      localStorage.setItem("rewardShownMissions", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const handleCloseDialog = () => {
@@ -220,7 +217,6 @@ const MissionPage: React.FC = () => {
     return <LoadingSpinner className="h-screen" />;
   }
 
-  // 미션 배열 분리: 미완료, 완료
   const incompleteMissions = missions.filter((m) => !m.isCleared);
   const completedMissions = missions.filter((m) => m.isCleared);
 
@@ -338,7 +334,7 @@ const MissionPage: React.FC = () => {
                     </div>
                   )}
                 </div>
-                <p className="text-xs mb-8 mt-2 text-white">
+                <p className="text-xs mb-8 mt-2 text-white whitespace-nowrap">
                   {t(
                     "mission_page.*_If_the_mission_is_not_performed_correctly,_you_may_be_excluded_from_the_final_reward."
                   )}
@@ -457,7 +453,6 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
-      {/* 페이지 하단 여백 */}
       <div className="my-10"></div>
 
       {/* 미션 보상 다이얼로그 */}
