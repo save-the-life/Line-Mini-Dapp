@@ -49,14 +49,14 @@ const FirstRewardPage: React.FC = () => {
             <h2 className="text-lg font-medium mb-4 mt-16 text-left w-full">{t("reward_page.your_rewards")}</h2>
             <div className="flex flex-col items-start bg-[#1F283C] rounded-2xl px-4 py-6 w-full">
                 <div className="flex flex-col gap-2 text-base w-full">
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                         <img
                             src={Images.Calender}
                             alt="calendar-icon"
                             className="w-6 h-6"
                         />
                         <p className="text-left text-base font-medium">{t("reward_page.daily_attendance")}</p>
-                    </div>
+                    </div> */}
                     <div className="flex items-center gap-2">
                         <img
                             src={Images.Celebration}

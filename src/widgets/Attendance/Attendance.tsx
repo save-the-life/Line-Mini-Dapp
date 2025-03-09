@@ -201,6 +201,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
     <div className="mt-4">
       <div
         id="attendance"
+        onClick={isTodayUnattended ? handleAttendanceClick : undefined}
         className={`relative grid grid-cols-7 gap-2 bg-box min-h-24 md:h-32 text-white text-xs ${
           customWidth ? customWidth : "w-full md:w-[552px]"
         } ${isTodayUnattended ? "border-2 border-yellow-400 animate-pulse rounded-lg" : ""}`}
@@ -214,7 +215,6 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
               day={day}
               displayDay={displayDay}
               status={status}
-              onClick={status === "today" ? handleAttendanceClick : undefined}
             />
           );
         })}

@@ -395,10 +395,10 @@ const MyAssets: React.FC = () => {
                             {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
-                    <div className="mt-4 w-full">
+                    <div className="mt-20 w-full">
                         {nonNftItems.length === 0 ? (
-                            <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
-                                <p className="text-center text-[#737373] text-sm font-medium">
+                            <div className="mb-36 h-[150px] flex flex-col items-center justify-center">
+                                <p className="text-center text-[#737373] text-sm font-medium whitespace-nowrap">
                                     {t("asset_page.no_item")}<br />
                                     {t("asset_page.own_item")}
                                 </p>

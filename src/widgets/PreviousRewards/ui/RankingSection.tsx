@@ -180,7 +180,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
             );
           })
         ) : (
-          <p className="text-center text-sm">{t("reward_page.no_ranking")}</p>
+          <p className="text-center text-sm mt-7">{t("reward_page.no_ranking")}</p>
         )}
       </div>
 
