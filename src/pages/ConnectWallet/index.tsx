@@ -27,7 +27,7 @@ const ConnectWalletPage: React.FC = () => {
       console.log("DappPortal SDK 초기화 시작");
       const sdk = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "1001",
+        chainId: "8217",
       });
       const walletProvider = sdk.getWalletProvider();
   
@@ -44,7 +44,7 @@ const ConnectWalletPage: React.FC = () => {
         alert(
           "현재 PC 웹 브라우저 환경에서 '모바일 지갑'은 연결할 수 없습니다.\n모바일 환경에서 다시 시도해주세요."
         );
-        localStorage.removeItem("sdk.dappportal.io:1001:walletType");
+        localStorage.removeItem("sdk.dappportal.io:8217:walletType");
         return;
       }
   
