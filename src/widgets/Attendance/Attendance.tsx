@@ -205,6 +205,19 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         });
   
         console.log("✅ Kaia Wallet 트랜잭션 실행 완료! TX Hash:", txHash);
+      
+      } else {
+        console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
+        const message = `출석 체크: ${currentWalletAddress}`;
+        const messageHash = ethers.utils.hashMessage(message);
+        const signature = await signer.signMessage(message);
+        console.log("✅ 서명 완료:", signature);
+        const sig = ethers.utils.splitSignature(signature);
+      
+        console.log("sig 확인: ", sig);
+        const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+        await tx.wait();
+        txHash = tx.hash;
       }
 
       console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", txHash);
