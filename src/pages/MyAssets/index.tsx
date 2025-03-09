@@ -397,11 +397,13 @@ const MyAssets: React.FC = () => {
                     </div>
                     <div className="mt-20 w-full">
                         {nonNftItems.length === 0 ? (
-                            <div className="mb-36 h-[150px] flex flex-col items-center justify-center">
-                                <p className="text-center text-[#737373] text-sm font-medium whitespace-nowrap">
-                                    {t("asset_page.no_item")}<br />
-                                    {t("asset_page.own_item")}
+                            <div className="mt-20 mb-36 h-[150px] flex flex-col items-center justify-center">
+                                <p className="text-center text-[#737373] text-sm font-medium">
+                                    <span className="whitespace-nowrap">{t("asset_page.no_item")}</span>
+                                    <br />
+                                    <span className="whitespace-nowrap">{t("asset_page.own_item")}</span>
                                 </p>
+
                                 <button
                                     className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
