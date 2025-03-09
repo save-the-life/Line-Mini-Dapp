@@ -148,18 +148,18 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       const currentProvider = useWalletStore.getState().provider;
       const currentWalletAddress = useWalletStore.getState().walletAddress;
       const currentWalletType = currentProvider.getWalletType();
-      console.log("연결된 지갑 타입:", currentWalletType);
+      console.log("연결된 지갑 타입 by 전역 관리:", currentWalletType);
+      
+      const walletType = provider.getWalletType();
+      console.log("연결된 지갑 타입  by provider:", walletType);
 
       const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
       const signer = ethersProvider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       let txHash;
 
-      if (
-        currentWalletType === "Web" ||
-        currentWalletType === "Extension" ||
-        currentWalletType === "Mobile"
-      ) {
+      
+      if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
         const tx = await contract.checkAttendance();
         await tx.wait();
