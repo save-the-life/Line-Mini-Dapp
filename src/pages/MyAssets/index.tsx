@@ -170,6 +170,8 @@ const MyAssets: React.FC = () => {
     // });
 
     const displayHistory = rewardHistoryData.map((reward) => {
+        const displayAsset = reward.currencyType === "STAR" ? "P" : reward.currencyType;
+        const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
         let contentKey = "";
         switch (reward.content) {
           case "Dice Game Reward":
@@ -208,7 +210,7 @@ const MyAssets: React.FC = () => {
           default:
             contentKey = reward.content;
         }
-        return { ...reward, contentKey };
+        return { ...reward, contentKey, displayAsset, displayChangeType };
       });
       
 
@@ -604,29 +606,32 @@ const MyAssets: React.FC = () => {
                             displayHistory.map((reward, index) => (
                                 <div
                                     key={`${reward.loggedAt}-${index}`}
-                                    className={`flex justify-between items-center py-4 ${index !== displayHistory.length - 1 ? "border-b border-[#35383F]" : ""}`}>
-                                    <div>
-                                        <p className="text-sm font-normal">{t(`reward_page.${reward.contentKey}`)}</p>
-                                        <p className="text-xs font-normal text-[#A3A3A3]">
-                                            {formatDate(reward.loggedAt)}
-                                        </p>
-                                    </div>
-                                    <p 
-                                        className={`text-base font-semibold ${
-                                            reward.displayChangeType === "INCREASE" ? "text-[#3B82F6]" : "text-[#DD2726]"
-                                    }`}>
-                                        {reward.displayChangeType === "INCREASE" ? "+" : "-"}
-                                        {reward.amount} {reward.displayAsset}
+                                    className={`flex justify-between items-center py-4 ${
+                                        index !== displayHistory.length - 1 ? "border-b border-[#35383F]" : ""
+                                }`}>
+                                <div>
+                                    <p className="text-sm font-normal">{t(`reward_page.${reward.contentKey}`)}</p>
+                                    <p className="text-xs font-normal text-[#A3A3A3]">
+                                    {formatDate(reward.loggedAt)}
                                     </p>
                                 </div>
+                                <p
+                                    className={`text-base font-semibold ${
+                                    reward.displayChangeType === "INCREASE" ? "text-[#3B82F6]" : "text-[#DD2726]"
+                                    }`}>
+                                    {reward.displayChangeType === "INCREASE" ? "+" : "-"}
+                                    {reward.amount} {reward.displayAsset}
+                                </p>
+                                </div>
                             ))
-                        ) : (
+                            ) : (
                             <p className="text-center text-sm text-gray-400">
                                 {t("asset_page.no_records") || "No records found"}
                             </p>
                         )}
                     </div>
                 </div>
+
 
                 {/* 서비스 준비중 알림 모달창 */}
                 {showModal && (
