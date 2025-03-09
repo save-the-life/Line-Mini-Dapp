@@ -185,9 +185,9 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       // }
       
       if (
-        currentWalletType === "WalletType.Web" ||
-        currentWalletType === "WalletType.Extension" ||
-        currentWalletType === "WalletType.Mobile"
+        currentWalletType === "Web" ||
+        currentWalletType === "Extension" ||
+        currentWalletType === "Mobile"
       ) {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
   
