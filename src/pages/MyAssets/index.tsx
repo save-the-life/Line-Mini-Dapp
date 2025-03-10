@@ -340,6 +340,9 @@ const MyAssets: React.FC = () => {
             const paymentProvider = sdk.getPaymentProvider();
             await paymentProvider.openPaymentHistory();
         }catch(error: any){
+            if(error.code === "-32001"){
+                alert("결제 내역 호출 전 강제 종료하였습니다.");
+            }
             console.log("결제 내역 확인 중 에러 발생: ", error);
             localStorage.removeItem("sdk.dappportal.io:8217:walletType");
             alert("로그인 한 지갑과 다른 지갑을 호출하였습니다.");
