@@ -36,17 +36,12 @@ const RewardHistory: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
 
-  // ★ useEffect로 필터 상태가 변할 때마다 페이지 0부터 재조회
+  // 필터 상태가 변할 때마다 페이지 0부터 재조회
   useEffect(() => {
     fetchRewards(0, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAsset, selectedChange, startDate, endDate]);
 
-  // 컴포넌트 첫 렌더링 시에도 0페이지 불러오지만,
-  // 위 useEffect가 이미 [selectedAsset, ...] 의존성으로 포함하므로
-  // 초기 상태에서도 자동 실행된다.
-  // 만약 처음 마운트 시점에만 1회 호출하고 싶다면 의존성 배열을 []로 두거나 별도 처리 필요.
-  // 여기선 "마운트 시점 + 필터 변경 시점" 모두 호출이므로 아래 useEffect는 생략 가능할 수도 있음.
   useEffect(() => {
     fetchRewards(0, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,14 +85,12 @@ const RewardHistory: React.FC = () => {
   // 자산 라디오 버튼
   const handleAssetChange = (asset: string) => {
     playSfx(Audios.button_click);
-    // ★ fetchRewards 직접 호출하지 않음
     setSelectedAsset(asset);
   };
 
   // 증감 라디오 버튼
   const handleChangeType = (change: string) => {
     playSfx(Audios.button_click);
-    // ★ fetchRewards 직접 호출하지 않음
     setSelectedChange(change);
   };
 
@@ -105,17 +98,14 @@ const RewardHistory: React.FC = () => {
   const handleStartDateChange = (date: Date | null) => {
     playSfx(Audios.button_click);
     setStartDate(date);
-
     if (endDate && date && date > endDate) {
       setEndDate(null);
     }
-    // ★ fetchRewards 직접 호출하지 않음
   };
 
   const handleEndDateChange = (date: Date | null) => {
     playSfx(Audios.button_click);
     setEndDate(date);
-    // ★ fetchRewards 직접 호출하지 않음
   };
 
   // 더보기 버튼
@@ -124,16 +114,52 @@ const RewardHistory: React.FC = () => {
     fetchRewards(pageNumber + 1, false);
   };
 
-  // 표시용 변환( STAR→POINT, REWARD→INCREASE, USE→DECREASE )
+  // 보상 내역 표시용 변환 (STAR → POINT, REWARD → INCREASE, USE → DECREASE) 및 번역 키 매핑
   const displayHistory = rewardHistory.map((reward) => {
     const displayAsset = reward.currencyType === "STAR" ? "POINT" : reward.currencyType;
-    const displayChangeType =
-      reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
-    return {
-      ...reward,
-      displayAsset,
-      displayChangeType,
-    };
+    const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
+    let contentKey = "";
+    switch (reward.content) {
+      case "Dice Game Reward":
+        contentKey = "dice_game_reward";
+        break;
+      case "Level Up":
+        contentKey = "level_up";
+        break;
+      case "Monthly Ranking Compensation":
+        contentKey = "monthly_ranking_compensation";
+        break;
+      case "Spin Game Reward":
+        contentKey = "spin_game_reward";
+        break;
+      case "Daily Attendance Reward":
+        contentKey = "daily_attendance_reward";
+        break;
+      case "RPS Game Win":
+        contentKey = "rps_game_win";
+        break;
+      case "Follow on X":
+        contentKey = "follow_on_x";
+        break;
+      case "Join Telegram":
+        contentKey = "join_telegram";
+        break;
+      case "Subscribe to Email":
+        contentKey = "subscribe_to_email";
+        break;
+      case "Follow on LinkedIn":
+        contentKey = "follow_on_linkedin";
+        break;
+      case "Leave a Supportive Comment on SL X":
+        contentKey = "leave_supportive_comment";
+        break;
+      case "Join LuckyDice Star Reward":
+        contentKey = "join_lucky_dice";
+        break;
+      default:
+        contentKey = reward.content;
+    }
+    return { ...reward, displayAsset, displayChangeType, contentKey };
   });
 
   // DatePicker용 Custom Input
@@ -170,7 +196,7 @@ const RewardHistory: React.FC = () => {
           }}
         >
           <div className="flex items-center">
-            <p className="text-lg font-semibold">Filter Option</p>
+            <p className="text-lg font-semibold">{t("asset_page.filter_option")}</p>
           </div>
           {isOpen ? <FaCaretUp className="w-4 h-4" /> : <FaCaretDown className="w-4 h-4" />}
         </div>
@@ -183,7 +209,7 @@ const RewardHistory: React.FC = () => {
         >
           <div className="mt-4 mx-3">
             {/* 자산 종류 (단일 선택) */}
-            <p className="text-lg font-medium text-left mb-2">Asset Types</p>
+            <p className="text-lg font-medium text-left mb-2">{t("asset_page.asset_types")}</p>
             <div className="flex flex-col gap-2 ml-3">
               {["SL", "USDC", "STAR"].map((asset) => (
                 <label key={asset} className="flex items-center text-base font-medium">
@@ -195,13 +221,13 @@ const RewardHistory: React.FC = () => {
                     onChange={() => handleAssetChange(asset)}
                     className="mr-2"
                   />
-                  {asset === "STAR" ? "POINT" : asset}
+                  {asset === "STAR" ? t("asset_page.point") : asset}
                 </label>
               ))}
             </div>
 
             {/* 증감 필터 (단일 선택) */}
-            <p className="text-lg font-medium text-left mt-4 mb-2">Change Types</p>
+            <p className="text-lg font-medium text-left mt-4 mb-2">{t("asset_page.change_types")}</p>
             <div className="flex flex-col gap-2 ml-3">
               {["INCREASE", "DECREASE"].map((change) => (
                 <label key={change} className="flex items-center text-base font-medium">
@@ -213,20 +239,20 @@ const RewardHistory: React.FC = () => {
                     onChange={() => handleChangeType(change)}
                     className="mr-2"
                   />
-                  {change}
+                  {t(`asset_page.${change.toLowerCase()}`)}
                 </label>
               ))}
             </div>
 
             {/* 날짜 범위 선정 */}
-            <p className="text-lg font-medium text-left mt-4">Date Ranges</p>
+            <p className="text-lg font-medium text-left mt-4">{t("asset_page.date_ranges")}</p>
             <div className="flex items-center gap-4 mt-4">
               <div className="w-full">
                 <DatePicker
                   selected={startDate}
                   onChange={handleStartDateChange}
-                  placeholderText="Start Date"
-                  customInput={<CustomDateInput placeholder="Start Date" />}
+                  placeholderText={t("asset_page.start_date")}
+                  customInput={<CustomDateInput placeholder={t("asset_page.start_date")} />}
                   dateFormat="yyyy-MM-dd"
                   maxDate={endDate || undefined}
                 />
@@ -235,8 +261,8 @@ const RewardHistory: React.FC = () => {
                 <DatePicker
                   selected={endDate}
                   onChange={handleEndDateChange}
-                  placeholderText="End Date"
-                  customInput={<CustomDateInput placeholder="End Date" />}
+                  placeholderText={t("asset_page.end_date")}
+                  customInput={<CustomDateInput placeholder={t("asset_page.end_date")} />}
                   dateFormat="yyyy-MM-dd"
                   minDate={startDate || undefined}
                 />
@@ -256,7 +282,9 @@ const RewardHistory: React.FC = () => {
                 className="flex justify-between items-center py-4 border-b border-[#35383F]"
               >
                 <div>
-                  <p className="text-sm font-medium">{reward.content}</p>
+                  <p className="text-sm font-medium">
+                    {t(`reward_page.${reward.contentKey}`)}
+                  </p>
                   <p className="text-xs text-gray-400">{reward.loggedAt}</p>
                 </div>
                 <div className="flex flex-col items-end">
@@ -274,35 +302,17 @@ const RewardHistory: React.FC = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-sm text-gray-400">No records found</p>
+            <p className="text-center text-sm text-gray-400">{t("asset_page.no_records")}</p>
           )}
-
-          {/* (예시) 레퍼럴 보상 내역(요약본) */}
-          <div
-            className="flex justify-between items-center py-4 border-b border-[#35383F]"
-            onClick={() => {
-              playSfx(Audios.button_click);
-              navigate("/referral-rewards");
-            }}
-          >
-            {/* <div>
-              <p className="text-sm font-medium">Friend Referral Rewards</p>
-              <p className="text-xs text-gray-400">17-12-2024</p>
-            </div>
-            <div className="flex items-center gap-3 ml-auto">
-              <p className="text-sm font-bold text-[#3B82F6]">+150 POINT</p>
-              <FaChevronRight className="w-4 h-4" />
-            </div> */}
-          </div>
 
           {/* 더보기 버튼 */}
           {!isLastPage && (
             <div className="flex justify-center mt-4">
               <button
                 onClick={handleLoadMore}
-                className="px-4 py-2 bg-[#3B82F6]rounded-md text-white font-semibold hover:bg-blue-600"
+                className="px-4 py-2 bg-[#3B82F6] rounded-md text-white font-semibold hover:bg-blue-600"
               >
-                Load More
+                {t("asset_page.load_more")}
               </button>
             </div>
           )}

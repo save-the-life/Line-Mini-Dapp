@@ -165,7 +165,8 @@
         "join_telegram": "Telegramに参加",
         "subscribe_to_email": "メール購読",
         "follow_on_linkedin": "LinkedInでフォロー",
-        "leave_supportive_comment": "SL Xに応援コメントを残す"
+        "leave_supportive_comment": "SL Xに応援コメントを残す",
+        "join_lucky_dice": "ラッキーダイススター報酬に参加"
     },
     "wallet_page": {
         "wallet": "ウォレット",
@@ -306,7 +307,8 @@
         "shop_item": "アイテムを購入する",
         "detail": "支払詳細",
         "wallet_connect": "ウォレット接続",
-        "need_wallet": "ウォレットを接続して購入履歴を検索します。"
+        "need_wallet": "ウォレットを接続して購入履歴を検索します。",
+        "no_records": "報奨金の歴史はありません。"
     },
     "dice_event": {
         "attendance": "出席",

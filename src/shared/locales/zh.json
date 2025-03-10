@@ -165,7 +165,8 @@
       "join_telegram": "加入 Telegram",
       "subscribe_to_email": "訂閱電子郵件",
       "follow_on_linkedin": "在 LinkedIn 上關注",
-      "leave_supportive_comment": "在 SL X 上留下支持的評論"
+      "leave_supportive_comment": "在 SL X 上留下支持的評論",
+      "join_lucky_dice": "Lucky Dice加入补偿"
     },
     "wallet_page": {
       "wallet": "錢包",
@@ -306,7 +307,8 @@
       "shop_item": "選購物品",
       "detail": "付款方式",
       "wallet_connect": "钱包连接",
-      "need_wallet": "连接您的钱包以查找您的购买历史记录。"
+      "need_wallet": "连接您的钱包以查找您的购买历史记录。",
+      "no_records": "没有奖励历史。"
     },
     "dice_event": {
       "attendance": "簽到",

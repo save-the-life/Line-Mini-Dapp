@@ -165,7 +165,8 @@
       "join_telegram": "Join Telegram",
       "subscribe_to_email": "Subscribe to Email",
       "follow_on_linkedin": "Follow on LinkedIn",
-      "leave_supportive_comment": "Leave a Supportive Comment on SL X"
+      "leave_supportive_comment": "Leave a Supportive Comment on SL X",
+      "join_lucky_dice": "Join LuckyDice Star Reward"
     },
     "wallet_page": {
         "wallet": "Wallet",
@@ -306,7 +307,8 @@
       "shop_item": "Shop for items",
       "detail": "Payment Detail",
       "wallet_connect": "Wallet Connected",
-      "need_wallet": "Connect your wallet to look up your purchase history."
+      "need_wallet": "Connect your wallet to look up your purchase history.",
+      "no_records": "There is no reward history."
     },
     "dice_event": {
       "attendance": "Daily Attendance",

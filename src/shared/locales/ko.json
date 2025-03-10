@@ -165,7 +165,8 @@
       "join_telegram": "텔레그램 참여",
       "subscribe_to_email": "이메일 구독",
       "follow_on_linkedin": "링크드인 팔로우",
-      "leave_supportive_comment": "SL X에 격려 댓글 남기기"
+      "leave_supportive_comment": "SL X에 격려 댓글 남기기",
+      "join_lucky_dice": "럭키 다이스 가입 보상"
     },
     "wallet_page": {
       "wallet": "지갑",
@@ -306,7 +307,8 @@
       "shop_item": "item 쇼핑하기",
       "detail": "구매 내역 상세",
       "wallet_connect": "지갑이 연결되었습니다.",
-      "need_wallet": "구매 내역 조회를 위해 지갑을 연결합니다."
+      "need_wallet": "구매 내역 조회를 위해 지갑을 연결합니다.",
+      "no_records": "보상 내역이 존재하지 않습니다."
     },
     "dice_event": {
       "attendance": "출석",

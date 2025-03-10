@@ -165,7 +165,8 @@
       "join_telegram": "เข้าร่วม Telegram",
       "subscribe_to_email": "สมัครรับอีเมล",
       "follow_on_linkedin": "ติดตามบน LinkedIn",
-      "leave_supportive_comment": "แสดงความคิดเห็นสนับสนุนบน SL X"
+      "leave_supportive_comment": "แสดงความคิดเห็นสนับสนุนบน SL X",
+      "join_lucky_dice": "ลัคกี้ไดซ์ รางวัลการสมัครสมาชิก"
     },
     "wallet_page": {
       "wallet": "กระเป๋า",
@@ -306,7 +307,8 @@
       "shop_item": "ช้อปปิ้งไอเทม",
       "detail": "รายละเอียดการชำระเงิน",
       "wallet_connect": "เชื่อมต่อกระเป๋าคุมข้อมูลแล้ว",
-      "need_wallet": "เชื่อมต่อกระเป๋าเงินของคุณเพื่อค้นหาประวัติการซื้อของคุณ"
+      "need_wallet": "เชื่อมต่อกระเป๋าเงินของคุณเพื่อค้นหาประวัติการซื้อของคุณ",
+      "no_records": "ไม่มีประวัติการให้รางวัล"
     },
     "dice_event": {
       "attendance": "เช็กชื่อ",

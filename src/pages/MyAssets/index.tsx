@@ -169,40 +169,43 @@ const MyAssets: React.FC = () => {
         const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
         let contentKey = "";
         switch (reward.content) {
-          case "Dice Game Reward":
-            contentKey = "dice_game_reward";
-            break;
-          case "Level Up":
-            contentKey = "level_up";
-            break;
-          case "Monthly Ranking Compensation":
-            contentKey = "monthly_ranking_compensation";
-            break;
-          case "Spin Game Reward":
-            contentKey = "spin_game_reward";
-            break;
-          case "Daily Attendance Reward":
-            contentKey = "daily_attendance_reward";
-            break;
-          case "RPS Game Win":
-            contentKey = "rps_game_win";
-            break;
-          case "Follow on X":
-            contentKey = "follow_on_x";
-            break;
-          case "Join Telegram":
-            contentKey = "join_telegram";
-            break;
-          case "Subscribe to Email":
-            contentKey = "subscribe_to_email";
-            break;
-          case "Follow on LinkedIn":
-            contentKey = "follow_on_linkedin";
-            break;
-          case "Leave a Supportive Comment on SL X":
-            contentKey = "leave_supportive_comment";
-            break;
-          default:
+            case "Dice Game Reward":
+                contentKey = "dice_game_reward";
+                break;
+            case "Level Up":
+                contentKey = "level_up";
+                break;
+            case "Monthly Ranking Compensation":
+                contentKey = "monthly_ranking_compensation";
+                break;
+            case "Spin Game Reward":
+                contentKey = "spin_game_reward";
+                break;
+            case "Daily Attendance Reward":
+                contentKey = "daily_attendance_reward";
+                break;
+            case "RPS Game Win":
+                contentKey = "rps_game_win";
+                break;
+            case "Follow on X":
+                contentKey = "follow_on_x";
+                break;
+            case "Join Telegram":
+                contentKey = "join_telegram";
+                break;
+            case "Subscribe to Email":
+                contentKey = "subscribe_to_email";
+                break;
+            case "Follow on LinkedIn":
+                contentKey = "follow_on_linkedin";
+                break;
+            case "Leave a Supportive Comment on SL X":
+                contentKey = "leave_supportive_comment";
+                break;
+            case "Join LuckyDice Star Reward":
+                contentKey = "join_lucky_dice";
+                break;
+            default:
             contentKey = reward.content;
         }
         return { ...reward, contentKey, displayAsset, displayChangeType };
