@@ -290,7 +290,7 @@
       },
       "non_nft": "My Items",
       "buy_more": "Buy more Itmes",
-      "item_store":"Non-NFT Item Store",
+      "item_store":"Item Store",
       "payment_history": "Payment History",
       "agree_non_refundable": "I agree that the product is non-refundable.",
       "provide_encrypted_id": "I agree to provide encrypted ID information to LY Corporation when making a payment via LINE IAP.",

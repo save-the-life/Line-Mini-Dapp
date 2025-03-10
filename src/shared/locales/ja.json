@@ -290,7 +290,7 @@
         },
         "non_nft": "私のアイテム",
         "buy_more": "アイテムをもっと購入する",
-        "item_store": "Non-NFTアイテムストア",
+        "item_store": "アイテムストア",
         "payment_history": "支払い履歴",
         "agree_non_refundable": "この商品は返金不可であることに同意します。",
         "provide_encrypted_id": "LINE IAPによる支払いの際に、暗号化されたID情報をLY Corporationに提供することに同意します。",
