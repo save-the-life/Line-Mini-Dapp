@@ -79,6 +79,7 @@ const MyAssets: React.FC = () => {
     const [failMessage, setFailMessage] = useState("");
     const [claimData, setClaimData] = useState<ClaimData | null>(null);
     const [userClaimAmount, setUserClaimAmount] = useState("");  
+    const [showHistoryModal, setShowHistoryModal] = useState(false);
     
     const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
@@ -260,22 +261,27 @@ const MyAssets: React.FC = () => {
     // 지갑 연결 및 잔액 확인 함수
     const handleBalance = async () => {
         playSfx(Audios.button_click);
-        const sdk = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: '8217',
-        });
-        const walletProvider = sdk.getWalletProvider();
-        const checkWalletType = walletProvider.getWalletType() || null;
-        const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
-        if (accounts && accounts[0]) {
-            const account = accounts[0];
-            setWalletAddress(account);
-            setProvider(walletProvider);
-            if (checkWalletType) {
-                setWalletType(checkWalletType);
-              }
-            await fetchBalance(account);
-            setShowWalletModal(true);
+        if(!walletAddress){
+            const sdk = await DappPortalSDK.init({
+                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+                chainId: '8217',
+            });
+            const walletProvider = sdk.getWalletProvider();
+            const checkWalletType = walletProvider.getWalletType() || null;
+            const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
+            if (accounts && accounts[0]) {
+                const account = accounts[0];
+                setWalletAddress(account);
+                setProvider(walletProvider);
+                if (checkWalletType) {
+                    setWalletType(checkWalletType);
+                  }
+                await fetchBalance(account);
+                setShowWalletModal(true);
+            }
+        } else{
+            await fetchBalance(walletAddress);
+            setShowWalletModal(true);            
         }
     };
 
@@ -315,6 +321,11 @@ const MyAssets: React.FC = () => {
         };
         fetchAssets();
     }, [walletAddress]);
+
+    // 결제 내역 조회 버튼 클릭 > 안내 모달 창
+    const handleHistoryModal = () => {
+        setShowHistoryModal(true);
+    }
 
     // 결제 내역 조회 (dapp-portal sdk 사용)
     const handlePaymentHistory = async () => {
@@ -432,7 +443,7 @@ const MyAssets: React.FC = () => {
                         <h2 className="text-lg font-semibold">{t("asset_page.non_nft")}</h2>
                         <button
                             className="flex items-center text-white text-xs"
-                            onClick={handlePaymentHistory}
+                            onClick={handleHistoryModal}
                             aria-label="View All Items">
                             {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
@@ -657,6 +668,25 @@ const MyAssets: React.FC = () => {
                                 onClick={() => {
                                     playSfx(Audios.button_click);
                                     setShowWalletModal(false);
+                                }}>
+                                {t("OK")}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                
+                {/* 결제 내역 > 지갑 연결 알림 모달창 */}
+                {showHistoryModal && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+                        <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+                            <p>{t("asset_page.wallet_connect")}</p>
+                            <button
+                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                onClick={() => {
+                                    playSfx(Audios.button_click);
+                                    setShowHistoryModal(false);
+                                    handlePaymentHistory;
                                 }}>
                                 {t("OK")}
                             </button>

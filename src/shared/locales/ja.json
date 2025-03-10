@@ -305,7 +305,8 @@
         "own_item": "アイテムを所有して、ランクを上げよう！",
         "shop_item": "アイテムを購入する",
         "detail": "支払詳細",
-        "wallet_connect": "ウォレット接続"
+        "wallet_connect": "ウォレット接続",
+        "need_wallet": "ウォレットを接続して購入履歴を検索します。"
     },
     "dice_event": {
         "attendance": "出席",

@@ -305,7 +305,8 @@
       "own_item": "item을 소유하고 랭크를 올려보세요!",
       "shop_item": "item 쇼핑하기",
       "detail": "구매 내역 상세",
-      "wallet_connect": "지갑이 연결되었습니다."
+      "wallet_connect": "지갑이 연결되었습니다.",
+      "need_wallet": "구매 내역 조회를 위해 지갑을 연결합니다."
     },
     "dice_event": {
       "attendance": "출석",

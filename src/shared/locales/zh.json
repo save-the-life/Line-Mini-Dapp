@@ -305,7 +305,8 @@
       "own_item": "擁有物品並提升您的等級！",
       "shop_item": "選購物品",
       "detail": "付款方式",
-      "wallet_connect": "钱包连接"
+      "wallet_connect": "钱包连接",
+      "need_wallet": "连接您的钱包以查找您的购买历史记录。"
     },
     "dice_event": {
       "attendance": "簽到",
