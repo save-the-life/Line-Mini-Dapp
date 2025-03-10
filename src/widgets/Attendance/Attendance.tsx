@@ -227,12 +227,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       //   txHash = tx.hash;
       // }
       
-      if (
-        currentWalletType === "Web" ||
-        currentWalletType === "Extension" ||
-        currentWalletType === "Mobile" ||
-        currentWalletType === "Liff"
-      ) {
+      if (currentWalletType === "Extension") {
         console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
   
         // ✅ 트랜잭션 객체 생성 (Kaia Wallet에서는 `kaia_sendTransaction` 사용)
