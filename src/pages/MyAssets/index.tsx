@@ -81,7 +81,7 @@ const MyAssets: React.FC = () => {
     const [userClaimAmount, setUserClaimAmount] = useState("");  
     const [showHistoryModal, setShowHistoryModal] = useState(false);
     
-    const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
+    const { walletAddress, setWalletAddress, provider, setProvider, setWalletType } = useWalletStore();
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -344,7 +344,7 @@ const MyAssets: React.FC = () => {
                 alert("결제 내역 호출 전 강제 종료하였습니다.");
             } else {
                 console.log("결제 내역 확인 중 에러 발생: ", error);
-                localStorage.removeItem("sdk.dappportal.io:8217:walletType");
+                provider.disconnectWallet;
                 alert("로그인 한 지갑과 다른 지갑을 호출하였습니다.");
 
             }

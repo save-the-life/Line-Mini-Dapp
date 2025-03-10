@@ -44,7 +44,7 @@ const ConnectWalletPage: React.FC = () => {
         alert(
           "현재 PC 웹 브라우저 환경에서 '모바일 지갑'은 연결할 수 없습니다.\n모바일 환경에서 다시 시도해주세요."
         );
-        localStorage.removeItem("sdk.dappportal.io:8217:walletType");
+        walletProvider.disconnect;
         return;
       }
   
