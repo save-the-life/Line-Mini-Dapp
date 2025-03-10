@@ -193,8 +193,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       const currentWalletType = currentProvider.getWalletType();
       console.log("연결된 지갑 타입 by 전역 관리:", currentWalletType);
       
-      const walletType = provider.getWalletType();
-      console.log("연결된 지갑 타입  by provider:", walletType);
+      // const walletType = provider.getWalletType();
+      // console.log("연결된 지갑 타입  by provider:", walletType);
 
       const ethersProvider = new ethers.providers.Web3Provider(currentProvider);
       const signer = ethersProvider.getSigner();
