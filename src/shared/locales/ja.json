@@ -308,7 +308,16 @@
         "detail": "支払詳細",
         "wallet_connect": "ウォレット接続",
         "need_wallet": "ウォレットを接続して購入履歴を検索します。",
-        "no_records": "報奨金の歴史はありません。"
+        "no_records": "報奨金の歴史はありません。",
+        "filter_option": "フィルターオプション",
+        "asset_types": "資産タイプ",
+        "change_types": "変更タイプ",
+        "increase": "増加",
+        "decrease": "減少",
+        "date_ranges": "日付範囲",
+        "start_date": "開始日",
+        "end_date": "終了日",
+        "load_more": "もっと読み込む"
     },
     "dice_event": {
         "attendance": "出席",

@@ -308,7 +308,16 @@
       "detail": "구매 내역 상세",
       "wallet_connect": "지갑이 연결되었습니다.",
       "need_wallet": "구매 내역 조회를 위해 지갑을 연결합니다.",
-      "no_records": "보상 내역이 존재하지 않습니다."
+      "no_records": "보상 내역이 존재하지 않습니다.",
+      "filter_option": "필터 옵션",
+      "asset_types": "자산 유형",
+      "change_types": "변경 유형",
+      "increase": "증가",
+      "decrease": "감소",
+      "date_ranges": "날짜 범위",
+      "start_date": "시작 날짜",
+      "end_date": "종료 날짜",
+      "load_more": "더 불러오기"
     },
     "dice_event": {
       "attendance": "출석",

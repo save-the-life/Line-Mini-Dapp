@@ -308,7 +308,16 @@
       "detail": "Payment Detail",
       "wallet_connect": "Wallet Connected",
       "need_wallet": "Connect your wallet to look up your purchase history.",
-      "no_records": "There is no reward history."
+      "no_records": "There is no reward history.",
+      "filter_option": "Filter Option",
+      "asset_types": "Asset Types",
+      "change_types": "Change Types",
+      "increase": "INCREASE",
+      "decrease": "DECREASE",
+      "date_ranges": "Date Ranges",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "load_more": "Load More"
     },
     "dice_event": {
       "attendance": "Daily Attendance",

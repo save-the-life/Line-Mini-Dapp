@@ -308,7 +308,16 @@
       "detail": "付款方式",
       "wallet_connect": "钱包连接",
       "need_wallet": "连接您的钱包以查找您的购买历史记录。",
-      "no_records": "没有奖励历史。"
+      "no_records": "没有奖励历史。",
+      "filter_option": "篩選選項",
+      "asset_types": "資產類型",
+      "change_types": "變動類型",
+      "increase": "增加",
+      "decrease": "減少",
+      "date_ranges": "日期範圍",
+      "start_date": "開始日期",
+      "end_date": "結束日期",
+      "load_more": "載入更多"
     },
     "dice_event": {
       "attendance": "簽到",
