@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect  } from "react";
 import { useNavigate } from "react-router-dom";
 import { BiWallet } from "react-icons/bi";
 import { FaChevronRight } from "react-icons/fa";
@@ -80,8 +80,6 @@ const MyAssets: React.FC = () => {
     const [claimData, setClaimData] = useState<ClaimData | null>(null);
     const [userClaimAmount, setUserClaimAmount] = useState("");  
     const [showHistoryModal, setShowHistoryModal] = useState(false);
-    
-    const sdkRef = useRef<DappPortalSDK | null>(null);
     
     const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
@@ -263,12 +261,12 @@ const MyAssets: React.FC = () => {
     // 지갑 연결 및 잔액 확인 함수
     const handleBalance = async () => {
         playSfx(Audios.button_click);
-        if (!walletAddress) {
-            if (!sdkRef.current) {
-                console.error("SDK가 아직 초기화되지 않았습니다.");
-                return;
-            }
-            const walletProvider = sdkRef.current.getWalletProvider();
+        if(!walletAddress){
+            const sdk = await DappPortalSDK.init({
+                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+                chainId: '8217',
+            });
+            const walletProvider = sdk.getWalletProvider();
             const checkWalletType = walletProvider.getWalletType() || null;
             const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
             if (accounts && accounts[0]) {
@@ -277,24 +275,19 @@ const MyAssets: React.FC = () => {
                 setProvider(walletProvider);
                 if (checkWalletType) {
                     setWalletType(checkWalletType);
-                }
+                  }
                 await fetchBalance(account);
                 setShowWalletModal(true);
             }
-        } else {
+        } else{
             await fetchBalance(walletAddress);
             setShowWalletModal(true);            
         }
     };
-    
 
     // 통합 useEffect: useWalletStore 에서 지갑 주소 확인 후, 없으면 자동 지갑 연결, 있으면 잔액 조회
     useEffect(() => {
         const checkStoredWallet = async () => {
-            sdkRef.current = await DappPortalSDK.init({
-                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-                chainId: '8217',
-              });
             if (walletAddress) {
                 console.log("지갑 주소 확인: ", walletAddress);
                 await fetchBalance(walletAddress);
@@ -338,26 +331,25 @@ const MyAssets: React.FC = () => {
     const handlePaymentHistory = async () => {
         playSfx(Audios.button_click);
         setShowHistoryModal(false);
-    
-        if (!sdkRef.current) {
-            console.error("SDK가 아직 초기화되지 않았습니다.");
-            return;
-        }
-        
-        try {
-            const paymentProvider = sdkRef.current.getPaymentProvider();
+
+        try{
+            const sdk = await DappPortalSDK.init({
+                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+                chainId: "8217",
+            });
+            const paymentProvider = sdk.getPaymentProvider();
             await paymentProvider.openPaymentHistory();
-        } catch (error: any) {
+        }catch(error: any){
             if(error.code === "-32001"){
                 alert("결제 내역 호출 전 강제 종료하였습니다.");
             } else {
                 console.log("결제 내역 확인 중 에러 발생: ", error);
                 localStorage.removeItem("sdk.dappportal.io:8217:walletType");
                 alert("로그인 한 지갑과 다른 지갑을 호출하였습니다.");
+
             }
         }
     };
-    
 
     // 클래임 요청 함수
     const handleClaim = async (type: string, amount: string, address: string) => {

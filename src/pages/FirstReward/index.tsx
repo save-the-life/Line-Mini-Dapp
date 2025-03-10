@@ -72,7 +72,7 @@ const FirstRewardPage: React.FC = () => {
             {/* 하단 버튼 영역 고정 */}
             <div className="w-full px-6 pb-6">
                 <button
-                    className="w-full py-4 rounded-full text-base font-medium"
+                    className="w-full py-4 rounded-full text-base font-medium text-white"
                     onClick={handleReceiveReward}
                     style={{ backgroundColor: "#0147E5" }}
                     >
