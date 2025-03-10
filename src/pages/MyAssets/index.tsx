@@ -331,12 +331,18 @@ const MyAssets: React.FC = () => {
     const handlePaymentHistory = async () => {
         playSfx(Audios.button_click);
         setShowHistoryModal(false);
-        const sdk = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "8217",
-        });
-        const paymentProvider = sdk.getPaymentProvider();
-        await paymentProvider.openPaymentHistory();
+
+        try{
+            const sdk = await DappPortalSDK.init({
+                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+                chainId: "8217",
+            });
+            const paymentProvider = sdk.getPaymentProvider();
+            await paymentProvider.openPaymentHistory();
+        }catch(error: any){
+            console.log("결제 내역 확인 중 에러 발생: ", error);
+            alert("로그인 한 지갑과 다른 지갑을 호출하였습니다.");
+        }
     };
 
     // 클래임 요청 함수
