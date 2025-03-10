@@ -285,14 +285,14 @@ const RewardHistory: React.FC = () => {
               navigate("/referral-rewards");
             }}
           >
-            <div>
+            {/* <div>
               <p className="text-sm font-medium">Friend Referral Rewards</p>
               <p className="text-xs text-gray-400">17-12-2024</p>
             </div>
             <div className="flex items-center gap-3 ml-auto">
               <p className="text-sm font-bold text-[#3B82F6]">+150 POINT</p>
               <FaChevronRight className="w-4 h-4" />
-            </div>
+            </div> */}
           </div>
 
           {/* 더보기 버튼 */}

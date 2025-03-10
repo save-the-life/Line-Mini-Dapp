@@ -163,12 +163,6 @@ const MyAssets: React.FC = () => {
         fetchRewardsHistory();
     }, []);
 
-    // const displayHistory = rewardHistoryData.map((reward) => {
-    //     const displayAsset = reward.currencyType === "STAR" ? "P" : reward.currencyType;
-    //     const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
-    //     return { ...reward, displayAsset, displayChangeType };
-    // });
-
     const displayHistory = rewardHistoryData.map((reward) => {
         const displayAsset = reward.currencyType === "STAR" ? "P" : reward.currencyType;
         const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
@@ -256,6 +250,7 @@ const MyAssets: React.FC = () => {
                 const balanceBigNumber = BigNumber.from(rawBalanceHex);
                 const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
                 setBalance(Number(formattedBalance).toFixed(2));
+                console.log("잔액 확인 진행: ", Number(formattedBalance).toFixed(2));
             }
         } catch (err: any) {
             console.error("Failed to fetch token count:", err);
@@ -288,8 +283,10 @@ const MyAssets: React.FC = () => {
     useEffect(() => {
         const checkStoredWallet = async () => {
             if (walletAddress) {
+                console.log("지갑 주소 확인: ", walletAddress);
                 await fetchBalance(walletAddress);
             } else {
+                console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행")
                 await handleBalance();
             }
         };
