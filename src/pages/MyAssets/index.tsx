@@ -330,6 +330,7 @@ const MyAssets: React.FC = () => {
     // 결제 내역 조회 (dapp-portal sdk 사용)
     const handlePaymentHistory = async () => {
         playSfx(Audios.button_click);
+        setShowHistoryModal(false);
         const sdk = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
             // chainId: "8217",
@@ -680,14 +681,10 @@ const MyAssets: React.FC = () => {
                 {showHistoryModal && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
                         <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
-                            <p>{t("asset_page.wallet_connect")}</p>
+                            <p>{t("asset_page.need_wallet")}</p>
                             <button
                                 className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-                                onClick={() => {
-                                    playSfx(Audios.button_click);
-                                    setShowHistoryModal(false);
-                                    handlePaymentHistory;
-                                }}>
+                                onClick={handlePaymentHistory}>
                                 {t("OK")}
                             </button>
                         </div>
