@@ -337,6 +337,9 @@ const MyAssets: React.FC = () => {
                 clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
                 chainId: "8217",
             });
+            await provider.requset({
+                method: "kaia_requestAccounts",
+            })
             const paymentProvider = sdk.getPaymentProvider();
             await paymentProvider.openPaymentHistory();
         }catch(error: any){
