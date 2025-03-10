@@ -272,7 +272,7 @@ const ItemStore: React.FC = () => {
     setNeedWallet(false);
     const sdk = await DappPortalSDK.init({
       clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-      chainId: "1001",
+      chainId: "8217",
     });
     const walletProvider = sdk.getWalletProvider();
     const checkWalletType = walletProvider.getWalletType() || null;
@@ -320,7 +320,7 @@ const ItemStore: React.FC = () => {
     playSfx(Audios.button_click);
     const sdk = await DappPortalSDK.init({
       clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-      chainId: "1001",
+      chainId: "8217",
     });
     const paymentProvider = sdk.getPaymentProvider();
     await paymentProvider.openPaymentHistory();

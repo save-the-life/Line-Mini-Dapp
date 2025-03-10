@@ -267,7 +267,7 @@ const MyAssets: React.FC = () => {
         playSfx(Audios.button_click);
         const sdk = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: '1001',
+            chainId: '8217',
         });
         const walletProvider = sdk.getWalletProvider();
         const checkWalletType = walletProvider.getWalletType() || null;
@@ -324,7 +324,7 @@ const MyAssets: React.FC = () => {
         playSfx(Audios.button_click);
         const sdk = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "1001",
+            chainId: "8217",
         });
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.openPaymentHistory();
@@ -450,7 +450,7 @@ const MyAssets: React.FC = () => {
                                 </p>
 
                                 <button
-                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    className="w-48 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
@@ -513,7 +513,7 @@ const MyAssets: React.FC = () => {
                                     <span className="whitespace-nowrap">{t("asset_page.own_nft")}</span>
                                 </p>
                                 <button
-                                    className="w-40 h-14 py-4 rounded-full text-base font-medium mt-12"
+                                    className="w-48 h-14 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
