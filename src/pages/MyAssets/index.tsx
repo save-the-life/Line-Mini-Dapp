@@ -321,7 +321,7 @@ const MyAssets: React.FC = () => {
         playSfx(Audios.button_click);
         const sdk = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "8217",
+            // chainId: "8217",
         });
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.openPaymentHistory();
