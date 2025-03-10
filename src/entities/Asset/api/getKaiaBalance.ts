@@ -21,7 +21,7 @@ export interface KaiaRpcRequest {
     address: string,
     block: string = 'latest'
   ): Promise<KaiaRpcResponse<string>> {
-    const url = 'https://public-en-kairos.node.kaia.io/kaia/getBalance';
+    const url = 'https://public-en-kaia.node.kaia.io/kaia/getBalance';
     const requestPayload: KaiaRpcRequest = {
       method: 'kaia_getBalance',
       id: 1,
