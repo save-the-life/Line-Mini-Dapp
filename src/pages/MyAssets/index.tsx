@@ -427,7 +427,7 @@ const MyAssets: React.FC = () => {
                 </div>
 
                 {/* Non-NFT Items 영역 */}
-                <div className="mt-10 mb-10 w-full">
+                <div className="mt-10 mb-5 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.non_nft")}</h2>
                         <button
@@ -458,7 +458,7 @@ const MyAssets: React.FC = () => {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center">
-                                <div className="grid grid-cols-2 gap-4 mt-4 w-full">
+                                <div className="grid grid-cols-2 gap-4 mt-2 w-full">
                                     {nonNftItems.map((item, index) => (
                                     <div
                                         key={`${item.itemType}-${index}`}
@@ -483,7 +483,7 @@ const MyAssets: React.FC = () => {
                                     ))}
                                 </div>
                                 <button
-                                    className="w-40 h-14 py-4 rounded-full text-base font-medium mt-12"
+                                    className="w-48 h-14 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
@@ -521,7 +521,7 @@ const MyAssets: React.FC = () => {
                             </div>
                         ) : (
                             <div className="flex flex-col items-center justify-center">
-                                <div className="grid grid-cols-2 gap-4 mt-4 w-full">
+                                <div className="grid grid-cols-2 gap-4 mt-2 w-full">
                                     {nftCollection.map((nftItem) => (
                                         <div
                                             key={nftItem.id}
@@ -542,7 +542,7 @@ const MyAssets: React.FC = () => {
                                     ))}
                                 </div>
                                 <button
-                                    className="w-1/2 py-4 rounded-full text-base font-medium mt-12"
+                                    className="w-48 py-4 rounded-full text-base font-medium mt-12"
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
