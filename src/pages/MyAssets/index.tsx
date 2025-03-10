@@ -290,6 +290,7 @@ const MyAssets: React.FC = () => {
         const checkStoredWallet = async () => {
             if (walletAddress) {
                 console.log("지갑 주소 확인: ", walletAddress);
+                console.log("provider 확인: ", provider);
                 await fetchBalance(walletAddress);
             } else {
                 console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행")
@@ -337,10 +338,13 @@ const MyAssets: React.FC = () => {
                 clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
                 chainId: "8217",
             });
+            
+            const paymentProvider = sdk.getPaymentProvider();
+
             await provider.request({
                 method: "kaia_requestAccounts",
             })
-            const paymentProvider = sdk.getPaymentProvider();
+
             await paymentProvider.openPaymentHistory();
         }catch(error: any){
             if(error.code === "-32001"){
@@ -349,7 +353,6 @@ const MyAssets: React.FC = () => {
                 console.log("결제 내역 확인 중 에러 발생: ", error);
                 provider.disconnectWallet;
                 alert("로그인 한 지갑과 다른 지갑을 호출하였습니다.");
-
             }
         }
     };
