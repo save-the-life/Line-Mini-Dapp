@@ -338,7 +338,8 @@ const MyAssets: React.FC = () => {
         playSfx(Audios.button_click);
         setShowHistoryModal(false);
 
-        try{
+        try {
+            // 새로운 SDK 인스턴스를 초기화하되, 전역 provider가 존재하는지 확인
             const sdk = await DappPortalSDK.init({
                 clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
                 chainId: "8217",
@@ -346,22 +347,30 @@ const MyAssets: React.FC = () => {
             
             const paymentProvider = sdk.getPaymentProvider();
 
+            if (!provider) {
+                throw new Error("Wallet provider not found.");
+            }
+
+            // 전역 provider를 이용하여 계정 요청
             await provider.request({
                 method: "kaia_requestAccounts",
-            })
+            });
 
             await paymentProvider.openPaymentHistory();
-        }catch(error: any){
-            if(error.code === "-32001"){
+        } catch (error: any) {
+            if (error.code === "-32001") {
                 alert("결제 내역 호출 전 강제 종료하였습니다.");
             } else {
                 console.log("결제 내역 확인 중 에러 발생: ", error);
-                provider.disconnectWallet;
+                // disconnectWallet 함수를 올바르게 호출합니다.
+                if (provider && provider.disconnectWallet) {
+                    console.log("지갑 연결 해제");
+                    provider.disconnectWallet();
+                }
                 alert("로그인 한 지갑과 다른 지갑을 호출하였습니다.");
             }
         }
     };
-
     // 클래임 요청 함수
     const handleClaim = async (type: string, amount: string, address: string) => {
         playSfx(Audios.button_click);
