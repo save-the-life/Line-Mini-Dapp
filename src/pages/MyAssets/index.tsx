@@ -262,6 +262,7 @@ const MyAssets: React.FC = () => {
     const handleBalance = async () => {
         playSfx(Audios.button_click);
         if(!walletAddress){
+            console.log("지갑 주소가 없어요.");
             const sdk = await DappPortalSDK.init({
                 clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
                 chainId: '8217',
@@ -280,6 +281,7 @@ const MyAssets: React.FC = () => {
                 setShowWalletModal(true);
             }
         } else{
+            console.log("지갑 주소가 있어요. ", walletAddress);
             await fetchBalance(walletAddress);
             setShowWalletModal(true);            
         }
