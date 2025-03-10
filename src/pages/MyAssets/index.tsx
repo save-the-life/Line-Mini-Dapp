@@ -333,7 +333,7 @@ const MyAssets: React.FC = () => {
         setShowHistoryModal(false);
         const sdk = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            // chainId: "8217",
+            chainId: "8217",
         });
         const paymentProvider = sdk.getPaymentProvider();
         await paymentProvider.openPaymentHistory();
