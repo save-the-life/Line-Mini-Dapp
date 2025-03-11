@@ -72,6 +72,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         await getUserInfo(retryCount + 1);
         return;
       }
+
+      else{
+        localStorage.removeItem("accessToken");
+        await getUserInfo();
+      }
       throw error;
     }
   };
