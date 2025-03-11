@@ -358,7 +358,7 @@ const ItemStore: React.FC = () => {
         </div>
 
         {/* 아이템 목록 (2열 그리드) */}
-        <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-40">
+        <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-10">
           {itemData.map((item) => (
             <div
               key={item.itemId}
