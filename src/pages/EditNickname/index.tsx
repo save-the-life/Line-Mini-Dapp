@@ -33,7 +33,7 @@ const EditNickname: React.FC = () => {
             const updateNick = await updateNickname(newNickname);
 
             if(updateNick.message === "Success"){
-                navigate(-1);
+                navigate("/dice-event");
             } else if(updateNick.message === "Exist User Name."){
                 setShowModal(true);
                 setModalMessage(t("setting.duplicate"));
