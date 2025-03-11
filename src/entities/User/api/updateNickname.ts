@@ -4,7 +4,8 @@ import api from '@/shared/api/axiosInstance';
 export const updateNickname = async(name: string): Promise<any> => {
     const response = await api.post("/name", {name});
 
-    if(response.data.message === "Success"){
+    if(response.data){
+        console.log("닉네임 수정 response: ", response);
         return true;
     }else{
         return false;

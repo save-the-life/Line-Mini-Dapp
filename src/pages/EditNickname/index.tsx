@@ -13,7 +13,7 @@ const EditNickname: React.FC = () => {
     const { playSfx } = useSound();
     const { nickName } = useUserStore();
     
-    const [NewNickname, setNewNickname] = useState("");
+    const [newNickname, setNewNickname] = useState(nickName ?? "");
     
     const [modalMessage, setModalMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -23,14 +23,14 @@ const EditNickname: React.FC = () => {
     const editBtn = async () => {       
         playSfx(Audios.button_click); 
 
-        if (!NewNickname) {
+        if (!newNickname) {
             setShowModal(true);
             setModalMessage('Please provide the new Nickname.');
             return;
         }
 
         try{
-            const updateNick = await updateNickname(NewNickname);
+            const updateNick = await updateNickname(newNickname);
 
             if(updateNick){
 
@@ -47,11 +47,11 @@ const EditNickname: React.FC = () => {
             <TopTitle title={t("setting.edit_nickname")} back={true} />
       
             {/* 이름 입력란 */}
-            <div className="mt-16 w-full">
+            <div className="mt-8 w-full">
                 <input
                     type="text"
                     placeholder={t("ai_page.Please_enter_name")}
-                    value={nickName ?? ""}
+                    value={newNickname}
                     onChange={(e) => setNewNickname(e.target.value)}
                     maxLength={8}
                     className="w-full p-4 rounded-2xl mb-4 bg-gray-900 text-white border border-[#35383F] focus:outline-none text-base font-normal"
