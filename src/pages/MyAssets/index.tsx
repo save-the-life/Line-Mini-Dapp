@@ -266,10 +266,6 @@ const MyAssets: React.FC = () => {
         playSfx(Audios.button_click);
         if(!walletAddress){
             console.log("지갑 주소가 없어요.");
-            // const sdk = await DappPortalSDK.init({
-            //     clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            //     chainId: '8217',
-            // });
             const walletProvider = sdk.getWalletProvider();
             const checkWalletType = walletProvider.getWalletType() || null;
             const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
@@ -328,28 +324,15 @@ const MyAssets: React.FC = () => {
         fetchAssets();
     }, [walletAddress]);
 
-    // 결제 내역 조회 버튼 클릭 > 안내 모달 창
-    const handleHistoryModal = () => {
-        setShowHistoryModal(true);
-    }
-
     // 결제 내역 조회 (dapp-portal sdk 사용)
     const handlePaymentHistory = async () => {
         playSfx(Audios.button_click);
         setShowHistoryModal(false);
 
         try {
-            // 새로운 SDK 인스턴스를 초기화하되, 전역 provider가 존재하는지 확인
-            // const sdk = await DappPortalSDK.init({
-            //     clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            //     chainId: "8217",
-            // });
-            
             const paymentProvider = sdk.getPaymentProvider();
 
-            if (!provider) {
-                throw new Error("Wallet provider not found.");
-            }
+            if (!provider) { throw new Error("Wallet provider not found."); }
 
             // 전역 provider를 이용하여 계정 요청
             await provider.request({
@@ -371,6 +354,7 @@ const MyAssets: React.FC = () => {
             }
         }
     };
+
     // 클래임 요청 함수
     const handleClaim = async (type: string, amount: string, address: string) => {
         playSfx(Audios.button_click);
@@ -702,21 +686,6 @@ const MyAssets: React.FC = () => {
                                     playSfx(Audios.button_click);
                                     setShowWalletModal(false);
                                 }}>
-                                {t("OK")}
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-                
-                {/* 결제 내역 > 지갑 연결 알림 모달창 */}
-                {showHistoryModal && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
-                        <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px] whitespace-nowrap">
-                            <p>{t("asset_page.need_wallet")}</p>
-                            <button
-                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-                                onClick={handlePaymentHistory}>
                                 {t("OK")}
                             </button>
                         </div>
