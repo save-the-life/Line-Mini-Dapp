@@ -237,8 +237,12 @@ const MyAssets: React.FC = () => {
             return "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)";
         } else if (name === "REWARD") {
             return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
-        } else {
+        } else if(name === "GOLD"){
+            return "linear-gradient(180deg, #FDE047 0%, #FFFFFF 100%)";
+        } else if(name === "SILVER"){
             return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
+        } else {
+            return "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)";
         }
     };
 
