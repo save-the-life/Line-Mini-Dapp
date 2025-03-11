@@ -414,9 +414,9 @@ const MyAssets: React.FC = () => {
                                 className="w-8 h-8 rounded-full"
                             />
                         </div>
-                        <div className="ml-4">
+                        <div className="ml-2">
                             <TruncateMiddle text={userId} maxLength={20} />
-                            <p className="text-sm text-red-500">Lv.{userLv}</p>
+                            <p className="text-xs text-red-500">Lv.{userLv}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
