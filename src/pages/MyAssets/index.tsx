@@ -476,7 +476,7 @@ const MyAssets: React.FC = () => {
                         <h2 className="text-lg font-semibold">{t("asset_page.non_nft")}</h2>
                         <button
                             className="flex items-center text-white text-xs"
-                            onClick={handleHistoryModal}
+                            onClick={handlePaymentHistory}
                             aria-label="View All Items">
                             {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
