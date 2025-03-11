@@ -16,7 +16,7 @@ const ConnectWalletPage: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const { setWalletAddress, setProvider, setWalletType } = useWalletStore();
+  const { setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
@@ -29,6 +29,7 @@ const ConnectWalletPage: React.FC = () => {
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         chainId: "8217",
       });
+      setSdk(sdk);
       const walletProvider = sdk.getWalletProvider();
   
       // 계정 요청 (사용자에게 지갑 선택 UI 표시)

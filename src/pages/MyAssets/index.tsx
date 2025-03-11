@@ -81,7 +81,7 @@ const MyAssets: React.FC = () => {
     const [userClaimAmount, setUserClaimAmount] = useState("");  
     const [showHistoryModal, setShowHistoryModal] = useState(false);
     
-    const { walletAddress, setWalletAddress, provider, setProvider, setWalletType } = useWalletStore();
+    const { walletAddress, setWalletAddress, provider, setProvider, setWalletType, sdk } = useWalletStore();
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -266,10 +266,10 @@ const MyAssets: React.FC = () => {
         playSfx(Audios.button_click);
         if(!walletAddress){
             console.log("지갑 주소가 없어요.");
-            const sdk = await DappPortalSDK.init({
-                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-                chainId: '8217',
-            });
+            // const sdk = await DappPortalSDK.init({
+            //     clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            //     chainId: '8217',
+            // });
             const walletProvider = sdk.getWalletProvider();
             const checkWalletType = walletProvider.getWalletType() || null;
             const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
@@ -340,10 +340,10 @@ const MyAssets: React.FC = () => {
 
         try {
             // 새로운 SDK 인스턴스를 초기화하되, 전역 provider가 존재하는지 확인
-            const sdk = await DappPortalSDK.init({
-                clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-                chainId: "8217",
-            });
+            // const sdk = await DappPortalSDK.init({
+            //     clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            //     chainId: "8217",
+            // });
             
             const paymentProvider = sdk.getPaymentProvider();
 
