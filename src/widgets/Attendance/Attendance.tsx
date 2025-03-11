@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import requestAttendance from "@/entities/User/api/requestAttendance";
 import Images from "@/shared/assets/images";
 import useWalletStore from "@/shared/store/useWalletStore";
+import requestWallet from "@/entities/User/api/addWallet";
 
 const contractAddress = "0x335d003eB18dC29AB8290f674Fb2E0d5B2f97Ae4";
 
@@ -161,6 +162,13 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         // 전역 상태에 지갑 타입 저장
         if (checkWalletType) {
           setWalletType(checkWalletType);
+          
+          // 지갑 정보 서버 등록
+          try{
+            await requestWallet(accounts[0], checkWalletType)
+          } catch (error: any){
+            console.error("지갑 서버 등록 에러:", error.message);
+          }
         }
       }
       console.log("지갑 연결 성공:", accounts[0]);

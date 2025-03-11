@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
+import useWalletStore from "@/shared/store/useWalletStore";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
 import i18n from "@/shared/lib/il8n";
 import SplashScreen from "./SplashScreen";
@@ -15,6 +16,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const { fetchUserData } = useUserStore();
   const [showSplash, setShowSplash] = useState(true);
   const initializedRef = useRef(false);
+  const { setWalletAddress, setProvider, setWalletType, setSdk, clearWallet } = useWalletStore();
 
   // 미리 정의된 라우트 (레퍼럴 코드 식별용)
   const knownRoutes = [
@@ -219,6 +221,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log(`[AppInitializer] fallback LIFF 언어 설정: ${userLanguage} -> ${i18nLanguage}`);
         }
         i18n.changeLanguage(i18nLanguage);
+
+        // 전역 관리 지갑 초기화
+        console.log("전역 관리 지갑 정보 초기화 진행");
+        clearWallet();
 
         console.log("[AppInitializer] handleTokenFlow() 호출");
         await handleTokenFlow();

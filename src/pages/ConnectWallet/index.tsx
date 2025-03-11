@@ -6,6 +6,7 @@ import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import webLoginWithAddress from "@/entities/User/api/webLogin";
 import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
+import requestWallet from "@/entities/User/api/addWallet";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -59,6 +60,13 @@ const ConnectWalletPage: React.FC = () => {
         // 전역 상태에 지갑 타입 저장 (null 체크)
         if (walletType) {
           setWalletType(walletType);
+          
+          // 지갑 정보 서버 등록
+          try{
+            await requestWallet(accounts[0], walletType)
+          } catch (error: any){
+            console.error("지갑 서버 등록 에러:", error.message);
+          }
         }
       }
   

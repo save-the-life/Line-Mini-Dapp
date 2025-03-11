@@ -229,11 +229,6 @@ const ItemStore: React.FC = () => {
       const key = uuidv4();
       console.log("결제 중복 방지 uuid: ", key);
 
-      // const sdk = await DappPortalSDK.init({
-      //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-      //   ...sdkOptions,
-      // });
-
       // STRIPE 결제의 경우 startPayment 전에 시작 시간 기록
       if (paymentMethod === "STRIPE") {
         setPaymentStartTime(Date.now());

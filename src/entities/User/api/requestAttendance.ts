@@ -1,6 +1,6 @@
 import api from '@/shared/api/axiosInstance';
 
-// 사용자의 캐릭터 선택 API 
+// 출석 API 
 export const requestAttendance = async(transactionId: string): Promise<any> => {
     const response = await api.post("/attendance", {transactionId});
 
