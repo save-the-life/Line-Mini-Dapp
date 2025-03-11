@@ -352,9 +352,9 @@ const MyAssets: React.FC = () => {
             }
 
             // 전역 provider를 이용하여 계정 요청
-            // await provider.request({
-            //     method: "kaia_requestAccounts",
-            // });
+            await provider.request({
+                method: "kaia_requestAccounts",
+            });
 
             await paymentProvider.openPaymentHistory();
         } catch (error: any) {
