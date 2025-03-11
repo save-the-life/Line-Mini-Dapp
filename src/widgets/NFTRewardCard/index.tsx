@@ -1,5 +1,7 @@
 import { IoDice, IoGameController, IoTicket } from 'react-icons/io5';
 import Images from '@/shared/assets/images';
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface NFTReward {
   imgSrc: string;
@@ -26,11 +28,14 @@ const NFTRewardCard: React.FC<NFTReward> = ({ imgSrc, altText, title, rewards })
 );
 
 const NFTRewardList: React.FC = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const nftRewards = [
     {
       imgSrc: Images.Gold,
       altText: 'Gold',
-      title: 'Gold NFT',
+      title: 'Gold Item',
       rewards: [
         { icon: <IoGameController className="w-5 h-5" />, description: 'Game Board Points : x30' },
         { icon: <IoTicket className="w-5 h-5" />, description: 'Raffle Tickets : x6' },
@@ -39,7 +44,7 @@ const NFTRewardList: React.FC = () => {
     {
       imgSrc: Images.Silver,
       altText: 'Silver',
-      title: 'Silver NFT',
+      title: 'Silver Item',
       rewards: [
         { icon: <IoGameController className="w-5 h-5" />, description: 'Game Board Points : x20' },
         { icon: <IoTicket className="w-5 h-5" />, description: 'Raffle Tickets : x4' },
@@ -48,7 +53,7 @@ const NFTRewardList: React.FC = () => {
     {
       imgSrc: Images.Bronze,
       altText: 'Bronze',
-      title: 'Bronze NFT',
+      title: 'Bronze Item',
       rewards: [
         { icon: <IoGameController className="w-5 h-5" />, description: 'Game Board Points : x10' },
         { icon: <IoTicket className="w-5 h-5" />, description: 'Raffle Tickets : x2' },
@@ -56,11 +61,10 @@ const NFTRewardList: React.FC = () => {
     },
     {
       imgSrc: Images.RewardNFT,
-      altText: 'Reward Booster(x5 or x2)',
-      title: 'Reward Booster(x5 or x2)',
+      altText: 'Reward Booster(x5)',
+      title: 'Reward Booster(x5)',
       rewards: [
         { icon: <IoGameController className="w-5 h-5" />, description: 'Board & Spin Reward : x5' },
-        { icon: <IoGameController className="w-5 h-5" />, description: 'Board & Spin Reward : x2' },
       ],
     },
 
@@ -73,8 +77,8 @@ const NFTRewardList: React.FC = () => {
           <NFTRewardCard key={index} {...nft} />
         ))}
       </div>
-      <button onClick={()=>{alert("상점기능 준비중입니다.")}} className=" sticky bottom-0 font-medium bg-[#0147E5] rounded-full h-14 w-[165px] self-center">
-        Shop NFT
+      <button onClick={()=>{navigate("/item-store")}} className=" sticky bottom-0 font-medium bg-[#0147E5] rounded-full h-14 w-[165px] self-center">
+        {t("asset_page.shop_item")}
       </button>
     </div>
   );
