@@ -466,7 +466,7 @@ const MyAssets: React.FC = () => {
                             className="flex items-center text-white text-xs"
                             onClick={handlePaymentHistory}
                             aria-label="View All Items">
-                            {t("asset_page.View_All")} <FaChevronRight className="ml-1 w-2 h-2" />
+                            {t("asset_page.payment_history")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
                     <div className="mt-10 w-full">
