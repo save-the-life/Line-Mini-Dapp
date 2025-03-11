@@ -434,7 +434,8 @@
       "effect": "Sound Effects",
       "save": "Save",
       "edit_nickname": "Edit Nickname",
-      "max_length": "Nicknames can be up to 8 characters long."
+      "max_length": "Nicknames can be up to 8 characters long.",
+      "duplicate": "Duplicate nickname."
     },
     "user_level": {
       "message_1": "Hey there, <br/>ready to roll?",

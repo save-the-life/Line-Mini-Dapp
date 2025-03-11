@@ -434,7 +434,8 @@
       "effect": "音响效果",
       "save": "保存",
       "edit_nickname": "编辑昵称",
-      "max_length": "昵称最多可包含 8 个字符。"
+      "max_length": "昵称最多可包含 8 个字符。",
+      "duplicate": "重复昵称。"
     },
     "user_level": {
       "message_1": "嗨，<br/>準備好擲骰子了嗎？",
