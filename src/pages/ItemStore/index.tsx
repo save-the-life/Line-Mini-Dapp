@@ -259,7 +259,7 @@ const ItemStore: React.FC = () => {
           setPaymentMessage("Purchase Cancled.");
         } else if (error.code === -32002) {
           setPaymentMessage("Purchase Failed.");
-        } else if (error.code === -3200) {
+        } else if (error.code === -32000) {
           setPaymentMessage("Insufficient Balance.");
         } else if (error.message && error.message.includes("SDK's startPayment")) {
           setPaymentMessage("Purchase Failed.");
