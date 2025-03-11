@@ -83,14 +83,14 @@ const SettingsPage: React.FC =() => {
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
                 </div> */}
-                 <div 
+                 {/* <div 
                     className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
                     onClick={() => navigate('/edit-nickname')}>
                     <div>
                         <p className="font-semibold">{t("setting.edit_nickname")}</p>
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
-                </div>
+                </div> */}
                 
                 <div 
                     className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"

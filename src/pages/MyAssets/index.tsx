@@ -430,11 +430,16 @@ const MyAssets: React.FC = () => {
                             />
                         </div>
                         <div className="ml-2">
-                            <p className="text-sm font-normal whitespace-nowrap">{nickName}</p>
+                            <button
+                                className="flex items-center text-white text-xs"
+                                onClick={()=>{navigate("/edit-nickname")}}
+                                aria-label="View All Items">
+                                {nickName} <FaChevronRight className="ml-1 w-3 h-3" />
+                            </button>
                             <p className="text-xs font-semibold text-red-500">Lv.{userLv}</p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
                         <div className="relative flex items-center">
                             <img
                                 src={Images.KaiaLogo}
