@@ -174,6 +174,45 @@ const ItemStore: React.FC = () => {
     setShowModal(true);
   };
 
+  const getCustomDescription = (itemName: string): React.ReactNode => {
+    switch (itemName.toUpperCase()) {
+      case "AUTO":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">Dice Auto Roller</p><br />
+                <p className="text-lg font-normal">Rolls the dice automatically</p>
+              </div>;
+      case "REWARD":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">Rewrd Booster</p><br />
+                <p className="text-lg font-normal">Board & Spin Reward Upgrade : 5x</p>
+              </div>;
+      case "GOLD":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">Reward Multiplier</p><br />
+                <p className="text-lg font-normal">Game Board Rewards : 30x</p><br />
+                <p className="text-lg font-semibold mt-4">Raffle Ticket Turbo</p><br />
+                <p className="text-lg font-normal">Raffle Tickets : 6x</p>
+              </div>;
+      case "SILVER":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">Reward Multiplier</p><br />
+                <p className="text-lg font-normal">Game Board Rewards : 20x</p><br />
+                <p className="text-lg font-semibold mt-4">Raffle Ticket Turbo</p><br />
+                <p className="text-lg font-normal">Raffle Tickets : 4x</p>
+              </div>;
+      case "BRONZE":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">Reward Multiplier</p><br />
+                <p className="text-lg font-normal">Game Board Rewards : 10x</p><br />
+                <p className="text-lg font-semibold mt-4">Raffle Ticket Turbo</p><br />
+                <p className="text-lg font-normal">Raffle Tickets : 2x</p>
+              </div>;
+      default:
+        return <div>아이템에 대한 상세 설명입니다.</div>;
+    }
+  };
+  
+
   // 결제 로직 진행
   const handleCheckout = async (
     paymentMethod: "STRIPE" | "CRYPTO",
@@ -271,11 +310,6 @@ const ItemStore: React.FC = () => {
     await handleCheckout("CRYPTO", { chainId: "8217" });
   };
 
-  // 아이템 정보 모달 표시
-  const handleInfo = () => {
-    playSfx(Audios.button_click);
-    setShowModal(true);
-  };
 
   // 지갑 연결 및 잔액 조회
   const handleConnectWallet = async () => {
@@ -493,7 +527,11 @@ const ItemStore: React.FC = () => {
               <AlertDialogTitle className="text-center font-bold text-xl">
                 <div className="flex flex-row items-center justify-between">
                   <div>&nbsp;</div>
-                  <p>{selectedItemInfo?.itemName} Item</p>
+                  <p>
+                    {selectedItemInfo?.itemName === "REWARD" 
+                      ? "REWARD Booster" 
+                      : selectedItemInfo?.itemName + " Item"}
+                  </p>
                   <HiX
                     className="w-6 h-6 cursor-pointer"
                     onClick={() => {
@@ -522,9 +560,7 @@ const ItemStore: React.FC = () => {
               <div className="mt-2 text-base font-normal text-[#A3A3A3]">
                 <p>Validate for 1 month</p>
               </div>
-              <div className="mt-1 text-base font-normal">
-                <p>{selectedItemInfo?.description}</p>
-              </div>
+              <p>{selectedItemInfo ? getCustomDescription(selectedItemInfo.itemName) : ""}</p>
             </div>
           </AlertDialogContent>
         </AlertDialog>
