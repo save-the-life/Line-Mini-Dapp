@@ -82,7 +82,7 @@ const MyAssets: React.FC = () => {
     const [userClaimAmount, setUserClaimAmount] = useState("");  
     const [showHistoryModal, setShowHistoryModal] = useState(false);
     
-    const { walletAddress, setWalletAddress, provider, setProvider, setWalletType, sdk } = useWalletStore();
+    const { walletAddress, setWalletAddress, provider, setProvider, setWalletType, sdk, setSdk } = useWalletStore();
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -280,6 +280,7 @@ const MyAssets: React.FC = () => {
                 const walletProvider = sdk.getWalletProvider();
                 // 전역 상태에 provider 업데이트
                 setProvider(walletProvider);
+                setSdk(sdk);
                 const checkWalletType = walletProvider.getWalletType() || null;
                 
                 const accounts = (await walletProvider.request({

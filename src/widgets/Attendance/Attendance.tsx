@@ -109,7 +109,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const { weekAttendance, setWeekAttendance } = useUserStore();
   const [today] = useState<DayKeys>(getTodayDay());
   const { t } = useTranslation();
-  const { walletAddress, provider, setWalletAddress, setProvider, setWalletType } = useWalletStore();
+  const { walletAddress, provider, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
   const [isConnecting, setIsConnecting] = useState(false);
 
   // 출석 상태 결정 로직
@@ -145,6 +145,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
         chainId: "8217",
       });
+      setSdk(sdk);
       const walletProvider = sdk.getWalletProvider();
       // 전역 상태에 provider 업데이트
       setProvider(walletProvider);

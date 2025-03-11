@@ -46,7 +46,7 @@ const ItemStore: React.FC = () => {
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
 
-  const { walletAddress, sdk, setWalletAddress, setProvider, setWalletType } = useWalletStore();
+  const { walletAddress, sdk, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
   // USD(STRIPE) 결제 진행 시 시작 시간을 기록합니다.
   const [paymentStartTime, setPaymentStartTime] = useState<number | null>(null);
@@ -321,6 +321,7 @@ const ItemStore: React.FC = () => {
       const walletProvider = sdk.getWalletProvider();
       // 전역 상태에 provider 업데이트
       setProvider(walletProvider);
+      setSdk(sdk);
       const checkWalletType = walletProvider.getWalletType() || null;
       
       const accounts = (await walletProvider.request({
