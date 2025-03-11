@@ -4,12 +4,12 @@ import api from '@/shared/api/axiosInstance';
 export const updateNickname = async(name: string): Promise<any> => {
     const response = await api.post("/name", {name});
 
-    if(response.data.message === "Success"){
+    if(response.data.code === "OK"){
         console.log("닉네임 수정 response: ", response);
-        return true;
+        return response.data;
     }else {
         console.error('Unexpected response:', response);
-        throw new Error(response.data || 'Failed to fetch nickname update');
+        throw new Error(response.data.message || 'Failed to fetch nickname update');
     }
 };
 

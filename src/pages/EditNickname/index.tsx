@@ -32,21 +32,20 @@ const EditNickname: React.FC = () => {
         try{
             const updateNick = await updateNickname(newNickname);
 
-            if(updateNick === "Success"){
+            if(updateNick.message === "Success"){
                 navigate(-1);
-            } else {
-                setShowModal(true);
-                setModalMessage(t("asset_page.try_again"));
-            }
-        } catch(error: any){
-            console.log("error 확인: ", error);
-            if(error.data.message === "Exist User Name."){
+            } else if(updateNick.message === "Exist User Name."){
                 setShowModal(true);
                 setModalMessage(t("setting.duplicate"));
             } else {
                 setShowModal(true);
                 setModalMessage(t("asset_page.try_again"));
+
             }
+        } catch(error: any){
+            console.log("error 확인: ", error);
+            setShowModal(true);
+            setModalMessage(t("asset_page.try_again"));
         }
     };
 
