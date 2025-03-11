@@ -252,12 +252,12 @@ const ItemStore: React.FC = () => {
 
   // USD 결제 선택
   const handleUSDCheckout = async () => {
-    await handleCheckout("STRIPE", { chainId: "8217" });
+    await handleCheckout("STRIPE", { chainId: "1001" });
   };
 
   // KAIA 결제 선택
   const handleKaiaCheckout = async () => {
-    await handleCheckout("CRYPTO", { chainId: "8217" });
+    await handleCheckout("CRYPTO", { chainId: "1001" });
   };
 
   // 아이템 정보 모달 표시
