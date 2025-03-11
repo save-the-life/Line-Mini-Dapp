@@ -57,7 +57,7 @@ const MyAssets: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { playSfx } = useSound();
-    const { userId, userLv, characterType } = useUserStore();
+    const { nickName, userLv, characterType } = useUserStore();
     const [loading, setLoading] = useState(true);
     const [nft, setNFT] = useState(0);
     const [showModal, setShowModal] = useState(false);
@@ -399,7 +399,7 @@ const MyAssets: React.FC = () => {
                             />
                         </div>
                         <div className="ml-2">
-                            <TruncateMiddle text={userId} maxLength={15} />
+                            <p className="text-sm font-bold">{nickName}</p>
                             <p className="text-xs text-red-500">Lv.{userLv}</p>
                         </div>
                     </div>

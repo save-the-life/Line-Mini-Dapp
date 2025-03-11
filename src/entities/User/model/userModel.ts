@@ -33,8 +33,12 @@ interface WeekAttendance {
 // 사용자 상태 인터페이스
 interface UserState {
   // 사용자 관련 상태들
-  userId: string | null;
-  setUserId: (userId: string | null) => void;
+  nickName: string | null;
+  setNickName: (nickName: string | null) => void;
+  uid: number | null;
+  setUid: (uid: number | null) => void;
+  walletAddress: string | null;
+  setWalletAddress: (walletAddress: string | null) => void;
 
   referrerId: string | null; // 추가된 부분: 초대한 친구 아이디
   setReferrerId: (referrerId: string | null) => void; // 추가된 부분
@@ -181,8 +185,14 @@ export const useUserStore = create<UserState>((set, get) => ({
     })),
 
   // 초기 상태 값 설정
-  userId: null,
-  setUserId: (userId) => set({ userId }),
+   // 새 필드 추가: nickName, uid, walletAddress
+   nickName: null,
+   setNickName: (nickName) => set({ nickName }),
+   uid: null,
+   setUid: (uid) => set({ uid }),
+   walletAddress: null,
+   // 기존의 setWalletAddress는 walletStore와 혼동되므로, 사용자용 walletAddress도 분리해서 관리합니다.
+   setWalletAddress: (walletAddress) => set({ walletAddress }),
 
   referrerId: null, // 추가된 부분: 초기값 설정
   setReferrerId: (referrerId) => set({ referrerId }), // 추가된 부분
@@ -359,7 +369,10 @@ export const useUserStore = create<UserState>((set, get) => ({
       } = data.data;
   
       set({
-        userId: user.userId,
+        // userId를 nickName으로 대체
+        nickName: user.nickName,
+        uid: user.uid,
+        walletAddress: user.walletAddress,
         referrerId: user.referrerId, // 추가된 부분: referrerId 설정
         isAuto: user.isAuto, // 추가된 부분: isAuto 설정
         completeTutorial: user.completeTutorial,
@@ -453,7 +466,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         // 토큰 및 userId 저장
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
-        set({ userId });
+        set({  });
 
         // 사용자 데이터 가져오기
         await get().fetchUserData();
@@ -513,7 +526,9 @@ export const useUserStore = create<UserState>((set, get) => ({
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken'); // 추가된 부분: refreshToken 제거
     set({
-      userId: null,
+      nickName: null,
+      uid: null,
+      walletAddress: null,
       referrerId: null, // 추가된 부분: referrerId 초기화
       isAuto: false, // 추가된 부분: isAuto 초기화
       position: 0,
