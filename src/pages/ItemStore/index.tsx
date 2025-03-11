@@ -286,6 +286,8 @@ const ItemStore: React.FC = () => {
           setPaymentMessage("Purchase Failed.");
         } else if (error.code === -32000) {
           setPaymentMessage("Insufficient Balance.");
+        } else if (error.code === -32005) {
+          setPaymentMessage("Login Failed.");
         } else {
           setPaymentMessage("Please try again later.");
         }
