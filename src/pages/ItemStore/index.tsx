@@ -270,10 +270,10 @@ const ItemStore: React.FC = () => {
   const handleConnectWallet = async () => {
     playSfx(Audios.button_click);
     setNeedWallet(false);
-    const sdk = await DappPortalSDK.init({
-      clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-      chainId: "8217",
-    });
+    // const sdk = await DappPortalSDK.init({
+    //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+    //   chainId: "8217",
+    // });
     const walletProvider = sdk.getWalletProvider();
     const checkWalletType = walletProvider.getWalletType() || null;
   
@@ -318,10 +318,10 @@ const ItemStore: React.FC = () => {
   // 결제 내역 조회
   const handlePaymentHistory = async () => {
     playSfx(Audios.button_click);
-    const sdk = await DappPortalSDK.init({
-      clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-      chainId: "8217",
-    });
+    // const sdk = await DappPortalSDK.init({
+    //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+    //   chainId: "8217",
+    // });
     const paymentProvider = sdk.getPaymentProvider();
     await paymentProvider.openPaymentHistory();
   };
