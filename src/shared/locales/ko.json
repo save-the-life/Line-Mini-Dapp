@@ -432,7 +432,9 @@
       "master": "마스터 볼륨",
       "bgm": "배경음",
       "effect": "효과음",
-      "save": "저장"
+      "save": "저장",
+      "edit_nickname": "닉네임 수정",
+      "max_length": "닉네임은 최대 8자까지 사용할 수 있습니다."
     },
     "user_level": {
       "message_1": "안녕하세요,<br/>주사위를 굴려볼까요?",

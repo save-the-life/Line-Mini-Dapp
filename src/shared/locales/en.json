@@ -432,7 +432,9 @@
       "master": "Master Volume",
       "bgm": "Background Music",
       "effect": "Sound Effects",
-      "save": "Save"
+      "save": "Save",
+      "edit_nickname": "Edit Nickname",
+      "max_length": "Nicknames can be up to 8 characters long."
     },
     "user_level": {
       "message_1": "Hey there, <br/>ready to roll?",
