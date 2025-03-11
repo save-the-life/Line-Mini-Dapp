@@ -407,7 +407,10 @@
         "lucky_winner": "あなたがラッキーウィナーの一人か確認しよう！",
         "claim_point": "ポイント報酬を受け取ろう！",
         "check": "今すぐ確認",
-        "claim": "今すぐ受け取る"
+        "claim": "今すぐ受け取る",
+        "game_board_points": "ゲームボードポイント",
+        "raffle_tickets": "抽選チケット",
+        "board_spin_reward": "ボード＆スピン報酬"
     },
     "setting": {
         "terms_of_service": "利用規約",

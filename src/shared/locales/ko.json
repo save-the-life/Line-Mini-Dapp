@@ -407,7 +407,10 @@
       "lucky_winner": "당첨자 여부를 확인하세요!",
       "claim_point": "포인트 보상을 받으세요.",
       "check": "지금 확인",
-      "claim": "지금 받기"
+      "claim": "지금 받기",
+      "game_board_points": "게임 보드 포인트",
+      "raffle_tickets": "래플 티켓",
+      "board_spin_reward": "보드 & 스핀 보상"
     },
     "setting": {
       "terms_of_service": "이용 약관",

@@ -407,7 +407,10 @@
       "lucky_winner": "檢查您是否為幸運得主！",
       "claim_point": "領取您的積分獎勵。",
       "check": "立即檢查",
-      "claim": "立即領取"
+      "claim": "立即領取",
+      "game_board_points": "遊戲板點數",
+      "raffle_tickets": "抽獎券",
+      "board_spin_reward": "棋盤與轉盤獎勵"
     },
     "setting": {
       "terms_of_service": "服務條款",

@@ -407,7 +407,10 @@
       "lucky_winner" : "Check if you're one of the lucky winners!",
       "claim_point": "Claim Your Point Reward.",
       "check": "Check Now",
-      "claim": "Claim Now"
+      "claim": "Claim Now",
+      "game_board_points": "Game Board Points",
+      "raffle_tickets": "Raffle Tickets",
+      "board_spin_reward": "Board & Spin Reward"
     },
     "setting": {
       "terms_of_service": "Trems of Service",

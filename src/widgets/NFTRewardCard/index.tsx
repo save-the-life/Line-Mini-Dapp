@@ -37,8 +37,14 @@ const NFTRewardList: React.FC = () => {
       altText: 'Gold',
       title: 'Gold Item',
       rewards: [
-        { icon: <IoGameController className="w-5 h-5" />, description: 'Game Board Points : x30' },
-        { icon: <IoTicket className="w-5 h-5" />, description: 'Raffle Tickets : x6' },
+        { 
+          icon: <IoGameController className="w-5 h-5" />, 
+          description: `${t("dice_event.game_board_points")} : x30` 
+        },
+        { 
+          icon: <IoTicket className="w-5 h-5" />, 
+          description: `${t("dice_event.raffle_tickets")} : x6` 
+        },
       ],
     },
     {
@@ -46,8 +52,14 @@ const NFTRewardList: React.FC = () => {
       altText: 'Silver',
       title: 'Silver Item',
       rewards: [
-        { icon: <IoGameController className="w-5 h-5" />, description: 'Game Board Points : x20' },
-        { icon: <IoTicket className="w-5 h-5" />, description: 'Raffle Tickets : x4' },
+        { 
+          icon: <IoGameController className="w-5 h-5" />, 
+          description: `${t("dice_event.game_board_points")} : x20` 
+        },
+        { 
+          icon: <IoTicket className="w-5 h-5" />, 
+          description: `${t("dice_event.raffle_tickets")} : x4` 
+        },
       ],
     },
     {
@@ -55,8 +67,14 @@ const NFTRewardList: React.FC = () => {
       altText: 'Bronze',
       title: 'Bronze Item',
       rewards: [
-        { icon: <IoGameController className="w-5 h-5" />, description: 'Game Board Points : x10' },
-        { icon: <IoTicket className="w-5 h-5" />, description: 'Raffle Tickets : x2' },
+        { 
+          icon: <IoGameController className="w-5 h-5" />, 
+          description: `${t("dice_event.game_board_points")} : x10` 
+        },
+        { 
+          icon: <IoTicket className="w-5 h-5" />, 
+          description: `${t("dice_event.raffle_tickets")} : x2` 
+        },
       ],
     },
     {
@@ -64,10 +82,12 @@ const NFTRewardList: React.FC = () => {
       altText: 'Reward Booster(x5)',
       title: 'Reward Booster(x5)',
       rewards: [
-        { icon: <IoGameController className="w-5 h-5" />, description: 'Board & Spin Reward : x5' },
+        { 
+          icon: <IoGameController className="w-5 h-5" />, 
+          description: `${t("dice_event.board_spin_reward")} : x5` 
+        },
       ],
     },
-
   ];
 
   return (
