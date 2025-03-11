@@ -33,7 +33,7 @@ const EditNickname: React.FC = () => {
             const updateNick = await updateNickname(newNickname);
 
             if(updateNick){
-
+                navigate(-1);
             } else {
 
             }
