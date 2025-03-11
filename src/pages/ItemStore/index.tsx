@@ -21,6 +21,8 @@ import { BigNumber, ethers } from "ethers";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import useWalletStore from "@/shared/store/useWalletStore";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
+import requestWallet from "@/entities/User/api/addWallet";
 
 const ItemStore: React.FC = () => {
   const { t } = useTranslation();
@@ -310,37 +312,56 @@ const ItemStore: React.FC = () => {
   const handleConnectWallet = async () => {
     playSfx(Audios.button_click);
     setNeedWallet(false);
-    const walletProvider = sdk.getWalletProvider();
-    const checkWalletType = walletProvider.getWalletType() || null;
-  
-    const accounts = (await walletProvider.request({
-      method: "kaia_requestAccounts",
-    })) as string[];
-    
-    if (accounts.length === 0) return;
-    
-    const walletAddr = accounts[0];
-    
-    // 전역 상태 업데이트 (중복 호출 없이 한 번만)
-    setWalletAddress(walletAddr);
-    setProvider(walletProvider);
-    if (checkWalletType) {
-      setWalletType(checkWalletType);
-    }
-    
     try {
-      // 로컬 변수 walletAddr를 사용하여 잔액 조회
-      const response: KaiaRpcResponse<string> = await kaiaGetBalance(walletAddr);
-      if (response.error) {
-        console.log("잔고 확인 에러: ", response.error);
-      } else if (response.result) {
-        const KAIA_DECIMALS = 18;
-        const balanceBigNumber = BigNumber.from(response.result);
-        const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
-        setBalance(Number(formattedBalance).toFixed(2));
+      console.log("초기화 시작");
+      const sdk = await DappPortalSDK.init({
+        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+        chainId: "8217",
+      });
+      const walletProvider = sdk.getWalletProvider();
+      // 전역 상태에 provider 업데이트
+      setProvider(walletProvider);
+      const checkWalletType = walletProvider.getWalletType() || null;
+      
+      const accounts = (await walletProvider.request({
+        method: "kaia_requestAccounts",
+      })) as string[];
+      
+      if (accounts && accounts[0]) {
+        // 전역 상태에 지갑 주소 저장
+        setWalletAddress(accounts[0]);
+        // 전역 상태에 dappPortal의 provider 저장 (이미 설정된 상태)
+        setProvider(walletProvider);
+        // 전역 상태에 지갑 타입 저장
+        if (checkWalletType) {
+          setWalletType(checkWalletType);
+          
+          // 지갑 정보 서버 등록
+          try{
+            await requestWallet(accounts[0], checkWalletType)
+          } catch (error: any){
+            console.error("지갑 서버 등록 에러:", error.message);
+          }
+
+          try {
+            // 로컬 변수 walletAddr를 사용하여 잔액 조회
+            const response: KaiaRpcResponse<string> = await kaiaGetBalance(accounts[0]);
+            if (response.error) {
+              console.log("잔고 확인 에러: ", response.error);
+            } else if (response.result) {
+              const KAIA_DECIMALS = 18;
+              const balanceBigNumber = BigNumber.from(response.result);
+              const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
+              setBalance(Number(formattedBalance).toFixed(2));
+            }
+          } catch (err: any) {
+            console.error("Failed to fetch balance:", err);
+          }
+        }
       }
-    } catch (err: any) {
-      console.error("Failed to fetch balance:", err);
+      console.log("지갑 연결 성공:", accounts[0]);
+    } catch (error: any) {
+      console.error("지갑 연결 에러:", error.message);
     }
   };
   

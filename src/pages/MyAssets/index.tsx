@@ -24,6 +24,7 @@ import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBal
 import getMyAssets from "@/entities/Asset/api/getMyAssets";
 import requestClaim from "@/entities/Asset/api/requestClaim";
 import useWalletStore from "@/shared/store/useWalletStore";
+import requestWallet from "@/entities/User/api/addWallet";
 
 interface TruncateMiddleProps {
     text: any;
@@ -269,20 +270,45 @@ const MyAssets: React.FC = () => {
     const handleBalance = async () => {
         playSfx(Audios.button_click);
         if(!walletAddress){
-            console.log("지갑 주소가 없어요.");
-            const walletProvider = sdk.getWalletProvider();
-            const checkWalletType = walletProvider.getWalletType() || null;
-            const accounts = (await walletProvider.request({ method: "kaia_requestAccounts" })) as string[];
-            if (accounts && accounts[0]) {
-                const account = accounts[0];
-                setWalletAddress(account);
+            console.log("지갑 주소가 없어요. 지갑 연동 시작");
+            try {
+                console.log("초기화 시작");
+                const sdk = await DappPortalSDK.init({
+                  clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+                  chainId: "8217",
+                });
+                const walletProvider = sdk.getWalletProvider();
+                // 전역 상태에 provider 업데이트
                 setProvider(walletProvider);
-                if (checkWalletType) {
+                const checkWalletType = walletProvider.getWalletType() || null;
+                
+                const accounts = (await walletProvider.request({
+                  method: "kaia_requestAccounts",
+                })) as string[];
+                
+                if (accounts && accounts[0]) {
+                  // 전역 상태에 지갑 주소 저장
+                  setWalletAddress(accounts[0]);
+                  // 전역 상태에 dappPortal의 provider 저장 (이미 설정된 상태)
+                  setProvider(walletProvider);
+                  // 전역 상태에 지갑 타입 저장
+                  if (checkWalletType) {
                     setWalletType(checkWalletType);
+                    
+                    // 지갑 정보 서버 등록
+                    try{
+                      await requestWallet(accounts[0], checkWalletType)
+                    } catch (error: any){
+                      console.error("지갑 서버 등록 에러:", error.message);
+                    }
                   }
-                await fetchBalance(account);
-                setShowWalletModal(true);
-            }
+                  await fetchBalance(accounts[0]);
+                  setShowWalletModal(true);
+                }
+                console.log("지갑 연결 성공:", accounts[0]);
+              } catch (error: any) {
+                console.error("지갑 연결 에러:", error.message);
+              }
         } else{
             console.log("지갑 주소가 있어요. ", walletAddress);
             await fetchBalance(walletAddress);
