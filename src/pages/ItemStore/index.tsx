@@ -72,6 +72,17 @@ const ItemStore: React.FC = () => {
     fetchItems();
   }, []);
 
+  // 아이템 배열 순서 조정
+  const sortedItemData = useMemo(() => {
+    const order = ["GOLD", "SILVER", "BRONZE", "AUTO", "REWARD"];
+    return [...itemData].sort(
+      (a, b) =>
+        order.indexOf(a.itemName.toUpperCase()) -
+        order.indexOf(b.itemName.toUpperCase())
+    );
+  }, [itemData]);
+  
+
   // 계정(account)이 변경되면 잔액 조회 진행
   useEffect(() => {
     const fetchBalance = async () => {
@@ -333,8 +344,12 @@ const ItemStore: React.FC = () => {
       return "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)";
     } else if (name === "REWARD") {
       return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
-    } else {
+    } else if(name === "GOLD"){
+      return "linear-gradient(180deg, #FDE047 0%, #FFFFFF 100%)";
+    } else if(name === "SILVER"){
       return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
+    } else {
+      return "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)";
     }
   };
 
@@ -359,7 +374,7 @@ const ItemStore: React.FC = () => {
 
         {/* 아이템 목록 (2열 그리드) */}
         <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-10">
-          {itemData.map((item) => (
+          {sortedItemData.map((item) => (
             <div
               key={item.itemId}
               className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${
