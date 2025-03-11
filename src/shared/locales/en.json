@@ -410,7 +410,12 @@
       "claim": "Claim Now",
       "game_board_points": "Game Board Points",
       "raffle_tickets": "Raffle Tickets",
-      "board_spin_reward": "Board & Spin Reward"
+      "board_spin_reward": "Board & Spin Reward",
+      "automatically" : "Rolls the dice automatically",
+      "auto_roller": "Dice Auto Roller",
+      "reward_booster": "Rewrd Booster",
+      "reward_multiplier": "Reward Multiplier",
+      "turbo": "Raffle Ticket Turbo"
     },
     "setting": {
       "terms_of_service": "Trems of Service",

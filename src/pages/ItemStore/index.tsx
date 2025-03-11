@@ -180,34 +180,34 @@ const ItemStore: React.FC = () => {
     switch (itemName.toUpperCase()) {
       case "AUTO":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">Dice Auto Roller</p>
-                <p className="text-base font-normal">Rolls the dice automatically</p>
+                <p className="text-lg font-semibold">{t("dice_event.auto_roller")}</p>
+                <p className="text-base font-normal">{t("dice_event.automatically")}</p>
               </div>;
       case "REWARD":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">Rewrd Booster</p>
-                <p className="text-base font-normal">Board & Spin Reward Upgrade : 5x</p>
+                <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
+                <p className="text-base font-normal">{t("dice_event.board_spin_reward")} : 5x</p>
               </div>;
       case "GOLD":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">Reward Multiplier</p>
-                <p className="text-base font-normal">Game Board Rewards : 30x</p><br />
-                <p className="text-lg font-semibold mt-4">Raffle Ticket Turbo</p>
-                <p className="text-base font-normal">Raffle Tickets : 6x</p>
+                <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
+                <p className="text-base font-normal">{t("dice_event.game_board_points")} : 30x</p><br />
+                <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
+                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 6x</p>
               </div>;
       case "SILVER":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">Reward Multiplier</p>
-                <p className="text-base font-normal">Game Board Rewards : 20x</p><br />
-                <p className="text-lg font-semibold mt-4">Raffle Ticket Turbo</p>
-                <p className="text-base font-normal">Raffle Tickets : 4x</p>
+                <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
+                <p className="text-base font-normal">{t("dice_event.game_board_points")} : 20x</p><br />
+                <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
+                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 4x</p>
               </div>;
       case "BRONZE":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">Reward Multiplier</p>
-                <p className="text-base font-normal">Game Board Rewards : 10x</p><br />
-                <p className="text-lg font-semibold mt-4">Raffle Ticket Turbo</p>
-                <p className="text-base font-normal">Raffle Tickets : 2x</p>
+                <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
+                <p className="text-base font-normal">{t("dice_event.game_board_points")} : 10x</p><br />
+                <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
+                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 2x</p>
               </div>;
       default:
         return <div>아이템에 대한 상세 설명입니다.</div>;

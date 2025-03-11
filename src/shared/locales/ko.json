@@ -410,7 +410,12 @@
       "claim": "지금 받기",
       "game_board_points": "게임 보드 포인트",
       "raffle_tickets": "래플 티켓",
-      "board_spin_reward": "보드 & 스핀 보상"
+      "board_spin_reward": "보드 & 스핀 보상",
+      "automatically": "주사위를 자동으로 굴립니다",
+      "auto_roller": "주사위 자동 굴림기",
+      "reward_booster": "보상 부스터",
+      "reward_multiplier": "보상 배수기",
+      "turbo": "래플 티켓 터보"
     },
     "setting": {
       "terms_of_service": "이용 약관",
