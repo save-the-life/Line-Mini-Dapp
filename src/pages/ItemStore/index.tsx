@@ -341,7 +341,7 @@ const ItemStore: React.FC = () => {
           
           // 지갑 정보 서버 등록
           try{
-            await requestWallet(accounts[0], checkWalletType)
+            await requestWallet(accounts[0], checkWalletType?.toUpperCase() ?? "");
           } catch (error: any){
             console.error("지갑 서버 등록 에러:", error.message);
           }
