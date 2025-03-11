@@ -34,16 +34,18 @@ const EditNickname: React.FC = () => {
 
             if(updateNick === "Success"){
                 navigate(-1);
-            } else if(updateNick === "Exist User Name."){
+            } else {
+                setShowModal(true);
+                setModalMessage(t("asset_page.try_again"));
+            }
+        } catch(error: any){
+            if(error.data.message === "Exist User Name."){
                 setShowModal(true);
                 setModalMessage(t("setting.duplicate"));
             } else {
                 setShowModal(true);
                 setModalMessage(t("asset_page.try_again"));
             }
-        } catch(error: any){
-            setShowModal(true);
-            setModalMessage(t("asset_page.try_again"));
         }
     };
 

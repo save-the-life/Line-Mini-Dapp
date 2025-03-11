@@ -6,10 +6,7 @@ export const updateNickname = async(name: string): Promise<any> => {
 
     if(response.data.code === "Success"){
         console.log("닉네임 수정 response: ", response);
-        return response.data.code;
-    }else if(response.data.code === "Exist User Name."){
-        console.log("닉네임 수정 response: ", response);
-        return response.data.code;
+        return true;
     }else {
         console.error('Unexpected response:', response);
         throw new Error(response.data.message || 'Failed to fetch nickname update');
