@@ -393,7 +393,7 @@ const ItemStore: React.FC = () => {
         </div>
 
         {/* 체크박스 및 결제 버튼 영역 */}
-        <div className="fixed mt-5 px-6">
+        <div className="mt-5 px-6">
           <div className="flex flex-col gap-3 mb-5">
             <label className="flex items-start gap-2">
               <input
