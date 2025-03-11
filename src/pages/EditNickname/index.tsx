@@ -39,6 +39,7 @@ const EditNickname: React.FC = () => {
                 setModalMessage(t("asset_page.try_again"));
             }
         } catch(error: any){
+            console.log("error 확인: ", error.data);
             if(error.data.message === "Exist User Name."){
                 setShowModal(true);
                 setModalMessage(t("setting.duplicate"));
