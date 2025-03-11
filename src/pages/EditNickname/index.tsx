@@ -57,7 +57,7 @@ const EditNickname: React.FC = () => {
                     className="w-full p-4 rounded-2xl mb-4 bg-gray-900 text-white border border-[#35383F] focus:outline-none text-base font-normal"
                 />
             </div>
-            <div className='mt-3 text-left'>
+            <div className='w-full mt-3 text-left'>
                 <p className='text-xs font-normal'>* {t("setting.max_length")}</p>
             </div>
 
@@ -68,7 +68,7 @@ const EditNickname: React.FC = () => {
                     style={{ backgroundColor: "#252932", borderColor:"#35383F" }}
                     onClick={()=>{navigate(-1)}}
                     >
-                    {t("asset_page.cancel")}
+                    {t("asset_page.claim.cancel")}
                 </button>
                 <button
                     className="w-1/2 py-4 rounded-full text-base font-medium"
