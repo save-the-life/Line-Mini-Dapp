@@ -415,7 +415,7 @@ const MyAssets: React.FC = () => {
                             />
                         </div>
                         <div className="ml-2">
-                            <TruncateMiddle text={userId} maxLength={20} />
+                            <TruncateMiddle text={userId} maxLength={8} />
                             <p className="text-xs text-red-500">Lv.{userLv}</p>
                         </div>
                     </div>
