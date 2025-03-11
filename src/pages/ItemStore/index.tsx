@@ -45,7 +45,7 @@ const ItemStore: React.FC = () => {
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
 
-  const { walletAddress, setWalletAddress, setProvider, setWalletType } = useWalletStore();
+  const { walletAddress, sdk, setWalletAddress, setProvider, setWalletType } = useWalletStore();
 
   // USD(STRIPE) 결제 진행 시 시작 시간을 기록합니다.
   const [paymentStartTime, setPaymentStartTime] = useState<number | null>(null);
@@ -179,10 +179,10 @@ const ItemStore: React.FC = () => {
       const key = uuidv4();
       console.log("결제 중복 방지 uuid: ", key);
 
-      const sdk = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        ...sdkOptions,
-      });
+      // const sdk = await DappPortalSDK.init({
+      //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+      //   ...sdkOptions,
+      // });
 
       // STRIPE 결제의 경우 startPayment 전에 시작 시간 기록
       if (paymentMethod === "STRIPE") {
