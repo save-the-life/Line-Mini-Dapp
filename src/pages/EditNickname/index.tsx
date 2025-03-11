@@ -47,7 +47,7 @@ const EditNickname: React.FC = () => {
             <TopTitle title={t("setting.edit_nickname")} back={true} />
       
             {/* 이름 입력란 */}
-            <div className="mt-16 w-11/12 max-w-md">
+            <div className="mt-16 w-full">
                 <input
                     type="text"
                     placeholder={t("ai_page.Please_enter_name")}
