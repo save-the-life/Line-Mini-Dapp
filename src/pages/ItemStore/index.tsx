@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import Images from "@/shared/assets/images";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import paymentSession from "@/entities/Asset/api/payment";
 import getItemInfo from "@/entities/Asset/api/getItemInfo";
 import { getPaymentStatus, PaymentStatusResponse } from "@/entities/Asset/api/getPaymentStatus";
@@ -172,6 +171,7 @@ const ItemStore: React.FC = () => {
   const handleSelectItem = (itemId: number) => {
     playSfx(Audios.button_click);
     setSelectedItem(itemId);
+    setShowModal(true);
   };
 
   // 결제 로직 진행
@@ -281,10 +281,6 @@ const ItemStore: React.FC = () => {
   const handleConnectWallet = async () => {
     playSfx(Audios.button_click);
     setNeedWallet(false);
-    // const sdk = await DappPortalSDK.init({
-    //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-    //   chainId: "8217",
-    // });
     const walletProvider = sdk.getWalletProvider();
     const checkWalletType = walletProvider.getWalletType() || null;
   
@@ -329,10 +325,6 @@ const ItemStore: React.FC = () => {
   // 결제 내역 조회
   const handlePaymentHistory = async () => {
     playSfx(Audios.button_click);
-    // const sdk = await DappPortalSDK.init({
-    //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-    //   chainId: "8217",
-    // });
     const paymentProvider = sdk.getPaymentProvider();
     await paymentProvider.openPaymentHistory();
   };
@@ -391,7 +383,7 @@ const ItemStore: React.FC = () => {
                   alt={item.itemName}
                   className="w-[80px] h-[80px] object-cover"
                 />
-                <img
+                {/* <img
                   src={Images.infoMark}
                   alt="info"
                   className="absolute top-1 right-1 w-5 h-5"
@@ -400,7 +392,7 @@ const ItemStore: React.FC = () => {
                     setSelectedItem(item.itemId);
                     handleInfo();
                   }}
-                />
+                /> */}
               </div>
               <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
             </div>
@@ -501,7 +493,7 @@ const ItemStore: React.FC = () => {
               <AlertDialogTitle className="text-center font-bold text-xl">
                 <div className="flex flex-row items-center justify-between">
                   <div>&nbsp;</div>
-                  <p>{selectedItemInfo?.itemName}</p>
+                  <p>{selectedItemInfo?.itemName} Item</p>
                   <HiX
                     className="w-6 h-6 cursor-pointer"
                     onClick={() => {
@@ -514,7 +506,7 @@ const ItemStore: React.FC = () => {
             </AlertDialogHeader>
             <div className="flex flex-col items-center justify-center">
               <div
-                className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                className="relative w-[145px] aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                 style={{
                   background: selectedItemInfo
                     ? getBackgroundGradient(selectedItemInfo.itemName)
@@ -527,8 +519,8 @@ const ItemStore: React.FC = () => {
                   className="w-[80px] h-[80px] object-cover"
                 />
               </div>
-              <div className="mt-6 text-lg font-semibold">
-                <p>{selectedItemInfo?.itemName}</p>
+              <div className="mt-2 text-base font-normal text-[#A3A3A3]">
+                <p>Validate for 1 month</p>
               </div>
               <div className="mt-1 text-base font-normal">
                 <p>{selectedItemInfo?.description}</p>
