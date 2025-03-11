@@ -9,7 +9,7 @@ export const updateNickname = async(name: string): Promise<any> => {
         return true;
     }else {
         console.error('Unexpected response:', response);
-        throw new Error(response.data.message || 'Failed to fetch nickname update');
+        throw new Error(response.data || 'Failed to fetch nickname update');
     }
 };
 
