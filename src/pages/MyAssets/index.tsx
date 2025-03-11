@@ -399,8 +399,8 @@ const MyAssets: React.FC = () => {
                             />
                         </div>
                         <div className="ml-2">
-                            <p className="text-sm font-bold">{nickName}</p>
-                            <p className="text-xs text-red-500">Lv.{userLv}</p>
+                            <p className="text-sm font-normal whitespace-nowrap">{nickName}</p>
+                            <p className="text-xs font-semibold text-red-500">Lv.{userLv}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
