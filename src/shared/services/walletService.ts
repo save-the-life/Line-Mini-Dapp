@@ -16,15 +16,15 @@ export async function connectWallet(): Promise<void> {
     const walletProvider = sdk.getWalletProvider();
     console.log("[지갑 연결] walletProvider 호출: ", walletProvider);
 
-    const walletType = walletProvider.getWalletType() || null;
-    console.log("사용자가 선택한 지갑 타입:", walletType);
-    
     // 지갑 연결 요청
     const accounts = (await walletProvider.request({
         method: "kaia_requestAccounts",
     })) as string[];
     
 
+    const walletType = walletProvider.getWalletType() || null;
+    console.log("사용자가 선택한 지갑 타입:", walletType);
+    
     if (!accounts || !accounts[0]) {
         throw new Error("지갑 연결 실패");
     }
