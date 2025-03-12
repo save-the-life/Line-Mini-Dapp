@@ -321,7 +321,8 @@
       "Balance": "可用餘額",
       "one_month": "有效期限：1個月",
       "need_wallet_balance": "你需要连接钱包来检查你的余额。",
-      "uid": "UID 已复制到剪贴板。"
+      "uid": "UID 已复制到剪贴板。",
+      "purchase": "购买后立即适用。"
     },
     "dice_event": {
       "attendance": "簽到",

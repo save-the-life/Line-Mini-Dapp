@@ -321,7 +321,8 @@
         "Balance": "利用可能残高",
         "one_month": "1ヶ月間有効",
         "need_wallet_balance": "残高を確認するには、ウォレットを接続する必要があります。",
-        "uid": "UID がクリップボードにコピーされました。"
+        "uid": "UID がクリップボードにコピーされました。",
+        "purchase": "購入後すぐに適用されます。"
     },
     "dice_event": {
         "attendance": "出席",

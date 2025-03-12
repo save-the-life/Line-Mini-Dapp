@@ -321,7 +321,8 @@
       "Balance": "Available Balance",
       "one_month": "Validate for 1 month ",
       "need_wallet_balance": "You need to connect Wallet to check your balance.",
-      "uid": "The UID has been copied to the clipboard."
+      "uid": "The UID has been copied to the clipboard.",
+      "purchase": "Applies immediately upon purchase."
     },
     "dice_event": {
       "attendance": "Daily Attendance",

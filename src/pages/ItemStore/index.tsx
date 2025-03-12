@@ -576,6 +576,7 @@ const ItemStore: React.FC = () => {
               </div>
               <div className="my-2 text-base font-normal text-[#A3A3A3]">
                 <p>{t("asset_page.one_month")}</p>
+                <p>({t("asset_page.purchase")})</p>
               </div>
               <p>{selectedItemInfo ? getCustomDescription(selectedItemInfo.itemName) : ""}</p>
             </div>
