@@ -19,7 +19,7 @@ const RewardItem: React.FC<RewardItemProps> = ({ rank, award, isTop }) => {
         <p>
           {award.slRewards.toLocaleString()}{" "}
           {/* <span className="text-[#A3A3A3]">(or {award.usdcRewards} USDC)</span> */}
-          {award.nftType && ` + ${award.nftType} NFT`}
+          {award.nftType && ` + ${award.nftType} PASS`}
         </p>
       </div>
     </div>
@@ -30,8 +30,8 @@ const RewardItem: React.FC<RewardItemProps> = ({ rank, award, isTop }) => {
         <img src={Images.TokenReward} alt="token-reward" className="w-6 h-6" />
         <p>
           {award.slRewards.toLocaleString()}{" "}
-          {award.usdcRewards ?   <span className="text-[#A3A3A3]">(or {award.usdcRewards} USDC)</span> : <></>}
-          {award.nftType && ` + ${award.nftType} NFT`}
+          {/* {award.usdcRewards ?   <span className="text-[#A3A3A3]">(or {award.usdcRewards} USDC)</span> : <></>} */}
+          {award.nftType && ` + ${award.nftType} PASS`}
         </p>
       </div>
     </div>
