@@ -178,32 +178,32 @@ const ItemStore: React.FC = () => {
 
   const getCustomDescription = (itemName: string): React.ReactNode => {
     switch (itemName.toUpperCase()) {
-      case "AUTO":
+      case "AUTO ITME":
         return <p>
         {selectedItemInfo?.itemName === "REWARD" 
           ? "REWARD Booster" 
           : selectedItemInfo?.itemName + " Pass"}
       </p>
-      case "REWARD":
+      case "REWARD BOOSTER":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
                 <p className="text-base font-normal">{t("dice_event.board_spin_reward")} : 5x</p>
               </div>;
-      case "GOLD":
+      case "GOLD PASS":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
                 <p className="text-base font-normal">{t("dice_event.game_board_points")} : 30x</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
                 <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 6x</p>
               </div>;
-      case "SILVER":
+      case "SILVER PASS":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
                 <p className="text-base font-normal">{t("dice_event.game_board_points")} : 20x</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
                 <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 4x</p>
               </div>;
-      case "BRONZE":
+      case "BRONZE PASS":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
                 <p className="text-base font-normal">{t("dice_event.game_board_points")} : 10x</p><br />
@@ -387,13 +387,13 @@ const ItemStore: React.FC = () => {
   // 아이템별 배경색 결정 함수
   const getBackgroundGradient = (itemName: string) => {
     const name = itemName.toUpperCase();
-    if (name === "AUTO") {
+    if (name === "AUTO ITEM") {
       return "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)";
-    } else if (name === "REWARD") {
+    } else if (name === "REWARD BOOSTER") {
       return "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)";
-    } else if(name === "GOLD"){
+    } else if(name === "GOLD PASS"){
       return "linear-gradient(180deg, #FDE047 0%, #FFFFFF 100%)";
-    } else if(name === "SILVER"){
+    } else if(name === "SILVER PASS"){
       return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
     } else {
       return "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)";

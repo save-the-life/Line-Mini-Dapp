@@ -51,13 +51,13 @@ const Leaderboard: React.FC = () => {
       <div className="top-leaders flex flex-col gap-3 w-full justify-center items-center">
         {leaderBoard.slice(0, 3).map((entry: LeaderBoardEntry, index: number) => (
           <div
-            key={`${entry.userId}-${index}`}
+            key={`${entry.name}-${index}`}
             className="leader-entry h-16 w-full rounded-3xl first-to-third-pace-box flex flex-row items-center justify-around"
           >
             <div className="flex flex-row gap-4 font-medium items-center">
               <p>{entry.rank}</p>
-              <p className="truncate max-w-[120px]" title={entry.userId}>
-                {truncateString(entry.userId, 10)}
+              <p className="truncate max-w-[120px]" title={entry.name}>
+                {truncateString(entry.name, 10)}
               </p>
             </div>
             <p className="text-[#fde047] font-semibold text-lg">
@@ -72,7 +72,7 @@ const Leaderboard: React.FC = () => {
         <AnimatePresence>
           {leaderBoard.slice(3).map((entry: LeaderBoardEntry, index: number) => (
             <motion.div
-              key={`${entry.userId}-${index}`}
+              key={`${entry.name}-${index}`}
               className="leader-entry h-14 w-full flex flex-row items-center justify-between border-b"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -80,8 +80,8 @@ const Leaderboard: React.FC = () => {
               transition={{ duration: 0.3 }}
             >
               <p>{entry.rank}</p>
-              <p className="truncate max-w-[120px]" title={entry.userId}>
-                {truncateString(entry.userId, 10)}
+              <p className="truncate max-w-[120px]" title={entry.name}>
+                {truncateString(entry.name, 10)}
               </p>
               <p className="font-semibold">
                 {entry.starCount.toLocaleString()}

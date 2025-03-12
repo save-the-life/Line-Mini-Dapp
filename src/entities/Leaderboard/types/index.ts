@@ -1,7 +1,7 @@
 // src/entities/Leaderboard/types/index.ts
 
 export interface LeaderBoardEntry {
-    userId: string;
+    name: string;
     starCount: number;
     rank: number;
   }
