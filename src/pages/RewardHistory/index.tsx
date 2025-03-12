@@ -156,6 +156,9 @@ const RewardHistory: React.FC = () => {
       case "Join LuckyDice Star Reward":
         contentKey = "join_lucky_dice";
         break;
+      case "Join LuckyDice SL Reward":
+        contentKey = "join_lucky_dice";
+        break;
       default:
         contentKey = reward.content;
     }

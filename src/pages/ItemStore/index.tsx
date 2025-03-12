@@ -500,7 +500,7 @@ const ItemStore: React.FC = () => {
           </div>
 
           <div className="mb-3 flex justify-center items-center">
-            <span className="text-sm text-[#A3A3A3]">Available Balance :</span>
+            <span className="text-sm text-[#A3A3A3]">{t("asset_page.Balance")} :</span>
             <span className="text-sm text-white ml-1">
               {balance || balanceFromState} KAIA
             </span>
@@ -563,7 +563,7 @@ const ItemStore: React.FC = () => {
             </AlertDialogHeader>
             <div className="flex flex-col items-center justify-center">
               <div
-                className="relative w-[145px] aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                className="relative w-[180px] aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                 style={{
                   background: selectedItemInfo
                     ? getBackgroundGradient(selectedItemInfo.itemName)
@@ -576,8 +576,8 @@ const ItemStore: React.FC = () => {
                   className="w-[80px] h-[80px] object-cover"
                 />
               </div>
-              <div className="mt-2 text-base font-normal text-[#A3A3A3]">
-                <p>Validate for 1 month</p>
+              <div className="my-2 text-base font-normal text-[#A3A3A3]">
+                <p>{t("asset_page.one_month")}</p>
               </div>
               <p>{selectedItemInfo ? getCustomDescription(selectedItemInfo.itemName) : ""}</p>
             </div>
@@ -629,7 +629,7 @@ const ItemStore: React.FC = () => {
             </AlertDialogHeader>
             <div className="flex flex-col items-center justify-center text-center space-y-4">
               <p className="text-sm font-semibold mt-4">
-                You need to connect Wallet to check your balance.
+                {t("asset_page.need_wallet_balance")}                
               </p>
               <img
                 src={Images.ConnectButton}

@@ -4,6 +4,7 @@ import { BiWallet } from "react-icons/bi";
 import { FaChevronRight } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 import { HiX } from 'react-icons/hi';
+import { BiCopy } from 'react-icons/bi';
 import Images from '@/shared/assets/images';
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "@/entities/User/model/userModel";
@@ -81,6 +82,7 @@ const MyAssets: React.FC = () => {
     const [claimData, setClaimData] = useState<ClaimData | null>(null);
     const [userClaimAmount, setUserClaimAmount] = useState("");  
     const [showHistoryModal, setShowHistoryModal] = useState(false);
+      const [copySuccess, setCopySuccess] = useState<string>(''); // 클립보드 복사 결과 메시지
     
     const { walletAddress, setWalletAddress, provider, setProvider, setWalletType, sdk, setSdk } = useWalletStore();
 
@@ -414,6 +416,21 @@ const MyAssets: React.FC = () => {
         }
     };
 
+    
+  // 클립보드 복사 함수
+  const copyToClipboard = async () => {
+    playSfx(Audios.button_click);
+
+    try {
+        await navigator.clipboard.writeText(String(uid));
+        setCopySuccess('Copied to clipboard!');
+        setTimeout(() => setCopySuccess(''), 2000); // 2초 후에 알림 메시지 제거
+        
+    } catch (err) {
+      setCopySuccess('Failed to copy!');
+    }
+  };
+
     return (  
         loading 
           ? <LoadingSpinner className="h-screen" /> 
@@ -436,7 +453,12 @@ const MyAssets: React.FC = () => {
                                 aria-label="View All Items">
                                 {nickName} <FaChevronRight className="ml-1 w-3 h-3" />
                             </button>
-                            <p className="text-xs font-semibold text-[#737373]">@{uid}</p>
+                            <button
+                                className="flex items-center text-xs font-semibold text-[#737373]"
+                                onClick={copyToClipboard}
+                                >
+                                UID: {uid} <BiCopy className="ml-1 w-2 h-2" />
+                            </button>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">

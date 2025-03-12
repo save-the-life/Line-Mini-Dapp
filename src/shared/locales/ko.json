@@ -317,7 +317,10 @@
       "date_ranges": "날짜 범위",
       "start_date": "시작 날짜",
       "end_date": "종료 날짜",
-      "load_more": "더 불러오기"
+      "load_more": "더 불러오기",
+      "Balance": "사용 가능한 잔액",
+      "one_month": "1개월 동안 유효",
+      "need_wallet_balance": "잔액 조회를 위해 지갑을 연결합니다."
     },
     "dice_event": {
       "attendance": "출석",
@@ -412,7 +415,7 @@
       "raffle_tickets": "래플 티켓",
       "board_spin_reward": "보드 & 스핀 보상",
       "automatically": "주사위를 자동으로 굴립니다",
-      "auto_roller": "주사위 자동 굴림기",
+      "auto_roller": "주사위 오토 롤러",
       "reward_booster": "보상 부스터",
       "reward_multiplier": "보상 배수기",
       "turbo": "래플 티켓 터보"
