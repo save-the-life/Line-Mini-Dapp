@@ -38,15 +38,22 @@ const ConnectWalletPage: React.FC = () => {
           TW: "zh",
           TH: "th",
         };
-        i18nLanguage = languageMapByCountry[countryCode] || "en";
+    
+        if (languageMapByCountry.hasOwnProperty(countryCode)) {
+          i18nLanguage = languageMapByCountry[countryCode];
+        } else {
+          console.warn(
+            `[AppInitializer] 예상치 못한 countryCode(${countryCode}) 발생: 기본 언어 "en" 사용`
+          );
+        }
         console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
       } catch (error) {
         console.error("IP 기반 위치 정보 조회 실패:", error);
-        
         console.log(`[AppInitializer] 영어를 기본 언어로 설정: ${i18nLanguage} -> ${i18nLanguage}`);
       }
       i18n.changeLanguage(i18nLanguage);
-    }
+    };
+    
     checkIP();
   }, []);
 

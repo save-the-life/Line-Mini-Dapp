@@ -146,19 +146,19 @@ const DentalAnalysis: React.FC = () => {
     console.log("현재 사용 언어", i18n.language);
     let useLanguage = "English";
     
-    if (i18n.language === "ko-KR") {
+    if (i18n.language === "ko") {
       useLanguage = "Korean";
       console.log("Language set to: Korean (ko-KR)");
-    } else if (i18n.language === "ja-JP") {
+    } else if (i18n.language === "ja") {
       useLanguage = "Japanese";
       console.log("Language set to: Japanese (ja-JP)");
-    } else if (i18n.language === "zh-CN" || i18n.language === "zh-TW") {
+    } else if (i18n.language === "zh" || i18n.language === "zh") {
       useLanguage = "Taiwanese";
       console.log("Language set to: Taiwanese (zh-CN/zh-TW)");
-    } else if (i18n.language === "th-TH") {
+    } else if (i18n.language === "th") {
       useLanguage = "Thai";
       console.log("Language set to: Thai (th-TH)");
-    } else if (i18n.language === "en-US") {
+    } else if (i18n.language === "en") {
       useLanguage = "English";
       console.log("Language set to: English (en-US)");
     } else {
