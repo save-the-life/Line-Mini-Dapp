@@ -58,7 +58,7 @@ const MyAssets: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { playSfx } = useSound();
-    const { nickName, userLv, characterType } = useUserStore();
+    const { nickName, userLv, characterType, uid } = useUserStore();
     const [loading, setLoading] = useState(true);
     const [nft, setNFT] = useState(0);
     const [showModal, setShowModal] = useState(false);
@@ -381,7 +381,7 @@ const MyAssets: React.FC = () => {
                     console.log("지갑 연결 해제");
                     provider.disconnectWallet();
                 }
-                alert("로그인 한 지갑과 다른 지갑을 호출하였습니다.");
+                alert("결제 내역 조회 중 에러가 확인되었습니다. 지갑을 다시 연결합니다.");
             }
         }
     };
@@ -436,7 +436,7 @@ const MyAssets: React.FC = () => {
                                 aria-label="View All Items">
                                 {nickName} <FaChevronRight className="ml-1 w-3 h-3" />
                             </button>
-                            <p className="text-xs font-semibold text-red-500">Lv.{userLv}</p>
+                            <p className="text-xs font-semibold text-[#737373]">@{uid}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
