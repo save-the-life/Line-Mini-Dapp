@@ -348,9 +348,9 @@ const MyAssets: React.FC = () => {
 
             await paymentProvider.openPaymentHistory();
         } catch (error: any) {
+            console.log("결제 내역 확인 중 에러 발생: ", error);
             if (error instanceof TypeError) {
                 console.error("TypeError 발생:", error);
-                // TypeError 처리 로직 추가 (예: 지갑 재연결 시도)
                 if (provider && provider.disconnectWallet) {
                     console.log("지갑 연결 해제");
                     provider.disconnectWallet();
@@ -358,7 +358,8 @@ const MyAssets: React.FC = () => {
                 alert("TypeError가 발생했습니다. 지갑을 다시 연결합니다.");
                 await connectWallet();
             } else if (error.code === "-32001") {
-                alert("결제 내역 호출 전 강제 종료하였습니다.");
+                // 사용자가 팝업을 닫은 경우 자동 재연결 대신 사용자에게 안내
+                alert("결제 내역 팝업이 닫혔습니다. 다시 시도하려면 버튼을 눌러주세요.");
             } else {
                 console.log("결제 내역 확인 중 에러 발생: ", error);
                 if (provider && provider.disconnectWallet) {
