@@ -35,7 +35,7 @@ const NFTRewardList: React.FC = () => {
     {
       imgSrc: Images.Gold,
       altText: 'Gold',
-      title: 'Gold Item',
+      title: 'GOLD PASS',
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
@@ -50,7 +50,7 @@ const NFTRewardList: React.FC = () => {
     {
       imgSrc: Images.Silver,
       altText: 'Silver',
-      title: 'Silver Item',
+      title: 'SILVER PASS',
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
@@ -65,7 +65,7 @@ const NFTRewardList: React.FC = () => {
     {
       imgSrc: Images.Bronze,
       altText: 'Bronze',
-      title: 'Bronze Item',
+      title: 'BRONZE PASS',
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
@@ -80,7 +80,7 @@ const NFTRewardList: React.FC = () => {
     {
       imgSrc: Images.RewardNFT,
       altText: 'Reward Booster(x5)',
-      title: 'Reward Booster(x5)',
+      title: 'REWARD BOOSTER(x5)',
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 

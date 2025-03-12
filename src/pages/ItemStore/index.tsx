@@ -573,7 +573,7 @@ const ItemStore: React.FC = () => {
                   className="w-[120px] h-[120px] object-cover"
                 />
               </div>
-              <div className="my-2 text-base font-normal text-[#A3A3A3]">
+              <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
                 <p>{t("asset_page.one_month")}</p>
                 <p>({t("asset_page.purchase")})</p>
               </div>
