@@ -253,16 +253,16 @@ const ItemStore: React.FC = () => {
       console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
       
       if (paymentMethod === "STRIPE") {
-        if (error.code === -32001) {
-          setPaymentMessage("Purchase Cancled.");
-        } else if (error.code === -32002) {
+        if (error.code === -31001) {
+          setPaymentMessage("Purchase Canceled.");
+        } else if (error.code === -31002) { // 만약 결제 실패 에러 코드가 -31002라면
           setPaymentMessage("Purchase Failed.");
         } else if (error.code === -32000) {
           setPaymentMessage("Insufficient Balance.");
         } else if (error.message && error.message.includes("SDK's startPayment")) {
           setPaymentMessage("Purchase Failed.");
         } else if (error.message && error.message.includes("expiration")) {
-          setPaymentMessage("Purchase Cancled.");
+          setPaymentMessage("Purchase Canceled.");
         } else if(paymentStartTime){
           const elapsedSeconds = (Date.now() - paymentStartTime) / 1000;
           if (elapsedSeconds >= 580 && elapsedSeconds < 2280) {
