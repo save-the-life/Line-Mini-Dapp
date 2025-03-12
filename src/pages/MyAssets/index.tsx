@@ -85,7 +85,7 @@ const MyAssets: React.FC = () => {
     const [showHistoryModal, setShowHistoryModal] = useState(false);
       const [copySuccess, setCopySuccess] = useState(false);
     
-    const { walletAddress, setWalletAddress, provider, setProvider, setWalletType, sdk, setSdk } = useWalletStore();
+    const { walletAddress, provider, sdk, clearWallet } = useWalletStore();
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -354,6 +354,7 @@ const MyAssets: React.FC = () => {
                 if (provider && provider.disconnectWallet) {
                     console.log("지갑 연결 해제");
                     provider.disconnectWallet();
+                    clearWallet();
                 }
                 alert("TypeError가 발생했습니다. 지갑을 다시 연결합니다.");
                 await connectWallet();
