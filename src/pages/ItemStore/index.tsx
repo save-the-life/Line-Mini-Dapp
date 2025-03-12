@@ -178,12 +178,11 @@ const ItemStore: React.FC = () => {
 
   const getCustomDescription = (itemName: string): React.ReactNode => {
     switch (itemName.toUpperCase()) {
-      case "AUTO ITME":
-        return <p>
-        {selectedItemInfo?.itemName === "REWARD" 
-          ? "REWARD Booster" 
-          : selectedItemInfo?.itemName + " Pass"}
-      </p>
+      case "AUTO ITEM":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">{t("dice_event.auto_roller")}</p>
+                <p className="text-base font-normal">{t("dice_event.automatically")} : 5x</p>
+              </div>;
       case "REWARD BOOSTER":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
