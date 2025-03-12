@@ -26,6 +26,7 @@ import getMyAssets from "@/entities/Asset/api/getMyAssets";
 import requestClaim from "@/entities/Asset/api/requestClaim";
 import useWalletStore from "@/shared/store/useWalletStore";
 import requestWallet from "@/entities/User/api/addWallet";
+import { connectWallet } from "@/shared/services/walletService";
 
 interface TruncateMiddleProps {
     text: any;
@@ -384,6 +385,7 @@ const MyAssets: React.FC = () => {
                     provider.disconnectWallet();
                 }
                 alert("결제 내역 조회 중 에러가 확인되었습니다. 지갑을 다시 연결합니다.");
+                await connectWallet();
             }
         }
     };

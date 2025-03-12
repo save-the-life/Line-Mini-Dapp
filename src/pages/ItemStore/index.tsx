@@ -215,7 +215,6 @@ const ItemStore: React.FC = () => {
   };
 
   
-
   // 결제 로직 진행
   const handleCheckout = async (
     paymentMethod: "STRIPE" | "CRYPTO",
