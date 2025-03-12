@@ -234,7 +234,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       console.error("❌ 컨트랙트 출석 체크 실패:", error);
       console.error("❌ 컨트랙트 출석 체크 실패 코드:", error.code);
       console.error("❌ 컨트랙트 출석 체크 실패 메시지:", error.message);
-      if (error.code === "-32001") {
+      if (error.code === -32001) {
         alert("사용자가 출석 체크를 취소하였습니다.");
       } else {
         alert("출석 체크 중 에러가 확인되었습니다. 다시 시도해주세요.");
