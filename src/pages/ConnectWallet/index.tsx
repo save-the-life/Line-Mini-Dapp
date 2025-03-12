@@ -7,6 +7,7 @@ import webLoginWithAddress from "@/entities/User/api/webLogin";
 import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
 import requestWallet from "@/entities/User/api/addWallet";
+import i18n from "@/shared/lib/il8n";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -21,6 +22,31 @@ const ConnectWalletPage: React.FC = () => {
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
+
+    const checkIP = async () => {
+      console.log("[AppInitializer] IP 기반 언어 설정 시작");
+      let i18nLanguage = "en";
+      try {
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        const countryCode = data.country;
+        const languageMapByCountry: { [key: string]: string } = {
+          KR: "ko",
+          US: "en",
+          JP: "ja",
+          TW: "zh",
+          TH: "th",
+        };
+        i18nLanguage = languageMapByCountry[countryCode] || "en";
+        console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
+      } catch (error) {
+        console.error("IP 기반 위치 정보 조회 실패:", error);
+        
+        console.log(`[AppInitializer] 영어를 기본 언어로 설정: ${i18nLanguage} -> ${i18nLanguage}`);
+      }
+      i18n.changeLanguage(i18nLanguage);
+    }
+    
   }, []);
 
   const handleConnectWallet = async (retry = false) => {
