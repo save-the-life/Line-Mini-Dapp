@@ -75,7 +75,7 @@ const ItemStore: React.FC = () => {
 
   // 아이템 배열 순서 조정
   const sortedItemData = useMemo(() => {
-    const order = ["GOLD", "SILVER", "BRONZE", "AUTO", "REWARD"];
+    const order = ["GOLD PASS", "SILVER PASS", "BRONZE PASS", "AUTO ITEM", "REWARD BOOSTER"];
     return [...itemData].sort(
       (a, b) =>
         order.indexOf(a.itemName.toUpperCase()) -
