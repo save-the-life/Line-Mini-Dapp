@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Images from "@/shared/assets/images";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import webLoginWithAddress from "@/entities/User/api/webLogin";
 import { useUserStore } from "@/entities/User/model/userModel";
-import { connectWallet } from "@/shared/services/walletService";
 import useWalletStore from "@/shared/store/useWalletStore";
+import requestWallet from "@/entities/User/api/addWallet";
 import i18n from "@/shared/lib/il8n";
 
 // 간단한 모바일 체크 함수
@@ -17,8 +18,7 @@ const ConnectWalletPage: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  // 전역 상태에서 walletAddress를 가져옵니다.
-  const walletAddress = useWalletStore((state) => state.walletAddress);
+  const { setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
   useEffect(() => {
     console.log("웹 버전 초기화");
@@ -49,7 +49,7 @@ const ConnectWalletPage: React.FC = () => {
         console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
       } catch (error) {
         console.error("IP 기반 위치 정보 조회 실패:", error);
-        console.log(`[AppInitializer] 영어를 기본 언어로 설정`);
+        console.log(`[AppInitializer] 영어를 기본 언어로 설정: ${i18nLanguage} -> ${i18nLanguage}`);
       }
       i18n.changeLanguage(i18nLanguage);
     };
@@ -59,11 +59,53 @@ const ConnectWalletPage: React.FC = () => {
 
   const handleConnectWallet = async (retry = false) => {
     try {
-      // 외부 모듈로 지갑 연결 및 전역 상태 업데이트 수행
-      await connectWallet();
+      console.log("DappPortal SDK 초기화 시작");
+      const sdk = await DappPortalSDK.init({
+        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+        chainId: "8217",
+      });
+      setSdk(null);
+      const walletProvider = sdk.getWalletProvider();
+  
+      // 계정 요청 (사용자에게 지갑 선택 UI 표시)
+      const accounts = (await walletProvider.request({
+        method: "kaia_requestAccounts",
+      })) as string[];
+  
+      const walletType = walletProvider.getWalletType() || null;
+      console.log("사용자가 선택한 지갑 타입:", walletType);
+  
+      // PC 환경에서 모바일 지갑 선택 시 예외 처리
+      if (!isMobile && walletType === "Mobile") {
+        alert(
+          "현재 PC 웹 브라우저 환경에서 '모바일 지갑'은 연결할 수 없습니다.\n모바일 환경에서 다시 시도해주세요."
+        );
+        walletProvider.disconnectWallet();
+        return;
+      }
+  
+      console.log("지갑 연결 성공:", accounts[0]);
 
+      if (accounts && accounts[0]) {
+        // 전역 상태에 지갑 주소 저장
+        setWalletAddress(accounts[0]);
+        // 전역 상태에 dappPortal의 provider 저장
+        setProvider(walletProvider);
+        // 전역 상태에 지갑 타입 저장 (null 체크)
+        if (walletType) {
+          setWalletType(walletType);
+          
+          // 지갑 정보 서버 등록
+          try{
+            await requestWallet(accounts[0], walletType?.toUpperCase() ?? "");
+          } catch (error: any){
+            console.error("지갑 서버 등록 에러:", error.message);
+          }
+        }
+      }
+  
       // 주소 기반 Web 로그인 및 사용자 데이터 확인
-      const webLogin = await webLoginWithAddress(walletAddress);
+      const webLogin = await webLoginWithAddress(accounts[0]);
       if (!webLogin) {
         throw new Error("Web login failed.");
       }
@@ -81,6 +123,7 @@ const ConnectWalletPage: React.FC = () => {
           error.message === "Web login failed.")
       ) {
         console.warn("토큰 문제 발생: 재시도합니다.");
+        // 토큰 초기화 (필요 시)
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         return handleConnectWallet(true);
@@ -95,6 +138,7 @@ const ConnectWalletPage: React.FC = () => {
       console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
+  
 
   return (
     <div
