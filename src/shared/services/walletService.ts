@@ -4,8 +4,8 @@ import requestWallet from "@/entities/User/api/addWallet";
 import useWalletStore from "../store/useWalletStore";
 
 export async function connectWallet(): Promise<void> {
-    const { setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
-
+    const { setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore.getState();
+    
     // SDK 초기화 (clientId와 chainId는 환경변수 또는 파라미터로 전달 가능)
     const sdk = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
