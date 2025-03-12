@@ -21,6 +21,7 @@ const ConnectWalletPage: React.FC = () => {
   const { setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
   useEffect(() => {
+    console.log("웹 버전 초기화");
     setIsMobile(checkIsMobile());
 
     const checkIP = async () => {
@@ -46,7 +47,7 @@ const ConnectWalletPage: React.FC = () => {
       }
       i18n.changeLanguage(i18nLanguage);
     }
-    
+    checkIP();
   }, []);
 
   const handleConnectWallet = async (retry = false) => {
