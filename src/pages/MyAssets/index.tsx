@@ -82,7 +82,7 @@ const MyAssets: React.FC = () => {
     const [claimData, setClaimData] = useState<ClaimData | null>(null);
     const [userClaimAmount, setUserClaimAmount] = useState("");  
     const [showHistoryModal, setShowHistoryModal] = useState(false);
-      const [copySuccess, setCopySuccess] = useState<string>(''); // 클립보드 복사 결과 메시지
+      const [copySuccess, setCopySuccess] = useState(false);
     
     const { walletAddress, setWalletAddress, provider, setProvider, setWalletType, sdk, setSdk } = useWalletStore();
 
@@ -423,11 +423,9 @@ const MyAssets: React.FC = () => {
 
     try {
         await navigator.clipboard.writeText(String(uid));
-        setCopySuccess('Copied to clipboard!');
-        setTimeout(() => setCopySuccess(''), 2000); // 2초 후에 알림 메시지 제거
-        
+        setCopySuccess(true);
     } catch (err) {
-      setCopySuccess('Failed to copy!');
+        setCopySuccess(false);
     }
   };
 
@@ -457,7 +455,7 @@ const MyAssets: React.FC = () => {
                                 className="flex items-center text-xs font-semibold text-[#737373]"
                                 onClick={copyToClipboard}
                                 >
-                                UID: {uid} <BiCopy className="ml-1 w-2 h-2" />
+                                UID: {uid} <BiCopy className="ml-1 w-3 h-3" />
                             </button>
                         </div>
                     </div>
@@ -749,6 +747,25 @@ const MyAssets: React.FC = () => {
                         </div>
                     </div>
                 )}
+
+                
+                {/* UID 클립 복사 알림 모달창 */}
+                {copySuccess && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+                        <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+                            <p>{t("asset_page.uid")}</p>
+                            <button
+                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                onClick={() => {
+                                    playSfx(Audios.button_click);
+                                    setCopySuccess(false);
+                                }}>
+                                {t("OK")}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
 
                 {/* 1번 모달창 - 클래임할 토큰 선택 */}
                 <AlertDialog open={claimModalOpen}>
