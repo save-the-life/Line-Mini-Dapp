@@ -22,37 +22,14 @@ const ConnectWalletPage: React.FC = () => {
     console.log("웹 버전 초기화");
     setIsMobile(checkIsMobile());
 
-    const checkIP = async () => {
-      console.log("[AppInitializer] IP 기반 언어 설정 시작");
-      let i18nLanguage = "en";
-      try {
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-        const countryCode = data.country;
-        const languageMapByCountry: { [key: string]: string } = {
-          KR: "ko",
-          US: "en",
-          JP: "ja",
-          TW: "zh",
-          TH: "th",
-        };
-
-        if (languageMapByCountry.hasOwnProperty(countryCode)) {
-          i18nLanguage = languageMapByCountry[countryCode];
-        } else {
-          console.warn(
-            `[AppInitializer] 예상치 못한 countryCode(${countryCode}) 발생: 기본 언어 "en" 사용`
-          );
-        }
-        console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
-      } catch (error) {
-        console.error("IP 기반 위치 정보 조회 실패:", error);
-        console.log(`[AppInitializer] 영어를 기본 언어로 설정: ${i18nLanguage} -> ${i18nLanguage}`);
-      }
-      i18n.changeLanguage(i18nLanguage);
-    };
-
-    checkIP();
+    // 브라우저 언어 기반 언어 설정
+    console.log("[ConnectWalletPage] 브라우저 언어 기반 언어 설정 시작");
+    const browserLanguage = navigator.language; // 예: "ko-KR", "en-US" 등
+    const lang = browserLanguage.slice(0, 2); // 앞 두 글자 추출 (예: "ko")
+    const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
+    const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
+    console.log(`[ConnectWalletPage] 브라우저 언어 설정: ${browserLanguage} -> ${i18nLanguage}`);
+    i18n.changeLanguage(i18nLanguage);
   }, []);
 
   const handleConnectWallet = async (retry = false) => {

@@ -164,6 +164,83 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   };
 
   // 초기화 Effect
+  // useEffect(() => {
+  //   console.log("[AppInitializer] useEffect() - initializeApp() 진입");
+
+  //   // 가장 먼저 라인 브라우저 여부를 체크하여, 외부 브라우저이면 즉시 /connect-wallet으로 이동
+  //   console.log("라인브라우저 확인 : ", liff.isInClient());
+  //   if (!liff.isInClient()) {
+  //     console.log("[AppInitializer] 외부 브라우저 접근 감지 -> /connect-wallet 이동");
+  //     navigate("/connect-wallet");
+  //     setShowSplash(false);
+  //     onInitialized();
+  //     return;
+  //   }
+
+  //   const initializeApp = async () => {
+  //     if (initializedRef.current) {
+  //       console.log("[AppInitializer] 이미 초기화됨 -> 중단");
+  //       return;
+  //     }
+  //     initializedRef.current = true;
+
+  //     try {
+  //       console.log("[AppInitializer] LIFF 초기화 시작");
+  //       await liff.init({
+  //         liffId: import.meta.env.VITE_LIFF_ID,
+  //         withLoginOnExternalBrowser: true,
+  //       });
+  //       console.log("[AppInitializer] LIFF 초기화 완료");
+
+  //       console.log("[AppInitializer] IP 기반 언어 설정 시작");
+  //       let i18nLanguage = "en";
+  //       try {
+  //         const response = await fetch("https://ipapi.co/json/");
+  //         const data = await response.json();
+  //         const countryCode = data.country;
+  //         const languageMapByCountry: { [key: string]: string } = {
+  //           KR: "ko",
+  //           US: "en",
+  //           JP: "ja",
+  //           TW: "zh",
+  //           TH: "th",
+  //         };
+  //         i18nLanguage = languageMapByCountry[countryCode] || "en";
+  //         console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
+  //       } catch (error) {
+  //         console.error("IP 기반 위치 정보 조회 실패:", error);
+  //         const userLanguage = liff.getLanguage();
+  //         const languageMap: { [key: string]: string } = {
+  //           "en-US": "en",
+  //           "ja-JP": "ja",
+  //           "zh-TW": "zh",
+  //           "th-TH": "th",
+  //           "ko-KR": "ko",
+  //         };
+  //         i18nLanguage = languageMap[userLanguage] || "en";
+  //         console.log(`[AppInitializer] fallback LIFF 언어 설정: ${userLanguage} -> ${i18nLanguage}`);
+  //       }
+  //       i18n.changeLanguage(i18nLanguage);
+
+  //       // 전역 관리 지갑 초기화
+  //       console.log("전역 관리 지갑 정보 초기화 진행");
+  //       clearWallet();
+
+  //       console.log("[AppInitializer] handleTokenFlow() 호출");
+  //       await handleTokenFlow();
+  //     } catch (error) {
+  //       console.error("[AppInitializer] initializeApp() try-catch 에러:", error);
+  //       handleError(error, navigate);
+  //     } finally {
+  //       console.log("[AppInitializer] 초기화 최종 처리 -> 스플래시 제거 및 onInitialized() 호출");
+  //       setShowSplash(false);
+  //       onInitialized();
+  //     }
+  //   };
+
+  //   initializeApp();
+  // }, [fetchUserData, navigate, onInitialized]);
+
   useEffect(() => {
     console.log("[AppInitializer] useEffect() - initializeApp() 진입");
 
@@ -192,34 +269,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         });
         console.log("[AppInitializer] LIFF 초기화 완료");
 
-        console.log("[AppInitializer] IP 기반 언어 설정 시작");
-        let i18nLanguage = "en";
-        try {
-          const response = await fetch("https://ipapi.co/json/");
-          const data = await response.json();
-          const countryCode = data.country;
-          const languageMapByCountry: { [key: string]: string } = {
-            KR: "ko",
-            US: "en",
-            JP: "ja",
-            TW: "zh",
-            TH: "th",
-          };
-          i18nLanguage = languageMapByCountry[countryCode] || "en";
-          console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
-        } catch (error) {
-          console.error("IP 기반 위치 정보 조회 실패:", error);
-          const userLanguage = liff.getLanguage();
-          const languageMap: { [key: string]: string } = {
-            "en-US": "en",
-            "ja-JP": "ja",
-            "zh-TW": "zh",
-            "th-TH": "th",
-            "ko-KR": "ko",
-          };
-          i18nLanguage = languageMap[userLanguage] || "en";
-          console.log(`[AppInitializer] fallback LIFF 언어 설정: ${userLanguage} -> ${i18nLanguage}`);
-        }
+        // 브라우저 언어 기반 언어 설정
+        console.log("[AppInitializer] 브라우저 언어 기반 언어 설정 시작");
+        const browserLanguage = navigator.language; // 예: "ko-KR", "en-US" 등
+        const lang = browserLanguage.slice(0, 2); // 앞 두 글자 추출
+        const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
+        const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
+        console.log(`[AppInitializer] 브라우저 언어 설정: ${browserLanguage} -> ${i18nLanguage}`);
         i18n.changeLanguage(i18nLanguage);
 
         // 전역 관리 지갑 초기화
