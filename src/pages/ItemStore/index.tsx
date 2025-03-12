@@ -179,10 +179,11 @@ const ItemStore: React.FC = () => {
   const getCustomDescription = (itemName: string): React.ReactNode => {
     switch (itemName.toUpperCase()) {
       case "AUTO":
-        return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">{t("dice_event.auto_roller")}</p>
-                <p className="text-base font-normal">{t("dice_event.automatically")}</p>
-              </div>;
+        return <p>
+        {selectedItemInfo?.itemName === "REWARD" 
+          ? "REWARD Booster" 
+          : selectedItemInfo?.itemName + " Pass"}
+      </p>
       case "REWARD":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
@@ -213,6 +214,23 @@ const ItemStore: React.FC = () => {
         return <div>아이템에 대한 상세 설명입니다.</div>;
     }
   };
+
+  const getCustomName = (itemName: string): React.ReactNode => {
+    switch (itemName.toUpperCase()) {
+      case "AUTO":
+        return <p>Auto Item</p>;
+      case "REWARD":
+        return <p>Reward Booster</p>;
+      case "GOLD":
+        return <p>GOLD Pass</p>;
+      case "SILVER":
+        return <p>GOLD Pass</p>;
+      case "BRONZE":
+        return <p>Bronze Pass</p>;
+      default:
+        return <div>itme</div>;
+    }
+  }
   
 
   // 결제 로직 진행
@@ -447,7 +465,9 @@ const ItemStore: React.FC = () => {
                   }}
                 /> */}
               </div>
-              <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+              <div className="mt-2 text-sm font-semibold">
+                {selectedItemInfo ? getCustomName(selectedItemInfo.itemName) : ""}
+              </div>
             </div>
           ))}
         </div>
@@ -546,11 +566,8 @@ const ItemStore: React.FC = () => {
               <AlertDialogTitle className="text-center font-bold text-xl">
                 <div className="flex flex-row items-center justify-between">
                   <div>&nbsp;</div>
-                  <p>
-                    {selectedItemInfo?.itemName === "REWARD" 
-                      ? "REWARD Booster" 
-                      : selectedItemInfo?.itemName + " Item"}
-                  </p>
+                  
+                  {selectedItemInfo ? getCustomName(selectedItemInfo.itemName) : ""}
                   <HiX
                     className="w-6 h-6 cursor-pointer"
                     onClick={() => {
@@ -563,7 +580,7 @@ const ItemStore: React.FC = () => {
             </AlertDialogHeader>
             <div className="flex flex-col items-center justify-center">
               <div
-                className="relative w-[180px] aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                className="relative w-[145px] aspect-[145/154] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                 style={{
                   background: selectedItemInfo
                     ? getBackgroundGradient(selectedItemInfo.itemName)
@@ -573,7 +590,7 @@ const ItemStore: React.FC = () => {
                 <img
                   src={selectedItemInfo?.itemUrl}
                   alt={selectedItemInfo?.itemName}
-                  className="w-[80px] h-[80px] object-cover"
+                  className="w-[120px] h-[120px] object-cover"
                 />
               </div>
               <div className="my-2 text-base font-normal text-[#A3A3A3]">
