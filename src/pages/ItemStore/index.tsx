@@ -215,22 +215,6 @@ const ItemStore: React.FC = () => {
     }
   };
 
-  const getCustomName = (itemName: string): React.ReactNode => {
-    switch (itemName.toUpperCase()) {
-      case "AUTO":
-        return <p>Auto Item</p>;
-      case "REWARD":
-        return <p>Reward Booster</p>;
-      case "GOLD":
-        return <p>GOLD Pass</p>;
-      case "SILVER":
-        return <p>GOLD Pass</p>;
-      case "BRONZE":
-        return <p>Bronze Pass</p>;
-      default:
-        return <div>itme</div>;
-    }
-  }
   
 
   // 결제 로직 진행
@@ -465,9 +449,7 @@ const ItemStore: React.FC = () => {
                   }}
                 /> */}
               </div>
-              <div className="mt-2 text-sm font-semibold">
-                {selectedItemInfo ? getCustomName(selectedItemInfo.itemName) : ""}
-              </div>
+              <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
             </div>
           ))}
         </div>
@@ -566,8 +548,7 @@ const ItemStore: React.FC = () => {
               <AlertDialogTitle className="text-center font-bold text-xl">
                 <div className="flex flex-row items-center justify-between">
                   <div>&nbsp;</div>
-                  
-                  {selectedItemInfo ? getCustomName(selectedItemInfo.itemName) : ""}
+                  <p className="text-xl font-bold text-center">{selectedItemInfo?.itemName}</p>
                   <HiX
                     className="w-6 h-6 cursor-pointer"
                     onClick={() => {
