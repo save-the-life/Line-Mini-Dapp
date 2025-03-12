@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Images from "@/shared/assets/images";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import webLoginWithAddress from "@/entities/User/api/webLogin";
 import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
-import requestWallet from "@/entities/User/api/addWallet";
 import i18n from "@/shared/lib/il8n";
+import { connectWallet } from "@/shared/services/walletService";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -18,7 +17,6 @@ const ConnectWalletPage: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const { setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
   useEffect(() => {
     console.log("웹 버전 초기화");
@@ -38,7 +36,7 @@ const ConnectWalletPage: React.FC = () => {
           TW: "zh",
           TH: "th",
         };
-    
+
         if (languageMapByCountry.hasOwnProperty(countryCode)) {
           i18nLanguage = languageMapByCountry[countryCode];
         } else {
@@ -53,69 +51,31 @@ const ConnectWalletPage: React.FC = () => {
       }
       i18n.changeLanguage(i18nLanguage);
     };
-    
+
     checkIP();
   }, []);
 
   const handleConnectWallet = async (retry = false) => {
     try {
-      console.log("DappPortal SDK 초기화 시작");
-      const sdk = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "8217",
-      });
-      setSdk(null);
-      const walletProvider = sdk.getWalletProvider();
-  
-      // 계정 요청 (사용자에게 지갑 선택 UI 표시)
-      const accounts = (await walletProvider.request({
-        method: "kaia_requestAccounts",
-      })) as string[];
-  
-      const walletType = walletProvider.getWalletType() || null;
-      console.log("사용자가 선택한 지갑 타입:", walletType);
-  
-      // PC 환경에서 모바일 지갑 선택 시 예외 처리
-      if (!isMobile && walletType === "Mobile") {
-        alert(
-          "현재 PC 웹 브라우저 환경에서 '모바일 지갑'은 연결할 수 없습니다.\n모바일 환경에서 다시 시도해주세요."
-        );
-        walletProvider.disconnectWallet();
-        return;
-      }
-  
-      console.log("지갑 연결 성공:", accounts[0]);
+      // 외부 모듈에서 지갑 연결 및 전역 상태 업데이트 수행
+      await connectWallet();
 
-      if (accounts && accounts[0]) {
-        // 전역 상태에 지갑 주소 저장
-        setWalletAddress(accounts[0]);
-        // 전역 상태에 dappPortal의 provider 저장
-        setProvider(walletProvider);
-        // 전역 상태에 지갑 타입 저장 (null 체크)
-        if (walletType) {
-          setWalletType(walletType);
-          
-          // 지갑 정보 서버 등록
-          try{
-            await requestWallet(accounts[0], walletType?.toUpperCase() ?? "");
-          } catch (error: any){
-            console.error("지갑 서버 등록 에러:", error.message);
-          }
-        }
-      }
-  
+      // 연결된 지갑 주소를 상태에서 가져옴
+      const { walletAddress } = useWalletStore.getState();
+
+      console.log("연결된 지갑 주소 다시 확인: ", walletAddress);
       // 주소 기반 Web 로그인 및 사용자 데이터 확인
-      const webLogin = await webLoginWithAddress(accounts[0]);
+      const webLogin = await webLoginWithAddress(walletAddress);
       if (!webLogin) {
         throw new Error("Web login failed.");
       }
-  
+
       await fetchUserData();
       console.log("지갑 로그인 완료 및 데이터 확인");
       navigate("/dice-event");
     } catch (error: any) {
       console.error("getUserInfo() 중 에러:", error.message);
-  
+
       // 토큰 관련 에러라면 한 번만 재시도
       if (
         !retry &&
@@ -128,7 +88,7 @@ const ConnectWalletPage: React.FC = () => {
         localStorage.removeItem("refreshToken");
         return handleConnectWallet(true);
       }
-  
+
       if (error.message === "Please choose your character first.") {
         console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");
@@ -138,7 +98,6 @@ const ConnectWalletPage: React.FC = () => {
       console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
-  
 
   return (
     <div
