@@ -359,15 +359,11 @@ const MyAssets: React.FC = () => {
                 await connectWallet();
             } else if (error.code === "-32001") {
                 // 사용자가 팝업을 닫은 경우 자동 재연결 대신 사용자에게 안내
+                console.log("사용자가 결제 팝업을 닫음");
                 alert("결제 내역 팝업이 닫혔습니다. 다시 시도하려면 버튼을 눌러주세요.");
             } else {
-                console.log("결제 내역 확인 중 에러 발생: ", error);
-                if (provider && provider.disconnectWallet) {
-                    console.log("지갑 연결 해제");
-                    provider.disconnectWallet();
-                }
-                alert("결제 내역 조회 중 에러가 확인되었습니다. 지갑을 다시 연결합니다.");
-                await connectWallet();
+                console.log("결제 내역 확인 중 다른 에러 발생: ", error);
+                alert("결제 내역 팝업이 닫혔습니다. 다시 시도하려면 버튼을 눌러주세요.");
             }
         }
     };
