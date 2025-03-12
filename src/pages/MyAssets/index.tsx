@@ -272,51 +272,24 @@ const MyAssets: React.FC = () => {
     // 지갑 연결 및 잔액 확인 함수
     const handleBalance = async () => {
         playSfx(Audios.button_click);
-        if(!walletAddress){
+        // 지갑 주소가 없으면 외부 함수를 호출하여 지갑 연결 진행
+        if (!walletAddress) {
             console.log("지갑 주소가 없어요. 지갑 연동 시작");
             try {
-                console.log("초기화 시작");
-                const sdk = await DappPortalSDK.init({
-                  clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-                  chainId: "8217",
-                });
-                const walletProvider = sdk.getWalletProvider();
-                // 전역 상태에 provider 업데이트
-                setProvider(walletProvider);
-                setSdk(sdk);
-                const checkWalletType = walletProvider.getWalletType() || null;
-                
-                const accounts = (await walletProvider.request({
-                  method: "kaia_requestAccounts",
-                })) as string[];
-                
-                if (accounts && accounts[0]) {
-                  // 전역 상태에 지갑 주소 저장
-                  setWalletAddress(accounts[0]);
-                  // 전역 상태에 dappPortal의 provider 저장 (이미 설정된 상태)
-                  setProvider(walletProvider);
-                  // 전역 상태에 지갑 타입 저장
-                  if (checkWalletType) {
-                    setWalletType(checkWalletType);
-                    
-                    // 지갑 정보 서버 등록
-                    try{
-                        await requestWallet(accounts[0], checkWalletType?.toUpperCase() ?? "")
-                    } catch (error: any){
-                        console.error("지갑 서버 등록 에러:", error.message);
-                    }
-                  }
-                  await fetchBalance(accounts[0]);
-                  setShowWalletModal(true);
+                await connectWallet();
+                // 연결 후 전역 상태에서 업데이트된 walletAddress를 가져옴
+                const { walletAddress: newWalletAddress } = useWalletStore.getState();
+                if (newWalletAddress) {
+                    await fetchBalance(newWalletAddress);
+                    setShowWalletModal(true);
                 }
-                console.log("지갑 연결 성공:", accounts[0]);
-              } catch (error: any) {
+            } catch (error: any) {
                 console.error("지갑 연결 에러:", error.message);
-              }
-        } else{
+            }
+        } else {
             console.log("지갑 주소가 있어요. ", walletAddress);
             await fetchBalance(walletAddress);
-            setShowWalletModal(true);            
+            setShowWalletModal(true);
         }
     };
 
@@ -375,11 +348,19 @@ const MyAssets: React.FC = () => {
 
             await paymentProvider.openPaymentHistory();
         } catch (error: any) {
-            if (error.code === "-32001") {
+            if (error instanceof TypeError) {
+                console.error("TypeError 발생:", error);
+                // TypeError 처리 로직 추가 (예: 지갑 재연결 시도)
+                if (provider && provider.disconnectWallet) {
+                    console.log("지갑 연결 해제");
+                    provider.disconnectWallet();
+                }
+                alert("TypeError가 발생했습니다. 지갑을 다시 연결합니다.");
+                await connectWallet();
+            } else if (error.code === "-32001") {
                 alert("결제 내역 호출 전 강제 종료하였습니다.");
             } else {
                 console.log("결제 내역 확인 중 에러 발생: ", error);
-                // disconnectWallet 함수를 올바르게 호출합니다.
                 if (provider && provider.disconnectWallet) {
                     console.log("지갑 연결 해제");
                     provider.disconnectWallet();

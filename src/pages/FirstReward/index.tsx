@@ -20,7 +20,7 @@ const FirstRewardPage: React.FC = () => {
             {/* 스크롤 되는 상단 영역 */}
             <div className="flex-1 overflow-y-auto px-6 pt-10 text-white">
                 {/* 상단 메시지 */}
-                <h1 className="text-center mt-36 text-xl font-semibold">
+                <h1 className="text-center mt-16 text-xl font-semibold">
                     {t("reward_page.get_started")} <br />
                     {t("reward_page.kick_off")}
                 </h1>
