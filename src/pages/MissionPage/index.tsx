@@ -131,7 +131,7 @@ const MissionPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const { playSfx } = useSound();
-  const [eventShow, setEventShow] = useState(true);
+  const [eventShow, setEventShow] = useState(false);
   const { missions, fetchMissions, clearMission } = useMissionStore();
 
   // 보상 다이얼로그 상태
