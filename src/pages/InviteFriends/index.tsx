@@ -169,7 +169,7 @@ const InviteFriends: React.FC = () => {
       {copySuccess && (
         <p className="text-sm text-green-500 mt-2">{copySuccess}</p>
       )}
-      <div className="invite-reward-box w-[342px] md:w-[500px] h-72 rounded-3xl flex flex-col items-center justify-center mt-9 gap-4">
+      <div className="invite-reward-box w-full md:w-[500px] h-[332px] rounded-3xl flex flex-col items-center justify-center mt-9 gap-4">
         <div className="flex flex-row items-center">
           <div className="flex flex-col items-center gap-2 justify-center">
             <img src={Images.Star} alt="star" className="h-11" />
@@ -177,15 +177,15 @@ const InviteFriends: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-xl font-semibold">
+        <p className="text-xl font-semibold text-center">
           <Trans i18nKey="referral.title" components={{ 1: <br /> }} />
         </p>
-        <p className="text-sm font-medium mt-2">
+        <p className="text-sm font-medium mt-2 text-center">
           <Trans i18nKey="referral.description" components={{ 1: <br /> }} />
         </p>
 
         <button 
-          className="h-14 w-[302px] rounded-full bg-[#21212f] mt-5"
+          className="h-14 w-[302px] rounded-full bg-[#21212f] my-5"
           onClick={handleInviteClick}>
           {t('mission_page.Invite_Friends_and_Get_Reward')}
         </button>
