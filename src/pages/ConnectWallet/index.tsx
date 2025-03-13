@@ -39,7 +39,7 @@ const ConnectWalletPage: React.FC = () => {
       await connectWallet();
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
-      const { walletAddress, walletType } = useWalletStore.getState();
+      const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
       console.log("연결된 지갑 주소 다시 확인: ", walletAddress);
       
       // 로컬스토리지에서 레퍼럴 코드 확인 (없을 경우 null 반환)
@@ -52,7 +52,12 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       // webLoginWithAddress 성공 시, requestWallet 함수 실행
-      await requestWallet(walletAddress, walletType.toUpperCase());
+      if(!walletAddress && !walletType) {
+        await requestWallet(walletAddress, walletType.toUpperCase());
+      } else {
+        clearWallet();
+        await connectWallet();
+      }
 
       await fetchUserData();
       console.log("지갑 로그인 완료 및 데이터 확인");
