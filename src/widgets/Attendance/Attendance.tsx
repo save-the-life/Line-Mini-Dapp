@@ -296,7 +296,7 @@ import useWalletStore from "@/shared/store/useWalletStore";
 import testingAttendance from "@/entities/User/api/testAttendance";
 
 //const contractAddress = "0x335d003eB18dC29AB8290f674Fb2E0d5B2f97Ae4"; //mainnet  checkin contractaddress
-const contractAddress ="0x89088d8d9B1459Fe01D91785735fD855ed00d7b7"; //testnet checkin contractaddress
+const contractAddress ="0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1"; //testnet checkin contractaddress
 //const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; //testnet feepayer
 //const feePayerServer = "https://fee-delegation.kaia.io"; // mainnet feepayerserver
@@ -380,92 +380,92 @@ const feePayerServer = "https://fee-delegation-kairos.kaia.io";
      "type": "function"
   }
 ]*/
-const abi =[
-   {
-      "anonymous": false,
-      "inputs": [
-         {
-            "indexed": true,
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "name": "AttendanceChecked",
-      "type": "event"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "bytes32",
-            "name": "messageHash",
-            "type": "bytes32"
-         },
-         {
-            "internalType": "uint8",
-            "name": "v",
-            "type": "uint8"
-         },
-         {
-            "internalType": "bytes32",
-            "name": "r",
-            "type": "bytes32"
-         },
-         {
-            "internalType": "bytes32",
-            "name": "s",
-            "type": "bytes32"
-         }
-      ],
-      "name": "checkAttendance",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [],
-      "name": "checkAttendanceWithoutSignature",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-         }
-      ],
-      "name": "users",
-      "outputs": [
-         {
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-   }
-];
+const abi = [
+  {
+     "anonymous": false,
+     "inputs": [
+        {
+           "indexed": true,
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "name": "AttendanceChecked",
+     "type": "event"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "bytes32",
+           "name": "messageHash",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "uint8",
+           "name": "v",
+           "type": "uint8"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "r",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "s",
+           "type": "bytes32"
+        }
+     ],
+     "name": "checkAttendance",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [],
+     "name": "checkAttendanceWithoutSignature",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
+        }
+     ],
+     "name": "users",
+     "outputs": [
+        {
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  }
+]
 
 type DayKeys = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
