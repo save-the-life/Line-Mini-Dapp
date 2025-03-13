@@ -137,7 +137,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   
     // 사전에 정의된 라우트와 비교
     if (knownRoutes.includes(referralCode)) {
-      console.log(`[AppInitializer] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
+      console.log(`[AppInitializer] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님  -> localStorage referralCode 비우기`);
+      localStorage.removeItem("referralCode");
       return;
     }
   
