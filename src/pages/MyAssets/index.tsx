@@ -203,8 +203,8 @@ const MyAssets: React.FC = () => {
             case "Subscribe to Email":
                 contentKey = "subscribe_to_email";
                 break;
-            case "Follow on LinkedIn":
-                contentKey = "follow_on_linkedin";
+            case "Follow on Medium":
+                contentKey = "follow_on_Medium";
                 break;
             case "Leave a Supportive Comment on SL X":
                 contentKey = "leave_supportive_comment";
