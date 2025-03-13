@@ -61,7 +61,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const getUserInfo = async (retryCount = 0) => {
     console.log("[AppInitializer] getUserInfo() 호출");
     try {
-      await fetchUserData(); // 서버로부터 사용자 정보 가져오기
+      await fetchUserData();
       console.log("[AppInitializer] 사용자 데이터 정상적으로 가져옴");
       navigate("/dice-event");
     } catch (error: any) {
@@ -73,26 +73,19 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
-      // 500 에러일 경우 한 번만 재시도
+      // 에러 코드가 500인 경우 accessToken 삭제 후 한 번만 재시도
       if ((error.code === 500 || error.response?.status === 500) && retryCount < 1) {
-        console.error("[AppInitializer] 에러 코드 500 감지 -> localStorage.clear() 후 재시도"); 
-        // ★ 수정: localStorage.clear() 사용
-        localStorage.clear(); 
-        return getUserInfo(retryCount + 1);
+        console.error("[AppInitializer] 에러 코드 500 감지 -> localStorage의 accessToken 제거 후 재시도");
+        localStorage.removeItem("accessToken");
+        await getUserInfo(retryCount + 1);
+        return;
       }
 
-      // 그 외 케이스에서도, 무작정 재시도하지 않도록 조건 처리
-      if (retryCount < 1) {
-        console.log("[AppInitializer] 토큰/인증 문제로 추정 -> localStorage.clear() 후 재시도");
-        // ★ 수정: localStorage.clear() 사용
+      else{
         localStorage.clear();
-        return getUserInfo(retryCount + 1);
+        await getUserInfo();
       }
-
-      // 여기까지 왔다는 것은 재시도도 실패했다는 의미
-      // console.error("[AppInitializer] 재시도 실패 -> 에러 페이지로 이동 혹은 안내 메시지 표시");
-      // navigate("/connect-wallet");
-      return;
+      throw error;
     }
   };
 
@@ -133,6 +126,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드가 아님`);
     }
   }, []);
+  
 
   // 토큰(서버용 Access Token) 처리 및 사용자 검증
   const handleTokenFlow = async () => {
@@ -167,8 +161,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
       } catch (error) {
         console.error("[AppInitializer] userAuthenticationWithServer() 중 에러:", error);
-        // ★ refresh token 로직이 실패한 것으로 간주한다면 여기서도 clear() 가능
-        localStorage.clear();
         throw error;
       }
     } else {
