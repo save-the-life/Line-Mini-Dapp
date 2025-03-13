@@ -3,7 +3,7 @@
 import api from '@/shared/api/axiosInstance';
 
 export interface RangeRankingData {
-  userId: string;
+  name: string;
   rank: number;
   slRewards: number;
   usdcRewards: number;

@@ -15,16 +15,16 @@ interface ApiResponseData {
 interface SelectRewardRequest {
   round: number;
   rank: number;
-  selectRewardType: "USDC" | "SL";
+  selectRewardType: "SL";
 }
 
 /**
  * 랭킹 보상 선택 API
  * @param round 라운드 번호
  * @param rank 유저 랭크
- * @param selectRewardType 'USDC' 또는 'SL'
+ * @param selectRewardType 'SL'
  */
-export async function selectRankingReward(round: number, rank: number, selectRewardType: "USDC" | "SL"): Promise<PlayerData> {
+export async function selectRankingReward(round: number, rank: number, selectRewardType: "SL"): Promise<PlayerData> {
   const response = await api.post('/leader/ranking/select', {
     round,
     rank,
@@ -33,7 +33,7 @@ export async function selectRankingReward(round: number, rank: number, selectRew
   const data: ApiResponseData = response.data.data;
 
   return {
-    userId: data.userId,
+    name: data.userId,
     rank: data.rank,
     slRewards: data.slRewards,
     usdcRewards: data.usdcRewards,
@@ -48,7 +48,7 @@ export async function selectRankingReward(round: number, rank: number, selectRew
  * @param rank 유저 랭크
  * @param selectRewardType 'USDC' 또는 'SL'
  */
-export async function selectRaffleReward(round: number, rank: number, selectRewardType: "USDC" | "SL"): Promise<PlayerData> {
+export async function selectRaffleReward(round: number, rank: number, selectRewardType: "SL"): Promise<PlayerData> {
   const response = await api.post('/leader/raffle/select', {
     round,
     rank,
@@ -57,7 +57,7 @@ export async function selectRaffleReward(round: number, rank: number, selectRewa
   const data: ApiResponseData = response.data.data;
 
   return {
-    userId: data.userId,
+    name: data.userId,
     rank: data.rank,
     slRewards: data.slRewards,
     usdcRewards: data.usdcRewards,

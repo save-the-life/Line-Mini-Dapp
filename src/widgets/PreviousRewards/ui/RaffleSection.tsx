@@ -111,7 +111,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                       <div className="flex flex-row items-center gap-3">
                         <p>#{item.rank}</p>
                         <div className="flex flex-col gap-1">
-                          <p>{item.userId}</p>
+                          <p>{item.name}</p>
                           <div className="flex flex-row items-center gap-1">
                             <img
                               src={
@@ -182,7 +182,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
               >
                 <p>#{r.rank}</p>
                 <div className="flex flex-col gap-1">
-                  <p>{r.userId}</p>
+                  <p>{r.name}</p>
                   <div className="flex flex-row items-center gap-1">
                     {r.selectedRewardType === "USDC" ? (
                       <>
@@ -258,7 +258,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                   }`}
                 >
                   <p>#{r.rank}</p>
-                  <p>{r.userId}</p>
+                  <p>{r.name}</p>
                 </div>
               ))}
           </DialogContent>

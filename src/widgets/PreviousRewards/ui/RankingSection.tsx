@@ -77,7 +77,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 )}
                 <p>#{myData.rank}</p>
                 <div className="flex flex-col gap-1">
-                  <p>{myData.userId}</p>
+                  <p>{myData.name}</p>
                   <div className="flex flex-row items-center gap-1">
                     <img
                       src={
@@ -90,10 +90,10 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                     />
                     <p className="text-sm font-semibold">
                       {(myData.slRewards ?? 0).toLocaleString()}{" "}
-                      <span className="font-normal text-[#a3a3a3]">
+                      {/* <span className="font-normal text-[#a3a3a3]">
                         (or {(myData.usdcRewards ?? 0).toLocaleString()} USDC)
-                      </span>{" "}
-                      {myData.nftType ? `+ ${myData.nftType} NFT` : ""}
+                      </span>{" "} */}
+                      {myData.nftType ? `+ ${myData.nftType} PASS` : ""}
                     </p>
                   </div>
                 </div>
@@ -145,7 +145,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               >
                 <p>#{r.rank}</p>
                 <div className="flex flex-col gap-1">
-                  <p>{r.userId}</p>
+                  <p>{r.name}</p>
                   <div className="flex flex-row items-center gap-1">
                     {r.selectedRewardType === "USDC" ? (
                       <>
@@ -155,7 +155,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                           <span className="font-normal text-[#a3a3a3]">
                             (or {(r.slRewards ?? 0).toLocaleString()} SL)
                           </span>
-                          {r.nftType ? ` + ${r.nftType} NFT` : ""}
+                          {r.nftType ? ` + ${r.nftType} PASS` : ""}
                         </p>
                       </>
                     ) : (
@@ -167,10 +167,10 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                         />
                         <p className="text-sm font-semibold">
                           {(r.slRewards ?? 0).toLocaleString()}{" "}
-                          <span className="font-normal text-[#a3a3a3]">
+                          {/* <span className="font-normal text-[#a3a3a3]">
                             (or {(r.usdcRewards ?? 0).toLocaleString()} USDC)
-                          </span>
-                          {r.nftType ? ` + ${r.nftType} NFT` : ""}
+                          </span> */}
+                          {r.nftType ? ` + ${r.nftType} PASS` : ""}
                         </p>
                       </>
                     )}
@@ -217,7 +217,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                   }`}
                 >
                   <p>#{r.rank}</p>
-                  <p>{r.userId}</p>
+                  <p>{r.name}</p>
                 </div>
               ))}
           </DialogContent>

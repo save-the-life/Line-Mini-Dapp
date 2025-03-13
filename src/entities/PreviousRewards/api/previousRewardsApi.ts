@@ -15,7 +15,7 @@ export const fetchInitialRankingAPI = async (): Promise<InitialDataResponse> => 
 };
 
 export interface RangeRankingData {
-  userId: string;
+  name: string;
   rank: number;
   slRewards: number;
   usdcRewards: number;

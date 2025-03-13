@@ -1,7 +1,7 @@
 // src/features/PreviousRewards/types/PlayerData.ts
 
 export interface PlayerData {
-  userId: string;
+  name: string | null;
   rank: number;
   slRewards: number;
   usdcRewards: number;

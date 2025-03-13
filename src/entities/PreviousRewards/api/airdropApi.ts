@@ -3,13 +3,13 @@
 import api from '@/shared/api/axiosInstance';
 
 export interface AirdropWinner {
-  userId: string;
+  name: string;
   slRewards: number;
   rank: number; // 1~16
 }
 
 export interface AirdropMyReward {
-  userId: string;
+  name: string;
   slRewards: number;
   rank: number | null; // rank가 없으면 null
 }

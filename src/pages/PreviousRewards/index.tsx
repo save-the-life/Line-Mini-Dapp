@@ -45,7 +45,7 @@ import { PlayerData } from "@/features/PreviousRewards/types/PlayerData";
 // 임시 인터페이스(RewardSelectionDialog에서 쓰이는 형태)
 interface RewardData {
   rank: number;
-  userId: string;
+  name: string | null;
   slRewards: number;
   usdcRewards: number;
   nftType: string | null;
@@ -239,7 +239,7 @@ const PreviousRewards: React.FC = () => {
 
     // 랭킹 탭
     if (currentTab === "ranking") {
-      updatedData = await selectRankingReward(round, targetData.rank, type);
+      updatedData = await selectRankingReward(round, targetData.rank, "SL");
 
       // Zustand로 상태 업데이트
       usePreviousRewardsEntityStore.setState((state) => {
@@ -268,7 +268,7 @@ const PreviousRewards: React.FC = () => {
     } 
     // 래플 탭
     else if (currentTab === "raffle") {
-      updatedData = await selectRaffleReward(round, targetData.rank, type);
+      updatedData = await selectRaffleReward(round, targetData.rank, "SL");
 
       // Zustand로 상태 업데이트
       useRaffleEntityStore.setState((state) => {
@@ -391,7 +391,7 @@ const PreviousRewards: React.FC = () => {
               if (!myData) return;
               handleGetReward({
                 rank: myData.rank,
-                userId: myData.userId,
+                name: myData.name,
                 slRewards: myData.slRewards ?? 0,
                 usdcRewards: myData.usdcRewards ?? 0,
                 nftType: myData.nftType ?? null,
@@ -446,7 +446,7 @@ const PreviousRewards: React.FC = () => {
               if (!currentRaffleItem) return;
               handleGetReward({
                 rank: currentRaffleItem.rank,
-                userId: currentRaffleItem.userId,
+                name: currentRaffleItem.name,
                 slRewards: currentRaffleItem.slRewards,
                 usdcRewards: currentRaffleItem.usdcRewards,
                 nftType: currentRaffleItem.nftType ?? null,

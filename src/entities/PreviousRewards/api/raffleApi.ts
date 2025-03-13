@@ -16,7 +16,7 @@ export const fetchInitialRaffleAPI = async (): Promise<RaffleInitialDataResponse
 };
 
 export interface RaffleRangeRankingData {
-  userId: string;
+  name: string;
   rank: number;
   slRewards: number;
   usdcRewards: number;

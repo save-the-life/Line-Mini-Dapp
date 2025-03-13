@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
  */
 interface AirdropWinner {
   rank: number;
-  userId: string;
+  name: string;
   slRewards: number;
 }
 
@@ -28,7 +28,7 @@ interface AirdropWinner {
  */
 interface AirdropMyReward {
   rank: number | null;
-  userId: string;
+  name: string;
   slRewards: number;
 }
 
@@ -126,7 +126,7 @@ const AirdropSection: React.FC<AirdropSectionProps> = ({
             >
               <p>#{w.rank}</p>
               <div className="flex flex-col gap-1">
-                <p>{w.userId}</p>
+                <p>{w.name}</p>
                 <div className="flex flex-row items-center gap-1">
                   <img
                     src={Images.TokenReward}

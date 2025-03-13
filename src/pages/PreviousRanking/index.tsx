@@ -11,15 +11,14 @@ import RankingSection from "@/widgets/PreviousRewards/ui/RankingSection";
 import { usePreviousRewardsEntityStore } from "@/entities/PreviousRewards/model/previousRewardsModel";
 import { usePreviousRewardsFeatureStore } from "@/features/PreviousRewards/model/previousRewardsModel";
 
-// 보상 선택 다이얼로그 및 API
-import RewardSelectionDialog from "@/widgets/PreviousRewards/ui/RewardSelectionDialog";
+// 보상 API
 import { selectRankingReward } from "@/features/PreviousRewards/api/rewardApi";
 import { PlayerData } from "@/features/PreviousRewards/types/PlayerData";
 
-// 임시 인터페이스 (RewardSelectionDialog에서 사용)
+// 임시 인터페이스 (RankingSection에서 사용)
 interface RewardData {
   rank: number;
-  userId: string;
+  name: string | null;
   slRewards: number;
   usdcRewards: number;
   nftType: string | null;
@@ -31,21 +30,10 @@ const PreviousRanking: React.FC = () => {
   const { t } = useTranslation();
   const { playSfx } = useSound();
 
-  const {
-    myRanking,
-    topRankings,
-    loadInitialRanking,
-  } = usePreviousRewardsEntityStore();
+  const { myRanking, topRankings, loadInitialRanking } = usePreviousRewardsEntityStore();
+  const { dialogRankings, isLoadingRange, rangeError, loadRangeRanking } = usePreviousRewardsFeatureStore();
 
-  const {
-    dialogRankings,
-    isLoadingRange,
-    rangeError,
-    loadRangeRanking,
-  } = usePreviousRewardsFeatureStore();
-
-  const [rewardDialogOpen, setRewardDialogOpen] = useState(false);
-  const [selectedMyData, setSelectedMyData] = useState<RewardData | null>(null);
+  // 기존 다이얼로그 관련 상태는 더 이상 사용하지 않아 제거 가능
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
 
@@ -54,7 +42,7 @@ const PreviousRanking: React.FC = () => {
     loadInitialRanking();
   }, [loadInitialRanking]);
 
-  // 범위별 랭킹 모달 열기
+  // 범위별 랭킹 모달 열기 (필요시 그대로 사용)
   const handleRangeClick = async (start: number, end: number) => {
     await loadRangeRanking(start, end);
     setDialogTitle(`${start}-${end}`);
@@ -62,8 +50,7 @@ const PreviousRanking: React.FC = () => {
   };
 
   const myData = myRanking && myRanking.length > 0 ? myRanking[0] : null;
-  const isReceived =
-    myData?.selectedRewardType === "USDC" || myData?.selectedRewardType === "SL";
+  const isReceived = myData?.selectedRewardType === "SL";
 
   const dialogRankingsPlayerData: PlayerData[] = dialogRankings.map(r => ({
     ...r,
@@ -71,30 +58,20 @@ const PreviousRanking: React.FC = () => {
     selectedRewardType: r.selectedRewardType ?? null,
   }));
 
-  // 보상 수령 핸들러
+  // 보상 수령 핸들러 (SL 보상만 지원)
   const handleGetReward = async (data: RewardData) => {
     playSfx(Audios.button_click);
     if (data.selectedRewardType !== null) {
       alert("이미 보상을 선택하셨습니다!");
       return;
     }
-    if (data.rank <= 20) {
-      setSelectedMyData(data);
-      setRewardDialogOpen(true);
-    } else {
-      await handleSelectRewardType("SL", data);
-    }
+    // 바로 SL 보상 요청
+    await handleSelectRewardType(data);
   };
 
-  // 보상 선택 후 API 호출 및 상태 업데이트
-  const handleSelectRewardType = async (
-    type: "USDC" | "SL",
-    overrideData?: RewardData
-  ) => {
-    const targetData = overrideData ?? selectedMyData;
-    if (!targetData) return;
-
-    const updatedData = await selectRankingReward(1, targetData.rank, type);
+  // 보상 API 호출 및 Zustand 스토어 업데이트
+  const handleSelectRewardType = async (targetData: RewardData) => {
+    const updatedData = await selectRankingReward(1, targetData.rank, "SL");
     // Zustand 스토어 업데이트
     usePreviousRewardsEntityStore.setState((state) => {
       const newMyRanking = state.myRanking ? [...state.myRanking] : [];
@@ -118,21 +95,34 @@ const PreviousRanking: React.FC = () => {
       };
     });
 
-    alert("Reward received successfully!");
-    setSelectedMyData(prev => prev ? { ...prev, ...updatedData } : null);
-    setRewardDialogOpen(false);
+    alert("보상을 성공적으로 수령하였습니다!");
   };
 
   return (
     <div className="flex flex-col mb-44 text-white items-center w-full min-h-screen">
       <TopTitle title={t("reward_page.last_month")} className="px-6" back={true} />
 
-      <RewardSelectionDialog
-        open={rewardDialogOpen}
-        onClose={() => setRewardDialogOpen(false)}
-        data={selectedMyData}
-        onSelect={(type) => handleSelectRewardType(type)}
-      />
+      {/* 기존의 RewardSelectionDialog 대신 보상 수령 버튼 */}
+      <div className="my-4">
+        <button
+          className="rounded-full w-40 h-12 font-medium bg-[#0147E5]"
+          onClick={() => {
+            if (!myData) return;
+            handleGetReward({
+              rank: myData.rank,
+              name: myData.name,
+              slRewards: myData.slRewards ?? 0,
+              usdcRewards: myData.usdcRewards ?? 0,
+              nftType: myData.nftType ?? null,
+              selectedRewardType: myData.selectedRewardType ?? null,
+              itsMe: myData.itsMe ?? false,
+            });
+          }}
+          disabled={isReceived || !myData}
+        >
+          {isReceived ? "보상 수령 완료" : "보상 수령하기"}
+        </button>
+      </div>
 
       <RankingSection
         myData={
@@ -152,11 +142,12 @@ const PreviousRanking: React.FC = () => {
           itsMe: r.itsMe ?? false,
         }))}
         isReceived={isReceived}
+        // 기존 onGetReward prop도 보상 버튼 클릭으로 연동 (RankingSection 내에 보상 버튼이 있다면)
         onGetReward={() => {
           if (!myData) return;
           handleGetReward({
             rank: myData.rank,
-            userId: myData.userId,
+            name: myData.name,
             slRewards: myData.slRewards ?? 0,
             usdcRewards: myData.usdcRewards ?? 0,
             nftType: myData.nftType ?? null,

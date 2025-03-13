@@ -18,7 +18,7 @@ import { PlayerData } from "@/features/PreviousRewards/types/PlayerData";
 
 interface RewardData {
   rank: number;
-  userId: string;
+  name: string | null;
   slRewards: number;
   usdcRewards: number;
   nftType: string | null;
@@ -102,7 +102,7 @@ const PreviousRaffle: React.FC = () => {
     const targetData = overrideData ?? selectedMyData;
     if (!targetData) return;
 
-    const updatedData = await selectRaffleReward(1, targetData.rank, type);
+    const updatedData = await selectRaffleReward(1, targetData.rank, "SL");
     useRaffleEntityStore.setState((state) => {
       const newMyRankings = state.myRankings ? [...state.myRankings] : [];
       const idx = newMyRankings.findIndex(r => r.rank === updatedData.rank);
@@ -170,7 +170,7 @@ const PreviousRaffle: React.FC = () => {
                   if (!currentRaffleItem) return;
                   handleGetReward({
                       rank: currentRaffleItem.rank,
-                      userId: currentRaffleItem.userId,
+                      name: currentRaffleItem.name,
                       slRewards: currentRaffleItem.slRewards,
                       usdcRewards: currentRaffleItem.usdcRewards,
                       nftType: currentRaffleItem.nftType ?? null,
