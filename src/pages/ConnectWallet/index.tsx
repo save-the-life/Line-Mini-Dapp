@@ -41,8 +41,11 @@ const ConnectWalletPage: React.FC = () => {
       const { walletAddress } = useWalletStore.getState();
 
       console.log("연결된 지갑 주소 다시 확인: ", walletAddress);
-      // 주소 기반 Web 로그인 및 사용자 데이터 확인
-      const webLogin = await webLoginWithAddress(walletAddress);
+      // 로컬스토리지에서 레퍼럴 코드 확인 (없을 경우 null 반환)
+      const referralCode = localStorage.getItem("referralCode");
+
+      // 주소 기반 Web 로그인 및 사용자 데이터 확인 (두번째 인자로 referralCode 추가)
+      const webLogin = await webLoginWithAddress(walletAddress, referralCode);
       if (!webLogin) {
         throw new Error("Web login failed.");
       }

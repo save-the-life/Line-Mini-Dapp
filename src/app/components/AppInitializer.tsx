@@ -61,7 +61,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const getUserInfo = async (retryCount = 0) => {
     console.log("[AppInitializer] getUserInfo() 호출");
     try {
-      await fetchUserData();
+      await fetchUserData(); // 서버로부터 사용자 정보 가져오기
       console.log("[AppInitializer] 사용자 데이터 정상적으로 가져옴");
       navigate("/dice-event");
     } catch (error: any) {
@@ -73,19 +73,26 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
-      // 에러 코드가 500인 경우 accessToken 삭제 후 한 번만 재시도
+      // 500 에러일 경우 한 번만 재시도
       if ((error.code === 500 || error.response?.status === 500) && retryCount < 1) {
-        console.error("[AppInitializer] 에러 코드 500 감지 -> localStorage의 accessToken 제거 후 재시도");
-        localStorage.removeItem("accessToken");
-        await getUserInfo(retryCount + 1);
-        return;
+        console.error("[AppInitializer] 에러 코드 500 감지 -> localStorage.clear() 후 재시도"); 
+        // ★ 수정: localStorage.clear() 사용
+        localStorage.clear(); 
+        return getUserInfo(retryCount + 1);
       }
 
-      else{
-        localStorage.removeItem("accessToken");
-        await getUserInfo();
+      // 그 외 케이스에서도, 무작정 재시도하지 않도록 조건 처리
+      if (retryCount < 1) {
+        console.log("[AppInitializer] 토큰/인증 문제로 추정 -> localStorage.clear() 후 재시도");
+        // ★ 수정: localStorage.clear() 사용
+        localStorage.clear();
+        return getUserInfo(retryCount + 1);
       }
-      throw error;
+
+      // 여기까지 왔다는 것은 재시도도 실패했다는 의미
+      console.error("[AppInitializer] 재시도 실패 -> 에러 페이지로 이동 혹은 안내 메시지 표시");
+      navigate("/connect-wallet"); // 혹은 에러 페이지 등
+      return;
     }
   };
 
@@ -126,7 +133,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드가 아님`);
     }
   }, []);
-  
 
   // 토큰(서버용 Access Token) 처리 및 사용자 검증
   const handleTokenFlow = async () => {
@@ -161,6 +167,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
       } catch (error) {
         console.error("[AppInitializer] userAuthenticationWithServer() 중 에러:", error);
+        // ★ refresh token 로직이 실패한 것으로 간주한다면 여기서도 clear() 가능
+        localStorage.clear();
         throw error;
       }
     } else {
@@ -181,84 +189,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       throw error;
     }
   };
-
-  // 초기화 Effect
-  // useEffect(() => {
-  //   console.log("[AppInitializer] useEffect() - initializeApp() 진입");
-
-  //   // 가장 먼저 라인 브라우저 여부를 체크하여, 외부 브라우저이면 즉시 /connect-wallet으로 이동
-  //   console.log("라인브라우저 확인 : ", liff.isInClient());
-  //   if (!liff.isInClient()) {
-  //     console.log("[AppInitializer] 외부 브라우저 접근 감지 -> /connect-wallet 이동");
-  //     navigate("/connect-wallet");
-  //     setShowSplash(false);
-  //     onInitialized();
-  //     return;
-  //   }
-
-  //   const initializeApp = async () => {
-  //     if (initializedRef.current) {
-  //       console.log("[AppInitializer] 이미 초기화됨 -> 중단");
-  //       return;
-  //     }
-  //     initializedRef.current = true;
-
-  //     try {
-  //       console.log("[AppInitializer] LIFF 초기화 시작");
-  //       await liff.init({
-  //         liffId: import.meta.env.VITE_LIFF_ID,
-  //         withLoginOnExternalBrowser: true,
-  //       });
-  //       console.log("[AppInitializer] LIFF 초기화 완료");
-
-  //       console.log("[AppInitializer] IP 기반 언어 설정 시작");
-  //       let i18nLanguage = "en";
-  //       try {
-  //         const response = await fetch("https://ipapi.co/json/");
-  //         const data = await response.json();
-  //         const countryCode = data.country;
-  //         const languageMapByCountry: { [key: string]: string } = {
-  //           KR: "ko",
-  //           US: "en",
-  //           JP: "ja",
-  //           TW: "zh",
-  //           TH: "th",
-  //         };
-  //         i18nLanguage = languageMapByCountry[countryCode] || "en";
-  //         console.log(`[AppInitializer] IP 기반 언어 설정: ${countryCode} -> ${i18nLanguage}`);
-  //       } catch (error) {
-  //         console.error("IP 기반 위치 정보 조회 실패:", error);
-  //         const userLanguage = liff.getLanguage();
-  //         const languageMap: { [key: string]: string } = {
-  //           "en-US": "en",
-  //           "ja-JP": "ja",
-  //           "zh-TW": "zh",
-  //           "th-TH": "th",
-  //           "ko-KR": "ko",
-  //         };
-  //         i18nLanguage = languageMap[userLanguage] || "en";
-  //         console.log(`[AppInitializer] fallback LIFF 언어 설정: ${userLanguage} -> ${i18nLanguage}`);
-  //       }
-  //       i18n.changeLanguage(i18nLanguage);
-
-  //       // 전역 관리 지갑 초기화
-  //       console.log("전역 관리 지갑 정보 초기화 진행");
-  //       clearWallet();
-
-  //       console.log("[AppInitializer] handleTokenFlow() 호출");
-  //       await handleTokenFlow();
-  //     } catch (error) {
-  //       console.error("[AppInitializer] initializeApp() try-catch 에러:", error);
-  //       handleError(error, navigate);
-  //     } finally {
-  //       console.log("[AppInitializer] 초기화 최종 처리 -> 스플래시 제거 및 onInitialized() 호출");
-  //       setShowSplash(false);
-  //       onInitialized();
-  //     }
-  //   };
-
-  //   initializeApp();
-  // }, [fetchUserData, navigate, onInitialized]);
 
   useEffect(() => {
     console.log("[AppInitializer] useEffect() - initializeApp() 진입");

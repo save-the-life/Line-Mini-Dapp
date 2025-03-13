@@ -1,9 +1,14 @@
 import api from '@/shared/api/axiosInstance';
 
 // 웹 버전 지갑 로그인
-export const webLoginWithAddress = async (walletAddress: string): Promise<boolean | undefined> => {
+export const webLoginWithAddress = async (walletAddress: string, referrerCode: string | null): Promise<boolean | undefined> => {
+    const userInfo = {
+        walletAddress,
+        referrerCode
+    }
+
     try {
-        const response = await api.post('/auth/login/web', {walletAddress});
+        const response = await api.post('/auth/login/web', {userInfo});
 
         const { code, data } = response.data;
         const authorizationHeader = response.headers['authorization'];
