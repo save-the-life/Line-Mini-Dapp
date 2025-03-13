@@ -16,7 +16,7 @@ const Promotion: React.FC = () => {
   return (
     <div className="flex flex-col text-white mb-32 px-6 min-h-screen">
       <h2 className="font-semibold text-xl text-center mt-32 mb-4">
-        <Trans i18nKey="welcome_message" components={{ 1: <br /> }} />
+        <Trans i18nKey="dice_event.welcome_message" components={{ 1: <br /> }} />
       </h2>
       <img
         className='w-32 h-32 object-cover mt-10 mb-4 mx-auto'
