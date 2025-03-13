@@ -53,7 +53,7 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       // webLoginWithAddress 성공 시, requestWallet 함수 실행
-      if(!walletAddress && !walletType) {
+      if(walletAddress && walletType) {
         await requestWallet(walletAddress, walletType.toUpperCase());
       } else {
         clearWallet();
