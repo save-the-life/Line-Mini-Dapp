@@ -293,6 +293,7 @@ import { ethers } from "ethers";
 import requestAttendance from "@/entities/User/api/requestAttendance";
 import Images from "@/shared/assets/images";
 import useWalletStore from "@/shared/store/useWalletStore";
+import testingAttendance from "@/entities/User/api/testAttendance";
 
 //const contractAddress = "0x335d003eB18dC29AB8290f674Fb2E0d5B2f97Ae4"; //mainnet  checkin contractaddress
 const contractAddress ="0x89088d8d9B1459Fe01D91785735fD855ed00d7b7"; //testnet checkin contractaddress
@@ -606,23 +607,37 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       console.log("✅ 사용자가 서명한 트랜잭션:", signedTx);
   
       // 백엔드으로 전송
-      const response = await fetch("https://luckydice.savethelife.io/api/attendance/tx", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userSignedTx: signedTx }),
-      });
+      // const response = await fetch("https://luckydice.savethelife.io/api/attendance/tx", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ userSignedTx: signedTx }),
+      // });
   
-      const data = await response.json();
-      console.log("백엔드응답:", data);
+      // const data = await response.json();
+      // console.log("백엔드응답:", data);
   
-      if (data?.txHash) {
-        console.log("✅ 출석 체크 완료! TX Hash:", data.txHash);
-        alert("출석 체크 완료!");
-      } else {
-        console.error("❌ 백엔드(Spring) 응답 오류:", data);
-        alert("출석 체크 실패!");
+      // if (data?.txHash) {
+      //   console.log("✅ 출석 체크 완료! TX Hash:", data.txHash);
+      //   alert("출석 체크 완료!");
+      // } else {
+      //   console.error("❌ 백엔드(Spring) 응답 오류:", data);
+      //   alert("출석 체크 실패!");
+      // }
+
+      try{
+        const testing = await testingAttendance(signedTx);
+
+        if(testing){
+          console.log("출석 응답");
+        }else{
+          console.log("출석 응답 - 실패");
+        }
+      } catch(error:any){
+        
+        console.error("❌ 출석 체크 실패:", error);
+        alert("출석 체크 중 오류 발생!");
       }
     } catch (error) {
       console.error("❌ 출석 체크 실패:", error);
