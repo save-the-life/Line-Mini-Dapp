@@ -295,8 +295,8 @@ import Images from "@/shared/assets/images";
 import useWalletStore from "@/shared/store/useWalletStore";
 import testingAttendance from "@/entities/User/api/testAttendance";
 
-//const contractAddress = "0x335d003eB18dC29AB8290f674Fb2E0d5B2f97Ae4"; //mainnet  checkin contractaddress
-const contractAddress ="0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1"; //testnet checkin contractaddress
+const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
+//const contractAddress ="0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1"; //testnet checkin contractaddress
 //const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; //testnet feepayer
 //const feePayerServer = "https://fee-delegation.kaia.io"; // mainnet feepayerserver
@@ -465,14 +465,14 @@ const abi = [
      "stateMutability": "view",
      "type": "function"
   }
-]
+];
 
 type DayKeys = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
 interface AttendanceProps {
   /** Tailwind width 클래스를 지정해 너비를 커스터마이징 */
   customWidth?: string;
-}
+};
 
 const getTodayDay = (): DayKeys => {
   const days: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
