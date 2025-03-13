@@ -322,7 +322,9 @@
       "one_month": "1개월 동안 유효",
       "need_wallet_balance": "잔액 조회를 위해 지갑을 연결합니다.",
       "uid": "UID가 클립보드에 복사되었습니다.",
-      "purchase": "구매 즉시 적용됩니다."
+      "purchase": "구매 즉시 적용됩니다.",
+      "reset_date": "날짜 초기화",
+      "all": "전체"
     },
     "dice_event": {
       "attendance": "출석",

@@ -231,7 +231,11 @@ const RewardHistory: React.FC = () => {
                     onChange={() => handleAssetChange(asset)}
                     className="mr-2"
                   />
-                  {asset === "STAR" ? t("asset_page.point") : asset}
+                  {asset === "전체"
+                    ? t("asset_page.all")
+                    : asset === "STAR"
+                    ? t("asset_page.point")
+                    : asset}
                 </label>
               ))}
             </div>
@@ -249,7 +253,7 @@ const RewardHistory: React.FC = () => {
                     onChange={() => handleChangeType(change)}
                     className="mr-2"
                   />
-                  {change === "전체" ? "전체" : t(`asset_page.${change.toLowerCase()}`)}
+                  {change === "전체" ? t("asset_page.all") : t(`asset_page.${change.toLowerCase()}`)}
                 </label>
               ))}
             </div>
@@ -265,7 +269,7 @@ const RewardHistory: React.FC = () => {
                   setEndDate(null);
                 }}
               >
-                날짜 초기화
+                {t("asset_page.reset_date")}
               </button>
             </div>
             <div className="flex items-center gap-4 mt-4">

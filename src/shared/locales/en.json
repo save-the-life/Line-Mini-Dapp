@@ -322,7 +322,9 @@
       "one_month": "Validate for 1 month ",
       "need_wallet_balance": "You need to connect Wallet to check your balance.",
       "uid": "The UID has been copied to the clipboard.",
-      "purchase": "Applies immediately upon purchase."
+      "purchase": "Applies immediately upon purchase.",
+      "reset_date": "Reset Date",
+      "all": "All"
     },
     "dice_event": {
       "attendance": "Daily Attendance",
