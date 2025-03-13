@@ -293,6 +293,7 @@ import { ethers } from "ethers";
 import requestAttendance from "@/entities/User/api/requestAttendance";
 import Images from "@/shared/assets/images";
 import useWalletStore from "@/shared/store/useWalletStore";
+import { connectWallet } from "@/shared/services/walletService";
 import testingAttendance from "@/entities/User/api/testAttendance";
 
 const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
@@ -513,38 +514,38 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
   // 지갑 연결 함수
-  const handleWalletConnection = async () => {
-    try {
-      console.log("초기화 시작");
-      const sdk = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        //chainId: "8217", //mainnet
-        chainId:"1001", //testnet
-      });
-      const walletProvider = sdk.getWalletProvider();
-      // 전역 상태에 provider 업데이트
-      setProvider(walletProvider);
-      const checkWalletType = walletProvider.getWalletType() || null;
+  // const handleWalletConnection = async () => {
+  //   try {
+  //     console.log("초기화 시작");
+  //     const sdk = await DappPortalSDK.init({
+  //       clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+  //       chainId: "8217", //mainnet
+  //       // chainId:"1001", //testnet
+  //     });
+  //     const walletProvider = sdk.getWalletProvider();
+  //     // 전역 상태에 provider 업데이트
+  //     setProvider(walletProvider);
+  //     const checkWalletType = walletProvider.getWalletType() || null;
       
-      const accounts = (await walletProvider.request({
-        method: "kaia_requestAccounts",
-      })) as string[];
+  //     const accounts = (await walletProvider.request({
+  //       method: "kaia_requestAccounts",
+  //     })) as string[];
       
-      if (accounts && accounts[0]) {
-        // 전역 상태에 지갑 주소 저장
-        setWalletAddress(accounts[0]);
-        // 전역 상태에 dappPortal의 provider 저장 (이미 설정된 상태)
-        setProvider(walletProvider);
-        // 전역 상태에 지갑 타입 저장
-        if (checkWalletType) {
-          setWalletType(checkWalletType);
-        }
-      }
-      console.log("지갑 연결 성공:", accounts[0]);
-    } catch (error: any) {
-      console.error("지갑 연결 에러:", error.message);
-    }
-  };
+  //     if (accounts && accounts[0]) {
+  //       // 전역 상태에 지갑 주소 저장
+  //       setWalletAddress(accounts[0]);
+  //       // 전역 상태에 dappPortal의 provider 저장 (이미 설정된 상태)
+  //       setProvider(walletProvider);
+  //       // 전역 상태에 지갑 타입 저장
+  //       if (checkWalletType) {
+  //         setWalletType(checkWalletType);
+  //       }
+  //     }
+  //     console.log("지갑 연결 성공:", accounts[0]);
+  //   } catch (error: any) {
+  //     console.error("지갑 연결 에러:", error.message);
+  //   }
+  // };
 
   // 출석 체크 함수 (지갑 연결 후 바로 서명 요청)
   const handleAttendanceClick = async () => {
@@ -552,7 +553,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
     if (!provider || !walletAddress) {
       if (isConnecting) return; // 이미 연결 중이면 중복 시도 방지
       setIsConnecting(true);
-      await handleWalletConnection();
+      await connectWallet();
       setIsConnecting(false);
       // 연결 후 최신 상태 가져오기 (Zustand getState 사용)
       const { walletAddress: updatedAddress, provider: updatedProvider } = useWalletStore.getState();
