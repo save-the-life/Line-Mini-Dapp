@@ -99,7 +99,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 </div>
               </div>
               {/* 보상 버튼 */}
-              <button
+              {/* <button
                 className={`bg-[#0147E5] rounded-full w-full h-14 mt-3 font-medium ${
                   isReceived ? "opacity-50 cursor-not-allowed" : ""
                 }`}
@@ -109,7 +109,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 {myData.selectedRewardType === null
                   ? "Claim your reward"
                   : `Reward Issued (${myData.selectedRewardType})`}
-              </button>
+              </button> */}
             </>
           ) : (
             // 21~1000등 사이인 경우 (보상 버튼 비노출)
