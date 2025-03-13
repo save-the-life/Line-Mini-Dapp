@@ -627,6 +627,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       // }
 
       try{
+        console.log("출석 후 서버 확인 진행");
         const testing = await testingAttendance(signedTx.raw);
 
         if(testing){
