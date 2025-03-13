@@ -90,8 +90,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
 
       // 여기까지 왔다는 것은 재시도도 실패했다는 의미
-      console.error("[AppInitializer] 재시도 실패 -> 에러 페이지로 이동 혹은 안내 메시지 표시");
-      navigate("/connect-wallet"); // 혹은 에러 페이지 등
+      // console.error("[AppInitializer] 재시도 실패 -> 에러 페이지로 이동 혹은 안내 메시지 표시");
+      // navigate("/connect-wallet");
       return;
     }
   };
