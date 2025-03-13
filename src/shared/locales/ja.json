@@ -171,7 +171,8 @@
         "monthly_raffle_compensation": "月間抽選報酬",
         "get_point_reward": "ポイント報酬を受け取る",
         "join_lucky_sl": "LuckyDice SL報酬に参加する",
-        "promotion_reward": "プロモーション報酬"
+        "promotion_reward": "プロモーション報酬",
+        "invite_friend_reward": "友達招待報酬"
     },
     "wallet_page": {
         "wallet": "ウォレット",

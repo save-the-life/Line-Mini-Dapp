@@ -224,6 +224,9 @@ const MyAssets: React.FC = () => {
             case "Get Promotion Reward":
                 contentKey = "promotion_reward";
                 break;
+            case "Invite a Friend Reward":
+                contentKey = "invite_friend_reward";
+                break;
             default:
             contentKey = reward.content;
         }
@@ -288,8 +291,8 @@ const MyAssets: React.FC = () => {
     const handleBalance = async () => {
         playSfx(Audios.button_click);
         // 지갑 주소가 없으면 외부 함수를 호출하여 지갑 연결 진행
-        if (!walletAddress) {
-            console.log("지갑 주소가 없어요. 지갑 연동 시작");
+        if (!walletAddress || !sdk) {
+            console.log("지갑 주소 혹은 sdk가 없어요. 지갑 연동 시작");
             try {
                 await connectWallet();
                 // 연결 후 전역 상태에서 업데이트된 walletAddress를 가져옴
@@ -317,6 +320,12 @@ const MyAssets: React.FC = () => {
                 await fetchBalance(walletAddress);
             } else {
                 console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행")
+                if (provider) {
+                    console.log("provider가 존재한다면 지갑 연결 해제");
+                    provider.disconnectWallet();
+                    clearWallet();
+                }
+
                 await handleBalance();
             }
         };

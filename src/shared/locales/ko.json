@@ -171,7 +171,8 @@
       "monthly_raffle_compensation": "월간 래플 보상",
       "get_point_reward": "포인트 보상 받기",
       "join_lucky_sl": "럭키다이스 SL 보상 참여하기",
-        "promotion_reward": "프로모션 보상"
+      "promotion_reward": "프로모션 보상",
+      "invite_friend_reward": "친구 초대 보상"
     },
     "wallet_page": {
       "wallet": "지갑",

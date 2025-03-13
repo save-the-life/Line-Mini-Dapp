@@ -175,6 +175,9 @@ const RewardHistory: React.FC = () => {
       case "Get Promotion Reward":
         contentKey = "promotion_reward";
         break;
+      case "Invite a Friend Reward":
+        contentKey = "invite_friend_reward";
+        break;
       default:
         contentKey = reward.content;
     }
