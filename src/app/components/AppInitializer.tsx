@@ -47,7 +47,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     "referral-rewards",
     "claim-history",
     "sdk-test",
+    "choose-language",
+    "sound-setting",
+    "connect-wallet",
     "invite-friends-list",
+    "edit-nickname",
+    "previous-ranking",
+    "item-store"
   ];
   const referralPattern = /^[A-Za-z0-9]{4,16}$/;
 
@@ -86,28 +92,41 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   // 레퍼럴 코드 유무 체크 (URL 마지막 Segment 확인)
   useEffect(() => {
     console.log("[AppInitializer] 레퍼럴 코드 체크 시작");
-    const url = window.location.href;
-    const parts = url.split("/");
-    const lastPart = parts[parts.length - 1];
-
-    // "from-dapp-portal"을 별도 체크하여 처리
-    if (lastPart === "from-dapp-portal") {
-      console.log(`[AppInitializer] "${lastPart}"는 Dapp Portal 링크 -> localStorage에 저장`);
-      localStorage.setItem("referralCode", lastPart);
-      return;
-    }
-
-    if (knownRoutes.includes(lastPart)) {
-      console.log(`[AppInitializer] "${lastPart}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
-      return;
-    }
-    if (referralPattern.test(lastPart)) {
-      console.log(`[AppInitializer] "${lastPart}"는 레퍼럴 코드 패턴에 부합 -> localStorage에 저장`);
-      localStorage.setItem("referralCode", lastPart);
+    const url = new URL(window.location.href);
+    let referralCode = "";
+  
+    // 쿼리 파라미터 'liff.state' 값 추출 및 디코딩
+    const liffState = url.searchParams.get("liff.state");
+    if (liffState && liffState.startsWith("#/")) {
+      referralCode = liffState.slice(2); // "#/" 접두어 제거
     } else {
-      console.log(`[AppInitializer] "${lastPart}"는 레퍼럴 코드가 아님`);
+      // 기존 방식: URL의 마지막 세그먼트 추출
+      const parts = url.pathname.split("/");
+      referralCode = parts[parts.length - 1];
+    }
+  
+    // "from-dapp-portal" 체크
+    if (referralCode === "from-dapp-portal") {
+      console.log(`[AppInitializer] "${referralCode}"는 Dapp Portal 링크 -> localStorage에 저장`);
+      localStorage.setItem("referralCode", referralCode);
+      return;
+    }
+  
+    // 사전에 정의된 라우트와 비교
+    if (knownRoutes.includes(referralCode)) {
+      console.log(`[AppInitializer] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
+      return;
+    }
+  
+    // 정규표현식 패턴 검사
+    if (referralPattern.test(referralCode)) {
+      console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드 패턴에 부합 -> localStorage에 저장`);
+      localStorage.setItem("referralCode", referralCode);
+    } else {
+      console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드가 아님`);
     }
   }, []);
+  
 
   // 토큰(서버용 Access Token) 처리 및 사용자 검증
   const handleTokenFlow = async () => {
