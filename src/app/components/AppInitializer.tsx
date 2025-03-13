@@ -63,19 +63,25 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     try {
       await fetchUserData();
       console.log("[AppInitializer] 사용자 데이터 정상적으로 가져옴");
-      try{
-        // 사용자가 프로모션을 받았는지 여부 확인
-        const promo = await getPromotion();
-        
-        if(promo === "Success"){
-          // 받지 않아서 최초 지급인 경우
-          navigate("/promotion");
-        } else {
-          // 이미 받은 경우
+      const referralCode = localStorage.getItem("referralCode");
+      if (referralCode === "dapp-portal-promotions") {
+        try {
+          // 프로모션 수령 여부 확인
+          const promo = await getPromotion();
+          if (promo === "Success") {
+            // 프로모션을 아직 받지 않은 경우 -> 프로모션 지급 페이지로 이동
+            navigate("/promotion");
+          } else {
+            // 이미 받은 경우 -> 일반 페이지로 이동
+            navigate("/dice-event");
+          }
+        } catch (error: any) {
+          console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
           navigate("/dice-event");
         }
-      } catch(error:any){
-        console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
+      } else {
+        // 레퍼럴 코드가 없거나 다른 값인 경우 일반 페이지로 이동
+        navigate("/dice-event");
       }
     } catch (error: any) {
       console.error("[AppInitializer] getUserInfo() 중 에러:", error);

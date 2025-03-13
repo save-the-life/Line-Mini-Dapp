@@ -8,6 +8,7 @@ import useWalletStore from "@/shared/store/useWalletStore";
 import i18n from "@/shared/lib/il8n";
 import { connectWallet } from "@/shared/services/walletService";
 import requestWallet from "@/entities/User/api/addWallet";
+import getPromotion from "@/entities/User/api/getPromotion";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -61,7 +62,26 @@ const ConnectWalletPage: React.FC = () => {
 
       await fetchUserData();
       console.log("지갑 로그인 완료 및 데이터 확인");
-      navigate("/dice-event");
+
+      if (referralCode === "dapp-portal-promotions") {
+        try {
+          // 프로모션 수령 여부 확인
+          const promo = await getPromotion();
+          if (promo === "Success") {
+            // 프로모션을 아직 받지 않은 경우 -> 프로모션 지급 페이지로 이동
+            navigate("/promotion");
+          } else {
+            // 이미 받은 경우 -> 일반 페이지로 이동
+            navigate("/dice-event");
+          }
+        } catch (error: any) {
+          console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
+          navigate("/dice-event");
+        }
+      } else {
+        // 레퍼럴 코드가 없거나 다른 값인 경우 일반 페이지로 이동
+        navigate("/dice-event");
+      }
     } catch (error: any) {
       console.error("getUserInfo() 중 에러:", error.message);
 
