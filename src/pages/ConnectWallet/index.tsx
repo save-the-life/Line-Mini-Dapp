@@ -7,6 +7,7 @@ import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
 import i18n from "@/shared/lib/il8n";
 import { connectWallet } from "@/shared/services/walletService";
+import requestWallet from "@/entities/User/api/addWallet";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -37,10 +38,10 @@ const ConnectWalletPage: React.FC = () => {
       // 외부 모듈에서 지갑 연결 및 전역 상태 업데이트 수행
       await connectWallet();
 
-      // 연결된 지갑 주소를 상태에서 가져옴
-      const { walletAddress } = useWalletStore.getState();
-
+      // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
+      const { walletAddress, walletType } = useWalletStore.getState();
       console.log("연결된 지갑 주소 다시 확인: ", walletAddress);
+      
       // 로컬스토리지에서 레퍼럴 코드 확인 (없을 경우 null 반환)
       const referralCode = localStorage.getItem("referralCode");
 
@@ -49,6 +50,9 @@ const ConnectWalletPage: React.FC = () => {
       if (!webLogin) {
         throw new Error("Web login failed.");
       }
+
+      // webLoginWithAddress 성공 시, requestWallet 함수 실행
+      await requestWallet(walletAddress, walletType.toUpperCase());
 
       await fetchUserData();
       console.log("지갑 로그인 완료 및 데이터 확인");

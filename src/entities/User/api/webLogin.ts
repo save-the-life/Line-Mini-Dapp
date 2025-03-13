@@ -8,7 +8,7 @@ export const webLoginWithAddress = async (walletAddress: string, referrerCode: s
     }
 
     try {
-        const response = await api.post('/auth/login/web', {userInfo});
+        const response = await api.post('/auth/login/web', userInfo);
 
         const { code, data } = response.data;
         const authorizationHeader = response.headers['authorization'];
