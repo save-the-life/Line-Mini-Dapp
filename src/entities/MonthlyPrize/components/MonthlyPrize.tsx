@@ -157,8 +157,8 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
       />
 
       {/* 상품 정보 */}
-      <div className="flex flex-col items-center">
-        <p className="font-semibold text-base">{t("dice_event.monthly_rewards")}</p>
+      <div className="flex flex-col items-center text-center">
+        <p className="font-semibold text-base text-center">{t("dice_event.monthly_rewards")}</p>
         <p className="text-xs font-normal">(Approx. ${formatNumber(amount)})</p>
       </div>
 
