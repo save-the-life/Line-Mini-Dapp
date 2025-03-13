@@ -605,8 +605,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   
       console.log("✅ 사용자가 서명한 트랜잭션:", signedTx);
   
-      /* 백엔드으로 전송
-      const response = await fetch("http://localhost:8080/api/attendance", {
+      // 백엔드으로 전송
+      const response = await fetch("https://luckydice.savethelife.io/api/attendance/tx", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -623,7 +623,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       } else {
         console.error("❌ 백엔드(Spring) 응답 오류:", data);
         alert("출석 체크 실패!");
-      }*/
+      }
     } catch (error) {
       console.error("❌ 출석 체크 실패:", error);
       alert("출석 체크 중 오류 발생!");

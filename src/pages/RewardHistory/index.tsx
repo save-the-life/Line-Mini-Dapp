@@ -21,11 +21,10 @@ const RewardHistory: React.FC = () => {
 
   // 필터 드롭다운 열림 상태
   const [isOpen, setIsOpen] = useState(false);
-
-  // 자산 종류(단일 선택)
-  const [selectedAsset, setSelectedAsset] = useState<string>("SL");
-  // 증감 필터(단일 선택)
-  const [selectedChange, setSelectedChange] = useState<string>("INCREASE");
+  // 필터링
+  const [selectedAsset, setSelectedAsset] = useState<string | null>("SL");
+  const [selectedChange, setSelectedChange] = useState<string | null>("INCREASE");
+  
 
   // 날짜 필터
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -82,16 +81,24 @@ const RewardHistory: React.FC = () => {
     }
   };
 
-  // 자산 라디오 버튼
+  // 자산 라디오 버튼 핸들러
   const handleAssetChange = (asset: string) => {
     playSfx(Audios.button_click);
-    setSelectedAsset(asset);
+    if (asset === "전체") {
+      setSelectedAsset(null);
+    } else {
+      setSelectedAsset(asset);
+    }
   };
 
-  // 증감 라디오 버튼
+  // 증감 라디오 버튼 핸들러
   const handleChangeType = (change: string) => {
     playSfx(Audios.button_click);
-    setSelectedChange(change);
+    if (change === "전체") {
+      setSelectedChange(null);
+    } else {
+      setSelectedChange(change);
+    }
   };
 
   // 날짜 선택
@@ -214,13 +221,14 @@ const RewardHistory: React.FC = () => {
             {/* 자산 종류 (단일 선택) */}
             <p className="text-lg font-medium text-left mb-2">{t("asset_page.asset_types")}</p>
             <div className="flex flex-col gap-2 ml-3">
-              {["SL", "USDC", "STAR"].map((asset) => (
+              {["전체", "SL", "USDC", "STAR"].map((asset) => (
                 <label key={asset} className="flex items-center text-base font-medium">
                   <input
                     type="radio"
                     name="assetType"
                     value={asset}
-                    checked={selectedAsset === asset}
+                    // "전체"인 경우 selectedAsset이 null이면 true, 아닐 경우 직접 비교
+                    checked={asset === "전체" ? selectedAsset === null : selectedAsset === asset}
                     onChange={() => handleAssetChange(asset)}
                     className="mr-2"
                   />
@@ -232,17 +240,18 @@ const RewardHistory: React.FC = () => {
             {/* 증감 필터 (단일 선택) */}
             <p className="text-lg font-medium text-left mt-4 mb-2">{t("asset_page.change_types")}</p>
             <div className="flex flex-col gap-2 ml-3">
-              {["INCREASE", "DECREASE"].map((change) => (
+              {["전체", "INCREASE", "DECREASE"].map((change) => (
                 <label key={change} className="flex items-center text-base font-medium">
                   <input
                     type="radio"
                     name="changeType"
                     value={change}
-                    checked={selectedChange === change}
+                    // "전체"인 경우 selectedChange이 null이면 true, 아닐 경우 직접 비교
+                    checked={change === "전체" ? selectedChange === null : selectedChange === change}
                     onChange={() => handleChangeType(change)}
                     className="mr-2"
                   />
-                  {t(`asset_page.${change.toLowerCase()}`)}
+                  {change === "전체" ? "전체" : t(`asset_page.${change.toLowerCase()}`)}
                 </label>
               ))}
             </div>
