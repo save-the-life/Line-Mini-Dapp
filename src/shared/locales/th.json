@@ -114,7 +114,7 @@
       "reward": "รางวัล",
       "previous": "รางวัลย้อนหลัง",
       "see_ranking_reward": "ดูอันดับและรางวัลของคุณจากเดือนที่แล้ว!",
-      "this_month": "รางวัลประจำเดือนนี้",
+      "this_month": "รอบ",
       "awards": "รางวัลอันดับ",
       "raffle": "รางวัลจับฉลาก",
       "air_drop": "กิจกรรม Airdrop",
@@ -166,7 +166,10 @@
       "subscribe_to_email": "สมัครรับอีเมล",
       "follow_on_linkedin": "ติดตามบน LinkedIn",
       "leave_supportive_comment": "แสดงความคิดเห็นสนับสนุนบน SL X",
-      "join_lucky_dice": "ลัคกี้ไดซ์ รางวัลการสมัครสมาชิก"
+      "join_lucky_dice": "ลัคกี้ไดซ์ รางวัลการสมัครสมาชิก",
+      "monthly_raffle_compensation": "รางวัลจับสลากรายเดือน",
+      "get_point_reward": "รับรางวัลคะแนน",
+      "join_lucky_sl": "เข้าร่วมรับรางวัล LuckyDice SL"
     },
     "wallet_page": {
       "wallet": "กระเป๋า",

@@ -114,7 +114,7 @@
       "reward": "獎勵",
       "previous": "先前獎勵",
       "see_ranking_reward": "查看上個月的排名和獎勵！",
-      "this_month": "本月的",
+      "this_month": "回合",
       "awards": "排名獎勵",
       "raffle": "抽獎獎勵",
       "air_drop": "空投活動",
@@ -166,7 +166,10 @@
       "subscribe_to_email": "訂閱電子郵件",
       "follow_on_linkedin": "在 LinkedIn 上關注",
       "leave_supportive_comment": "在 SL X 上留下支持的評論",
-      "join_lucky_dice": "Lucky Dice加入补偿"
+      "join_lucky_dice": "Lucky Dice加入补偿",
+      "monthly_raffle_compensation": "每月抽獎獎勵",
+      "get_point_reward": "獲得積分獎勵",
+      "join_lucky_sl": "參加 LuckyDice SL 獎勵"
     },
     "wallet_page": {
       "wallet": "錢包",

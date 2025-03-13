@@ -30,7 +30,7 @@ const Reward: React.FC = () => {
   } = useRewardStore();
 
   const [showMoreRanking, setShowMoreRanking] = useState(false);
-  const [showMoreRaffle, setShowMoreRaffle] = useState(false);
+  // const [showMoreRaffle, setShowMoreRaffle] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -49,25 +49,25 @@ const Reward: React.FC = () => {
   const rankingProducts = rankingAwards.slice(0, 3); 
   const rankingOthers = rankingAwards.slice(3); 
 
-  const raffleProducts = drawAwards.slice(0, 3); 
-  const raffleOthers = drawAwards.slice(3); 
+  // const raffleProducts = drawAwards.slice(0, 3); 
+  // const raffleOthers = drawAwards.slice(3); 
 
-  const truncateString = (str: string, num: number): string => {
-    if (str.length <= num) {
-      return str;
-    }
-    return str.slice(0, num) + '...';
-  };
+  // const truncateString = (str: string, num: number): string => {
+  //   if (str.length <= num) {
+  //     return str;
+  //   }
+  //   return str.slice(0, num) + '...';
+  // };
 
   const handleShowMoreRanking = () => {
     playSfx(Audios.button_click);
     setShowMoreRanking(true);
   }
 
-  const handleShowMoreRaffle = () => {
-    playSfx(Audios.button_click);
-    setShowMoreRaffle(true);
-  }
+  // const handleShowMoreRaffle = () => {
+  //   playSfx(Audios.button_click);
+  //   setShowMoreRaffle(true);
+  // }
 
   const handlePreviousRewardPage = async() => {
     playSfx(Audios.button_click);
@@ -81,16 +81,16 @@ const Reward: React.FC = () => {
   }
 
   
-  const handlePreviousAirdropPage = async() => {
-    playSfx(Audios.button_click);
+  // const handlePreviousAirdropPage = async() => {
+  //   playSfx(Audios.button_click);
 
-    const response = await api.get("/leader/ranking/initial");
-    if(response.data.data === null) {
-      setShowModal(true);
-    } else {
-      navigate('/previous-raffle');
-    }
-  }
+  //   const response = await api.get("/leader/ranking/initial");
+  //   if(response.data.data === null) {
+  //     setShowModal(true);
+  //   } else {
+  //     navigate('/previous-raffle');
+  //   }
+  // }
 
 
   const handleCloseModal = () => {
@@ -119,7 +119,7 @@ const Reward: React.FC = () => {
         {/* This Month's Ranking Awards */}
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
-            {t("reward_page.this_month")}
+            N {t("reward_page.this_month")}
             <br />
             {t("reward_page.awards")}
           </h1>

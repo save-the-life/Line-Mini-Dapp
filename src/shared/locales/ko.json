@@ -114,7 +114,7 @@
       "reward": "보상",
       "previous": "이전 보상 확인하기",
       "see_ranking_reward": "지난달 랭킹과 보상을 확인하세요!",
-      "this_month": "이번 달",
+      "this_month": "회차",
       "awards": "랭킹 보상",
       "raffle": "추첨 보상",
       "air_drop": "에어드롭 이벤트",
@@ -166,7 +166,10 @@
       "subscribe_to_email": "이메일 구독",
       "follow_on_linkedin": "링크드인 팔로우",
       "leave_supportive_comment": "SL X에 격려 댓글 남기기",
-      "join_lucky_dice": "럭키 다이스 가입 보상"
+      "join_lucky_dice": "럭키 다이스 가입 보상",
+      "monthly_raffle_compensation": "월간 래플 보상",
+      "get_point_reward": "포인트 보상 받기",
+      "join_lucky_sl": "럭키다이스 SL 보상 참여하기"
     },
     "wallet_page": {
       "wallet": "지갑",

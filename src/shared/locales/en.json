@@ -114,8 +114,8 @@
       "reward": "Rewards",
       "previous": "Previous Rewards",
       "see_ranking_reward": "See your rankings and rewards from last month!",
-      "this_month": "This Month's",
-      "awards": "Ranking Prizes",
+      "this_month": "Round",
+      "awards": "Ranking Awards",
       "raffle": "Raffle Prizes",
       "air_drop": "AirDrop Event",
       "view_more": "View More",
@@ -166,7 +166,10 @@
       "subscribe_to_email": "Subscribe to Email",
       "follow_on_linkedin": "Follow on LinkedIn",
       "leave_supportive_comment": "Leave a Supportive Comment on SL X",
-      "join_lucky_dice": "Join LuckyDice Star Reward"
+      "join_lucky_dice": "Join LuckyDice Star Reward",
+      "monthly_raffle_compensation": "Monthly Raffle Compensation",
+      "get_point_reward": "Get Point Reward",
+      "join_lucky_sl": "Join LuckyDice SL Reward"
     },
     "wallet_page": {
         "wallet": "Wallet",
