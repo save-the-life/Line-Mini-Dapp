@@ -48,6 +48,7 @@ interface RewardData {
   name: string | null;
   slRewards: number;
   usdtRewards: number;
+  round: number;
   nftType: string | null;
   selectedRewardType: string | null;
   itsMe?: boolean;
@@ -395,6 +396,7 @@ const PreviousRewards: React.FC = () => {
                 slRewards: myData.slRewards ?? 0,
                 usdtRewards: myData.usdtRewards ?? 0,
                 nftType: myData.nftType ?? null,
+                round: myData.round,
                 selectedRewardType: myData.selectedRewardType ?? null,
                 itsMe: myData.itsMe ?? false,
               });
@@ -450,6 +452,7 @@ const PreviousRewards: React.FC = () => {
                 slRewards: currentRaffleItem.slRewards,
                 usdtRewards: currentRaffleItem.usdtRewards,
                 nftType: currentRaffleItem.nftType ?? null,
+                round: currentRaffleItem.round,
                 selectedRewardType:
                   currentRaffleItem.selectedRewardType ?? null,
                 itsMe: currentRaffleItem.itsMe ?? false,

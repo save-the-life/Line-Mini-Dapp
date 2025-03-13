@@ -191,6 +191,9 @@ const MyAssets: React.FC = () => {
             case "RPS Game Win":
                 contentKey = "rps_game_win";
                 break;
+            case "RPS Game Betting":
+                contentKey = "rps_game_betting";
+                break;
             case "Follow on X":
                 contentKey = "follow_on_x";
                 break;

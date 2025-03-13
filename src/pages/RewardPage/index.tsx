@@ -48,6 +48,7 @@ const Reward: React.FC = () => {
 
   const rankingProducts = rankingAwards.slice(0, 3); 
   const rankingOthers = rankingAwards.slice(3); 
+  const currentRound = rankingProducts.length > 0 ? rankingProducts[0].round : null;
 
   // const raffleProducts = drawAwards.slice(0, 3); 
   // const raffleOthers = drawAwards.slice(3); 
@@ -119,7 +120,7 @@ const Reward: React.FC = () => {
         {/* This Month's Ranking Awards */}
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
-            N {t("reward_page.this_month")}
+            {currentRound} {t("reward_page.this_month")}
             <br />
             {t("reward_page.awards")}
           </h1>

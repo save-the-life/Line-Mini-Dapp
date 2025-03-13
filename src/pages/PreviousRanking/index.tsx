@@ -21,6 +21,7 @@ interface RewardData {
   name: string | null;
   slRewards: number;
   usdtRewards: number;
+  round: number;
   nftType: string | null;
   selectedRewardType: string | null;
   itsMe?: boolean;
@@ -54,6 +55,7 @@ const PreviousRanking: React.FC = () => {
 
   const dialogRankingsPlayerData: PlayerData[] = dialogRankings.map(r => ({
     ...r,
+    round: r.round,
     nftType: r.nftType ?? null,
     selectedRewardType: r.selectedRewardType ?? null,
   }));
@@ -151,6 +153,7 @@ const PreviousRanking: React.FC = () => {
             slRewards: myData.slRewards ?? 0,
             usdtRewards: myData.usdtRewards ?? 0,
             nftType: myData.nftType ?? null,
+            round:myData.round,
             selectedRewardType: myData.selectedRewardType ?? null,
             itsMe: myData.itsMe ?? false,
           });

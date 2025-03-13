@@ -20,6 +20,7 @@ export interface RaffleRangeRankingData {
   rank: number;
   slRewards: number;
   usdtRewards: number;
+  round: number;
   nftType: string | null;
   selectedRewardType?: string | null;
   itsMe?: boolean; // 추가된 필드

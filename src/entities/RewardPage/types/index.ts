@@ -5,6 +5,7 @@ export interface RankingAward {
   rangeEnd: number;
   slRewards: number;
   usdtRewards: number | null;
+  round: number;
   nftType: "GOLD" | "SILVER" | "BRONZE" | null;
 }
 
@@ -13,6 +14,7 @@ export interface DrawAward {
   rangeEnd: number;
   slRewards: number;
   usdtRewards: number | null;
+  round: number;
   nftType: "GOLD" | "SILVER" | "BRONZE" | null;
 }
 
@@ -20,6 +22,7 @@ export interface AirDropAward {
   winnerNum: number | null;
   slRewards: number;
   usdtRewards?: number | null;
+  round: number;
   nftType?: "GOLD" | "SILVER" | "BRONZE" | null;
 }
 
@@ -30,6 +33,7 @@ export interface Rank {
   star: number;
   ticket: number;
   slToken: number;
+  round: number;
   diceRefilledAt: string | null;
 }
 

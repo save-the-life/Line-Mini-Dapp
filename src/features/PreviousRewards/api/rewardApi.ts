@@ -8,6 +8,7 @@ interface ApiResponseData {
   rank: number;
   slRewards: number;
   usdtRewards: number;
+  round: number;
   nftType: string | null;
   selectedRewardType: string | null | undefined;
 }
@@ -37,6 +38,7 @@ export async function selectRankingReward(round: number, rank: number, selectRew
     rank: data.rank,
     slRewards: data.slRewards,
     usdtRewards: data.usdtRewards,
+    round: data.round,
     nftType: data.nftType,
     selectedRewardType: data.selectedRewardType ?? null // undefined이면 null 처리
   };
@@ -61,6 +63,7 @@ export async function selectRaffleReward(round: number, rank: number, selectRewa
     rank: data.rank,
     slRewards: data.slRewards,
     usdtRewards: data.usdtRewards,
+    round: data.round,
     nftType: data.nftType,
     selectedRewardType: data.selectedRewardType ?? null
   };

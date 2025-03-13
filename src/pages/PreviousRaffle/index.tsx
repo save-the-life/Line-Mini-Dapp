@@ -21,6 +21,7 @@ interface RewardData {
   name: string | null;
   slRewards: number;
   usdtRewards: number;
+  round: number;
   nftType: string | null;
   selectedRewardType: string | null;
   itsMe?: boolean;
@@ -173,6 +174,7 @@ const PreviousRaffle: React.FC = () => {
                       name: currentRaffleItem.name,
                       slRewards: currentRaffleItem.slRewards,
                       usdtRewards: currentRaffleItem.usdtRewards,
+                      round:currentRaffleItem.round,
                       nftType: currentRaffleItem.nftType ?? null,
                       selectedRewardType: currentRaffleItem.selectedRewardType ?? null,
                       itsMe: currentRaffleItem.itsMe ?? false,
