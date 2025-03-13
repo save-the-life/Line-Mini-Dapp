@@ -15,7 +15,7 @@
         "first_step": "<strong>サイコロを振るボタン:</strong> サイコロを振ると、かわいいペットがモノポリーボード上を移動します。止まったマスによって報酬を獲得したり、特別なゲーム内イベントが発生します。",
         "second_step": "<strong>サイコログラフ:</strong> ボタンを押し続けるとゲージが動きます。ゲージは1～6のセクションに分かれており、望む数字に達したらボタンを離してください。<div style=\"marginBottom: 1rem\"></div>望む数字で止まった場合、<strong>50%の確率</strong>で <strong>ラッキーダイス効果</strong> が発動し、ペットがその数字のマスに移動します。",
         "third_step": "<strong>サイコロ補充:</strong> すべてのサイコロを使用すると、ボタンのテキストが <em>「サイコロ補充」</em> に変わります。クリックしてサイコロを補充してください。<div style=\"marginBottom: 1rem\"></div>補充後、<strong>1時間</strong> 経過すると再びサイコロを受け取ることができます。<div style=\"marginBottom: 1rem\"></div>補充時間が終わると、テキストは <em>「待機中」</em> に変わり、サイコロが残っていない場合は <em>「サイコロ補充」</em> に戻ります。",
-        "fourth_step": "<strong>NFTダッシュボード:</strong> 所持している <strong>NFTの数</strong> を表示します。<div style=\"marginBottom: 1rem\"></div>クリックすると、そのNFTの <strong>効果</strong> を確認できます。",
+        "fourth_step": "<strong>Itemダッシュボード:</strong> 所持している <strong>Itemの数</strong> を表示します。<div style=\"marginBottom: 1rem\"></div>クリックすると、そのItemの <strong>効果</strong> を確認できます。",
         "fifth_step": "<strong>自動機能:</strong> <strong>オートアイテム</strong>を所持している場合、サイコロは自動的に振られます。<div style=\"marginBottom: 1rem\"></div>補充時間になると、サイコロも自動で補充され再度振られます。<div style=\"marginBottom: 1rem\"></div>この機能は <strong>ゲーム画面</strong> にいるときのみ有効で、ジャンケンやルーレット、「どこでもマス」などのアクションには適用されません。"
     },
     "ai_page": {
@@ -170,7 +170,8 @@
         "join_lucky_dice": "ラッキーダイススター報酬に参加",
         "monthly_raffle_compensation": "月間抽選報酬",
         "get_point_reward": "ポイント報酬を受け取る",
-        "join_lucky_sl": "LuckyDice SL報酬に参加する"
+        "join_lucky_sl": "LuckyDice SL報酬に参加する",
+        "promotion_reward": "プロモーション報酬"
     },
     "wallet_page": {
         "wallet": "ウォレット",
@@ -426,7 +427,8 @@
         "auto_roller": "ダイス自動ロール機",
         "reward_booster": "報酬ブースター",
         "reward_multiplier": "報酬倍率",
-        "turbo": "ラッフルチケットターボ"
+        "turbo": "ラッフルチケットターボ",
+        "welcome_message": "ようこそ！こちらはあなたの<1>Dappポータルプロモーション報酬です！</1>"
     },
     "setting": {
         "terms_of_service": "利用規約",

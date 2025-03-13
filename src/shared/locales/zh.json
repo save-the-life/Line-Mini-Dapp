@@ -15,7 +15,7 @@
       "first_step": "<strong>擲骰子按鈕：</strong> 擲骰子可讓您的可愛夥伴在大富翁棋盤上移動，停留的格子將決定您獲得的獎勵或觸發特殊的遊戲事件。",
       "second_step": "<strong>骰子量表:</strong> 按住按鈕以移動量表，量表分為六個區段（1–6）。當量表到達想要的數字時，鬆開按鈕。<div style=\"marginBottom: 1rem\"></div>如果量表正好落在您想要的數字上，有 <strong>50% 的機率</strong> 觸發 <strong>幸運骰子效果</strong>，使您的寵物移動到該數字所在的棋格。",
       "third_step": "<strong>骰子補充:</strong> 當您用完所有骰子後，按鈕文字會變成 <em>「補充骰子」</em>，點擊它即可補充骰子。<div style=\"marginBottom: 1rem\"></div>補充之後，<strong>一小時</strong> 後您可以再次領取額外的骰子。<div style=\"marginBottom: 1rem\"></div>當補充時間結束後，按鈕文字會變成 <em>「等待中」</em>，如果您沒有剩餘骰子，則會變回 <em>「補充骰子」</em>。",
-      "fourth_step": "<strong>NFT儀表板:</strong> 顯示您擁有的 <strong>NFT 數量</strong>。<div style=\"marginBottom: 1rem\"></div>點擊以查看您的NFT之 <strong>效果</strong>。",
+      "fourth_step": "<strong>Item儀表板:</strong> 顯示您擁有的 <strong>Item 數量</strong>。<div style=\"marginBottom: 1rem\"></div>點擊以查看您的Item之 <strong>效果</strong>。",
       "fifth_step": "<strong>自動功能:</strong> 如果您擁有 <strong>自動道具</strong>，骰子將自動擲出。<div style=\"marginBottom: 1rem\"></div>當到達補充時間，骰子也會自動補充並擲出。<div style=\"marginBottom: 1rem\"></div>該功能僅在您位於 <strong>遊戲界面</strong> 時運作，不適用於猜拳、轉盤或「任意位置」格。"
     },
     "ai_page": {
@@ -170,7 +170,8 @@
       "join_lucky_dice": "Lucky Dice加入补偿",
       "monthly_raffle_compensation": "每月抽獎獎勵",
       "get_point_reward": "獲得積分獎勵",
-      "join_lucky_sl": "參加 LuckyDice SL 獎勵"
+      "join_lucky_sl": "參加 LuckyDice SL 獎勵",
+      "promotion_reward": "促销奖励."
     },
     "wallet_page": {
       "wallet": "錢包",
@@ -426,7 +427,8 @@
       "auto_roller": "骰子自動擲投器",
       "reward_booster": "獎勵助推器",
       "reward_multiplier": "獎勵倍增器",
-      "turbo": "抽獎券渦輪"
+      "turbo": "抽獎券渦輪",
+      "welcome_message": "歡迎！這是您的<1>Dapp Portal 推廣獎勵！</1>"
     },
     "setting": {
       "terms_of_service": "服務條款",

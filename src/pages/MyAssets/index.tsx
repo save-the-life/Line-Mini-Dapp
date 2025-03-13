@@ -221,6 +221,9 @@ const MyAssets: React.FC = () => {
             case "Join LuckyDice SL Reward":
                 contentKey = "join_lucky_sl";
                 break;
+            case "Get Promotion Reward":
+                contentKey = "promotion_reward";
+                break;
             default:
             contentKey = reward.content;
         }
