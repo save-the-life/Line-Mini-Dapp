@@ -428,7 +428,7 @@
       "reward_booster": "บูสเตอร์รางวัล",
       "reward_multiplier": "ตัวคูณรางวัล",
       "turbo": "ตั๋วจับสลากเทอร์โบ",
-      "welcome_message": "ยินดีต้อนรับ! นี่คือ<1>รางวัลโปรโมชั่น Dapp Portal ของคุณ!</1>"
+      "welcome_message": "ยินดีต้อนรับ! นี่คือ<1/>รางวัลโปรโมชั่น Dapp Portal ของคุณ!"
     },
     "setting": {
       "terms_of_service": "เงื่อนไขการให้บริการ",

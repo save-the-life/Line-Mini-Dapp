@@ -428,7 +428,7 @@
       "reward_booster": "獎勵助推器",
       "reward_multiplier": "獎勵倍增器",
       "turbo": "抽獎券渦輪",
-      "welcome_message": "歡迎！這是您的<1>Dapp Portal 推廣獎勵！</1>"
+      "welcome_message": "歡迎！這是您的<1/>Dapp Portal 推廣獎勵！"
     },
     "setting": {
       "terms_of_service": "服務條款",

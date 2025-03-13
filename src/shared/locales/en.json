@@ -428,7 +428,7 @@
       "reward_booster": "Rewrd Booster",
       "reward_multiplier": "Reward Multiplier",
       "turbo": "Raffle Ticket Turbo",
-      "welcome_message": "Welcome! Here is your <1>Dapp Portal Promotion Reward!</1>"
+      "welcome_message": "Welcome! Here is your <1/>Dapp Portal Promotion Reward!"
     },
     "setting": {
       "terms_of_service": "Trems of Service",

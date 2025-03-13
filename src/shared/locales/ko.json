@@ -428,7 +428,7 @@
       "reward_booster": "보상 부스터",
       "reward_multiplier": "보상 배수기",
       "turbo": "래플 티켓 터보",
-      "welcome_message": "환영합니다! 아래는 당신의 <1>Dapp Portal 프로모션 보상입니다!</1>"
+      "welcome_message": "환영합니다! 아래는 당신의 <1/>Dapp Portal 프로모션 보상입니다!"
     },
     "setting": {
       "terms_of_service": "이용 약관",

@@ -7,7 +7,6 @@ import { Trans } from 'react-i18next';
 const Promotion: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const message = t("dice_event.welcome_message");
   
   const handlePromotion = () => {
     navigate("/dice-event");

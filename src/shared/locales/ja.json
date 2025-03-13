@@ -428,7 +428,7 @@
         "reward_booster": "報酬ブースター",
         "reward_multiplier": "報酬倍率",
         "turbo": "ラッフルチケットターボ",
-        "welcome_message": "ようこそ！こちらはあなたの<1>Dappポータルプロモーション報酬です！</1>"
+        "welcome_message": "ようこそ！こちらはあなたの <1/>Dappポータルプロモーション報酬です！"
     },
     "setting": {
         "terms_of_service": "利用規約",
