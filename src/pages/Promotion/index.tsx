@@ -13,12 +13,12 @@ const Promotion: React.FC = () => {
 
   return (
     <div className="flex flex-col text-white mb-32 px-6 min-h-screen">
-      <h2 className="font-semibold text-xl text-center mt-32 mb-4">
+      <h2 className="font-semibold text-xl text-center mt-32 mb-4 items-center">
         Welcome! Here is your<br />
         Dapp Portal Promotion Reward!
       </h2>
       <img
-        className='w-16 h-16 object-cover mb-4'
+        className='w-20 h-20 object-cover mb-4 items-center'
         src={Images.Promotion}
         alt="Promotion" />
       <button
