@@ -50,6 +50,7 @@ import PreviousRanking from "./pages/PreviousRanking";
 import PreviousRaffle from "./pages/PreviousRaffle";
 import PreviousAirdrop from "./pages/PreviousAirdrop";
 import EditNickname from "./pages/EditNickname";
+import Promotion from "./pages/Promotion";
 
 const App:React.FC = () =>{
   const [isInitialized, setIsInitialized] = useState(false);
@@ -215,6 +216,7 @@ const App:React.FC = () =>{
                   <Route path="/previous-raffle" element={<DiceEventLayout hidden={true}><PreviousRaffle /></DiceEventLayout>} />
                   <Route path="/previous-airdrop" element={<DiceEventLayout hidden={true}><PreviousAirdrop /></DiceEventLayout>} />
                   <Route path="/edit-nickname" element={<DiceEventLayout hidden={true}><EditNickname /></DiceEventLayout>} />
+                  <Route path="/promotion" element={<DiceEventLayout hidden={true}><Promotion /></DiceEventLayout>} />
                   
               
 

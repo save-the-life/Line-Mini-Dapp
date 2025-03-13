@@ -4,15 +4,27 @@ import Images from "@/shared/assets/images";
 import { useSound } from "@/shared/provider/SoundProvider";
 import { useTranslation } from "react-i18next";
 import Audios from "@/shared/assets/audio";
+import getPromotion from "@/entities/User/api/getPromotion";
 
 const FirstRewardPage: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { playSfx } = useSound();
 
-    const handleReceiveReward = () => {
+    const handleReceiveReward = async () => {
         playSfx(Audios.button_click);
-        navigate("/dice-event");
+
+        try{
+            const promo = await getPromotion();
+
+            if(promo === "Success"){
+                navigate("/promotion");
+            } else {
+                navigate("/dice-event");
+            }
+        } catch(error: any){
+            console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
+        }
     };
 
     return (

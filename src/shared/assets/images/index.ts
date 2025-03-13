@@ -171,6 +171,7 @@ import eventBanner from "./eventbanner.png"
 import eventBox from "./eventbox.png"
 import attendanceNote from "./attendancenote.png"
 import USDT from "./usdt.png"
+import Promotion from "./promotion.png"
 
 const Images = {
   HorizontalLogo,
@@ -344,7 +345,8 @@ const Images = {
   eventBanner,
   eventBox,
   attendanceNote,
-  USDT
+  USDT,
+  Promotion
 };
 
 export default Images;
