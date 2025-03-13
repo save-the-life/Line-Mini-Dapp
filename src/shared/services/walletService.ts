@@ -9,7 +9,7 @@ export async function connectWallet(): Promise<void> {
     // SDK 초기화 (clientId와 chainId는 환경변수 또는 파라미터로 전달 가능)
     const sdk = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "1001",
+        chainId: "8217",
     });
     console.log("[지갑 연결] sdk 초기화: ", sdk);
 
