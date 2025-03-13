@@ -22,7 +22,7 @@ const InviteFriendsList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true); // 로딩 상태
     const [star, setStar] = useState(0.0);
     const [sl, setSL] = useState(0.0);
-    const [usdc, setUsdc] = useState(0.0);
+    const [usdt, setUsdt] = useState(0.0);
 
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const InviteFriendsList: React.FC = () => {
                 setFriends(data.friends || []); // 친구 목록 설정 (없으면 빈 배열)
                 setStar(reward.starTotal);
                 setSL(reward.slTotal);
-                setUsdc(reward.usdcTotal);
+                setUsdt(reward.usdtTotal);
                 setLoading(false); // 로딩 완료
             } catch (error) {
                 console.error('Error fetching friends data:', error);
@@ -54,7 +54,7 @@ const InviteFriendsList: React.FC = () => {
     // 숫자 콤마(,) 표기를 위한 변환: toLocaleString()
     const formattedStar = star.toLocaleString(); 
     const formattedSL = sl.toLocaleString();
-    const formattedUSDC = usdc.toLocaleString();
+    const formattedUSDT = usdt.toLocaleString();
 
 
     return (
@@ -98,12 +98,12 @@ const InviteFriendsList: React.FC = () => {
                     </div>
                     <div className="flex items-center">
                         <img
-                            src={Images.USDC}
-                            alt="USDC Earned"
+                            src={Images.USDT}
+                            alt="USDT Earned"
                             className="w-6 h-6"
                             />
-                        <p className="text-base font-medium flex-1 ml-1">{t("mission_page.usdc")}</p>
-                        <p className="text-[#3B82F6] text-lg font-semibold">+{formattedUSDC}USDC</p>
+                        <p className="text-base font-medium flex-1 ml-1">{t("mission_page.usdt")}</p>
+                        <p className="text-[#3B82F6] text-lg font-semibold">+{formattedUSDT}USDT</p>
                     </div>
                 </div>
             </div>

@@ -20,7 +20,7 @@ interface RewardData {
   rank: number;
   name: string | null;
   slRewards: number;
-  usdcRewards: number;
+  usdtRewards: number;
   nftType: string | null;
   selectedRewardType: string | null;
   itsMe?: boolean;
@@ -112,7 +112,7 @@ const PreviousRanking: React.FC = () => {
               rank: myData.rank,
               name: myData.name,
               slRewards: myData.slRewards ?? 0,
-              usdcRewards: myData.usdcRewards ?? 0,
+              usdtRewards: myData.usdtRewards ?? 0,
               nftType: myData.nftType ?? null,
               selectedRewardType: myData.selectedRewardType ?? null,
               itsMe: myData.itsMe ?? false,
@@ -149,7 +149,7 @@ const PreviousRanking: React.FC = () => {
             rank: myData.rank,
             name: myData.name,
             slRewards: myData.slRewards ?? 0,
-            usdcRewards: myData.usdcRewards ?? 0,
+            usdtRewards: myData.usdtRewards ?? 0,
             nftType: myData.nftType ?? null,
             selectedRewardType: myData.selectedRewardType ?? null,
             itsMe: myData.itsMe ?? false,

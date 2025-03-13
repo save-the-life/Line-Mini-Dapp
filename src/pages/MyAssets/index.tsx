@@ -67,16 +67,16 @@ const MyAssets: React.FC = () => {
     const [showWalletModal, setShowWalletModal] = useState(false);
     const [claimModalOpen, setClaimModalOpen] = useState(false);
     const [walletConnectionSLT, setWalletConnectionSLT] = useState(false);
-    const [walletConnectionUSDC, setWalletConnectionUSDC] = useState(false);
+    const [walletConnectionUSDT, setWalletConnectionUSDT] = useState(false);
     const [SLClaim, setSLClaim] = useState(false);
-    const [USDCClaim, setUsdcCaim] = useState(false);
+    const [USDTClaim, setUsdtCaim] = useState(false);
     const [loadingModal, setLoadingModal] = useState(false);
     const [rewardHistoryData, setRewardHistoryData] = useState<any[]>([]);
     const [balance, setBalance] = useState("0.00");
 
     const [nonNftItems, setNonNftItems] = useState<any[]>([]);
     const [nftCollection, setNftCollection] = useState<any[]>([]);
-    const [claimBalance, setClaimBalance] = useState<{ slPoints: number; usdcPoints: number }>({ slPoints: 0, usdcPoints: 0 });
+    const [claimBalance, setClaimBalance] = useState<{ slPoints: number; usdtPoints: number }>({ slPoints: 0, usdtPoints: 0 });
     const [claimSuccess, setClaimSuccess] = useState(false);
     const [claimFailed, setClaimFailed] = useState(false);
     const [failMessage, setFailMessage] = useState("");
@@ -320,7 +320,7 @@ const MyAssets: React.FC = () => {
                     if (assets.claimBalance) {
                         setClaimBalance({
                             slPoints: assets.claimBalance.slPoints,
-                            usdcPoints: assets.claimBalance.usdcPoints,
+                            usdtPoints: assets.claimBalance.usdtPoints,
                         });
                     }
                 }
@@ -373,7 +373,7 @@ const MyAssets: React.FC = () => {
     const handleClaim = async (type: string, amount: string, address: string) => {
         playSfx(Audios.button_click);
         setSLClaim(false);
-        setUsdcCaim(false);
+        setUsdtCaim(false);
         setLoadingModal(true);
         try {
             const claim = await requestClaim(type, amount, address);
@@ -635,10 +635,10 @@ const MyAssets: React.FC = () => {
                     </div>
                     <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-2">
                         <div className="flex items-center">
-                            <img src={Images.USDC} alt="USDC Icon" className="w-6 h-6 mr-1" />
-                            <span className="text-base font-medium text-gray-300">USDC</span>
+                            <img src={Images.USDT} alt="USDT Icon" className="w-6 h-6 mr-1" />
+                            <span className="text-base font-medium text-gray-300">USDT</span>
                         </div>
-                        <span className="text-lg font-bold">{claimBalance.usdcPoints} USDC</span>
+                        <span className="text-lg font-bold">{claimBalance.usdtPoints} USDT</span>
                     </div>
                     <button
                         className="w-full h-14 mt-3 py-4 rounded-full text-base font-medium bg-[#0147E5] text-white"
@@ -792,15 +792,15 @@ const MyAssets: React.FC = () => {
                                     onClick={() => {
                                         playSfx(Audios.button_click);
                                         setClaimModalOpen(false);
-                                        setWalletConnectionUSDC(true);
+                                        setWalletConnectionUSDT(true);
                                     }}
                                     className="flex flex-col items-center justify-center w-[100px] h-[80px] ml-3 bg-[#1F1E27] rounded-2xl border-2 border-[#737373]">
                                     <img
-                                        src={Images.USDC}
-                                        alt="USDC Icon"
+                                        src={Images.USDT}
+                                        alt="USDT Icon"
                                         className="w-[30px] h-[30px] mb-[2px]"
                                     />
-                                    <p className="text-sm font-semibold">USDC</p>
+                                    <p className="text-sm font-semibold">USDT</p>
                                 </button>
                             </div>
                         </div>
@@ -855,8 +855,8 @@ const MyAssets: React.FC = () => {
                     </AlertDialogContent>
                 </AlertDialog>
 
-                {/* 2-2번 모달창 - USDC 선택 -> 지갑 연결 */}
-                <AlertDialog open={walletConnectionUSDC}>
+                {/* 2-2번 모달창 - USDT 선택 -> 지갑 연결 */}
+                <AlertDialog open={walletConnectionUSDT}>
                     <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
                         <AlertDialogHeader>
                             <AlertDialogDescription className="sr-only">
@@ -870,7 +870,7 @@ const MyAssets: React.FC = () => {
                                         className={'w-6 h-6 cursor-pointer'} 
                                         onClick={() => {
                                             playSfx(Audios.button_click);
-                                            setWalletConnectionUSDC(false);
+                                            setWalletConnectionUSDT(false);
                                         }}/>
                                 </div>
                             </AlertDialogTitle>
@@ -884,8 +884,8 @@ const MyAssets: React.FC = () => {
                                 <button
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        setWalletConnectionUSDC(false);
-                                        setUsdcCaim(true);
+                                        setWalletConnectionUSDT(false);
+                                        setUsdtCaim(true);
                                     }}
                                     className="w-full md:w-[180px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium">
                                     {t("asset_page.claim.connect")}
@@ -893,7 +893,7 @@ const MyAssets: React.FC = () => {
                                 <button
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        setWalletConnectionUSDC(false);
+                                        setWalletConnectionUSDT(false);
                                     }}
                                     className="w-full md:w-[180px] h-14 rounded-full border-[2px] border-[#737373] text-white font-medium">
                                     {t("asset_page.claim.cancel")}
@@ -949,22 +949,22 @@ const MyAssets: React.FC = () => {
                     </AlertDialogContent>
                 </AlertDialog>
 
-                {/* 3-2번 모달창 - USDC 클래임 */}
-                <AlertDialog open={USDCClaim}>
+                {/* 3-2번 모달창 - USDT 클래임 */}
+                <AlertDialog open={USDTClaim}>
                     <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
                         <AlertDialogHeader>
                             <AlertDialogDescription className="sr-only">
-                                Claim USDC
+                                Claim USDT
                             </AlertDialogDescription>
                             <AlertDialogTitle className="text-center font-bold text-xl">
                                 <div className="flex flex-row items-center justify-between">
                                     <div> &nbsp;</div>
-                                    <p>{t("asset_page.claim.usdc")}</p>
+                                    <p>{t("asset_page.claim.usdt")}</p>
                                     <HiX 
                                         className={'w-6 h-6 cursor-pointer'} 
                                         onClick={() => {
                                             playSfx(Audios.button_click);
-                                            setUsdcCaim(false);
+                                            setUsdtCaim(false);
                                         }}/>
                                 </div>
                             </AlertDialogTitle>
@@ -979,17 +979,17 @@ const MyAssets: React.FC = () => {
                                 {t("asset_page.claim.min_claim")}
                             </p>
                             <label className="block text-base font-semibold mb-1">
-                                {t("asset_page.claim.enter_usdc")}
+                                {t("asset_page.claim.enter_usdt")}
                             </label>
                             <input
                                 type="number"
-                                placeholder={t("asset_page.claim.enter_usdc_placeholder")}
+                                placeholder={t("asset_page.claim.enter_usdt_placeholder")}
                                 value={userClaimAmount}
                                 onChange={(e) => setUserClaimAmount(e.target.value)}
                                 className="w-full h-16 rounded-2xl bg-[#181A20] border-2 border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                             />
                             <button
-                                onClick={() => handleClaim("USDC", userClaimAmount, walletAddress)}
+                                onClick={() => handleClaim("USDT", userClaimAmount, walletAddress)}
                                 className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium">
                                 {t("asset_page.claim.claim_btn")}
                             </button>

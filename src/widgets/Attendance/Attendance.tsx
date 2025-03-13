@@ -632,6 +632,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
         if(testing){
           console.log("출석 응답");
+          const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
+          setWeekAttendance(updatedAttendance);
         }else{
           console.log("출석 응답 - 실패");
         }

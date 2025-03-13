@@ -47,7 +47,7 @@ interface RewardData {
   rank: number;
   name: string | null;
   slRewards: number;
-  usdcRewards: number;
+  usdtRewards: number;
   nftType: string | null;
   selectedRewardType: string | null;
   itsMe?: boolean;
@@ -174,7 +174,7 @@ const PreviousRewards: React.FC = () => {
   // -----------------------------
   const myData = myRanking && myRanking.length > 0 ? myRanking[0] : null;
   const isReceived =
-    myData?.selectedRewardType === "USDC" ||
+    myData?.selectedRewardType === "USDT" ||
     myData?.selectedRewardType === "SL";
 
   // -----------------------------
@@ -186,7 +186,7 @@ const PreviousRewards: React.FC = () => {
       : null;
 
   const raffleIsReceived =
-    currentRaffleItem?.selectedRewardType === "USDC" ||
+    currentRaffleItem?.selectedRewardType === "USDT" ||
     currentRaffleItem?.selectedRewardType === "SL";
 
   // -----------------------------
@@ -229,7 +229,7 @@ const PreviousRewards: React.FC = () => {
   // 보상 선택(랭킹/래플)
   // ------------------------------------------------------
   const handleSelectRewardType = async (
-    type: "USDC" | "SL",
+    type: "USDT" | "SL",
     overrideData?: RewardData
   ) => {
     const targetData = overrideData ?? selectedMyData;
@@ -393,7 +393,7 @@ const PreviousRewards: React.FC = () => {
                 rank: myData.rank,
                 name: myData.name,
                 slRewards: myData.slRewards ?? 0,
-                usdcRewards: myData.usdcRewards ?? 0,
+                usdtRewards: myData.usdtRewards ?? 0,
                 nftType: myData.nftType ?? null,
                 selectedRewardType: myData.selectedRewardType ?? null,
                 itsMe: myData.itsMe ?? false,
@@ -448,7 +448,7 @@ const PreviousRewards: React.FC = () => {
                 rank: currentRaffleItem.rank,
                 name: currentRaffleItem.name,
                 slRewards: currentRaffleItem.slRewards,
-                usdcRewards: currentRaffleItem.usdcRewards,
+                usdtRewards: currentRaffleItem.usdtRewards,
                 nftType: currentRaffleItem.nftType ?? null,
                 selectedRewardType:
                   currentRaffleItem.selectedRewardType ?? null,

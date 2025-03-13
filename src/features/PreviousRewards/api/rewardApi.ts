@@ -7,7 +7,7 @@ interface ApiResponseData {
   userId: string;
   rank: number;
   slRewards: number;
-  usdcRewards: number;
+  usdtRewards: number;
   nftType: string | null;
   selectedRewardType: string | null | undefined;
 }
@@ -36,7 +36,7 @@ export async function selectRankingReward(round: number, rank: number, selectRew
     name: data.userId,
     rank: data.rank,
     slRewards: data.slRewards,
-    usdcRewards: data.usdcRewards,
+    usdtRewards: data.usdtRewards,
     nftType: data.nftType,
     selectedRewardType: data.selectedRewardType ?? null // undefined이면 null 처리
   };
@@ -46,7 +46,7 @@ export async function selectRankingReward(round: number, rank: number, selectRew
  * 래플 보상 선택 API
  * @param round 라운드 번호
  * @param rank 유저 랭크
- * @param selectRewardType 'USDC' 또는 'SL'
+ * @param selectRewardType 'USDT' 또는 'SL'
  */
 export async function selectRaffleReward(round: number, rank: number, selectRewardType: "SL"): Promise<PlayerData> {
   const response = await api.post('/leader/raffle/select', {
@@ -60,7 +60,7 @@ export async function selectRaffleReward(round: number, rank: number, selectRewa
     name: data.userId,
     rank: data.rank,
     slRewards: data.slRewards,
-    usdcRewards: data.usdcRewards,
+    usdtRewards: data.usdtRewards,
     nftType: data.nftType,
     selectedRewardType: data.selectedRewardType ?? null
   };

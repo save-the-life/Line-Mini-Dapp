@@ -50,7 +50,7 @@ const RewardHistory: React.FC = () => {
   const fetchRewards = async (page: number, replace = false) => {
     try {
       // 필터 값 매핑
-      const assetTypeForApi = selectedAsset; // SL, USDC, STAR
+      const assetTypeForApi = selectedAsset; // SL, USDT, STAR
       let changeTypeForApi: string | null = null;
       if (selectedChange === "INCREASE") {
         changeTypeForApi = "REWARD";
@@ -221,7 +221,7 @@ const RewardHistory: React.FC = () => {
             {/* 자산 종류 (단일 선택) */}
             <p className="text-lg font-medium text-left mb-2">{t("asset_page.asset_types")}</p>
             <div className="flex flex-col gap-2 ml-3">
-              {["전체", "SL", "USDC", "STAR"].map((asset) => (
+              {["전체", "SL", "USDT", "STAR"].map((asset) => (
                 <label key={asset} className="flex items-center text-base font-medium">
                   <input
                     type="radio"

@@ -20,7 +20,7 @@ interface RewardData {
   rank: number;
   name: string | null;
   slRewards: number;
-  usdcRewards: number;
+  usdtRewards: number;
   nftType: string | null;
   selectedRewardType: string | null;
   itsMe?: boolean;
@@ -70,7 +70,7 @@ const PreviousRaffle: React.FC = () => {
       : null;
 
   const raffleIsReceived =
-    currentRaffleItem?.selectedRewardType === "USDC" ||
+    currentRaffleItem?.selectedRewardType === "USDT" ||
     currentRaffleItem?.selectedRewardType === "SL";
 
   const dialogRaffleRankingsPlayerData: PlayerData[] = dialogRaffleRankings.map(r => ({
@@ -96,7 +96,7 @@ const PreviousRaffle: React.FC = () => {
 
   // 보상 선택 후 API 호출 및 상태 업데이트
   const handleSelectRewardType = async (
-    type: "USDC" | "SL",
+    type: "USDT" | "SL",
     overrideData?: RewardData
   ) => {
     const targetData = overrideData ?? selectedMyData;
@@ -172,7 +172,7 @@ const PreviousRaffle: React.FC = () => {
                       rank: currentRaffleItem.rank,
                       name: currentRaffleItem.name,
                       slRewards: currentRaffleItem.slRewards,
-                      usdcRewards: currentRaffleItem.usdcRewards,
+                      usdtRewards: currentRaffleItem.usdtRewards,
                       nftType: currentRaffleItem.nftType ?? null,
                       selectedRewardType: currentRaffleItem.selectedRewardType ?? null,
                       itsMe: currentRaffleItem.itsMe ?? false,

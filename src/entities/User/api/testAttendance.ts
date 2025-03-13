@@ -1,5 +1,4 @@
 import api from '@/shared/api/axiosInstance';
-import { c } from 'vite/dist/node/types.d-aGj9QkWt';
 
 // 출석 API 
 export const testingAttendance = async(userSignedTx: string): Promise<any> => {

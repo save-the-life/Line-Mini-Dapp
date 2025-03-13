@@ -98,7 +98,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
             >
               {myRankings.map((item, index) => {
                 const isRaffleReceived =
-                  item.selectedRewardType === "USDC" ||
+                  item.selectedRewardType === "USDT" ||
                   item.selectedRewardType === "SL";
                 return (
                   <SwiperSlide key={index}>
@@ -115,8 +115,8 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                           <div className="flex flex-row items-center gap-1">
                             <img
                               src={
-                                item.selectedRewardType === "USDC"
-                                  ? Images.USDC
+                                item.selectedRewardType === "USDT"
+                                  ? Images.USDT
                                   : Images.TokenReward
                               }
                               alt="token"
@@ -125,7 +125,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                             <p className="text-sm font-semibold">
                               {(item.slRewards ?? 0).toLocaleString()}{" "}
                               <span className="font-normal text-[#a3a3a3]">
-                                (or {(item.usdcRewards ?? 0).toLocaleString()} USDC)
+                                (or {(item.usdtRewards ?? 0).toLocaleString()} USDT)
                               </span>{" "}
                               {item.nftType ? `+ ${item.nftType} NFT` : ""}
                             </p>
@@ -174,7 +174,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
         {raffleTopRankings.length > 0 ? (
           raffleTopRankings.slice(0, 20).map((r) => {
             const raffleTopReceived =
-              r.selectedRewardType === "USDC" || r.selectedRewardType === "SL";
+              r.selectedRewardType === "USDT" || r.selectedRewardType === "SL";
             return (
               <div
                 key={r.rank}
@@ -184,15 +184,15 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                 <div className="flex flex-col gap-1">
                   <p>{r.name}</p>
                   <div className="flex flex-row items-center gap-1">
-                    {r.selectedRewardType === "USDC" ? (
+                    {r.selectedRewardType === "USDT" ? (
                       <>
                         <img
-                          src={Images.USDC}
+                          src={Images.USDT}
                           alt="token"
                           className="w-5 h-5"
                         />
                         <p className="text-sm font-semibold">
-                          {(r.usdcRewards ?? 0).toLocaleString()}{" "}
+                          {(r.usdtRewards ?? 0).toLocaleString()}{" "}
                           <span className="font-normal text-[#a3a3a3]">
                             (or {(r.slRewards ?? 0).toLocaleString()} SL)
                           </span>
@@ -209,7 +209,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                         <p className="text-sm font-semibold">
                           {(r.slRewards ?? 0).toLocaleString()}{" "}
                           <span className="font-normal text-[#a3a3a3]">
-                            (or {(r.usdcRewards ?? 0).toLocaleString()} USDC)
+                            (or {(r.usdtRewards ?? 0).toLocaleString()} USDT)
                           </span>
                           {r.nftType ? ` + ${r.nftType} NFT` : ""}
                         </p>

@@ -81,8 +81,8 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                   <div className="flex flex-row items-center gap-1">
                     <img
                       src={
-                        myData.selectedRewardType === "USDC"
-                          ? Images.USDC
+                        myData.selectedRewardType === "USDT"
+                          ? Images.USDT
                           : Images.TokenReward
                       }
                       alt="token"
@@ -91,7 +91,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                     <p className="text-sm font-semibold">
                       {(myData.slRewards ?? 0).toLocaleString()}{" "}
                       {/* <span className="font-normal text-[#a3a3a3]">
-                        (or {(myData.usdcRewards ?? 0).toLocaleString()} USDC)
+                        (or {(myData.usdtRewards ?? 0).toLocaleString()} USDT)
                       </span>{" "} */}
                       {myData.nftType ? `+ ${myData.nftType} PASS` : ""}
                     </p>
@@ -147,11 +147,11 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 <div className="flex flex-col gap-1">
                   <p>{r.name}</p>
                   <div className="flex flex-row items-center gap-1">
-                    {r.selectedRewardType === "USDC" ? (
+                    {r.selectedRewardType === "USDT" ? (
                       <>
-                        <img src={Images.USDC} alt="token" className="w-5 h-5" />
+                        <img src={Images.USDT} alt="token" className="w-5 h-5" />
                         <p className="text-sm font-semibold">
-                          {(r.usdcRewards ?? 0).toLocaleString()}{" "}
+                          {(r.usdtRewards ?? 0).toLocaleString()}{" "}
                           <span className="font-normal text-[#a3a3a3]">
                             (or {(r.slRewards ?? 0).toLocaleString()} SL)
                           </span>
@@ -168,7 +168,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                         <p className="text-sm font-semibold">
                           {(r.slRewards ?? 0).toLocaleString()}{" "}
                           {/* <span className="font-normal text-[#a3a3a3]">
-                            (or {(r.usdcRewards ?? 0).toLocaleString()} USDC)
+                            (or {(r.usdtRewards ?? 0).toLocaleString()} USDT)
                           </span> */}
                           {r.nftType ? ` + ${r.nftType} PASS` : ""}
                         </p>

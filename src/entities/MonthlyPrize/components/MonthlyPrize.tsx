@@ -89,9 +89,9 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
   // Snowfall에 쓸 이미지
   const slTokenImage = new Image();
   slTokenImage.src = Images.TokenReward;
-  const usdcImage = new Image();
-  usdcImage.src = Images.USDC;
-  const images = [slTokenImage, usdcImage];
+  const usdtImage = new Image();
+  usdtImage.src = Images.USDT;
+  const images = [slTokenImage, usdtImage];
 
   return (
     <div

@@ -170,6 +170,7 @@ import urlReward from "./urlreward.png"
 import eventBanner from "./eventbanner.png"
 import eventBox from "./eventbox.png"
 import attendanceNote from "./attendancenote.png"
+import USDT from "./usdt.png"
 
 const Images = {
   HorizontalLogo,
@@ -342,7 +343,8 @@ const Images = {
   urlReward,
   eventBanner,
   eventBox,
-  attendanceNote
+  attendanceNote,
+  USDT
 };
 
 export default Images;

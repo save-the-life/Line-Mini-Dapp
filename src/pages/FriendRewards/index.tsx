@@ -224,7 +224,7 @@ const FriendRewards: React.FC = () => {
             {/* 자산 종류 필터 (하나만 선택) */}
             <p className="text-lg font-medium text-left mb-2">{t("reward_page.type")}</p>
             <div className="flex flex-col gap-2 ml-3">
-              {["USDC", "SL", "Point"].map((asset) => (
+              {["USDT", "SL", "Point"].map((asset) => (
                 <label
                   key={asset}
                   className="flex items-center text-base font-medium"
