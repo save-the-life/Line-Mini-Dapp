@@ -255,7 +255,19 @@ const RewardHistory: React.FC = () => {
             </div>
 
             {/* 날짜 범위 선정 */}
-            <p className="text-lg font-medium text-left mt-4">{t("asset_page.date_ranges")}</p>
+            <div className="flex justify-between items-center mt-4">
+              <p className="text-lg font-medium">{t("asset_page.date_ranges")}</p>
+              <button
+                className="text-sm text-blue-500 hover:underline"
+                onClick={() => {
+                  playSfx(Audios.button_click);
+                  setStartDate(null);
+                  setEndDate(null);
+                }}
+              >
+                날짜 초기화
+              </button>
+            </div>
             <div className="flex items-center gap-4 mt-4">
               <div className="w-full">
                 <DatePicker
