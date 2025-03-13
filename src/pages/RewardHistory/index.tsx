@@ -163,18 +163,15 @@ const RewardHistory: React.FC = () => {
       case "Join LuckyDice Star Reward":
         contentKey = "join_lucky_dice";
         break;
-      case "Join LuckyDice SL Reward":
-        contentKey = "join_lucky_dice";
-        break;
       case "Monthly Raffle Compensationd":
-          contentKey = "monthly_raffle_compensation";
-          break;
+        contentKey = "monthly_raffle_compensation";
+        break;
       case "Get Point Reward":
-          contentKey = "get_point_reward";
-          break;
+        contentKey = "get_point_reward";
+        break;
       case "Join LuckyDice SL Reward":
-          contentKey = "join_lucky_sl";
-          break;
+        contentKey = "join_lucky_sl";
+        break;
       default:
         contentKey = reward.content;
     }
