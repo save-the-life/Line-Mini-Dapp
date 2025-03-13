@@ -627,7 +627,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       // }
 
       try{
-        const testing = await testingAttendance(signedTx);
+        const testing = await testingAttendance(signedTx.raw);
 
         if(testing){
           console.log("출석 응답");
