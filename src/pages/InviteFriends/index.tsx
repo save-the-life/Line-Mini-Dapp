@@ -4,7 +4,7 @@ import { TopTitle } from '@/shared/components/ui';
 import './InviteFriends.css';
 import Images from '@/shared/assets/images';
 import { BiCopy } from 'react-icons/bi';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import LoadingSpinner from '@/shared/components/ui/loadingSpinner';
 import getFriends from '@/entities/Mission/api/friends';
 import liff from "@line/liff";
@@ -176,16 +176,16 @@ const InviteFriends: React.FC = () => {
             <p className="font-medium text-sm">{formatNumber(10000)} P</p>
           </div>
         </div>
-        <p className="text-sm ">
-          {t('mission_page.You_can_receive_an')}{' '}
-          <span className="text-2xl font-semibold">
-            {t('mission_page.additional_10%')}
-          </span>{' '}
-          <br />
-          {t("mission_page.of_your_invited_friend's_reward.")}
+
+        <p className="text-xl font-semibold">
+          <Trans i18nKey="referral.title" components={{ 1: <br /> }} />
         </p>
+        <p className="text-sm font-medium mt-2">
+          <Trans i18nKey="referral.description" components={{ 1: <br /> }} />
+        </p>
+
         <button 
-          className="h-14 w-[302px] rounded-full bg-[#21212f]"
+          className="h-14 w-[302px] rounded-full bg-[#21212f] mt-5"
           onClick={handleInviteClick}>
           {t('mission_page.Invite_Friends_and_Get_Reward')}
         </button>

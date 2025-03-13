@@ -1,6 +1,5 @@
 // walletService.ts
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
-import requestWallet from "@/entities/User/api/addWallet";
 import useWalletStore from "../store/useWalletStore";
 
 export async function connectWallet(): Promise<void> {
