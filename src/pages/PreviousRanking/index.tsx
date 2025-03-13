@@ -103,7 +103,7 @@ const PreviousRanking: React.FC = () => {
       <TopTitle title={t("reward_page.last_month")} className="px-6" back={true} />
 
       {/* 기존의 RewardSelectionDialog 대신 보상 수령 버튼 */}
-      <div className="my-4">
+      {/* <div className="my-4">
         <button
           className="rounded-full w-40 h-12 font-medium bg-[#0147E5]"
           onClick={() => {
@@ -122,7 +122,7 @@ const PreviousRanking: React.FC = () => {
         >
           {isReceived ? "보상 수령 완료" : "보상 수령하기"}
         </button>
-      </div>
+      </div> */}
 
       <RankingSection
         myData={
