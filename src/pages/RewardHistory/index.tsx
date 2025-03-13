@@ -22,8 +22,8 @@ const RewardHistory: React.FC = () => {
   // 필터 드롭다운 열림 상태
   const [isOpen, setIsOpen] = useState(false);
   // 필터링
-  const [selectedAsset, setSelectedAsset] = useState<string | null>("SL");
-  const [selectedChange, setSelectedChange] = useState<string | null>("INCREASE");
+  const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
+  const [selectedChange, setSelectedChange] = useState<string | null>(null);
   
 
   // 날짜 필터
@@ -227,7 +227,6 @@ const RewardHistory: React.FC = () => {
                     type="radio"
                     name="assetType"
                     value={asset}
-                    // "전체"인 경우 selectedAsset이 null이면 true, 아닐 경우 직접 비교
                     checked={asset === "전체" ? selectedAsset === null : selectedAsset === asset}
                     onChange={() => handleAssetChange(asset)}
                     className="mr-2"
@@ -246,7 +245,6 @@ const RewardHistory: React.FC = () => {
                     type="radio"
                     name="changeType"
                     value={change}
-                    // "전체"인 경우 selectedChange이 null이면 true, 아닐 경우 직접 비교
                     checked={change === "전체" ? selectedChange === null : selectedChange === change}
                     onChange={() => handleChangeType(change)}
                     className="mr-2"
