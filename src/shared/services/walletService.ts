@@ -20,6 +20,10 @@ export async function connectWallet(): Promise<void> {
         method: "kaia_requestAccounts",
     })) as string[];
     
+    const message = 'Welcome to Mini Dapp';
+    console.log("[지갑 연결] 서명 확인 진행");
+    const signature = await walletProvider.request({method: 'personal_sign', params: [message, accounts[0]]});
+    console.log("[지갑 연결] 서명 확인: ", signature);
 
     const walletType = walletProvider.getWalletType() || null;
     console.log("사용자가 선택한 지갑 타입:", walletType);
