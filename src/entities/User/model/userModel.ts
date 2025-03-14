@@ -139,6 +139,9 @@ interface UserState {
   removeSLToken: () => Promise<void>;
 
 
+  // **추가된 필드: timeZone (null 가능)**
+  timeZone: string | null;
+  setTimeZone: (timeZone: string | null) => void;
 }
 
 // 필요한 인터페이스 정의
@@ -170,6 +173,9 @@ interface Pet {
 
 // 사용자 상태를 관리하는 Zustand 스토어 생성
 export const useUserStore = create<UserState>((set, get) => ({
+  //타임존 추가
+  timeZone: null,
+  setTimeZone: (timeZone) => set({ timeZone }),
 
   pet : {
     type: null,
@@ -376,6 +382,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         referrerId: user.referrerId, // 추가된 부분: referrerId 설정
         isAuto: user.isAuto, // 추가된 부분: isAuto 설정
         completeTutorial: user.completeTutorial,
+        timeZone: user.timeZone,
   
         position: nowDice.tileSequence,
         diceCount: nowDice.dice,
@@ -531,6 +538,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       walletAddress: null,
       referrerId: null, // 추가된 부분: referrerId 초기화
       isAuto: false, // 추가된 부분: isAuto 초기화
+      timeZone: null,
       position: 0,
       diceCount: 0,
       starPoints: 0,

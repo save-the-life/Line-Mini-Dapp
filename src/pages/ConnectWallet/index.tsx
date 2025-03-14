@@ -9,6 +9,7 @@ import i18n from "@/shared/lib/il8n";
 import { connectWallet } from "@/shared/services/walletService";
 import requestWallet from "@/entities/User/api/addWallet";
 import getPromotion from "@/entities/User/api/getPromotion";
+import updateTimeZone from "@/entities/User/api/updateTimeZone";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -61,6 +62,20 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       await fetchUserData();
+      const userTimeZone = useUserStore.getState().timeZone;
+      console.log("서버로부터 받은 타임존: ", userTimeZone);
+      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      console.log("사용자의 타임존: ", currentTimeZone);
+
+      if(userTimeZone === null || userTimeZone!== currentTimeZone){
+        // 서버 측에 사용자 타임존 저장 api 호출
+        try{
+          await updateTimeZone(currentTimeZone);
+        }catch(error: any){
+          console.log("timezone error", error);
+        };
+      }
+      
       // console.log("지갑 로그인 완료 및 데이터 확인");
 
       if (referralCode === "dapp-portal-promotions") {
