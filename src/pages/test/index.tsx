@@ -89,7 +89,7 @@ const WalletConnect: React.FC = () => {
 
   const connectWallet = async () => {
     try {
-      console.log("초기화 시작");
+      // console.log("초기화 시작");
 
       // SDK 초기화
       const sdk = await DappPortalSDK.init({
@@ -105,12 +105,12 @@ const WalletConnect: React.FC = () => {
         })) as string[];
 
       setAccount(accounts[0]);
-      console.log("지갑 연결 성공:", accounts[0]);
+      // console.log("지갑 연결 성공:", accounts[0]);
 
       
     } catch (error: any) {
-      console.error("에러 발생:", error.message);
-      console.error("에러 응답:", error.response?.data || "응답 없음");
+      // console.error("에러 발생:", error.message);
+      // console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
 
@@ -121,11 +121,11 @@ const WalletConnect: React.FC = () => {
     }
   
     try {
-      console.log("출석 체크 서명 요청 중...");
+      // console.log("출석 체크 서명 요청 중...");
   
       // 1️⃣ 현재 연결된 지갑 타입 확인
       const walletType = provider.getWalletType();
-      console.log("연결된 지갑 타입:", walletType);
+      // console.log("연결된 지갑 타입:", walletType);
   
       // 2️⃣ Kaia SDK의 Provider를 Ethers.js의 Web3Provider로 변환
       const ethersProvider = new ethers.providers.Web3Provider(provider);
@@ -138,7 +138,7 @@ const WalletConnect: React.FC = () => {
   
       // 4️⃣ Kaia Wallet 사용 시 → `kaia_sendTransaction` 실행
       if (walletType === "WalletType.Web" || walletType === "WalletType.Extension" || walletType === "WalletType.Mobile") {
-        console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
+        // console.log("✅ Kaia Wallet 감지 - 트랜잭션 직접 실행");
   
         const tx = await contract.checkAttendance(); // ✅ 인자 없이 실행
         await tx.wait();
@@ -146,7 +146,7 @@ const WalletConnect: React.FC = () => {
   
       } else {
         // 5️⃣ 소셜 로그인 또는 OKX Wallet 사용 시 → Ethers.js의 signMessage() 사용하여 서명 요청
-        console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
+        // console.log("⚠️ 소셜 로그인 또는 OKX Wallet 감지 - 서명 방식 적용");
   
         const message = `출석 체크: ${account}`;
         const messageHash = ethers.utils.hashMessage(message); // ✅ 메시지 해시 생성
@@ -154,7 +154,7 @@ const WalletConnect: React.FC = () => {
         // ✅ `provider.request()` 대신 `signer.signMessage()` 사용
         const signature = await signer.signMessage(message);
   
-        console.log("✅ 서명 완료:", signature);
+        // console.log("✅ 서명 완료:", signature);
   
         // 6️⃣ 서명 데이터 분해 (v, r, s 값 추출)
         const sig = ethers.utils.splitSignature(signature);
@@ -165,10 +165,10 @@ const WalletConnect: React.FC = () => {
         txHash = tx.hash;
       }
   
-      console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", txHash);
+      // console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", txHash);
       alert("출석 체크 완료!");
     } catch (error) {
-      console.error("❌ 출석 체크 실패:", error);
+      // console.error("❌ 출석 체크 실패:", error);
       alert("출석 체크 중 오류 발생!");
     }
   };

@@ -46,7 +46,7 @@ export const anywhereAPI = async (moveTo: number): Promise<AnywhereResponseData>
       throw new Error(response.data.message || 'Failed to move to the selected tile.');
     }
   } catch (error: any) {
-    console.error('Error in anywhereAPI:', error);
+    // console.error('Error in anywhereAPI:', error);
     throw new Error(error.response?.data?.message || 'An error occurred while moving.');
   }
 };

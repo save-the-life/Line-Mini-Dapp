@@ -378,7 +378,8 @@
         "gamble": "再試一下",
         "better_luck": "可惜了",
         "next_time": "下次再加油！",
-        "quit": "退出"
+        "quit": "退出",
+        "how_many": "你想赌多少颗星？"
       },
       "spin_game": {
         "spin_wheel": "轉轉樂,",

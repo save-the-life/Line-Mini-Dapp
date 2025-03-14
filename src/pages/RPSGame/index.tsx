@@ -57,7 +57,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
       try {
         await preloadImages(imagesToLoad);
       } catch (error) {
-        console.error("이미지 로딩 실패:", error);
+        // console.error("이미지 로딩 실패:", error);
       } finally {
         setIsLoading(false);
       }
@@ -113,7 +113,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
     startGame();
     setSlotStates(["spinning", "spinning", "spinning"]);
     setIsAnimating(true);
-    console.log("Game started with betAmount:", betAmount);
+    // console.log("Game started with betAmount:", betAmount);
   };
 
   const handleSpin = async (userChoice: string) => {
@@ -128,7 +128,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
       try {
         const response = await playRound(userChoice);
 
-        console.log("Server response =>", response);
+        // console.log("Server response =>", response);
         if (response) {
           stopSpin(userChoice, response.computerChoice);
 
@@ -147,7 +147,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
           throw new Error("Failed to play round.");
         }
       } catch (error) {
-        console.error("Error during RPS playRound:", error);
+        // console.error("Error during RPS playRound:", error);
         alert("An error occurred while playing Rock-Paper-Scissors. The page will reload.");
         window.location.reload();
       }
@@ -159,14 +159,14 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
       handleQuit();
     } else {
       continueGame();
-      console.log("Continuing game with betAmount:", betAmount);
+      // console.log("Continuing game with betAmount:", betAmount);
     }
   };
 
   const handleQuit = () => {
     endGame();
     onGameEnd(gameResult!, lastReward);
-    console.log(`Game ended with ${gameResult}:`, lastReward);
+    // console.log(`Game ended with ${gameResult}:`, lastReward);
   };
 
   // -----------------------
@@ -174,7 +174,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
   // -----------------------
   useEffect(() => {
     fetchAllowedBetting();
-    console.log("Component mounted");
+    // console.log("Component mounted");
   }, [fetchAllowedBetting]);
 
   // -----------------------

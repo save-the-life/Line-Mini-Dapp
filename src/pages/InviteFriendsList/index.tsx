@@ -36,7 +36,7 @@ const InviteFriendsList: React.FC = () => {
                 setUsdt(reward.usdtTotal);
                 setLoading(false); // 로딩 완료
             } catch (error) {
-                console.error('Error fetching friends data:', error);
+                // console.error('Error fetching friends data:', error);
                 setLoading(false); // 에러 시 로딩 종료
             }
         };

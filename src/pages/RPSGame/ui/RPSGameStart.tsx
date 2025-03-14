@@ -36,7 +36,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
       (/^\d+$/.test(value) && numericValue <= allowedBetting+1)
     ) {
       setBetAmount(value);
-      console.log(`betAmount set to: ${value}`);
+      // console.log(`betAmount set to: ${value}`);
     }
   };
 
@@ -45,9 +45,9 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
   ) => {
     event.preventDefault(); // 기본 폼 제출을 막습니다.
     const amount = parseInt(betAmount);
-    console.log(`handleStartClick called with amount: ${amount}`);
+    // console.log(`handleStartClick called with amount: ${amount}`);
     if (amount > 0 && amount <= allowedBetting+1) {
-      console.log("Starting game with betAmount:", amount);
+      // console.log("Starting game with betAmount:", amount);
       setBetAmountStore(amount); // betAmount를 설정
       onStart(); // 게임 시작
     } else {
@@ -57,7 +57,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
 
   const handleCancelClick = () => {
     onCancel(); // 취소 시 호출하여 주사위 게임으로 돌아감
-    console.log("Game canceled by user");
+    // console.log("Game canceled by user");
   };
 
   return (

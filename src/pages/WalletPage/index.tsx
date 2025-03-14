@@ -109,11 +109,11 @@ const WalletPage: React.FC = () => {
           }));
           setWallets(formattedWallets);
         } else {
-          console.error('Invalid wallet data:', walletData);
+          // console.error('Invalid wallet data:', walletData);
           setWallets([]); // 데이터가 배열이 아닌 경우 빈 배열로 초기화
         }
       } catch (error) {
-        console.error("Error fetching wallets:", error);
+        // console.error("Error fetching wallets:", error);
         setWallets([]); // API 호출 실패 시에도 빈 배열로 초기화
       }
     };

@@ -199,17 +199,10 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
 
       // /play-spin API 호출
       const response = await api.get("/play-spin");
-      console.log("Server response:", response.data);
+      // console.log("Server response:", response.data);
       if (response.data.code === "OK") {
         const { spinType, amount, baseAmount } = response.data.data;
-        console.log(
-          "Received spinType:",
-          spinType,
-          "amount:",
-          amount,
-          "baseAmount:",
-          baseAmount
-        );
+        // console.log("Received spinType:", spinType,"amount:",amount,"baseAmount:",baseAmount);
 
         // data 배열에서 spinType과 baseAmount 가 모두 일치하는 인덱스 찾기
         const foundIndex = data.findIndex(
@@ -219,22 +212,20 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         );
 
         if (foundIndex !== -1) {
-          console.log("Prize index found:", foundIndex);
+          // console.log("Prize index found:", foundIndex);
           setPrizeNumber(foundIndex);
           setPrizeData({ spinType, amount });
           setMustSpin(true);
         } else {
-          console.error(
-            "No matching prize found for given spinType and baseAmount"
-          );
+          // console.error("No matching prize found for given spinType and baseAmount");
           window.location.reload();
         }
       } else {
-        console.error("Error in play-spin API:", response.data.message);
+        // console.error("Error in play-spin API:", response.data.message);
         window.location.reload();
       }
     } catch (error) {
-      console.error("Error calling play-spin API:", error);
+      // console.error("Error calling play-spin API:", error);
       window.location.reload();
     } finally {
       setIsSpinning(false);
@@ -245,7 +236,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
     setMustSpin(false);
     // 사용자 상태 업데이트
     if (prizeData) {
-      console.log("Prize data:", prizeData);
+      // console.log("Prize data:", prizeData);
       const { spinType, amount } = prizeData;
 
       const normalizedSpinType = spinType.trim().toUpperCase();
@@ -254,7 +245,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       if (normalizedSpinType === "BOOM") {
         // 붐(꽝)이면 패배 사운드
         playSfx(Audios.rps_lose);
-        console.log("Boom! Better luck next time!");
+        // console.log("Boom! Better luck next time!");
       } else {
         // 그 외엔 보상 사운드
         playSfx(Audios.reward);
@@ -269,7 +260,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       } else if (normalizedSpinType === "TICKET") {
         setLotteryCount((prev: number) => prev + amount);
       } else if (normalizedSpinType === "BOOM") {
-        console.log("Boom! Better luck next time!");
+        // console.log("Boom! Better luck next time!");
       }
     }
     setIsDialogOpen(true);
@@ -509,7 +500,7 @@ const SpinGame: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       try {
         await preloadImages(imagesToLoad);
       } catch (error) {
-        console.error("이미지 로딩 실패:", error);
+        // console.error("이미지 로딩 실패:", error);
       } finally {
         setIsLoading(false);
       }

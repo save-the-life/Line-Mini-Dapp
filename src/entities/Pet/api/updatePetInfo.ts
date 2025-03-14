@@ -11,7 +11,7 @@ async function updatePetInfo(formData: FormData, navigate: any): Promise<any> {
             throw new Error(response.data.message || 'Failed to update pet information');
         }
     } catch (error: any) {
-        console.error('에러 발생 시점:', error.message);
+        // console.error('에러 발생 시점:', error.message);
     }
 }
 

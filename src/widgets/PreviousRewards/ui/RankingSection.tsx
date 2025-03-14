@@ -43,7 +43,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
   handleRangeClick,
 }) => {
   useEffect(() => {
-    console.log("RankingSection myData:", myData);
+    // console.log("RankingSection myData:", myData);
   }, [myData]);
 
   const { t } = useTranslation();

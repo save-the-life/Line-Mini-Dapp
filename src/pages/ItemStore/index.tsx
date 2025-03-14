@@ -60,13 +60,13 @@ const ItemStore: React.FC = () => {
       try {
         const items = await getItemInfo();
         if (items) {
-          console.log("아이템 정보 확인", items);
+          // console.log("아이템 정보 확인", items);
           setItemData(items);
         } else {
-          console.log("아이템 정보 실패", items);
+          // console.log("아이템 정보 실패", items);
         }
       } catch (err) {
-        console.error("Failed to fetch items:", err);
+        // console.error("Failed to fetch items:", err);
       }
     };
     fetchItems();
@@ -90,7 +90,7 @@ const ItemStore: React.FC = () => {
       try {
         const response: KaiaRpcResponse<string> = await kaiaGetBalance(walletAddress);
         if (response.error) {
-          console.log("잔고 확인 에러: ", response.error);
+          // console.log("잔고 확인 에러: ", response.error);
         } else if (response.result) {
           const KAIA_DECIMALS = 18;
           const balanceBigNumber = BigNumber.from(response.result);
@@ -101,7 +101,7 @@ const ItemStore: React.FC = () => {
           setBalance(Number(formattedBalance).toFixed(2));
         }
       } catch (err) {
-        console.error("Failed to fetch balance:", err);
+        // console.error("Failed to fetch balance:", err);
       }
     };
     fetchBalance();
@@ -124,7 +124,7 @@ const ItemStore: React.FC = () => {
       if (!isPollingActive) return;
       try {
         const statusResponse: PaymentStatusResponse = await getPaymentStatus(paymentId);
-        console.log("Polling payment status:", statusResponse);
+        // console.log("Polling payment status:", statusResponse);
 
         if (statusResponse.status === "FINALIZED") {
           setPaymentMessage("결제가 성공적으로 완료되었습니다.");
@@ -145,7 +145,7 @@ const ItemStore: React.FC = () => {
           return; // polling 종료
         }
       } catch (error) {
-        console.error("Error polling payment status:", error);
+        // console.error("Error polling payment status:", error);
       }
       // 1초 후 다음 폴링 호출
       if (isPollingActive) {
@@ -227,7 +227,7 @@ const ItemStore: React.FC = () => {
     try {
       // UUID 생성 후 idempotencyKey에 저장
       const key = uuidv4();
-      console.log("결제 중복 방지 uuid: ", key);
+      // console.log("결제 중복 방지 uuid: ", key);
 
       // STRIPE 결제의 경우 startPayment 전에 시작 시간 기록
       if (paymentMethod === "STRIPE") {
@@ -242,7 +242,7 @@ const ItemStore: React.FC = () => {
         key
       );
       if (response) {
-        console.log("결제 진행 payment id :", response.id);
+        // console.log("결제 진행 payment id :", response.id);
         const walletProvider = sdk.getWalletProvider();
         await walletProvider.request({ method: "kaia_requestAccounts" });
         const paymentProvider = sdk.getPaymentProvider();
@@ -250,7 +250,7 @@ const ItemStore: React.FC = () => {
         setPaymentId(response.id);
       }
     } catch (error: any) {
-      console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
+      // console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
       
       if (paymentMethod === "STRIPE") {
         if (error.code === -31001) {
@@ -319,7 +319,7 @@ const ItemStore: React.FC = () => {
           try {
             const response: KaiaRpcResponse<string> = await kaiaGetBalance(connection.walletAddress);
             if (response.error) {
-              console.log("잔고 확인 에러: ", response.error);
+              // console.log("잔고 확인 에러: ", response.error);
             } else if (response.result) {
               const KAIA_DECIMALS = 18;
               const balanceBigNumber = BigNumber.from(response.result);
@@ -327,14 +327,14 @@ const ItemStore: React.FC = () => {
               setBalance(Number(formattedBalance).toFixed(2));
             }
           } catch (err: any) {
-            console.error("Failed to fetch balance:", err);
+            // console.error("Failed to fetch balance:", err);
           }
-          console.log("지갑 연결 성공:", connection.walletAddress);
+          // console.log("지갑 연결 성공:", connection.walletAddress);
         } else {
-          console.error("지갑 연결 상태 업데이트 실패");
+          // console.error("지갑 연결 상태 업데이트 실패");
         }
       } catch (error: any) {
-        console.error("지갑 연결 에러:", error.message);
+        // console.error("지갑 연결 에러:", error.message);
       }
     };
   

@@ -9,11 +9,11 @@ async function getRecords(petId: string): Promise<any> {
         if (response.data.code === 'OK') {
             return response.data.data;
         } else {
-            console.warn('Unexpected response code:', response.data.code);
+            // // console.warn('Unexpected response code:', response.data.code);
             throw new Error(response.data.message || 'Failed to fetch records');
         }
     } catch (error: any) {
-        console.error('에러 발생 시점:', error.message);
+        // // console.error('에러 발생 시점:', error.message);
     }
 }
 

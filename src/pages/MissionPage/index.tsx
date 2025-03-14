@@ -168,7 +168,7 @@ const MissionPage: React.FC = () => {
       try {
         await preloadImages(imagesToLoad);
       } catch (error) {
-        console.error("이미지 로딩 실패:", error);
+        // console.error("이미지 로딩 실패:", error);
       } finally {
         setIsLoading(false);
       }

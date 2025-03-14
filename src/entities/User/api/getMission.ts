@@ -25,11 +25,11 @@ export const getMission = async (): Promise<Mission[]> => {
         if (response.data.code === 'OK') {
             return response.data.data;
         } else {
-            console.error('Unexpected response:', response);
+            // console.error('Unexpected response:', response);
             throw new Error(response.data.message || 'Failed to fetch mission information');
         }
     } catch (error: any) {
-        console.error('Error fetching mission data:', error);
+        // console.error('Error fetching mission data:', error);
         throw error;
     }
 };

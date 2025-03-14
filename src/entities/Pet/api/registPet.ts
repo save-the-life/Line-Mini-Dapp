@@ -21,7 +21,7 @@ const registerPet = async (petInfo: PetInfo): Promise<void> => {
       throw new Error(response.data.message || 'Failed to register pet');
     }
   } catch (error: any) {
-    console.error('Error registering pet:', error);
+    // console.error('Error registering pet:', error);
     throw error;
   }
 };

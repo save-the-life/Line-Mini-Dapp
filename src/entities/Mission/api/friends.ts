@@ -5,10 +5,10 @@ export const getFriends = async (): Promise<any> => {
   const response = await api.get('/friends');
 
   if (response.data.code === 'OK') {
-    console.log("레퍼럴 코드 확인: ", response);
+    // // console.log("레퍼럴 코드 확인: ", response);
     return response.data.data;
   } else {
-    console.error('Unexpected response:', response);
+    // // console.error('Unexpected response:', response);
     throw new Error(response.data.message || 'Failed to fetch pet information');
   }
 };

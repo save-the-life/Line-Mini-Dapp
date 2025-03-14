@@ -76,7 +76,7 @@ const InviteFriends: React.FC = () => {
         setFriends(data.friends || []); // 친구 목록 설정 (없으면 빈 배열)
         setLoading(false); // 로딩 완료
       } catch (error) {
-        console.error('Error fetching friends data:', error);
+        // console.error('Error fetching friends data:', error);
         setLoading(false); // 에러 시 로딩 종료
       }
     };
@@ -90,7 +90,7 @@ const InviteFriends: React.FC = () => {
     try {
       if (liff.isInClient()) {
         // LINE 앱 내의 LIFF 브라우저에서 실행 중인 경우
-        console.log("LIFF 앱이 LINE 앱 내에서 실행되고 있습니다.");
+        // console.log("LIFF 앱이 LINE 앱 내에서 실행되고 있습니다.");
 
         // 라인 로그인 확인 먼저
         if (!liff.isLoggedIn()) {
@@ -106,13 +106,13 @@ const InviteFriends: React.FC = () => {
               text: `Join me on this awesome app! Use my referral link: ${referralLink}`
             }
           ]);
-          console.log('Message sent!');
+          // console.log('Message sent!');
         } else {
-          console.error('Share Target Picker API is not available.');
+          // console.error('Share Target Picker API is not available.');
         }
       } else {
         // 외부 브라우저에서 실행 중인 경우
-        console.log("LIFF 앱이 외부 브라우저에서 실행되고 있습니다.");
+        // console.log("LIFF 앱이 외부 브라우저에서 실행되고 있습니다.");
 
         // Web Share API 사용
         const shareData = {
@@ -126,25 +126,25 @@ const InviteFriends: React.FC = () => {
           if (navigator.canShare && navigator.canShare(shareData)) {
             try {
               await navigator.share(shareData);
-              console.log('Content shared successfully');
+              // console.log('Content shared successfully');
             } catch (error) {
-              console.error('Error sharing content:', error);
+              // console.error('Error sharing content:', error);
             }
           } else {
-            console.error('This data type cannot be shared using Web Share API.');
+            // console.error('This data type cannot be shared using Web Share API.');
             // 대체 처리: 클립보드에 링크 복사
             await navigator.clipboard.writeText(referralLink);
-            console.log('Referral link copied to clipboard.');
+            // console.log('Referral link copied to clipboard.');
           }
         } else {
-          console.error('Web Share API is not supported in this browser.');
+          // console.error('Web Share API is not supported in this browser.');
           // 대체 처리: 클립보드에 링크 복사
           await navigator.clipboard.writeText(referralLink);
-          console.log('Referral link copied to clipboard.');
+          // console.log('Referral link copied to clipboard.');
         }
       }
     } catch (error) {
-      console.error('Error sharing message:', error);
+      // console.error('Error sharing message:', error);
     }
   };
   

@@ -22,7 +22,7 @@ export const userAuthenticationWithServer = async (lineIdToken: string, referral
             return data.isInitial;
         }
     } catch (error) {
-        console.error("인증 중 오류 발생:", error);
+        // console.error("인증 중 오류 발생:", error);
     }
 };
 

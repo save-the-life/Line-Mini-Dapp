@@ -12,7 +12,7 @@ const api = axios.create({
 });
 
 // 환경 변수 값 확인을 위한 콘솔 로그 추가
-console.log('🔍 [Axios] VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+// console.log('🔍 [Axios] VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
 
 // 요청 인터셉터 설정
 api.interceptors.request.use(

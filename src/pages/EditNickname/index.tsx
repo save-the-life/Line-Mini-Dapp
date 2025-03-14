@@ -43,7 +43,7 @@ const EditNickname: React.FC = () => {
 
             }
         } catch(error: any){
-            console.log("error 확인: ", error);
+            // console.log("error 확인: ", error);
             setShowModal(true);
             setModalMessage(t("asset_page.try_again"));
         }

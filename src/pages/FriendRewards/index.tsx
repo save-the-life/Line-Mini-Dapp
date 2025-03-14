@@ -63,7 +63,7 @@ const FriendRewards: React.FC = () => {
         const detail = await getReferralDetail(null, formattedStart, formattedEnd, null);
         setReferralDetails(detail);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     };
 
@@ -101,7 +101,7 @@ const FriendRewards: React.FC = () => {
 
         setReferralDetails(detail);
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       }
     };
 

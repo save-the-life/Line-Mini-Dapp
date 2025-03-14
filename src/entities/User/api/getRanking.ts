@@ -30,7 +30,7 @@ export const getRanking = async (pageNum: number): Promise<RankingResponse> => {
     if (response.status === 200) {
         return response.data;
     } else {
-        console.error('Unexpected response:', response);
+        // console.error('Unexpected response:', response);
         throw new Error(response.data.message || 'Failed to fetch ranking information');
     }
 };

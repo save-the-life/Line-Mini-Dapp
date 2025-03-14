@@ -19,7 +19,7 @@ const ClaimHistory: React.FC = () => {
         // API 응답 예시에서 claim 내역은 data.content 배열에 담겨 있음
         setClaimHistory(data.content);
       } catch (error) {
-        console.error("Error fetching claim history:", error);
+        // console.error("Error fetching claim history:", error);
       } finally {
         setLoading(false);
       }

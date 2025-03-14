@@ -152,7 +152,7 @@ const WalletList: React.FC = () => { // 컴포넌트 이름을 PascalCase로 변
         if (selectedExchangeUrl) {
             window.open(selectedExchangeUrl, '_blank'); // 새 탭에서 열기
         } else {
-            console.error('URL not found for the selected exchange');
+            // console.error('URL not found for the selected exchange');
         }
     };
 
@@ -180,7 +180,7 @@ const WalletList: React.FC = () => { // 컴포넌트 이름을 PascalCase로 변
                 market: market,
             });
         } else {
-            console.error('Text or image element not found');
+            // console.error('Text or image element not found');
         }
     };
 
@@ -244,8 +244,8 @@ const WalletList: React.FC = () => { // 컴포넌트 이름을 PascalCase로 변
         playSfx(Audios.button_click);
         
         if (selectedWallet.market && address) {
-            console.log("마켓: ", selectedWallet.market);
-            console.log("주소: ", address);
+            // console.log("마켓: ", selectedWallet.market);
+            // console.log("주소: ", address);
             try {
                 const response = await registerWallet(
                     address,                // 지갑 주소
@@ -262,7 +262,7 @@ const WalletList: React.FC = () => { // 컴포넌트 이름을 PascalCase로 변
                 if (error.message === '지갑 검증에 실패했습니다.') {
                     setErrorMessage('지갑 주소를 확인해주세요'); // response.data.data가 null인 경우
                 } else {
-                    console.error(error);
+                    // console.error(error);
                     setErrorMessage('지갑 등록 중 오류가 발생했습니다.');
                 }
             }

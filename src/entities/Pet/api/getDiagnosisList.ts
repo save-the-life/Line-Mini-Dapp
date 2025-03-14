@@ -16,7 +16,7 @@ async function getDiagnosisList(type: string | null, record: string | null, petI
             throw new Error(response.data.message || 'Failed to fetch diagnosis list');
         }
     } catch (error: any) {
-        console.error('에러 발생 시점:', error.message);
+        // console.error('에러 발생 시점:', error.message);
     }
 }
 

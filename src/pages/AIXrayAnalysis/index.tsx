@@ -78,7 +78,7 @@ const AIXrayAnalysis: React.FC = () => {
       setModel(loadedModel);
       return loadedModel;
     } catch (error) {
-      console.error("Failed to load model:", error);
+      // console.error("Failed to load model:", error);
       showModalFunction(t("ai_page.Failed_to_load_the_AI_model._Please_try_again_later_or_check_your_network_connection."));
     }
   };
@@ -130,7 +130,7 @@ const AIXrayAnalysis: React.FC = () => {
         showModalFunction(t("ai_page.5SL_tokens"));
       }
     } catch (error: any) {
-      console.error("Balance check Error:", error);
+      // console.error("Balance check Error:", error);
       showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
     }
   };
@@ -197,13 +197,13 @@ const AIXrayAnalysis: React.FC = () => {
       });
 
       const responseData = response;
-      console.log("openAI 응답: ", responseData);
+      // console.log("openAI 응답: ", responseData);
       const assistantMessage = responseData?.choices?.[0]?.message?.content?.trim() || "(No response)";
-      console.log("뽑은 데이터: ", assistantMessage);
+      // console.log("뽑은 데이터: ", assistantMessage);
 
       try {
         const parsedData = JSON.parse(assistantMessage);
-        console.log("Parsed Response Data:", parsedData);
+        // console.log("Parsed Response Data:", parsedData);
 
         if (parsedData.image_type === "human_xray") {
           showModalFunction("Upload your pet's x-ray, not a human's.");
@@ -269,7 +269,7 @@ const AIXrayAnalysis: React.FC = () => {
               // 각 클래스별 확률 콘솔 출력
               predictions.forEach((p) => {
                 const percentage = (p.probability * 100).toFixed(2);
-                console.log(`Class: ${p.className}, Probability: ${percentage}%`);
+                // console.log(`Class: ${p.className}, Probability: ${percentage}%`);
               });
               
               const highestPrediction = predictions.reduce((prev, current) =>
@@ -278,7 +278,7 @@ const AIXrayAnalysis: React.FC = () => {
 
               const highestPercentage = Math.round(highestPrediction.probability * 100);
               setProbability(highestPercentage.toString());
-              console.log(
+              // console.log(
                 `Highest Probability Class: ${highestPrediction.className}, Probability: ${highestPercentage}%`
               );
                 // ① 예측 결과(영어 원본)
@@ -303,7 +303,7 @@ const AIXrayAnalysis: React.FC = () => {
               setLoading(false);
             }
           } catch(error:any){
-            console.error("sl payment Error:", error);
+            // console.error("sl payment Error:", error);
             showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
             setIsAnalyzed(false);
             setSelectedImage(null);
@@ -319,7 +319,7 @@ const AIXrayAnalysis: React.FC = () => {
           setPredictedLabel('');
         }
       } catch (error) {
-        console.error("JSON Parsing Error:", error);
+        // console.error("JSON Parsing Error:", error);
         showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
         setIsAnalyzed(false);
         setSelectedImage(null);
@@ -327,7 +327,7 @@ const AIXrayAnalysis: React.FC = () => {
         setPredictedLabel('');
       }
     } catch (error: any) {
-      console.error("OpenAI Error:", error);
+      // console.error("OpenAI Error:", error);
       setIsAnalyzed(false);
       setSelectedImage(null);
       showModalFunction(t("ai_page.Failed_to_analyze_the_image"));

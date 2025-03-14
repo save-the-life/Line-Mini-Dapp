@@ -102,21 +102,21 @@ const DiceEventPage: React.FC = () => {
   useEffect(() => {
     const referralCode = localStorage.getItem("referralCode");
     if (referralCode === "from-dapp-portal") {
-      console.log("[DiceEventPage] Dapp Portal referral detected. Calling reward API...");
+      // console.log("[DiceEventPage] Dapp Portal referral detected. Calling reward API...");
       getRewardPoints()
         .then((message) => {
-          console.log("[DiceEventPage] Reward API response:", message);
+          // console.log("[DiceEventPage] Reward API response:", message);
           // 응답 메시지가 "Success"인 경우에만 다이얼로그 표시
           if (message === "Success") {
             setShowUrlReward(true);
           } else if (message === "Already Rewarded") {
-            console.log("[DiceEventPage] Reward already claimed.");
+            // console.log("[DiceEventPage] Reward already claimed.");
           }
           // 중복 호출 방지를 위해 referralCode 삭제
           localStorage.removeItem("referralCode");
         })
         .catch((error) => {
-          console.error("[DiceEventPage] Reward API error:", error);
+          // console.error("[DiceEventPage] Reward API error:", error);
         });
     }
   }, []);
@@ -208,7 +208,7 @@ const DiceEventPage: React.FC = () => {
   }
 
   const handleRPSGameEnd = (result: "win" | "lose", winnings: number) => {
-    console.log(`RPS Game Ended: ${result}, Winnings: ${winnings}`);
+    // console.log(`RPS Game Ended: ${result}, Winnings: ${winnings}`);
     fetchUserData();
     game.handleRPSGameEnd(result, winnings);
   };

@@ -21,16 +21,16 @@ const ConnectWalletPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("웹 버전 초기화");
+    // console.log("웹 버전 초기화");
     setIsMobile(checkIsMobile());
 
     // 브라우저 언어 기반 언어 설정
-    console.log("[ConnectWalletPage] 브라우저 언어 기반 언어 설정 시작");
+    // console.log("[ConnectWalletPage] 브라우저 언어 기반 언어 설정 시작");
     const browserLanguage = navigator.language; // 예: "ko-KR", "en-US" 등
     const lang = browserLanguage.slice(0, 2); // 앞 두 글자 추출 (예: "ko")
     const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
     const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
-    console.log(`[ConnectWalletPage] 브라우저 언어 설정: ${browserLanguage} -> ${i18nLanguage}`);
+    // console.log(`[ConnectWalletPage] 브라우저 언어 설정: ${browserLanguage} -> ${i18nLanguage}`);
     i18n.changeLanguage(i18nLanguage);
   }, []);
 
@@ -41,7 +41,7 @@ const ConnectWalletPage: React.FC = () => {
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
       const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
-      console.log("연결된 지갑 주소 다시 확인: ", walletAddress);
+      // console.log("연결된 지갑 주소 다시 확인: ", walletAddress);
       
       // 로컬스토리지에서 레퍼럴 코드 확인 (없을 경우 null 반환)
       const referralCode = localStorage.getItem("referralCode");
@@ -61,7 +61,7 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       await fetchUserData();
-      console.log("지갑 로그인 완료 및 데이터 확인");
+      // console.log("지갑 로그인 완료 및 데이터 확인");
 
       if (referralCode === "dapp-portal-promotions") {
         try {
@@ -75,7 +75,7 @@ const ConnectWalletPage: React.FC = () => {
             navigate("/dice-event");
           }
         } catch (error: any) {
-          console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
+          // console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
           navigate("/dice-event");
         }
       } else {
@@ -83,7 +83,7 @@ const ConnectWalletPage: React.FC = () => {
         navigate("/dice-event");
       }
     } catch (error: any) {
-      console.error("getUserInfo() 중 에러:", error.message);
+      // console.error("getUserInfo() 중 에러:", error.message);
 
       // 토큰 관련 에러라면 한 번만 재시도
       if (
@@ -91,7 +91,7 @@ const ConnectWalletPage: React.FC = () => {
         (error.response?.data === "Token not found in Redis or expired" ||
           error.message === "Web login failed.")
       ) {
-        console.warn("토큰 문제 발생: 재시도합니다.");
+        // console.warn("토큰 문제 발생: 재시도합니다.");
         // 토큰 초기화 (필요 시)
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
@@ -99,12 +99,12 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       if (error.message === "Please choose your character first.") {
-        console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
+        // console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");
         return;
       }
-      console.error("에러 발생:", error.message);
-      console.error("에러 응답:", error.response?.data || "응답 없음");
+      // console.error("에러 발생:", error.message);
+      // console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
 

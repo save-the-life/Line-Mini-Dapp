@@ -10,12 +10,12 @@ import api from '@/shared/api/axiosInstance';
 export const autoAPI = async () => {
   try {
     const response = await api.get('/home/auto');
-    console.log('autoAPI response:', response); // 디버깅을 위한 로그 추가
+    // console.log('autoAPI response:', response); // 디버깅을 위한 로그 추가
 
     // 서버의 응답 구조에 맞게 반환
     return response.data.data;
   } catch (error: any) {
-    console.error('autoAPI 에러:', error);
+    // console.error('autoAPI 에러:', error);
     throw error;
   }
 };

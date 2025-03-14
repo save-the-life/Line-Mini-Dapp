@@ -240,19 +240,19 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       const connection = await connectWallet();
       setIsConnecting(false);
       if (!connection.provider || !connection.walletAddress) {
-        console.error("지갑 연결 상태 업데이트 실패");
+        // console.error("지갑 연결 상태 업데이트 실패");
         return;
       }
     }
 
     try {
-      console.log("출석 체크 서명 요청 중...");
+      // console.log("출석 체크 서명 요청 중...");
   
       const ethersProvider = new Web3Provider(provider);
       const signer = ethersProvider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
   
-      console.log("⚠️ Fee Delegation + 서명 방식 적용 중...");
+      // console.log("⚠️ Fee Delegation + 서명 방식 적용 중...");
   
       // ✅ 1️⃣ 사용자가 출석 체크 서명 생성
       const message = `출석 체크: ${walletAddress}`;
@@ -260,21 +260,21 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   
       // ✅ 2️⃣ 사용자가 메시지 서명 (OKX, LIFF 등 지갑용)
       const signature = await signer.signMessage(message);
-      console.log("✅ 서명 완료:", signature);
+      // console.log("✅ 서명 완료:", signature);
   
       // ✅ 3️⃣ 서명 데이터(v, r, s) 추출
       const sig = ethers.utils.splitSignature(signature);
-      console.log("✅ 서명 데이터 분해:", sig);
+      // console.log("✅ 서명 데이터 분해:", sig);
   
       const currentWalletType = provider.getWalletType();
-      console.log("연결된 지갑 타입:", currentWalletType);
+      // console.log("연결된 지갑 타입:", currentWalletType);
   
       if (currentWalletType === "OKX") {
    
          // ✅ 컨트랙트 함수 실행 (`checkAttendance`)
          const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
          await tx.wait();
-         console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", tx.hash);
+         // console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", tx.hash);
          alert("출석 체크 완료!");
    
          // ✅ 출석 처리 후 상태 업데이트
@@ -304,27 +304,27 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         params: [tx],
       });
   
-      console.log("✅ 사용자가 서명한 트랜잭션:", signedTx);
+      // console.log("✅ 사용자가 서명한 트랜잭션:", signedTx);
 
       try{
-        console.log("출석 후 서버 확인 진행");
+        // console.log("출석 후 서버 확인 진행");
         const testing = await testingAttendance(signedTx.raw);
 
         if(testing){
-          console.log("출석 응답");
+          // console.log("출석 응답");
           alert("출석 체크를 완료하였습니다.");
           const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
           setWeekAttendance(updatedAttendance);
         }else{
-          console.log("출석 응답 - 실패");
+          // console.log("출석 응답 - 실패");
         }
       } catch(error:any){
         
-        console.error("❌ 출석 체크 실패:", error);
+        // console.error("❌ 출석 체크 실패:", error);
         alert("출석 체크 중 오류 발생!");
       }
     } catch (error) {
-      console.error("❌ 출석 체크 실패:", error);
+      // console.error("❌ 출석 체크 실패:", error);
       alert("출석 체크 중 오류 발생!");
     }
   };

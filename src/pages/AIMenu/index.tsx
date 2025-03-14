@@ -57,10 +57,10 @@ const AIMenu: React.FC = () => {
         if(count){
           setSlToken(count.slCount);
         }else{
-          console.warn('Failed to fetch sl token count');
+          // console.warn('Failed to fetch sl token count');
         }
       }catch(error:any){
-        console.error('Failed to fetch sl token count:', error);
+        // console.error('Failed to fetch sl token count:', error);
       }finally {
         setLoading(false); // 로딩 종료
       }

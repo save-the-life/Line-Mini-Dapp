@@ -19,7 +19,7 @@ export const fetchLeaderTabAPI = async (): Promise<LeaderTabData> => {
 
     return response.data.data;
   } catch (error: any) {
-    console.error('fetchLeaderTabAPI 에러:', error);
+    // // console.error('fetchLeaderTabAPI 에러:', error);
     throw error;
   }
 };
@@ -44,7 +44,7 @@ export const fetchLeaderboardPageAPI = async (pageNum: number): Promise<Leaderbo
 
     return response.data;
   } catch (error: any) {
-    console.error('fetchLeaderboardPageAPI 에러:', error);
+    // // console.error('fetchLeaderboardPageAPI 에러:', error);
     throw error;
   }
 };

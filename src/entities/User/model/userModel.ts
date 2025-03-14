@@ -342,7 +342,7 @@ export const useUserStore = create<UserState>((set, get) => ({
           throw new Error(data.message);
         }
         // 데이터가 없는 경우 토큰 갱신
-        console.warn('No data returned from /home API, trying token refresh...');
+        // console.warn('No data returned from /home API, trying token refresh...');
         const tokenRefreshed = await get().refreshToken();
         
         if (tokenRefreshed) {
@@ -445,7 +445,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     } catch (error: any) {
       // error.response.data.message가 있으면 그 값을 사용
       const errorMessage = error.response?.data?.message || error.message;
-      console.error('fetchUserData 실패:', errorMessage);
+      // console.error('fetchUserData 실패:', errorMessage);
       set({ isLoading: false, error: errorMessage });
       // 새로운 에러 객체를 던져서 error.message에 원하는 메시지가 포함되도록 함
       throw new Error(errorMessage);
@@ -455,14 +455,14 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   // 로그인 함수
   login: async (initData: string): Promise<void> => {
-    console.log('Step: login 시작, initData:', initData);
+    // console.log('Step: login 시작, initData:', initData);
     set({ isLoading: true, error: null });
     try {
       const response = await api.post('/auth/login', { initData });
 
       if (response.data.code === 'OK') {
         const { userId, accessToken, refreshToken } = response.data.data;
-        console.log('Step: login 성공, userId:', userId);
+        // console.log('Step: login 성공, userId:', userId);
         // 토큰 및 userId 저장
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
@@ -472,14 +472,14 @@ export const useUserStore = create<UserState>((set, get) => ({
         await get().fetchUserData();
         set({ isLoading: false, error: null });
       } else if (response.data.code === 'ENTITY_NOT_FOUND') {
-        console.warn('Step: login 응답 코드 ENTITY_NOT_FOUND:', response.data.message);
+        // console.warn('Step: login 응답 코드 ENTITY_NOT_FOUND:', response.data.message);
         throw new Error(response.data.message || 'User not found');
       } else {
-        console.warn('Step: login 응답 코드가 OK가 아님:', response.data.message);
+        // console.warn('Step: login 응답 코드가 OK가 아님:', response.data.message);
         throw new Error(response.data.message || 'Login failed');
       }
     } catch (error: any) {
-      console.error('Step: login 실패:', error);
+      // console.error('Step: login 실패:', error);
       let errorMessage = 'Login failed. Please try again.';
       if (error.response) {
         // 서버가 응답을 했지만, 상태 코드가 2xx가 아닌 경우
@@ -498,7 +498,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   // 회원가입 함수
   signup: async (initData: string, petType: 'DOG' | 'CAT'): Promise<void> => {
-    console.log('Step: signup 시작, initData:', initData, 'petType:', petType);
+    // console.log('Step: signup 시작, initData:', initData, 'petType:', petType);
     set({ isLoading: true, error: null });
     try {
       // 회원가입 요청 보내기
@@ -506,7 +506,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
       set({ isLoading: false, error: null });
     } catch (error: any) {
-      console.error('Step: signup 실패:', error);
+      // console.error('Step: signup 실패:', error);
       let errorMessage = 'Signup failed. Please try again.';
       if (error.response) {
         errorMessage = error.response.data.message || errorMessage;
@@ -522,7 +522,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   // 로그아웃 함수
   logout: () => {
-    console.log('Step: logout 실행. 토큰 및 userId 제거 및 상태 초기화.');
+    // console.log('Step: logout 실행. 토큰 및 userId 제거 및 상태 초기화.');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken'); // 추가된 부분: refreshToken 제거
     set({
@@ -575,22 +575,22 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   // 토큰 갱신 함수
   refreshToken: async (): Promise<boolean> => {
-    console.log('Step: refreshToken 시작');
+    // console.log('Step: refreshToken 시작');
     try {
       const response = await api.get('/auth/refresh');
-      console.log('Step: refreshToken 응답:', response);
+      // console.log('Step: refreshToken 응답:', response);
   
       const newAccessToken = response.headers['authorization'];
       if (newAccessToken) {
         localStorage.setItem('accessToken', newAccessToken.replace('Bearer ', ''));
-        console.log('Step: 새로운 accessToken 저장 완료');
+        // console.log('Step: 새로운 accessToken 저장 완료');
         return true;
       } else {
-        console.warn('Step: Authorization 헤더가 없습니다.');
+        // console.warn('Step: Authorization 헤더가 없습니다.');
         throw new Error('Token refresh failed: Authorization header is missing');
       }
     } catch (error: any) {
-      console.error('Step: refreshToken 실패:', error);
+      // console.error('Step: refreshToken 실패:', error);
       // Refresh 실패 시 로그아웃 처리
       get().logout();
       set({ error: 'Token refresh failed. Please log in again.' });
@@ -613,7 +613,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         error: null,
       });
     } catch (error: any) {
-      console.error('주사위 리필 중 에러 발생:', error);
+      // console.error('주사위 리필 중 에러 발생:', error);
       set({ error: error.message || '주사위 리필에 실패했습니다.' });
       throw error; 
     }
@@ -631,9 +631,9 @@ export const useUserStore = create<UserState>((set, get) => ({
         isAuto
       });
   
-      console.log('스위치 변경 성공:', data);
+      // console.log('스위치 변경 성공:', data);
     } catch (error: any) {
-      console.error('스위치 변경 중 에러 발생:', error);
+      // console.error('스위치 변경 중 에러 발생:', error);
       set({ error: error.message || '스위치 변경에 실패했습니다.' });
       throw error; 
     }
@@ -650,9 +650,9 @@ export const useUserStore = create<UserState>((set, get) => ({
         completeTutorial
       });
   
-      console.log('튜토리얼 완료:', data);
+      // console.log('튜토리얼 완료:', data);
     } catch (error: any) {
-      console.error('튜토리얼 중 에러 발생:', error);
+      // console.error('튜토리얼 중 에러 발생:', error);
       set({ error: error.message || '튜토리얼에 실패했습니다.' });
       throw error; 
     }
@@ -668,12 +668,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/gold');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('골드 아이템 추가 성공:', response.data.data);
+        // console.log('골드 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '골드 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('골드 아이템 추가 실패:', error);
+      // console.error('골드 아이템 추가 실패:', error);
       set({ error: error.message || '골드 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -684,12 +684,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/gold/delete');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('골드 아이템 삭제 성공:', response.data.data);
+        // console.log('골드 아이템 삭제 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '골드 아이템 삭제 실패');
       }
     } catch (error: any) {
-      console.error('골드 아이템 삭제 실패:', error);
+      // console.error('골드 아이템 삭제 실패:', error);
       set({ error: error.message || '골드 아이템 삭제에 실패했습니다.' });
       throw error;
     }
@@ -700,12 +700,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/silver');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('실버 아이템 추가 성공:', response.data.data);
+        // console.log('실버 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '실버 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('실버 아이템 추가 실패:', error);
+      // console.error('실버 아이템 추가 실패:', error);
       set({ error: error.message || '실버 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -716,12 +716,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/silver/delete');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('실버 아이템 삭제 성공:', response.data.data);
+        // console.log('실버 아이템 삭제 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '실버 아이템 삭제 실패');
       }
     } catch (error: any) {
-      console.error('실버 아이템 삭제 실패:', error);
+      // console.error('실버 아이템 삭제 실패:', error);
       set({ error: error.message || '실버 아이템 삭제에 실패했습니다.' });
       throw error;
     }
@@ -732,12 +732,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/bronze');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('브론즈 아이템 추가 성공:', response.data.data);
+        // console.log('브론즈 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '브론즈 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('브론즈 아이템 추가 실패:', error);
+      // console.error('브론즈 아이템 추가 실패:', error);
       set({ error: error.message || '브론즈 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -748,12 +748,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/bronze/delete');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('브론즈 아이템 삭제 성공:', response.data.data);
+        // console.log('브론즈 아이템 삭제 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '브론즈 아이템 삭제 실패');
       }
     } catch (error: any) {
-      console.error('브론즈 아이템 삭제 실패:', error);
+      // console.error('브론즈 아이템 삭제 실패:', error);
       set({ error: error.message || '브론즈 아이템 삭제에 실패했습니다.' });
       throw error;
     }
@@ -764,12 +764,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/reward');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('스핀/말판 리워드 아이템 추가 성공:', response.data.data);
+        // console.log('스핀/말판 리워드 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '스핀/말판 리워드 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('스핀/말판 리워드 아이템 추가 실패:', error);
+      // console.error('스핀/말판 리워드 아이템 추가 실패:', error);
       set({ error: error.message || '스핀/말판 리워드 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -780,12 +780,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/reward/delete');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('스핀/말판 리워드 아이템 삭제 성공:', response.data.data);
+        // console.log('스핀/말판 리워드 아이템 삭제 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '스핀/말판 리워드 아이템 삭제 실패');
       }
     } catch (error: any) {
-      console.error('스핀/말판 리워드 아이템 삭제 실패:', error);
+      // console.error('스핀/말판 리워드 아이템 삭제 실패:', error);
       set({ error: error.message || '스핀/말판 리워드 아이템 삭제에 실패했습니다.' });
       throw error;
     }
@@ -796,12 +796,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/auto');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('오토 아이템 추가 성공:', response.data.data);
+        // console.log('오토 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '오토 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('오토 아이템 추가 실패:', error);
+      // console.error('오토 아이템 추가 실패:', error);
       set({ error: error.message || '오토 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -812,12 +812,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/auto/delete');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('오토 아이템 삭제 성공:', response.data.data);
+        // console.log('오토 아이템 삭제 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '오토 아이템 삭제 실패');
       }
     } catch (error: any) {
-      console.error('오토 아이템 삭제 실패:', error);
+      // console.error('오토 아이템 삭제 실패:', error);
       set({ error: error.message || '오토 아이템 삭제에 실패했습니다.' });
       throw error;
     }
@@ -828,12 +828,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/all');
       if (response.data.code === 'OK') {
         set({ items: response.data.data });
-        console.log('전체 아이템 추가 성공:', response.data.data);
+        // console.log('전체 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '전체 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('전체 아이템 추가 실패:', error);
+      // console.error('전체 아이템 추가 실패:', error);
       set({ error: error.message || '전체 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -844,12 +844,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/dice');
       if (response.data.code === 'OK') {
         set({ diceCount: response.data.data.diceCount });
-        console.log('주사위 아이템 추가 성공:', response.data.data);
+        // console.log('주사위 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '주사위 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('주사위 아이템 추가 실패:', error);
+      // console.error('주사위 아이템 추가 실패:', error);
       set({ error: error.message || '주사위 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -861,12 +861,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       if (response.data.code === 'OK') {
 
         set({ diceCount: response.data.data.diceCount });
-        console.log('주사위 아이템 삭제 성공:', response.data.data);
+        // console.log('주사위 아이템 삭제 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || '주사위 아이템 삭제 실패');
       }
     } catch (error: any) {
-      console.error('주사위 아이템 삭제 실패:', error);
+      // console.error('주사위 아이템 삭제 실패:', error);
       set({ error: error.message || '주사위 아이템 삭제에 실패했습니다.' });
       throw error;
     }
@@ -877,12 +877,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/sl');
       if (response.data.code === 'OK') {
         set({ slToken: response.data.data.slCount });
-        console.log('SL 토큰 아이템 추가 성공:', response.data.data);
+        // console.log('SL 토큰 아이템 추가 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || 'SL 토큰 아이템 추가 실패');
       }
     } catch (error: any) {
-      console.error('SL 토큰 아이템 추가 실패:', error);
+      // console.error('SL 토큰 아이템 추가 실패:', error);
       set({ error: error.message || 'SL 토큰 아이템 추가에 실패했습니다.' });
       throw error;
     }
@@ -893,12 +893,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const response = await api.get('/test/items/sl/delete');
       if (response.data.code === 'OK') {
         set({ slToken: response.data.data.slCount });
-        console.log('SL 토큰 아이템 삭제 성공:', response.data.data);
+        // console.log('SL 토큰 아이템 삭제 성공:', response.data.data);
       } else {
         throw new Error(response.data.message || 'SL 토큰 아이템 삭제 실패');
       }
     } catch (error: any) {
-      console.error('SL 토큰 아이템 삭제 실패:', error);
+      // console.error('SL 토큰 아이템 삭제 실패:', error);
       set({ error: error.message || 'SL 토큰 아이템 삭제에 실패했습니다.' });
       throw error;
     }

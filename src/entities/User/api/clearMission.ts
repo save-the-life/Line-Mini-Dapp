@@ -25,11 +25,11 @@ export const clearMission = async (missionId: number): Promise<Mission[]> => {
         if (response.data.code === 'OK') {
             return response.data.data;
         } else {
-            console.error('Unexpected response:', response);
+            // console.error('Unexpected response:', response);
             throw new Error(response.data.message || 'Failed to clear the mission');
         }
     } catch (error: any) {
-        console.error('Error clearing mission:', error);
+        // console.error('Error clearing mission:', error);
         throw error;
     }
 };

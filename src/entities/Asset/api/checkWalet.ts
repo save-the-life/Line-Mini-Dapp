@@ -6,7 +6,7 @@ export const checkWallet = async(): Promise<any> => {
     if(response.data.code === 'OK'){
         return response.data.message;
     }else{
-        console.error('Unexpected response:', response);
+        // // console.error('Unexpected response:', response);
         throw new Error(response.data.message || 'Failed to fetch wallet information');
     }
 };

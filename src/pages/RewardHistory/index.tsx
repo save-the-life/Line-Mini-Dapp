@@ -77,7 +77,7 @@ const RewardHistory: React.FC = () => {
       setPageNumber(currentPage);
       setIsLastPage(last);
     } catch (error) {
-      console.error("Failed to fetch reward history:", error);
+      // console.error("Failed to fetch reward history:", error);
     }
   };
 

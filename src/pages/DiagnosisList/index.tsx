@@ -94,7 +94,7 @@ const DiagnosisRecords: React.FC = () => {
           setFilterOptions(['All']);
         }
       } catch (err) {
-        console.error('Failed to fetch filter labels:', err);
+        // console.error('Failed to fetch filter labels:', err);
         openErrorModal(
           t('ai_page.Failed_to_load_filter_options._Please_try_again_later.')
         );
@@ -137,7 +137,7 @@ const DiagnosisRecords: React.FC = () => {
           setRecords([]);
         }
       } catch (err) {
-        console.error('Failed to fetch filtered records:', err);
+        // console.error('Failed to fetch filtered records:', err);
         openErrorModal(
           t('ai_page.Failed_to_load_records._Please_try_again_later.')
         );

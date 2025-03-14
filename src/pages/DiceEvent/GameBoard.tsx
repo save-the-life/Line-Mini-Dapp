@@ -139,7 +139,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       setIsRefilling(false);
       playSfx(Audios.reward);
     } catch (error: any) {
-      console.error("주사위 리필 실패:", error);
+      // console.error("주사위 리필 실패:", error);
       setIsRefilling(false);
     }
   };
@@ -151,7 +151,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     try {
       await autoSwitch();
     } catch (error: any) {
-      console.error("오토 스위치 변경 실패:", error);
+      // console.error("오토 스위치 변경 실패:", error);
     }
   };
 

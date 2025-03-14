@@ -378,7 +378,8 @@
         "gamble": "도전",
         "better_luck": "더 좋은 운을 빕니다!",
         "next_time": "다음 기회에!",
-        "quit": "그만두기"
+        "quit": "그만두기",
+        "how_many": "몇 개의 스타포인트를 걸고 싶으신가요?"
       },
       "spin_game": {
         "spin_wheel": "룰렛 돌리기,",

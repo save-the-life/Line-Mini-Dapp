@@ -52,7 +52,7 @@ const SoundSetting: React.FC = () => {
       }
     } catch (error: any) {
       // 에러 핸들링
-      console.error("사운드 설정 저장 중 에러:", error);
+      // console.error("사운드 설정 저장 중 에러:", error);
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
   };

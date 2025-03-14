@@ -118,7 +118,7 @@ const DentalAnalysis: React.FC = () => {
         showModalFunction(t("ai_page.5SL_tokens"));
       }
     } catch(error: any){
-      console.error("Balance check Error:", error);
+      // console.error("Balance check Error:", error);
       showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
     }
   }
@@ -130,7 +130,7 @@ const DentalAnalysis: React.FC = () => {
         } catch (error: any) {
             if (error.response?.status === 429) {
                 const backoffTime = delay * Math.pow(2, i); // 지연 시간 증가
-                console.warn(`429 Too Many Requests: 재시도까지 ${backoffTime / 5}초 대기`);
+                // console.warn(`429 Too Many Requests: 재시도까지 ${backoffTime / 5}초 대기`);
                 await new Promise((resolve) => setTimeout(resolve, backoffTime));
             } else {
                 throw error; // 다른 에러는 바로 반환
@@ -143,27 +143,27 @@ const DentalAnalysis: React.FC = () => {
   // 이미지 분석 함수
   const analyzeImage = async () => {
     playSfx(Audios.button_click);
-    console.log("현재 사용 언어", i18n.language);
+    // console.log("현재 사용 언어", i18n.language);
     let useLanguage = "English";
     
     if (i18n.language === "ko") {
       useLanguage = "Korean";
-      console.log("Language set to: Korean (ko-KR)");
+      // console.log("Language set to: Korean (ko-KR)");
     } else if (i18n.language === "ja") {
       useLanguage = "Japanese";
-      console.log("Language set to: Japanese (ja-JP)");
+      // console.log("Language set to: Japanese (ja-JP)");
     } else if (i18n.language === "zh" || i18n.language === "zh") {
       useLanguage = "Taiwanese";
-      console.log("Language set to: Taiwanese (zh-CN/zh-TW)");
+      // console.log("Language set to: Taiwanese (zh-CN/zh-TW)");
     } else if (i18n.language === "th") {
       useLanguage = "Thai";
-      console.log("Language set to: Thai (th-TH)");
+      // console.log("Language set to: Thai (th-TH)");
     } else if (i18n.language === "en") {
       useLanguage = "English";
-      console.log("Language set to: English (en-US)");
+      // console.log("Language set to: English (en-US)");
     } else {
       // 그 외의 경우 대문자로 시작하는 언어 코드를 처리하는 예시
-      console.log("Language not explicitly matched. Defaulting to English.");
+      // console.log("Language not explicitly matched. Defaulting to English.");
       useLanguage = "English";
     }
 
@@ -265,19 +265,19 @@ const DentalAnalysis: React.FC = () => {
     );
       // 4) 응답(JSON) 파싱
       const responseData = response;
-      console.log("openAI 응답: ", responseData);
+      // console.log("openAI 응답: ", responseData);
       // 모델이 최종 생성한 텍스트
       const assistantMessage = responseData?.choices?.[0]?.message?.content?.trim() || "(No response)";
-      console.log("OpenAI raw answer:", assistantMessage);
+      // console.log("OpenAI raw answer:", assistantMessage);
       const parsedData = JSON.parse(assistantMessage);
-      console.log("Parsed data:", parsedData);
+      // console.log("Parsed data:", parsedData);
 
       const { image_type, analysis, is_tooth } = parsedData;
       // 5) 응답에 따른 분기 처리
       try {
         // assistantMessage를 JSON 객체로 파싱
         const parsedData = JSON.parse(assistantMessage);
-        console.log("Parsed Response Data:", parsedData);
+        // console.log("Parsed Response Data:", parsedData);
     
         // 데이터 유효성 검사 및 분기 처리
         if (image_type === "x-ray") {
@@ -323,7 +323,7 @@ const DentalAnalysis: React.FC = () => {
               showModalFunction(t("ai_page.5SL_tokens"));
             }
           }catch(error: any){
-            console.error("sl payment Error:", error);
+            // console.error("sl payment Error:", error);
             showModalFunction(t("ai_page.5SL_tokens"));
             setIsAnalyzed(false);
             setSelectedImage(null);
@@ -339,7 +339,7 @@ const DentalAnalysis: React.FC = () => {
             setExplanation(""); // 설명 초기화
         }
     } catch (error) {
-        console.error("JSON Parsing Error:", error);
+        // console.error("JSON Parsing Error:", error);
         showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
         setIsAnalyzed(false);
         setSelectedImage(null);
@@ -347,7 +347,7 @@ const DentalAnalysis: React.FC = () => {
         setExplanation(""); // 설명 초기화
     }            
     } catch (error: any) {
-        console.error("OpenAI Error:", error);
+        // console.error("OpenAI Error:", error);
         setIsAnalyzed(false);
         setSelectedImage(null);
         showModalFunction(t("ai_page.Failed_to_analyze_the_image"));

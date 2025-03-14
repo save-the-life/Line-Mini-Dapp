@@ -82,7 +82,7 @@ const EditPet: React.FC = () => {
                     setModalMessage('Pet deleted successfully!');
                     navigate('/select-pet');
                 } catch (error) {
-                    console.error("Failed to delete pet:", error);
+                    // console.error("Failed to delete pet:", error);
                     setShowModal(true);
                     setModalMessage("Failed to delete pet. Please try again.");
                 }

@@ -21,7 +21,7 @@ export const rollDiceAPI = async (gauge: number, sequence: number): Promise<Roll
   if (response.data.code === 'OK') {
     return response.data.data;
   } else {
-    console.error('rollDiceAPI Error:', response.data.message);
+    // console.error('rollDiceAPI Error:', response.data.message);
     throw new Error(response.data.message || 'Roll dice failed');
   }
 };

@@ -23,7 +23,7 @@ const FirstRewardPage: React.FC = () => {
                 navigate("/dice-event");
             }
         } catch(error: any){
-            console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
+            // console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
         }
         } else {
             navigate("/dice-event");

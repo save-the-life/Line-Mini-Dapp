@@ -6,7 +6,7 @@ export const getItemInfo = async(): Promise<any> => {
     if(response.data.code === 'OK'){
         return response.data.data;
     }else{
-        console.error('Unexpected response:', response);
+        // // console.error('Unexpected response:', response);
         throw new Error(response.data.message || 'Failed to fetch item information');
     }
 };

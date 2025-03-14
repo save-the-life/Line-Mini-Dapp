@@ -378,7 +378,8 @@
             "gamble": "ギャンブル",
             "better_luck": "より良い運を",
             "next_time": "次の機?に！",
-            "quit": "終了"
+            "quit": "終了",
+            "how_many": "いくつ星を賭けたいですか？"
         },
         "spin_game": {
             "spin_wheel": "ルーレットを回す,",

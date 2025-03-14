@@ -162,7 +162,7 @@ const MyAssets: React.FC = () => {
                 const rewards = data.content || [];
                 setRewardHistoryData(rewards);
             } catch (error) {
-                console.error("보상 내역을 불러오는데 실패했습니다: ", error);
+                // console.error("보상 내역을 불러오는데 실패했습니다: ", error);
             }
         };
         fetchRewardsHistory();
@@ -273,17 +273,17 @@ const MyAssets: React.FC = () => {
         try {
             const response: KaiaRpcResponse<string> = await kaiaGetBalance(account);
             if (response.error) {
-                console.log("잔고 확인 에러: ", response.error);
+                // console.log("잔고 확인 에러: ", response.error);
             } else if (response.result) {
                 const rawBalanceHex = response.result;
                 const KAIA_DECIMALS = 18;
                 const balanceBigNumber = BigNumber.from(rawBalanceHex);
                 const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
                 setBalance(Number(formattedBalance).toFixed(2));
-                console.log("잔액 확인 진행: ", Number(formattedBalance).toFixed(2));
+                // console.log("잔액 확인 진행: ", Number(formattedBalance).toFixed(2));
             }
         } catch (err: any) {
-            console.error("Failed to fetch token count:", err);
+            // console.error("Failed to fetch token count:", err);
         }
     };
 
@@ -291,7 +291,7 @@ const MyAssets: React.FC = () => {
     const handleBalance = async () => {
         playSfx(Audios.button_click);
         if (!walletAddress || !sdk) {
-            console.log("지갑 주소 혹은 sdk가 없어요. 지갑 연동 시작");
+            // console.log("지갑 주소 혹은 sdk가 없어요. 지갑 연동 시작");
             try {
                 // connectWallet이 반환하는 연결 정보를 바로 활용
                 const connection = await connectWallet();
@@ -299,13 +299,13 @@ const MyAssets: React.FC = () => {
                     await fetchBalance(connection.walletAddress);
                     setShowWalletModal(true);
                 } else {
-                    console.error("지갑 연결 상태 업데이트 실패");
+                    // console.error("지갑 연결 상태 업데이트 실패");
                 }
             } catch (error: any) {
-                console.error("지갑 연결 에러:", error.message);
+                // console.error("지갑 연결 에러:", error.message);
             }
         } else {
-            console.log("지갑 주소가 있어요. ", walletAddress);
+            // console.log("지갑 주소가 있어요. ", walletAddress);
             await fetchBalance(walletAddress);
             setShowWalletModal(true);
         }
@@ -315,13 +315,13 @@ const MyAssets: React.FC = () => {
     useEffect(() => {
         const checkStoredWallet = async () => {
             if (walletAddress) {
-                console.log("지갑 주소 확인: ", walletAddress);
-                console.log("provider 확인: ", provider);
+                // console.log("지갑 주소 확인: ", walletAddress);
+                // console.log("provider 확인: ", provider);
                 await fetchBalance(walletAddress);
             } else {
-                console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행");
+                // console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행");
                 if (provider && provider.disconnectWallet) {
-                    console.log("provider가 존재한다면 지갑 연결 해제");
+                    // console.log("provider가 존재한다면 지갑 연결 해제");
                     provider.disconnectWallet();
                     clearWallet();
                 }
@@ -348,7 +348,7 @@ const MyAssets: React.FC = () => {
                     }
                 }
             } catch (err) {
-                console.error("Failed to fetch assets:", err);
+                // console.error("Failed to fetch assets:", err);
             }
         };
         fetchAssets();
@@ -371,11 +371,11 @@ const MyAssets: React.FC = () => {
 
             await paymentProvider.openPaymentHistory();
         } catch (error: any) {
-            console.log("결제 내역 확인 중 에러 발생: ", error);
+            // console.log("결제 내역 확인 중 에러 발생: ", error);
             if (error instanceof TypeError) {
-                console.error("TypeError 발생:", error);
+                // console.error("TypeError 발생:", error);
                 if (provider && provider.disconnectWallet) {
-                    console.log("지갑 연결 해제");
+                    // console.log("지갑 연결 해제");
                     provider.disconnectWallet();
                     clearWallet();
                 }
@@ -383,10 +383,10 @@ const MyAssets: React.FC = () => {
                 await connectWallet();
             } else if (error.code === "-32001") {
                 // 사용자가 팝업을 닫은 경우 자동 재연결 대신 사용자에게 안내
-                console.log("사용자가 결제 팝업을 닫음");
+                // console.log("사용자가 결제 팝업을 닫음");
                 alert("결제 내역 팝업이 닫혔습니다. 다시 시도하려면 버튼을 눌러주세요.");
             } else {
-                console.log("결제 내역 확인 중 다른 에러 발생: ", error);
+                // console.log("결제 내역 확인 중 다른 에러 발생: ", error);
                 alert("결제 내역 팝업이 닫혔습니다. 다시 시도하려면 버튼을 눌러주세요.");
             }
         }

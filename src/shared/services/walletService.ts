@@ -15,10 +15,10 @@ export async function connectWallet(): Promise<{
       clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
       chainId: "8217",
     });
-    console.log("[지갑 연결] sdk 초기화: ", sdk);
+    // console.log("[지갑 연결] sdk 초기화: ", sdk);
   
     const walletProvider = sdk.getWalletProvider();
-    console.log("[지갑 연결] walletProvider 호출: ", walletProvider);
+    // console.log("[지갑 연결] walletProvider 호출: ", walletProvider);
   
     const message = 'Welcome to Mini Dapp';
     const [account, signature] = (await walletProvider.request({
@@ -27,20 +27,20 @@ export async function connectWallet(): Promise<{
     })) as string[];
   
     const walletType = walletProvider.getWalletType() || null;
-    console.log("사용자가 선택한 지갑 타입:", walletType);
+    // console.log("사용자가 선택한 지갑 타입:", walletType);
     
     if (!account) {
       throw new Error("지갑 연결 실패");
     }
   
     const walletAddress = account;
-    console.log("[지갑 연결] 연결된 지갑 주소 확인: ", account);
+    // console.log("[지갑 연결] 연결된 지갑 주소 확인: ", account);
   
     if (account && walletType) {
-      console.log("[지갑 전역 관리] 연결된 지갑 주소 확인: ", account);
-      console.log("[지갑 전역 관리] 연결된 지갑 타입 확인: ", walletType);
-      console.log("[지갑 전역 관리] 연결된 지갑 sdk 확인: ", sdk);
-      console.log("[지갑 전역 관리] 연결된 지갑 provider 확인: ", walletProvider);
+      // console.log("[지갑 전역 관리] 연결된 지갑 주소 확인: ", account);
+      // console.log("[지갑 전역 관리] 연결된 지갑 타입 확인: ", walletType);
+      // console.log("[지갑 전역 관리] 연결된 지갑 sdk 확인: ", sdk);
+      // console.log("[지갑 전역 관리] 연결된 지갑 provider 확인: ", walletProvider);
   
       setWalletAddress(account);
       setWalletType(walletType);

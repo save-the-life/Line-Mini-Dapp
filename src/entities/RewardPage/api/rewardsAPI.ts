@@ -18,7 +18,7 @@ export const fetchLeaderHomeAPI = async (): Promise<LeaderHomeData> => {
     }
     return response.data.data;
   } catch (error: any) {
-    console.error('fetchLeaderHomeAPI 에러:', error);
+    // console.error('fetchLeaderHomeAPI 에러:', error);
     throw error;
   }
 };

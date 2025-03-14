@@ -53,7 +53,7 @@ export const useRewardStore = create<RewardState>((set, get) => ({
     try {
       const data: LeaderHomeData = await fetchLeaderHomeAPI();
 
-      console.log('Fetched LeaderHomeData:', data);
+      // console.log('Fetched LeaderHomeData:', data);
       set({
         rankingAwards: data.rankingAwards,
         drawAwards: data.drawAwards,
