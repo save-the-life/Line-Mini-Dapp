@@ -140,7 +140,7 @@ const AIMenu: React.FC = () => {
           title={t("ai_page.Viewing_Records")}
           image={Images.HomeReport}
           alt="HomeReport"
-          className="join-the-sl-discord-mission-card"
+          className="join-the-sl-Medium-mission-card"
           onClick={() => handleMenuClick('records')}
         />
         </div>
