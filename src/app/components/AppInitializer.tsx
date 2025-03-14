@@ -92,6 +92,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
+      if ((error.message === "Request failed with status code 403" || error.response?.status === 403)) {
+        console.error("[AppInitializer] 403 에러 감지 -> 액세스 토큰 제거 및 재인증 흐름 호출");
+        localStorage.removeItem("accessToken");
+        // 재인증 흐름: handleTokenFlow() 를 호출하여 LIFF 토큰 기반 재인증 진행
+        await handleTokenFlow();
+        return;
+      }
+
       // 에러 코드가 500인 경우 accessToken 삭제 후 한 번만 재시도
       if ((error.code === 500 || error.response?.status === 500) && retryCount < 1) {
         console.error("[AppInitializer] 에러 코드 500 감지 -> localStorage의 accessToken 제거 후 재시도");
