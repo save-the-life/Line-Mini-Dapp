@@ -180,7 +180,7 @@ const ItemStore: React.FC = () => {
       case "AUTO ITEM":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.auto_roller")}</p>
-                <p className="text-base font-normal">{t("dice_event.automatically")} : 5x</p>
+                <p className="text-base font-normal">{t("dice_event.automatically")}</p>
               </div>;
       case "REWARD BOOSTER":
         return <div className="mt-1 text-center">

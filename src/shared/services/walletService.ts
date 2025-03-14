@@ -16,8 +16,10 @@ export async function connectWallet(): Promise<void> {
     console.log("[지갑 연결] walletProvider 호출: ", walletProvider);
 
     // 지갑 연결 요청
-    const accounts = (await walletProvider.request({
+    const message = 'Welcome to Mini Dapp';
+    const [account, signature] = (await walletProvider.request({
         method: "kaia_connectAndSign",
+        params: [message],
     })) as string[];
     
     // const message = 'Welcome to Mini Dapp';
@@ -28,14 +30,14 @@ export async function connectWallet(): Promise<void> {
     const walletType = walletProvider.getWalletType() || null;
     console.log("사용자가 선택한 지갑 타입:", walletType);
     
-    if (!accounts || !accounts[0]) {
+    if (!account || !account[0]) {
         throw new Error("지갑 연결 실패");
     }
   
-    console.log("[지갑 연결] 연결된 지갑 주소 확인: ", accounts[0]);
-    const walletAddress = accounts[0];
+    console.log("[지갑 연결] 연결된 지갑 주소 확인: ", account[0]);
+    const walletAddress = account[0];
 
-    if (accounts[0] && walletType) {
+    if (account[0] && walletType) {
         // 전역 상태 업데이트
         console.log("[지갑 전역 관리] 연결된 지갑 주소 확인: ", walletAddress);
         console.log("[지갑 전역 관리] 연결된 지갑 타입 확인: ", walletType);
