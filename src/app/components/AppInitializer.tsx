@@ -68,11 +68,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         try {
           // 프로모션 수령 여부 확인
           const promo = await getPromotion();
+          console.log("프로모션 수령 진행");
           if (promo === "Success") {
             // 프로모션을 아직 받지 않은 경우 -> 프로모션 지급 페이지로 이동
+            console.log("프로모션 수령 진행 >> 처음 받음");
             navigate("/promotion");
           } else {
             // 이미 받은 경우 -> 일반 페이지로 이동
+            console.log("프로모션 수령 진행 >> 이미 받음");
             navigate("/dice-event");
           }
         } catch (error: any) {
