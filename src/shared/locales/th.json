@@ -15,8 +15,8 @@
       "first_step": "<strong>ปุ่มทอยลูกเต๋า:</strong> การทอยลูกเต๋าจะทำให้สัตว์เลี้ยงของคุณเคลื่อนที่ไปรอบกระดาน Monopoly โดยช่องที่หยุดจะกำหนดรางวัลหรือเรียกใช้กิจกรรมพิเศษในเกม",
       "second_step": "<strong>เกจลูกเต๋า:</strong> กดปุ่มค้างไว้เพื่อเลื่อนเกจ ซึ่งมี 6 ส่วน (1–6) ปล่อยปุ่มเมื่อเกจไปถึงตัวเลขที่ต้องการ.<div style=\"marginBottom: 1rem\"></div>หากเกจหยุดที่ตัวเลขที่คุณต้องการ คุณมี <strong>โอกาส 50%</strong> ที่จะเกิด <strong>เอฟเฟกต์ Lucky Dice</strong> ทำให้สัตว์เลี้ยงของคุณเดินไปยังช่องตัวเลขนั้นบนกระดาน",
       "third_step": "<strong>เติมลูกเต๋า:</strong> เมื่อใช้ลูกเต๋าทั้งหมดแล้ว ข้อความบนปุ่มจะเปลี่ยนเป็น <em>'เติมลูกเต๋า'</em> ให้คลิกเพื่อเติมลูกเต๋า<div style=\"marginBottom: 1rem\"></div>หลังจากเติมแล้ว คุณสามารถรับลูกเต๋าเพิ่มได้อีกครั้งหลังจากผ่านไป <strong>1 ชั่วโมง</strong><div style=\"marginBottom: 1rem\"></div>เมื่อเวลาสำหรับเติมครบ ข้อความจะเปลี่ยนเป็น <em>'รอ'</em> หากไม่มีลูกเต๋าเหลือ ข้อความจะกลับเป็น <em>'เติมลูกเต๋า'</em>",
-      "fourth_step": "<strong>Item Dashboard:</strong> แสดง <strong>จำนวน Item</strong> ที่คุณเป็นเจ้าของ<div style=\"marginBottom: 1rem\"></div>คลิกเพื่อดู <strong>เอฟเฟกต์</strong> ของ Item ที่คุณมี",
-      "fifth_step": "<strong>ฟังก์ชันอัตโนมัติ:</strong> หากคุณมี <strong>Auto Item</strong> ลูกเต๋าจะทอยโดยอัตโนมัติ<div style=\"marginBottom: 1rem\"></div>เมื่อถึงเวลาเติม ลูกเต๋าจะถูกเติมและทอยอัตโนมัติเช่นกัน<div style=\"marginBottom: 1rem\"></div>ฟังก์ชันนี้จะทำงานเฉพาะเมื่อคุณอยู่ใน <strong>ส่วนเกม</strong> เท่านั้น และจะไม่ใช้กับการกระทำใน <em>เป่ายิ้งฉุบ</em>, <em>Spin</em>, หรือ <em>Anywhere tiles</em>."
+      "fourth_step": "<strong>ITEM Dashboard:</strong> แสดง <strong>จำนวน ITEM</strong> ที่คุณเป็นเจ้าของ<div style=\"marginBottom: 1rem\"></div>คลิกเพื่อดู <strong>เอฟเฟกต์</strong> ของ ITEM ที่คุณมี",
+      "fifth_step": "<strong>ฟังก์ชันอัตโนมัติ:</strong> หากคุณมี <strong>Auto ITEM</strong> ลูกเต๋าจะทอยโดยอัตโนมัติ<div style=\"marginBottom: 1rem\"></div>เมื่อถึงเวลาเติม ลูกเต๋าจะถูกเติมและทอยอัตโนมัติเช่นกัน<div style=\"marginBottom: 1rem\"></div>ฟังก์ชันนี้จะทำงานเฉพาะเมื่อคุณอยู่ใน <strong>ส่วนเกม</strong> เท่านั้น และจะไม่ใช้กับการกระทำใน <em>เป่ายิ้งฉุบ</em>, <em>Spin</em>, หรือ <em>Anywhere tiles</em>."
     },
     "ai_page": {
       "click_here": "คลิกที่นี่เพื่ออัปโหลดภาพของคุณ",
@@ -403,7 +403,7 @@
       "points": "แต้มบนกระดานเกม",
       "tickets": "ตั๋วจับฉลาก",
       "spin": "รางวัลจากการหมุน",
-      "additive": "ตัวคูณรางวัล Item จะถูกเพิ่มแบบสะสม",
+      "additive": "ตัวคูณรางวัล ITEM จะถูกเพิ่มแบบสะสม",
       "select_tile": "เลือกช่องที่ต้องการเดิน",
       "level_up": "เลื่อนระดับ!",
       "grap_prize": "มารับรางวัลของคุณ!",

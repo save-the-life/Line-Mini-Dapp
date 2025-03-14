@@ -15,7 +15,7 @@
       "first_step": "<strong>주사위 굴리기 버튼:</strong> 주사위를 굴리면 귀여운 반려동물이 모노폴리 보드를 돌아다니며, 멈춘 칸에 따라 보상을 획득하거나 특별한 게임 내 이벤트가 발생합니다.",
       "second_step": "<strong>주사위 게이지:</strong> 버튼을 길게 눌러 게이지를 이동하세요. 게이지는 1~6까지 구간으로 나뉘어 있으며, 원하는 숫자에 도달했을 때 버튼에서 손을 떼면 됩니다.<div style=\"marginBottom: 1rem\"></div>원하는 숫자에 정확히 멈추면 <strong>50% 확률</strong>로 <strong>럭키 다이스 효과</strong>가 발동되어, 반려동물이 해당 숫자 칸으로 이동합니다.",
       "third_step": "<strong>주사위 보충:</strong> 모든 주사위를 사용하면, 버튼 문구가 <em>'주사위 보충'</em>으로 바뀝니다. 이 버튼을 클릭하여 주사위를 보충하세요.<div style=\"marginBottom: 1rem\"></div>보충 후, <strong>1시간</strong>이 지나면 다시 추가 주사위를 받을 수 있습니다.<div style=\"marginBottom: 1rem\"></div>보충 시간이 끝나면 버튼 문구가 <em>'대기 중'</em>으로 바뀌고, 주사위가 남아 있지 않으면 <em>'주사위 보충'</em>으로 되돌아갑니다.",
-      "fourth_step": "<strong>Item 대시보드:</strong> 현재 소유 중인 <strong>Item의 수</strong>를 보여줍니다.<div style=\"marginBottom: 1rem\"></div>클릭하면 해당 Item들의 <strong>효과</strong>를 확인할 수 있습니다.",
+      "fourth_step": "<strong>ITEM 대시보드:</strong> 현재 소유 중인 <strong>ITEM의 수</strong>를 보여줍니다.<div style=\"marginBottom: 1rem\"></div>클릭하면 해당 ITEM들의 <strong>효과</strong>를 확인할 수 있습니다.",
       "fifth_step": "<strong>자동 기능:</strong> <strong>자동 아이템</strong>을 보유하고 있다면 주사위가 자동으로 굴러갑니다.<div style=\"marginBottom: 1rem\"></div>보충 시간이 되면 주사위도 자동으로 보충되고 굴려집니다.<div style=\"marginBottom: 1rem\"></div>이 기능은 <strong>게임 섹션</strong>에 있을 때만 작동하며, 가위바위보, 룰렛, 혹은 '어디든지' 칸에는 적용되지 않습니다."
     },
     "ai_page": {
@@ -309,8 +309,8 @@
       "try_again": "잠시 후 다시 시도해 주세요.",
       "close": "닫기",
       "no_item": "아직 보유 중인 item이 없습니다.",
-      "own_item": "item을 소유하고 랭크를 올려보세요!",
-      "shop_item": "item 쇼핑하기",
+      "own_item": "ITEM을 소유하고 랭크를 올려보세요!",
+      "shop_item": "ITEM 쇼핑하기",
       "detail": "구매 내역 상세",
       "wallet_connect": "지갑이 연결되었습니다.",
       "need_wallet": "구매 내역 조회를 위해 지갑을 연결합니다.",
@@ -403,7 +403,7 @@
       "points": "게임보드 포인트",
       "tickets": "추첨 티켓",
       "spin": "스핀 보상",
-      "additive": "Item 보상 배율은 추가적으로 적용됩니다.",
+      "additive": "ITEM 보상 배율은 추가적으로 적용됩니다.",
       "select_tile": "이동할 칸을 선택하세요",
       "level_up": "레벨 업!",
       "grap_prize": "보상을 받아가세요!",

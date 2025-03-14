@@ -15,8 +15,8 @@
       "first_step": "<strong>Roll Dice Button:</strong> Rolling the dice moves your cuddly companion around the Monopoly board. The tile it lands on determines your rewards or triggers special in-game events.",
       "second_step": "<strong>Dice Gauge:</strong> Press and hold the button to move the gauge, which has six sections (1–6). Release the button when the gauge reaches your desired number.<div style=\"marginBottom: 1rem\"></div>If the gauge lands on the number you want, you have a <strong>50% chance</strong> to trigger the <strong>Lucky Dice effect</strong>, causing your pet to move to that number on the board",
       "third_step": "<strong>Dice Refill:</strong> Once all dice are used, the text changes to <em>'Refill Dice.'</em> Click it to refill your dice.<div style=\"marginBottom: 1rem\"></div>After refilling, you can receive additional dice again after <strong>an hour</strong>.<div style=\"marginBottom: 1rem\"></div>When the refill time is over, the text changes to <em>'Waiting.'</em> If you have no dice left, it reverts to <em>'Refill Dice.'</em>",
-      "fourth_step": "<strong>Item Dashboard:</strong> Shows the <strong>number of Items</strong> you own.<div style=\"marginBottom: 1rem\"></div>Click to explore the <strong>effects</strong> of your Items.",
-      "fifth_step": "<strong>Auto Function:</strong> If you own an <strong>Auto Item</strong>, the dice will roll automatically.<div style=\"marginBottom: 1rem\"></div>When the refill time arrives, the dice will also be refilled and rolled automatically.<div style=\"marginBottom: 1rem\"></div>This function only works while you are on the <strong>Game section</strong> and does not apply to actions on <em>Rock-Paper-Scissors</em>, <em>Spin</em>, or <em>Anywhere tiles</em>."
+      "fourth_step": "<strong>ITEM Dashboard:</strong> Shows the <strong>number of ITEMs</strong> you own.<div style=\"marginBottom: 1rem\"></div>Click to explore the <strong>effects</strong> of your ITEMs.",
+      "fifth_step": "<strong>Auto Function:</strong> If you own an <strong>Auto ITEM</strong>, the dice will roll automatically.<div style=\"marginBottom: 1rem\"></div>When the refill time arrives, the dice will also be refilled and rolled automatically.<div style=\"marginBottom: 1rem\"></div>This function only works while you are on the <strong>Game section</strong> and does not apply to actions on <em>Rock-Paper-Scissors</em>, <em>Spin</em>, or <em>Anywhere tiles</em>."
     },
     "ai_page": {
       "click_here": "Click here to upload your image",
@@ -295,9 +295,9 @@
         "claim_failed": "Failed",
         "claim_waiting": "Waiting"
       },
-      "non_nft": "My Items",
+      "non_nft": "My ITEMs",
       "buy_more": "Buy more Itmes",
-      "item_store":"Item Store",
+      "item_store":"ITEM Store",
       "payment_history": "Payment History",
       "agree_non_refundable": "I agree that the product is non-refundable.",
       "provide_encrypted_id": "I agree to provide encrypted ID information to LY Corporation when making a payment via LINE IAP.",
@@ -403,7 +403,7 @@
       "points": "Game Board Points",
       "tickets": "Raffle Tickets",
       "spin": "Spin Rewards",
-      "additive": "The Item reward multiplier is additive.",
+      "additive": "The ITEM reward multiplier is additive.",
       "select_tile": "Select a tile to move",
       "level_up": "Level up!",
       "grap_prize": "Grap your prize!",
