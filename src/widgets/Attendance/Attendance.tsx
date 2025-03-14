@@ -268,6 +268,23 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       const sig = ethers.utils.splitSignature(signature);
       console.log("✅ 서명 데이터 분해:", sig);
   
+      const currentWalletType = provider.getWalletType();
+      console.log("연결된 지갑 타입:", currentWalletType);
+  
+      if (currentWalletType === "OKX") {
+   
+         // ✅ 컨트랙트 함수 실행 (`checkAttendance`)
+         const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+         await tx.wait();
+         console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", tx.hash);
+         alert("출석 체크 완료!");
+   
+         // ✅ 출석 처리 후 상태 업데이트
+         const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
+         setWeekAttendance(updatedAttendance);
+         return;
+       }
+
       // ✅ 4️⃣ Fee Delegation 트랜잭션 데이터 생성 (서명 데이터 포함)
       const contractCallData = await contract.interface.encodeFunctionData("checkAttendance", [
         messageHash, sig.v, sig.r, sig.s,
