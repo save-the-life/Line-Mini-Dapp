@@ -17,7 +17,7 @@ export async function connectWallet(): Promise<void> {
 
     // 지갑 연결 요청
     const accounts = (await walletProvider.request({
-        method: "kaia_requestAccounts",
+        method: "kaia_connectAndSign",
     })) as string[];
     
     const message = 'Welcome to Mini Dapp';
