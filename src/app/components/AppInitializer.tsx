@@ -232,11 +232,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
 
     const initializeApp = async () => {
-      if (initializedRef.current) {
-        console.log("[AppInitializer] 이미 초기화됨 -> 중단");
-        return;
-      }
-      initializedRef.current = true;
+      // if (initializedRef.current) {
+      //   console.log("[AppInitializer] 이미 초기화됨 -> 중단");
+      //   return;
+      // }
+      // initializedRef.current = true;
 
       try {
         console.log("[AppInitializer] LIFF 초기화 시작");
