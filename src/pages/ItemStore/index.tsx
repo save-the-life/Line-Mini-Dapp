@@ -309,34 +309,34 @@ const ItemStore: React.FC = () => {
 
 
     // 지갑 연결 및 잔액 조회 (외부 함수 connectWallet 호출)
-  const handleConnectWallet = async () => {
-    playSfx(Audios.button_click);
-    setNeedWallet(false);
-    try {
-      // 외부 함수로 지갑 연결 및 전역 상태 업데이트 수행
-      await connectWallet();
-      // 연결 후 전역 상태에서 업데이트된 walletAddress를 가져옴
-      const { walletAddress: newWalletAddress } = useWalletStore.getState();
-      if (newWalletAddress) {
-        try {
-          const response: KaiaRpcResponse<string> = await kaiaGetBalance(newWalletAddress);
-          if (response.error) {
-            console.log("잔고 확인 에러: ", response.error);
-          } else if (response.result) {
-            const KAIA_DECIMALS = 18;
-            const balanceBigNumber = BigNumber.from(response.result);
-            const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
-            setBalance(Number(formattedBalance).toFixed(2));
+    const handleConnectWallet = async () => {
+      playSfx(Audios.button_click);
+      setNeedWallet(false);
+      try {
+        // connectWallet이 연결 정보를 반환하도록 수정(예: { walletAddress, provider, walletType, sdk })
+        const connection = await connectWallet();
+        if (connection && connection.walletAddress && connection.provider) {
+          try {
+            const response: KaiaRpcResponse<string> = await kaiaGetBalance(connection.walletAddress);
+            if (response.error) {
+              console.log("잔고 확인 에러: ", response.error);
+            } else if (response.result) {
+              const KAIA_DECIMALS = 18;
+              const balanceBigNumber = BigNumber.from(response.result);
+              const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
+              setBalance(Number(formattedBalance).toFixed(2));
+            }
+          } catch (err: any) {
+            console.error("Failed to fetch balance:", err);
           }
-        } catch (err: any) {
-          console.error("Failed to fetch balance:", err);
+          console.log("지갑 연결 성공:", connection.walletAddress);
+        } else {
+          console.error("지갑 연결 상태 업데이트 실패");
         }
-        console.log("지갑 연결 성공:", newWalletAddress);
+      } catch (error: any) {
+        console.error("지갑 연결 에러:", error.message);
       }
-    } catch (error: any) {
-      console.error("지갑 연결 에러:", error.message);
-    }
-  };
+    };
   
 
   // 선택된 아이템 정보 조회 (selectedItem의 itemId와 매칭)

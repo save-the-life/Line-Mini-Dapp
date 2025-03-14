@@ -235,13 +235,11 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const handleAttendanceClick = async () => {
     // 연결되지 않은 경우 지갑 연결 시도
     if (!provider || !walletAddress) {
-      if (isConnecting) return; // 이미 연결 중이면 중복 시도 방지
+      if (isConnecting) return; // 중복 연결 방지
       setIsConnecting(true);
-      await connectWallet();
+      const connection = await connectWallet();
       setIsConnecting(false);
-      // 연결 후 최신 상태 가져오기 (Zustand getState 사용)
-      const { walletAddress: updatedAddress, provider: updatedProvider } = useWalletStore.getState();
-      if (!updatedProvider || !updatedAddress) {
+      if (!connection.provider || !connection.walletAddress) {
         console.error("지갑 연결 상태 업데이트 실패");
         return;
       }

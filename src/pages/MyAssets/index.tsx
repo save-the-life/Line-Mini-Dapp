@@ -290,16 +290,16 @@ const MyAssets: React.FC = () => {
     // 지갑 연결 및 잔액 확인 함수
     const handleBalance = async () => {
         playSfx(Audios.button_click);
-        // 지갑 주소가 없으면 외부 함수를 호출하여 지갑 연결 진행
         if (!walletAddress || !sdk) {
             console.log("지갑 주소 혹은 sdk가 없어요. 지갑 연동 시작");
             try {
-                await connectWallet();
-                // 연결 후 전역 상태에서 업데이트된 walletAddress를 가져옴
-                const { walletAddress: newWalletAddress } = useWalletStore.getState();
-                if (newWalletAddress) {
-                    await fetchBalance(newWalletAddress);
+                // connectWallet이 반환하는 연결 정보를 바로 활용
+                const connection = await connectWallet();
+                if (connection && connection.walletAddress && connection.provider) {
+                    await fetchBalance(connection.walletAddress);
                     setShowWalletModal(true);
+                } else {
+                    console.error("지갑 연결 상태 업데이트 실패");
                 }
             } catch (error: any) {
                 console.error("지갑 연결 에러:", error.message);
@@ -319,13 +319,12 @@ const MyAssets: React.FC = () => {
                 console.log("provider 확인: ", provider);
                 await fetchBalance(walletAddress);
             } else {
-                console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행")
-                if (provider) {
+                console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행");
+                if (provider && provider.disconnectWallet) {
                     console.log("provider가 존재한다면 지갑 연결 해제");
                     provider.disconnectWallet();
                     clearWallet();
                 }
-
                 await handleBalance();
             }
         };
