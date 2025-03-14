@@ -185,28 +185,28 @@ const ItemStore: React.FC = () => {
       case "REWARD BOOSTER":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
-                <p className="text-base font-normal">{t("dice_event.board_spin_reward")} : 2x</p>
+                <p className="text-base font-normal">{t("dice_event.board_spin_reward")} : x2</p>
               </div>;
       case "GOLD PASS":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
-                <p className="text-base font-normal">{t("dice_event.game_board_points")} : 3x</p><br />
+                <p className="text-base font-normal">{t("dice_event.game_board_points")} : x3</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
-                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 2x</p>
+                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       case "SILVER PASS":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
-                <p className="text-base font-normal">{t("dice_event.game_board_points")} : 2x</p><br />
+                <p className="text-base font-normal">{t("dice_event.game_board_points")} : x2</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
-                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 2x</p>
+                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       case "BRONZE PASS":
         return <div className="mt-1 text-center">
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
-                <p className="text-base font-normal">{t("dice_event.game_board_points")} : 1x</p><br />
+                <p className="text-base font-normal">{t("dice_event.game_board_points")} : x1</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
-                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : 2x</p>
+                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       default:
         return <div>아이템에 대한 상세 설명입니다.</div>;
