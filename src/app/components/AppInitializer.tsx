@@ -108,6 +108,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
   // 레퍼럴 코드 유무 체크 (URL 마지막 Segment 확인)
   useEffect(() => {
+    console.log("[AppInitializer] 로컬스토리지 레퍼럴 코드 초기화 진행");
+    localStorage.removeItem("referralCode");
     console.log("[AppInitializer] 레퍼럴 코드 체크 시작");
     const url = new URL(window.location.href);
     let referralCode = "";
