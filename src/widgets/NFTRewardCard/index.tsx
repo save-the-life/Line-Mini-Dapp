@@ -39,11 +39,11 @@ const NFTRewardList: React.FC = () => {
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
-          description: `${t("dice_event.game_board_points")} : x30` 
+          description: `${t("dice_event.game_board_points")} : x3` 
         },
         { 
           icon: <IoTicket className="w-5 h-5" />, 
-          description: `${t("dice_event.raffle_tickets")} : x6` 
+          description: `${t("dice_event.raffle_tickets")} : x2` 
         },
       ],
     },
@@ -54,11 +54,11 @@ const NFTRewardList: React.FC = () => {
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
-          description: `${t("dice_event.game_board_points")} : x20` 
+          description: `${t("dice_event.game_board_points")} : x2` 
         },
         { 
           icon: <IoTicket className="w-5 h-5" />, 
-          description: `${t("dice_event.raffle_tickets")} : x4` 
+          description: `${t("dice_event.raffle_tickets")} : x2` 
         },
       ],
     },
@@ -69,7 +69,7 @@ const NFTRewardList: React.FC = () => {
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
-          description: `${t("dice_event.game_board_points")} : x10` 
+          description: `${t("dice_event.game_board_points")} : x1` 
         },
         { 
           icon: <IoTicket className="w-5 h-5" />, 
@@ -84,7 +84,7 @@ const NFTRewardList: React.FC = () => {
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
-          description: `${t("dice_event.board_spin_reward")} : x5` 
+          description: `${t("dice_event.board_spin_reward")} : x2` 
         },
       ],
     },
