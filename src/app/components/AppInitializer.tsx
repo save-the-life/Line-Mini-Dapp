@@ -117,7 +117,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // 레퍼럴 코드 유무 체크 (URL 마지막 Segment 확인)
+  // 레퍼럴 코드 유무 체크
   useEffect(() => {
     console.log("[AppInitializer] 현재 URL:", window.location.href);
     localStorage.removeItem("referralCode");
@@ -129,7 +129,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       referralCode = window.location.hash.slice(2);
     }
   
-    // 2. 해시에서 referralCode를 얻지 못했다면 쿼리 파라미터 'liff.state' 검사
+    // 2. 해시에서 값을 얻지 못했다면 쿼리 파라미터 'liff.state' 검사
     if (!referralCode) {
       const url = new URL(window.location.href);
       const liffState = url.searchParams.get("liff.state");
@@ -138,7 +138,17 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
     }
   
-    // 3. 두 케이스 모두 referralCode가 없으면 URL의 마지막 세그먼트를 사용
+    // 3. 위 두 케이스에서도 referralCode가 없다면 쿼리 파라미터 'liff.referrer' 검사
+    if (!referralCode) {
+      const url = new URL(window.location.href);
+      const liffReferrer = url.searchParams.get("liff.referrer");
+      if (liffReferrer) {
+        // liff.referrer가 존재하면 프로모션 링크로 판단하여 referralCode를 고정값으로 설정
+        referralCode = "dapp-portal-promotions";
+      }
+    }
+  
+    // 4. 위 세 케이스 모두 해당하지 않으면 URL의 마지막 세그먼트를 사용
     if (!referralCode) {
       const parts = window.location.pathname.split("/");
       referralCode = parts[parts.length - 1];
@@ -159,7 +169,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   
     // 사전에 정의된 라우트와 비교
     if (knownRoutes.includes(referralCode)) {
-      console.log(`[AppInitializer] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님  -> localStorage referralCode 비우기`);
+      console.log(`[AppInitializer] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님 -> localStorage referralCode 비우기`);
       localStorage.removeItem("referralCode");
       return;
     }
