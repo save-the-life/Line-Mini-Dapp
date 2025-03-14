@@ -163,7 +163,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     if (!accessToken) {
       console.log("[AppInitializer] 서버용 토큰이 없음 -> LINE 로그인 여부 확인");
       const lineToken = liff.getAccessToken();
-      console.log("[AppInitializer] liff.getAccessToken() 결과:", lineToken);
+      console.log("[AppInitializer] liff.getAccessToken() 확인");
 
       if (!lineToken) {
         console.error("[AppInitializer] LINE 토큰이 없습니다. dapp 접근이 불가합니다.");
@@ -210,6 +210,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   };
 
   useEffect(() => {
+    localStorage.clear();
     console.log("[AppInitializer] useEffect() - initializeApp() 진입");
 
     // 가장 먼저 라인 브라우저 여부를 체크하여, 외부 브라우저이면 즉시 /connect-wallet으로 이동
