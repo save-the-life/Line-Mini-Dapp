@@ -79,8 +79,8 @@ const NFTRewardList: React.FC = () => {
     },
     {
       imgSrc: Images.RewardNFT,
-      altText: 'Reward Booster(x5)',
-      title: 'REWARD BOOSTER(x5)',
+      altText: 'Reward Booster(x2)',
+      title: 'REWARD BOOSTER(x2)',
       rewards: [
         { 
           icon: <IoGameController className="w-5 h-5" />, 
