@@ -26,36 +26,32 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
   const [betAmount, setBetAmount] = useState<string>("");
   const setBetAmountStore = useRPSGameStore((state) => state.setBetAmount);
   const { t } = useTranslation();
-
-  // allowedBetting+1의 값이 소수점일 경우 내림 처리하여 정수 maxBet 설정
-  const maxBet = Math.floor(allowedBetting + 1);
+  
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const numericValue = parseInt(value);
-    // 입력값이 빈 문자열이거나 숫자만 입력되었고, 입력값이 maxBet 이하일 경우만 업데이트
-    if (value === "" || (/^\d+$/.test(value) && numericValue <= maxBet)) {
+    if (
+      value === "" ||
+      (/^\d+$/.test(value) && numericValue <= allowedBetting+1)
+    ) {
       setBetAmount(value);
       console.log(`betAmount set to: ${value}`);
     }
   };
 
   const handleStartClick = (
-    event:
-      | React.FormEvent<HTMLFormElement>
-      | React.MouseEvent<HTMLButtonElement>
+    event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault(); // 기본 폼 제출을 막습니다.
     const amount = parseInt(betAmount);
     console.log(`handleStartClick called with amount: ${amount}`);
-    if (amount > 0 && amount <= maxBet) {
+    if (amount > 0 && amount <= allowedBetting+1) {
       console.log("Starting game with betAmount:", amount);
       setBetAmountStore(amount); // betAmount를 설정
       onStart(); // 게임 시작
     } else {
-      alert(
-        `The betting amount must be at least 1 star and up to a maximum of ${maxBet} stars.`
-      );
+      alert(`The betting amount must be at least 1 star and up to a maximum of ${allowedBetting + 1} stars.`);
     }
   };
 
@@ -142,7 +138,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
             type="number"
             value={betAmount}
             onChange={handleInputChange}
-            max={maxBet} // 수정: maxBet 적용
+            max={formatNumber(allowedBetting)} // 입력값 제한
             className="border-2 border-[#21212f] rounded-2xl h-12 text-sm font-medium px-4 mt-4 w-[342px]"
           />
 
@@ -164,8 +160,9 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
               disabled={
                 !betAmount ||
                 parseInt(betAmount) <= 0 ||
-                parseInt(betAmount) > maxBet
+                parseInt(betAmount) > allowedBetting+1
               }
+              // onClick={handleStartClick} // 이미 onSubmit에서 처리하므로 제거
             >
               {t("dice_event.rps_game.bet")}
             </button>
