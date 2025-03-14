@@ -278,9 +278,7 @@ const AIXrayAnalysis: React.FC = () => {
 
               const highestPercentage = Math.round(highestPrediction.probability * 100);
               setProbability(highestPercentage.toString());
-              // console.log(
-                `Highest Probability Class: ${highestPrediction.className}, Probability: ${highestPercentage}%`
-              );
+              // console.log(`Highest Probability Class: ${highestPrediction.className}, Probability: ${highestPercentage}%`);
                 // ① 예측 결과(영어 원본)
                 const rawLabel = highestPrediction.className;
 
