@@ -13,8 +13,8 @@ const FirstRewardPage: React.FC = () => {
 
     const handleReceiveReward = async () => {
         playSfx(Audios.button_click);
-
-        try{
+        const ref = localStorage.getItem("referralCode");
+        if(ref === "dapp-portal-promotions"){try{
             const promo = await getPromotion();
 
             if(promo === "Success"){
@@ -24,6 +24,9 @@ const FirstRewardPage: React.FC = () => {
             }
         } catch(error: any){
             console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
+        }
+        } else {
+            navigate("/dice-event");
         }
     };
 
