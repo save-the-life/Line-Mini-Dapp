@@ -29,12 +29,11 @@ export async function connectWallet(): Promise<{
     const walletType = walletProvider.getWalletType() || null;
     console.log("사용자가 선택한 지갑 타입:", walletType);
     
-    if (!account || !account[0]) {
+    if (!account) {
       throw new Error("지갑 연결 실패");
     }
   
-    const walletAddress = account[0];
-    console.log("[지갑 연결] 연결된 지갑 주소 확인: ", walletAddress);
+    const walletAddress = account;
     console.log("[지갑 연결] 연결된 지갑 주소 확인: ", account);
   
     if (account && walletType) {
@@ -43,7 +42,7 @@ export async function connectWallet(): Promise<{
       console.log("[지갑 전역 관리] 연결된 지갑 sdk 확인: ", sdk);
       console.log("[지갑 전역 관리] 연결된 지갑 provider 확인: ", walletProvider);
   
-      setWalletAddress(walletAddress);
+      setWalletAddress(account);
       setWalletType(walletType);
       setSdk(sdk);
       setProvider(walletProvider);
