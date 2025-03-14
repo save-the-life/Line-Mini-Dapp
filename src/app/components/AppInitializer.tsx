@@ -116,21 +116,28 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
   // 레퍼럴 코드 유무 체크 (URL 마지막 Segment 확인)
   useEffect(() => {
-    // 현재 URL 확인 로그 추가
     console.log("[AppInitializer] 현재 URL:", window.location.href);
-    // // console.log("[AppInitializer] 로컬스토리지 레퍼럴 코드 초기화 진행");
     localStorage.removeItem("referralCode");
-    // // console.log("[AppInitializer] 레퍼럴 코드 체크 시작");
-    const url = new URL(window.location.href);
+  
     let referralCode = "";
   
-    // 쿼리 파라미터 'liff.state' 값 추출 및 디코딩
-    const liffState = url.searchParams.get("liff.state");
-    if (liffState && liffState.startsWith("#/")) {
-      referralCode = liffState.slice(2); // "#/" 접두어 제거
-    } else {
-      // 기존 방식: URL의 마지막 세그먼트 추출
-      const parts = url.pathname.split("/");
+    // 1. window.location.hash 검사 (예: "#/dapp-portal-promotions")
+    if (window.location.hash && window.location.hash.startsWith("#/")) {
+      referralCode = window.location.hash.slice(2);
+    }
+  
+    // 2. 해시에서 referralCode를 얻지 못했다면 쿼리 파라미터 'liff.state' 검사
+    if (!referralCode) {
+      const url = new URL(window.location.href);
+      const liffState = url.searchParams.get("liff.state");
+      if (liffState && liffState.startsWith("#/")) {
+        referralCode = liffState.slice(2);
+      }
+    }
+  
+    // 3. 두 케이스 모두 referralCode가 없으면 URL의 마지막 세그먼트를 사용
+    if (!referralCode) {
+      const parts = window.location.pathname.split("/");
       referralCode = parts[parts.length - 1];
     }
   
@@ -156,12 +163,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   
     // 정규표현식 패턴 검사
     if (referralPattern.test(referralCode)) {
-      // // console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드 패턴에 부합 -> localStorage에 저장`);
       localStorage.setItem("referralCode", referralCode);
     } else {
-      // // console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드가 아님`);
+      console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드가 아님`);
     }
   }, [navigate]);
+  
   
 
   // 토큰(서버용 Access Token) 처리 및 사용자 검증
