@@ -138,7 +138,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
             type="number"
             value={betAmount}
             onChange={handleInputChange}
-            max={allowedBetting+1} // 입력값 제한
+            max={allowedBetting} // 입력값 제한
             className="border-2 border-[#21212f] rounded-2xl h-12 text-sm font-medium px-4 mt-4 w-[342px]"
           />
 
