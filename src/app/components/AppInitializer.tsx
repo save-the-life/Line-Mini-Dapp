@@ -96,7 +96,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         console.error("[AppInitializer] 403 에러 감지 -> 재인증 흐름 호출");
         // localStorage.removeItem("accessToken");
         // 재인증 흐름: handleTokenFlow() 를 호출하여 LIFF 토큰 기반 재인증 진행
-        await handleTokenFlow();
+        // await handleTokenFlow();
         return;
       }
 
