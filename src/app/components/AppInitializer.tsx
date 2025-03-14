@@ -92,6 +92,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
+      //
       // if ((error.message === "Request failed with status code 403" || error.response?.status === 403)) {
       //   console.error("[AppInitializer] 403 에러 감지 -> 액세스 토큰 제거 및 재인증 흐름 호출");
       //   localStorage.removeItem("accessToken");
