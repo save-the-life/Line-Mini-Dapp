@@ -602,7 +602,7 @@ const MyAssets: React.FC = () => {
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        setShowModal(true);
+                                        window.location.href = "https://www.dappportal.io/collections/N67d255e40cf56710764122ad?tab=drops&quantity=1";
                                     }}>
                                     {t("asset_page.shop_nft")}
                                 </button>
@@ -634,7 +634,7 @@ const MyAssets: React.FC = () => {
                                     style={{ backgroundColor: '#0147E5' }}
                                     onClick={() => {
                                         playSfx(Audios.button_click);
-                                        setShowModal(true);
+                                        window.location.href = "https://www.dappportal.io/collections/N67d255e40cf56710764122ad?tab=drops&quantity=1";
                                     }}>
                                     {t("asset_page.shop_nft")}
                                 </button>
