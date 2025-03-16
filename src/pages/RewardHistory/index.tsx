@@ -351,7 +351,7 @@ const RewardHistory: React.FC = () => {
             <div className="flex justify-center mt-4">
               <button
                 onClick={handleLoadMore}
-                className="px-4 py-2 bg-[#3B82F6] rounded-md text-white font-semibold hover:bg-blue-600"
+                className="px-4 py-2 bg-[#3B82F6] rounded-md text-white font-semibold hover:bg-[#3B82F6]"
               >
                 {t("asset_page.load_more")}
               </button>
