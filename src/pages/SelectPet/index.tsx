@@ -102,7 +102,7 @@ const SelectPet: React.FC = () => {
                   onClick={() => handlePetSelect(pet.petId)}
                 />
                 <button
-                  className="absolute bottom-2 right-3 bg-blue-500 rounded-full w-6 h-6 flex items-center justify-center"
+                  className="absolute bottom-2 right-3 bg-[#0147E5] rounded-full w-6 h-6 flex items-center justify-center"
                   onClick={() => handleEdit(pet.petId, pet.name, pet.imageUrl)}
                 >
                   <FaPen className="text-white w-3 h-3" />

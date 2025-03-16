@@ -296,7 +296,7 @@ const DiagnosisRecords: React.FC = () => {
           <div className="bg-white text-black p-6 rounded-lg text-center">
             <p>{modalText}</p>
             <button
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+              className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
               onClick={() => setOpenModal(false)}
             >
               {t('OK')}

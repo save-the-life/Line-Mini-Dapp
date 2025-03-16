@@ -724,7 +724,7 @@ const MyAssets: React.FC = () => {
                         <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
                             <p>{t("asset_page.prepare_service")}</p>
                             <button
-                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
                                 onClick={() => {
                                     playSfx(Audios.button_click);
                                     setShowModal(false);
@@ -741,7 +741,7 @@ const MyAssets: React.FC = () => {
                         <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
                             <p>{t("asset_page.wallet_connect")}</p>
                             <button
-                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
                                 onClick={() => {
                                     playSfx(Audios.button_click);
                                     setShowWalletModal(false);
@@ -759,7 +759,7 @@ const MyAssets: React.FC = () => {
                         <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
                             <p>{t("asset_page.uid")}</p>
                             <button
-                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                                className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
                                 onClick={() => {
                                     playSfx(Audios.button_click);
                                     setCopySuccess(false);

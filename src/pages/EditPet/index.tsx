@@ -107,7 +107,7 @@ const EditPet: React.FC = () => {
                         <FaPaw className="text-6xl text-gray-600" />
                     )}
                 </div>
-                <label htmlFor="pet-image-upload" className="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full cursor-pointer">
+                <label htmlFor="pet-image-upload" className="absolute bottom-0 right-0 bg-[#0147E5] p-2 rounded-full cursor-pointer">
                     <FaPen className="text-white" />
                 </label>
                 <input
@@ -154,7 +154,7 @@ const EditPet: React.FC = () => {
                     <div className="bg-white text-black p-6 rounded-lg text-center">
                         <p>{modalMessage}</p>
                         <button
-                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                            className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
                             onClick={() => setShowModal(false)}
                             >
                             {t("OK")}

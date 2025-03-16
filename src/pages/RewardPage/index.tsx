@@ -287,7 +287,7 @@ const Reward: React.FC = () => {
           <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
               <p>{t("reward_page.no_previous_rewards")}</p>
               <button
-                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+                  className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
                   onClick={handleCloseModal}
                   >
                   {t("OK")}

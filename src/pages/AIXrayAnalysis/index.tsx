@@ -481,7 +481,7 @@ const AIXrayAnalysis: React.FC = () => {
           <div className="bg-white p-6 rounded-lg text-black text-center w-[70%] max-w-[550px]">
             <p>{modalInfo.isVisible ? modalInfo.message : t("ai_page.Please_upload_an_image_before_analysis.")}</p>
             <button
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
+              className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
               onClick={() => {
                 playSfx(Audios.button_click);
                 setShowModal(false);
