@@ -430,7 +430,13 @@
       "reward_booster": "Reward Booster",
       "reward_multiplier": "Reward Multiplier",
       "turbo": "Raffle Ticket Turbo",
-      "welcome_message": "Welcome! Here is your <1/>Dapp Portal Promotion Reward!"
+      "welcome_message": "Welcome! Here is your <1/>Dapp Portal Promotion Reward!",
+      "account_suspended": "Account Suspended",
+      "fair_play": "Your account is currently suspended for violating our fair-play policies.",
+      "mistake": "If you think this is a mistake, please reach out to our support team.",
+      "reason": "Reason: Inappropriate use of the game or unfair play detected.",
+      "if_error": "If you believe this was done in error,",
+      "contact_team": "please contact our support team."
     },
     "setting": {
       "terms_of_service": "Trems of Service",

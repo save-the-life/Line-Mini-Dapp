@@ -430,7 +430,13 @@
       "reward_booster": "보상 부스터",
       "reward_multiplier": "보상 배수기",
       "turbo": "래플 티켓 터보",
-      "welcome_message": "환영합니다! 아래는 당신의 <1/>Dapp Portal 프로모션 보상입니다!"
+      "welcome_message": "환영합니다! 아래는 당신의 <1/>Dapp Portal 프로모션 보상입니다!",
+      "account_suspended": "계정 정지됨",
+      "fair_play": "귀하의 계정은 공정한 게임 이용 정책 위반으로 현재 정지 상태입니다.",
+      "mistake": "이 조치가 실수라고 생각되시면, 지원팀에 문의해 주세요.",
+      "reason": "사유: 게임의 부적절한 사용 또는 불공정한 플레이가 감지되었습니다.",
+      "if_error": "만약 이 조치가 오류라고 생각된다면,",
+      "contact_team": "지원팀에 문의해 주세요."
     },
     "setting": {
       "terms_of_service": "이용 약관",

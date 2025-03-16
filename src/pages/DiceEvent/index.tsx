@@ -88,6 +88,9 @@ const DiceEventPage: React.FC = () => {
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
 
+  // 부적절한 사용자 정지 안내표시
+  const [banned, setBanned] = useState<boolean>(false);
+
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
     if (userLv > prevLevel) {
@@ -432,6 +435,58 @@ const DiceEventPage: React.FC = () => {
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   {t("dice_event.check")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          
+          {/* 사용 중지 다이얼로그 */}
+          <Dialog open={banned}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      setShowRankingModal(false);
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className=" flex flex-col items-center gap-2">
+                  <h1 className=" font-bold text-xl  text-center">
+                    {t("dice_event.account_suspended")}
+                  </h1>
+                </div>
+                <div className="flex flex-col mt-5">
+                  <p className="font-Pretendard text-center text-base font-semibold">
+                    {t("dice_event.fair_play")}<br/>
+                    {t("dice_event.mistake")}
+                  </p>
+                </div>
+                
+                <div className="flex flex-col mt-2">
+                  <p className="font-Pretendard text-center text-sm font-semibold text-[#DD2726]">
+                    {t("dice_event.reason")}
+                  </p>
+                </div>
+
+                
+                <div className="flex flex-col mt-2">
+                  <p className="font-Pretendard text-center text-sm font-normal text-[#A3A3A3]">
+                    {t("dice_event.if_error")}<br/>
+                    {t("dice_event.contact_team")}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setBanned(false)}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  {t("agree_page.close")}
                 </button>
               </div>
             </DialogContent>
