@@ -178,6 +178,9 @@ const RewardHistory: React.FC = () => {
       case "Invite a Friend Reward":
         contentKey = "invite_friend_reward";
         break;
+      case "RPS Game Betting":
+          contentKey = "rps_game_betting";
+          break;
       default:
         contentKey = reward.content;
     }
