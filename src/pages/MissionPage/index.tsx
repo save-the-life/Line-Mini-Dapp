@@ -24,6 +24,8 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import Attendance from "@/widgets/Attendance";
+import useWalletStore from "@/shared/store/useWalletStore";
+import { connectWallet } from "@/shared/services/walletService";
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -134,6 +136,9 @@ const MissionPage: React.FC = () => {
   const [eventShow, setEventShow] = useState(false);
   const { missions, fetchMissions, clearMission } = useMissionStore();
 
+  // 지갑 관련 전역 상태
+  const { walletAddress } = useWalletStore();
+
   // 보상 다이얼로그 상태
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [rewardData, setRewardData] = useState<{
@@ -179,6 +184,21 @@ const MissionPage: React.FC = () => {
   useEffect(() => {
     fetchMissions();
   }, [fetchMissions]);
+
+  // 여기에 지갑 연결 로직 추가 (잔액 조회 없이)
+  useEffect(() => {
+    const checkWalletConnection = async () => {
+      if (!walletAddress) {
+        try {
+          // connectWallet 함수는 지갑 연결만 수행합니다.
+          await connectWallet();
+        } catch (error) {
+          console.error("Wallet connection failed:", error);
+        }
+      }
+    };
+    checkWalletConnection();
+  }, [walletAddress]);
 
   // 미션 클리어 시 보상 처리 (이미 보상 모달이 표시된 미션은 건너뜁니다)
   const handleMissionCleared = (mission: Mission) => {
