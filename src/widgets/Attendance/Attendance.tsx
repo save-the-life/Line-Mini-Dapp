@@ -14,6 +14,7 @@ import { connectWallet } from "@/shared/services/walletService";
 import testingAttendance from "@/entities/User/api/testAttendance";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
+import okxAttendance from "@/entities/User/api/okxAttendance";
 
 const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
 //const contractAddress ="0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1"; //testnet checkin contractaddress
@@ -277,6 +278,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
 
             if (receipt.status === 1) {
+               await okxAttendance();
                setShowModal(true);
                setMessage("출석체크 성공");
                const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
