@@ -361,7 +361,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
       {/* 출첵 성공 여부 알림 모달창 */}
       {showModal && (
-         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full z-100">
             <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
                   {/* 문구 설정 */}
                   <p>{message}</p>
