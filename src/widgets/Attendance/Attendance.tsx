@@ -270,13 +270,13 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
          const signature = await signer.signMessage(message);
          const sig = ethers.utils.splitSignature(signature);
 
-         // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행 후 testingAttendance 호출
+         // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
          if (currentProvider.getWalletType() === "OKX") {
             const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
-            await tx.wait();
+            const receipt = await tx.wait();
             // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
-            const testing = await testingAttendance(tx.hash);
-            if (testing) {
+
+            if (receipt.status === 1) {
                setShowModal(true);
                setMessage("출석체크 성공");
                const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
@@ -295,6 +295,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             sig.r,
             sig.s,
          ]);
+
          const tx = {
             typeInt: TxType.FeeDelegatedSmartContractExecution,
             from: currentWalletAddress,
@@ -317,7 +318,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             setWeekAttendance(updatedAttendance);
          } else {
             setShowModal(true);
-            setMessage("출석체크 실패");
+            setMessage("출석 체크 실패");
          }
       } catch (error) {
          setShowModal(true);
