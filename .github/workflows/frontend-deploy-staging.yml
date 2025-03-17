@@ -1,0 +1,41 @@
+name: Deploy Frontend (Staging)
+
+on:
+  push:
+    branches: [ "staging" ]  # staging 브랜치 push 시에만 동작
+
+jobs:
+  build-and-deploy-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (Staging)
+        env:
+          # 스테이징용 깃헙 시크릿
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL_STG }}
+          VITE_OPEN_AI_API_KEY: ${{ secrets.VITE_OPEN_AI_API_KEY_STG }}
+        run: npm run build -- --mode staging
+
+      - name: Deploy to S3 (Staging)
+        run: aws s3 sync dist/ s3://my-staging-bucket --delete
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STG }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STG }}
+          AWS_DEFAULT_REGION: ap-northeast-1
+
+      - name: Invalidate CloudFront (Staging)
+        run: aws cloudfront create-invalidation --distribution-id XXXXXXXXXXXXX --paths "/*"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STG }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STG }}
+          AWS_DEFAULT_REGION: ap-northeast-1
