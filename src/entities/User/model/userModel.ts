@@ -142,6 +142,10 @@ interface UserState {
   // **추가된 필드: timeZone (null 가능)**
   timeZone: string | null;
   setTimeZone: (timeZone: string | null) => void;
+
+  // **추가된 필드: suspend (boolean)**
+  suspend: boolean;
+  setSuspend: (suspend: boolean) => void;
 }
 
 // 필요한 인터페이스 정의
@@ -176,6 +180,10 @@ export const useUserStore = create<UserState>((set, get) => ({
   //타임존 추가
   timeZone: null,
   setTimeZone: (timeZone) => set({ timeZone }),
+  
+  // suspend 필드 추가 (초기값 false)
+  suspend: false,
+  setSuspend: (suspend) => set({ suspend }),
 
   pet : {
     type: null,
@@ -383,6 +391,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         isAuto: user.isAuto, // 추가된 부분: isAuto 설정
         completeTutorial: user.completeTutorial,
         timeZone: user.timeZone,
+        suspend: user.suspend, // 추가된 부분: suspend 값 저장
   
         position: nowDice.tileSequence,
         diceCount: nowDice.dice,
@@ -539,6 +548,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       referrerId: null, // 추가된 부분: referrerId 초기화
       isAuto: false, // 추가된 부분: isAuto 초기화
       timeZone: null,
+      suspend: false, // 추가된 부분: suspend 초기화
       position: 0,
       diceCount: 0,
       starPoints: 0,

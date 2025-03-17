@@ -12,6 +12,8 @@ import Images from "@/shared/assets/images";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
 import testingAttendance from "@/entities/User/api/testAttendance";
+import { useSound } from "@/shared/provider/SoundProvider";
+import Audios from "@/shared/assets/audio";
 
 const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
 //const contractAddress ="0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1"; //testnet checkin contractaddress
@@ -199,11 +201,14 @@ const getTodayDay = (): DayKeys => {
 };
 
 const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
-  const { weekAttendance, setWeekAttendance } = useUserStore();
-  const [today] = useState<DayKeys>(getTodayDay());
-  const { t } = useTranslation();
-  const { walletAddress, provider, setWalletAddress, setProvider, setWalletType } = useWalletStore();
-  const [isConnecting, setIsConnecting] = useState(false);
+   const { weekAttendance, setWeekAttendance } = useUserStore();
+   const [today] = useState<DayKeys>(getTodayDay());
+   const { t } = useTranslation();
+   const { playSfx } = useSound();
+   const { walletAddress, provider, sdk, walletType } = useWalletStore();
+   const [isConnecting, setIsConnecting] = useState(false);
+   const [showModal, setShowModal] = useState(false);
+   const [message, setMessage] = useState("");
 
   // 출석 상태 결정 로직
   const getStatus = (day: DayKeys) => {
@@ -231,104 +236,94 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
 
-  // 출석 체크 함수 (지갑 연결 후 바로 서명 요청)
-  const handleAttendanceClick = async () => {
-    // 연결되지 않은 경우 지갑 연결 시도
-    if (!provider || !walletAddress) {
-      if (isConnecting) return; // 중복 연결 방지
-      setIsConnecting(true);
-      const connection = await connectWallet();
-      setIsConnecting(false);
-      if (!connection.provider || !connection.walletAddress) {
-        // console.error("지갑 연결 상태 업데이트 실패");
-        return;
+
+   const handleAttendanceClick = async () => {
+      let currentProvider = provider;
+      let currentWalletAddress = walletAddress;
+      let currentSdk = sdk;
+      let currentWalletType = walletType;
+
+      if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+         if (isConnecting) return;
+         setIsConnecting(true);
+         const connection = await connectWallet();
+         setIsConnecting(false);
+         if (!connection.provider || !connection.walletAddress) {
+            setShowModal(true);
+            setMessage("지갑 연결 실패");
+            return;
+         }
+         currentProvider = connection.provider;
+         currentWalletAddress = connection.walletAddress;
+         currentSdk = connection.sdk;
+         currentWalletType = connection.walletType;
       }
-    }
 
-    try {
-      // console.log("출석 체크 서명 요청 중...");
-  
-      const ethersProvider = new Web3Provider(provider);
-      const signer = ethersProvider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-  
-      // console.log("⚠️ Fee Delegation + 서명 방식 적용 중...");
-  
-      // ✅ 1️⃣ 사용자가 출석 체크 서명 생성
-      const message = `출석 체크: ${walletAddress}`;
-      const messageHash = ethers.utils.hashMessage(message);
-  
-      // ✅ 2️⃣ 사용자가 메시지 서명 (OKX, LIFF 등 지갑용)
-      const signature = await signer.signMessage(message);
-      // console.log("✅ 서명 완료:", signature);
-  
-      // ✅ 3️⃣ 서명 데이터(v, r, s) 추출
-      const sig = ethers.utils.splitSignature(signature);
-      // console.log("✅ 서명 데이터 분해:", sig);
-  
-      const currentWalletType = provider.getWalletType();
-      // console.log("연결된 지갑 타입:", currentWalletType);
-  
-      if (currentWalletType === "OKX") {
-   
-         // ✅ 컨트랙트 함수 실행 (`checkAttendance`)
-         const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
-         await tx.wait();
-         // console.log("✅ 출석 체크 트랜잭션 성공! TX Hash:", tx.hash);
-         alert("출석 체크 완료!");
-   
-         // ✅ 출석 처리 후 상태 업데이트
-         const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
-         setWeekAttendance(updatedAttendance);
-         return;
-       }
+      try {
+         const ethersProvider = new Web3Provider(currentProvider);
+         const signer = ethersProvider.getSigner();
+         const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      // ✅ 4️⃣ Fee Delegation 트랜잭션 데이터 생성 (서명 데이터 포함)
-      const contractCallData = await contract.interface.encodeFunctionData("checkAttendance", [
-        messageHash, sig.v, sig.r, sig.s,
-      ]);
-  
-      // ✅ 5️⃣ 트랜잭션 객체 생성 (Fee Payer가 실행할 수 있도록 준비)
-      const tx = {
-        typeInt: TxType.FeeDelegatedSmartContractExecution,
-        from: walletAddress,
-        to: contractAddress,
-        input: contractCallData,
-        value: "0x0",
-        feePayer,
-      };
-  
-      // ✅ 6️⃣ 사용자가 트랜잭션 서명 (백엔드에 보낼 서명)
-      const signedTx = await provider.request({
-        method: "kaia_signTransaction",
-        params: [tx],
-      });
-  
-      // console.log("✅ 사용자가 서명한 트랜잭션:", signedTx);
+         // 출석 체크 메시지 생성 및 서명
+         const message = `출석 체크: ${currentWalletAddress}`;
+         const messageHash = ethers.utils.hashMessage(message);
+         const signature = await signer.signMessage(message);
+         const sig = ethers.utils.splitSignature(signature);
 
-      try{
-        // console.log("출석 후 서버 확인 진행");
-        const testing = await testingAttendance(signedTx.raw);
+         // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행 후 testingAttendance 호출
+         if (currentProvider.getWalletType() === "OKX") {
+            const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+            await tx.wait();
+            // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
+            const testing = await testingAttendance(tx.hash);
+            if (testing) {
+               setShowModal(true);
+               setMessage("출석체크 성공");
+               const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
+               setWeekAttendance(updatedAttendance);
+            } else {
+               setShowModal(true);
+               setMessage("출석체크 실패");
+            }
+            return;
+         }
 
-        if(testing){
-          // console.log("출석 응답");
-          alert("출석 체크를 완료하였습니다.");
-          const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
-          setWeekAttendance(updatedAttendance);
-        }else{
-          // console.log("출석 응답 - 실패");
-        }
-      } catch(error:any){
-        
-        // console.error("❌ 출석 체크 실패:", error);
-        alert("출석 체크 중 오류 발생!");
+         // OKX가 아닌 경우: Fee Delegation 로직 적용
+         const contractCallData = contract.interface.encodeFunctionData("checkAttendance", [
+            messageHash,
+            sig.v,
+            sig.r,
+            sig.s,
+         ]);
+         const tx = {
+            typeInt: TxType.FeeDelegatedSmartContractExecution,
+            from: currentWalletAddress,
+            to: contractAddress,
+            input: contractCallData,
+            value: "0x0",
+            feePayer,
+         };
+
+         const signedTx = await currentProvider.request({
+            method: "kaia_signTransaction",
+            params: [tx],
+         });
+
+         const testing = await testingAttendance(signedTx.raw);
+         if (testing) {
+            setShowModal(true);
+            setMessage("출석체크 성공");
+            const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
+            setWeekAttendance(updatedAttendance);
+         } else {
+            setShowModal(true);
+            setMessage("출석체크 실패");
+         }
+      } catch (error) {
+         setShowModal(true);
+         setMessage("출석체크 중 오류 발생");
       }
-    } catch (error) {
-      // console.error("❌ 출석 체크 실패:", error);
-      alert("출석 체크 중 오류 발생!");
-    }
-  };
-
+   };
 
   return (
     <div className="mt-4">
@@ -362,6 +357,25 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 text-white">
         * {t("dice_event.star_rewards")}
       </p>
+      
+
+      {/* 출첵 성공 여부 알림 모달창 */}
+      {showModal && (
+         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+            <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+                  {/* 문구 설정 */}
+                  <p>{message}</p>
+                  <button
+                     className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
+                     onClick={() => {
+                        playSfx(Audios.button_click);
+                        setShowModal(false);
+                     }}>
+                     {t("OK")}
+                  </button>
+            </div>
+         </div>
+      )}
     </div>
   );
 };

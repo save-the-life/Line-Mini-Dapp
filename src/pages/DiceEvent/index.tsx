@@ -65,6 +65,8 @@ const DiceEventPage: React.FC = () => {
     monthlyPrize,
     isAuto,
     pet,
+    suspend,
+    setSuspend,
   } = useUserStore();
 
   const game = useDiceGame();
@@ -442,7 +444,7 @@ const DiceEventPage: React.FC = () => {
 
           
           {/* 사용 중지 다이얼로그 */}
-          <Dialog open={banned}>
+          <Dialog open={suspend}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -483,7 +485,7 @@ const DiceEventPage: React.FC = () => {
                   </p>
                 </div>
                 <button
-                  onClick={() => setBanned(false)}
+                  onClick={() => setSuspend(false)}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   {t("agree_page.close")}
