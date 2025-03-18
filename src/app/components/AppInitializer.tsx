@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
@@ -283,6 +284,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           liffId: import.meta.env.VITE_LIFF_ID,
           withLoginOnExternalBrowser: true,
         });
+        
+        await DappPortalSDK.init({
+          clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+          chainId: "8217",
+        });
+
         // // console.log("[AppInitializer] LIFF 초기화 완료");
 
         // 브라우저 언어 기반 언어 설정
