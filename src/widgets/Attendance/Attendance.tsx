@@ -251,7 +251,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
          setIsConnecting(false);
          if (!connection.provider || !connection.walletAddress) {
             setShowModal(true);
-            setMessage("지갑 연결 실패");
+            setMessage(t("attendance.wallet_fail"));
             return;
          }
          currentProvider = connection.provider;
@@ -280,12 +280,12 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             if (receipt.status === 1) {
                await okxAttendance();
                setShowModal(true);
-               setMessage("출석체크 성공");
+               setMessage(t("attendance.attendance_success"));
                const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
                setWeekAttendance(updatedAttendance);
             } else {
                setShowModal(true);
-               setMessage("출석체크 실패");
+               setMessage(t("attendance.attendance_failed"));
             }
             return;
          }
@@ -315,16 +315,16 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
          const testing = await testingAttendance(signedTx.raw);
          if (testing) {
             setShowModal(true);
-            setMessage("출석체크 성공");
+            setMessage(t("attendance.attendance_success"));
             const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
             setWeekAttendance(updatedAttendance);
          } else {
             setShowModal(true);
-            setMessage("출석 체크 실패");
+            setMessage(t("attendance.attendance_failed"));
          }
       } catch (error) {
          setShowModal(true);
-         setMessage("출석체크 중 오류 발생");
+         setMessage(t("attendance.attendance_err"));
       }
    };
 

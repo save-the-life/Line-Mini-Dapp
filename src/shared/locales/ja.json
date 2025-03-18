@@ -469,5 +469,11 @@
   "referral": {
     "title": "あなたとお友達は、<1/>10,000ポイントを受け取ります！",
     "description": "紹介者は、お友達が獲得したSLトークンと、<1/>アイテム購入に使用されたUSDTの10%を受け取ります！"
+  },
+  "attendance": {
+    "attendance_success": "出席に成功しました。",
+    "attendance_failed": "出席に失敗しました。",
+    "wallet_fail": "ウォレットの接続に失敗しました。",
+    "attendance_err": "出席中にエラーが発生しました。"
   }
 }

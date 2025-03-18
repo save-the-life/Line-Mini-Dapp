@@ -469,6 +469,12 @@
     "referral": {
       "title": "Both you and your friend<1/>receive 10,000 Points!",
       "description": "Referrals will receive 10% of the SL tokens earned by<1/>their friends and USDT used to purchase items!"
+    },
+    "attendance": {
+      "attendance_success": "Attendace Success.",
+      "attendance_failed": "Attendance Failed.",
+      "wallet_fail": "Wallet Connection Failed.",
+      "attendance_err": "Error occurred while Attendance."
     }
   }
   

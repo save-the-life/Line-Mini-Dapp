@@ -469,6 +469,12 @@
     "referral": {
       "title": "추천인과 친구 모두에게<1/>10,000P 지급!",
       "description": "추천을 통해 친구가 획득한 SL 토큰과 <1/>아이템 구매에 사용된 USDT의 10%를 받게 됩니다!"
+    },
+    "attendance": {
+      "attendance_success": "출석 성공.",
+      "attendance_failed": "출석 실패.",
+      "wallet_fail": "지갑 연결 실패.",
+      "attendance_err": "출석 중 오류가 발생했습니다."
     }
   }
   

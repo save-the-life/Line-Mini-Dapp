@@ -469,6 +469,12 @@
     "referral": {
       "title": "你和你的朋友<1/>都可以獲得10,000點數！",
       "description": "推薦者將獲得朋友所賺取的<1/>SL代幣及購買物品使用的USDT的10%！"
+    },
+    "attendance": {
+      "attendance_success": "出席成功。",
+      "attendance_failed": "出席失敗。",
+      "wallet_fail": "錢包連接失敗。",
+      "attendance_err": "出席時發生錯誤。"
     }
   }
   
