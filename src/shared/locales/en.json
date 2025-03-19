@@ -228,7 +228,7 @@
       "invite_your_friend": "Invite Your Friends!",
       "total_reward": "Total referral rewards",
       "view_detail": "View Details",
-      "points":"Ponits Earned",
+      "points":"Points Earned",
       "sl": "SL Earned",
       "usdt": "USDT Earned",
       "friend_list": "Invite Friends List",
@@ -253,13 +253,13 @@
       "all_type": "All Types",
       "sl": "SL Token",
       "point": "Point",
-      "no_nft": "No NFTs in your colletion yet.",
+      "no_nft": "No NFTs in your collection yet.",
       "own_nft": "Own NFT and Boost your rank!",
       "shop_nft": "Shop NFT",
       "claimable": "Claimable Balance",
       "view_claim": "View Claim History",
       "claim_reward": "Claim Rewards",
-      "prepare_service": "We're preparing for the sercive",
+      "prepare_service": "We're preparing for the service",
       "claim": {
         "claim_token": "Claim Tokens",
         "select_token": "Select the token you want to claim :",
@@ -296,7 +296,7 @@
         "claim_waiting": "Waiting"
       },
       "non_nft": "My ITEMs",
-      "buy_more": "Buy more Itmes",
+      "buy_more": "Buy more Items",
       "item_store":"ITEM Store",
       "payment_history": "Payment History",
       "agree_non_refundable": "I agree that the product is non-refundable.",
@@ -407,7 +407,7 @@
       "additive": "The ITEM reward multiplier is additive.",
       "select_tile": "Select a tile to move",
       "level_up": "Level up!",
-      "grap_prize": "Grap your prize!",
+      "grap_prize": "Grab your prize!",
       "my_rank":"My Rank",
       "ranking_base": "Rankings are based on Star Points",
       "star_rewards": "Rewards: 3,000 Star Points",
@@ -415,7 +415,7 @@
       "get_more_dice": "Get More Dice",
       "Earn_extra_rolls": "Earn extra rolls",
       "to_boost_your_chances": "to boost your chances!",
-      "check_rank": "Check your rank this mnonth!",
+      "check_rank": "Check your rank this month!",
       "claim_rewards": "Check your ranking and claim your rewards!",
       "lucyk_airdrop" : "Lucky Airdrop Event!",
       "lucky_winner" : "Check if you're one of the lucky winners!",
@@ -439,7 +439,7 @@
       "contact_team": "please contact our support team."
     },
     "setting": {
-      "terms_of_service": "Trems of Service",
+      "terms_of_service": "Terms of Service",
       "privacy_policy": "Privacy Policy",
       "electronic_commerce_policy": "Electronic Commerce Service",
       "language": "Language",
@@ -471,7 +471,7 @@
       "description": "Referrals will receive 10% of the SL tokens earned by<1/>their friends and USDT used to purchase items!"
     },
     "attendance": {
-      "attendance_success": "Attendace Success.",
+      "attendance_success": "Attendance Success.",
       "attendance_failed": "Attendance Failed.",
       "wallet_fail": "Wallet Connection Failed.",
       "attendance_err": "Error occurred while Attendance."
