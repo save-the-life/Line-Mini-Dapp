@@ -66,9 +66,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       await fetchUserData();
       
       const userTimeZone = useUserStore.getState().timeZone;
-      console.log("서버로부터 받은 타임존: ", userTimeZone);
+      // console.log("서버로부터 받은 타임존: ", userTimeZone);
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("사용자의 타임존: ", currentTimeZone);
+      // console.log("사용자의 타임존: ", currentTimeZone);
 
       if(userTimeZone === null || userTimeZone!== currentTimeZone){
         // 서버 측에 사용자 타임존 저장 api 호출
