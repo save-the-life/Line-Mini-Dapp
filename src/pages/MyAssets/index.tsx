@@ -490,12 +490,12 @@ const MyAssets: React.FC = () => {
                     </div>
                 </div>
 
-                {/* NFT 상점 이동 영역 */}
+                {/* ITEM 상점 이동 영역 */}
                 <div 
                     className="rounded-2xl p-5 mt-6 w-full flex items-center justify-between"
                     onClick={()=>{
                         playSfx(Audios.button_click);
-                        setShowModal(true);
+                        navigate("/item-store", { state: { balance, walletAddress } });
                     }}
                     style={{ background: "linear-gradient(to bottom, #19203CB2 0%, #304689 100%)" }}>
                     <div className="pl-3">
