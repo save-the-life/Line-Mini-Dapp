@@ -22,20 +22,22 @@ jobs:
       - name: Build (Staging)
         env:
           # 스테이징용 깃헙 시크릿
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL_STG }}
-          VITE_OPEN_AI_API_KEY: ${{ secrets.VITE_OPEN_AI_API_KEY_STG }}
+          VITE_API_BASE_URL: ${{ secrets.STAGING_VITE_API_BASE_URL }}
+          VITE_OPEN_AI_API_KEY: ${{ secrets.VITE_OPEN_AI_API_KEY }}
+          VITE_LIFF_ID: ${{ secrets.VITE_LIFF_ID }}
+          VITE_LINE_CLIENT_ID: ${{ secrets.VITE_LINE_CLIENT_ID }}
         run: npm run build -- --mode staging
 
       - name: Deploy to S3 (Staging)
-        run: aws s3 sync dist/ s3://my-staging-bucket --delete
+        run: aws s3 sync dist/ s3://digiray-staging-s3 --delete
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STG }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STG }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-northeast-1
 
       - name: Invalidate CloudFront (Staging)
-        run: aws cloudfront create-invalidation --distribution-id XXXXXXXXXXXXX --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id E11THXXXJEMDGT --paths "/*"
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STG }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STG }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-northeast-1
