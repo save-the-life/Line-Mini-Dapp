@@ -13,7 +13,7 @@ export async function connectWallet(): Promise<{
     
     const sdk = await DappPortalSDK.init({
       clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-      chainId: "8217",
+      chainId: "1001",
     });
     // console.log("[지갑 연결] sdk 초기화: ", sdk);
   
