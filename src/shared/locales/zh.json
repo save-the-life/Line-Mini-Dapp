@@ -238,7 +238,9 @@
       "mission_reward": "任務獎勵",
       "congrate": "恭喜！",
       "reward_added": "該獎勵已添加到您的帳戶中。",
-      "ok": "確定"
+      "ok": "確定",
+      "point_dis": "星点分布",
+      "payback": "邀请的朋友结算金的10%返现"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "立即購買獨特的ITEM！",

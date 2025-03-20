@@ -238,7 +238,9 @@
         "mission_reward": "ミッション報酬",
         "congrate": "おめでとうございます！",
         "reward_added": "この報酬はあなたのアカウントに追加されました。",
-        "ok": "OK"
+        "ok": "OK",
+        "point_dis": "星点分布",
+        "payback": "友人の購入に対する10 %の回収率"
     },
     "asset_page": {
         "Shop_Unique_NFTs_Now!": "今すぐユニークなITEMを購入しましょう！",

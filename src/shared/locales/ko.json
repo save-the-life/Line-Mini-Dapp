@@ -238,7 +238,9 @@
       "mission_reward": "미션 보상",
       "congrate": "축하합니다!",
       "reward_added": "이 보상이 계정에 추가되었습니다.",
-      "ok": "확인"
+      "ok": "확인",
+      "point_dis": "스타 포인트 지급",
+      "payback": "초대한 친구 결제금의 10% 페이백"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "특별한 아이템 구매하기",

@@ -119,10 +119,17 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
     <div className="basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between mb-3">
       <div className="space-y-3">
         <p className="text-xl font-semibold">{title}</p>
-        <p className="text-sm">
-          {t("mission_page.Earn_various_rewards")} <br className="md:hidden" />
-          {t("mission_page.such_as_dice,_points,_SL_coins")}
-        </p>
+        <div className="flex flex-col gap-3 mb-5">
+          <div className="flex items-start gap-2">
+              <p className="text-sm font-normal">1. </p>
+              <p className="text-sm font-normal ml-1">{t("mission_page.point_dis")}</p>
+          </div>
+          <div className="flex items-start gap-2">
+              <p className="text-sm font-normal">2. </p>
+              <p className="text-sm font-normal ml-1">{t("mission_page.payback")}</p>
+          </div>
+
+        </div>
       </div>
       <img src={image} alt={alt} className="w-24 h-24" />
     </div>

@@ -238,7 +238,9 @@
       "mission_reward": "Mission Reward",
       "congrate":"Congratulations!",
       "reward_added": "This reward has been added to your account.",
-      "ok": "OK"
+      "ok": "OK",
+      "point_dis": "Star Points Distribution",
+      "payback": "10% Payback on Your Friend’s Purchase"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "Shop Unique ITEMs Now!",
