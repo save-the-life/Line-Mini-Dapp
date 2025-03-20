@@ -501,14 +501,11 @@ const MyAssets: React.FC = () => {
                     <div className="pl-3">
                         <h3 className="text-base font-semibold mb-[6px]">{t("asset_page.Shop_Unique_NFTs_Now!")}</h3>
                         <p className="text-sm font-medium text-gray-200">
-                            {t("asset_page.Start_collecting_rare_and")}
-                        </p>
-                        <p className="text-sm font-medium text-gray-200">
-                            {t("asset_page.unique_digital_assets_today!")}
+                            {t("asset_page.My_NFT_Collection")}
                         </p>
                     </div>
                     <img
-                        src={Images.cart}
+                        src={Images.Rocket}
                         alt="Shop NFTs"
                         className="w-[90px] h-[90px]"
                     />

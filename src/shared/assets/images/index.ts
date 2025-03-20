@@ -174,6 +174,7 @@ import USDT from "./usdt.png"
 import Promotion from "./promotion.png"
 import Medium from "./medium.png"
 import Note from "./note.png"
+import Rocket from "./rocket.png"
 
 const Images = {
   HorizontalLogo,
@@ -350,7 +351,8 @@ const Images = {
   USDT,
   Promotion,
   Medium,
-  Note
+  Note,
+  Rocket
 };
 
 export default Images;
