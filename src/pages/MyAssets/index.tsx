@@ -499,9 +499,9 @@ const MyAssets: React.FC = () => {
                     }}
                     style={{ background: "linear-gradient(to bottom, #19203CB2 0%, #304689 100%)" }}>
                     <div className="pl-3">
-                        <h3 className="text-base font-semibold mb-[6px]">{t("asset_page.Shop_Unique_NFTs_Now!")}</h3>
+                        <h3 className="text-base font-semibold mb-[6px] whitespace-nowrap">{t("asset_page.Shop_Unique_NFTs_Now!")}</h3>
                         <p className="text-sm font-medium text-gray-200">
-                            {t("asset_page.My_NFT_Collection")}
+                            {t("asset_page.boost_rank")}
                         </p>
                     </div>
                     <img
