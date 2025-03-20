@@ -330,7 +330,8 @@
       "uid": "UID가 클립보드에 복사되었습니다.",
       "purchase": "구매 즉시 적용됩니다.",
       "reset_date": "날짜 초기화",
-      "all": "전체"
+      "all": "전체",
+      "note": "참고: 아이템 효과가 누적됩니다."
     },
     "dice_event": {
       "attendance": "출석",

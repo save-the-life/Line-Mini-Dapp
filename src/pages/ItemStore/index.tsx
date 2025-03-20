@@ -425,6 +425,18 @@ const ItemStore: React.FC = () => {
         {/* 체크박스 및 결제 버튼 영역 */}
         <div className="mt-5 px-6">
           <div className="flex flex-col gap-3 mb-5">
+            {/* 아이템 효과 중첩 안내 */}
+            <div className="flex items-center gap-2">
+              <img
+                  src={Images.Note}
+                  alt="gift-icon"
+                  className="w-4 h-4"
+              />
+              <p className="text-left text-xs font-normal">
+                  {t("asset_page.note")}
+              </p>
+            </div>
+            {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
               <input
                 type="checkbox"
@@ -446,6 +458,7 @@ const ItemStore: React.FC = () => {
                 </a>
               </span>
             </label>
+            {/* 개인정보 제공 동의 사항 */}
             <label className="flex items-start gap-2">
               <input
                 type="checkbox"

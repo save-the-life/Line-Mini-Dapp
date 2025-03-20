@@ -330,7 +330,8 @@
       "uid": "The UID has been copied to the clipboard.",
       "purchase": "Applies immediately upon purchase.",
       "reset_date": "Reset Date",
-      "all": "All"
+      "all": "All",
+      "note": "Note: Item effects stack cumulatively."
     },
     "dice_event": {
       "attendance": "Daily Attendance",

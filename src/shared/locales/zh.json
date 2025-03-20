@@ -330,7 +330,8 @@
       "uid": "UID 已复制到剪贴板。",
       "purchase": "购买后立即适用。",
       "reset_date": "重置日期",
-      "all": "全部的"
+      "all": "全部的",
+      "note": "注意: 项目效果累积堆栈。"
     },
     "dice_event": {
       "attendance": "簽到",

@@ -173,6 +173,7 @@ import attendanceNote from "./attendancenote.png"
 import USDT from "./usdt.png"
 import Promotion from "./promotion.png"
 import Medium from "./medium.png"
+import Note from "./note.png"
 
 const Images = {
   HorizontalLogo,
@@ -348,7 +349,8 @@ const Images = {
   attendanceNote,
   USDT,
   Promotion,
-  Medium
+  Medium,
+  Note
 };
 
 export default Images;
