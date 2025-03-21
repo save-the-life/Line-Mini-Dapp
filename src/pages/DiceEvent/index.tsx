@@ -387,7 +387,7 @@ const DiceEventPage: React.FC = () => {
           </Dialog>
               
 
-          <div className="w-full flex justify-start mb-4 mt-5 gap-4">
+          <div className="w-full flex justify-center mb-4 mt-5 gap-4">
             {/* 현재 캐릭터 레벨 및 클릭 시 레벨 별 보상 다이얼로그 표시 */}
             <Dialog>
               <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
