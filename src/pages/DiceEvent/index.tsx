@@ -403,14 +403,16 @@ const DiceEventPage: React.FC = () => {
             </Dialog>
 
             {/* 현재 보유한 아이템 목록 표시 */}
-            <div className="flex flex-col gap-1">
+            <div
+                className="flex flex-col gap-1"
+                onClick={()=>navigate("/item-store")}>
               {itemList.map((item, idx) => (
                 <div
                   key={idx}
                   className="flex items-center rounded-xl"
                 >
                   <div
-                    className="w-6 h-6 rounded-lg flex items-center justify-center"
+                    className="w-6 md:w-8 h-6 md:h-8 rounded-lg flex items-center justify-center"
                     style={{ background: item.gradient }}
                   >
                     <img
@@ -419,7 +421,7 @@ const DiceEventPage: React.FC = () => {
                       className="w-[18px] h-auto object-contain" 
                     />
                   </div>
-                  <span className="ml-1 font-medium text-xs">
+                  <span className="ml-1 font-medium text-xs md:text-sm">
                     {getItemLabel(item.label, item.count)}
                   </span>
                 </div>
