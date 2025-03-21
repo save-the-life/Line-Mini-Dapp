@@ -175,6 +175,12 @@ import Promotion from "./promotion.png"
 import Medium from "./medium.png"
 import Note from "./note.png"
 import Rocket from "./rocket.png"
+import GoldIcon from "./gold-icon.png"
+import SilverIcon from "./silver-icon.png"
+import BronzeIcon from "./bronze-icon.png"
+import RewardIcon from "./reward-icon.png"
+import AutoIcon from "./auto-icon.png"
+
 
 const Images = {
   HorizontalLogo,
@@ -352,7 +358,12 @@ const Images = {
   Promotion,
   Medium,
   Note,
-  Rocket
+  Rocket,
+  GoldIcon,
+  SilverIcon,
+  BronzeIcon,
+  RewardIcon,
+  AutoIcon
 };
 
 export default Images;

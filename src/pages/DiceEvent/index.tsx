@@ -70,6 +70,7 @@ const DiceEventPage: React.FC = () => {
     pet,
     suspend,
     setSuspend,
+    items,
   } = useUserStore();
 
   const game = useDiceGame();
@@ -130,6 +131,50 @@ const DiceEventPage: React.FC = () => {
     }
   }, []);
 
+  // 소유한 아이템 갯수에 따른 목록 표시 함수
+  const getItemLabel = (label: string, count: number) => {
+    if (count === 0) {
+      return <span className="text-[#737373]">{label}</span>;
+    } else if (count === 1) {
+      return <span className="text-white">{label}</span>;
+    } else {
+      return <span className="text-white">{label} x{count}</span>;
+    }
+  };
+
+  // 아이템 목록에 적용
+  const itemList = [
+    {
+      label: "GOLD PASS",
+      icon: Images.GoldIcon,
+      count: items.goldCount,
+      gradient: "linear-gradient(180deg, #FDE047 0%, #FFFFFF 100%)",
+    },
+    {
+      label: "SILVER PASS",
+      icon: Images.SilverIcon,
+      count: items.silverCount,
+      gradient: "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)",
+    },
+    {
+      label: "BRONZE PASS",
+      icon: Images.BronzeIcon,
+      count: items.bronzeCount,
+      gradient: "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)",
+    },
+    {
+      label: "AUTO ITEM",
+      icon: Images.AutoIcon,
+      count: items.autoNftCount,
+      gradient: "linear-gradient(180deg, #0147E5 0%, #FFFFFF 100%)",
+    },
+    {
+      label: "REWARD BOOSTER",
+      icon: Images.RewardIcon,
+      count: items.rewardNftCount,
+      gradient: "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
+    },
+  ];
 
 
   // 현재 레벨 보상 찾기
@@ -276,7 +321,7 @@ const DiceEventPage: React.FC = () => {
                 className="w-20 h-20 md:w-32 md:h-32 z-20"
                 alt="itme store"
                 />
-                <div className="flex flex-row items-center justify-center w-full px-4 gap-2 mt-1">
+                <div className="flex flex-row items-center justify-center w-full px-4 gap-2 mt-2">
                   <p className="font-semibold text-center text-sm md:text-sm text-white">
                     {t("dice_event.shop_item")}
                   </p>
@@ -342,7 +387,7 @@ const DiceEventPage: React.FC = () => {
           </Dialog>
               
 
-          <div className="w-full flex justify-center mb-4 mt-8 gap-4">
+          <div className="w-full flex justify-center mb-4 mt-5 gap-4">
             {/* 현재 캐릭터 레벨 및 클릭 시 레벨 별 보상 다이얼로그 표시 */}
             <Dialog>
               <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
@@ -358,9 +403,20 @@ const DiceEventPage: React.FC = () => {
             </Dialog>
 
             {/* 현재 보유한 아이템 목록 표시 */}
-                
-
-
+            <div className="flex flex-col gap-3">
+              {itemList.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center rounded-xl p-3"
+                  style={{ background: item.gradient }}
+                >
+                  <img src={item.icon} alt={item.label} className="w-6 h-6" />
+                  <span className="ml-1 font-medium text-xs">
+                    {getItemLabel(item.label, item.count)}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* <Attendance customWidth="w-[332px] md:w-[595.95px]"  />
