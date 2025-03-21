@@ -269,20 +269,19 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
           {/* -----------------------------
               (기존) 랭크 숫자 부분
              ----------------------------- */}
-          <motion.p 
-            className="text-2xl text-[#fde047] font-jalnan"
-            variants={scaleAndGlow}
-            animate={rankChanged ? 'animate' : 'initial'}
-          >
-            {rank > 9999 ? "9999+" : (
-              <CountUp
-                start={0}
-                end={rank}
-                duration={1}
-                separator=","
-              />
-            )}
-          </motion.p>
+         <motion.p 
+          className={`${rank > 9999 ? "text-xl" : "text-2xl"} text-[#fde047] font-jalnan`}
+          variants={scaleAndGlow}
+          animate={rankChanged ? 'animate' : 'initial'}
+        >
+          <CountUp
+            start={0}
+            end={rank}
+            duration={1}
+            separator=","
+          />
+        </motion.p>
+
 
           {/* rankDifference 표시 (화살표, +/-) */}
           {rankDifference !== 0 && (
