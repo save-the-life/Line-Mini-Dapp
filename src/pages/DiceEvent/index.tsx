@@ -7,6 +7,7 @@ import { MonthlyPrize } from "@/entities/MonthlyPrize";
 import Attendance from "@/widgets/Attendance";
 import MyRankingWidget from "@/widgets/MyRanking/MyRankingWidget";
 import MissionWidget from "@/widgets/MissionWidget/MissionWidget";
+import { useNavigate } from "react-router-dom";
 import useDiceGame from "./useDiceGame";
 import GameBoard from "./GameBoard";
 import { Board } from "@/features/DiceEvent";
@@ -77,6 +78,7 @@ const DiceEventPage: React.FC = () => {
   const [initialY, setInitialY] = useState<number>(474);
   const [delta, setDelta] = useState<number>(56);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -253,6 +255,7 @@ const DiceEventPage: React.FC = () => {
       ) : (
         <>
           <div className="w-full flex justify-center mb-4 mt-8 gap-4">
+            {/* 이번 달 보상 내용 */}
             <MonthlyPrize
               month={monthlyPrize.month}
               prizeType={monthlyPrize.prizeType}
@@ -260,18 +263,20 @@ const DiceEventPage: React.FC = () => {
               eventFinishTime={monthlyPrize.eventFinishTime}
             />
                 
-            <Dialog>
-              <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
-                <UserLevel
-                  userLv={userLv}
-                  charactorImageSrc={charactorImageSrc}
-                  exp={pet.exp}
+            {/* 아이템 구매 페이지 이동 */}
+            <div
+              className="relative flex flex-col items-center justify-center rounded-3xl w-32 h-36 md:w-[240px] md:h-44"
+              onClick={() => navigate("/item-store")}
+            >
+              <img
+                src={Images.Rocket}
+                className="w-24 h-24 md:w-32 md:h-32 z-20"
+                alt="itme store"
                 />
-              </DialogTrigger>
-              <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
-                <LevelRewards />
-              </DialogContent>
-            </Dialog>
+                <div className="flex flex-row text-center w-full px-4 gap-2">
+                  <p className="font-semibold text-sm md:text-sm">{t("dice_event.shop_item")}</p>
+                </div>
+            </div>
           </div>
               
           <GameBoard
@@ -291,7 +296,8 @@ const DiceEventPage: React.FC = () => {
             handleMouseUp={game.handleMouseUp}
             isLuckyVisible={game.isLuckyVisible}
             rollDice={game.rollDice}
-          />
+              />
+          {/* anywhere 시 표시되는 비행기 */}
           {game.selectingTile && !isAuto && (
             <div className="absolute md:top-0 top-0 left-0 w-full h-full flex justify-center items-center z-20">
               <div className="absolute top-0 left-0 w-full h-full bg-black opacity-75"></div>
@@ -313,6 +319,8 @@ const DiceEventPage: React.FC = () => {
             delta={delta}
           />
           <br />
+              
+          {/* my-rank 위젯 표시 */}
           <Dialog>
             <DialogTrigger className="w-full flex justify-center" onClick={() => playSfx(Audios.button_click)}>
               <MyRankingWidget className="max-w-[332px] md:max-w-full" titleHidden={true} />
@@ -327,6 +335,28 @@ const DiceEventPage: React.FC = () => {
               <LeaderBoard />
             </DialogContent>
           </Dialog>
+              
+
+          <div className="w-full flex justify-center mb-4 mt-8 gap-4">
+            {/* 현재 캐릭터 레벨 및 클릭 시 레벨 별 보상 다이얼로그 표시 */}
+            <Dialog>
+              <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
+                <UserLevel
+                  userLv={userLv}
+                  charactorImageSrc={charactorImageSrc}
+                  exp={pet.exp}
+                />
+              </DialogTrigger>
+              <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+                <LevelRewards />
+              </DialogContent>
+            </Dialog>
+
+            {/* 현재 보유한 아이템 목록 표시 */}
+                
+
+
+          </div>
 
           {/* <Attendance customWidth="w-[332px] md:w-[595.95px]"  />
           <MissionWidget /> */}
@@ -464,7 +494,6 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-          
           {/* 사용 중지 다이얼로그 */}
           <Dialog open={suspend}>
             <DialogTitle></DialogTitle>
@@ -515,7 +544,6 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog>
-
 
           {/* dapp-portal URL 보상 다이얼로그 */}
           <Dialog open={showUrlReward}>

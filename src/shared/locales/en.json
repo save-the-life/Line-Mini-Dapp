@@ -439,7 +439,8 @@
       "reason": "Reason: Inappropriate use of the game or unfair play detected.",
       "if_error": "If you believe this was done in error,",
       "contact_team": "please contact our support team.",
-      "auto": "Game Auto Mode"
+      "auto": "Game Auto Mode",
+      "shop_item":"Ranking Booster Shop"
     },
     "setting": {
       "terms_of_service": "Terms of Service",
