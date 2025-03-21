@@ -114,6 +114,20 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       if (error.message === "Please choose your character first.") {
+        const userTimeZone = useUserStore.getState().timeZone;
+        console.log("서버로부터 받은 타임존: ", userTimeZone);
+        const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        console.log("사용자의 타임존: ", currentTimeZone);
+  
+        if(userTimeZone === null || userTimeZone!== currentTimeZone){
+          // 서버 측에 사용자 타임존 저장 api 호출
+          try{
+            await updateTimeZone(currentTimeZone);
+          }catch(error: any){
+            console.log("timezone error", error);
+          };
+        }
+        
         // console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");
         return;

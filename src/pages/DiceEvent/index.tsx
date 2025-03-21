@@ -24,6 +24,8 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
+import updateTimeZone from "@/entities/User/api/updateTimeZone";
+
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -182,8 +184,29 @@ const DiceEventPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fetchUserData();
+    const initializeUserData = async () => {
+      // 사용자 데이터를 먼저 불러옵니다.
+      await fetchUserData();
+  
+      // 서버에 저장된 타임존과 현재 사용자의 타임존을 확인합니다.
+      const userTimeZone = useUserStore.getState().timeZone;
+      console.log("서버로부터 받은 타임존: ", userTimeZone);
+      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      console.log("사용자의 타임존: ", currentTimeZone);
+  
+      // 서버에 저장된 타임존이 없거나 현재 타임존과 다를 경우 업데이트를 진행합니다.
+      if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+        try {
+          await updateTimeZone(currentTimeZone);
+        } catch (error: any) {
+          console.log("timezone error", error);
+        }
+      }
+    };
+  
+    initializeUserData();
   }, [fetchUserData]);
+  
 
   useEffect(() => {
     const handleResize = () => {
