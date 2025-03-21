@@ -565,11 +565,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
             )}
           </AnimatePresence>
 
+          {/* 보유 아이템 다이얼로그 */}
           <Dialog>
             <DialogTrigger>
               <div id="fourth-step" className="absolute text-white -left-11 -bottom-14 md:-left-24 md:-bottom-28 font-semibold text-xs md:text-sm md:space-y-1">
                 {/* NFT display */}
-                <div className="flex flex-row gap-1 items-center ">
+                {/* <div className="flex flex-row gap-1 items-center ">
                   <img
                     src={Images.Gold}
                     alt="gold"
@@ -600,7 +601,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     className=" w-4 h-4 md:w-6 md:h-6"
                   />
                   <p>x {items.rewardNftCount}</p>
-                </div>
+                </div> */}
               </div>
             </DialogTrigger>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh md:h-auto overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
