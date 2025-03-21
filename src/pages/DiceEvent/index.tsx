@@ -387,7 +387,7 @@ const DiceEventPage: React.FC = () => {
           </Dialog>
               
 
-          <div className="w-full flex justify-center mb-4 mt-5 gap-4">
+          <div className="w-full flex justify-center mb-4 mt-5 ml-0 gap-4">
             {/* 현재 캐릭터 레벨 및 클릭 시 레벨 별 보상 다이얼로그 표시 */}
             <Dialog>
               <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
@@ -410,13 +410,13 @@ const DiceEventPage: React.FC = () => {
                   className="flex items-center rounded-xl"
                 >
                   <div
-                    className="w-6 h-6 rounded-lg"
+                    className="w-6 h-6 rounded-lg items-center"
                     style={{ background: item.gradient }}
                   >
                     <img
                       src={item.icon}
                       alt={item.label}
-                      className="w-[18px] h-6 object-cover" 
+                      className="w-[18px] h-auto object-contain" 
                     />
                   </div>
                   <span className="ml-1 font-medium text-xs">
