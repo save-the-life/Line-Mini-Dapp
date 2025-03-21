@@ -209,9 +209,39 @@ const ItemStore: React.FC = () => {
                 <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       default:
-        return <div>아이템에 대한 상세 설명입니다.</div>;
+        return <div></div>;
     }
   };
+
+  const customText = (itemName: string): React.ReactNode => {
+    switch (itemName.toUpperCase()) {
+      case "AUTO ITEM":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.auto")}</p>
+              </div>;
+      case "REWARD BOOSTER":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.board_spin_reward")} : x2</p>
+              </div>;
+      case "GOLD PASS":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x3</p><br />
+                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+              </div>;
+      case "SILVER PASS":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x2</p><br />
+                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+              </div>;
+      case "BRONZE PASS":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x1</p><br />
+                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+              </div>;
+      default:
+        return <div></div>;
+    }
+  }
 
   
   // 결제 로직 진행
@@ -406,18 +436,9 @@ const ItemStore: React.FC = () => {
                   alt={item.itemName}
                   className="w-[80px] h-[80px] object-cover"
                 />
-                {/* <img
-                  src={Images.infoMark}
-                  alt="info"
-                  className="absolute top-1 right-1 w-5 h-5"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedItem(item.itemId);
-                    handleInfo();
-                  }}
-                /> */}
               </div>
               <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+              <div>{sortedItemData? customText(item.itemName):"" }</div>
             </div>
           ))}
         </div>
