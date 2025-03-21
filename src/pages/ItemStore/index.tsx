@@ -225,17 +225,17 @@ const ItemStore: React.FC = () => {
               </div>;
       case "GOLD PASS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x3</p><br />
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x3</p>
                 <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       case "SILVER PASS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x2</p><br />
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x2</p>
                 <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       case "BRONZE PASS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x1</p><br />
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x1</p>
                 <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       default:
@@ -438,7 +438,7 @@ const ItemStore: React.FC = () => {
                 />
               </div>
               <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
-              <div>{sortedItemData? customText(item.itemName):"" }</div>
+              <div className="mt-1">{sortedItemData? customText(item.itemName):"" }</div>
             </div>
           ))}
         </div>
