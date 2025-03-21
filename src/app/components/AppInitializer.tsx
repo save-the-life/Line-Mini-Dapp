@@ -298,10 +298,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           withLoginOnExternalBrowser: true,
         });
         
-        await DappPortalSDK.init({
+        const sdkInstance = await DappPortalSDK.init({
           clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
           chainId: "8217",
         });
+        
+        console.log("[AppInitializer] SDK 초기화 성공:", sdkInstance);
+        const { setInitialized } = useWalletStore.getState();
+        setInitialized(true);
 
         // // console.log("[AppInitializer] LIFF 초기화 완료");
 

@@ -26,6 +26,8 @@ import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
+import useWalletStore from "@/shared/store/useWalletStore";
 
 
 const levelRewards = [
@@ -90,13 +92,30 @@ const DiceEventPage: React.FC = () => {
   // URL 보상 팝업 표시를 위한 상태
   const [showUrlReward, setShowUrlReward] = useState<boolean>(false);
   
-
   // 레벨 업 시 팝업 표시를 위한 상태
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
 
-  // 부적절한 사용자 정지 안내표시
-  const [banned, setBanned] = useState<boolean>(false);
+  // 추가: 전역 지갑 상태에서 SDK 초기화 여부 확인
+  useEffect(() => {
+    async function initializeSdkIfNeeded() {
+      const { initialized, setSdk, setInitialized } = useWalletStore.getState();
+      if (!initialized) {
+        try {
+          const sdkInstance = await DappPortalSDK.init({
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: "8217",
+          });
+          console.log("[Main Page] SDK 초기화 성공:", sdkInstance);
+          setSdk(sdkInstance);
+          setInitialized(true);
+        } catch (error) {
+          console.error("[Main Page] SDK 초기화 실패:", error);
+        }
+      }
+    }
+    initializeSdkIfNeeded();
+  }, []);
 
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
