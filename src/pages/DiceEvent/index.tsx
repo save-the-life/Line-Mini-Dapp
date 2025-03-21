@@ -266,6 +266,9 @@ const DiceEventPage: React.FC = () => {
             {/* 아이템 구매 페이지 이동 */}
             <div
               className="relative flex flex-col items-center justify-center rounded-3xl w-32 h-36 md:w-[240px] md:h-44"
+              style={{
+                background: "linear-gradient(180deg, #19203C 70%, #304689 100%)"
+              }}
               onClick={() => navigate("/item-store")}
             >
               <img
@@ -274,7 +277,7 @@ const DiceEventPage: React.FC = () => {
                 alt="itme store"
                 />
                 <div className="flex flex-row text-center w-full px-4 gap-2">
-                  <p className="font-semibold text-sm md:text-sm">{t("dice_event.shop_item")}</p>
+                  <p className="font-semibold text-sm md:text-sm text-white">{t("dice_event.shop_item")}</p>
                 </div>
             </div>
           </div>
