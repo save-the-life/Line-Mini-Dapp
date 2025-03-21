@@ -407,10 +407,13 @@ const DiceEventPage: React.FC = () => {
               {itemList.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center rounded-xl p-3"
-                  style={{ background: item.gradient }}
+                  className="flex items-center rounded-xl"
                 >
-                  <img src={item.icon} alt={item.label} className="w-6 h-6" />
+                  <img
+                    src={item.icon}
+                    alt={item.label}
+                    className="w-6 h-6" 
+                    style={{ background: item.gradient }} />
                   <span className="ml-1 font-medium text-xs">
                     {getItemLabel(item.label, item.count)}
                   </span>
