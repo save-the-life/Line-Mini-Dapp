@@ -253,6 +253,13 @@ const DiceEventPage: React.FC = () => {
       ) : (
         <>
           <div className="w-full flex justify-center mb-4 mt-8 gap-4">
+            <MonthlyPrize
+              month={monthlyPrize.month}
+              prizeType={monthlyPrize.prizeType}
+              amount={monthlyPrize.amount}
+              eventFinishTime={monthlyPrize.eventFinishTime}
+            />
+                
             <Dialog>
               <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
                 <UserLevel
@@ -265,16 +272,8 @@ const DiceEventPage: React.FC = () => {
                 <LevelRewards />
               </DialogContent>
             </Dialog>
-
- 
-    <MonthlyPrize
-              month={monthlyPrize.month}
-              prizeType={monthlyPrize.prizeType}
-              amount={monthlyPrize.amount}
-              eventFinishTime={monthlyPrize.eventFinishTime}
-            />
-
           </div>
+              
           <GameBoard
             position={position}
             selectingTile={game.selectingTile}
