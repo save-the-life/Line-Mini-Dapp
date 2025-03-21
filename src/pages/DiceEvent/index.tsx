@@ -410,7 +410,7 @@ const DiceEventPage: React.FC = () => {
                   className="flex items-center rounded-xl"
                 >
                   <div
-                    className="w-6 h-6 rounded-lg items-center"
+                    className="w-6 h-6 rounded-lg flex items-center justify-centerr"
                     style={{ background: item.gradient }}
                   >
                     <img
