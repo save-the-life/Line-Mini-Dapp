@@ -276,8 +276,8 @@ const DiceEventPage: React.FC = () => {
                 className="w-24 h-24 md:w-32 md:h-32 z-20"
                 alt="itme store"
                 />
-                <div className="flex flex-row text-center w-full px-4 gap-2">
-                  <p className="font-semibold text-sm md:text-sm text-white">{t("dice_event.shop_item")}</p>
+                <div className="flex flex-row item-center w-full px-4 gap-2 mt-1">
+                  <p className="font-semibold text-center text-sm md:text-sm text-white">{t("dice_event.shop_item")}</p>
                 </div>
             </div>
           </div>
