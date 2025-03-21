@@ -96,27 +96,6 @@ const DiceEventPage: React.FC = () => {
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
 
-  // 추가: 전역 지갑 상태에서 SDK 초기화 여부 확인
-  useEffect(() => {
-    async function initializeSdkIfNeeded() {
-      const { initialized, setSdk, setInitialized } = useWalletStore.getState();
-      if (!initialized) {
-        try {
-          const sdkInstance = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "8217",
-          });
-          console.log("[Main Page] SDK 초기화 성공:", sdkInstance);
-          setSdk(sdkInstance);
-          setInitialized(true);
-        } catch (error) {
-          console.error("[Main Page] SDK 초기화 실패:", error);
-        }
-      }
-    }
-    initializeSdkIfNeeded();
-  }, []);
-
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
     if (userLv > prevLevel) {
@@ -249,18 +228,29 @@ const DiceEventPage: React.FC = () => {
     };
   }, []);
 
+  // SDK 초기화와 사용자 데이터 불러오기 및 타임존 업데이트를 하나의 useEffect로 통합
   useEffect(() => {
-    const initializeUserData = async () => {
-      // 사용자 데이터를 먼저 불러옵니다.
+    async function initializeSdkAndUserData() {
+      const { initialized, setSdk, setInitialized } = useWalletStore.getState();
+      if (!initialized) {
+        try {
+          const sdkInstance = await DappPortalSDK.init({
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: "8217",
+          });
+          console.log("[Main Page] SDK 초기화 성공:", sdkInstance);
+          setSdk(sdkInstance);
+          setInitialized(true);
+        } catch (error) {
+          console.error("[Main Page] SDK 초기화 실패:", error);
+        }
+      }
+      // 사용자 데이터를 불러오고 타임존 업데이트 진행
       await fetchUserData();
-  
-      // 서버에 저장된 타임존과 현재 사용자의 타임존을 확인합니다.
       const userTimeZone = useUserStore.getState().timeZone;
       console.log("서버로부터 받은 타임존: ", userTimeZone);
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       console.log("사용자의 타임존: ", currentTimeZone);
-  
-      // 서버에 저장된 타임존이 없거나 현재 타임존과 다를 경우 업데이트를 진행합니다.
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
           await updateTimeZone(currentTimeZone);
@@ -268,11 +258,9 @@ const DiceEventPage: React.FC = () => {
           console.log("timezone error", error);
         }
       }
-    };
-  
-    initializeUserData();
+    }
+    initializeSdkAndUserData();
   }, [fetchUserData]);
-  
 
   useEffect(() => {
     const handleResize = () => {
