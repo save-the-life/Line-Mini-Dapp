@@ -453,7 +453,7 @@ const ItemStore: React.FC = () => {
                   alt="gift-icon"
                   className="w-4 h-4"
               />
-              <p className="text-left text-xs font-normal">
+              <p className="text-left text-xs font-normal text-[#FDE047]">
                   {t("asset_page.note")}
               </p>
             </div>
