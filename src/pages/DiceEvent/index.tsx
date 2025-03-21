@@ -273,11 +273,13 @@ const DiceEventPage: React.FC = () => {
             >
               <img
                 src={Images.Rocket}
-                className="w-24 h-24 md:w-32 md:h-32 z-20"
+                className="w-20 h-20 md:w-32 md:h-32 z-20"
                 alt="itme store"
                 />
-                <div className="flex flex-row item-center w-full px-4 gap-2 mt-1">
-                  <p className="font-semibold text-center text-sm md:text-sm text-white">{t("dice_event.shop_item")}</p>
+                <div className="flex flex-row items-center justify-center w-full px-4 gap-2 mt-1">
+                  <p className="font-semibold text-center text-sm md:text-sm text-white">
+                    {t("dice_event.shop_item")}
+                  </p>
                 </div>
             </div>
           </div>
