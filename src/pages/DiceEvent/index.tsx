@@ -411,7 +411,7 @@ const DiceEventPage: React.FC = () => {
 
             {/* 현재 보유한 아이템 목록 표시 */}
             <div
-                className="flex flex-col gap-1"
+                className="flex flex-col gap-1 w-48 h-36 md:w-[340px] md:h-44"
                 onClick={()=>navigate("/item-store")}>
               {itemList.map((item, idx) => (
                 <div
