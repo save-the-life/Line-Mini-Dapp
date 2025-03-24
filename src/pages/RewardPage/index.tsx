@@ -111,45 +111,71 @@ const Reward: React.FC = () => {
         {/* 3개의 박스를 나란히 배치할 컨테이너 */}
         <div className="flex gap-3">
           {/* 첫 번째 박스 */}
-          <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-3xl flex items-center justify-center border-yellow-400 animate-pulse">
-            <p className="mt-4 text-xs font-normal text-white text-center">Mystery Gift Distribution</p> 
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">Mystery Gift Distribution</p>
             <img 
-              className="mt-1 w-4 h-4"
-              src={Images.RedTriangle}/>
-            <p className="mt-1 text-xs font-normal text-white text-center">Ends on</p>
-            <p className="mb-4 text-base font-semibold text-white text-center">March 28th</p>
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">Ends on</p>
+            <p className="text-base font-semibold text-white text-center">March 28th</p>
           </div>
 
           {/* 두 번째 박스 */}
-          <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-3xl flex items-center justify-center border-yellow-400 animate-pulse">
-            <p className="mt-4 text-xs font-normal text-white text-center">1st Round</p> 
-            <p className=" text-xs font-normal text-white text-center">Ranking Rewards</p> 
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">1st Round</p>
+            <p className="text-xs font-normal text-white text-center">Ranking Rewards</p>
             <img 
-              className="mt-1 w-4 h-4"
-              src={Images.RedTriangle}/>
-            <p className="mt-1 text-xs font-normal text-white text-center">Ends on</p>
-            <p className="mb-4 text-base font-semibold text-white text-center">April 14th</p>
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">Ends on</p>
+            <p className="text-base font-semibold text-white text-center">April 14th</p>
           </div>
 
           {/* 세 번째 박스 */}
-          <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-3xl flex items-center justify-center border-yellow-400 animate-pulse">
-            <p className="mt-4 text-xs font-normal text-white text-center">Raffle Ticket Draw</p> 
-            <p className="text-xs font-normal text-white text-center">(USDT/KAIA)</p> 
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">Raffle Ticket Draw</p>
+            <p className="text-xs font-normal text-white text-center">(USDT/KAIA)</p>
             <img 
-              className="mt-1 w-4 h-4"
-              src={Images.RedTriangle}/>
-            <p className="mt-1 text-xs font-normal text-white text-center">Scheduled for</p>
-            <p className="mb-4 text-base font-semibold text-white text-center">April 28th</p>
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">Scheduled for</p>
+            <p className="text-base font-semibold text-white text-center">April 28th</p>
           </div>
+
         </div>
       </div>
+      <p className="mt-2 text-xs font-normal text-white">* All events will be announced and rewards distributed within a week.</p>
 
       {/* 지난 달 보상 확인 */}
       <div 
-        className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0"
+        className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0"
         onClick={handlePreviousRewardPage}>
         <div className="flex flex-col gap-2">
           <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
