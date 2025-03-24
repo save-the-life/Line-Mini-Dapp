@@ -448,9 +448,9 @@ export const useUserStore = create<UserState>((set, get) => ({
       });
       const soundStore = useSoundStore.getState();
 
-      soundStore.setMasterVolume(bgm.masterVolume / 10);
-      soundStore.setBgmVolume(bgm.backVolume / 10);
-      soundStore.setSfxVolume(bgm.effectVolume / 10);
+      soundStore.setMasterVolume((bgm.masterVolume / 10) * 0.3);
+      soundStore.setBgmVolume((bgm.backVolume / 10) * 0.3);
+      soundStore.setSfxVolume((bgm.effectVolume / 10) * 0.3);
 
       useSoundStore.setState({
         masterMuted: bgm.masterMute,
