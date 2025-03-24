@@ -24,6 +24,8 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
+import { useSoundStore } from "@/shared/store/useSoundStore";
+import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -75,6 +77,7 @@ const DiceEventPage: React.FC = () => {
   const [initialY, setInitialY] = useState<number>(474);
   const [delta, setDelta] = useState<number>(56);
   const { t } = useTranslation();
+  const { masterMuted, toggleMasterMute } = useSoundStore();
 
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -244,7 +247,7 @@ const DiceEventPage: React.FC = () => {
             </Dialog>
 
  
-    <MonthlyPrize
+            <MonthlyPrize
               month={monthlyPrize.month}
               prizeType={monthlyPrize.prizeType}
               amount={monthlyPrize.amount}
@@ -283,6 +286,22 @@ const DiceEventPage: React.FC = () => {
               </div>
             </div>
           )}
+
+          <button
+            onClick={() => {
+              toggleMasterMute(); // 음소거 토글
+              // 필요하다면 효과음도 재생
+              // playSfx(Audios.button_click);
+            }}
+            className="absolute top-4 left-4 bg-gray-800 p-2 rounded-full"
+          >
+            {masterMuted ? (
+              <HiVolumeOff className="text-white w-6 h-6" />
+            ) : (
+              <HiVolumeUp className="text-white w-6 h-6" />
+            )}
+          </button>
+
           <Board
             position={position}
             charactorImageSrc={charactorImageSrc}
