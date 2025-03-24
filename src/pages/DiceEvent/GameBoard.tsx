@@ -489,14 +489,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
               toggleMasterMute(); 
               playSfx(Audios.button_click);
             }}
-            className="absolute top-0 left-0 z-50 bg-gray-800 rounded-full flex items-center justify-center"
+            className="absolute top-1 left-1 z-50 bg-gray-800 rounded-full flex items-center justify-center"
           >
             {masterMuted ? (
-              <HiVolumeOff className="text-white w-4 h-4" />
+              <HiVolumeOff className="text-white w-5 h-5" />
             ) : (
-              <HiVolumeUp className="text-white w-4 h-4" />
+              <HiVolumeUp className="text-white w-5 h-5" />
             )}
-          </button>
+        </button>
+
         <div className="relative w-[120px] h-[120px] bg-[#F59E0B] rounded-full md:w-44 md:h-44">
           <AnimatePresence>
             {showDiceValue && (
