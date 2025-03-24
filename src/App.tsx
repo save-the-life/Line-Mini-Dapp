@@ -177,7 +177,7 @@ const App:React.FC = () =>{
             <SoundProvider bgmSrc={Audios.bgm}>
               <Routes>
                   {/* DiceEventLayout Pages */}
-                  <Route path="/" element={<Navigate to="/" />} />
+                  {/* <Route path="/" element={<Navigate to="/" />} /> */}
                   <Route path="/dice-event" element={<DiceEventLayout><DiceEvent /></DiceEventLayout>} />
                   <Route path="/AI-menu" element={<DiceEventLayout><AIMenu /></DiceEventLayout>} />
                   <Route path="/mission" element={<DiceEventLayout><MissionPage /></DiceEventLayout>} />
