@@ -175,6 +175,7 @@ import Promotion from "./promotion.png"
 import Medium from "./medium.png"
 import RewardBanner from "./rewardBanner.png"
 import RedTriangle from "./redTriangle.png"
+import Note from "./note.png"
 
 const Images = {
   HorizontalLogo,
@@ -352,7 +353,8 @@ const Images = {
   Promotion,
   Medium,
   RewardBanner,
-  RedTriangle
+  RedTriangle,
+  Note
 };
 
 export default Images;

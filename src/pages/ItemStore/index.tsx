@@ -209,9 +209,39 @@ const ItemStore: React.FC = () => {
                 <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
       default:
-        return <div>아이템에 대한 상세 설명입니다.</div>;
+        return <div></div>;
     }
   };
+
+  const customText = (itemName: string): React.ReactNode => {
+    switch (itemName.toUpperCase()) {
+      case "AUTO ITEM":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.auto")}</p>
+              </div>;
+      case "REWARD BOOSTER":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.board_spin_reward")} : x2</p>
+              </div>;
+      case "GOLD PASS":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x3</p>
+                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+              </div>;
+      case "SILVER PASS":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x2</p>
+                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+              </div>;
+      case "BRONZE PASS":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x1</p>
+                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+              </div>;
+      default:
+        return <div></div>;
+    }
+  }
 
   
   // 결제 로직 진행
@@ -406,18 +436,9 @@ const ItemStore: React.FC = () => {
                   alt={item.itemName}
                   className="w-[80px] h-[80px] object-cover"
                 />
-                {/* <img
-                  src={Images.infoMark}
-                  alt="info"
-                  className="absolute top-1 right-1 w-5 h-5"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedItem(item.itemId);
-                    handleInfo();
-                  }}
-                /> */}
               </div>
               <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+              <div className="mt-1">{sortedItemData? customText(item.itemName):"" }</div>
             </div>
           ))}
         </div>
@@ -425,6 +446,8 @@ const ItemStore: React.FC = () => {
         {/* 체크박스 및 결제 버튼 영역 */}
         <div className="mt-5 px-6">
           <div className="flex flex-col gap-3 mb-5">
+            
+            {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
               <input
                 type="checkbox"
@@ -446,6 +469,7 @@ const ItemStore: React.FC = () => {
                 </a>
               </span>
             </label>
+            {/* 개인정보 제공 동의 사항 */}
             <label className="flex items-start gap-2">
               <input
                 type="checkbox"
@@ -467,6 +491,17 @@ const ItemStore: React.FC = () => {
                 </a>
               </span>
             </label>
+            {/* 아이템 효과 중첩 안내 */}
+            <div className="flex justify-center items-center gap-2">
+              <img
+                  src={Images.Note}
+                  alt="gift-icon"
+                  className="w-7 h-7"
+              />
+              <p className="text-center text-lg font-normal text-[#FDE047]">
+                  {t("asset_page.note")}
+              </p>
+            </div>
           </div>
 
           <div className="mb-3 flex justify-center items-center">
