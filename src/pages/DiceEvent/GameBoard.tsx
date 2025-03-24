@@ -482,6 +482,21 @@ const GameBoard: React.FC<GameBoardProps> = ({
         <div  className="w-full flex justify-center mb-4">
           <Gauge  gaugeValue={gaugeValue} />
         </div>
+
+        
+        <button
+            onClick={() => {
+              toggleMasterMute(); 
+              playSfx(Audios.button_click);
+            }}
+            className="absolute top-0 left-0 z-50 bg-gray-800 rounded-full flex items-center justify-center"
+          >
+            {masterMuted ? (
+              <HiVolumeOff className="text-white w-4 h-4" />
+            ) : (
+              <HiVolumeUp className="text-white w-4 h-4" />
+            )}
+          </button>
         <div className="relative w-[120px] h-[120px] bg-[#F59E0B] rounded-full md:w-44 md:h-44">
           <AnimatePresence>
             {showDiceValue && (
@@ -676,19 +691,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
             {isAuto ? "Auto Play" : "Roll Dice"}
           </button>
 
-          <button
-            onClick={() => {
-              toggleMasterMute(); 
-              playSfx(Audios.button_click);
-            }}
-            className="absolute top-0 left-0 z-50 bg-gray-800 rounded-full flex items-center justify-center"
-          >
-            {masterMuted ? (
-              <HiVolumeOff className="text-white w-4 h-4" />
-            ) : (
-              <HiVolumeUp className="text-white w-4 h-4" />
-            )}
-          </button>
         </div>
         <div id="third-step" className="flex flex-row text-white items-center justify-center gap-1 mt-6">
           {timeUntilRefill === "Refill dice" ? (
