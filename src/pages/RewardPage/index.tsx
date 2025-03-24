@@ -105,7 +105,7 @@ const Reward: React.FC = () => {
 
       {/* 이벤트 배너 영역 */}
       <div
-          className="w-full h-[170px] bg-cover bg-center flex items-center justify-center px-6 mb-4"
+          className="w-full h-[170px] bg-cover bg-center flex items-center justify-center px-6"
           style={{ backgroundImage: `url(${Images.RewardBanner})` }}
         >
         {/* 3개의 박스를 나란히 배치할 컨테이너 */}
@@ -171,11 +171,11 @@ const Reward: React.FC = () => {
 
         </div>
       </div>
-      <p className="mt-2 text-xs font-normal text-white">* All events will be announced and rewards distributed within a week.</p>
+      <p className="mt-1 text-xs font-normal text-white">* All events will be announced and rewards distributed within a week.</p>
 
       {/* 지난 달 보상 확인 */}
       <div 
-        className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0"
+        className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
         onClick={handlePreviousRewardPage}>
         <div className="flex flex-col gap-2">
           <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
