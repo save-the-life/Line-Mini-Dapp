@@ -24,9 +24,9 @@ interface SoundStore {
 
 export const useSoundStore = create<SoundStore>((set) => ({
   // 초기값 설정
-  bgmVolume: 0.5,
-  sfxVolume: 0.5,
-  masterVolume: 0.2,
+  bgmVolume: 0.15,
+  sfxVolume: 0.15,
+  masterVolume: 0.15,
 
   bgmMuted: false,
   sfxMuted: false,

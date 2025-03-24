@@ -30,6 +30,10 @@ import { useTour } from "@reactour/tour";
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
+import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
+import { useSoundStore } from "@/shared/store/useSoundStore";
+import saveSoundSetting from "@/entities/User/api/saveSoundSetting";
+
 
 dayjs.extend(duration);
 dayjs.extend(utc); // UTC 플러그인 적용
@@ -104,6 +108,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const [isRefilling, setIsRefilling] = useState(false); // 리필 중 상태 관리
   const {setIsOpen} = useTour();
   const { playSfx } = useSound();
+  const { masterMuted, bgmVolume, sfxVolume, masterVolume, bgmMuted, sfxMuted, toggleMasterMute } = useSoundStore();
 
   // timeUntilRefill 최신값을 보관할 ref 생성
   const timeUntilRefillRef = useRef(timeUntilRefill);
@@ -125,6 +130,44 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }, [completeTutorial, setIsOpen]);
   
 
+   // 음소거 버튼 클릭
+   const handleMute = async () => {
+    // 현재 상태를 가져옴 (현재 음소거 여부는 아직 토글 전의 값)
+    const {
+      masterVolume,
+      masterMuted,
+      bgmVolume,
+      bgmMuted,
+      sfxVolume,
+      sfxMuted,
+      toggleMasterMute,
+    } = useSoundStore.getState();
+  
+    // 음소거 상태 토글 (UI 이미지 변경)
+    toggleMasterMute();
+  
+    // 토글 후의 새로운 음소거 상태 (현재 값의 반대)
+    const newMasterMute = !masterMuted;
+  
+    // 서버에 전송할 데이터: 볼륨 값은 상대값(0~0.3)을 0~10 범위로 변환
+    const soundData = {
+      masterVolume: Math.round((masterVolume / 0.3) * 10),
+      masterMute: newMasterMute,
+      backVolume: Math.round((bgmVolume / 0.3) * 10),
+      backMute: bgmMuted,
+      effectVolume: Math.round((sfxVolume / 0.3) * 10),
+      effectMute: sfxMuted,
+    };
+  
+    try {
+      await saveSoundSetting(soundData);
+      // 서버 저장 성공 시 추가 처리(예: 토스트 메시지 등) 가능
+    } catch (error) {
+      console.error("음소거 상태 저장 실패:", error);
+      // 실패 시 오류 처리 (예: alert 등)
+    }
+  };
+  
 
     // Refill Dice API 호출 함수
   const handleRefillDice = async () => {
@@ -474,6 +517,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
         <div  className="w-full flex justify-center mb-4">
           <Gauge  gaugeValue={gaugeValue} />
         </div>
+
+        {/* 음소거 버튼 */}
+        <button
+            onClick={handleMute}
+            className="absolute top-1 left-1 z-50 bg-gray-800 rounded-full flex items-center justify-center"
+          >
+            {masterMuted ? (
+              <HiVolumeOff className="text-white w-5 h-5" />
+            ) : (
+              <HiVolumeUp className="text-white w-5 h-5" />
+            )}
+        </button>
+
         <div className="relative w-[120px] h-[120px] bg-[#F59E0B] rounded-full md:w-44 md:h-44">
           <AnimatePresence>
             {showDiceValue && (

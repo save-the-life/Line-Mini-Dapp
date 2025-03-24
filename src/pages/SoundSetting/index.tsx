@@ -31,15 +31,16 @@ const SoundSetting: React.FC = () => {
     toggleSfxMute,
   } = useSoundStore();
 
-  const handleSave = async() => {
-    try{
+  const handleSave = async () => {
+    try {
+      // 내부 상대값(0~0.3)을 서버의 절대값(0~10)으로 변환하여 전송
       const soundData = {
-        masterVolume: masterVolume*10,
+        masterVolume: Math.round((masterVolume / 0.3) * 10),
         masterMute: masterMuted,
-        backVolume: bgmVolume*10,
+        backVolume: Math.round((bgmVolume / 0.3) * 10),
         backMute: bgmMuted,
-        effectVolume: sfxVolume*10,
-        effectMute: sfxMuted
+        effectVolume: Math.round((sfxVolume / 0.3) * 10),
+        effectMute: sfxMuted,
       };
 
       const saveResponse = await saveSoundSetting(soundData);
@@ -47,12 +48,9 @@ const SoundSetting: React.FC = () => {
       if (saveResponse) {
         navigate("/dice-event");
       } else {
-        // 실패(false) 시 사용자에게 알림/로그 등 처리
         alert("사운드 설정 저장에 실패했습니다. 다시 시도해주세요.");
       }
     } catch (error: any) {
-      // 에러 핸들링
-      // console.error("사운드 설정 저장 중 에러:", error);
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
@@ -62,37 +60,39 @@ const SoundSetting: React.FC = () => {
       <TopTitle title={t("setting.sound_settings")} back={true} />
 
       <div className="w-full">
-
         {/* 1) 마스터 볼륨 */}
         <div className="mb-3">
           <h2 className="text-lg font-semibold mb-2">{t("setting.master")}</h2>
           <div className="bg-gray-800 rounded-full w-full h-14 flex items-center justify-between py-2 px-4">
             <button
               className="bg-[#0147E5] px-4 py-1 rounded-2xl text-sm"
-              onClick={()=>{
+              onClick={() => {
                 playSfx(Audios.button_click);
                 toggleMasterMute();
-              }}>
-                {masterMuted ? (
-                    <HiVolumeOff className="text-xl" />
-                ) : (
-                    <HiVolumeUp className="text-xl" />
-                )}
+              }}
+            >
+              {masterMuted ? (
+                <HiVolumeOff className="text-xl" />
+              ) : (
+                <HiVolumeUp className="text-xl" />
+              )}
             </button>
             <input
               type="range"
               min={0}
               max={10}
               step={1}
-              value={masterMuted ? 0 : masterVolume * 10}
+              // 슬라이더 값은 내부 상대값을 0~10 범위로 변환
+              value={masterMuted ? 0 : (masterVolume / 0.3) * 10}
+              // onChange 시, 내부 상대값으로 변환하여 저장
               onChange={(e) => {
-                setMasterVolume(Number(e.target.value) / 10);
+                setMasterVolume((Number(e.target.value) / 10) * 0.3);
               }}
               disabled={masterMuted}
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {Math.round(masterVolume * 10)}/10
+              {masterMuted ? 0 : Math.round((masterVolume / 0.3) * 10)}/10
             </div>
           </div>
         </div>
@@ -108,26 +108,26 @@ const SoundSetting: React.FC = () => {
                 toggleBgmMute();
               }}
             >
-                {bgmMuted ? (
-                    <HiVolumeOff className="text-xl" />
-                ) : (
-                    <HiVolumeUp className="text-xl" />
-                )}
+              {bgmMuted ? (
+                <HiVolumeOff className="text-xl" />
+              ) : (
+                <HiVolumeUp className="text-xl" />
+              )}
             </button>
             <input
               type="range"
               min={0}
               max={10}
               step={1}
-              value={bgmMuted ? 0 : bgmVolume * 10}
+              value={bgmMuted ? 0 : (bgmVolume / 0.3) * 10}
               onChange={(e) => {
-                setBgmVolume(Number(e.target.value) / 10);
+                setBgmVolume((Number(e.target.value) / 10) * 0.3);
               }}
               disabled={bgmMuted}
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {Math.round(bgmVolume * 10)}/10
+              {bgmMuted ? 0 : Math.round((bgmVolume / 0.3) * 10)}/10
             </div>
           </div>
         </div>
@@ -141,27 +141,28 @@ const SoundSetting: React.FC = () => {
               onClick={() => {
                 playSfx(Audios.button_click);
                 toggleSfxMute();
-              }}>
-                {sfxMuted ? (
-                    <HiVolumeOff className="text-xl" />
-                ) : (
-                    <HiVolumeUp className="text-xl" />
-                )}
+              }}
+            >
+              {sfxMuted ? (
+                <HiVolumeOff className="text-xl" />
+              ) : (
+                <HiVolumeUp className="text-xl" />
+              )}
             </button>
             <input
               type="range"
               min={0}
               max={10}
               step={1}
-              value={sfxMuted ? 0 : sfxVolume * 10}
+              value={sfxMuted ? 0 : (sfxVolume / 0.3) * 10}
               onChange={(e) => {
-                setSfxVolume(Number(e.target.value) / 10);
+                setSfxVolume((Number(e.target.value) / 10) * 0.3);
               }}
               disabled={sfxMuted}
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {Math.round(sfxVolume * 10)}/10
+              {sfxMuted ? 0 : Math.round((sfxVolume / 0.3) * 10)}/10
             </div>
           </div>
         </div>
