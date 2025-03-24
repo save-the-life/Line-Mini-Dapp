@@ -180,6 +180,8 @@ import SilverIcon from "./silver-icon.png"
 import BronzeIcon from "./bronze-icon.png"
 import RewardIcon from "./reward-icon.png"
 import AutoIcon from "./auto-icon.png"
+import RewardBanner from "./rewardBanner.png"
+import RedTriangle from "./redTriangle.png"
 
 
 const Images = {
@@ -363,7 +365,9 @@ const Images = {
   SilverIcon,
   BronzeIcon,
   RewardIcon,
-  AutoIcon
+  AutoIcon,
+  RewardBanner,
+  RedTriangle
 };
 
 export default Images;
