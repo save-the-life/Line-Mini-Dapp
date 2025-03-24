@@ -105,7 +105,7 @@ const Reward: React.FC = () => {
 
       {/* 이벤트 배너 영역 */}
       <div
-          className="w-full h-[150px] bg-cover bg-center flex items-center justify-center px-6 mb-4"
+          className="w-full h-[170px] bg-cover bg-center flex items-center justify-center px-6 mb-4"
           style={{ backgroundImage: `url(${Images.RewardBanner})` }}
         >
         {/* 3개의 박스를 나란히 배치할 컨테이너 */}
