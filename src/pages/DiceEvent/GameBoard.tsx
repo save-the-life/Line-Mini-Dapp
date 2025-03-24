@@ -679,15 +679,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <button
             onClick={() => {
               toggleMasterMute(); 
-              // 필요하면 클릭 사운드도 재생
-              // playSfx(Audios.button_click);
+              playSfx(Audios.button_click);
             }}
-            className="absolute top-2 left-2 z-50 bg-gray-800 p-2 rounded-full flex items-center justify-center"
+            className="absolute top-0 left-0 z-50 bg-gray-800 rounded-full flex items-center justify-center"
           >
             {masterMuted ? (
-              <HiVolumeOff className="text-white w-5 h-5" />
+              <HiVolumeOff className="text-white w-4 h-4" />
             ) : (
-              <HiVolumeUp className="text-white w-5 h-5" />
+              <HiVolumeUp className="text-white w-4 h-4" />
             )}
           </button>
         </div>
