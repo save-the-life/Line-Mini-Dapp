@@ -54,6 +54,12 @@ const SoundSetting: React.FC = () => {
     }
   };
 
+  React.useEffect(() => {
+    console.log("masterVolume on mount:", masterVolume);
+    console.log("backVolume on mount:", bgmVolume);
+    console.log("effectVolume on mount:", sfxVolume);
+  }, []);
+
   return (
     <div className="flex flex-col items-center text-white px-6 min-h-screen">
       <TopTitle title={t("setting.sound_settings")} back={true} />
