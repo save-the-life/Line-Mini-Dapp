@@ -171,7 +171,7 @@ const Reward: React.FC = () => {
 
         </div>
       </div>
-      <p className="mt-1 text-xs font-normal text-white">* All events will be announced and rewards distributed within a week.</p>
+      <p className="mt-1 ml-1 text-xs font-normal text-white">* All events will be announced and rewards distributed within a week.</p>
 
       {/* 지난 달 보상 확인 */}
       <div 
