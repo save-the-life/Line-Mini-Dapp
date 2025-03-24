@@ -100,11 +100,39 @@ const Reward: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col px-6 md:px-0 text-white mb-44 w-full min-h-screen">
+    <div className="flex flex-col text-white mb-44 w-full min-h-screen">
       <TopTitle title={t("reward_page.reward")} />
 
+      {/* 이벤트 배너 영역 */}
+      <div
+          className="w-full h-[150px] bg-cover bg-center flex items-center justify-center px-6 mb-4"
+          style={{ backgroundImage: `url(${Images.RewardBanner})` }}
+        >
+        {/* 3개의 박스를 나란히 배치할 컨테이너 */}
+        <div className="flex gap-3">
+          {/* 첫 번째 박스 */}
+          <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
+                          rounded-lg flex items-center justify-center">
+            {/* 내부 텍스트/이미지는 추후 추가 */}
+          </div>
+
+          {/* 두 번째 박스 */}
+          <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
+                          rounded-lg flex items-center justify-center">
+            {/* 내부 텍스트/이미지는 추후 추가 */}
+          </div>
+
+          {/* 세 번째 박스 */}
+          <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
+                          rounded-lg flex items-center justify-center">
+            {/* 내부 텍스트/이미지는 추후 추가 */}
+          </div>
+        </div>
+      </div>
+
+      {/* 지난 달 보상 확인 */}
       <div 
-        className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer"
+        className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0"
         onClick={handlePreviousRewardPage}>
         <div className="flex flex-col gap-2">
           <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
@@ -116,7 +144,7 @@ const Reward: React.FC = () => {
       </div>
 
       {/** 이번달 경품 보여주기 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14">
+      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         {/* This Month's Ranking Awards */}
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
