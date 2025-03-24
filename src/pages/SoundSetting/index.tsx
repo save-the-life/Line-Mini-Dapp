@@ -84,9 +84,9 @@ const SoundSetting: React.FC = () => {
               min={0}
               max={10}
               step={1}
-              value={masterMuted ? 0 : masterVolume * 10}
+              value={masterMuted ? 0 : (masterVolume / 0.3) * 10}
               onChange={(e) => {
-                setMasterVolume(Number(e.target.value) / 10);
+                setMasterVolume((Number(e.target.value) / 10) * 0.3);
               }}
               disabled={masterMuted}
               className="mx-2 flex-1"
