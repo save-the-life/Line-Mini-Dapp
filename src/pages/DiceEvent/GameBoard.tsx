@@ -31,6 +31,12 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 
+// ★ 음소거 아이콘 추가
+import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
+// 음소거 상태와 토글 함수를 가져오기 위해 zustand 스토어 임포트
+import { useSoundStore } from "@/shared/store/useSoundStore";
+
+
 dayjs.extend(duration);
 dayjs.extend(utc); // UTC 플러그인 적용
 dayjs.extend(timezone); // 타임존 플러그인 적용
@@ -104,6 +110,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const [isRefilling, setIsRefilling] = useState(false); // 리필 중 상태 관리
   const {setIsOpen} = useTour();
   const { playSfx } = useSound();
+
+  const { masterMuted, toggleMasterMute } = useSoundStore();
 
   // timeUntilRefill 최신값을 보관할 ref 생성
   const timeUntilRefillRef = useRef(timeUntilRefill);
@@ -638,113 +646,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <FaBookTanakh  className=" w-5 h-5 md:w-8 md:h-8  " />
           </div>
 
-          {/* *테스트용 마스터 컨텐츠 */}
-          {/* <Dialog>
-            <DialogTrigger>
-              <div className="absolute text-white -right-11 -top-8 md:-right-24 md:-top-20 font-semibold text-xs md:text-sm md:space-y-1">
-                <FaBookTanakh  className=" w-5 h-5  " />
-              </div>
-            </DialogTrigger>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh md:h-auto overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
-              <div className="flex flex-col gap-4 p-4">
-                <div className="flex flex-col gap-2">
-                  <button
-                    onClick={handleAddDice}
-                    className="bg-green-400 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    Dice + 100
-                  </button>
-                  <button
-                    onClick={handleAddSLToken}
-                    className="bg-green-400 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    SL Token + 100
-                  </button>
-                  <button
-                    onClick={handleAddGold}
-                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    Gold NFT + 1
-                  </button>
-                  <button
-                    onClick={handleAddSilver}
-                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    Silver NFT + 1
-                  </button>
-                  <button
-                    onClick={handleAddBronze}
-                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    Bronze NFT + 1
-                  </button>
-                  <button
-                    onClick={handleAddAuto}
-                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    Auto NFT + 1
-                  </button>
-                  <button
-                    onClick={handleAddReward}
-                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    Reward NFT + 1
-                  </button>
-                  <button
-                    onClick={handleAddAll}
-                    className="bg-green-700 hover:bg-green-800 text-white py-2 px-4 rounded"
-                  >
-                    All NFTs + 1
-                  </button>
-                </div>
-
-                <div className="flex flex-col gap-2 mt-4">
-                  <button
-                    onClick={handleRemoveDice}
-                    className="bg-red-400 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    Dice - 100
-                  </button>
-                  <button
-                    onClick={handleRemoveSLToken}
-                    className="bg-red-400 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    SL Token - 100
-                  </button>
-                  <button
-                    onClick={handleRemoveGold}
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    Gold NFT - 1
-                  </button>
-                  <button
-                    onClick={handleRemoveSilver}
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    Silver NFT - 1
-                  </button>
-                  <button
-                    onClick={handleRemoveBronze}
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    Bronze NFT - 1
-                  </button>
-                  <button
-                    onClick={handleRemoveAuto}
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    Auto NFT - 1
-                  </button>
-                  <button
-                    onClick={handleRemoveReward}
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    Reward NFT - 1
-                  </button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog> */}
+          
 
           {/* 수정된 Auto 스위치 부분 */}
           <div id="fifth-step" className=" absolute flex flex-col items-center text-white -right-11 md:-right-24 md:-bottom-24 -bottom-14 ">
@@ -772,6 +674,21 @@ const GameBoard: React.FC<GameBoardProps> = ({
             disabled={buttonDisabled || diceCount < 1 || isAuto} // isAuto일 때도 비활성화
           >
             {isAuto ? "Auto Play" : "Roll Dice"}
+          </button>
+
+          <button
+            onClick={() => {
+              toggleMasterMute(); 
+              // 필요하면 클릭 사운드도 재생
+              // playSfx(Audios.button_click);
+            }}
+            className="absolute top-2 left-2 z-50 bg-gray-800 p-2 rounded-full flex items-center justify-center"
+          >
+            {masterMuted ? (
+              <HiVolumeOff className="text-white w-5 h-5" />
+            ) : (
+              <HiVolumeUp className="text-white w-5 h-5" />
+            )}
           </button>
         </div>
         <div id="third-step" className="flex flex-row text-white items-center justify-center gap-1 mt-6">
