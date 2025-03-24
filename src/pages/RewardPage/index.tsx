@@ -112,20 +112,37 @@ const Reward: React.FC = () => {
         <div className="flex gap-3">
           {/* 첫 번째 박스 */}
           <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-3xl flex items-center justify-center">
-            {/* 내부 텍스트/이미지는 추후 추가 */}
+                          rounded-3xl flex items-center justify-center border-yellow-400 animate-pulse">
+            <p className="mt-4 text-xs font-normal text-white text-center">Mystery Gift Distribution</p> 
+            <img 
+              className="mt-1 w-4 h-4"
+              src={Images.RedTriangle}/>
+            <p className="mt-1 text-xs font-normal text-white text-center">Ends on</p>
+            <p className="mb-4 text-base font-semibold text-white text-center">March 28th</p>
           </div>
 
           {/* 두 번째 박스 */}
           <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-3xl flex items-center justify-center">
-            {/* 내부 텍스트/이미지는 추후 추가 */}
+                          rounded-3xl flex items-center justify-center border-yellow-400 animate-pulse">
+            <p className="mt-4 text-xs font-normal text-white text-center">1st Round</p> 
+            <p className=" text-xs font-normal text-white text-center">Ranking Rewards</p> 
+            <img 
+              className="mt-1 w-4 h-4"
+              src={Images.RedTriangle}/>
+            <p className="mt-1 text-xs font-normal text-white text-center">Ends on</p>
+            <p className="mb-4 text-base font-semibold text-white text-center">April 14th</p>
           </div>
 
           {/* 세 번째 박스 */}
           <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-3xl flex items-center justify-center">
-            {/* 내부 텍스트/이미지는 추후 추가 */}
+                          rounded-3xl flex items-center justify-center border-yellow-400 animate-pulse">
+            <p className="mt-4 text-xs font-normal text-white text-center">Raffle Ticket Draw</p> 
+            <p className="text-xs font-normal text-white text-center">(USDT/KAIA)</p> 
+            <img 
+              className="mt-1 w-4 h-4"
+              src={Images.RedTriangle}/>
+            <p className="mt-1 text-xs font-normal text-white text-center">Scheduled for</p>
+            <p className="mb-4 text-base font-semibold text-white text-center">April 28th</p>
           </div>
         </div>
       </div>
