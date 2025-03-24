@@ -88,7 +88,7 @@ const SoundSetting: React.FC = () => {
               min={0}
               max={10}
               step={1}
-              value={masterMuted ? 0 : (masterVolume / 0.3) * 10}
+              value={masterMuted ? 0 : masterVolume * 10}
               onChange={(e) => {
                 setMasterVolume((Number(e.target.value) / 10) * 0.3);
               }}
@@ -123,7 +123,7 @@ const SoundSetting: React.FC = () => {
               min={0}
               max={10}
               step={1}
-              value={bgmMuted ? 0 : (bgmVolume / 0.3) * 10}
+              value={bgmMuted ? 0 : bgmVolume * 10}
               onChange={(e) => {
                 setBgmVolume((Number(e.target.value) / 10) * 0.3);
               }}
@@ -158,7 +158,7 @@ const SoundSetting: React.FC = () => {
               min={0}
               max={10}
               step={1}
-              value={sfxMuted ? 0 : (sfxVolume / 0.3) * 10}
+              value={sfxMuted ? 0 : sfxVolume * 10}
               onChange={(e) => {
                 setSfxVolume((Number(e.target.value) / 10) * 0.3);
               }}
