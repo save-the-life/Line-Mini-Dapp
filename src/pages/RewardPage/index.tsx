@@ -119,13 +119,13 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">Mystery Gift Distribution</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.mystery")}</p>
             <img 
               className="w-4 h-4"
               src={Images.RedTriangle}
               alt="Red Triangle"
             />
-            <p className="text-xs font-normal text-white text-center">Ends on</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
             <p className="text-base font-semibold text-white text-center">March 28th</p>
           </div>
 
@@ -138,14 +138,14 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">1st Round</p>
-            <p className="text-xs font-normal text-white text-center">Ranking Rewards</p>
+            <p className="text-xs font-normal text-white text-center">{currentRound} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
             <img 
               className="w-4 h-4"
               src={Images.RedTriangle}
               alt="Red Triangle"
             />
-            <p className="text-xs font-normal text-white text-center">Ends on</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
             <p className="text-base font-semibold text-white text-center">April 14th</p>
           </div>
 
@@ -158,20 +158,20 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">Raffle Ticket Draw</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.raffle_draw")}</p>
             <p className="text-xs font-normal text-white text-center">(USDT/KAIA)</p>
             <img 
               className="w-4 h-4"
               src={Images.RedTriangle}
               alt="Red Triangle"
             />
-            <p className="text-xs font-normal text-white text-center">Scheduled for</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.schedule")}</p>
             <p className="text-base font-semibold text-white text-center">April 28th</p>
           </div>
 
         </div>
       </div>
-      <p className="mt-1 ml-1 text-xs font-normal text-white">* All events will be announced and rewards distributed within a week.</p>
+      <p className="mt-1 ml-1 text-xs font-normal text-white">* {t("reward_page.all_events")}</p>
 
       {/* 지난 달 보상 확인 */}
       <div 

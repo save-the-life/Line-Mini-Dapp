@@ -172,7 +172,13 @@
       "get_point_reward": "포인트 보상 받기",
       "join_lucky_sl": "럭키다이스 SL 보상 참여하기",
       "promotion_reward": "프로모션 보상",
-      "invite_friend_reward": "친구 초대 보상"
+      "invite_friend_reward": "친구 초대 보상",
+      "mystery": "미스터리 선물 지급",
+      "ends_on": "종료",
+      "ranking_rewards": "랭킹 리워드",
+      "raffle_draw": "래플 티켓 추첨",
+      "schedule": "예정일",
+      "all_events": "모든 이벤트는 발표되며 보상은 일주일 이내에 지급됩니다."
     },
     "wallet_page": {
       "wallet": "지갑",
