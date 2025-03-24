@@ -31,15 +31,16 @@ const SoundSetting: React.FC = () => {
     toggleSfxMute,
   } = useSoundStore();
 
-  const handleSave = async() => {
-    try{
+  const handleSave = async () => {
+    try {
+      // 상대값(0~0.3)을 서버의 절대값(0~10)으로 변환
       const soundData = {
-        masterVolume: masterVolume * 10,
+        masterVolume: Math.round((masterVolume / 0.3) * 10),
         masterMute: masterMuted,
-        backVolume: bgmVolume * 10,
+        backVolume: Math.round((bgmVolume / 0.3) * 10),
         backMute: bgmMuted,
-        effectVolume: sfxVolume * 10,
-        effectMute: sfxMuted
+        effectVolume: Math.round((sfxVolume / 0.3) * 10),
+        effectMute: sfxMuted,
       };
 
       const saveResponse = await saveSoundSetting(soundData);
@@ -65,22 +66,22 @@ const SoundSetting: React.FC = () => {
       <TopTitle title={t("setting.sound_settings")} back={true} />
 
       <div className="w-full">
-
         {/* 1) 마스터 볼륨 */}
         <div className="mb-3">
           <h2 className="text-lg font-semibold mb-2">{t("setting.master")}</h2>
           <div className="bg-gray-800 rounded-full w-full h-14 flex items-center justify-between py-2 px-4">
             <button
               className="bg-[#0147E5] px-4 py-1 rounded-2xl text-sm"
-              onClick={()=>{
+              onClick={() => {
                 playSfx(Audios.button_click);
                 toggleMasterMute();
-              }}>
-                {masterMuted ? (
-                    <HiVolumeOff className="text-xl" />
-                ) : (
-                    <HiVolumeUp className="text-xl" />
-                )}
+              }}
+            >
+              {masterMuted ? (
+                <HiVolumeOff className="text-xl" />
+              ) : (
+                <HiVolumeUp className="text-xl" />
+              )}
             </button>
             <input
               type="range"
@@ -111,11 +112,11 @@ const SoundSetting: React.FC = () => {
                 toggleBgmMute();
               }}
             >
-                {bgmMuted ? (
-                    <HiVolumeOff className="text-xl" />
-                ) : (
-                    <HiVolumeUp className="text-xl" />
-                )}
+              {bgmMuted ? (
+                <HiVolumeOff className="text-xl" />
+              ) : (
+                <HiVolumeUp className="text-xl" />
+              )}
             </button>
             <input
               type="range"
@@ -144,12 +145,13 @@ const SoundSetting: React.FC = () => {
               onClick={() => {
                 playSfx(Audios.button_click);
                 toggleSfxMute();
-              }}>
-                {sfxMuted ? (
-                    <HiVolumeOff className="text-xl" />
-                ) : (
-                    <HiVolumeUp className="text-xl" />
-                )}
+              }}
+            >
+              {sfxMuted ? (
+                <HiVolumeOff className="text-xl" />
+              ) : (
+                <HiVolumeUp className="text-xl" />
+              )}
             </button>
             <input
               type="range"
