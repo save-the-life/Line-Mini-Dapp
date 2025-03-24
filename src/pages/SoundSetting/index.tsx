@@ -34,11 +34,11 @@ const SoundSetting: React.FC = () => {
   const handleSave = async() => {
     try{
       const soundData = {
-        masterVolume: masterVolume*10,
+        masterVolume: masterVolume * 10,
         masterMute: masterMuted,
-        backVolume: bgmVolume*10,
+        backVolume: bgmVolume * 10,
         backMute: bgmMuted,
-        effectVolume: sfxVolume*10,
+        effectVolume: sfxVolume * 10,
         effectMute: sfxMuted
       };
 
@@ -47,12 +47,9 @@ const SoundSetting: React.FC = () => {
       if (saveResponse) {
         navigate("/dice-event");
       } else {
-        // 실패(false) 시 사용자에게 알림/로그 등 처리
         alert("사운드 설정 저장에 실패했습니다. 다시 시도해주세요.");
       }
     } catch (error: any) {
-      // 에러 핸들링
-      // console.error("사운드 설정 저장 중 에러:", error);
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
   };
@@ -92,7 +89,7 @@ const SoundSetting: React.FC = () => {
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {Math.round(masterVolume * 10)}/10
+              {masterMuted ? 0 : Math.round((masterVolume / 0.3) * 10)}/10
             </div>
           </div>
         </div>
@@ -119,15 +116,15 @@ const SoundSetting: React.FC = () => {
               min={0}
               max={10}
               step={1}
-              value={bgmMuted ? 0 : bgmVolume * 10}
+              value={bgmMuted ? 0 : (bgmVolume / 0.3) * 10}
               onChange={(e) => {
-                setBgmVolume(Number(e.target.value) / 10);
+                setBgmVolume((Number(e.target.value) / 10) * 0.3);
               }}
               disabled={bgmMuted}
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {Math.round(bgmVolume * 10)}/10
+              {bgmMuted ? 0 : Math.round((bgmVolume / 0.3) * 10)}/10
             </div>
           </div>
         </div>
@@ -153,15 +150,15 @@ const SoundSetting: React.FC = () => {
               min={0}
               max={10}
               step={1}
-              value={sfxMuted ? 0 : sfxVolume * 10}
+              value={sfxMuted ? 0 : (sfxVolume / 0.3) * 10}
               onChange={(e) => {
-                setSfxVolume(Number(e.target.value) / 10);
+                setSfxVolume((Number(e.target.value) / 10) * 0.3);
               }}
               disabled={sfxMuted}
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {Math.round(sfxVolume * 10)}/10
+              {sfxMuted ? 0 : Math.round((sfxVolume / 0.3) * 10)}/10
             </div>
           </div>
         </div>
