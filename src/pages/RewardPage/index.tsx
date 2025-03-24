@@ -112,19 +112,19 @@ const Reward: React.FC = () => {
         <div className="flex gap-3">
           {/* 첫 번째 박스 */}
           <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-lg flex items-center justify-center">
+                          rounded-3xl flex items-center justify-center">
             {/* 내부 텍스트/이미지는 추후 추가 */}
           </div>
 
           {/* 두 번째 박스 */}
           <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-lg flex items-center justify-center">
+                          rounded-3xl flex items-center justify-center">
             {/* 내부 텍스트/이미지는 추후 추가 */}
           </div>
 
           {/* 세 번째 박스 */}
           <div className="w-[110px] h-[126px] bg-gradient-to-b from-[#484ADA] to-[#2D2774] 
-                          rounded-lg flex items-center justify-center">
+                          rounded-3xl flex items-center justify-center">
             {/* 내부 텍스트/이미지는 추후 추가 */}
           </div>
         </div>

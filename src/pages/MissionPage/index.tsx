@@ -133,7 +133,7 @@ const MissionPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const { playSfx } = useSound();
-  const [eventShow, setEventShow] = useState(false);
+  const [eventShow, setEventShow] = useState(true);
   const { missions, fetchMissions, clearMission } = useMissionStore();
 
   // 지갑 관련 전역 상태
