@@ -96,7 +96,7 @@ const SoundSetting: React.FC = () => {
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {masterMuted ? 0 : Math.round((masterVolume / 0.3) * 10)}/10
+              {masterMuted ? 0 : Math.round(masterVolume* 10)}/10
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@ const SoundSetting: React.FC = () => {
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {bgmMuted ? 0 : Math.round((bgmVolume / 0.3) * 10)}/10
+              {bgmMuted ? 0 : Math.round(bgmVolume* 10)}/10
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ const SoundSetting: React.FC = () => {
               className="mx-2 flex-1"
             />
             <div className="ml-2 w-10 text-center">
-              {sfxMuted ? 0 : Math.round((sfxVolume / 0.3) * 10)}/10
+              {sfxMuted ? 0 : Math.round(sfxVolume* 10)}/10
             </div>
           </div>
         </div>
