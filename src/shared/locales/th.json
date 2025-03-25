@@ -485,6 +485,7 @@
       "attendance_failed": "การเข้าร่วมไม่สำเร็จ",
       "wallet_fail": "การเชื่อมต่อวอลเล็ทล้มเหลว",
       "attendance_err": "เกิดข้อผิดพลาดขณะเข้าร่วม"
-    }
+    },
+    "date_format_md": "DD/MM"
   }
   

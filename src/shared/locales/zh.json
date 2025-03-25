@@ -485,6 +485,7 @@
       "attendance_failed": "出席失敗。",
       "wallet_fail": "錢包連接失敗。",
       "attendance_err": "出席時發生錯誤。"
-    }
+    },
+    "date_format_md": "MM月DD日"
   }
   
