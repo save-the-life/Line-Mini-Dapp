@@ -475,5 +475,6 @@
     "attendance_failed": "出席に失敗しました。",
     "wallet_fail": "ウォレットの接続に失敗しました。",
     "attendance_err": "出席中にエラーが発生しました。"
-  }
+  },
+    "date_format_md": "MM月DD日"
 }

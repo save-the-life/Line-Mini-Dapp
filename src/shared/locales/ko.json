@@ -475,6 +475,7 @@
       "attendance_failed": "출석 실패.",
       "wallet_fail": "지갑 연결 실패.",
       "attendance_err": "출석 중 오류가 발생했습니다."
-    }
+    },
+    "date_format_md": "MM월 DD일"
   }
   

@@ -475,6 +475,7 @@
       "attendance_failed": "Attendance Failed.",
       "wallet_fail": "Wallet Connection Failed.",
       "attendance_err": "Error occurred while Attendance."
-    }
+    },
+    "date_format_md": "MMMM DD"
   }
   

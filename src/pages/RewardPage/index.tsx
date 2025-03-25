@@ -12,6 +12,7 @@ import api from '@/shared/api/axiosInstance';
 import { formatNumber } from "@/shared/utils/formatNumber";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import moment from "moment";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 
@@ -33,6 +34,11 @@ const Reward: React.FC = () => {
   // const [showMoreRaffle, setShowMoreRaffle] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
+  
+  const dateFormat = t("date_format_md");
+  const event1 = new Date(2025, 3, 28);
+  const event2 = new Date(2025, 4, 14);
+  const event3 = new Date(2025, 4, 28);
 
   useEffect(() => {
     fetchLeaderHome();
@@ -126,7 +132,7 @@ const Reward: React.FC = () => {
               alt="Red Triangle"
             />
             <p className="text-xs font-normal text-white text-center">Ends on</p>
-            <p className="text-base font-semibold text-white text-center">March 28th</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event1).format(dateFormat)}</p>
           </div>
 
           {/* 두 번째 박스 */}
@@ -146,7 +152,7 @@ const Reward: React.FC = () => {
               alt="Red Triangle"
             />
             <p className="text-xs font-normal text-white text-center">Ends on</p>
-            <p className="text-base font-semibold text-white text-center">April 14th</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event2).format(dateFormat)}</p>
           </div>
 
           {/* 세 번째 박스 */}
@@ -166,7 +172,7 @@ const Reward: React.FC = () => {
               alt="Red Triangle"
             />
             <p className="text-xs font-normal text-white text-center">Scheduled for</p>
-            <p className="text-base font-semibold text-white text-center">April 28th</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
           </div>
 
         </div>
