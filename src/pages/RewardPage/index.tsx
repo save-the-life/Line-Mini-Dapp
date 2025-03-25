@@ -36,9 +36,9 @@ const Reward: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   
   const dateFormat = t("date_format_md");
-  const event1 = new Date(2025, 3, 28);
-  const event2 = new Date(2025, 4, 14);
-  const event3 = new Date(2025, 4, 28);
+  const event1 = new Date(2025, 2, 28);
+  const event2 = new Date(2025, 3, 14);
+  const event3 = new Date(2025, 3, 28);
 
   useEffect(() => {
     fetchLeaderHome();
