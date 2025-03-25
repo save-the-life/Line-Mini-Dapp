@@ -176,7 +176,7 @@ import Medium from "./medium.png"
 import RewardBanner from "./rewardBanner.png"
 import RedTriangle from "./redTriangle.png"
 import Note from "./note.png"
-import Discount from "./discord.png"
+import Discount from "./discount.png"
 
 const Images = {
   HorizontalLogo,
