@@ -436,7 +436,7 @@ const ItemStore: React.FC = () => {
                 <img
                   src={Images.Discount}
                   alt="Discount"
-                  className="absolute top-0 left-0 w-[42px] h-[18px]"
+                  className="absolute top-1 left-1 w-[45px] h-[20px] object-cover"
                 />
                 <img
                   src={item.itemUrl}
