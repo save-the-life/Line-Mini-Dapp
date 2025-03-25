@@ -135,97 +135,85 @@ const App:React.FC = () =>{
   }, []);
 
   return (
-    <>
-      <ScrollToTop />
-      <TourProvider
-          steps={steps}
-          afterOpen={disableBody} 
-          beforeClose={enableBody}
-          onClickMask={async ({ setCurrentStep, currentStep, steps, setIsOpen }) => {
-              if (steps) {
-                  if (currentStep === steps.length - 1) {
-                      await completeTutorialFunc();
-                      setIsOpen(false);
+  <>
+    <ScrollToTop />
+    <TourProvider
+      steps={steps}
+      afterOpen={disableBody} 
+      beforeClose={enableBody}
+      onClickMask={async ({ setCurrentStep, currentStep, steps, setIsOpen }) => {
+        if (steps) {
+          if (currentStep === steps.length - 1) {
+            await completeTutorialFunc();
+            setIsOpen(false);
+          }
+          setCurrentStep((s) => (s === steps.length - 1 ? 0 : s + 1));
+        }
+      }}
+      onClickClose={async ({ setIsOpen }) => {
+        await completeTutorialFunc();
+        setIsOpen(false);
+      }}
+      styles={{
+        popover: (base) => ({
+          ...base,
+          "--reactour-accent": "#0147E5",
+          borderRadius: 10,
+        }),
+        maskArea: (base) => ({ ...base, rx: 10, margin: 30 }),
+        badge: (base) => ({ ...base, left: "auto", right: "-0.8125em" }),
+        close: (base) => ({ ...base, right: "auto", left: 8, top: 8 }),
+      }}
+    >
+      {/* AppInitializer는 항상 렌더링되어 백그라운드에서 초기화 진행 */}
+      <AppInitializer onInitialized={() => setIsInitialized(true)} />
+      
+      <SoundProvider bgmSrc={Audios.bgm}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/" />} />
+          <Route path="/dice-event" element={<DiceEventLayout><DiceEvent /></DiceEventLayout>} />
+          <Route path="/AI-menu" element={<DiceEventLayout><AIMenu /></DiceEventLayout>} />
+          <Route path="/mission" element={<DiceEventLayout><MissionPage /></DiceEventLayout>} />
+          <Route path="/reward" element={<DiceEventLayout><Reward /></DiceEventLayout>} />
+          <Route path="/invite-friends" element={<DiceEventLayout><InviteFriends /></DiceEventLayout>} />
+          <Route path="/my-assets" element={<DiceEventLayout><MyAssets /></DiceEventLayout>} />
+          <Route path="/wallet" element={<DiceEventLayout><WalletPage /></DiceEventLayout>} />
+          <Route path="/wallet-list" element={<DiceEventLayout><WalletList /></DiceEventLayout>} />
+          <Route path="/test" element={<DiceEventLayout><SlotMachine /></DiceEventLayout>} />
+          <Route path="/previous-rewards" element={<DiceEventLayout><PreviousRewards /></DiceEventLayout>} />
+          {/* Hidden Pages */}
+          <Route path="/choose-character" element={<DiceEventLayout hidden={true}><SelectCharacterPage /></DiceEventLayout>} />
+          <Route path="/select-pet" element={<DiceEventLayout hidden={true}><SelectPet /></DiceEventLayout>} />
+          <Route path="/regist-pet" element={<DiceEventLayout hidden={true}><PetRegister /></DiceEventLayout>} />
+          <Route path="/edit-pet" element={<DiceEventLayout hidden={true}><EditPet /></DiceEventLayout>} />
+          <Route path="/diagnosis-list" element={<DiceEventLayout hidden={true}><DiagnosisRecords /></DiceEventLayout>} />
+          <Route path="/diagnosis-detail" element={<DiceEventLayout hidden={true}><DiagnosisDetail /></DiceEventLayout>} />
+          <Route path="/ai-xray-analysis" element={<DiceEventLayout hidden={true}><AIXrayAnalysis /></DiceEventLayout>} />
+          <Route path="/ai-dental-analysis" element={<DiceEventLayout hidden={true}><DentalAnalysis /></DiceEventLayout>} />
+          <Route path="/my-nfts" element={<DiceEventLayout hidden={true}><MyNfts /></DiceEventLayout>} />
+          <Route path="/reward-history" element={<DiceEventLayout hidden={true}><RewardHistory /></DiceEventLayout>} />
+          <Route path="/first-reward" element={<DiceEventLayout hidden={true}><FirstRewardPage /></DiceEventLayout>} />
+          <Route path="/settings" element={<DiceEventLayout hidden={true}><SettingsPage /></DiceEventLayout>} />
+          <Route path="/policy-detail" element={<DiceEventLayout hidden={true}><PolicyDetailPage /></DiceEventLayout>} />
+          <Route path="/referral-rewards" element={<DiceEventLayout hidden={true}><FriendRewards /></DiceEventLayout>} />
+          <Route path="/claim-history" element={<DiceEventLayout hidden={true}><ClaimHistory /></DiceEventLayout>} />
+          <Route path="/sdk-test" element={<DiceEventLayout hidden={true}><WalletConnect /></DiceEventLayout>} />
+          <Route path="/invite-friends-list" element={<DiceEventLayout hidden={true}><InviteFriendsList /></DiceEventLayout>} />
+          <Route path="/choose-language" element={<DiceEventLayout hidden={true}><LanguagePage /></DiceEventLayout>} />
+          <Route path="/sound-setting" element={<DiceEventLayout hidden={true}><SoundSetting /></DiceEventLayout>} />
+          <Route path="/connect-wallet" element={<ConnectWalletPage />} />
+          <Route path="/item-store" element={<DiceEventLayout hidden={true}><ItemStore /></DiceEventLayout>} />
+          <Route path="/previous-ranking" element={<DiceEventLayout hidden={true}><PreviousRanking /></DiceEventLayout>} />
+          <Route path="/previous-raffle" element={<DiceEventLayout hidden={true}><PreviousRaffle /></DiceEventLayout>} />
+          <Route path="/previous-airdrop" element={<DiceEventLayout hidden={true}><PreviousAirdrop /></DiceEventLayout>} />
+          <Route path="/edit-nickname" element={<DiceEventLayout hidden={true}><EditNickname /></DiceEventLayout>} />
+          <Route path="/promotion" element={<DiceEventLayout hidden={true}><Promotion /></DiceEventLayout>} />
+        </Routes>
+      </SoundProvider>
+    </TourProvider>
+  </>
+);
 
-                  }
-                  setCurrentStep((s) => (s === steps.length - 1 ? 0 : s + 1));
-              }
-          } }
-
-          onClickClose={async ({ setIsOpen }) => {
-              await completeTutorialFunc();
-              setIsOpen(false);
-          } }
-
-          styles={{
-              popover: (base) => ({
-                  ...base,
-                  "--reactour-accent": "#0147E5",
-                  borderRadius: 10,
-              }),
-              maskArea: (base) => ({ ...base, rx: 10, margin: 30 }),
-              // maskWrapper: (base) => ({ ...base, color: "#0147E5" }),
-              badge: (base) => ({ ...base, left: "auto", right: "-0.8125em" }),
-              // controls: (base) => ({ ...base, marginTop: 100 }),
-              close: (base) => ({ ...base, right: "auto", left: 8, top: 8 }),
-          }} >
-          {!isInitialized && (
-              // 앱 초기화 진행 컴포넌트 사용
-              <AppInitializer onInitialized={() => setIsInitialized(true)} />
-          )}
-          {isInitialized && (
-            <SoundProvider bgmSrc={Audios.bgm}>
-              <Routes>
-                  {/* DiceEventLayout Pages */}
-                  {/* <Route path="/" element={<Navigate to="/" />} /> */}
-                  <Route path="/dice-event" element={<DiceEventLayout><DiceEvent /></DiceEventLayout>} />
-                  <Route path="/AI-menu" element={<DiceEventLayout><AIMenu /></DiceEventLayout>} />
-                  <Route path="/mission" element={<DiceEventLayout><MissionPage /></DiceEventLayout>} />
-                  <Route path="/reward" element={<DiceEventLayout><Reward /></DiceEventLayout>} />
-                  <Route path="/invite-friends" element={<DiceEventLayout><InviteFriends /></DiceEventLayout>} />
-                  <Route path="/my-assets" element={<DiceEventLayout><MyAssets /></DiceEventLayout>} />
-                  <Route path="/wallet" element={<DiceEventLayout><WalletPage /></DiceEventLayout>} />
-                  <Route path="/wallet-list" element={<DiceEventLayout><WalletList /></DiceEventLayout>} />
-                  <Route path="/test" element={<DiceEventLayout><SlotMachine /></DiceEventLayout>} />
-                  <Route path="/previous-rewards" element={<DiceEventLayout><PreviousRewards /></DiceEventLayout>} />
-
-
-                  {/* Hidden Pages */}
-                  <Route path="/choose-character" element={<DiceEventLayout hidden={true}><SelectCharacterPage /></DiceEventLayout>} />
-                  <Route path="/select-pet" element={<DiceEventLayout hidden={true}><SelectPet /></DiceEventLayout>} />
-                  <Route path="/regist-pet" element={<DiceEventLayout hidden={true}><PetRegister /></DiceEventLayout>} />
-                  <Route path="/edit-pet" element={<DiceEventLayout hidden={true}><EditPet /></DiceEventLayout>} />
-                  <Route path="/diagnosis-list" element={<DiceEventLayout hidden={true}><DiagnosisRecords /></DiceEventLayout>} />
-                  <Route path="/diagnosis-detail" element={<DiceEventLayout hidden={true}><DiagnosisDetail /></DiceEventLayout>} />
-                  <Route path="/ai-xray-analysis" element={<DiceEventLayout hidden={true}><AIXrayAnalysis /></DiceEventLayout>} />
-                  <Route path="/ai-dental-analysis" element={<DiceEventLayout hidden={true}><DentalAnalysis /></DiceEventLayout>} />
-                  <Route path="/my-nfts" element={<DiceEventLayout hidden={true}><MyNfts /></DiceEventLayout>} />
-                  <Route path="/reward-history" element={<DiceEventLayout hidden={true}><RewardHistory /></DiceEventLayout>} />
-                  <Route path="/first-reward" element={<DiceEventLayout hidden={true}><FirstRewardPage /></DiceEventLayout>} />
-                  <Route path="/settings" element={<DiceEventLayout hidden={true}><SettingsPage /></DiceEventLayout>} />
-                  <Route path="/policy-detail" element={<DiceEventLayout hidden={true}><PolicyDetailPage /></DiceEventLayout>} />
-                  <Route path="/referral-rewards" element={<DiceEventLayout hidden={true}><FriendRewards /></DiceEventLayout>} />
-                  <Route path="/claim-history" element={<DiceEventLayout hidden={true}><ClaimHistory /></DiceEventLayout>} />
-                  <Route path="/sdk-test" element={<DiceEventLayout hidden={true}><WalletConnect /></DiceEventLayout>} />
-                  <Route path="/invite-friends-list" element={<DiceEventLayout hidden={true}><InviteFriendsList /></DiceEventLayout>} />
-                  <Route path="/choose-language" element={<DiceEventLayout hidden={true}><LanguagePage /></DiceEventLayout>} />
-                  <Route path="/sound-setting" element={<DiceEventLayout hidden={true}><SoundSetting /></DiceEventLayout>} />
-                  <Route path="/connect-wallet" element={<ConnectWalletPage />} />
-                  <Route path="/item-store" element={<DiceEventLayout hidden={true}><ItemStore /></DiceEventLayout>} />
-                  <Route path="/previous-ranking" element={<DiceEventLayout hidden={true}><PreviousRanking /></DiceEventLayout>} />
-                  <Route path="/previous-raffle" element={<DiceEventLayout hidden={true}><PreviousRaffle /></DiceEventLayout>} />
-                  <Route path="/previous-airdrop" element={<DiceEventLayout hidden={true}><PreviousAirdrop /></DiceEventLayout>} />
-                  <Route path="/edit-nickname" element={<DiceEventLayout hidden={true}><EditNickname /></DiceEventLayout>} />
-                  <Route path="/promotion" element={<DiceEventLayout hidden={true}><Promotion /></DiceEventLayout>} />
-                  
-              
-
-              </Routes>
-            </SoundProvider>
-          )}
-      </TourProvider>
-    </>
-  );
 }
 
 export default App;
