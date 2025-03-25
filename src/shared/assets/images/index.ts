@@ -182,6 +182,8 @@ import RewardIcon from "./reward-icon.png"
 import AutoIcon from "./auto-icon.png"
 import RewardBanner from "./rewardBanner.png"
 import RedTriangle from "./redTriangle.png"
+import Discount from "./discount.png"
+
 
 
 const Images = {
@@ -367,7 +369,8 @@ const Images = {
   RewardIcon,
   AutoIcon,
   RewardBanner,
-  RedTriangle
+  RedTriangle,
+  Discount
 };
 
 export default Images;

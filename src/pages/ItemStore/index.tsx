@@ -430,7 +430,14 @@ const ItemStore: React.FC = () => {
               <div
                 className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                 style={{ background: getBackgroundGradient(item.itemName) }}
-              >
+              >                              
+                {/* 할인 이미지 추가 */}
+                <img
+                  src={Images.Discount}
+                  alt="Discount"
+                  className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover"
+                />
+
                 <img
                   src={item.itemUrl}
                   alt={item.itemName}
