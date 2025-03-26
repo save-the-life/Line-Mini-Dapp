@@ -116,32 +116,44 @@ interface DailyMissionProps {
 const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) => {
   const { t } = useTranslation();
   return (
-    <div className="basic-mission-card h-36 rounded-3xl flex flex-col items-center pl-8 pr-5 justify-center mb-3">
-      <img src={image} alt={alt} className="w-24 h-24" />
-      <div className="space-y-3">
-        <p className="text-xl font-semibold">{title}</p>
-        <div className="flex flex-col gap-3 mb-5">
-          <div className="flex items-start">
-              <p className="text-sm font-normal">1) </p>
-              <p className="text-sm font-normal ml-1 text-[#FDE047]">+10,000 Starpoints</p><br/>
-              <p className="text-sm font-normal">for both invitees and friends</p>
-          </div>
-          <div className="flex items-start">
-              <p className="text-sm font-normal">2. </p>
-              <p className="text-sm font-normal ml-1 text-[#FDE047]">10% Payback</p>
-              <p className="text-sm font-normal"> on Your Friend's Purchase</p>
-          </div>
+    <div className="rounded-3xl p-6 bg-[#0F172A] text-white flex flex-col items-center gap-4">
+      {/* 상단 이미지 */}
+      <img
+        src={image}
+        alt={alt}
+        className="w-20 h-20 object-cover"
+      />
 
-          <div className="flex items-center mt-4">
-              <img src={Images.Note} className="w-5 h-5 object-cover"/>
-              <p className="text-sm font-semibold ml-1 text-[#FDE047]">NOTE</p>
-          </div>
+      {/* 제목(Invite Friends) + 화살표(>) */}
+      <div className="flex items-center text-xl font-semibold space-x-2">
+        <p>{title}</p>
+        <p>{">"}</p>
+      </div>
 
-          <p className="text-sm font-normal">
-            Only users who have completed at least one game round (dice roll) will be considered valid and eligible for benefits.
-          </p>
-
+      {/* 상세 텍스트 영역 */}
+      <div className="flex flex-col text-sm gap-2">
+        {/* 1) +10,000 Starpoints */}
+        <div>
+          <span className="font-normal mr-1">1)</span>
+          <span className="font-normal text-[#FDE047] mr-1">+10,000 Starpoints</span>
+          <span className="font-normal">for both invitees and friends</span>
         </div>
+
+        {/* 2) 10% Payback */}
+        <div>
+          <span className="font-normal mr-1">2)</span>
+          <span className="font-normal text-[#FDE047] mr-1">10% Payback</span>
+          <span className="font-normal">on Your Friend&apos;s Purchase</span>
+        </div>
+
+        {/* NOTE 영역 */}
+        <div className="flex items-center gap-1 mt-2">
+          <img src={Images.Note} alt="Note" className="w-5 h-5 object-cover" />
+          <p className="text-sm font-semibold text-[#FDE047]">NOTE</p>
+        </div>
+        <p className="text-sm font-normal">
+          Only users who have completed at least one game round (dice roll) will be considered valid and eligible for benefits.
+        </p>
       </div>
     </div>
   );
