@@ -647,12 +647,34 @@ const DiceEventPage: React.FC = () => {
                   We've identified accounts abusing the friend invitation feature and will enforce suspensions and reward revocations! ⚠
                 </p>
                 {/* 외부 링크 삽입 */}
-                <div className="flex flex-col mt-2">
-                  <p className="font-Pretendard text-center text-sm font-semibold text-[#DD2726]">
-                    들어갈 내용은 아직
-                  </p>
-                </div>
-                <button onClick={handleCloseAbuseModal} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7">
+                <a
+                  href="https://shorturl.at/qk59Z" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="underline text-[#3B82F6] mt-1 text-base font-semibold"
+                >
+                  https://shorturl.at/qk59Z
+                </a>
+
+                <img
+                  src={Images.NoticeBox}
+                  className="w-[100px] h-[100px] mt-5 object-cover"
+                />
+                <p className="text-base font-extrabold text-white text-center">【Mystery Box Bonanza】</p>
+                <p className="text-base font-medium text-white text-center">
+                  Our Mystery Box event ends on March 28! Many prizes are up for grabs,
+                  so stay tuned! 🎁 
+                </p>
+                {/* 외부 링크 삽입 */}
+                <a
+                  href="https://shorturl.at/B5kDX" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="underline text-[#3B82F6] mt-1 text-base font-semibold"
+                >
+                  https://shorturl.at/B5kDX
+                </a>
+                <button onClick={handleCloseAbuseModal} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
                   {t("agree_page.close")}
                 </button>
               </div>
