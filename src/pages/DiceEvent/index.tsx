@@ -212,13 +212,12 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   // 어뷰징 관련 안내 모달 스케줄링 로직
   // ===============================
+  const scheduledSlots = [0, 9, 18];
+
   useEffect(() => {
-    const scheduledSlots = [0, 9, 18]; // 모달을 표시할 시간 (시)
-    
     const checkAndShowAbuseModal = () => {
       const now = new Date();
       let currentSlot: number | null = null;
-      // 현재 시간보다 작거나 같은 가장 최근 슬롯 선택
       for (let slot of scheduledSlots) {
         if (now.getHours() >= slot) {
           currentSlot = slot;
@@ -227,32 +226,35 @@ const DiceEventPage: React.FC = () => {
       if (currentSlot !== null) {
         const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
         const lastShownSlot = localStorage.getItem("abuseModalLastShown");
-        if (lastShownSlot !== slotId) {
+        const dismissedSlot = localStorage.getItem("abuseModalDismissed");
+        // 닫은 기록이 있으면 재오픈하지 않음
+        if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
           setabuseModal(true);
         }
       }
     };
-  
+
     // 최초 10초 동안 1초마다 체크
     const fastInterval = setInterval(checkAndShowAbuseModal, 1000);
-  
-    // 10초 후에 빠른 체크를 중단하고 1분 간격으로 체크하도록 전환
+    let slowInterval: number | undefined;
+
+    // 10초 후에 빠른 체크를 중단하고 1분 간격으로 체크 전환
     const switchTimeout = setTimeout(() => {
       clearInterval(fastInterval);
-      const slowInterval = setInterval(checkAndShowAbuseModal, 60000);
-      // 컴포넌트 언마운트 시 slowInterval도 정리
-      return () => clearInterval(slowInterval);
+      slowInterval = window.setInterval(checkAndShowAbuseModal, 60000);
     }, 10000);
-  
+
     return () => {
       clearInterval(fastInterval);
       clearTimeout(switchTimeout);
+      if (slowInterval) {
+        clearInterval(slowInterval);
+      }
     };
   }, []);
 
   // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
   const handleCloseAbuseModal = () => {
-    const scheduledSlots = [0, 9, 19];
     const now = new Date();
     let currentSlot: number | null = null;
     for (let slot of scheduledSlots) {
@@ -263,9 +265,11 @@ const DiceEventPage: React.FC = () => {
     if (currentSlot !== null) {
       const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
       localStorage.setItem("abuseModalLastShown", slotId);
+      localStorage.setItem("abuseModalDismissed", slotId);
     }
     setabuseModal(false);
   };
+  
   // ===============================
 
   if (isLoading) {
