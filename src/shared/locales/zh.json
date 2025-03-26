@@ -448,7 +448,13 @@
       "auto": "游戏自动模式",
       "shop_item":"排名助推器商店",
       "check_daily": "您的每日奖励正在等待中！",
-      "tap": "点击进入!"
+      "tap": "点击进入!",
+      "dear_user": "親愛的 Lucky Dice 用戶",
+      "abuse_notice": "帳戶濫用通知",
+      "identify_user": "我們已識別出濫用好友邀請功能的帳戶，並將對其進行停權及獎勵撤銷處理！",
+      "bonanza": "神秘盒大狂歡",
+      "event_end": "我們的神秘盒活動將於3月28日結束！眾多獎品等你來拿，",
+      "tune": "敬請期待！"
     },
     "setting": {
       "terms_of_service": "服務條款",

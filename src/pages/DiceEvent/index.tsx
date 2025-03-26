@@ -282,6 +282,73 @@ const DiceEventPage: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  
+
+  // ===============================
+  // 어뷰징 관련 안내 모달 스케줄링 로직
+  // ===============================
+  const scheduledSlots = [0, 9, 18];
+  
+  const [abuseModal , setabuseModal ] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkAndShowAbuseModal = () => {
+      const now = new Date();
+      let currentSlot: number | null = null;
+      for (let slot of scheduledSlots) {
+        if (now.getHours() >= slot) {
+          currentSlot = slot;
+        }
+      }
+      if (currentSlot !== null) {
+        const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+        const lastShownSlot = localStorage.getItem("abuseModalLastShown");
+        const dismissedSlot = localStorage.getItem("abuseModalDismissed");
+        // 닫은 기록이 있으면 재오픈하지 않음
+        if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
+          setabuseModal(true);
+        }
+      }
+    };
+
+    // 최초 10초 동안 1초마다 체크
+    const fastInterval = setInterval(checkAndShowAbuseModal, 1000);
+    let slowInterval: number | undefined;
+
+    // 10초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
+    const switchTimeout = setTimeout(() => {
+      clearInterval(fastInterval);
+      slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
+    }, 10000);
+
+    return () => {
+      clearInterval(fastInterval);
+      clearTimeout(switchTimeout);
+      if (slowInterval) {
+        clearInterval(slowInterval);
+      }
+    };
+  }, []);
+
+  // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
+  const handleCloseAbuseModal = () => {
+    const now = new Date();
+    let currentSlot: number | null = null;
+    for (let slot of scheduledSlots) {
+      if (now.getHours() >= slot) {
+        currentSlot = slot;
+      }
+    }
+    if (currentSlot !== null) {
+      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+      localStorage.setItem("abuseModalLastShown", slotId);
+      localStorage.setItem("abuseModalDismissed", slotId);
+    }
+    setabuseModal(false);
+  };
+  
+  // ===============================
+
   if (isLoading) {
     return <LoadingSpinner className="h-screen"/>;
   }
@@ -658,6 +725,66 @@ const DiceEventPage: React.FC = () => {
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   {t("dice_event.claim")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+                    {/* 어뷰징 관련 안내 다이얼로그 */}
+                    <Dialog open={abuseModal}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      handleCloseAbuseModal();
+                    }}
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <p className="text-xl font-bold text-white text-center">{t("dice_event.dear_user")},</p>
+                <img
+                  src={Images.NoticeCaution}
+                  className="w-[90px] h-[90px] mt-4 object-cover"
+                />
+                <p className="text-base font-extrabold text-white text-center">【{t("dice_event.abuse_notice")}】</p>
+                <p className="text-base font-medium text-white text-center">
+                  {t("dice_event.identify_user")} ⚠
+                </p>
+                {/* 외부 링크 삽입 */}
+                <a
+                  href="https://shorturl.at/qk59Z" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="underline text-[#3B82F6] mt-1 text-base font-semibold"
+                >
+                  https://shorturl.at/qk59Z
+                </a>
+
+                <img
+                  src={Images.NoticeBox}
+                  className="w-[100px] h-[100px] mt-5 object-cover"
+                />
+                <p className="text-base font-extrabold text-white text-center">【{t("dice_event.bonanza")}】</p>
+                <p className="text-base font-medium text-white text-center">
+                  {t("dice_event.event_end")}<br/>
+                  {t("dice_event.tune")} 🎁 
+                </p>
+                {/* 외부 링크 삽입 */}
+                <a
+                  href="https://shorturl.at/B5kDX" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="underline text-[#3B82F6] mt-1 text-base font-semibold"
+                >
+                  https://shorturl.at/B5kDX
+                </a>
+                <button onClick={handleCloseAbuseModal} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
+                  {t("agree_page.close")}
                 </button>
               </div>
             </DialogContent>

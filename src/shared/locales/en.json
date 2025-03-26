@@ -448,7 +448,13 @@
       "auto": "Game Auto Mode",
       "shop_item":"Ranking Booster Shop",
       "check_daily": "Your daily rewards are waiting!",
-      "tap": "Tap to check in!"
+      "tap": "Tap to check in!",
+      "dear_user": "Dear Lucky Dice users",
+      "abuse_notice": "Account Abuse Notice",
+      "identify_user": "We've identified accounts abusing the friend invitation feature and will enforce suspensions and reward revocations!",
+      "bonanza": "Mystery Box Bonanza",
+      "event_end": "Our Mystery Box event ends on March 28! Many prizes are up for grabs,",
+      "tune": "so stay tuned!"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

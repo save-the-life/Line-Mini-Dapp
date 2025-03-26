@@ -183,6 +183,8 @@ import AutoIcon from "./auto-icon.png"
 import RewardBanner from "./rewardBanner.png"
 import RedTriangle from "./redTriangle.png"
 import Discount from "./discount.png"
+import NoticeCaution from "./notice-caution.png"
+import NoticeBox from "./notice-box.png"
 
 
 
@@ -370,7 +372,9 @@ const Images = {
   AutoIcon,
   RewardBanner,
   RedTriangle,
-  Discount
+  Discount,
+  NoticeCaution,
+  NoticeBox
 };
 
 export default Images;
