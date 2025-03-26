@@ -446,7 +446,9 @@
       "if_error": "만약 이 조치가 오류라고 생각된다면,",
       "contact_team": "지원팀에 문의해 주세요.",
       "auto": "게임 자동 모드",
-      "shop_item":"랭킹 부스터 상점"
+      "shop_item":"랭킹 부스터 상점",
+      "check_daily": "일일 보상이 기다리고 있습니다!",
+      "tap": "탭하여 확인해주세요!"
     },
     "setting": {
       "terms_of_service": "이용 약관",

@@ -72,6 +72,7 @@ const DiceEventPage: React.FC = () => {
     pet,
     suspend,
     setSuspend,
+    redirect,
     items,
   } = useUserStore();
 
@@ -657,6 +658,41 @@ const DiceEventPage: React.FC = () => {
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   {t("dice_event.claim")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* 출석 체크 알림 다이얼로그 */}
+          <Dialog open={redirect}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      navigate("/mission")
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className="flex flex-col mt-5">
+                  <p className="font-Pretendard text-center text-base font-semibold">
+                    {t("dice_event.check_daily")}<br/>
+                    {t("dice_event.tap")}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    navigate("/mission")
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  {t("agree_page.close")}
                 </button>
               </div>
             </DialogContent>

@@ -446,7 +446,9 @@
       "if_error": "如果您認為此舉是錯誤的，",
       "contact_team": "請聯絡我們的支援團隊。",
       "auto": "游戏自动模式",
-      "shop_item":"排名助推器商店"
+      "shop_item":"排名助推器商店",
+      "check_daily": "您的每日奖励正在等待中！",
+      "tap": "点击进入!"
     },
     "setting": {
       "terms_of_service": "服務條款",
