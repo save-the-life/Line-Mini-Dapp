@@ -46,7 +46,7 @@ const ItemStore: React.FC = () => {
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
   
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
   const { walletAddress, sdk, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
@@ -423,7 +423,7 @@ const ItemStore: React.FC = () => {
         {/* 드롭다운: Premium Boosts */}
         <div className="w-full mb-4">
           <button
-            className="flex items-start justify w-full px-4 py-3"
+            className="flex items-start justify w-full"
             onClick={() => {
               playSfx(Audios.button_click);
               setIsDropdownOpen(!isDropdownOpen);
