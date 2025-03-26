@@ -116,15 +116,33 @@ interface DailyMissionProps {
 const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) => {
   const { t } = useTranslation();
   return (
-    <div className="basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between mb-3">
+    <div className="basic-mission-card h-36 rounded-3xl flex flex-col items-center pl-8 pr-5 justify-center mb-3">
+      <img src={image} alt={alt} className="w-24 h-24" />
       <div className="space-y-3">
         <p className="text-xl font-semibold">{title}</p>
-        <p className="text-sm">
-          {t("mission_page.Earn_various_rewards")} <br className="md:hidden" />
-          {t("mission_page.such_as_dice,_points,_SL_coins")}
-        </p>
+        <div className="flex flex-col gap-3 mb-5">
+          <div className="flex items-start">
+              <p className="text-sm font-normal">1) </p>
+              <p className="text-sm font-normal ml-1 text-[#FDE047]">+10,000 Starpoints</p><br/>
+              <p className="text-sm font-normal">for both invitees and friends</p>
+          </div>
+          <div className="flex items-start">
+              <p className="text-sm font-normal">2. </p>
+              <p className="text-sm font-normal ml-1 text-[#FDE047]">10% Payback</p>
+              <p className="text-sm font-normal"> on Your Friend's Purchase</p>
+          </div>
+
+          <div className="flex items-center mt-4">
+              <img src={Images.Note} className="w-5 h-5 object-cover"/>
+              <p className="text-sm font-semibold ml-1 text-[#FDE047]">NOTE</p>
+          </div>
+
+          <p className="text-sm font-normal">
+            Only users who have completed at least one game round (dice roll) will be considered valid and eligible for benefits.
+          </p>
+
+        </div>
       </div>
-      <img src={image} alt={alt} className="w-24 h-24" />
     </div>
   );
 };
@@ -133,7 +151,7 @@ const MissionPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const { playSfx } = useSound();
-  const [eventShow, setEventShow] = useState(true);
+  const [eventShow, setEventShow] = useState(false);
   const { missions, fetchMissions, clearMission } = useMissionStore();
 
   // 지갑 관련 전역 상태
