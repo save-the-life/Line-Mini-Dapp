@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
+import { useNavigate } from "react-router-dom";
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -71,6 +72,7 @@ const DiceEventPage: React.FC = () => {
 
   const game = useDiceGame();
   const { playSfx } = useSound();
+  const navigate = useNavigate();
   const [initialX, setInitialX] = useState<number>(140);
   const [initialY, setInitialY] = useState<number>(474);
   const [delta, setDelta] = useState<number>(56);
@@ -84,6 +86,9 @@ const DiceEventPage: React.FC = () => {
 
   // URL 보상 팝업 표시를 위한 상태
   const [showUrlReward, setShowUrlReward] = useState<boolean>(false);
+
+  // 출석 체크 미진행 시 팝업 표시를 위한 상태
+  const [showDaily, setShowDaily] = useState<boolean>(true);
   
 
   // 레벨 업 시 팝업 표시를 위한 상태
@@ -529,6 +534,43 @@ const DiceEventPage: React.FC = () => {
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   {t("dice_event.claim")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+
+          
+          {/* 출석 체크 알림 다이얼로그 */}
+          <Dialog open={showDaily}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      setShowDaily(false);
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className="flex flex-col mt-5">
+                  <p className="font-Pretendard text-center text-base font-semibold">
+                    Your daily rewards are waiting!<br/>
+                    Tap to check in!
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    navigate("/mission")
+                    setSuspend(false)
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  {t("agree_page.close")}
                 </button>
               </div>
             </DialogContent>
