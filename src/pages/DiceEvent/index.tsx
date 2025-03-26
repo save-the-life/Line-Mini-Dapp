@@ -96,7 +96,7 @@ const DiceEventPage: React.FC = () => {
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
   
-  const [abuseModal , setabuseModal ] = useState<boolean>(true);
+  const [abuseModal , setabuseModal ] = useState<boolean>(false);
 
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
@@ -213,7 +213,8 @@ const DiceEventPage: React.FC = () => {
   // 어뷰징 관련 안내 모달 스케줄링 로직
   // ===============================
   useEffect(() => {
-    const scheduledSlots = [0, 9, 19]; // 모달을 표시할 시간 (시)
+    const scheduledSlots = [0, 9, 18]; // 모달을 표시할 시간 (시)
+    
     const checkAndShowAbuseModal = () => {
       const now = new Date();
       let currentSlot: number | null = null;
@@ -224,7 +225,6 @@ const DiceEventPage: React.FC = () => {
         }
       }
       if (currentSlot !== null) {
-        // 고유 식별자: "연도-월-일-슬롯"
         const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
         const lastShownSlot = localStorage.getItem("abuseModalLastShown");
         if (lastShownSlot !== slotId) {
@@ -232,12 +232,22 @@ const DiceEventPage: React.FC = () => {
         }
       }
     };
-
-    // 컴포넌트 마운트 시 한 번 확인
-    checkAndShowAbuseModal();
-    // 1분마다 시간 확인
-    const intervalId = setInterval(checkAndShowAbuseModal, 60000);
-    return () => clearInterval(intervalId);
+  
+    // 최초 10초 동안 1초마다 체크
+    const fastInterval = setInterval(checkAndShowAbuseModal, 1000);
+  
+    // 10초 후에 빠른 체크를 중단하고 1분 간격으로 체크하도록 전환
+    const switchTimeout = setTimeout(() => {
+      clearInterval(fastInterval);
+      const slowInterval = setInterval(checkAndShowAbuseModal, 60000);
+      // 컴포넌트 언마운트 시 slowInterval도 정리
+      return () => clearInterval(slowInterval);
+    }, 10000);
+  
+    return () => {
+      clearInterval(fastInterval);
+      clearTimeout(switchTimeout);
+    };
   }, []);
 
   // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
