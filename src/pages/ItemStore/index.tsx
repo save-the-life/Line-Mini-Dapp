@@ -22,6 +22,7 @@ import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ItemStore: React.FC = () => {
   const { t } = useTranslation();
@@ -422,7 +423,7 @@ const ItemStore: React.FC = () => {
         {/* 드롭다운: Premium Boosts */}
         <div className="w-full mb-4">
           <button
-            className="flex items-center justify-between w-full px-4 py-3 bg-[#1F1E27] rounded-md"
+            className="flex items-start justify w-full px-4 py-3"
             onClick={() => {
               playSfx(Audios.button_click);
               setIsDropdownOpen(!isDropdownOpen);
@@ -430,45 +431,57 @@ const ItemStore: React.FC = () => {
           >
             <span className="text-base font-semibold">Premium Boosts</span>
             {isDropdownOpen ? (
-              <IoChevronUpOutline className="w-5 h-5" />
+              <IoChevronUpOutline className="ml-2 w-5 h-5" />
             ) : (
-              <IoChevronDownOutline className="w-5 h-5" />
+              <IoChevronDownOutline className="ml-2 w-5 h-5" />
             )}
           </button>
 
-          {/* 드롭다운이 열려있을 때만 아이템 목록 표시 */}
-          {isDropdownOpen && (
-            <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-6">
-              {sortedItemData.map((item) => (
-                <div
-                  key={item.itemId}
-                  className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${
-                    selectedItem === item.itemId ? "border-blue-400" : "border-[#737373]"
-                  }`}
-                  onClick={() => handleSelectItem(item.itemId)}
-                >
-                  <div
-                    className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
-                    style={{ background: getBackgroundGradient(item.itemName) }}
-                  >
-                    {/* 할인 이미지 */}
-                    <img
-                      src={Images.Discount}
-                      alt="Discount"
-                      className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover"
-                    />
-                    <img
-                      src={item.itemUrl}
-                      alt={item.itemName}
-                      className="w-[80px] h-[80px] object-cover"
-                    />
-                  </div>
-                  <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
-                  <div className="mt-1">{customText(item.itemName)}</div>
+          {/* AnimatePresence로 감싸고, motion.div로 애니메이션 적용 */}
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <motion.div
+                key="dropdown" // AnimatePresence에서 식별자 역할
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                {/* 실제 아이템 목록 */}
+                <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-6">
+                  {sortedItemData.map((item) => (
+                    <div
+                      key={item.itemId}
+                      className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${
+                        selectedItem === item.itemId ? "border-blue-400" : "border-[#737373]"
+                      }`}
+                      onClick={() => handleSelectItem(item.itemId)}
+                    >
+                      <div
+                        className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                        style={{ background: getBackgroundGradient(item.itemName) }}
+                      >
+                        {/* 할인 이미지 */}
+                        <img
+                          src={Images.Discount}
+                          alt="Discount"
+                          className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover"
+                        />
+                        <img
+                          src={item.itemUrl}
+                          alt={item.itemName}
+                          className="w-[80px] h-[80px] object-cover"
+                        />
+                      </div>
+                      <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+                      <div className="mt-1">{customText(item.itemName)}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* 체크박스 및 결제 버튼 영역 */}
