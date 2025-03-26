@@ -135,7 +135,7 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
         {/* 1) +10,000 Starpoints */}
         <div>
           <span className="font-normal text-sm mr-1">1)</span>
-          <br className="font-semibold text-base text-[#FDE047]">+10,000 Starpoints</br>
+          <span className="font-semibold text-base text-[#FDE047]">+10,000 Starpoints</span><br/>
           <span className="font-normal text-sm">for both invitees and friends</span>
         </div>
 
