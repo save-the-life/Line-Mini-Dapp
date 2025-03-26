@@ -96,9 +96,6 @@ const DiceEventPage: React.FC = () => {
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
 
-  // 부적절한 사용자 정지 안내표시
-  const [banned, setBanned] = useState<boolean>(false);
-
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
     if (userLv > prevLevel) {
@@ -131,8 +128,6 @@ const DiceEventPage: React.FC = () => {
         });
     }
   }, []);
-
-
 
   // 현재 레벨 보상 찾기
   const currentReward = levelRewards.find((r) => r.level === userLv);
@@ -209,6 +204,57 @@ const DiceEventPage: React.FC = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  
+
+  // ===============================
+  // 어뷰징 관련 안내 모달 스케줄링 로직
+  // ===============================
+  useEffect(() => {
+    const scheduledSlots = [0, 9, 18]; // 모달을 표시할 시간 (시)
+    const checkAndShowAbuseModal = () => {
+      const now = new Date();
+      let currentSlot: number | null = null;
+      // 현재 시간보다 작거나 같은 가장 최근 슬롯 선택
+      for (let slot of scheduledSlots) {
+        if (now.getHours() >= slot) {
+          currentSlot = slot;
+        }
+      }
+      if (currentSlot !== null) {
+        // 고유 식별자: "연도-월-일-슬롯"
+        const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+        const lastShownSlot = localStorage.getItem("abuseModalLastShown");
+        if (lastShownSlot !== slotId) {
+          setSuspend(true);
+        }
+      }
+    };
+
+    // 컴포넌트 마운트 시 한 번 확인
+    checkAndShowAbuseModal();
+    // 1분마다 시간 확인
+    const intervalId = setInterval(checkAndShowAbuseModal, 60000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
+  const handleCloseAbuseModal = () => {
+    const scheduledSlots = [0, 9, 19];
+    const now = new Date();
+    let currentSlot: number | null = null;
+    for (let slot of scheduledSlots) {
+      if (now.getHours() >= slot) {
+        currentSlot = slot;
+      }
+    }
+    if (currentSlot !== null) {
+      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+      localStorage.setItem("abuseModalLastShown", slotId);
+    }
+    setSuspend(false);
+  };
+  // ===============================
 
   if (isLoading) {
     return <LoadingSpinner className="h-screen"/>;
@@ -448,7 +494,6 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-          
           {/* 사용 중지 다이얼로그 */}
           <Dialog open={suspend}>
             <DialogTitle></DialogTitle>
@@ -500,11 +545,10 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-
           {/* dapp-portal URL 보상 다이얼로그 */}
           <Dialog open={showUrlReward}>
             <DialogTitle></DialogTitle>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[50%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
@@ -540,8 +584,6 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-
-          
           {/* 출석 체크 알림 다이얼로그 */}
           <Dialog open={redirect}>
             <DialogTitle></DialogTitle>
@@ -572,6 +614,45 @@ const DiceEventPage: React.FC = () => {
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
+                  {t("agree_page.close")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+
+          {/* 어뷰징 관련 안내 다이얼로그 */}
+          <Dialog open={suspend}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      handleCloseAbuseModal();
+                    }}
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <p className="text-xl font-bold text-white text-center">Dear Lucky Dice users,</p>
+                <img
+                  src={Images.NoticeCaution}
+                  className="w-[90px] h-[90px] mt-4 object-cover"
+                />
+                <p className="text-base font-extrabold text-white text-center">【Account Abuse Notice】</p>
+                <p className="text-base font-medium text-white text-center">
+                  We've identified accounts abusing the friend invitation feature and will enforce suspensions and reward revocations! ⚠
+                </p>
+                {/* 외부 링크 삽입 */}
+                <div className="flex flex-col mt-2">
+                  <p className="font-Pretendard text-center text-sm font-semibold text-[#DD2726]">
+                    들어갈 내용은 아직
+                  </p>
+                </div>
+                <button onClick={handleCloseAbuseModal} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7">
                   {t("agree_page.close")}
                 </button>
               </div>

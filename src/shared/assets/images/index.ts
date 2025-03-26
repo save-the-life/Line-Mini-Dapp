@@ -177,6 +177,8 @@ import RewardBanner from "./rewardBanner.png"
 import RedTriangle from "./redTriangle.png"
 import Note from "./note.png"
 import Discount from "./discount.png"
+import NoticeCaution from "./notice-caution.png"
+import NoticeBox from "./notice-box.png"
 
 const Images = {
   HorizontalLogo,
@@ -356,7 +358,9 @@ const Images = {
   RewardBanner,
   RedTriangle,
   Note,
-  Discount
+  Discount,
+  NoticeCaution,
+  NoticeBox
 };
 
 export default Images;
