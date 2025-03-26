@@ -214,31 +214,42 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   useEffect(() => {
     const scheduledSlots = [0, 9, 19]; // 모달을 표시할 시간 (시)
-    const checkAndShowAbuseModal = () => {
-      const now = new Date();
-      let currentSlot: number | null = null;
-      // 현재 시간보다 작거나 같은 가장 최근 슬롯 선택
-      for (let slot of scheduledSlots) {
-        if (now.getHours() >= slot) {
-          currentSlot = slot;
-        }
-      }
-      if (currentSlot !== null) {
-        // 고유 식별자: "연도-월-일-슬롯"
-        const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-        const lastShownSlot = localStorage.getItem("abuseModalLastShown");
-        if (lastShownSlot !== slotId) {
-          setabuseModal(true);
-        }
-      }
-    };
-
-    // 컴포넌트 마운트 시 한 번 확인
-    checkAndShowAbuseModal();
-    // 1분마다 시간 확인
-    const intervalId = setInterval(checkAndShowAbuseModal, 60000);
-    return () => clearInterval(intervalId);
+    const now = new Date();
+  
+    // 현재 시간보다 큰 예약 시간 찾기
+    let nextSlot = scheduledSlots.find(slot => slot > now.getHours());
+    
+    // 만약 없다면, 다음날 첫 번째 슬롯으로 설정
+    if (nextSlot === undefined) {
+      nextSlot = scheduledSlots[0];
+      // 다음날로 날짜 설정
+      now.setDate(now.getDate() + 1);
+    }
+    
+    // 다음 슬롯의 Date 객체 생성 (분, 초, 밀리초는 0으로)
+    const nextSlotTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      nextSlot,
+      0,
+      0,
+      0
+    );
+    
+    const delay = nextSlotTime.getTime() - Date.now();
+  
+    // delay가 음수일 경우, 즉 이미 시간이 지난 경우 바로 모달 띄우기
+    if (delay <= 0) {
+      setabuseModal(true);
+    } else {
+      const timerId = setTimeout(() => {
+        setabuseModal(true);
+      }, delay);
+      return () => clearTimeout(timerId);
+    }
   }, []);
+  
 
   // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
   const handleCloseAbuseModal = () => {
@@ -664,7 +675,7 @@ const DiceEventPage: React.FC = () => {
                 />
                 <p className="text-base font-extrabold text-white text-center">【Mystery Box Bonanza】</p>
                 <p className="text-base font-medium text-white text-center">
-                  Our Mystery Box event ends on March 28! Many prizes are up for grabs,
+                  Our Mystery Box event ends on March 28! Many prizes are up for grabs,<br/>
                   so stay tuned! 🎁 
                 </p>
                 {/* 외부 링크 삽입 */}
