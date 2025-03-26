@@ -146,6 +146,10 @@ interface UserState {
   // **추가된 필드: suspend (boolean)**
   suspend: boolean;
   setSuspend: (suspend: boolean) => void;
+
+  
+  redirect: boolean;
+  setRedirect: (suspend: boolean) => void;
 }
 
 // 필요한 인터페이스 정의
@@ -184,6 +188,11 @@ export const useUserStore = create<UserState>((set, get) => ({
   // suspend 필드 추가 (초기값 false)
   suspend: false,
   setSuspend: (suspend) => set({ suspend }),
+
+  
+  redirect: false,
+  setRedirect: (redirect) => set({ redirect }),
+
 
   pet : {
     type: null,
@@ -392,6 +401,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         completeTutorial: user.completeTutorial,
         timeZone: user.timeZone,
         suspend: user.suspend, // 추가된 부분: suspend 값 저장
+        redirect: user.redirect,
   
         position: nowDice.tileSequence,
         diceCount: nowDice.dice,
@@ -549,6 +559,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       isAuto: false, // 추가된 부분: isAuto 초기화
       timeZone: null,
       suspend: false, // 추가된 부분: suspend 초기화
+      redirect:false,
       position: 0,
       diceCount: 0,
       starPoints: 0,

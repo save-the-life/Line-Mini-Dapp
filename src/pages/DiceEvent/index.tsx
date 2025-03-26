@@ -67,6 +67,7 @@ const DiceEventPage: React.FC = () => {
     isAuto,
     pet,
     suspend,
+    redirect,
     setSuspend,
   } = useUserStore();
 
@@ -542,15 +543,16 @@ const DiceEventPage: React.FC = () => {
 
           
           {/* 출석 체크 알림 다이얼로그 */}
-          <Dialog open={showDaily}>
+          <Dialog open={redirect}>
             <DialogTitle></DialogTitle>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[40%]">
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
                     className="w-5 h-5"
                     onClick={() => {
                       playSfx(Audios.button_click);
+                      navigate("/mission")
                       setShowDaily(false);
                     }} 
                   />
