@@ -131,19 +131,19 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
       </div>
 
       {/* 상세 텍스트 영역 */}
-      <div className="flex flex-col text-sm gap-2">
+      <div className="flex flex-col text-center item-center gap-2">
         {/* 1) +10,000 Starpoints */}
         <div>
-          <span className="font-normal mr-1">1)</span>
-          <span className="font-normal text-[#FDE047] mr-1">+10,000 Starpoints</span>
-          <span className="font-normal">for both invitees and friends</span>
+          <span className="font-normal text-sm mr-1">1)</span>
+          <br className="font-semibold text-base text-[#FDE047]">+10,000 Starpoints</br>
+          <span className="font-normal text-sm">for both invitees and friends</span>
         </div>
 
         {/* 2) 10% Payback */}
         <div>
-          <span className="font-normal mr-1">2)</span>
-          <span className="font-normal text-[#FDE047] mr-1">10% Payback</span>
-          <span className="font-normal">on Your Friend&apos;s Purchase</span>
+          <span className="font-normal text-sm mr-1">2)</span>
+          <span className="font-semibold text-base text-[#FDE047] mr-1">10% Payback</span>
+          <span className="font-normal text-sm">on Your Friend&apos;s Purchase</span>
         </div>
 
         {/* NOTE 영역 */}
@@ -151,7 +151,7 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
           <img src={Images.Note} alt="Note" className="w-5 h-5 object-cover" />
           <p className="text-sm font-semibold text-[#FDE047]">NOTE</p>
         </div>
-        <p className="text-sm font-normal">
+        <p className="text-xs font-normal text-center">
           Only users who have completed at least one game round (dice roll) will be considered valid and eligible for benefits.
         </p>
       </div>
