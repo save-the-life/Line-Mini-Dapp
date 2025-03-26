@@ -211,7 +211,7 @@ const DiceEventPage: React.FC = () => {
   // 어뷰징 관련 안내 모달 스케줄링 로직
   // ===============================
   useEffect(() => {
-    const scheduledSlots = [0, 9, 18]; // 모달을 표시할 시간 (시)
+    const scheduledSlots = [0, 9, 19]; // 모달을 표시할 시간 (시)
     const checkAndShowAbuseModal = () => {
       const now = new Date();
       let currentSlot: number | null = null;
