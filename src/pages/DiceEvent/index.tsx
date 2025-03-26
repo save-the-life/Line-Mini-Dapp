@@ -95,6 +95,8 @@ const DiceEventPage: React.FC = () => {
   // 레벨 업 시 팝업 표시를 위한 상태
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
+  
+  const [abuseModal , setabuseModal ] = useState<boolean>(false);
 
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
@@ -226,7 +228,7 @@ const DiceEventPage: React.FC = () => {
         const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
         const lastShownSlot = localStorage.getItem("abuseModalLastShown");
         if (lastShownSlot !== slotId) {
-          setSuspend(true);
+          setabuseModal(true);
         }
       }
     };
@@ -252,7 +254,7 @@ const DiceEventPage: React.FC = () => {
       const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
       localStorage.setItem("abuseModalLastShown", slotId);
     }
-    setSuspend(false);
+    setabuseModal(false);
   };
   // ===============================
 
@@ -622,7 +624,7 @@ const DiceEventPage: React.FC = () => {
 
 
           {/* 어뷰징 관련 안내 다이얼로그 */}
-          <Dialog open={suspend}>
+          <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
