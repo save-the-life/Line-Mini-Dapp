@@ -116,9 +116,9 @@ interface DailyMissionProps {
 const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) => {
   const { t } = useTranslation();
   return (
-    <div className="rounded-3xl p-6 bg-[#0F172A] text-white flex flex-col items-center gap-4">
-      {/* 상단 이미지 */}
-      <img
+    <div className="basic-mission-card rounded-3xl p-6 text-white flex flex-col items-center gap-4">
+       {/* 상단 이미지 */}
+       <img
         src={image}
         alt={alt}
         className="w-20 h-20 object-cover"
