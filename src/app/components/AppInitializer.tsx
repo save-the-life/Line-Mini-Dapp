@@ -106,6 +106,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
     } catch (error: any) {
       // // console.error("[AppInitializer] getUserInfo() 중 에러:", error);
+      console.log("에러 코드 확인: ", error.code);
+      console.log("에러 코드 확인: ", error.response?.status);
+      console.log("에러 메시지 확인: ", error.message);
+      console.log("에러 확인: ", error);
 
       if (error.message === "Please choose your character first.") {
         const userTimeZone = useUserStore.getState().timeZone;
