@@ -96,7 +96,6 @@ const DiceEventPage: React.FC = () => {
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
   
-  const [abuseModal , setabuseModal ] = useState<boolean>(false);
 
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
@@ -213,6 +212,8 @@ const DiceEventPage: React.FC = () => {
   // 어뷰징 관련 안내 모달 스케줄링 로직
   // ===============================
   const scheduledSlots = [0, 9, 18];
+  
+  const [abuseModal , setabuseModal ] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAndShowAbuseModal = () => {
@@ -238,10 +239,10 @@ const DiceEventPage: React.FC = () => {
     const fastInterval = setInterval(checkAndShowAbuseModal, 1000);
     let slowInterval: number | undefined;
 
-    // 10초 후에 빠른 체크를 중단하고 1분 간격으로 체크 전환
+    // 10초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
     const switchTimeout = setTimeout(() => {
       clearInterval(fastInterval);
-      slowInterval = window.setInterval(checkAndShowAbuseModal, 60000);
+      slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
     }, 10000);
 
     return () => {
