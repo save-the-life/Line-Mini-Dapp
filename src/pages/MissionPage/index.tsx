@@ -116,12 +116,12 @@ interface DailyMissionProps {
 const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) => {
   const { t } = useTranslation();
   return (
-    <div className="basic-mission-card rounded-3xl p-6 text-white flex flex-col items-center gap-4">
+    <div className="basic-mission-card rounded-3xl p-5 text-white flex flex-col items-center gap-4">
        {/* 상단 이미지 */}
        <img
         src={image}
         alt={alt}
-        className="w-20 h-20 object-cover"
+        className="w-[100px] h-[100px] object-cover"
       />
 
       {/* 제목(Invite Friends) + 화살표(>) */}
@@ -147,7 +147,7 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
         </div>
 
         {/* NOTE 영역 */}
-        <div className="flex items-center gap-1 mt-2">
+        <div className="flex items-center justify-center gap-1 mt-2">
           <img src={Images.Note} alt="Note" className="w-5 h-5 object-cover" />
           <p className="text-sm font-semibold text-[#FDE047]">NOTE</p>
         </div>
