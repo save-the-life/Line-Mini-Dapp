@@ -399,6 +399,30 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
+      {/* kaia 미션 - 2레벨 달성 시 활성화 */}
+      <h1 className="font-semibold text-lg my-4 ml-7">
+        KAIA Mision
+      </h1>
+      <div
+        className="w-full h-[132px] flex items-center justify-between rounded-3xl"
+        style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
+      >
+        <div className="pl-3">
+          <p className="text-sm font-medium text-white">
+            Earn 0.2 KAIA upon reaching Level 2!
+          </p>
+          <p className="text-base font-semibold text-white">
+            +0.2
+          </p>
+        </div>
+        <img
+          src={Images.KaiaLevel2}
+          alt="kaia-level2"
+          className="w-[128px] h-[128px] object-cover"
+        />
+      </div>
+
+
 
       {/* 일일 미션 */}
       <h1 className="font-semibold text-lg my-4 ml-7">
