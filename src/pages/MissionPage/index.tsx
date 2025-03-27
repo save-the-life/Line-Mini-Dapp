@@ -404,10 +404,10 @@ const MissionPage: React.FC = () => {
         KAIA Mision
       </h1>
       <div
-        className="w-full h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6"
+        className="h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6"
         style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
       >
-        <div className="pl-3">
+        <div className="pl-8">
           <p className="text-sm font-medium text-white">
             Earn 0.2 KAIA upon reaching Level 2!
           </p>
