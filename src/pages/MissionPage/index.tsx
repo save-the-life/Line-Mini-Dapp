@@ -425,7 +425,7 @@ const MissionPage: React.FC = () => {
         <img
           src={Images.KaiaLevel2}
           alt="kaia-level2"
-          className="w-[128px] h-[128px] object-cover mr-[10px]"
+          className="w-[142px] h-[142px] object-cover mr-[10px]"
         />
       </div>
 
