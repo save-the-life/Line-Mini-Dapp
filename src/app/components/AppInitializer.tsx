@@ -259,7 +259,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   };
 
   useEffect(() => {
-    // localStorage.clear();
+    localStorage.clear();
     console.log("[AppInitializer] useEffect() - initializeApp() 진입");
 
     // 가장 먼저 라인 브라우저 여부를 체크하여, 외부 브라우저이면 즉시 /connect-wallet으로 이동
@@ -273,11 +273,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
 
     const initializeApp = async () => {
-      // if (initializedRef.current) {
-      //   console.log("[AppInitializer] 이미 초기화됨 -> 중단");
-      //   return;
-      // }
-      // initializedRef.current = true;
+      if (initializedRef.current) {
+        console.log("[AppInitializer] 이미 초기화됨 -> 중단");
+        return;
+      }
+      initializedRef.current = true;
 
       try {
         console.log("[AppInitializer] LIFF 초기화 시작");
