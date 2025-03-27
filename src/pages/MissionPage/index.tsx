@@ -404,7 +404,7 @@ const MissionPage: React.FC = () => {
         KAIA Mision
       </h1>
       <div
-        className="w-full h-[132px] flex items-center justify-between rounded-3xl"
+        className="w-full h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6"
         style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
       >
         <div className="pl-3">
@@ -418,7 +418,7 @@ const MissionPage: React.FC = () => {
         <img
           src={Images.KaiaLevel2}
           alt="kaia-level2"
-          className="w-[128px] h-[128px] object-cover"
+          className="w-[128px] h-[128px] object-cover mr-[10px]"
         />
       </div>
 
