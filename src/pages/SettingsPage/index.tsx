@@ -5,6 +5,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
+import deleteUser from '@/entities/User/api/deleteUser';
 
 
 const SettingsPage: React.FC =() => {
@@ -33,6 +34,14 @@ const SettingsPage: React.FC =() => {
     //     navigate("");
     // };
 
+    const handleDeleteUser = async () => {
+        try {
+            await deleteUser();
+
+        } catch (error: any) {
+            console.log(error);
+        }
+    }
 
     return(
         <div className="flex flex-col items-center text-white px-6 min-h-screen">
@@ -83,14 +92,14 @@ const SettingsPage: React.FC =() => {
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
                 </div> */}
-                 {/* <div 
+                 <div 
                     className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
-                    onClick={() => navigate('/edit-nickname')}>
+                    onClick={handleDeleteUser}>
                     <div>
-                        <p className="font-semibold">{t("setting.edit_nickname")}</p>
+                        <p className="font-semibold">Delete User</p>
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
-                </div> */}
+                </div>
                 
                 <div 
                     className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
