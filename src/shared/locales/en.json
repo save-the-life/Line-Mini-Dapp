@@ -246,7 +246,12 @@
       "reward_added": "This reward has been added to your account.",
       "ok": "OK",
       "point_dis": "Star Points Distribution",
-      "payback": "10% Payback on Your Friend’s Purchase"
+      "payback_message": "<0>10% Payback</0><1> on Your Friend’s Purchase</1>",
+      "star_point": "Star Points",
+      "for_both": "for both invitees and friends",
+      "note": "Note",
+      "only_user": "Only users who have completed at least one game round (dice roll) will be considered valid and eligible for benefits.",
+      "starpoints_message": "<0>+10,000 Star Points</0><1/><2>for both invitees and friends</2>"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "Shop Unique ITEMs Now!",

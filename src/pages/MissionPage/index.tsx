@@ -20,7 +20,7 @@ import {
 import { formatNumber } from "@/shared/utils/formatNumber";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import { preloadImages } from "@/shared/utils/preloadImages";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import Attendance from "@/widgets/Attendance";
@@ -116,22 +116,58 @@ interface DailyMissionProps {
 const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) => {
   const { t } = useTranslation();
   return (
-    <div className="basic-mission-card h-36 rounded-3xl flex flex-row items-center pl-8 pr-5 justify-between mb-3">
-      <div className="space-y-3">
-        <p className="text-xl font-semibold">{title}</p>
-        <div className="flex flex-col gap-3 mb-5">
-          <div className="flex items-start gap-2">
-              <p className="text-sm font-normal">1. </p>
-              <p className="text-sm font-normal ml-1">{t("mission_page.point_dis")}</p>
-          </div>
-          <div className="flex items-start gap-2">
-              <p className="text-sm font-normal">2. </p>
-              <p className="text-sm font-normal ml-1">{t("mission_page.payback")}</p>
-          </div>
+    <div className="basic-mission-card rounded-3xl p-5 text-white flex flex-col items-center gap-4">
+       {/* 상단 이미지 */}
+       <img
+        src={image}
+        alt={alt}
+        className="w-[100px] h-[100px] object-cover"
+      />
 
-        </div>
+      {/* 제목(Invite Friends) + 화살표(>) */}
+      <div className="flex items-center text-xl font-semibold space-x-2">
+        <p>{title}</p>
+        <p>{">"}</p>
       </div>
-      <img src={image} alt={alt} className="w-24 h-24" />
+
+      {/* 상세 텍스트 영역 */}
+      <div className="flex flex-col text-center item-center gap-2">
+        {/* 1) +10,000 Star Points 메시지 */}
+        <div>
+          <span className="font-normal text-sm mr-1">1)</span>
+          <Trans i18nKey="mission_page.starpoints_message">
+            <span className="font-semibold text-base text-[#FDE047]">
+              +10,000 Star Points
+            </span>
+            <br />
+            <span className="font-normal text-sm">
+              for both invitees and friends
+            </span>
+          </Trans>
+        </div>
+
+         {/* 2) 10% Payback 메시지 */}
+         <div>
+          <span className="font-normal text-sm mr-1">2)</span>
+          <Trans i18nKey="mission_page.payback_message">
+            <span className="font-semibold text-base text-[#FDE047] mr-1">
+              10% Payback
+            </span>
+            <span className="font-normal text-sm">
+              on Your Friend’s Purchase
+            </span>
+          </Trans>
+        </div>
+
+        {/* NOTE 영역 */}
+        <div className="flex items-center justify-center gap-1 mt-2">
+          <img src={Images.Note} alt="Note" className="w-5 h-5 object-cover" />
+          <p className="text-sm font-semibold text-[#FDE047]">{t("mission_page.note")}</p>
+        </div>
+        <p className="text-xs font-normal text-center">
+          {t("mission_page.only_user")}
+        </p>
+      </div>
     </div>
   );
 };
