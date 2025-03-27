@@ -285,10 +285,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           withLoginOnExternalBrowser: true,
         });
         
-        await DappPortalSDK.init({
-          clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-          chainId: "1001",
-        });
+        // await DappPortalSDK.init({
+        //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+        //   chainId: "1001",
+        // });
 
         // // console.log("[AppInitializer] LIFF 초기화 완료");
 
