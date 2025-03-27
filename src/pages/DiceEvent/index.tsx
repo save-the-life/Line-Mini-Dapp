@@ -694,7 +694,7 @@ const DiceEventPage: React.FC = () => {
           {/* dapp-portal URL 보상 다이얼로그 */}
           <Dialog open={showUrlReward}>
             <DialogTitle></DialogTitle>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[40%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
@@ -730,8 +730,8 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-                    {/* 어뷰징 관련 안내 다이얼로그 */}
-                    <Dialog open={abuseModal}>
+          {/* 어뷰징 관련 안내 다이얼로그 */}
+          <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
