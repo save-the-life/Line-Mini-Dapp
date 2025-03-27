@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
-import useWalletStore from "@/shared/store/useWalletStore";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
 import i18n from "@/shared/lib/il8n";
 import SplashScreen from "./SplashScreen";
@@ -55,79 +53,135 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     "invite-friends-list",
     "edit-nickname",
     "previous-ranking",
-    "item-store"
+    "item-store",
   ];
   const referralPattern = /^[A-Za-z0-9]{4,16}$/;
 
-  // 사용자 정보 가져오기
+  // (0단계) 레퍼럴 코드 설정 함수
+  const setReferralCode = () => {
+    console.log("[Step 0] 시작 - 현재 URL:", window.location.href);
+    localStorage.removeItem("referralCode");
+    let referralCode = "";
+
+    // (0-1) window.location.hash 검사
+    if (window.location.hash && window.location.hash.startsWith("#/")) {
+      referralCode = window.location.hash.slice(2);
+      console.log("[Step 0-1] 해시에서 추출:", referralCode);
+    }
+
+    // (0-2) 쿼리 파라미터 'liff.state' 검사
+    if (!referralCode) {
+      const url = new URL(window.location.href);
+      const liffState = url.searchParams.get("liff.state");
+      if (liffState && liffState.startsWith("#/")) {
+        referralCode = liffState.slice(2);
+        console.log("[Step 0-2] liff.state에서 추출:", referralCode);
+      }
+    }
+
+    // (0-3) 쿼리 파라미터 'liff.referrer' 검사
+    if (!referralCode) {
+      const url = new URL(window.location.href);
+      const liffReferrer = url.searchParams.get("liff.referrer");
+      if (liffReferrer) {
+        referralCode = "dapp-portal-promotions";
+        console.log("[Step 0-3] liff.referrer 감지, 프로모션 코드 설정:", referralCode);
+      }
+    }
+
+    // (0-4) URL 마지막 세그먼트 사용
+    if (!referralCode) {
+      const parts = window.location.pathname.split("/");
+      referralCode = parts[parts.length - 1];
+      console.log("[Step 0-4] URL 마지막 세그먼트 추출:", referralCode);
+    }
+
+    // 특정 문자열 체크
+    if (referralCode === "from-dapp-portal") {
+      console.log(`[Step 0] "${referralCode}" 감지 -> localStorage에 저장`);
+      localStorage.setItem("referralCode", referralCode);
+      return;
+    }
+    if (referralCode === "dapp-portal-promotions") {
+      console.log(`[Step 0] "${referralCode}" 감지 (프로모션 레퍼럴 코드) -> localStorage에 저장`);
+      localStorage.setItem("referralCode", referralCode);
+      return;
+    }
+    // 사전에 정의된 라우트와 비교
+    if (knownRoutes.includes(referralCode)) {
+      console.log(`[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
+      localStorage.removeItem("referralCode");
+      return;
+    }
+    // 정규표현식 패턴 검사
+    if (referralPattern.test(referralCode)) {
+      console.log(`[Step 0] "${referralCode}" 패턴 일치 -> 레퍼럴 코드로 설정`);
+      localStorage.setItem("referralCode", referralCode);
+    } else {
+      console.log(`[Step 0] "${referralCode}" 패턴 불일치 -> 레퍼럴 코드 아님`);
+    }
+  };
+
+  // (6단계 및 기존 분기) 사용자 정보 가져오기
   const getUserInfo = async (retryCount = 0) => {
-    // // console.log("[AppInitializer] getUserInfo() 호출");
+    console.log("[Step 6] getUserInfo() 호출, 재시도 횟수:", retryCount);
     try {
       await fetchUserData();
-      
-      const userTimeZone = useUserStore.getState().timeZone;
-      // console.log("서버로부터 받은 타임존: ", userTimeZone);
-      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      // console.log("사용자의 타임존: ", currentTimeZone);
+      console.log("[Step 6] 사용자 데이터 fetch 성공");
 
-      if(userTimeZone === null || userTimeZone!== currentTimeZone){
-        // 서버 측에 사용자 타임존 저장 api 호출
-        try{
+      // 타임존 업데이트
+      const userTimeZone = useUserStore.getState().timeZone;
+      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      console.log("[Step 6] 서버 타임존:", userTimeZone, "| 사용자 타임존:", currentTimeZone);
+      if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+        try {
           await updateTimeZone(currentTimeZone);
-        }catch(error: any){
-          console.log("timezone error", error);
-        };
+          console.log("[Step 6] 타임존 업데이트 성공");
+        } catch (error: any) {
+          console.log("[Step 6] 타임존 업데이트 에러:", error);
+        }
       }
 
-      
-      // // console.log("[AppInitializer] 사용자 데이터 정상적으로 가져옴");
+      // 프로모션 분기 처리
       const referralCode = localStorage.getItem("referralCode");
       if (referralCode === "dapp-portal-promotions") {
+        console.log("[Step 6] 프로모션 레퍼럴 코드 감지, getPromotion() 호출");
         try {
-          // 프로모션 수령 여부 확인
           const promo = await getPromotion();
-          console.log("프로모션 수령 진행");
+          console.log("[Step 6] getPromotion 결과:", promo);
           if (promo === "Success") {
-            // 프로모션을 아직 받지 않은 경우 -> 프로모션 지급 페이지로 이동
-            console.log("프로모션 수령 진행 >> 처음 받음");
+            console.log("[Step 6] 프로모션 첫 수령 -> /promotion 이동");
             navigate("/promotion");
           } else {
-            // 이미 받은 경우 -> 일반 페이지로 이동
-            console.log("프로모션 수령 진행 >> 이미 받음");
+            console.log("[Step 6] 프로모션 이미 수령됨 -> /dice-event 이동");
             navigate("/dice-event");
           }
         } catch (error: any) {
-          console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
+          console.error("[Step 6] 프로모션 확인 중 에러:", error);
           navigate("/dice-event");
         }
       } else {
-        // 레퍼럴 코드가 없거나 다른 값인 경우 일반 페이지로 이동
+        console.log("[Step 6] 일반 사용자 -> /dice-event 이동");
         navigate("/dice-event");
       }
     } catch (error: any) {
-      console.error("[AppInitializer] getUserInfo() 중 에러:", error);
-
+      console.error("[Step 6] getUserInfo() 에러 발생:", error);
       if (error.message === "Please choose your character first.") {
-        console.error("[AppInitializer] 오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
+        console.log("[Step 6] 캐릭터 선택 필요 -> /choose-character 이동");
         navigate("/choose-character");
         return;
       }
-
       if ((error.message === "Request failed with status code 403" || error.response?.status === 403)) {
-        console.error("[AppInitializer] 403 에러 감지 -> 재인증 흐름 호출");
-        // localStorage.removeItem("accessToken");
-        // 재인증 흐름: handleTokenFlow() 를 호출하여 LIFF 토큰 기반 재인증 진행
-        // await handleTokenFlow();
+        console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
         return;
       }
-
-      // 에러 코드가 500인 경우 accessToken 삭제 후 한 번만 재시도
       if ((error.code === 500 || error.response?.status === 500) && retryCount < 1) {
-        console.error("[AppInitializer] 에러 코드 500 감지 -> localStorage의 accessToken 제거 후 재시도");
+        console.log("[Step 6] 500 에러 감지, accessToken 삭제 후 재시도");
         localStorage.removeItem("accessToken");
         await getUserInfo(retryCount + 1);
         return;
       } else {
+        console.log("[Step 6] 그 외 에러 발생, accessToken 삭제 후 재시도");
         localStorage.removeItem("accessToken");
         await getUserInfo();
       }
@@ -135,184 +189,94 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // 레퍼럴 코드 유무 체크
-  useEffect(() => {
-    console.log("[AppInitializer] 현재 URL:", window.location.href);
-    localStorage.removeItem("referralCode");
-  
-    let referralCode = "";
-  
-    // 1. window.location.hash 검사 (예: "#/dapp-portal-promotions")
-    if (window.location.hash && window.location.hash.startsWith("#/")) {
-      referralCode = window.location.hash.slice(2);
-    }
-  
-    // 2. 해시에서 값을 얻지 못했다면 쿼리 파라미터 'liff.state' 검사
-    if (!referralCode) {
-      const url = new URL(window.location.href);
-      const liffState = url.searchParams.get("liff.state");
-      if (liffState && liffState.startsWith("#/")) {
-        referralCode = liffState.slice(2);
-      }
-    }
-  
-    // 3. 위 두 케이스에서도 referralCode가 없다면 쿼리 파라미터 'liff.referrer' 검사
-    if (!referralCode) {
-      const url = new URL(window.location.href);
-      const liffReferrer = url.searchParams.get("liff.referrer");
-      if (liffReferrer) {
-        // liff.referrer가 존재하면 프로모션 링크로 판단하여 referralCode를 고정값으로 설정
-        referralCode = "dapp-portal-promotions";
-      }
-    }
-  
-    // 4. 위 세 케이스 모두 해당하지 않으면 URL의 마지막 세그먼트를 사용
-    if (!referralCode) {
-      const parts = window.location.pathname.split("/");
-      referralCode = parts[parts.length - 1];
-    }
-  
-    // "from-dapp-portal" 체크
-    if (referralCode === "from-dapp-portal") {
-      console.log(`[AppInitializer] "${referralCode}"는 Dapp Portal 링크 -> localStorage에 저장`);
-      localStorage.setItem("referralCode", referralCode);
-      return;
-    }
-  
-    // "dapp-portal-promotions" 체크
-    if (referralCode === "dapp-portal-promotions") {
-      console.log(`[AppInitializer] "${referralCode}"는 프로모션 레퍼럴 코드`);
-      localStorage.setItem("referralCode", referralCode);
-    }
-  
-    // 사전에 정의된 라우트와 비교
-    if (knownRoutes.includes(referralCode)) {
-      console.log(`[AppInitializer] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님 -> localStorage referralCode 비우기`);
-      localStorage.removeItem("referralCode");
-      return;
-    }
-  
-    // 정규표현식 패턴 검사
-    if (referralPattern.test(referralCode)) {
-      console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드 확인`);
-      localStorage.setItem("referralCode", referralCode);
-    } else {
-      console.log(`[AppInitializer] "${referralCode}"는 레퍼럴 코드가 아님`);
-    }
-  }, [navigate]);
-  
-  
-
-  // 토큰(서버용 Access Token) 처리 및 사용자 검증
+  // (3~5단계) 토큰 처리 및 사용자 검증
   const handleTokenFlow = async () => {
-    console.log("[AppInitializer] handleTokenFlow() 시작");
+    console.log("[Step 3~5] handleTokenFlow() 시작");
     const accessToken = localStorage.getItem("accessToken");
-    console.log("[AppInitializer] 현재 localStorage의 accessToken 확인");
-
     if (!accessToken) {
-      console.log("[AppInitializer] 서버용 토큰이 없음 -> LINE 로그인 여부 확인");
+      console.log("[Step 3] accessToken 없음, 라인 토큰 발급 시도");
       const lineToken = liff.getAccessToken();
-      console.log("[AppInitializer] liff.getAccessToken() 확인");
-
+      console.log("[Step 3] liff.getAccessToken() 결과:", lineToken);
       if (!lineToken) {
-        console.error("[AppInitializer] LINE 토큰이 없습니다. dapp 접근이 불가합니다.");
+        console.error("[Step 3] LINE 토큰 발급 실패");
         throw new Error("LINE앱으로 로그인 후 사용바랍니다.");
       }
-
       try {
-        console.log("[AppInitializer] userAuthenticationWithServer() 호출");
-        const refCode = localStorage.getItem("referralCode");
-        const isInitial = await userAuthenticationWithServer(lineToken, refCode);
-
+        console.log("[Step 4~5] userAuthenticationWithServer 호출, referralCode:", localStorage.getItem("referralCode"));
+        const isInitial = await userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode"));
+        console.log("[Step 4~5] userAuthenticationWithServer 결과:", isInitial);
         if (isInitial === undefined) {
-          console.error("[AppInitializer] 서버 인증 실패 (isInitial이 undefined)");
+          console.error("[Step 4~5] 사용자 인증 실패 (isInitial undefined)");
           throw new Error("사용자 인증 실패");
         } else if (isInitial) {
-          console.log("[AppInitializer] 신규 사용자 -> /choose-character 이동");
+          console.log("[Step 4~5] 신규 사용자 감지 -> /choose-character 이동");
           navigate("/choose-character");
         } else {
-          console.log("[AppInitializer] 기존 사용자 -> getUserInfo() 시도");
+          console.log("[Step 4~5] 기존 사용자 -> getUserInfo() 호출");
           await getUserInfo();
         }
       } catch (error) {
-        console.error("[AppInitializer] userAuthenticationWithServer() 중 에러:", error);
+        console.error("[Step 4~5] userAuthenticationWithServer 에러:", error);
         throw error;
       }
     } else {
-      console.log("[AppInitializer] 서버용 토큰이 있음 -> getUserInfo() 시도");
+      console.log("[Step 3] accessToken 존재 -> 바로 getUserInfo() 호출");
       await getUserInfo();
     }
   };
 
-  // 에러 핸들링
-  const handleError = (error: any, navigate: (path: string) => void) => {
-    console.error("[AppInitializer] 앱 초기화 중 오류:", error);
-    if (error.message === "Please choose your character first.") {
-      console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
-      navigate("/choose-character");
-      return;
-    } else {
-      console.error("[AppInitializer] 그 외 오류 발생:", error);
-      localStorage.clear();
-      window.location.reload();
-    }
-  };
-
   useEffect(() => {
-    // localStorage.clear();
-    console.log("[AppInitializer] useEffect() - initializeApp() 진입");
-
-    // 가장 먼저 라인 브라우저 여부를 체크하여, 외부 브라우저이면 즉시 /connect-wallet으로 이동
-    console.log("라인브라우저 확인 : ", liff.isInClient());
-    if (!liff.isInClient()) {
-      console.log("[AppInitializer] 외부 브라우저 접근 감지 -> /connect-wallet 이동");
-      navigate("/connect-wallet");
-      setShowSplash(false);
-      onInitialized();
-      return;
-    }
-
     const initializeApp = async () => {
+      console.log("[InitializeApp] 초기화 시작");
       if (initializedRef.current) {
-        console.log("[AppInitializer] 이미 초기화됨 -> 중단");
+        console.log("[InitializeApp] 이미 초기화됨, 종료");
         return;
       }
       initializedRef.current = true;
-
       try {
-        console.log("[AppInitializer] LIFF 초기화 시작");
+        // 0. 레퍼럴 코드 확인
+        setReferralCode();
+
+        // 1. 브라우저 언어 확인
+        const browserLanguage = navigator.language;
+        const lang = browserLanguage.slice(0, 2);
+        const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
+        const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
+        console.log("[Step 1] 브라우저 언어:", browserLanguage, "-> 설정 언어:", i18nLanguage);
+        i18n.changeLanguage(i18nLanguage);
+
+        // 2. 라인브라우저 사용 여부 확인
+        console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
+        if (!liff.isInClient()) {
+          console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
+          navigate("/connect-wallet");
+          setShowSplash(false);
+          onInitialized();
+          return;
+        }
+
+        // LIFF 초기화
+        console.log("[InitializeApp] LIFF 초기화 시작");
         await liff.init({
           liffId: import.meta.env.VITE_LIFF_ID,
           withLoginOnExternalBrowser: true,
         });
-        
-        // await DappPortalSDK.init({
-        //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        //   chainId: "1001",
-        // });
+        console.log("[InitializeApp] LIFF 초기화 완료");
 
-        console.log("[AppInitializer] LIFF 초기화 완료");
-
-        // 브라우저 언어 기반 언어 설정
-        // // console.log("[AppInitializer] 브라우저 언어 기반 언어 설정 시작");
-        const browserLanguage = navigator.language; // 예: "ko-KR", "en-US" 등
-        const lang = browserLanguage.slice(0, 2); // 앞 두 글자 추출
-        const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
-        const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
-        // // console.log(`[AppInitializer] 브라우저 언어 설정: ${browserLanguage} -> ${i18nLanguage}`);
-        i18n.changeLanguage(i18nLanguage);
-
-        // 전역 관리 지갑 초기화
-        // // console.log("전역 관리 지갑 정보 초기화 진행");
-        // clearWallet();
-
-        console.log("[AppInitializer] handleTokenFlow() 호출");
+        // 3~5. 토큰 처리 및 사용자 검증
         await handleTokenFlow();
-      } catch (error) {
-        console.error("[AppInitializer] initializeApp() try-catch 에러:", error);
-        handleError(error, navigate);
+      } catch (error: any) {
+        console.error("[InitializeApp] 초기화 중 에러 발생:", error);
+        if (error.message === "Please choose your character first.") {
+          console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
+          navigate("/choose-character");
+          return;
+        }
+        console.log("[InitializeApp] 기타 에러 발생, localStorage 초기화 및 handleTokenFlow 재호출");
+        localStorage.clear();
+        await handleTokenFlow();
       } finally {
-        console.log("[AppInitializer] 초기화 최종 처리 -> 스플래시 제거 및 onInitialized() 호출");
+        console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
         setShowSplash(false);
         onInitialized();
       }
@@ -324,7 +288,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-
   return null;
 };
 
