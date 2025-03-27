@@ -411,9 +411,16 @@ const MissionPage: React.FC = () => {
           <p className="text-sm font-medium text-white">
             Earn 0.2 KAIA upon reaching Level 2!
           </p>
-          <p className="text-base font-semibold text-white">
-            +0.2
-          </p>
+          <div className="flex items-center">
+            <p className="text-base font-semibold text-white">
+              +0.2
+            </p>
+            <img
+              src={Images.KaiaLogo}
+              alt="Kaia Icon"
+              className="ml-2 relative w-5 h-5 rounded-full object-cover"
+            />
+          </div>
         </div>
         <img
           src={Images.KaiaLevel2}
@@ -421,6 +428,7 @@ const MissionPage: React.FC = () => {
           className="w-[128px] h-[128px] object-cover mr-[10px]"
         />
       </div>
+
 
 
 
