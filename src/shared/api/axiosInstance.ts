@@ -58,6 +58,15 @@ api.interceptors.response.use(
     if (originalRequest.url.includes('/auth/refresh')) {
       return Promise.reject(error);
     }
+    
+    
+    // 토큰이 없는 경우에도 401 에러가 발생할 수 있으므로,
+    // Authorization 헤더가 없거나 토큰이 없다면 로그아웃 처리하거나 로그인 페이지로 리다이렉트하는 로직 추가
+    if (!localStorage.getItem('accessToken')) {
+      // 예를 들어, 토큰이 없으면 바로 로그아웃 처리하고 새로고침
+      window.location.reload();
+      return Promise.reject(error);
+    }
 
     // 응답 에러가 존재하는 경우, 데이터가 단순 텍스트 형태인지 확인합니다.
     const errorMessage =
