@@ -74,6 +74,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     "item-store",
   ];
   const referralPattern = /^[A-Za-z0-9]{4,16}$/;
+  const MAX_RETRY_COUNT = 3;
 
   // (0단계) 레퍼럴 코드 설정 함수
   const setReferralCode = () => {
@@ -197,7 +198,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         // 상태 코드가 200이 아닌 경우는 에러로 처리
         console.log("[Step 6] 캐릭터 선택 메시지이지만, 상태 코드가 200이 아님");
         localStorage.removeItem("accessToken");
-        handleTokenFlow();
+        if (retryCount < MAX_RETRY_COUNT) {
+          await handleTokenFlow();
+          return;
+        }
       }
       if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
