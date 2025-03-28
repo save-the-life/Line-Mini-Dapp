@@ -53,6 +53,12 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    
+    // [추가] /auth/refresh 요청 자체는 갱신 로직에서 제외
+    if (originalRequest.url.includes('/auth/refresh')) {
+      return Promise.reject(error);
+    }
+
     // 응답 에러가 존재하는 경우, 데이터가 단순 텍스트 형태인지 확인합니다.
     const errorMessage =
       error.response && typeof error.response.data === "string"
