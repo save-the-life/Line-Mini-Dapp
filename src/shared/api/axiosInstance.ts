@@ -4,7 +4,7 @@ import { useUserStore } from '@/entities/User/model/userModel';
 
 // Axios 인스턴스 생성
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://staging.savethelife.io//api/',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://staging.savethelife.io/api/',
   headers: {
     'Content-Type': 'application/json', // 기본 Content-Type
   },
