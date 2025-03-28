@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useUserStore } from '@/entities/User/model/userModel';
 
 // Axios 인스턴스 생성
@@ -80,11 +81,16 @@ api.interceptors.response.use(
             return api(originalRequest);
           }
         }
+
         // 갱신 실패 시 로그아웃
-        useUserStore.getState().logout();
+        localStorage.removeItem('accessToken');
+        Cookies.remove('refreshToken');
+        window.location.reload();
         return Promise.reject(error);
       } catch (refreshError) {
-        useUserStore.getState().logout();
+        localStorage.removeItem('accessToken');
+        Cookies.remove('refreshToken');
+        window.location.reload();
         return Promise.reject(refreshError);
       }
     }
