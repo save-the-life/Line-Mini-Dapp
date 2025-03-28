@@ -8,7 +8,7 @@ import SplashScreen from "./SplashScreen";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 
-// [수정] - API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
+// API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
 const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
   const timeout = new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error(errorMessage)), ms)
@@ -25,10 +25,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const { fetchUserData } = useUserStore();
   const [showSplash, setShowSplash] = useState(true);
   const initializedRef = useRef(false);
-  // [수정] - 에러 메시지 상태 (사용자 피드백용)
+  // 에러 메시지 상태 (사용자 피드백용)
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // [수정] - 컴포넌트 언마운트 시 업데이트 방지를 위한 플래그
+  // 컴포넌트 언마운트 시 업데이트 방지를 위한 플래그
   const isMountedRef = useRef(true);
   useEffect(() => {
     return () => {
@@ -126,12 +126,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       localStorage.setItem("referralCode", referralCode);
       return;
     }
+
     // 사전에 정의된 라우트와 비교
     if (knownRoutes.includes(referralCode)) {
       console.log(`[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
       localStorage.removeItem("referralCode");
       return;
     }
+
     // 정규표현식 패턴 검사
     if (referralPattern.test(referralCode)) {
       console.log(`[Step 0] "${referralCode}" 패턴 일치 -> 레퍼럴 코드로 설정`);
@@ -141,7 +143,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-    // (6단계 및 기존 분기) 사용자 정보 가져오기  
+  // (6단계 및 기존 분기) 사용자 정보 가져오기
   const getUserInfo = async (retryCount = 0) => {
     console.log("[Step 6] getUserInfo() 호출, 재시도 횟수:", retryCount);
     try {
@@ -152,6 +154,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       const userTimeZone = useUserStore.getState().timeZone;
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       console.log("[Step 6] 서버 타임존:", userTimeZone, "| 사용자 타임존:", currentTimeZone);
+
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
           await withTimeout(updateTimeZone(currentTimeZone), 5000, "updateTimeZone Timeout");
@@ -185,7 +188,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
     } catch (error: any) {
       console.error("[Step 6] getUserInfo() 에러 발생:", error);
-      // [수정] - "Please choose your character first." 메시지가 200 상태 코드와 함께 넘어온 경우에만 정상 처리
+
+      // "Please choose your character first." + 상태 코드 200 => 정상 케이스로 /choose-character 이동
       if (
         error.message === "Please choose your character first." &&
         error.response?.status === 200
@@ -194,15 +198,15 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if (isMountedRef.current) navigate("/choose-character");
         return;
       }
+
+      // "Please choose your character first." 메시지가 왔을 때는 곧바로 /choose-character 이동 (무한 반복 방지)
       if (error.message === "Please choose your character first.") {
-        // 상태 코드가 200이 아닌 경우는 에러로 처리
-        console.log("[Step 6] 캐릭터 선택 메시지이지만, 상태 코드가 200이 아님");
-        localStorage.removeItem("accessToken");
-        if (retryCount < MAX_RETRY_COUNT) {
-          await handleTokenFlow();
-          return;
-        }
+        console.log("[Step 6] 캐릭터 선택 필요 -> /choose-character 이동");
+        if (isMountedRef.current) navigate("/choose-character");
+        return; // 토큰 제거나 재시도 로직 X
       }
+
+      // 403 에러 처리
       if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
         localStorage.removeItem("accessToken");
@@ -212,7 +216,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
         return;
       }
-      // 재시도 횟수를 1회로 제한 (500 에러든 그 외 에러든)
+
+      // 500 에러 등 기타 에러 => 최대 1회 재시도
       if (retryCount < 1) {
         if (error.code === 500 || error.response?.status === 500) {
           console.log("[Step 6] 500 에러 감지, accessToken 삭제 후 재시도");
@@ -223,11 +228,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         await getUserInfo(retryCount + 1);
         return;
       }
-      if (isMountedRef.current) setErrorMessage("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
+
+      // 재시도 횟수 초과 시
+      if (isMountedRef.current) {
+        setErrorMessage("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
+      }
       throw error;
     }
   };
-
 
   // (3~5단계) 토큰 처리 및 사용자 검증
   const handleTokenFlow = async () => {
@@ -243,7 +251,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
       try {
         console.log("[Step 4~5] userAuthenticationWithServer 호출, referralCode:", localStorage.getItem("referralCode"));
-        // [수정] - userAuthenticationWithServer에도 타임아웃 적용 (5초)
         const isInitial = await withTimeout(
           userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode")),
           5000,
@@ -278,6 +285,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
       initializedRef.current = true;
+
       try {
         // 0. 레퍼럴 코드 확인
         setReferralCode();
@@ -316,14 +324,19 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         await handleTokenFlow();
       } catch (error: any) {
         console.error("[InitializeApp] 초기화 중 에러 발생:", error);
+
+        // "Please choose your character first." 에러는 무한 반복을 막기 위해 바로 /choose-character 이동
         if (error.message === "Please choose your character first.") {
           console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
           navigate("/choose-character");
           return;
         }
-        // [수정] - 기타 에러 발생 시 localStorage 초기화 후 재시도 전에 에러 상태 업데이트
+
+        // 기타 에러 => localStorage 초기화 후 재시도
         localStorage.clear();
-        if (isMountedRef.current) setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
+        if (isMountedRef.current) {
+          setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
+        }
         await handleTokenFlow();
       } finally {
         console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
@@ -337,7 +350,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     initializeApp();
   }, [fetchUserData, navigate, onInitialized]);
 
-  // [수정] - 에러 메시지가 있을 경우 사용자에게 안내하는 UI 표시
+  // 에러 메시지가 있을 경우 사용자에게 안내하는 UI 표시
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
   }
