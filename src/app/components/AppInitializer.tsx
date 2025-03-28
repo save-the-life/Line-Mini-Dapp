@@ -8,6 +8,14 @@ import SplashScreen from "./SplashScreen";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 
+// [수정] - API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
+const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
+  const timeout = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error(errorMessage)), ms)
+  );
+  return Promise.race([promise, timeout]);
+};
+
 interface AppInitializerProps {
   onInitialized: () => void;
 }
@@ -17,6 +25,16 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const { fetchUserData } = useUserStore();
   const [showSplash, setShowSplash] = useState(true);
   const initializedRef = useRef(false);
+  // [수정] - 에러 메시지 상태 (사용자 피드백용)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // [수정] - 컴포넌트 언마운트 시 업데이트 방지를 위한 플래그
+  const isMountedRef = useRef(true);
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // 미리 정의된 라우트 (레퍼럴 코드 식별용)
   const knownRoutes = [
@@ -122,11 +140,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // (6단계 및 기존 분기) 사용자 정보 가져오기
+  // (6단계 및 기존 분기) 사용자 정보 가져오기  
+  // [수정] - 재시도 횟수를 1회로 제한하고 타임아웃 적용
   const getUserInfo = async (retryCount = 0) => {
     console.log("[Step 6] getUserInfo() 호출, 재시도 횟수:", retryCount);
     try {
-      await fetchUserData();
+      // [수정] - fetchUserData에 5초 타임아웃 적용
+      await withTimeout(fetchUserData(), 5000, "fetchUserData Timeout");
       console.log("[Step 6] 사용자 데이터 fetch 성공");
 
       // 타임존 업데이트
@@ -135,7 +155,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       console.log("[Step 6] 서버 타임존:", userTimeZone, "| 사용자 타임존:", currentTimeZone);
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
-          await updateTimeZone(currentTimeZone);
+          // [수정] - updateTimeZone에도 타임아웃 적용 (5초)
+          await withTimeout(updateTimeZone(currentTimeZone), 5000, "updateTimeZone Timeout");
           console.log("[Step 6] 타임존 업데이트 성공");
         } catch (error: any) {
           console.log("[Step 6] 타임존 업데이트 에러:", error);
@@ -147,44 +168,48 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       if (referralCode === "dapp-portal-promotions") {
         console.log("[Step 6] 프로모션 레퍼럴 코드 감지, getPromotion() 호출");
         try {
-          const promo = await getPromotion();
+          // [수정] - getPromotion에도 타임아웃 적용 (5초)
+          const promo = await withTimeout(getPromotion(), 5000, "getPromotion Timeout");
           console.log("[Step 6] getPromotion 결과:", promo);
           if (promo === "Success") {
             console.log("[Step 6] 프로모션 첫 수령 -> /promotion 이동");
-            navigate("/promotion");
+            if (isMountedRef.current) navigate("/promotion");
           } else {
             console.log("[Step 6] 프로모션 이미 수령됨 -> /dice-event 이동");
-            navigate("/dice-event");
+            if (isMountedRef.current) navigate("/dice-event");
           }
         } catch (error: any) {
           console.error("[Step 6] 프로모션 확인 중 에러:", error);
-          navigate("/dice-event");
+          if (isMountedRef.current) navigate("/dice-event");
         }
       } else {
         console.log("[Step 6] 일반 사용자 -> /dice-event 이동");
-        navigate("/dice-event");
+        if (isMountedRef.current) navigate("/dice-event");
       }
     } catch (error: any) {
       console.error("[Step 6] getUserInfo() 에러 발생:", error);
       if (error.message === "Please choose your character first.") {
         console.log("[Step 6] 캐릭터 선택 필요 -> /choose-character 이동");
-        navigate("/choose-character");
+        if (isMountedRef.current) navigate("/choose-character");
         return;
       }
-      if ((error.message === "Request failed with status code 403" || error.response?.status === 403)) {
+      if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
         return;
       }
-      if ((error.code === 500 || error.response?.status === 500) && retryCount < 1) {
-        console.log("[Step 6] 500 에러 감지, accessToken 삭제 후 재시도");
+      // 재시도 횟수를 1회로 제한 (500 에러든 그 외 에러든)
+      if (retryCount < 1) {
+        if (error.code === 500 || error.response?.status === 500) {
+          console.log("[Step 6] 500 에러 감지, accessToken 삭제 후 재시도");
+        } else {
+          console.log("[Step 6] 그 외 에러 발생, accessToken 삭제 후 재시도");
+        }
         localStorage.removeItem("accessToken");
         await getUserInfo(retryCount + 1);
         return;
-      } else {
-        console.log("[Step 6] 그 외 에러 발생, accessToken 삭제 후 재시도");
-        localStorage.removeItem("accessToken");
-        await getUserInfo();
       }
+      // [수정] - 재시도 후에도 실패 시 에러 메시지 상태 업데이트 (사용자 피드백 용)
+      if (isMountedRef.current) setErrorMessage("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
   };
@@ -203,14 +228,19 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
       try {
         console.log("[Step 4~5] userAuthenticationWithServer 호출, referralCode:", localStorage.getItem("referralCode"));
-        const isInitial = await userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode"));
+        // [수정] - userAuthenticationWithServer에도 타임아웃 적용 (5초)
+        const isInitial = await withTimeout(
+          userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode")),
+          5000,
+          "userAuthentication Timeout"
+        );
         console.log("[Step 4~5] userAuthenticationWithServer 결과:", isInitial);
         if (isInitial === undefined) {
           console.error("[Step 4~5] 사용자 인증 실패 (isInitial undefined)");
           throw new Error("사용자 인증 실패");
         } else if (isInitial) {
           console.log("[Step 4~5] 신규 사용자 감지 -> /choose-character 이동");
-          navigate("/choose-character");
+          if (isMountedRef.current) navigate("/choose-character");
         } else {
           console.log("[Step 4~5] 기존 사용자 -> getUserInfo() 호출");
           await getUserInfo();
@@ -257,10 +287,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         // LIFF 초기화
         console.log("[InitializeApp] LIFF 초기화 시작");
-        await liff.init({
-          liffId: import.meta.env.VITE_LIFF_ID,
-          withLoginOnExternalBrowser: true,
-        });
+        await withTimeout(
+          liff.init({
+            liffId: import.meta.env.VITE_LIFF_ID,
+            withLoginOnExternalBrowser: true,
+          }),
+          5000,
+          "LIFF init Timeout"
+        );
         console.log("[InitializeApp] LIFF 초기화 완료");
 
         // 3~5. 토큰 처리 및 사용자 검증
@@ -272,18 +306,26 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           navigate("/choose-character");
           return;
         }
-        console.log("[InitializeApp] 기타 에러 발생, localStorage 초기화 및 handleTokenFlow 재호출");
+        // [수정] - 기타 에러 발생 시 localStorage 초기화 후 재시도 전에 에러 상태 업데이트
         localStorage.clear();
+        if (isMountedRef.current) setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
         await handleTokenFlow();
       } finally {
         console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
-        setShowSplash(false);
-        onInitialized();
+        if (isMountedRef.current) {
+          setShowSplash(false);
+          onInitialized();
+        }
       }
     };
 
     initializeApp();
   }, [fetchUserData, navigate, onInitialized]);
+
+  // [수정] - 에러 메시지가 있을 경우 사용자에게 안내하는 UI 표시
+  if (errorMessage) {
+    return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
+  }
 
   if (showSplash) {
     return <SplashScreen />;
