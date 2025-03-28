@@ -140,12 +140,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // (6단계 및 기존 분기) 사용자 정보 가져오기  
-  // [수정] - 재시도 횟수를 1회로 제한하고 타임아웃 적용
+    // (6단계 및 기존 분기) 사용자 정보 가져오기  
   const getUserInfo = async (retryCount = 0) => {
     console.log("[Step 6] getUserInfo() 호출, 재시도 횟수:", retryCount);
     try {
-      // [수정] - fetchUserData에 5초 타임아웃 적용
       await withTimeout(fetchUserData(), 5000, "fetchUserData Timeout");
       console.log("[Step 6] 사용자 데이터 fetch 성공");
 
@@ -155,7 +153,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       console.log("[Step 6] 서버 타임존:", userTimeZone, "| 사용자 타임존:", currentTimeZone);
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
-          // [수정] - updateTimeZone에도 타임아웃 적용 (5초)
           await withTimeout(updateTimeZone(currentTimeZone), 5000, "updateTimeZone Timeout");
           console.log("[Step 6] 타임존 업데이트 성공");
         } catch (error: any) {
@@ -168,7 +165,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       if (referralCode === "dapp-portal-promotions") {
         console.log("[Step 6] 프로모션 레퍼럴 코드 감지, getPromotion() 호출");
         try {
-          // [수정] - getPromotion에도 타임아웃 적용 (5초)
           const promo = await withTimeout(getPromotion(), 5000, "getPromotion Timeout");
           console.log("[Step 6] getPromotion 결과:", promo);
           if (promo === "Success") {
@@ -188,10 +184,20 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
     } catch (error: any) {
       console.error("[Step 6] getUserInfo() 에러 발생:", error);
-      if (error.message === "Please choose your character first.") {
-        console.log("[Step 6] 캐릭터 선택 필요 -> /choose-character 이동");
+      // [수정] - "Please choose your character first." 메시지가 200 상태 코드와 함께 넘어온 경우에만 정상 처리
+      if (
+        error.message === "Please choose your character first." &&
+        error.response?.status === 200
+      ) {
+        console.log("[Step 6] 캐릭터 선택 필요(정상 케이스) -> /choose-character 이동");
         if (isMountedRef.current) navigate("/choose-character");
         return;
+      }
+      if (error.message === "Please choose your character first.") {
+        // 상태 코드가 200이 아닌 경우는 에러로 처리
+        console.log("[Step 6] 캐릭터 선택 메시지이지만, 상태 코드가 200이 아님");
+        localStorage.removeItem("accessToken");
+        handleTokenFlow();
       }
       if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
@@ -208,11 +214,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         await getUserInfo(retryCount + 1);
         return;
       }
-      // [수정] - 재시도 후에도 실패 시 에러 메시지 상태 업데이트 (사용자 피드백 용)
       if (isMountedRef.current) setErrorMessage("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
       throw error;
     }
   };
+
 
   // (3~5단계) 토큰 처리 및 사용자 검증
   const handleTokenFlow = async () => {
