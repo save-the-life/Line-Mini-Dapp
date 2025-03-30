@@ -266,9 +266,14 @@ const MissionPage: React.FC = () => {
   if (isLoading) {
     return <LoadingSpinner className="h-screen" />;
   }
-
-  const incompleteMissions = missions.filter((m) => !m.isCleared);
-  const completedMissions = missions.filter((m) => m.isCleared);
+  
+  const incompleteMissions = missions.filter(
+    (m) => !m.isCleared && m.type !== "KAIA"
+  );
+  const completedMissions = missions.filter(
+    (m) => m.isCleared && m.type !== "KAIA"
+  );
+  
 
   return (
     <div className="flex flex-col text-white mb-20 md:mb-96 min-h-screen">

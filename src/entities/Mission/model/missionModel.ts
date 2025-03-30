@@ -10,7 +10,7 @@ export interface Mission {
   diceReward: number;
   starReward: number;
   redirectUrl: string | null;
-  type: 'ONETIME' | 'DAILY';
+  type: 'ONETIME' | 'DAILY' | 'KAIA';
   isCleared: boolean;
   status: 'PENDING' | 'COMPLETED' | null;
 }
