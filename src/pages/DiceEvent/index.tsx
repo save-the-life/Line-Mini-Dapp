@@ -211,65 +211,65 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   // 어뷰징 관련 안내 모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [0, 9, 18];
+  // const scheduledSlots = [0, 9, 18];
   
-  const [abuseModal , setabuseModal ] = useState<boolean>(false);
+  // const [abuseModal , setabuseModal ] = useState<boolean>(false);
 
-  useEffect(() => {
-    const checkAndShowAbuseModal = () => {
-      const now = new Date();
-      let currentSlot: number | null = null;
-      for (let slot of scheduledSlots) {
-        if (now.getHours() >= slot) {
-          currentSlot = slot;
-        }
-      }
-      if (currentSlot !== null) {
-        const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-        const lastShownSlot = localStorage.getItem("abuseModalLastShown");
-        const dismissedSlot = localStorage.getItem("abuseModalDismissed");
-        // 닫은 기록이 있으면 재오픈하지 않음
-        if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
-          setabuseModal(true);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const checkAndShowAbuseModal = () => {
+  //     const now = new Date();
+  //     let currentSlot: number | null = null;
+  //     for (let slot of scheduledSlots) {
+  //       if (now.getHours() >= slot) {
+  //         currentSlot = slot;
+  //       }
+  //     }
+  //     if (currentSlot !== null) {
+  //       const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+  //       const lastShownSlot = localStorage.getItem("abuseModalLastShown");
+  //       const dismissedSlot = localStorage.getItem("abuseModalDismissed");
+  //       // 닫은 기록이 있으면 재오픈하지 않음
+  //       if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
+  //         setabuseModal(true);
+  //       }
+  //     }
+  //   };
 
-    // 최초 10초 동안 1초마다 체크
-    const fastInterval = setInterval(checkAndShowAbuseModal, 1000);
-    let slowInterval: number | undefined;
+  //   // 최초 10초 동안 1초마다 체크
+  //   const fastInterval = setInterval(checkAndShowAbuseModal, 1000);
+  //   let slowInterval: number | undefined;
 
-    // 10초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
-    const switchTimeout = setTimeout(() => {
-      clearInterval(fastInterval);
-      slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
-    }, 10000);
+  //   // 10초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
+  //   const switchTimeout = setTimeout(() => {
+  //     clearInterval(fastInterval);
+  //     slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
+  //   }, 10000);
 
-    return () => {
-      clearInterval(fastInterval);
-      clearTimeout(switchTimeout);
-      if (slowInterval) {
-        clearInterval(slowInterval);
-      }
-    };
-  }, []);
+  //   return () => {
+  //     clearInterval(fastInterval);
+  //     clearTimeout(switchTimeout);
+  //     if (slowInterval) {
+  //       clearInterval(slowInterval);
+  //     }
+  //   };
+  // }, []);
 
-  // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
-  const handleCloseAbuseModal = () => {
-    const now = new Date();
-    let currentSlot: number | null = null;
-    for (let slot of scheduledSlots) {
-      if (now.getHours() >= slot) {
-        currentSlot = slot;
-      }
-    }
-    if (currentSlot !== null) {
-      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-      localStorage.setItem("abuseModalLastShown", slotId);
-      localStorage.setItem("abuseModalDismissed", slotId);
-    }
-    setabuseModal(false);
-  };
+  // // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
+  // const handleCloseAbuseModal = () => {
+  //   const now = new Date();
+  //   let currentSlot: number | null = null;
+  //   for (let slot of scheduledSlots) {
+  //     if (now.getHours() >= slot) {
+  //       currentSlot = slot;
+  //     }
+  //   }
+  //   if (currentSlot !== null) {
+  //     const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+  //     localStorage.setItem("abuseModalLastShown", slotId);
+  //     localStorage.setItem("abuseModalDismissed", slotId);
+  //   }
+  //   setabuseModal(false);
+  // };
   
   // ===============================
 
@@ -639,7 +639,7 @@ const DiceEventPage: React.FC = () => {
 
 
           {/* 어뷰징 관련 안내 다이얼로그 */}
-          <Dialog open={abuseModal}>
+          {/* <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -663,7 +663,6 @@ const DiceEventPage: React.FC = () => {
                 <p className="text-base font-medium text-white text-center">
                   We've identified accounts abusing the friend invitation feature and will enforce suspensions and reward revocations! ⚠
                 </p>
-                {/* 외부 링크 삽입 */}
                 <a
                   href="https://shorturl.at/qk59Z" 
                   target="_blank" 
@@ -682,7 +681,6 @@ const DiceEventPage: React.FC = () => {
                   Our Mystery Box event ends on March 28! Many prizes are up for grabs,<br/>
                   so stay tuned! 🎁 
                 </p>
-                {/* 외부 링크 삽입 */}
                 <a
                   href="https://shorturl.at/B5kDX" 
                   target="_blank" 
@@ -696,7 +694,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
           <br />
           <br />
           <br />
