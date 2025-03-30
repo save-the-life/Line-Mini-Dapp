@@ -415,11 +415,13 @@ const MissionPage: React.FC = () => {
         }`}
         style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
       >
-        {/* isAvailable이 false일 경우 오버레이 추가 */}
+        {/* 오버레이: z-20 등 더 높은 값으로 설정 */}
         {!kaiaMission?.isAvailable && (
-          <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10" />
+          <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
         )}
-        <div className="pl-8 relative z-20">
+
+        {/* 자식 요소에서는 z-20 제거 */}
+        <div className="pl-8">
           <p className="text-sm font-medium text-white">
             Earn 0.2 KAIA upon reaching Level 2!
           </p>
@@ -428,19 +430,17 @@ const MissionPage: React.FC = () => {
             <img
               src={Images.KaiaLogo}
               alt="Kaia Icon"
-              className="ml-2 relative w-5 h-5 rounded-full object-cover"
+              className="ml-2 w-5 h-5 rounded-full object-cover"
             />
           </div>
         </div>
+
         <img
           src={Images.KaiaLevel2}
           alt="kaia-level2"
-          className="w-[142px] h-[142px] object-cover mr-[10px] relative z-20"
+          className="w-[142px] h-[142px] object-cover mr-[10px]"
         />
       </div>
-
-
-
 
 
       {/* 일일 미션 */}
