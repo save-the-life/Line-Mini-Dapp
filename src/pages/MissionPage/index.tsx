@@ -165,6 +165,7 @@ const MissionPage: React.FC = () => {
   const { playSfx } = useSound();
   const [eventShow, setEventShow] = useState(false);
   const { missions, fetchMissions, clearMission } = useMissionStore();
+  const kaiaMission = missions.find((mission) => mission.type === "KAIA");
 
   // 지갑 관련 전역 상태
   const { walletAddress } = useWalletStore();
@@ -266,7 +267,7 @@ const MissionPage: React.FC = () => {
   if (isLoading) {
     return <LoadingSpinner className="h-screen" />;
   }
-  
+
   const incompleteMissions = missions.filter(
     (m) => !m.isCleared && m.type !== "KAIA"
   );
@@ -409,17 +410,21 @@ const MissionPage: React.FC = () => {
         KAIA Mision
       </h1>
       <div
-        className="h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6"
+        className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
+          !kaiaMission?.isAvailable ? "pointer-events-none" : ""
+        }`}
         style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
       >
-        <div className="pl-8">
+        {/* isAvailable이 false일 경우 오버레이 추가 */}
+        {!kaiaMission?.isAvailable && (
+          <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-10" />
+        )}
+        <div className="pl-8 relative z-20">
           <p className="text-sm font-medium text-white">
             Earn 0.2 KAIA upon reaching Level 2!
           </p>
           <div className="flex items-center">
-            <p className="text-base font-semibold text-white">
-              +0.2
-            </p>
+            <p className="text-base font-semibold text-white">+0.2</p>
             <img
               src={Images.KaiaLogo}
               alt="Kaia Icon"
@@ -430,9 +435,10 @@ const MissionPage: React.FC = () => {
         <img
           src={Images.KaiaLevel2}
           alt="kaia-level2"
-          className="w-[142px] h-[142px] object-cover mr-[10px]"
+          className="w-[142px] h-[142px] object-cover mr-[10px] relative z-20"
         />
       </div>
+
 
 
 

@@ -13,6 +13,7 @@ export interface Mission {
   type: 'ONETIME' | 'DAILY' | 'KAIA';
   isCleared: boolean;
   status: 'PENDING' | 'COMPLETED' | null;
+  isAvailable: boolean; 
 }
 
 interface MissionState {
