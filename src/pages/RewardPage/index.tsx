@@ -117,7 +117,7 @@ const Reward: React.FC = () => {
         {/* 3개의 박스를 나란히 배치할 컨테이너 */}
         <div className="flex gap-3">
           {/* 첫 번째 박스 */}
-          <div className="
+          {/* <div className="
             w-[110px] h-[126px] 
             bg-gradient-to-b from-[#484ADA] to-[#2D2774]
             rounded-3xl 
@@ -133,7 +133,7 @@ const Reward: React.FC = () => {
             />
             <p className="text-xs font-normal text-white text-center">Ends on</p>
             <p className="text-base font-semibold text-white text-center">{moment(event1).format(dateFormat)}</p>
-          </div>
+          </div> */}
 
           {/* 두 번째 박스 */}
           <div className="
@@ -173,6 +173,11 @@ const Reward: React.FC = () => {
             />
             <p className="text-xs font-normal text-white text-center">Scheduled for</p>
             <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
+          </div>
+
+          
+          <div className="w-[110px] h-[126px]">
+            {/* 빈 영역 */}
           </div>
 
         </div>
