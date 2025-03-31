@@ -612,8 +612,7 @@ const MissionPage: React.FC = () => {
               Loading
             </AlertDialogDescription>
             <AlertDialogTitle className="text-center font-bold text-xl">
-              <div className="flex flex-row items-center justify-between">
-                <div> &nbsp;</div>
+              <div className="flex flex-row items-center justify-center">
                 <p>{t("asset_page.claim.process")}</p>
               </div>
             </AlertDialogTitle>
@@ -635,9 +634,8 @@ const MissionPage: React.FC = () => {
               kaia Mission
             </AlertDialogDescription>
             <AlertDialogTitle className="text-center font-bold text-xl">
-              <div className="flex flex-row items-center justify-between">
-                <div> &nbsp;</div>
-                <p>{t("asset_page.claim.process")}</p>
+              <div className="flex flex-row items-center justify-center">
+                <p>{t("asset_page.claim.success")}</p>
               </div>
             </AlertDialogTitle>
           </AlertDialogHeader>
@@ -647,7 +645,7 @@ const MissionPage: React.FC = () => {
             <button
               onClick={() => {
                   playSfx(Audios.button_click);
-                  setKaiaLoading(false);
+                  setKaiaModal(false);
               }}
               className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4">
               {kaiaMessage}
