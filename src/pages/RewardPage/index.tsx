@@ -38,9 +38,9 @@ const Reward: React.FC = () => {
   
   // 날짜 포맷 및 번역
   const dateFormat = t("date_format_md");
-  const event1 = new Date(2025, 2, 28);
   const event2 = new Date(2025, 3, 14);
   const event3 = new Date(2025, 3, 28);
+  const event4 = new Date(2025, 4, 15);
 
   useEffect(() => {
     fetchLeaderHome();
@@ -57,6 +57,7 @@ const Reward: React.FC = () => {
   const rankingProducts = rankingAwards.slice(0, 3); 
   const rankingOthers = rankingAwards.slice(3); 
   const currentRound = rankingProducts.length > 0 ? rankingProducts[0].round : null;
+  const nextRound = currentRound !== null ? currentRound + 1 : null;
 
   // const raffleProducts = drawAwards.slice(0, 3); 
   // const raffleOthers = drawAwards.slice(3); 
@@ -159,9 +160,25 @@ const Reward: React.FC = () => {
             <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
           </div>
 
-          
-          <div className="w-[110px] h-[126px]">
-            {/* 빈 공간 */}
+
+          {/* 세 번째 박스 */}
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">{nextRound} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
+            <img 
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event4).format(dateFormat)}</p>
           </div>
 
         </div>
