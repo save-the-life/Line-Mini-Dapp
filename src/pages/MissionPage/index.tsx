@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/shared/components/ui";
+} from '@/shared/components/ui';
 import { HiX } from "react-icons/hi";
 import { TopTitle } from "@/shared/components/ui";
 import "./MissionPage.css";
@@ -180,6 +181,11 @@ const MissionPage: React.FC = () => {
     spinType: string;
   } | null>(null);
 
+  // 카이아 미션 관련 모달창
+  const [kaiaLoading, setKaiaLoading] = useState(false);
+  const [kaiaModal, setKaiaModal] = useState(false);
+  const [kaiaMessage, setKaiaMessage] = useState("");
+
   // 로컬 스토리지에서 보상 표시된 미션 ID를 초기화
   const [rewardShownMissions, setRewardShownMissions] = useState<number[]>(() => {
     const stored = localStorage.getItem("rewardShownMissions");
@@ -280,16 +286,34 @@ const MissionPage: React.FC = () => {
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
 
+    // 지갑 주소가 존재하는 경우에 진행
     if(walletAddress != null){
+      // 시간이 걸리므로 로딩창 표시
+      setKaiaLoading(true);
       try{
         const kaia = await requestKaiaMission(walletAddress);
 
-        if(kaia){
-          console.log("카이아 미션 응답: ", kaia);
+        if(kaia.message === "Success"){
+          console.log("카이아 미션 응답 성공 케이스", kaia);
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage("Success");
+        } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
+          console.log("카이아 미션 응답 이미 받은 케이스", kaia);
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage("You've already claimed your Level 2 KAIA reward.");
+        } else if( kaia.message === "You're not eligible for the reward."){
+          console.log("카이아 미션 응답 자격 미충족 케이스", kaia);
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage("You're not eligible for the reward.");
         }
       } catch(error: any){
         console.error("kaia Mission failed:", error);
-        
+        setKaiaLoading(false);
+        setKaiaModal(true);
+        setKaiaMessage("Errr Occur");
       }
     } else {
       try {
@@ -470,7 +494,6 @@ const MissionPage: React.FC = () => {
       </div>
 
 
-
       {/* 일일 미션 */}
       <h1 className="font-semibold text-lg my-4 ml-7">
         {t("mission_page.Daily_Mission")}
@@ -580,6 +603,58 @@ const MissionPage: React.FC = () => {
       )}
 
       <div className="my-10"></div>
+
+      {/* 카이아 보상 신청 로딩 */}
+      <AlertDialog open={kaiaLoading}>
+        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+          <AlertDialogHeader>
+            <AlertDialogDescription className="sr-only">
+              Loading
+            </AlertDialogDescription>
+            <AlertDialogTitle className="text-center font-bold text-xl">
+              <div className="flex flex-row items-center justify-between">
+                <div> &nbsp;</div>
+                <p>{t("asset_page.claim.process")}</p>
+              </div>
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <div className="flex flex-col items-center justify-center text-center">
+            <p className="text-sm mt-4 mb-1">{t("asset_page.claim.processing")}</p>
+            <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
+            <LoadingSpinner size={16} className="h-[80px]"  />
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+
+      {/* 카이아 미션 완료 안내 */}
+      <AlertDialog open={kaiaModal}>
+        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
+          <AlertDialogHeader>
+            <AlertDialogDescription className="sr-only">
+              kaia Mission
+            </AlertDialogDescription>
+            <AlertDialogTitle className="text-center font-bold text-xl">
+              <div className="flex flex-row items-center justify-between">
+                <div> &nbsp;</div>
+                <p>{t("asset_page.claim.process")}</p>
+              </div>
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <div className="flex flex-col items-center justify-center text-center">
+            <p className="text-sm mt-4 mb-1">{t("asset_page.claim.processing")}</p>
+            <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
+            <button
+              onClick={() => {
+                  playSfx(Audios.button_click);
+                  setKaiaLoading(false);
+              }}
+              className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4">
+              {kaiaMessage}
+          </button>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* 미션 보상 다이얼로그 */}
       {/* <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
