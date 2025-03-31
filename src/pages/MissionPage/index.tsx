@@ -431,26 +431,23 @@ const MissionPage: React.FC = () => {
       )}
 
       {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      <h1 className="font-semibold text-lg my-4 ml-7">
-        KAIA Mision
-      </h1>
+      <h1 className="font-semibold text-lg my-4 ml-7">KAIA Mision</h1>
       <div
         className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
-          !kaiaMission?.isAvailable ? "pointer-events-none" : ""
+          (!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""
         }`}
         style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
         onClick={() => {
-          if (kaiaMission?.isAvailable) {
+          if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
             handleKaiaMission();
           }
         }}
       >
-        {/* 오버레이: z-20 등 더 높은 값으로 설정 */}
-        {!kaiaMission?.isAvailable && (
+        {/* 오버레이: isAvailable이 false이거나 미션이 완료된 경우 오버레이 표시 */}
+        {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
           <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
         )}
 
-        {/* 자식 요소에서는 z-20 제거 */}
         <div className="pl-8">
           <p className="text-sm font-medium text-white">
             Earn 0.2 KAIA upon reaching Level 2!
@@ -471,6 +468,7 @@ const MissionPage: React.FC = () => {
           className="w-[142px] h-[142px] object-cover mr-[10px]"
         />
       </div>
+
 
 
       {/* 일일 미션 */}
