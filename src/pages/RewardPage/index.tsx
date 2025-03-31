@@ -39,6 +39,7 @@ const Reward: React.FC = () => {
   const event1 = new Date(2025, 2, 28);
   const event2 = new Date(2025, 3, 14);
   const event3 = new Date(2025, 3, 28);
+  const event4 = new Date(2025, 4, 15);
 
   useEffect(() => {
     fetchLeaderHome();
@@ -176,8 +177,23 @@ const Reward: React.FC = () => {
           </div>
 
           
-          <div className="w-[110px] h-[126px]">
-            {/* 빈 영역 */}
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">2st Round</p>
+            <p className="text-xs font-normal text-white text-center">Ranking Rewards</p>
+            <img 
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">Ends on</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event4).format(dateFormat)}</p>
           </div>
 
         </div>
