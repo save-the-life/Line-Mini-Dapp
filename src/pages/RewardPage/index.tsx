@@ -127,25 +127,6 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.mystery")}</p>
-            <img 
-              className="w-4 h-4"
-              src={Images.RedTriangle}
-              alt="Red Triangle"
-            />
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
-            <p className="text-base font-semibold text-white text-center">{moment(event1).format(dateFormat)}</p>
-          </div>
-
-          {/* 두 번째 박스 */}
-          <div className="
-            w-[110px] h-[126px] 
-            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
-            rounded-3xl 
-            border-2 border-yellow-400 border-blink
-            flex flex-col items-center justify-center
-            p-2
-          ">
             <p className="text-xs font-normal text-white text-center">{currentRound} {t("reward_page.this_month")}</p>
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
             <img 
@@ -157,7 +138,8 @@ const Reward: React.FC = () => {
             <p className="text-base font-semibold text-white text-center">{moment(event2).format(dateFormat)}</p>
           </div>
 
-          {/* 세 번째 박스 */}
+
+          {/* 두 번째 박스 */}
           <div className="
             w-[110px] h-[126px] 
             bg-gradient-to-b from-[#484ADA] to-[#2D2774]
@@ -175,6 +157,11 @@ const Reward: React.FC = () => {
             />
             <p className="text-xs font-normal text-white text-center">{t("reward_page.schedule")}</p>
             <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
+          </div>
+
+          
+          <div className="w-[110px] h-[126px]">
+            {/* 빈 공간 */}
           </div>
 
         </div>
