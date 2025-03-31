@@ -26,6 +26,7 @@ import Audios from "@/shared/assets/audio";
 import Attendance from "@/widgets/Attendance";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
+import requestKaiaMission from "@/entities/Mission/api/kaiaMission";
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -276,6 +277,30 @@ const MissionPage: React.FC = () => {
   );
   
 
+  const handleKaiaMission = async() => {
+    playSfx(Audios.button_click);
+
+    if(walletAddress != null){
+      try{
+        const kaia = await requestKaiaMission(walletAddress);
+
+        if(kaia){
+          console.log("카이아 미션 응답: ", kaia);
+        }
+      } catch(error: any){
+        console.error("kaia Mission failed:", error);
+        
+      }
+    } else {
+      try {
+        // connectWallet 함수는 지갑 연결만 수행합니다.
+        await connectWallet();
+      } catch (error) {
+        console.error("Wallet connection failed:", error);
+      }
+    }
+  }
+
   return (
     <div className="flex flex-col text-white mb-20 md:mb-96 min-h-screen">
       <TopTitle title={t("mission_page.Mission")} />
@@ -414,6 +439,11 @@ const MissionPage: React.FC = () => {
           !kaiaMission?.isAvailable ? "pointer-events-none" : ""
         }`}
         style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
+        onClick={() => {
+          if (kaiaMission?.isAvailable) {
+            handleKaiaMission();
+          }
+        }}
       >
         {/* 오버레이: z-20 등 더 높은 값으로 설정 */}
         {!kaiaMission?.isAvailable && (
