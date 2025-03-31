@@ -178,7 +178,12 @@
         "ranking_rewards": "ランキング報酬",
         "raffle_draw": "ラッフルチケット抽選",
         "schedule": "予定日",
-        "all_events": "すべてのイベントは1週間以内に発表され、報酬は配布されます。"
+        "all_events": "すべてのイベントは1週間以内に発表され、報酬は配布されます。",
+        "one": "1",
+        "two": "2",
+        "three": "3",
+        "four": "4",
+        "five": "5"
     },
     "wallet_page": {
         "wallet": "ウォレット",

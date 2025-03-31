@@ -128,7 +128,7 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">{currentRound} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.one")} {t("reward_page.this_month")}</p>
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
             <img 
               className="w-4 h-4"
@@ -170,7 +170,7 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">{nextRound} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.two")} {t("reward_page.this_month")}</p>
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
             <img 
               className="w-4 h-4"

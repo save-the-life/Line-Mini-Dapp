@@ -178,7 +178,12 @@
       "ranking_rewards": "Ranking Rewards",
       "raffle_draw": "Raffle Ticket Draw",
       "schedule": "Scheduled for",
-      "all_events": "All events will be announced and rewards distributed within a week."
+      "all_events": "All events will be announced and rewards distributed within a week.",
+      "one": "1st",
+      "two": "2nd",
+      "three": "3rd",
+      "four": "4th",
+      "five": "5th"
     },
     "wallet_page": {
         "wallet": "Wallet",
