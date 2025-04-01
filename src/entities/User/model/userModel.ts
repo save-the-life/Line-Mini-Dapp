@@ -147,8 +147,9 @@ interface UserState {
   suspend: boolean;
   setSuspend: (suspend: boolean) => void;
 
+  
   // redirect: boolean;
-  // setRedirect: (redirect: boolean) => void;
+  // setRedirect: (suspend: boolean) => void;
 }
 
 // 필요한 인터페이스 정의
@@ -189,9 +190,9 @@ export const useUserStore = create<UserState>((set, get) => ({
   setSuspend: (suspend) => set({ suspend }),
 
   
-  // redirect 필드 추가 (초기값 false)
   // redirect: false,
   // setRedirect: (redirect) => set({ redirect }),
+
 
   pet : {
     type: null,
@@ -363,20 +364,8 @@ export const useUserStore = create<UserState>((set, get) => ({
         if (data && data.message === "Please choose your character first.") {
           throw new Error(data.message);
         }
-        // 데이터가 없는 경우 토큰 갱신
-        // console.warn('No data returned from /home API, trying token refresh...');
-        const tokenRefreshed = await get().refreshToken();
-        
-        if (tokenRefreshed) {
-          data = await fetchHomeData();
-          if (!data) {
-            throw new Error('No data returned even after token refresh');
-          }
-        } else {
-          throw new Error('No data returned and token refresh failed');
-        }
       }
-  
+
       // 서버 응답에서 필요한 데이터 추출
       const {
         user,
@@ -470,7 +459,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     } catch (error: any) {
       // error.response.data.message가 있으면 그 값을 사용
       const errorMessage = error.response?.data?.message || error.message;
-      console.error('fetchUserData 실패:', errorMessage);
+      // console.error('fetchUserData 실패:', errorMessage);
       set({ isLoading: false, error: errorMessage });
       // 새로운 에러 객체를 던져서 error.message에 원하는 메시지가 포함되도록 함
       throw new Error(errorMessage);
@@ -558,7 +547,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       isAuto: false, // 추가된 부분: isAuto 초기화
       timeZone: null,
       suspend: false, // 추가된 부분: suspend 초기화
-      // redirect: false,
+      // redirect:false,
       position: 0,
       diceCount: 0,
       starPoints: 0,
