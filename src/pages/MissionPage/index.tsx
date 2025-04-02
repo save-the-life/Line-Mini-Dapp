@@ -635,20 +635,19 @@ const MissionPage: React.FC = () => {
             </AlertDialogDescription>
             <AlertDialogTitle className="text-center font-bold text-xl">
               <div className="flex flex-row items-center justify-center">
-                <p>{t("asset_page.claim.success")}</p>
               </div>
             </AlertDialogTitle>
           </AlertDialogHeader>
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-sm mt-4 mb-1">{t("asset_page.claim.processing")}</p>
-            <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
+            <p className="text-sm mt-4 mb-1">{kaiaMessage}</p>
             <button
               onClick={() => {
                   playSfx(Audios.button_click);
                   setKaiaModal(false);
+                  fetchMissions();
               }}
               className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4">
-              {kaiaMessage}
+              Check
           </button>
           </div>
         </AlertDialogContent>
