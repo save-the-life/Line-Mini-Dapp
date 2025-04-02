@@ -279,6 +279,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log("[Step 4~5] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
           is502ErrorRef.current = true;
           return;
+        } else if(error.response?.data && typeof error.response.data === "string" && error.response.data.includes("<html>")){
+          console.log("[Step 4~5] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
+          is502ErrorRef.current = true;
+          return;
         }
         console.error("[Step 4~5] userAuthenticationWithServer 에러:", error);
         throw error;
