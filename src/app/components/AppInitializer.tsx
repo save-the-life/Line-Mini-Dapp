@@ -300,11 +300,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
       initializedRef.current = true;
-
+  
       try {
         // 0. 레퍼럴 코드 확인
         setReferralCode();
-
+  
         // 1. 브라우저 언어 확인
         const browserLanguage = navigator.language;
         const lang = browserLanguage.slice(0, 2);
@@ -312,7 +312,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
         console.log("[Step 1] 브라우저 언어:", browserLanguage, "-> 설정 언어:", i18nLanguage);
         i18n.changeLanguage(i18nLanguage);
-
+  
         // 2. 라인브라우저 사용 여부 확인
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
         if (!liff.isInClient()) {
@@ -322,7 +322,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           onInitialized();
           return;
         }
-
+  
         // LIFF 초기화
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(
@@ -334,7 +334,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           "LIFF init Timeout"
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
-
+  
         // 3~5. 토큰 처리 및 사용자 검증
         await handleTokenFlow();
       } catch (error: any) {
@@ -345,20 +345,20 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           return;
         }
         console.error("[InitializeApp] 초기화 중 에러 발생:", error);
-
+  
         // "Please choose your character first." 에러는 무한 반복을 막기 위해 바로 /choose-character 이동
         if (error.message === "Please choose your character first.") {
           console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
           navigate("/choose-character");
           return;
         }
-
-        // 기타 에러 => localStorage 초기화 후 재시도
+  
+        // 기타 에러 발생 시 재시도 대신 에러 메시지를 표시하고 재시도를 중단합니다.
         localStorage.clear();
         if (isMountedRef.current) {
           setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
         }
-        await handleTokenFlow();
+        // 재시도 호출 제거: 무한 재시도를 방지합니다.
       } finally {
         // 502 에러가 감지되었으면 splash 화면을 그대로 유지합니다.
         if (!is502ErrorRef.current && isMountedRef.current) {
@@ -368,9 +368,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
       }
     };
-
+  
     initializeApp();
   }, [fetchUserData, navigate, onInitialized]);
+  
 
   // 에러 메시지가 있을 경우 사용자에게 안내하는 UI 표시
   if (errorMessage) {
