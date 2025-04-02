@@ -189,8 +189,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if (isMountedRef.current) navigate("/dice-event");
       }
     } catch (error: any) {
-      // 502 에러 체크: 502가 발생하면 추가 동작 없이 멈춥니다.
-      if (error.response?.status === 502 || (error.message && error.message.includes("502"))) {
+      // 502 에러 체크: status 또는 메시지, 혹은 HTML 포함 여부로 판단
+      if (
+        error.response?.status === 502 ||
+        (error.message && error.message.includes("502")) ||
+        (error.response?.data &&
+          typeof error.response.data === "string" &&
+          error.response.data.includes("<html>"))
+      ) {
         console.log("[Step 6] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
         is502ErrorRef.current = true;
         return;
@@ -214,7 +220,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
 
       // 403 에러 처리
-      if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
+      if (
+        error.message === "Request failed with status code 403" ||
+        error.response?.status === 403
+      ) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
         localStorage.removeItem("accessToken");
         if (retryCount < MAX_RETRY_COUNT) {
@@ -274,12 +283,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           await getUserInfo();
         }
       } catch (error: any) {
-        // 502 에러 체크: 502 발생 시 추가 동작 없이 멈춤
-        if (error.response?.status === 502 || (error.message && error.message.includes("502"))) {
-          console.log("[Step 4~5] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
-          is502ErrorRef.current = true;
-          return;
-        } else if(error.response?.data && typeof error.response.data === "string" && error.response.data.includes("<html>")){
+        // 502 에러 체크: status, 메시지 또는 HTML 포함 여부로 판단
+        if (
+          error.response?.status === 502 ||
+          (error.message && error.message.includes("502")) ||
+          (error.response?.data &&
+            typeof error.response.data === "string" &&
+            error.response.data.includes("<html>"))
+        ) {
           console.log("[Step 4~5] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
           is502ErrorRef.current = true;
           return;
@@ -339,8 +350,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         // 3~5. 토큰 처리 및 사용자 검증
         await handleTokenFlow();
       } catch (error: any) {
-        // 502 에러 체크: 502 발생 시 추가 동작 없이 멈춤
-        if (error.response?.status === 502 || (error.message && error.message.includes("502"))) {
+        // 502 에러 체크: status, 메시지 또는 HTML 포함 여부로 판단
+        if (
+          error.response?.status === 502 ||
+          (error.message && error.message.includes("502")) ||
+          (error.response?.data &&
+            typeof error.response.data === "string" &&
+            error.response.data.includes("<html>"))
+        ) {
           console.log("[InitializeApp] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
           is502ErrorRef.current = true;
           return;
@@ -372,12 +389,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     initializeApp();
   }, [fetchUserData, navigate, onInitialized]);
   
-
   // 에러 메시지가 있을 경우 사용자에게 안내하는 UI 표시
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
   }
-
+  
   if (showSplash) {
     return <SplashScreen />;
   }
