@@ -64,7 +64,7 @@ api.interceptors.response.use(
     // Authorization 헤더가 없거나 토큰이 없다면 로그아웃 처리하거나 로그인 페이지로 리다이렉트하는 로직 추가
     if (!localStorage.getItem('accessToken')) {
       // 예를 들어, 토큰이 없으면 바로 로그아웃 처리하고 새로고침
-      window.location.reload();
+      // window.location.reload();
       return Promise.reject(error);
     }
 
@@ -100,12 +100,12 @@ api.interceptors.response.use(
         // 갱신 실패 시 로그아웃
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
-        window.location.reload();
+        // window.location.reload();
         return Promise.reject(error);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
-        window.location.reload();
+        // window.location.reload();
         return Promise.reject(refreshError);
       }
     }
