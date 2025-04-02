@@ -25,8 +25,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const { fetchUserData } = useUserStore();
   const [showSplash, setShowSplash] = useState(true);
   const initializedRef = useRef(false);
+
   // 에러 메시지 상태 (사용자 피드백용)
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   // 502 에러 발생 시 멈추기 위한 플래그
   const is502ErrorRef = useRef(false);
 
@@ -145,7 +147,22 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // (6단계 및 기존 분기) 사용자 정보 가져오기
+  // 502 에러인지 확인하는 헬퍼 함수
+  const is502Error = (error: any): boolean => {
+    // status가 502 이거나, 메시지에 "502"가 포함되어 있거나, 응답 데이터에 <html> 태그가 있으면 502로 판단
+    if (
+      error?.response?.status === 502 ||
+      (error?.message && error.message.includes("502")) ||
+      (error?.response?.data &&
+        typeof error.response.data === "string" &&
+        error.response.data.includes("<html>"))
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  // (6단계) 사용자 정보 가져오기
   const getUserInfo = async (retryCount = 0) => {
     console.log("[Step 6] getUserInfo() 호출, 재시도 횟수:", retryCount);
     try {
@@ -189,63 +206,46 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if (isMountedRef.current) navigate("/dice-event");
       }
     } catch (error: any) {
-      // 502 에러 체크: status 또는 메시지, 혹은 HTML 포함 여부로 판단
-      if (
-        error.response?.status === 502 ||
-        (error.message && error.message.includes("502")) ||
-        (error.response?.data &&
-          typeof error.response.data === "string" &&
-          error.response.data.includes("<html>"))
-      ) {
-        console.log("[Step 6] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
+      // 1) 502 에러 체크
+      if (is502Error(error)) {
+        console.log("[Step 6] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
         is502ErrorRef.current = true;
-        return;
+        return; // 에러를 던지지 않고 종료
       }
 
       console.error("[Step 6] getUserInfo() 에러 발생:", error);
 
-      // "Please choose your character first." 메시지 처리
-      if (
-        error.message === "Please choose your character first." &&
-        error.response?.status === 200
-      ) {
-        console.log("[Step 6] 캐릭터 선택 필요(정상 케이스) -> /choose-character 이동");
-        if (isMountedRef.current) navigate("/choose-character");
-        return;
-      }
+      // 2) "Please choose your character first." 처리
       if (error.message === "Please choose your character first.") {
+        // 상태코드 200이든 아니든 동일 처리
         console.log("[Step 6] 캐릭터 선택 필요 -> /choose-character 이동");
         if (isMountedRef.current) navigate("/choose-character");
         return;
       }
 
-      // 403 에러 처리
-      if (
-        error.message === "Request failed with status code 403" ||
-        error.response?.status === 403
-      ) {
+      // 3) 403 에러 처리
+      if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
         localStorage.removeItem("accessToken");
         if (retryCount < MAX_RETRY_COUNT) {
           await handleTokenFlow();
-          return;
         }
         return;
       }
 
-      // 500 에러 등 기타 에러 (최대 1회 재시도)
+      // 4) 500 에러 등 기타 에러 (최대 1회 재시도)
       if (retryCount < 1) {
-        console.log("[Step 6] 그 외 에러 발생, accessToken 삭제 후 재시도");
+        console.log("[Step 6] 기타 에러 -> accessToken 삭제 후 재시도");
         localStorage.removeItem("accessToken");
         await getUserInfo(retryCount + 1);
         return;
       }
 
-      // 재시도 횟수 초과 시 에러 메시지 표시
+      // 5) 재시도 횟수 초과 시 에러 메시지 표시 후 종료
       if (isMountedRef.current) {
         setErrorMessage("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
       }
-      throw error;
+      return; // throw 하지 않고 종료
     }
   };
 
@@ -257,24 +257,31 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       console.log("[Step 3] accessToken 없음, 라인 토큰 발급 시도");
       const lineToken = liff.getAccessToken();
       console.log("[Step 3] liff.getAccessToken() 결과:", lineToken);
+
       if (!lineToken) {
         console.error("[Step 3] LINE 토큰 발급 실패");
-        throw new Error("LINE앱으로 로그인 후 사용바랍니다.");
+        // 여기서도 throw 대신 에러 메시지 설정
+        if (isMountedRef.current) {
+          setErrorMessage("LINE앱으로 로그인 후 사용 바랍니다.");
+        }
+        return;
       }
+
       try {
-        console.log(
-          "[Step 4~5] userAuthenticationWithServer 호출, referralCode:",
-          localStorage.getItem("referralCode")
-        );
+        console.log("[Step 4~5] userAuthenticationWithServer 호출, referralCode:", localStorage.getItem("referralCode"));
         const isInitial = await withTimeout(
           userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode")),
           5000,
           "userAuthentication Timeout"
         );
         console.log("[Step 4~5] userAuthenticationWithServer 결과:", isInitial);
+
         if (isInitial === undefined) {
           console.error("[Step 4~5] 사용자 인증 실패 (isInitial undefined)");
-          throw new Error("사용자 인증 실패");
+          if (isMountedRef.current) {
+            setErrorMessage("사용자 인증 실패");
+          }
+          return;
         } else if (isInitial) {
           console.log("[Step 4~5] 신규 사용자 감지 -> /choose-character 이동");
           if (isMountedRef.current) navigate("/choose-character");
@@ -283,20 +290,19 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           await getUserInfo();
         }
       } catch (error: any) {
-        // 502 에러 체크: status, 메시지 또는 HTML 포함 여부로 판단
-        if (
-          error.response?.status === 502 ||
-          (error.message && error.message.includes("502")) ||
-          (error.response?.data &&
-            typeof error.response.data === "string" &&
-            error.response.data.includes("<html>"))
-        ) {
-          console.log("[Step 4~5] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
+        // 1) 502 에러 체크
+        if (is502Error(error)) {
+          console.log("[Step 4~5] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
           is502ErrorRef.current = true;
           return;
         }
         console.error("[Step 4~5] userAuthenticationWithServer 에러:", error);
-        throw error;
+
+        // 2) 그 외 에러 => 메시지 표시 후 종료
+        if (isMountedRef.current) {
+          setErrorMessage("인증 과정에서 에러가 발생했습니다. 다시 시도해주세요.");
+        }
+        return;
       }
     } else {
       console.log("[Step 3] accessToken 존재 -> 바로 getUserInfo() 호출");
@@ -304,6 +310,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
+  // 초기화 useEffect
   useEffect(() => {
     const initializeApp = async () => {
       console.log("[InitializeApp] 초기화 시작");
@@ -312,11 +319,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
       initializedRef.current = true;
-  
+
       try {
         // 0. 레퍼럴 코드 확인
         setReferralCode();
-  
+
         // 1. 브라우저 언어 확인
         const browserLanguage = navigator.language;
         const lang = browserLanguage.slice(0, 2);
@@ -324,7 +331,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
         console.log("[Step 1] 브라우저 언어:", browserLanguage, "-> 설정 언어:", i18nLanguage);
         i18n.changeLanguage(i18nLanguage);
-  
+
         // 2. 라인브라우저 사용 여부 확인
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
         if (!liff.isInClient()) {
@@ -334,7 +341,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           onInitialized();
           return;
         }
-  
+
         // LIFF 초기화
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(
@@ -346,38 +353,34 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           "LIFF init Timeout"
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
-  
+
         // 3~5. 토큰 처리 및 사용자 검증
         await handleTokenFlow();
       } catch (error: any) {
-        // 502 에러 체크: status, 메시지 또는 HTML 포함 여부로 판단
-        if (
-          error.response?.status === 502 ||
-          (error.message && error.message.includes("502")) ||
-          (error.response?.data &&
-            typeof error.response.data === "string" &&
-            error.response.data.includes("<html>"))
-        ) {
-          console.log("[InitializeApp] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
+        // 1) 502 에러 체크
+        if (is502Error(error)) {
+          console.log("[InitializeApp] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
           is502ErrorRef.current = true;
           return;
         }
+
         console.error("[InitializeApp] 초기화 중 에러 발생:", error);
-  
-        // "Please choose your character first." 에러 처리
+
+        // 2) "Please choose your character first." 에러 처리
         if (error.message === "Please choose your character first.") {
           console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
           navigate("/choose-character");
           return;
         }
-  
-        // 기타 에러 발생 시 재시도 대신 에러 메시지 표시 후 중단
+
+        // 3) 기타 에러 => 에러 메시지 표시 후 종료
         localStorage.clear();
         if (isMountedRef.current) {
           setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
         }
+        return;
       } finally {
-        // 502 에러가 감지되었으면 splash 화면을 그대로 유지합니다.
+        // 502 에러가 감지되었으면 splash 화면을 그대로 유지
         if (!is502ErrorRef.current && isMountedRef.current) {
           console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
           setShowSplash(false);
@@ -385,18 +388,19 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
       }
     };
-  
+
     initializeApp();
   }, [fetchUserData, navigate, onInitialized]);
-  
+
   // 에러 메시지가 있을 경우 사용자에게 안내하는 UI 표시
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
   }
-  
+
   if (showSplash) {
     return <SplashScreen />;
   }
+
   return null;
 };
 
