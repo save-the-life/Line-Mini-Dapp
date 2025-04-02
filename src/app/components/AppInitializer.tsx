@@ -387,7 +387,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
           setShowSplash(false);
           setShowMaintenance(true);
-          onInitialized();
         }
       }
     };
