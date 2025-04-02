@@ -151,6 +151,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
   // 502 에러인지 확인하는 헬퍼 함수
   const is502Error = (error: any): boolean => {
+    // Axios에서 5xx 응답을 받으면 code가 "ERR_BAD_RESPONSE"가 될 수 있음
+    if (error?.code === "ERR_BAD_RESPONSE") {
+      console.log("Axios code is ERR_BAD_RESPONSE -> 502로 간주");
+      return true;
+    }
+
+    // status가 502, 메시지에 "502"가 포함, 응답 데이터에 <html> 태그가 있으면 502로 판단
     if (
       error?.response?.status === 502 ||
       (error?.message && error.message.includes("502")) ||
@@ -160,8 +167,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     ) {
       return true;
     }
+
     return false;
   };
+
 
   // (6단계) 사용자 정보 가져오기
   const getUserInfo = async (retryCount = 0) => {
