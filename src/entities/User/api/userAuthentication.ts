@@ -21,8 +21,10 @@ export const userAuthenticationWithServer = async (lineIdToken: string, referrer
             // isInitial 값 반환
             return data.isInitial;
         }
-    } catch (error) {
-        // console.error("인증 중 오류 발생:", error);
+    } catch (error: any) {
+        console.error("인증 중 오류 발생:", error);
+        console.error("인증 중 오류 발생 코드:", error.code);
+        console.error("인증 중 오류 발생 메시지:", error.message);
     }
 };
 

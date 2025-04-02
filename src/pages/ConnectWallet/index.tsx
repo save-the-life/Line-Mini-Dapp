@@ -118,8 +118,10 @@ const ConnectWalletPage: React.FC = () => {
         navigate("/choose-character");
         return;
       }
-      // console.error("에러 발생:", error.message);
-      // console.error("에러 응답:", error.response?.data || "응답 없음");
+      console.error("에러 발생 메시지:", error.message);
+      console.error("에러 발생 코드:", error.code);
+      console.error("에러 발생:", error);
+      console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
 
