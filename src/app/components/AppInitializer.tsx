@@ -27,6 +27,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const initializedRef = useRef(false);
   // 에러 메시지 상태 (사용자 피드백용)
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // 502 에러 발생 시 멈추기 위한 플래그
+  const is502ErrorRef = useRef(false);
 
   // 컴포넌트 언마운트 시 업데이트 방지를 위한 플래그
   const isMountedRef = useRef(true);
@@ -187,6 +189,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if (isMountedRef.current) navigate("/dice-event");
       }
     } catch (error: any) {
+      // 502 에러 체크: 502가 발생하면 추가 동작 없이 멈춥니다.
+      if (error.response?.status === 502 || (error.message && error.message.includes("502"))) {
+        console.log("[Step 6] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
+        is502ErrorRef.current = true;
+        return;
+      }
+
       console.error("[Step 6] getUserInfo() 에러 발생:", error);
 
       // "Please choose your character first." + 상태 코드 200 => 정상 케이스로 /choose-character 이동
@@ -267,7 +276,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log("[Step 4~5] 기존 사용자 -> getUserInfo() 호출");
           await getUserInfo();
         }
-      } catch (error) {
+      } catch (error: any) {
+        // 502 에러 체크: 502가 발생하면 추가 동작 없이 멈춥니다.
+        if (error.response?.status === 502 || (error.message && error.message.includes("502"))) {
+          console.log("[Step 4~5] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
+          is502ErrorRef.current = true;
+          return;
+        }
         console.error("[Step 4~5] userAuthenticationWithServer 에러:", error);
         throw error;
       }
@@ -323,6 +338,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         // 3~5. 토큰 처리 및 사용자 검증
         await handleTokenFlow();
       } catch (error: any) {
+        // 502 에러 체크: 502가 발생하면 추가 동작 없이 멈춥니다.
+        if (error.response?.status === 502 || (error.message && error.message.includes("502"))) {
+          console.log("[InitializeApp] 502 Bad Gateway 에러 감지, 아무런 동작도 하지 않습니다.");
+          is502ErrorRef.current = true;
+          return;
+        }
         console.error("[InitializeApp] 초기화 중 에러 발생:", error);
 
         // "Please choose your character first." 에러는 무한 반복을 막기 위해 바로 /choose-character 이동
@@ -339,8 +360,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
         await handleTokenFlow();
       } finally {
-        console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
-        if (isMountedRef.current) {
+        // 502 에러가 감지되었으면 splash 화면을 그대로 유지합니다.
+        if (!is502ErrorRef.current && isMountedRef.current) {
+          console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
           setShowSplash(false);
           onInitialized();
         }

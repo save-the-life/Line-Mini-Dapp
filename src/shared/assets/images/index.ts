@@ -180,6 +180,7 @@ import Discount from "./discount.png"
 import NoticeCaution from "./notice-caution.png"
 import NoticeBox from "./notice-box.png"
 import KaiaLevel2 from "./kaia-level2.png"
+import Pylon from "./pylon.png"
 
 const Images = {
   HorizontalLogo,
@@ -362,7 +363,8 @@ const Images = {
   Discount,
   NoticeCaution,
   NoticeBox,
-  KaiaLevel2
+  KaiaLevel2,
+  Pylon
 };
 
 export default Images;
