@@ -27,22 +27,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const [showSplash, setShowSplash] = useState(true);
   const [showMaintenance, setShowMaintenance] = useState(false);
   const initializedRef = useRef(false);
-
-  // 에러 메시지 상태 (사용자 피드백용)
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  // 502 에러 발생 시 멈추기 위한 플래그
   const is502ErrorRef = useRef(false);
-
-  // 컴포넌트 언마운트 시 업데이트 방지를 위한 플래그
   const isMountedRef = useRef(true);
+
   useEffect(() => {
-    return () => {
-      isMountedRef.current = false;
-    };
+    return () => { isMountedRef.current = false; };
   }, []);
 
-  // 미리 정의된 라우트 (레퍼럴 코드 식별용)
   const knownRoutes = [
     "",
     "dice-event",
@@ -82,19 +74,15 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const referralPattern = /^[A-Za-z0-9]{4,16}$/;
   const MAX_RETRY_COUNT = 3;
 
-  // (0단계) 레퍼럴 코드 설정 함수
   const setReferralCode = () => {
     console.log("[Step 0] 시작 - 현재 URL:", window.location.href);
     localStorage.removeItem("referralCode");
     let referralCode = "";
 
-    // (0-1) window.location.hash 검사
     if (window.location.hash && window.location.hash.startsWith("#/")) {
       referralCode = window.location.hash.slice(2);
       console.log("[Step 0-1] 해시에서 추출:", referralCode);
     }
-
-    // (0-2) 쿼리 파라미터 'liff.state' 검사
     if (!referralCode) {
       const url = new URL(window.location.href);
       const liffState = url.searchParams.get("liff.state");
@@ -103,8 +91,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         console.log("[Step 0-2] liff.state에서 추출:", referralCode);
       }
     }
-
-    // (0-3) 쿼리 파라미터 'liff.referrer' 검사
     if (!referralCode) {
       const url = new URL(window.location.href);
       const liffReferrer = url.searchParams.get("liff.referrer");
@@ -113,15 +99,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         console.log("[Step 0-3] liff.referrer 감지, 프로모션 코드 설정:", referralCode);
       }
     }
-
-    // (0-4) URL 마지막 세그먼트 사용
     if (!referralCode) {
       const parts = window.location.pathname.split("/");
       referralCode = parts[parts.length - 1];
       console.log("[Step 0-4] URL 마지막 세그먼트 추출:", referralCode);
     }
-
-    // 특정 문자열 체크
     if (referralCode === "from-dapp-portal") {
       console.log(`[Step 0] "${referralCode}" 감지 -> localStorage에 저장`);
       localStorage.setItem("referralCode", referralCode);
@@ -132,15 +114,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       localStorage.setItem("referralCode", referralCode);
       return;
     }
-
-    // 사전에 정의된 라우트와 비교
     if (knownRoutes.includes(referralCode)) {
       console.log(`[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
       localStorage.removeItem("referralCode");
       return;
     }
-
-    // 정규표현식 패턴 검사
     if (referralPattern.test(referralCode)) {
       console.log(`[Step 0] "${referralCode}" 패턴 일치 -> 레퍼럴 코드로 설정`);
       localStorage.setItem("referralCode", referralCode);
@@ -149,15 +127,17 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // 502 에러인지 확인하는 헬퍼 함수
+  // 502 에러 여부 판단 함수 (추가 조건 포함)
   const is502Error = (error: any): boolean => {
-    // Axios에서 5xx 응답을 받으면 code가 "ERR_BAD_RESPONSE"가 될 수 있음
     if (error?.code === "ERR_BAD_RESPONSE") {
       console.log("Axios code is ERR_BAD_RESPONSE -> 502로 간주");
       return true;
     }
-
-    // status가 502, 메시지에 "502"가 포함, 응답 데이터에 <html> 태그가 있으면 502로 판단
+    // fetchUserData Timeout도 502로 간주 (테스트용)
+    if (error?.message === "fetchUserData Timeout") {
+      console.log("Error message is 'fetchUserData Timeout' -> 502로 간주");
+      return true;
+    }
     if (
       error?.response?.status === 502 ||
       (error?.message && error.message.includes("502")) ||
@@ -167,19 +147,15 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     ) {
       return true;
     }
-
     return false;
   };
 
-
-  // (6단계) 사용자 정보 가져오기
   const getUserInfo = async (retryCount = 0) => {
     console.log("[Step 6] getUserInfo() 호출, 재시도 횟수:", retryCount);
     try {
       await withTimeout(fetchUserData(), 5000, "fetchUserData Timeout");
       console.log("[Step 6] 사용자 데이터 fetch 성공");
 
-      // 타임존 업데이트
       const userTimeZone = useUserStore.getState().timeZone;
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       console.log("[Step 6] 서버 타임존:", userTimeZone, "| 사용자 타임존:", currentTimeZone);
@@ -193,7 +169,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
       }
 
-      // 프로모션 분기 처리
       const referralCode = localStorage.getItem("referralCode");
       if (referralCode === "dapp-portal-promotions") {
         console.log("[Step 6] 프로모션 레퍼럴 코드 감지, getPromotion() 호출");
@@ -252,7 +227,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // (3~5단계) 토큰 처리 및 사용자 검증
   const handleTokenFlow = async () => {
     console.log("[Step 3~5] handleTokenFlow() 시작");
     const accessToken = localStorage.getItem("accessToken");
@@ -309,7 +283,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     }
   };
 
-  // 초기화 useEffect
   useEffect(() => {
     const initializeApp = async () => {
       console.log("[InitializeApp] 초기화 시작");
@@ -320,10 +293,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       initializedRef.current = true;
 
       try {
-        // 0. 레퍼럴 코드 확인
         setReferralCode();
 
-        // 1. 브라우저 언어 확인
         const browserLanguage = navigator.language;
         const lang = browserLanguage.slice(0, 2);
         const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
@@ -331,7 +302,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         console.log("[Step 1] 브라우저 언어:", browserLanguage, "-> 설정 언어:", i18nLanguage);
         i18n.changeLanguage(i18nLanguage);
 
-        // 2. 라인브라우저 사용 여부 확인
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
         if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
@@ -341,7 +311,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           return;
         }
 
-        // LIFF 초기화
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(
           liff.init({
@@ -353,7 +322,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
 
-        // 3~5. 토큰 처리 및 사용자 검증
         await handleTokenFlow();
       } catch (error: any) {
         if (is502Error(error)) {
@@ -377,7 +345,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       } finally {
         if (isMountedRef.current) {
           setShowSplash(false);
-          // 502 에러가 감지되면 MaintenanceScreen을 표시합니다.
           if (is502ErrorRef.current) {
             console.log("[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시");
             setShowMaintenance(true);
@@ -395,15 +362,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
   }
-
   if (showSplash) {
     return <SplashScreen />;
   }
-
   if (showMaintenance) {
     return <MaintenanceScreen />;
   }
-
   return null;
 };
 
