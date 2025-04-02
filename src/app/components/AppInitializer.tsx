@@ -24,7 +24,7 @@ interface AppInitializerProps {
 const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const navigate = useNavigate();
   const { fetchUserData } = useUserStore();
-  const [showSplash, setShowSplash] = useState(true);  
+  const [showSplash, setShowSplash] = useState(true);
   const [showMaintenance, setShowMaintenance] = useState(false);
   const initializedRef = useRef(false);
 
@@ -151,7 +151,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
   // 502 에러인지 확인하는 헬퍼 함수
   const is502Error = (error: any): boolean => {
-    // status가 502 이거나, 메시지에 "502"가 포함되어 있거나, 응답 데이터에 <html> 태그가 있으면 502로 판단
     if (
       error?.response?.status === 502 ||
       (error?.message && error.message.includes("502")) ||
@@ -208,24 +207,19 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if (isMountedRef.current) navigate("/dice-event");
       }
     } catch (error: any) {
-      // 1) 502 에러 체크
       if (is502Error(error)) {
         console.log("[Step 6] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
         is502ErrorRef.current = true;
-        return; // 에러를 던지지 않고 종료
+        return;
       }
-
       console.error("[Step 6] getUserInfo() 에러 발생:", error);
 
-      // 2) "Please choose your character first." 처리
       if (error.message === "Please choose your character first.") {
-        // 상태코드 200이든 아니든 동일 처리
         console.log("[Step 6] 캐릭터 선택 필요 -> /choose-character 이동");
         if (isMountedRef.current) navigate("/choose-character");
         return;
       }
 
-      // 3) 403 에러 처리
       if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
         localStorage.removeItem("accessToken");
@@ -235,7 +229,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
-      // 4) 500 에러 등 기타 에러 (최대 1회 재시도)
       if (retryCount < 1) {
         console.log("[Step 6] 기타 에러 -> accessToken 삭제 후 재시도");
         localStorage.removeItem("accessToken");
@@ -243,11 +236,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
-      // 5) 재시도 횟수 초과 시 에러 메시지 표시 후 종료
       if (isMountedRef.current) {
         setErrorMessage("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
       }
-      return; // throw 하지 않고 종료
+      return;
     }
   };
 
@@ -262,7 +254,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
       if (!lineToken) {
         console.error("[Step 3] LINE 토큰 발급 실패");
-        // 여기서도 throw 대신 에러 메시지 설정
         if (isMountedRef.current) {
           setErrorMessage("LINE앱으로 로그인 후 사용 바랍니다.");
         }
@@ -292,15 +283,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           await getUserInfo();
         }
       } catch (error: any) {
-        // 1) 502 에러 체크
         if (is502Error(error)) {
           console.log("[Step 4~5] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
           is502ErrorRef.current = true;
           return;
         }
         console.error("[Step 4~5] userAuthenticationWithServer 에러:", error);
-
-        // 2) 그 외 에러 => 메시지 표시 후 종료
         if (isMountedRef.current) {
           setErrorMessage("인증 과정에서 에러가 발생했습니다. 다시 시도해주세요.");
         }
@@ -359,34 +347,35 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         // 3~5. 토큰 처리 및 사용자 검증
         await handleTokenFlow();
       } catch (error: any) {
-        // 1) 502 에러 체크
         if (is502Error(error)) {
           console.log("[InitializeApp] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
           is502ErrorRef.current = true;
           return;
         }
-
         console.error("[InitializeApp] 초기화 중 에러 발생:", error);
 
-        // 2) "Please choose your character first." 에러 처리
         if (error.message === "Please choose your character first.") {
           console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
           navigate("/choose-character");
           return;
         }
 
-        // 3) 기타 에러 => 에러 메시지 표시 후 종료
         localStorage.clear();
         if (isMountedRef.current) {
           setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
         }
         return;
       } finally {
-        // 502 에러가 감지되었으면 공지 화면으로 이동
-        if (!is502ErrorRef.current && isMountedRef.current) {
-          console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
+        if (isMountedRef.current) {
           setShowSplash(false);
-          setShowMaintenance(true);
+          // 502 에러가 감지되면 MaintenanceScreen을 표시합니다.
+          if (is502ErrorRef.current) {
+            console.log("[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시");
+            setShowMaintenance(true);
+          } else {
+            console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
+            onInitialized();
+          }
         }
       }
     };
@@ -394,7 +383,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     initializeApp();
   }, [fetchUserData, navigate, onInitialized]);
 
-  // 에러 메시지가 있을 경우 사용자에게 안내하는 UI 표시
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
   }
@@ -403,9 +391,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     return <SplashScreen />;
   }
 
-  if(showMaintenance){
+  if (showMaintenance) {
     return <MaintenanceScreen />;
-
   }
 
   return null;
