@@ -5,6 +5,7 @@ import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
 import i18n from "@/shared/lib/il8n";
 import SplashScreen from "./SplashScreen";
+import MaintenanceScreen from "./Maintenance";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 
@@ -23,7 +24,8 @@ interface AppInitializerProps {
 const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const navigate = useNavigate();
   const { fetchUserData } = useUserStore();
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);  
+  const [showMaintenance, setShowMaintenance] = useState(false);
   const initializedRef = useRef(false);
 
   // 에러 메시지 상태 (사용자 피드백용)
@@ -380,10 +382,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
         return;
       } finally {
-        // 502 에러가 감지되었으면 splash 화면을 그대로 유지
+        // 502 에러가 감지되었으면 공지 화면으로 이동
         if (!is502ErrorRef.current && isMountedRef.current) {
           console.log("[InitializeApp] 초기화 완료, 스플래시 제거 및 onInitialized() 호출");
           setShowSplash(false);
+          setShowMaintenance(true);
           onInitialized();
         }
       }
@@ -399,6 +402,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
   if (showSplash) {
     return <SplashScreen />;
+  }
+
+  if(showMaintenance){
+    return <MaintenanceScreen />;
+
   }
 
   return null;
