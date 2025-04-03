@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useUserStore } from '@/entities/User/model/userModel';
+import { useNavigate } from "react-router-dom";
 
 // Axios 인스턴스 생성
 const api = axios.create({
@@ -52,6 +53,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const navigate = useNavigate();
 
     
     // [추가] /auth/refresh 요청 자체는 갱신 로직에서 제외
@@ -101,11 +103,13 @@ api.interceptors.response.use(
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
         // window.location.reload();
+        navigate("/");
         return Promise.reject(error);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
         // window.location.reload();
+        navigate("/");
         return Promise.reject(refreshError);
       }
     }
