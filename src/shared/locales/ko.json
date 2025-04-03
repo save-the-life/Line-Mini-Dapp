@@ -172,7 +172,8 @@
       "get_point_reward": "포인트 보상 받기",
       "join_lucky_sl": "럭키다이스 SL 보상 참여하기",
       "promotion_reward": "프로모션 보상",
-      "invite_friend_reward": "친구 초대 보상"
+      "invite_friend_reward": "친구 초대 보상",
+        "mystery_gift": "미스터리 기프트"
     },
     "wallet_page": {
       "wallet": "지갑",

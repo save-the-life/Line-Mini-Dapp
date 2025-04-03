@@ -172,7 +172,8 @@
         "get_point_reward": "ポイント報酬を受け取る",
         "join_lucky_sl": "LuckyDice SL報酬に参加する",
         "promotion_reward": "プロモーション報酬",
-        "invite_friend_reward": "友達招待報酬"
+        "invite_friend_reward": "友達招待報酬",
+        "mystery_gift": "ミステリーギフト"
     },
     "wallet_page": {
         "wallet": "ウォレット",

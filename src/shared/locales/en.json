@@ -172,7 +172,8 @@
       "get_point_reward": "Get Point Reward",
       "join_lucky_sl": "Join LuckyDice SL Reward",
       "promotion_reward": "Get Promotion Reward",
-      "invite_friend_reward": "Invite a Friend Reward"
+      "invite_friend_reward": "Invite a Friend Reward",
+      "mystery_gift": "Mystery Gift"
     },
     "wallet_page": {
         "wallet": "Wallet",

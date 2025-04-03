@@ -172,7 +172,8 @@
       "get_point_reward": "รับรางวัลคะแนน",
       "join_lucky_sl": "เข้าร่วมรับรางวัล LuckyDice SL",
       "promotion_reward": "รางวัลส่งเสริมการขาย.",
-      "invite_friend_reward": "รางวัลการเชื้อเชิญเพื่อน"
+      "invite_friend_reward": "รางวัลการเชื้อเชิญเพื่อน",
+      "mystery_gift": "ของขวัญลึกลับ"
     },
     "wallet_page": {
       "wallet": "กระเป๋า",
