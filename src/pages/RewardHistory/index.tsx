@@ -180,6 +180,9 @@ const RewardHistory: React.FC = () => {
         break;
       case "RPS Game Betting":
           contentKey = "rps_game_betting";
+        break;
+      case "Mystery Gift":
+          contentKey = "mystery_gift";
           break;
       default:
         contentKey = reward.content;

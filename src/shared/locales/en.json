@@ -183,7 +183,8 @@
       "two": "2nd",
       "three": "3rd",
       "four": "4th",
-      "five": "5th"
+      "five": "5th",
+      "mystery_gift": "Mystery Gift"
     },
     "wallet_page": {
         "wallet": "Wallet",
