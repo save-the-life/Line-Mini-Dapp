@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useUserStore } from '@/entities/User/model/userModel';
-import { useNavigate } from "react-router-dom";
 
 // Axios 인스턴스 생성
 const api = axios.create({
