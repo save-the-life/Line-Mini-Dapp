@@ -52,32 +52,22 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
-    
-    // [추가] /auth/refresh 요청 자체는 갱신 로직에서 제외
-    if (originalRequest.url.includes('/auth/refresh')) {
-      return Promise.reject(error);
-    }
-    
-    
-    // 토큰이 없는 경우에도 401 에러가 발생할 수 있으므로,
-    // Authorization 헤더가 없거나 토큰이 없다면 로그아웃 처리하거나 로그인 페이지로 리다이렉트하는 로직 추가
+    // 토큰이 없는 경우 처리: 예를 들어, 로그인 페이지로 리다이렉트
     if (!localStorage.getItem('accessToken')) {
-      // 예를 들어, 토큰이 없으면 바로 로그아웃 처리하고 새로고침
-      window.location.reload();
-      return Promise.reject(error);
+      // 토큰이 없으면 로그아웃 처리를 하거나 로그인 페이지로 이동
+      // 여기서 useNavigate를 직접 사용하기 어렵다면, 전역 history 객체를 사용하거나 별도의 logout() 함수를 만들어 호출하세요.
+      // 예시로 navigate("/")를 호출합니다.
+      // (주의: axios 인터셉터는 React 훅 외부에서 동작하므로, useNavigate 사용은 별도의 커스텀 history를 만드는 방식이 좋습니다.)
+      window.location.href = "/"; // 또는 navigate("/login") 대신 사용
+      return Promise.reject(new Error("Access token not found."));
     }
-
-    // 응답 에러가 존재하는 경우, 데이터가 단순 텍스트 형태인지 확인합니다.
+    
+    // 그 외 토큰 갱신 로직은 기존 그대로 진행
     const errorMessage =
       error.response && typeof error.response.data === "string"
         ? error.response.data
         : "";
 
-    // 토큰 갱신 분기 조건:
-    // 1. 응답 상태가 404 (또는 필요한 다른 상태) 인 경우,
-    // 2. 또는 에러 메시지가 "Token not found in Redis or expired"를 포함하는 경우,
-    // 3. 그리고 아직 재시도 하지 않은 경우 (_retry 플래그 사용)
     if (
       error.response &&
       (!originalRequest._retry) &&
@@ -96,16 +86,14 @@ api.interceptors.response.use(
             return api(originalRequest);
           }
         }
-
-        // 갱신 실패 시 로그아웃
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
-        window.location.reload();
+        window.location.href = "/";
         return Promise.reject(error);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
-        window.location.reload();
+        window.location.href = "/";
         return Promise.reject(refreshError);
       }
     }
