@@ -51,17 +51,18 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    // 토큰이 없는 경우 처리: 예를 들어, 로그인 페이지로 리다이렉트
+
+    // 리프레시 엔드포인트 자체의 에러라면 재시도 로직을 실행하지 않음
+    if (originalRequest.url.includes('/auth/refresh')) {
+      return Promise.reject(error);
+    }
+
+    // 액세스 토큰이 없는 경우 처리 (로그인 페이지 등으로 이동)
     if (!localStorage.getItem('accessToken')) {
-      // 토큰이 없으면 로그아웃 처리를 하거나 로그인 페이지로 이동
-      // 여기서 useNavigate를 직접 사용하기 어렵다면, 전역 history 객체를 사용하거나 별도의 logout() 함수를 만들어 호출하세요.
-      // 예시로 navigate("/")를 호출합니다.
-      // (주의: axios 인터셉터는 React 훅 외부에서 동작하므로, useNavigate 사용은 별도의 커스텀 history를 만드는 방식이 좋습니다.)
-      window.location.href = "/"; // 또는 navigate("/login") 대신 사용
+      window.location.href = "/"; // 로그인 페이지 등으로 리다이렉트
       return Promise.reject(new Error("Access token not found."));
     }
-    
-    // 그 외 토큰 갱신 로직은 기존 그대로 진행
+
     const errorMessage =
       error.response && typeof error.response.data === "string"
         ? error.response.data
@@ -100,6 +101,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 
 
