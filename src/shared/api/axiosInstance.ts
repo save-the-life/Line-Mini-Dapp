@@ -23,6 +23,7 @@ api.interceptors.request.use(
     const excludeAuthEndpoints = [
       '/auth/login',
       '/auth/refresh',
+      '/auth/login/line'
     ];
 
     // 현재 요청의 경로(pathname)를 추출
