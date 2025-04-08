@@ -179,6 +179,7 @@ const MissionPage: React.FC = () => {
   const [kaiaLoading, setKaiaLoading] = useState(false);
   const [kaiaModal, setKaiaModal] = useState(false);
   const [kaiaMessage, setKaiaMessage] = useState("");
+  const [needWallet, setNeedWallet] = useState(false);
 
   // 로컬 스토리지에서 보상 표시된 미션 ID를 초기화
   const [rewardShownMissions, setRewardShownMissions] = useState<number[]>(() => {
@@ -310,12 +311,18 @@ const MissionPage: React.FC = () => {
         setKaiaMessage("Errr Occur");
       }
     } else {
-      try {
-        // connectWallet 함수는 지갑 연결만 수행합니다.
-        await connectWallet();
-      } catch (error) {
-        console.error("Wallet connection failed:", error);
-      }
+      setNeedWallet(true);
+    }
+  }
+
+  const handleConnectWallet = async() => {
+    playSfx(Audios.button_click)
+    setNeedWallet(false);
+    try {
+      // connectWallet 함수는 지갑 연결만 수행합니다.
+      await connectWallet();
+    } catch (error) {
+      console.error("Wallet connection failed:", error);
     }
   }
 
@@ -598,17 +605,38 @@ const MissionPage: React.FC = () => {
 
       <div className="my-10"></div>
 
+      {/* 지갑 미연결 시 안내창 */}
+      <Dialog open={needWallet}>
+        <DialogTitle></DialogTitle>
+        <DialogContent 
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
+          <div className="flex flex-col items-center justify-around">
+            <div className="flex flex-row items-center justify-center">
+              <p className="text-xl font-bold">지갑 연결 필요</p>
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <p className="text-sm mt-4 mb-1">KAIA 보상 수령을 위해서는 지갑 연결이 필요합니다.</p>
+            </div>
+            <button
+              onClick={handleConnectWallet}
+              className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4">
+              연결
+          </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* 카이아 보상 신청 로딩 */}
       <Dialog open={kaiaLoading}>
         <DialogTitle></DialogTitle>
         <DialogContent 
-          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[50%]">
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
           <div className="flex flex-col items-center justify-around">
             <div className="flex flex-row items-center justify-center">
-              <p>{t("asset_page.claim.process")}</p>
+              <p className="text-xl font-bold">{t("asset_page.claim.process")}</p>
             </div>
             <div className="flex flex-col items-center justify-center text-center">
-              <p className="text-sm mt-4 mb-1">{t("asset_page.claim.processing")}</p>
+              <p className="text-sm mt-4 mb-1">KAIA 보상 수령 중입니다.</p>
               <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
               <LoadingSpinner size={16} className="h-[80px]"  />
             </div>
@@ -621,9 +649,10 @@ const MissionPage: React.FC = () => {
       <Dialog open={kaiaModal}>
         <DialogTitle>Results Info</DialogTitle>
         <DialogContent 
-          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[50%]">
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[40%]">
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-sm mt-4 mb-1">{kaiaMessage}</p>
+            <p className="text-xl font-bold mt-4 mb-1">{kaiaMessage}</p>
+            <p className="text-base font-medium">0.2KAIA를 정상적으로 수령하였습니다.</p>
             <button
               onClick={() => {
                   playSfx(Audios.button_click);
@@ -636,6 +665,7 @@ const MissionPage: React.FC = () => {
           </div>
         </DialogContent>
       </Dialog>
+
 
 
       {/* 미션 보상 다이얼로그 */}
