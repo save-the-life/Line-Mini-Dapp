@@ -311,7 +311,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           return;
         }
 
-        console.log("[InitializeApp] LIFF 초기화 시작");
+        console.log("[InitializeApp] LIFF 초기화 시작 >> 점검");
+        setShowMaintenance(true);
         await withTimeout(
           liff.init({
             liffId: import.meta.env.VITE_LIFF_ID,
