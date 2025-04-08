@@ -615,11 +615,11 @@ const MissionPage: React.FC = () => {
               <p className="text-xl font-bold">지갑 연결 필요</p>
             </div>
             <div className="flex flex-col items-center justify-center text-center">
-              <p className="text-sm mt-4 mb-1">KAIA 보상 수령을 위해서는 지갑 연결이 필요합니다.</p>
+              <p className="text-sm mt-4 mb-2">KAIA 보상 수령을 위해서는 지갑 연결이 필요합니다.</p>
             </div>
             <button
               onClick={handleConnectWallet}
-              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
+              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5">
               연결
           </button>
           </div>
@@ -649,9 +649,9 @@ const MissionPage: React.FC = () => {
       <Dialog open={kaiaModal}>
         <DialogTitle>Results Info</DialogTitle>
         <DialogContent 
-          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[40%]">
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-xl font-bold mt-4 mb-1">{kaiaMessage}</p>
+            <p className="text-xl font-bold mt-4 mb-2">{kaiaMessage}</p>
             <p className="text-base font-medium">0.2KAIA를 정상적으로 수령하였습니다.</p>
             <button
               onClick={() => {
@@ -659,7 +659,7 @@ const MissionPage: React.FC = () => {
                   setKaiaModal(false);
                   fetchMissions();
               }}
-              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
+              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5">
               Check
           </button>
           </div>
