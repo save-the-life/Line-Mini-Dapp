@@ -718,7 +718,7 @@ const DiceEventPage: React.FC = () => {
                 <p className="text-sm font-semibold text-[#DD2726] text-center mt-2">
                   [Maintenance Schedule]
                 </p>
-                <p className="text-sm font-semibold text-[#DD2726] text-center mt-2">
+                <p className="text-sm font-semibold text-[#DD2726] text-center">
                   April 9th, 01:00 – 02:00 (UTC +9)
                 </p>
                 
