@@ -703,25 +703,26 @@ const DiceEventPage: React.FC = () => {
               <div className="relative">
               </div>
               <div className="flex flex-col items-center justify-around">
-                <p className="text-xl font-bold text-white text-center">Under Maintenance</p>
+                <p className="text-xl font-bold text-white text-center">Lucky Dice Service</p>
+                <p className="text-xl font-bold text-white text-center">Maintenance Notice</p>
                 <img
                   src={Images.Pylon}
                   className="w-[100px] h-[100px] mt-8 object-cover"
                 />
                 <p className="text-base font-semibold text-white text-center">
-                  We are currently performing maintenanceto improve your experience.
+                  We will be conducting maintenance to update key features of the Lucky Dice service.
                 </p>
                 <p className="text-base font-semibold text-white text-center">
-                  Thank you for your patience.
+                  Thank you for your understanding.
                 </p>
                 <p className="text-sm font-semibold text-[#DD2726] text-center mt-2">
-                  [Maintenance Time]
+                  [Maintenance Schedule]
                 </p>
                 <p className="text-sm font-semibold text-[#DD2726] text-center mt-2">
-                  April 2, 2025, 02:00 PM – 04:00 PM (KST)
+                  April 9th, 01:00 – 02:00 (UTC +9)
                 </p>
                 
-                <button onClick={()=>setabuseModal(false)} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
+                <button onClick={handleCloseAbuseModal} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
                   {t("agree_page.close")}
                 </button>
               </div>
