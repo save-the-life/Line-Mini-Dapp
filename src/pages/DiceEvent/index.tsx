@@ -235,15 +235,15 @@ const DiceEventPage: React.FC = () => {
       }
     };
 
-    // 최초 10초 동안 1초마다 체크
-    const fastInterval = setInterval(checkAndShowAbuseModal, 1000);
+    // 최초 3초 동안 2초마다 체크
+    const fastInterval = setInterval(checkAndShowAbuseModal, 2000);
     let slowInterval: number | undefined;
 
-    // 10초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
+    // 3초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
     const switchTimeout = setTimeout(() => {
       clearInterval(fastInterval);
       slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
-    }, 10000);
+    }, 3000);
 
     return () => {
       clearInterval(fastInterval);
