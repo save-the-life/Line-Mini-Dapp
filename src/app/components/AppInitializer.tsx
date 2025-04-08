@@ -292,14 +292,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
       initializedRef.current = true;
 
-      // 테스트를 위해 LIFF 브라우저로 들어온 유저들은 바로 MaintenanceScreen 표시
-      if (liff.isInClient()) {
-        console.log("[InitializeApp] LIFF 브라우저 사용자 감지됨. MaintenanceScreen으로 강제 이동 (테스트 모드)");
-        setShowMaintenance(true);
-        setShowSplash(false);
-        return;
-      }
-
       try {
         setReferralCode();
 
@@ -373,9 +365,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
   return null;
 };
 

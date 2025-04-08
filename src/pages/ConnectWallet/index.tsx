@@ -149,9 +149,9 @@ const ConnectWalletPage: React.FC = () => {
     }
   };
 
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
 
   return (
     <div
