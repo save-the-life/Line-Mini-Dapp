@@ -465,7 +465,13 @@
       "identify_user": "We've identified accounts abusing the friend invitation feature and will enforce suspensions and reward revocations!",
       "bonanza": "Mystery Box Bonanza",
       "event_end": "Our Mystery Box event ends on March 28! Many prizes are up for grabs,",
-      "tune": "so stay tuned!"
+      "tune": "so stay tuned!",
+      "service": "Lucky Dice Service",
+      "maintenance_notice": "Maintenance Notice",
+      "conduct": "We will be conducting maintenance to update key features of the Lucky Dice service.",
+      "thanks": "Thank you for your understanding.",
+      "schedule": "[Maintenance Schedule]",
+      "date": "April 9th, 01:00 – 02:00 (UTC +9)"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

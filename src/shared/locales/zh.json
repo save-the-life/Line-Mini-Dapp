@@ -466,7 +466,13 @@
       "identify_user": "我們已識別出濫用好友邀請功能的帳戶，並將對其進行停權及獎勵撤銷處理！",
       "bonanza": "神秘盒大狂歡",
       "event_end": "我們的神秘盒活動將於3月28日結束！眾多獎品等你來拿，",
-      "tune": "敬請期待！"
+      "tune": "敬請期待！",
+      "service": "Lucky Dice 服務",
+      "maintenance_notice": "維護公告",
+      "conduct": "我們將進行維護，以更新 Lucky Dice 服務的主要功能。",
+      "thanks": "感謝您的理解。",
+      "schedule": "[維護時程]",
+      "date": "4月9日, 01:00 – 02:00 (UTC +9)"
     },
     "setting": {
       "terms_of_service": "服務條款",

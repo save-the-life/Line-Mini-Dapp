@@ -466,7 +466,13 @@
       "identify_user": "친구 초대 기능을 악용하는 계정을 확인하였으며, 정지 및 보상 취소 조치를 시행할 예정입니다!",
       "bonanza": "미스터리 박스 대잔치",
       "event_end": "미스터리 박스 이벤트는 3월 28일에 종료됩니다! 많은 경품이 준비되어 있으니,",
-      "tune": "계속 지켜봐 주세요!"
+      "tune": "계속 지켜봐 주세요!",
+      "service": "Lucky Dice 서비스",
+      "maintenance_notice": "점검 안내",
+      "conduct": "Lucky Dice 서비스의 주요 기능 업데이트를 위해 서비스 점검을 진행합니다.",
+      "thanks": "이해해 주셔서 감사합니다.",
+      "schedule": "[점검 일정]",
+      "date": "4월 9일, 01:00 – 02:00 (UTC +9 기준)"
     },
     "setting": {
       "terms_of_service": "이용 약관",

@@ -185,6 +185,7 @@ import RedTriangle from "./redTriangle.png"
 import Discount from "./discount.png"
 import NoticeCaution from "./notice-caution.png"
 import NoticeBox from "./notice-box.png"
+import Pylon from "./pylon.png"
 
 
 
@@ -374,7 +375,8 @@ const Images = {
   RedTriangle,
   Discount,
   NoticeCaution,
-  NoticeBox
+  NoticeBox,
+  Pylon
 };
 
 export default Images;
