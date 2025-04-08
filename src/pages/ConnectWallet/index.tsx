@@ -10,28 +10,52 @@ import { connectWallet } from "@/shared/services/walletService";
 import requestWallet from "@/entities/User/api/addWallet";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
+import MaintenanceScreen from "@/app/components/Maintenance";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
   /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+// 502 에러 여부를 판단하는 헬퍼 함수
+const is502Error = (error: any): boolean => {
+  if (error?.code === "ERR_BAD_RESPONSE") {
+    console.log("Axios code is ERR_BAD_RESPONSE -> 502로 간주");
+    return true;
+  }
+  if (error?.response?.status === 502) {
+    return true;
+  }
+  if (error?.message && error.message.includes("502")) {
+    return true;
+  }
+  if (
+    error?.response?.data &&
+    typeof error.response.data === "string" &&
+    error.response.data.includes("<html>")
+  ) {
+    return true;
+  }
+  return false;
+};
+
+// 테스터 지갑 주소를 미리 정의 (여기에 테스터 지갑 주소들을 기입)
+const testerWallets = ["0xbe9ec75c91eff6a958d27de9b9b5faeafb00e5c7", "0xe7173731309e07da77da0452179212b9ea7dbfd7"];
 
 const ConnectWalletPage: React.FC = () => {
   const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
 
   useEffect(() => {
-    // console.log("웹 버전 초기화");
     setIsMobile(checkIsMobile());
 
     // 브라우저 언어 기반 언어 설정
-    // console.log("[ConnectWalletPage] 브라우저 언어 기반 언어 설정 시작");
-    const browserLanguage = navigator.language; // 예: "ko-KR", "en-US" 등
-    const lang = browserLanguage.slice(0, 2); // 앞 두 글자 추출 (예: "ko")
+    const browserLanguage = navigator.language;
+    const lang = browserLanguage.slice(0, 2);
     const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
     const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
-    // console.log(`[ConnectWalletPage] 브라우저 언어 설정: ${browserLanguage} -> ${i18nLanguage}`);
     i18n.changeLanguage(i18nLanguage);
   }, []);
 
@@ -42,19 +66,26 @@ const ConnectWalletPage: React.FC = () => {
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
       const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
-      // console.log("연결된 지갑 주소 다시 확인: ", walletAddress);
-      
-      // 로컬스토리지에서 레퍼럴 코드 확인 (없을 경우 null 반환)
+
+      // 테스터 지갑 주소 목록에 포함되어 있는지 확인
+      if (!testerWallets.includes(walletAddress)) {
+        console.log("현재 지갑 주소: ", walletAddress);
+        console.log("테스터 지갑 주소가 아님 -> MaintenanceScreen 표시");
+        setShowMaintenance(true);
+        return;
+      }
+
+      // 로컬스토리지에서 레퍼럴 코드 확인
       const referralCode = localStorage.getItem("referralCode");
 
-      // 주소 기반 Web 로그인 및 사용자 데이터 확인 (두번째 인자로 referralCode 추가)
+      // 주소 기반 Web 로그인 (502 에러 발생 시 에러를 throw하도록 webLoginWithAddress 수정 필요)
       const webLogin = await webLoginWithAddress(walletAddress, referralCode);
       if (!webLogin) {
         throw new Error("Web login failed.");
       }
 
-      // webLoginWithAddress 성공 시, requestWallet 함수 실행
-      if(walletAddress && walletType) {
+      // webLoginWithAddress 성공 시, requestWallet 실행
+      if (walletAddress && walletType) {
         await requestWallet(walletAddress, walletType.toUpperCase());
       } else {
         clearWallet();
@@ -62,43 +93,40 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       await fetchUserData();
+
       const userTimeZone = useUserStore.getState().timeZone;
       console.log("서버로부터 받은 타임존: ", userTimeZone);
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       console.log("사용자의 타임존: ", currentTimeZone);
 
-      if(userTimeZone === null || userTimeZone!== currentTimeZone){
-        // 서버 측에 사용자 타임존 저장 api 호출
-        try{
+      if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+        try {
           await updateTimeZone(currentTimeZone);
-        }catch(error: any){
+        } catch (error: any) {
           console.log("timezone error", error);
-        };
+        }
       }
-      
-      // console.log("지갑 로그인 완료 및 데이터 확인");
 
       if (referralCode === "dapp-portal-promotions") {
         try {
-          // 프로모션 수령 여부 확인
           const promo = await getPromotion();
           if (promo === "Success") {
-            // 프로모션을 아직 받지 않은 경우 -> 프로모션 지급 페이지로 이동
             navigate("/promotion");
           } else {
-            // 이미 받은 경우 -> 일반 페이지로 이동
             navigate("/dice-event");
           }
         } catch (error: any) {
-          // console.error("[AppInitializer] 프로모션 수령 여부 확인 중 에러: ", error);
           navigate("/dice-event");
         }
       } else {
-        // 레퍼럴 코드가 없거나 다른 값인 경우 일반 페이지로 이동
         navigate("/dice-event");
       }
     } catch (error: any) {
-      // console.error("getUserInfo() 중 에러:", error.message);
+      if (is502Error(error)) {
+        console.log("502 에러 감지됨 -> MaintenanceScreen 표시");
+        setShowMaintenance(true);
+        return;
+      }
 
       // 토큰 관련 에러라면 한 번만 재시도
       if (
@@ -106,36 +134,24 @@ const ConnectWalletPage: React.FC = () => {
         (error.response?.data === "Token not found in Redis or expired" ||
           error.message === "Web login failed.")
       ) {
-        // console.warn("토큰 문제 발생: 재시도합니다.");
-        // 토큰 초기화 (필요 시)
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         return handleConnectWallet(true);
       }
 
       if (error.message === "Please choose your character first.") {
-        const userTimeZone = useUserStore.getState().timeZone;
-        console.log("서버로부터 받은 타임존: ", userTimeZone);
-        const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        console.log("사용자의 타임존: ", currentTimeZone);
-  
-        if(userTimeZone === null || userTimeZone!== currentTimeZone){
-          // 서버 측에 사용자 타임존 저장 api 호출
-          try{
-            await updateTimeZone(currentTimeZone);
-          }catch(error: any){
-            console.log("timezone error", error);
-          };
-        }
-        
-        // console.error("오류: 캐릭터가 선택되지 않음 -> /choose-character 이동");
         navigate("/choose-character");
         return;
       }
-      // console.error("에러 발생:", error.message);
-      // console.error("에러 응답:", error.response?.data || "응답 없음");
+      console.error("에러 발생 메시지:", error.message);
+      console.error("에러 발생 코드:", error.code);
+      console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
+
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
 
   return (
     <div
