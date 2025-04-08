@@ -69,6 +69,7 @@ const ConnectWalletPage: React.FC = () => {
 
       // 테스터 지갑 주소 목록에 포함되어 있는지 확인
       if (!testerWallets.includes(walletAddress)) {
+        console.log("현재 지갑 주소: ", walletAddress);
         console.log("테스터 지갑 주소가 아님 -> MaintenanceScreen 표시");
         setShowMaintenance(true);
         return;
