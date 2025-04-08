@@ -22,7 +22,8 @@ export const webLoginWithAddress = async (walletAddress: string, referrerCode: s
             return true;
         }
     } catch (error) {
-        // console.error("인증 중 오류 발생:", error);
+        console.error("인증 중 오류 발생:", error);
+        throw error;
     }
 };
 
