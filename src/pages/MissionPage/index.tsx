@@ -1,13 +1,7 @@
 // src/pages/MissionPage.tsx
 import React, { useEffect, useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/shared/components/ui';
-import { HiX } from "react-icons/hi";
+
+import { Dialog, DialogTitle, DialogContent } from "@/shared/components/ui";
 import { TopTitle } from "@/shared/components/ui";
 import "./MissionPage.css";
 import Images from "@/shared/assets/images";
@@ -605,39 +599,29 @@ const MissionPage: React.FC = () => {
       <div className="my-10"></div>
 
       {/* 카이아 보상 신청 로딩 */}
-      <AlertDialog open={kaiaLoading}>
-        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
-          <AlertDialogHeader>
-            <AlertDialogDescription className="sr-only">
-              Loading
-            </AlertDialogDescription>
-            <AlertDialogTitle className="text-center font-bold text-xl">
-              <div className="flex flex-row items-center justify-center">
-                <p>{t("asset_page.claim.process")}</p>
-              </div>
-            </AlertDialogTitle>
-          </AlertDialogHeader>
-          <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-sm mt-4 mb-1">{t("asset_page.claim.processing")}</p>
-            <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
-            <LoadingSpinner size={16} className="h-[80px]"  />
+      <Dialog open={kaiaLoading}>
+        <DialogTitle></DialogTitle>
+        <DialogContent 
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[50%]">
+          <div className="flex flex-col items-center justify-around">
+            <div className="flex flex-row items-center justify-center">
+              <p>{t("asset_page.claim.process")}</p>
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <p className="text-sm mt-4 mb-1">{t("asset_page.claim.processing")}</p>
+              <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
+              <LoadingSpinner size={16} className="h-[80px]"  />
+            </div>
           </div>
-        </AlertDialogContent>
-      </AlertDialog>
+        </DialogContent>
+      </Dialog>
 
 
       {/* 카이아 미션 완료 안내 */}
-      <AlertDialog open={kaiaModal}>
-        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none">
-          <AlertDialogHeader>
-            <AlertDialogDescription className="sr-only">
-              kaia Mission
-            </AlertDialogDescription>
-            <AlertDialogTitle className="text-center font-bold text-xl">
-              <div className="flex flex-row items-center justify-center">
-              </div>
-            </AlertDialogTitle>
-          </AlertDialogHeader>
+      <Dialog open={kaiaModal}>
+        <DialogTitle>Results Info</DialogTitle>
+        <DialogContent 
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[50%]">
           <div className="flex flex-col items-center justify-center text-center">
             <p className="text-sm mt-4 mb-1">{kaiaMessage}</p>
             <button
@@ -650,8 +634,9 @@ const MissionPage: React.FC = () => {
               Check
           </button>
           </div>
-        </AlertDialogContent>
-      </AlertDialog>
+        </DialogContent>
+      </Dialog>
+
 
       {/* 미션 보상 다이얼로그 */}
       {/* <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
