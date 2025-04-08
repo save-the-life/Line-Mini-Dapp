@@ -619,7 +619,7 @@ const MissionPage: React.FC = () => {
             </div>
             <button
               onClick={handleConnectWallet}
-              className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4">
+              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
               연결
           </button>
           </div>
@@ -659,7 +659,7 @@ const MissionPage: React.FC = () => {
                   setKaiaModal(false);
                   fetchMissions();
               }}
-              className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium mt-4">
+              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
               Check
           </button>
           </div>
