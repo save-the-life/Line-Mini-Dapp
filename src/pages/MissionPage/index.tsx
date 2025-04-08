@@ -1,12 +1,7 @@
 // src/pages/MissionPage.tsx
 import React, { useEffect, useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/shared/components/ui";
-import { HiX } from "react-icons/hi";
+
+import { Dialog, DialogTitle, DialogContent } from "@/shared/components/ui";
 import { TopTitle } from "@/shared/components/ui";
 import "./MissionPage.css";
 import Images from "@/shared/assets/images";
@@ -20,12 +15,13 @@ import {
 import { formatNumber } from "@/shared/utils/formatNumber";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import { preloadImages } from "@/shared/utils/preloadImages";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import Attendance from "@/widgets/Attendance";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
+import requestKaiaMission from "@/entities/Mission/api/kaiaMission";
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -132,40 +128,27 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
 
       {/* 상세 텍스트 영역 */}
       <div className="flex flex-col text-center item-center gap-2">
-        {/* 1) +10,000 Star Points 메시지 */}
+        {/* 1) +10,000 Starpoints */}
         <div>
           <span className="font-normal text-sm mr-1">1)</span>
-          <Trans i18nKey="mission_page.starpoints_message">
-            <span className="font-semibold text-base text-[#FDE047]">
-              +10,000 Star Points
-            </span>
-            <br />
-            <span className="font-normal text-sm">
-              for both invitees and friends
-            </span>
-          </Trans>
+          <span className="font-semibold text-base text-[#FDE047]">+10,000 Starpoints</span><br/>
+          <span className="font-normal text-sm">for both invitees and friends</span>
         </div>
 
-         {/* 2) 10% Payback 메시지 */}
-         <div>
+        {/* 2) 10% Payback */}
+        <div>
           <span className="font-normal text-sm mr-1">2)</span>
-          <Trans i18nKey="mission_page.payback_message">
-            <span className="font-semibold text-base text-[#FDE047] mr-1">
-              10% Payback
-            </span>
-            <span className="font-normal text-sm">
-              on Your Friend’s Purchase
-            </span>
-          </Trans>
+          <span className="font-semibold text-base text-[#FDE047] mr-1">10% Payback</span>
+          <span className="font-normal text-sm">on Your Friend&apos;s Purchase</span>
         </div>
 
         {/* NOTE 영역 */}
         <div className="flex items-center justify-center gap-1 mt-2">
           <img src={Images.Note} alt="Note" className="w-5 h-5 object-cover" />
-          <p className="text-sm font-semibold text-[#FDE047]">{t("mission_page.note")}</p>
+          <p className="text-sm font-semibold text-[#FDE047]">NOTE</p>
         </div>
         <p className="text-xs font-normal text-center">
-          {t("mission_page.only_user")}
+          Only users who have completed at least one game round (dice roll) will be considered valid and eligible for benefits.
         </p>
       </div>
     </div>
@@ -178,6 +161,7 @@ const MissionPage: React.FC = () => {
   const { playSfx } = useSound();
   const [eventShow, setEventShow] = useState(false);
   const { missions, fetchMissions, clearMission } = useMissionStore();
+  const kaiaMission = missions.find((mission) => mission.type === "KAIA");
 
   // 지갑 관련 전역 상태
   const { walletAddress } = useWalletStore();
@@ -190,6 +174,12 @@ const MissionPage: React.FC = () => {
     amount?: number;
     spinType: string;
   } | null>(null);
+
+  // 카이아 미션 관련 모달창
+  const [kaiaLoading, setKaiaLoading] = useState(false);
+  const [kaiaModal, setKaiaModal] = useState(false);
+  const [kaiaMessage, setKaiaMessage] = useState("");
+  const [needWallet, setNeedWallet] = useState(false);
 
   // 로컬 스토리지에서 보상 표시된 미션 ID를 초기화
   const [rewardShownMissions, setRewardShownMissions] = useState<number[]>(() => {
@@ -280,8 +270,57 @@ const MissionPage: React.FC = () => {
     return <LoadingSpinner className="h-screen" />;
   }
 
-  const incompleteMissions = missions.filter((m) => !m.isCleared);
-  const completedMissions = missions.filter((m) => m.isCleared);
+  const incompleteMissions = missions.filter(
+    (m) => !m.isCleared && m.type !== "KAIA"
+  );
+  const completedMissions = missions.filter(
+    (m) => m.isCleared && m.type !== "KAIA"
+  );
+  
+
+  const handleKaiaMission = async() => {
+    playSfx(Audios.button_click);
+
+    // 지갑 주소가 존재하는 경우에 진행
+    if(walletAddress != null){
+      // 시간이 걸리므로 로딩창 표시
+      setKaiaLoading(true);
+      try{
+        const kaia = await requestKaiaMission(walletAddress);
+
+        if(kaia.message === "Success"){
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage(t("mission_page.success"));
+        } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage(t("mission_page.already"));
+        } else if( kaia.message === "You're not eligible for the reward."){
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage(t("mission_page.not_eligible"));
+        }
+      } catch(error: any){
+        setKaiaLoading(false);
+        setKaiaModal(true);
+        setKaiaMessage(t("mission_page.failed"));
+      }
+    } else {
+      setNeedWallet(true);
+    }
+  }
+
+  const handleConnectWallet = async() => {
+    playSfx(Audios.button_click)
+    setNeedWallet(false);
+    try {
+      // connectWallet 함수는 지갑 연결만 수행합니다.
+      await connectWallet();
+    } catch (error) {
+      console.error("Wallet connection failed:", error);
+    }
+  }
 
   return (
     <div className="flex flex-col text-white mb-20 md:mb-96 min-h-screen">
@@ -412,6 +451,45 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
+      {/* kaia 미션 - 2레벨 달성 시 활성화 */}
+      <h1 className="font-semibold text-lg my-4 ml-7">KAIA {t("mission_page.Mission")}</h1>
+      <div
+        className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
+          (!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""
+        }`}
+        style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
+        onClick={() => {
+          if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
+            handleKaiaMission();
+          }
+        }}
+      >
+        {/* 오버레이: isAvailable이 false이거나 미션이 완료된 경우 오버레이 표시 */}
+        {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
+          <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
+        )}
+
+        <div className="pl-8">
+          <p className="text-sm font-medium text-white">
+            {t("mission_page.level2")}
+          </p>
+          <div className="flex items-center">
+            <p className="text-base font-semibold text-white">+0.2</p>
+            <img
+              src={Images.KaiaLogo}
+              alt="Kaia Icon"
+              className="ml-2 w-5 h-5 rounded-full object-cover"
+            />
+          </div>
+        </div>
+
+        <img
+          src={Images.KaiaLevel2}
+          alt="kaia-level2"
+          className="w-[142px] h-[142px] object-cover mr-[10px]"
+        />
+      </div>
+
 
       {/* 일일 미션 */}
       <h1 className="font-semibold text-lg my-4 ml-7">
@@ -522,6 +600,69 @@ const MissionPage: React.FC = () => {
       )}
 
       <div className="my-10"></div>
+
+      {/* 지갑 미연결 시 안내창 */}
+      <Dialog open={needWallet}>
+        <DialogTitle></DialogTitle>
+        <DialogContent 
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
+          <div className="flex flex-col items-center justify-around">
+            <div className="flex flex-row items-center justify-center">
+              <p className="text-xl font-bold">{t("mission_page.wallet")}</p>
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <p className="text-base font-semibold mt-4 mb-2">{t("mission_page.need_wallet")}</p>
+            </div>
+            <button
+              onClick={handleConnectWallet}
+              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5">
+              {t("mission_page.connect")}
+          </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* 카이아 보상 신청 로딩 */}
+      <Dialog open={kaiaLoading}>
+        <DialogTitle></DialogTitle>
+        <DialogContent 
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
+          <div className="flex flex-col items-center justify-around">
+            <div className="flex flex-row items-center justify-center">
+              <p className="text-xl font-bold">{t("asset_page.claim.process")}</p>
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <p className="text-sm mt-4 mb-1">{t("mission_page.receiving")}</p>
+              <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
+              <LoadingSpinner size={16} className="h-[80px]"  />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+
+      {/* 카이아 미션 완료 안내 */}
+      <Dialog open={kaiaModal}>
+        <DialogTitle>Results Info</DialogTitle>
+        <DialogContent 
+          className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
+          <div className="flex flex-col items-center justify-center text-center">
+            <p className="text-xl font-bold mt-4 mb-2">{t("mission_page.result")}</p>
+            <p className="text-base font-medium">{kaiaMessage}</p>
+            <button
+              onClick={() => {
+                  playSfx(Audios.button_click);
+                  setKaiaModal(false);
+                  fetchMissions();
+              }}
+              className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5">
+              Check
+          </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+
 
       {/* 미션 보상 다이얼로그 */}
       {/* <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

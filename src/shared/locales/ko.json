@@ -258,7 +258,17 @@
       "note": "참고",
       "only_user": "최소 한 번의 게임 라운드(주사위 굴리기)를 완료한 사용자만 유효하며 혜택을 받을 수 있습니다.",
       "payback_message": "<1>친구의 구매 시</1><0> 10% 페이백</0>",
-      "starpoints_message": "<2>초대받은 사람과 친구 모두에게</2><1/><0>+10,000 스타 포인트</0>"
+      "starpoints_message": "<2>초대받은 사람과 친구 모두에게</2><1/><0>+10,000 스타 포인트</0>",
+      "level2": "레벨 2에 도달하면 0.2 KAIA를 획득합니다!",
+      "receiving": "KAIA 보상을 수령 중입니다.",
+      "result": "보상 결과",
+      "wallet": "지갑 연결",
+      "need_wallet": "KAIA 보상을 수령하려면 지갑 연결이 필요합니다.",
+      "connect": "연결하기",
+      "success": "0.2 KAIA 보상을 성공적으로 수령했습니다.",
+      "already": "이미 레벨 2 KAIA 보상을 받으셨습니다.",
+      "not_eligible": "보상 대상이 아닙니다.",
+      "failed": "KAIA 미션 실패."
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "지금 바로 아이템을 쇼핑하세요!",

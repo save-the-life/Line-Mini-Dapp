@@ -187,6 +187,7 @@ import NoticeCaution from "./notice-caution.png"
 import NoticeBox from "./notice-box.png"
 import Pylon from "./pylon.png"
 import DarkSplash from "./dark-splash.png"
+import KaiaLevel2 from "./kaia-level2.png"
 
 
 
@@ -378,7 +379,8 @@ const Images = {
   NoticeCaution,
   NoticeBox,
   Pylon,
-  DarkSplash
+  DarkSplash,
+  KaiaLevel2
 };
 
 export default Images;
