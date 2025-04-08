@@ -186,6 +186,7 @@ import Discount from "./discount.png"
 import NoticeCaution from "./notice-caution.png"
 import NoticeBox from "./notice-box.png"
 import Pylon from "./pylon.png"
+import DarkSplash from "./dark-splash.png"
 
 
 
@@ -376,7 +377,8 @@ const Images = {
   Discount,
   NoticeCaution,
   NoticeBox,
-  Pylon
+  Pylon,
+  DarkSplash
 };
 
 export default Images;

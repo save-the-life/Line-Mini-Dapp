@@ -472,7 +472,11 @@
       "conduct": "Lucky Dice 서비스의 주요 기능 업데이트를 위해 서비스 점검을 진행합니다.",
       "thanks": "이해해 주셔서 감사합니다.",
       "schedule": "[점검 일정]",
-      "date": "4월 9일, 01:00 – 02:00 (UTC +9 기준)"
+      "date": "4월 9일, 01:00 – 02:00 (UTC +9 기준)",
+      "under": "점검 중",
+      "performing_maintenance": "보다 나은 경험을 위해 현재  서비스 점검을 진행 중입니다.",
+      "patience": "기다려 주셔서 감사합니다.",
+      "time": "[점검 시간]"
     },
     "setting": {
       "terms_of_service": "이용 약관",
