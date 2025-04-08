@@ -707,7 +707,7 @@ const DiceEventPage: React.FC = () => {
                 <p className="text-xl font-bold text-white text-center">Maintenance Notice</p>
                 <img
                   src={Images.Pylon}
-                  className="w-[100px] h-[100px] mt-8 object-cover"
+                  className="w-[100px] h-[100px] mt-8 mb-5 object-cover"
                 />
                 <p className="text-base font-semibold text-white text-center">
                   We will be conducting maintenance to update key features of the Lucky Dice service.
