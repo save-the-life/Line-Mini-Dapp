@@ -38,8 +38,8 @@ const is502Error = (error: any): boolean => {
   return false;
 };
 
-// 테스터 지갑 주소를 미리 정의 (여기에 테스터 지갑 주소들을 기입)
-const testerWallets = ["0xbe9ec75c91eff6a958d27de9b9b5faeafb00e5c7", "0xe7173731309e07da77da0452179212b9ea7dbfd7"];
+// 테스터 지갑 주소를 미리 소문자로 정의 (테스터 그룹에 해당하는 지갑 주소)
+const testerWallets = ["0xe7173731309e07da77da0452179212b9ea7dbfd7"];
 
 const ConnectWalletPage: React.FC = () => {
   const navigate = useNavigate();
@@ -67,14 +67,6 @@ const ConnectWalletPage: React.FC = () => {
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
       const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
 
-      // 테스터 지갑 주소 목록에 포함되어 있는지 확인
-      if (!testerWallets.includes(walletAddress)) {
-        console.log("현재 지갑 주소: ", walletAddress);
-        console.log("테스터 지갑 주소가 아님 -> MaintenanceScreen 표시");
-        setShowMaintenance(true);
-        return;
-      }
-
       // 로컬스토리지에서 레퍼럴 코드 확인
       const referralCode = localStorage.getItem("referralCode");
 
@@ -82,6 +74,15 @@ const ConnectWalletPage: React.FC = () => {
       const webLogin = await webLoginWithAddress(walletAddress, referralCode);
       if (!webLogin) {
         throw new Error("Web login failed.");
+      }
+
+      // 테스터 지갑 주소 검사 (대소문자 문제를 피하기 위해 모두 소문자로 비교)
+      const normalizedAddress = walletAddress.toLowerCase();
+      if (!testerWallets.includes(normalizedAddress)) {
+        console.log("현재 지갑 주소:", walletAddress);
+        console.log("테스터 지갑 주소가 아님 -> MaintenanceScreen 표시");
+        setShowMaintenance(true);
+        return;
       }
 
       // webLoginWithAddress 성공 시, requestWallet 실행
@@ -95,9 +96,9 @@ const ConnectWalletPage: React.FC = () => {
       await fetchUserData();
 
       const userTimeZone = useUserStore.getState().timeZone;
-      console.log("서버로부터 받은 타임존: ", userTimeZone);
+      console.log("서버로부터 받은 타임존:", userTimeZone);
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("사용자의 타임존: ", currentTimeZone);
+      console.log("사용자의 타임존:", currentTimeZone);
 
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
