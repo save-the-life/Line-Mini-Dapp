@@ -239,7 +239,17 @@
       "mission_reward": "任務獎勵",
       "congrate": "恭喜！",
       "reward_added": "該獎勵已添加到您的帳戶中。",
-      "ok": "確定"
+      "ok": "確定",
+      "level2": "達到等級2即可獲得0.2 KAIA！",
+      "receiving": "正在接收 KAIA 獎勵。",
+      "result": "獎勵結果",
+      "wallet": "錢包連接",
+      "need_wallet": "接收 KAIA 獎勵需要連接錢包。",
+      "connect": "連接",
+      "success": "已成功接收 0.2 KAIA 獎勵。",
+      "already": "您已領取過等級2的 KAIA 獎勵。",
+      "not_eligible": "您不符合領取獎勵的資格。",
+      "failed": "KAIA 任務失敗。"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "立即購買獨特的ITEM！",

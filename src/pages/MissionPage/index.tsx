@@ -289,26 +289,22 @@ const MissionPage: React.FC = () => {
         const kaia = await requestKaiaMission(walletAddress);
 
         if(kaia.message === "Success"){
-          console.log("카이아 미션 응답 성공 케이스", kaia);
           setKaiaLoading(false);
           setKaiaModal(true);
-          setKaiaMessage("Success");
+          setKaiaMessage(t("mission_page.success"));
         } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
-          console.log("카이아 미션 응답 이미 받은 케이스", kaia);
           setKaiaLoading(false);
           setKaiaModal(true);
-          setKaiaMessage("You've already claimed your Level 2 KAIA reward.");
+          setKaiaMessage(t("mission_page.already"));
         } else if( kaia.message === "You're not eligible for the reward."){
-          console.log("카이아 미션 응답 자격 미충족 케이스", kaia);
           setKaiaLoading(false);
           setKaiaModal(true);
-          setKaiaMessage("You're not eligible for the reward.");
+          setKaiaMessage(t("mission_page.not_eligible"));
         }
       } catch(error: any){
-        console.error("kaia Mission failed:", error);
         setKaiaLoading(false);
         setKaiaModal(true);
-        setKaiaMessage("Errr Occur");
+        setKaiaMessage(t("mission_page.failed"));
       }
     } else {
       setNeedWallet(true);
@@ -456,7 +452,7 @@ const MissionPage: React.FC = () => {
       )}
 
       {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      <h1 className="font-semibold text-lg my-4 ml-7">KAIA Mision</h1>
+      <h1 className="font-semibold text-lg my-4 ml-7">KAIA {t("mission_page.Mission")}</h1>
       <div
         className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
           (!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""
@@ -475,7 +471,7 @@ const MissionPage: React.FC = () => {
 
         <div className="pl-8">
           <p className="text-sm font-medium text-white">
-            Earn 0.2 KAIA upon reaching Level 2!
+            {t("mission_page.level2")}
           </p>
           <div className="flex items-center">
             <p className="text-base font-semibold text-white">+0.2</p>
@@ -612,15 +608,15 @@ const MissionPage: React.FC = () => {
           className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
           <div className="flex flex-col items-center justify-around">
             <div className="flex flex-row items-center justify-center">
-              <p className="text-xl font-bold">지갑 연결 필요</p>
+              <p className="text-xl font-bold">{t("mission_page.wallet")}</p>
             </div>
             <div className="flex flex-col items-center justify-center text-center">
-              <p className="text-sm mt-4 mb-2">KAIA 보상 수령을 위해서는 지갑 연결이 필요합니다.</p>
+              <p className="text-base font-semibold mt-4 mb-2">{t("mission_page.need_wallet")}</p>
             </div>
             <button
               onClick={handleConnectWallet}
               className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5">
-              연결
+              {t("mission_page.connect")}
           </button>
           </div>
         </DialogContent>
@@ -636,7 +632,7 @@ const MissionPage: React.FC = () => {
               <p className="text-xl font-bold">{t("asset_page.claim.process")}</p>
             </div>
             <div className="flex flex-col items-center justify-center text-center">
-              <p className="text-sm mt-4 mb-1">KAIA 보상 수령 중입니다.</p>
+              <p className="text-sm mt-4 mb-1">{t("mission_page.receiving")}</p>
               <p className="text-xs text-gray-400 mb-4">{t("asset_page.claim.wait")}</p>
               <LoadingSpinner size={16} className="h-[80px]"  />
             </div>
@@ -651,8 +647,8 @@ const MissionPage: React.FC = () => {
         <DialogContent 
           className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-xl font-bold mt-4 mb-2">{kaiaMessage}</p>
-            <p className="text-base font-medium">0.2KAIA를 정상적으로 수령하였습니다.</p>
+            <p className="text-xl font-bold mt-4 mb-2">{t("mission_page.result")}</p>
+            <p className="text-base font-medium">{kaiaMessage}</p>
             <button
               onClick={() => {
                   playSfx(Audios.button_click);

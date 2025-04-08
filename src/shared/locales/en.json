@@ -239,7 +239,17 @@
       "mission_reward": "Mission Reward",
       "congrate":"Congratulations!",
       "reward_added": "This reward has been added to your account.",
-      "ok": "OK"
+      "ok": "OK",
+      "level2": "Earn 0.2 KAIA upon reaching Level 2!",
+      "receiving": "Receiving KAIA rewards.",
+      "result": "Reward Results",
+      "wallet": "Wallet Connection",
+      "need_wallet": "A wallet connection is required to receive KAIA rewards.",
+      "connect": "Connect",
+      "success": "0.2 KAIA Rewards have been received successfully.",
+      "already": "You've already claimed your Level 2 KAIA reward.",
+      "not_eligible": "You're not eligible for the reward.",
+      "failed": "kaia Mission failed."
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "Shop Unique ITEMs Now!",

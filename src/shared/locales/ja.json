@@ -239,7 +239,17 @@
         "mission_reward": "ミッション報酬",
         "congrate": "おめでとうございます！",
         "reward_added": "この報酬はあなたのアカウントに追加されました。",
-        "ok": "OK"
+        "ok": "OK",
+        "level2": "レベル2に到達すると0.2 KAIAを獲得できます！",
+        "receiving": "KAIA報酬を受け取っています。",
+        "result": "報酬結果",
+        "wallet": "ウォレット接続",
+        "need_wallet": "KAIA報酬を受け取るためにはウォレットの接続が必要です。",
+        "connect": "接続する",
+        "success": "0.2 KAIA報酬の受け取りに成功しました。",
+        "already": "すでにレベル2のKAIA報酬を受け取っています。",
+        "not_eligible": "あなたは報酬の対象ではありません。",
+        "failed": "KAIAミッションに失敗しました。"
     },
     "asset_page": {
         "Shop_Unique_NFTs_Now!": "今すぐユニークなITEMを購入しましょう！",

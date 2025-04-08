@@ -239,7 +239,17 @@
       "mission_reward": "미션 보상",
       "congrate": "축하합니다!",
       "reward_added": "이 보상이 계정에 추가되었습니다.",
-      "ok": "확인"
+      "ok": "확인",
+      "level2": "레벨 2에 도달하면 0.2 KAIA를 획득합니다!",
+      "receiving": "KAIA 보상을 수령 중입니다.",
+      "result": "보상 결과",
+      "wallet": "지갑 연결",
+      "need_wallet": "KAIA 보상을 수령하려면 지갑 연결이 필요합니다.",
+      "connect": "연결하기",
+      "success": "0.2 KAIA 보상을 성공적으로 수령했습니다.",
+      "already": "이미 레벨 2 KAIA 보상을 받으셨습니다.",
+      "not_eligible": "보상 대상이 아닙니다.",
+      "failed": "KAIA 미션 실패."
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "특별한 아이템 구매하기",
