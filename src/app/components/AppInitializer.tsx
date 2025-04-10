@@ -303,6 +303,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         i18n.changeLanguage(i18nLanguage);
 
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
+
+
+        if(liff.isInClient()){
+          setShowSplash(false);
+          setShowMaintenance(true);
+          return;
+        }
+
         if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
@@ -365,9 +373,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
-  // }
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
   return null;
 };
 
