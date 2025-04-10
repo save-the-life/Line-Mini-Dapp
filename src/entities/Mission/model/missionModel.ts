@@ -14,6 +14,7 @@ export interface Mission {
   isCleared: boolean;
   status: 'PENDING' | 'COMPLETED' | null;
   isAvailable: boolean; 
+  hasEventAccess: boolean; 
 }
 
 interface MissionState {
