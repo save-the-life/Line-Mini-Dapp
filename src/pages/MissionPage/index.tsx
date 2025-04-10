@@ -656,7 +656,7 @@ const MissionPage: React.FC = () => {
 
       {/* 카이아 미션 완료 안내 */}
       <Dialog open={kaiaModal}>
-        <DialogTitle>Results Info</DialogTitle>
+        <DialogTitle></DialogTitle>
         <DialogContent 
           className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
           <div className="flex flex-col items-center justify-center text-center">
