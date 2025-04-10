@@ -31,8 +31,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const is502ErrorRef = useRef(false);
   const isMountedRef = useRef(true);
 
-  const [skipFinalize, setSkipFinalize] = useState(false);
-
   useEffect(() => {
     return () => { isMountedRef.current = false; };
   }, []);
@@ -307,12 +305,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
 
 
-        if(liff.isInClient()){
-          setShowSplash(false);
-          setShowMaintenance(true);
-          setSkipFinalize(true);
-          return;
-        }
 
         if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
@@ -323,9 +315,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
 
         console.log("[InitializeApp] LIFF 초기화 시작");
-        
-        setShowSplash(false);
-        setShowMaintenance(true);
         await withTimeout(
           liff.init({
             liffId: import.meta.env.VITE_LIFF_ID,
@@ -357,17 +346,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
         return;
       } finally {
-         // skipFinalize가 false일 때만 최종 로직 실행
-         if (!skipFinalize) {
-          if (isMountedRef.current) {
-            setShowSplash(false);
-            if (is502ErrorRef.current) {
-              setShowMaintenance(true);
-            } else {
-              console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-              setShowMaintenance(true);
-              // onInitialized();
-            }
+        if (isMountedRef.current) {
+          setShowSplash(false);
+          if (is502ErrorRef.current) {
+            console.log("[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시");
+            setShowMaintenance(true);
+          } else {
+            console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
+            onInitialized();
           }
         }
       }
@@ -382,9 +368,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
   return null;
 };
 
