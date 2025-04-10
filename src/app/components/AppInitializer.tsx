@@ -373,9 +373,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
   return null;
 };
 
