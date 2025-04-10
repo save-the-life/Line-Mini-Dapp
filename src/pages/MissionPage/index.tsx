@@ -465,43 +465,49 @@ const MissionPage: React.FC = () => {
       )}
 
       {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      {/* <h1 className="font-semibold text-lg my-4 ml-7">KAIA {t("mission_page.Mission")}</h1>
-      <div
-        className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
-          (!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""
-        }`}
-        style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
-        onClick={() => {
-          if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
-            handleKaiaMission();
-          }
-        }}
-      > */}
-        {/* 오버레이: isAvailable이 false이거나 미션이 완료된 경우 오버레이 표시 */}
-        {/* {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
-          <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
-        )}
+      {kaiaMission && kaiaMission.hasEventAccess && (
+        <>
+          <h1 className="font-semibold text-lg my-4 ml-7">
+            KAIA {t("mission_page.Mission")}
+          </h1>
+          <div
+            className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
+              (!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""
+            }`}
+            style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
+            onClick={() => {
+              if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
+                handleKaiaMission();
+              }
+            }}
+          >
+            {/* 오버레이: 비활성인 경우 */}
+            {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
+              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
+            )}
 
-        <div className="pl-8">
-          <p className="text-sm font-medium text-white">
-            {t("mission_page.level2")}
-          </p>
-          <div className="flex items-center">
-            <p className="text-base font-semibold text-white">+0.2</p>
+            <div className="pl-8">
+              <p className="text-sm font-medium text-white">
+                {t("mission_page.level2")}
+              </p>
+              <div className="flex items-center">
+                <p className="text-base font-semibold text-white">+0.2</p>
+                <img
+                  src={Images.KaiaLogo}
+                  alt="Kaia Icon"
+                  className="ml-2 w-5 h-5 rounded-full object-cover"
+                />
+              </div>
+            </div>
+
             <img
-              src={Images.KaiaLogo}
-              alt="Kaia Icon"
-              className="ml-2 w-5 h-5 rounded-full object-cover"
+              src={Images.KaiaLevel2}
+              alt="kaia-level2"
+              className="w-[142px] h-[142px] object-cover mr-[10px]"
             />
           </div>
-        </div>
-
-        <img
-          src={Images.KaiaLevel2}
-          alt="kaia-level2"
-          className="w-[142px] h-[142px] object-cover mr-[10px]"
-        />
-      </div> */}
+        </>
+      )}
 
 
       {/* 일일 미션 */}
@@ -608,6 +614,51 @@ const MissionPage: React.FC = () => {
                 );
               }
             })}
+          </div>
+        </>
+      )}
+
+            {/* kaia 미션 - 2레벨 달성 시 활성화 */}
+      {kaiaMission && !kaiaMission.hasEventAccess && (
+        <>
+          <h1 className="font-semibold text-lg my-4 ml-7">
+            KAIA {t("mission_page.Mission")}
+          </h1>
+          <div
+            className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
+              (!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""
+            }`}
+            style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
+            onClick={() => {
+              if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
+                handleKaiaMission();
+              }
+            }}
+          >
+            {/* 오버레이: 비활성인 경우 */}
+            {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
+              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
+            )}
+
+            <div className="pl-8">
+              <p className="text-sm font-medium text-white">
+                {t("mission_page.level2")}
+              </p>
+              <div className="flex items-center">
+                <p className="text-base font-semibold text-white">+0.2</p>
+                <img
+                  src={Images.KaiaLogo}
+                  alt="Kaia Icon"
+                  className="ml-2 w-5 h-5 rounded-full object-cover"
+                />
+              </div>
+            </div>
+
+            <img
+              src={Images.KaiaLevel2}
+              alt="kaia-level2"
+              className="w-[142px] h-[142px] object-cover mr-[10px]"
+            />
           </div>
         </>
       )}
