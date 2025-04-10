@@ -31,6 +31,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const is502ErrorRef = useRef(false);
   const isMountedRef = useRef(true);
 
+  const [skipFinalize, setSkipFinalize] = useState(false);
+
   useEffect(() => {
     return () => { isMountedRef.current = false; };
   }, []);
@@ -308,6 +310,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if(liff.isInClient()){
           setShowSplash(false);
           setShowMaintenance(true);
+          setSkipFinalize(true);
           return;
         }
 
@@ -354,14 +357,16 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
         return;
       } finally {
-        if (isMountedRef.current) {
-          setShowSplash(false);
-          if (is502ErrorRef.current) {
-            console.log("[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시");
-            setShowMaintenance(true);
-          } else {
-            console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-            onInitialized();
+         // skipFinalize가 false일 때만 최종 로직 실행
+         if (!skipFinalize) {
+          if (isMountedRef.current) {
+            setShowSplash(false);
+            if (is502ErrorRef.current) {
+              setShowMaintenance(true);
+            } else {
+              console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
+              onInitialized();
+            }
           }
         }
       }
