@@ -353,8 +353,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             setShowMaintenance(true);
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-            // onInitialized();
-            setShowMaintenance(true);
+            onInitialized();
+            // setShowMaintenance(true);
           }
         }
       }
@@ -369,9 +369,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
   return null;
 };
 
