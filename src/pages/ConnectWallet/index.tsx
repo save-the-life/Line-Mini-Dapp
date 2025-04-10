@@ -38,8 +38,6 @@ const is502Error = (error: any): boolean => {
   return false;
 };
 
-// 테스터 지갑 주소를 미리 정의 (여기에 테스터 지갑 주소들을 기입)
-const testerWallets = ["0xe7173731309e07da77da0452179212b9ea7dbfd7", "0xbe9ec75c91eff6a958d27de9b9b5faeafb00e5c7"];
 
 const ConnectWalletPage: React.FC = () => {
   const navigate = useNavigate();
@@ -66,14 +64,6 @@ const ConnectWalletPage: React.FC = () => {
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
       const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
-
-      // 테스터 지갑 주소 목록에 포함되어 있는지 확인
-      if (!testerWallets.includes(walletAddress)) {
-        console.log("현재 지갑 주소: ", walletAddress);
-        console.log("테스터 지갑 주소가 아님 -> MaintenanceScreen 표시");
-        setShowMaintenance(true);
-        return;
-      }
 
       // 로컬스토리지에서 레퍼럴 코드 확인
       const referralCode = localStorage.getItem("referralCode");
