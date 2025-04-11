@@ -184,6 +184,8 @@ const DiceEventPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const kaiaMission = localStorage.getItem("KaiaMission");
+    console.log("카이아 미션 확인: ", kaiaMission);
     fetchUserData();
   }, [fetchUserData]);
 

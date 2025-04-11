@@ -97,6 +97,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       if (liffReferrer) {
         referralCode = "dapp-portal-promotions";
         console.log("[Step 0-3] liff.referrer 감지, 프로모션 코드 설정:", referralCode);
+        localStorage.removeItem("KaiaMission");
       }
     }
     if (!referralCode) {
@@ -107,13 +108,22 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     if (referralCode === "from-dapp-portal") {
       console.log(`[Step 0] "${referralCode}" 감지 -> localStorage에 저장`);
       localStorage.setItem("referralCode", referralCode);
+      localStorage.removeItem("KaiaMission");
       return;
     }
     if (referralCode === "dapp-portal-promotions") {
       console.log(`[Step 0] "${referralCode}" 감지 (프로모션 레퍼럴 코드) -> localStorage에 저장`);
       localStorage.setItem("referralCode", referralCode);
+      localStorage.removeItem("KaiaMission");
       return;
     }
+    
+    if (referralCode === "kaia-reward") {
+      console.log(`[Step 0] "${referralCode}" 감지 (Kaia 미션 코드) -> localStorage에 저장`);
+      localStorage.setItem("KaiaMission", referralCode);
+      return;
+    }
+
     if (knownRoutes.includes(referralCode)) {
       console.log(`[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
       localStorage.removeItem("referralCode");
