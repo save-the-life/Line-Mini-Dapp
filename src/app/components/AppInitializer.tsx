@@ -127,6 +127,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     if (knownRoutes.includes(referralCode)) {
       console.log(`[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
       localStorage.removeItem("referralCode");
+      localStorage.removeItem("KaiaMission");
       return;
     }
     if (referralPattern.test(referralCode)) {
@@ -134,6 +135,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       localStorage.setItem("referralCode", referralCode);
     } else {
       console.log(`[Step 0] "${referralCode}" 패턴 불일치 -> 레퍼럴 코드 아님`);
+      localStorage.removeItem("referralCode");
+      localStorage.removeItem("KaiaMission");
     }
   };
 
