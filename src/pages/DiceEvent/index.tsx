@@ -28,6 +28,7 @@ import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import useWalletStore from "@/shared/store/useWalletStore";
+import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 
 
 const levelRewards = [
@@ -256,6 +257,16 @@ const DiceEventPage: React.FC = () => {
         try {
           await updateTimeZone(currentTimeZone);
         } catch (error: any) {
+          console.log("timezone error", error);
+        }
+      }
+
+      // 카이아 미션 인입 여부 확인
+      const kaiaRedirect = localStorage.getItem("KaiaMission");
+      if(kaiaRedirect === "kaia-reward"){
+        try{
+          await getKaiaRedirection();
+        } catch(error: any){
           console.log("timezone error", error);
         }
       }
