@@ -481,7 +481,7 @@
       "conduct": "We will be conducting maintenance to update key features of the Lucky Dice service.",
       "thanks": "Thank you for your understanding.",
       "schedule": "[Maintenance Schedule]",
-      "date": "April 9th, 01:00 – 02:00 (UTC +9)",
+      "date": "April 15th, 00:00 – 01:00 (UTC +9)",
       "under":"Under Maintenance",
       "performing_maintenance": "We are currently performing maintenance to improve your experience.",
       "patience": "Thank you for your patience.",
@@ -489,7 +489,8 @@
       "snapshot": "We will be conducting scheduled maintenance on April 15th from 00:00 to 01:00 KST to perform a snapshot of the 1st round ranking event and reset star points.",
       "kindly": "We kindly ask for your understanding.",
       "qualified": "Rewards for users who qualified in the 1st Monthly Leaderboard event will be announced and distributed within one week.",
-      "date_2": "April 15th, 00:00 – 01:00 (KST)"
+      "date_2": "April 15th, 00:00 – 01:00 (KST)",
+      "snapshot_now": "We are conducting scheduled maintenance to perform a snapshot of the 1st round ranking event and reset star points."
     },
     "setting": {
       "terms_of_service": "Terms of Service",
