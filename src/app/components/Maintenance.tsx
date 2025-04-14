@@ -26,13 +26,19 @@ const MaintenanceScreen: React.FC = () => {
                   className="w-[100px] h-[100px] mt-8 mb-5 object-cover"
                 />
                 <p className="text-base font-semibold text-white text-center">
-                  Temporary Maintenance
+                  {t("dice_event.maintenance_notice")}
+                </p>
+                <p className="text-base font-semibold text-white text-center">
+                  {t("dice_event.snapshot_now")}
                 </p>
                 <p className="text-base font-semibold text-white text-center">
                   {t("dice_event.patience")}
                 </p>
                 <p className="text-sm font-semibold text-[#DD2726] text-center mt-2">
-                  {t("dice_event.time")}
+                  {t("dice_event.time")}<br/>{t("dice_event.date_2")}
+                </p>
+                <p className="text-sm font-normal text-[#A3A3A3] text-center">
+                  *{t("dice_event.qualified")}
                 </p>
                 
                 <button onClick={()=>setShow(false)} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
