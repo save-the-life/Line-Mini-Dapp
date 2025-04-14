@@ -320,9 +320,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
-          navigate("/connect-wallet");
+          // navigate("/connect-wallet");
           setShowSplash(false);
-          onInitialized();
+          setShowMaintenance(true);
+          // onInitialized();
           return;
         }
 
@@ -365,8 +366,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             setShowMaintenance(true);
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-            onInitialized();
-            // setShowMaintenance(true);
+            // onInitialized();
+            setShowMaintenance(true);
           }
         }
       }
@@ -381,9 +382,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
-  // }
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
   return null;
 };
 
