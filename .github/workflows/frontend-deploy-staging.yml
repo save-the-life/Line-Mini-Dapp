@@ -2,7 +2,7 @@ name: Deploy Frontend (Staging)
 
 on:
   push:
-    branches: [ "staging" ]  # staging 브랜치 push 시에만 동작
+    branches: [ "develop" ]  # Git Flow에서 develop 브랜치 push 시에만 동작
 
 jobs:
   build-and-deploy-staging:
