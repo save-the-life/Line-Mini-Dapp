@@ -837,7 +837,7 @@ const DiceEventPage: React.FC = () => {
 
           <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
-            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[70%]">
+            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[90%]">
               <div className="relative">
               </div>
               <div className="flex flex-col items-center justify-around">
@@ -848,19 +848,20 @@ const DiceEventPage: React.FC = () => {
                   className="w-[100px] h-[100px] mt-8 mb-5 object-cover"
                 />
                 <p className="text-base font-semibold text-white text-center">
-                  We will be conducting scheduled maintenance on April 15th from 00:00 to 01:00 KST to perform a snapshot of the 1st round ranking event and reset star points.
+                  {t("dice_event.snapshot")}
                 </p>
                 <p className="text-base font-semibold text-white text-center">
-                  We kindly ask for your understanding.
-                </p>
-                <p className="text-base font-semibold text-white text-center">
-                  Rewards for users who qualified in the 1st Monthly Leaderboard event will be announced and distributed within one week.
+                  {t("dice_event.kindly")}
                 </p>
                 <p className="text-sm font-semibold text-[#DD2726] text-center mt-2">
                   {t("dice_event.schedule")}
                 </p>
                 <p className="text-sm font-semibold text-[#DD2726] text-center">
-                  {t("dice_event.date")}
+                  {t("dice_event.date_2")}
+                </p>
+                
+                <p className="text-sm font-normal text-[#A3A3A3] text-center">
+                  *{t("dice_event.qualified")}
                 </p>
                 
                 <button onClick={handleCloseAbuseModal} className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7">
