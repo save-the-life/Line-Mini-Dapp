@@ -388,7 +388,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         isAuto: user.isAuto, // 추가된 부분: isAuto 설정
         completeTutorial: user.completeTutorial,
         timeZone: user.timeZone,
-        suspend: user.suspend, // 추가된 부분: suspend 값 저장
+        suspend: user.suspended, // 추가된 부분: suspend 값 저장
         redirect: user.redirect,
   
         position: nowDice.tileSequence,
