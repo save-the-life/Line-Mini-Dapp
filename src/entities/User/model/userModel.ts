@@ -221,7 +221,10 @@ export const useUserStore = create<UserState>((set, get) => ({
   setReferrerId: (referrerId) => set({ referrerId }), // 추가된 부분
 
   isAuto: false, // 추가된 부분: 초기값 설정
-  setIsAuto: (isAuto) => set({ isAuto }), // 추가된 부분
+  setIsAuto: (isAuto: boolean) =>
+    set((state) => ({
+      isAuto: state.items.autoNftCount > 0 ? isAuto : false,
+    })),// 추가된 부분
 
   position: 0,
   setPosition: (value: number | ((prev: number) => number)) =>
@@ -385,7 +388,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         uid: user.uid,
         walletAddress: user.walletAddress,
         referrerId: user.referrerId, // 추가된 부분: referrerId 설정
-        isAuto: user.isAuto, // 추가된 부분: isAuto 설정
+        isAuto: items.autoNftCount > 0 ? user.isAuto : false, // 추가된 부분: isAuto 설정
         completeTutorial: user.completeTutorial,
         timeZone: user.timeZone,
         suspend: user.suspended, // 추가된 부분: suspend 값 저장
