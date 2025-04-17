@@ -837,7 +837,7 @@ const DiceEventPage: React.FC = () => {
 
           <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
-            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
@@ -847,8 +847,8 @@ const DiceEventPage: React.FC = () => {
                 </DialogClose>
               </div>
               <div className="flex flex-col items-center justify-center">
-                <div className=" flex flex-col items-center gap-2 text-center">
-                  <h1 className=" font-jalnan text-4xl font-bold text-[#FACC15] text-center">
+                <div className=" flex flex-col items-center text-center">
+                  <h1 className=" font-jalnan text-3xl font-bold text-[#FACC15] text-center">
                     {t("dice_event.item_guide")}<br/>& {t("dice_event.tips")}
                   </h1>
                   <img
@@ -861,14 +861,14 @@ const DiceEventPage: React.FC = () => {
                   <p className="font-Pretendard text-center text-base font-semibold">
                     {t("dice_event.which_item")}<br/>{t("dice_event.ticket_faster")}
                   </p>
-                  <p className="font-Pretendard text-center text-base font-semibold">
+                  <p className="font-Pretendard text-center text-base font-semibold mt-2">
                     👉 {t("dice_event.check_guide")}
                   </p>
                   <a
                     href="https://shorturl.at/d0c3B" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="underline text-[#3B82F6] mt-1 text-base font-semibold"
+                    className="underline text-[#3B82F6] mt-[10px] text-base font-semibold text-center"
                   >
                     https://shorturl.at/d0c3B
                   </a>
