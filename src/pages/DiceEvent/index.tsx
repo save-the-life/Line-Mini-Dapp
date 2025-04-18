@@ -851,7 +851,7 @@ const DiceEventPage: React.FC = () => {
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
-                    navigate("/previous-reword");
+                    navigate("/previous-ranking");
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
