@@ -62,7 +62,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               <p className="text-center w-1/6">{myData.rank}</p>
               <div className="flex flex-col justify-center items-center gap-1 flex-1">
                 <p className="text-center">{myData.name}</p>
-                <div className="flex flex-row items-center gap-1">
+                <div className="flex flex-row gap-1">
                   <img
                     src={myData.selectedRewardType === "USDT" ? Images.USDT : Images.TokenReward}
                     alt="token"
@@ -129,22 +129,12 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           <div className="space-y-2">
             <DialogTrigger
               className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
-              onClick={() => handleRangeClick(21, 50)}
+              onClick={() => handleRangeClick(21, 100)}
             >
-              <span>21 - 50 <IoCaretDown className="inline-block ml-1" /></span>
+              <span>21 - 100 <IoCaretDown className="inline-block ml-1" /></span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_21_50")}</span>
-              </span>
-            </DialogTrigger>
-            <DialogTrigger
-              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
-              onClick={() => handleRangeClick(51, 100)}
-            >
-              <span>51 - 100 <IoCaretDown className="inline-block ml-1" /></span>
-              <span className="flex items-center gap-1">
-                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_51_100")}</span>
+                <span className="text-sm font-semibold">1,000</span>
               </span>
             </DialogTrigger>
             <DialogTrigger
@@ -154,7 +144,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               <span>101 - 500 <IoCaretDown className="inline-block ml-1" /></span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_101_500")}</span>
+                <span className="text-sm font-semibold">600</span>
               </span>
             </DialogTrigger>
             <DialogTrigger
@@ -164,7 +154,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               <span>501 - 1000 <IoCaretDown className="inline-block ml-1" /></span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_501_1000")}</span>
+                <span className="text-sm font-semibold">40</span>
               </span>
             </DialogTrigger>
           </div>
@@ -195,11 +185,9 @@ const RankingSection: React.FC<RankingSectionProps> = ({
 
             {/* 내 순위 고정 영역 */}
             {showMyInDialog && (
-              <div className="bg-[#0D1226] px-4 py-3">
-                <div className="relative flex flex-row justify-center items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] p-5 gap-3">
-                  <p className="text-center w-1/6">{myData!.rank}</p>
-                  <p className="flex-1 text-center">{myData!.name}</p>
-                </div>
+              <div className="relative flex flex-row justify-center items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] p-5 gap-3">
+                <p className="text-center w-1/6">{myData!.rank}</p>
+                <p className="flex-1 text-center">{myData!.name}</p>
               </div>
             )}
           </DialogContent>
