@@ -497,7 +497,10 @@
       "tips": "Gaming Tips!",
       "which_item": "Not sure which items to buy?",
       "ticket_faster": "Want to earn points and raffle tickets faster?",
-      "check_guide": "Check out the guide below to level up your game!"
+      "check_guide": "Check out the guide below to level up your game!",
+      "monthly_event": "Check to see if you qualify as a winner for our first monthly event!",
+      "qualifying_user": "Rewards have been distributed to all qualifying users.",
+      "abnormal": "Users who earned points through abnormal methods have been excluded from the rewards"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

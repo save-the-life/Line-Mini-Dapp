@@ -85,8 +85,6 @@ const DiceEventPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // 랭킹 보상 팝업 표시를 위한 상태
-  const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
 
   // AirDrop 팝업 표시를 위한 상태
   const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
@@ -296,10 +294,12 @@ const DiceEventPage: React.FC = () => {
   
 
   // ===============================
-  // 어뷰징 관련 안내 모달 스케줄링 로직
+  //  모달 스케줄링 로직
   // ===============================
   const scheduledSlots = [9, 12, 18, 22];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
+  // 랭킹 보상 팝업 표시를 위한 상태
+  const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAndShowAbuseModal = () => {
@@ -796,7 +796,7 @@ const DiceEventPage: React.FC = () => {
 
 
           {/* 지난 달 보상 다이얼로그 */}
-          <Dialog open={true}>
+          <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -812,17 +812,24 @@ const DiceEventPage: React.FC = () => {
               </div>
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
-                  <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
+                  <h1 className=" font-jalnan text-4xl text-[#FACC15] text-center">
                     {t("dice_event.check_rank")}
                   </h1>
                   <img
                     src={Images.rankingModal}
                     alt="ranking modal"
-                    className="mt-2 w-60 h-60"
+                    className="mt-2 w-[210px] h-[200px]"
                   />
                 </div>
                 <div className="flex flex-col mt-4">
-                  <p className="font-Pretendard text-center text-base font-semibold">{t("dice_event.claim_rewards")}</p>
+                  <p className="font-Pretendard text-center text-base font-semibold">
+                    {t("dice_event.monthly_event")}<br/>
+                    {t("dice_event.qualifying_user")}
+                  </p>
+                  
+                  <p className="font-Pretendard text-center text-sm font-normal text-[#A3A3A3] mt-4">
+                    * {t("dice_event.abnormal")}
+                  </p>
                 </div>
                 <button
                   onClick={() => setShowAirDrop(false)}
