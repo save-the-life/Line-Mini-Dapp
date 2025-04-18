@@ -75,7 +75,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                     {t("reward_page.recieved")}
                   </div>
                 )}
-                <p>#{myData.rank}</p>
+                <p>{myData.rank}</p>
                 <div className="flex flex-col gap-1">
                   <p>{myData.name}</p>
                   <div className="flex flex-row items-center gap-1">
@@ -143,7 +143,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 key={r.rank}
                 className={`relative flex flex-row items-center p-4 border-b gap-4`}
               >
-                <p>#{r.rank}</p>
+                <p>{r.rank}</p>
                 <div className="flex flex-col gap-1">
                   <p>{r.name}</p>
                   <div className="flex flex-row items-center gap-1">
@@ -216,7 +216,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                     r.itsMe ? "text-[#FDE047] font-bold" : ""
                   }`}
                 >
-                  <p>#{r.rank}</p>
+                  <p>{r.rank}</p>
                   <p>{r.name}</p>
                 </div>
               ))}
