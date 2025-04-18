@@ -317,6 +317,7 @@ const DiceEventPage: React.FC = () => {
         // 닫은 기록이 있으면 재오픈하지 않음
         if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
           setabuseModal(true);
+          setShowRankingModal(true);  
         }
       }
     };
@@ -357,6 +358,21 @@ const DiceEventPage: React.FC = () => {
     setabuseModal(false);
   };
   
+  const handleCloseRankingModal = () => {
+    const now = new Date();
+    let currentSlot: number | null = null;
+    for (let slot of scheduledSlots) {
+      if (now.getHours() >= slot) {
+        currentSlot = slot;
+      }
+    }
+    if (currentSlot !== null) {
+      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+      localStorage.setItem("abuseModalLastShown", slotId);
+      localStorage.setItem("abuseModalDismissed", slotId);
+    }
+    setShowRankingModal(false);
+  };
   // ===============================
 
   if (isLoading) {
@@ -832,7 +848,11 @@ const DiceEventPage: React.FC = () => {
                   </p>
                 </div>
                 <button
-                  onClick={() => setShowAirDrop(false)}
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    handleCloseRankingModal();
+                    navigate("/previous-reword");
+                  }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
                   {t("dice_event.check")}
