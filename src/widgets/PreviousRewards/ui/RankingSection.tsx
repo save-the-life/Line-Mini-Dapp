@@ -128,23 +128,12 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           <div className="space-y-4">
             <DialogTrigger
               className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
-              onClick={() => handleRangeClick(21, 50)}
+              onClick={() => handleRangeClick(21, 100)}
             >
-              <span>21-50 <IoCaretDown className="inline-block ml-1" /></span>
+              <span>21 - 100 <IoCaretDown className="inline-block ml-1" /></span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_21_50")}</span>
-              </span>
-            </DialogTrigger>
-
-            <DialogTrigger
-              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
-              onClick={() => handleRangeClick(51, 100)}
-            >
-              <span>51-100 <IoCaretDown className="inline-block ml-1" /></span>
-              <span className="flex items-center gap-1">
-                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_51_100")}</span>
+                <span className="text-sm font-semibold">1,000</span>
               </span>
             </DialogTrigger>
 
@@ -152,10 +141,10 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
               onClick={() => handleRangeClick(101, 500)}
             >
-              <span>101-500 <IoCaretDown className="inline-block ml-1" /></span>
+              <span>101 - 500 <IoCaretDown className="inline-block ml-1" /></span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_101_500")}</span>
+                <span className="text-sm font-semibold">600</span>
               </span>
             </DialogTrigger>
 
@@ -163,10 +152,10 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
               onClick={() => handleRangeClick(501, 1000)}
             >
-              <span>501-1000 <IoCaretDown className="inline-block ml-1" /></span>
+              <span>501 - 1,000 <IoCaretDown className="inline-block ml-1" /></span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">{t("reward_page.reward_501_1000")}</span>
+                <span className="text-sm font-semibold">40</span>
               </span>
             </DialogTrigger>
           </div>
