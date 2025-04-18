@@ -150,7 +150,6 @@ const RankingSection: React.FC<RankingSectionProps> = ({
         )}
       </div>
 
-
       {/* Dialogs */}
       <div className="mt-14 space-y-4">
         <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
@@ -158,45 +157,39 @@ const RankingSection: React.FC<RankingSectionProps> = ({
             className="w-full cursor-pointer"
             onClick={() => handleRangeClick(21, 100)}
           >
-            {/* 트리거 UI */}
+            <div className="flex flex-row justify-between items-center">
+              <div className="flex flex-row items-center gap-2">
+                21-100 <IoCaretDown className={"w-5 h-5"} />
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                <p className="text-sm font-semibold">500 </p>
+              </div>
+            </div>
           </DialogTrigger>
           <DialogContent className="text-white rounded-3xl w-[80%] md:w-full border-none bg-[#21212F] max-h-[80%] overflow-y-auto text-sm">
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
-
-            {isLoadingRange && <LoadingSpinner className="h-screen" />}
+            {isLoadingRange && <LoadingSpinner className="h-screen"/>}
             {rangeError && <ErrorMessage message={rangeError} />}
-
-            {!isLoadingRange && !rangeError && (
-              <>
-                {/* 순위 리스트: 텍스트 가운데 정렬 */}
-                {dialogRankings.map((r) => (
-                  <div
-                    key={r.rank}
-                    className={`flex justify-between items-center p-4 border-b ${
-                      r.itsMe ? "text-[#FDE047] font-bold" : ""
-                    }`}
-                  >
-                    <p className="w-1/4 text-center">{r.rank}</p>
-                    <p className="flex-1 text-center">{r.name}</p>
-                  </div>
-                ))}
-
-                {/* 내 순위 강조 블록: 가운데 정렬 */}
-                {showMyInDialog && (
-                  <div className="relative flex justify-center items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
-                    <p className="text-center">{myData!.rank}</p>
-                    <p className="text-center">{myData!.name}</p>
-                  </div>
-                )}
-              </>
-            )}
+            {!isLoadingRange &&
+              !rangeError &&
+              dialogRankings.map((r) => (
+                <div
+                  key={r.rank}
+                  className={`flex flex-row gap-10 border-b pb-2 truncate ${
+                    r.itsMe ? "text-[#FDE047] font-bold" : ""
+                  }`}
+                >
+                  <p>{r.rank}</p>
+                  <p>{r.name}</p>
+                </div>
+              ))}
           </DialogContent>
         </Dialog>
 
         <div className="w-full border-b"></div>
-
         <div
           className="flex flex-row justify-between items-center cursor-pointer"
           onClick={() => handleRangeClick(101, 500)}
