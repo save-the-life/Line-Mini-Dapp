@@ -65,11 +65,11 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           <>
             <p className="font-semibold">{t("reward_page.congrate")}</p>
             <div className="relative flex flex-row items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
-              {isReceived && (
+              {/* {isReceived && (
                 <div className="absolute top-2 right-2 bg-[#0147E5] rounded-full px-3 py-1 text-sm">
                   {t("reward_page.recieved")}
                 </div>
-              )}
+              )} */}
               <p>{myData.rank}</p>
               <div className="flex flex-col gap-1">
                 <p>{myData.name}</p>
