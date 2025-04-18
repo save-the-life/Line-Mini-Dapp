@@ -85,8 +85,6 @@ const DiceEventPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // 랭킹 보상 팝업 표시를 위한 상태
-  const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
 
   // AirDrop 팝업 표시를 위한 상태
   const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
@@ -296,10 +294,12 @@ const DiceEventPage: React.FC = () => {
   
 
   // ===============================
-  // 어뷰징 관련 안내 모달 스케줄링 로직
+  //  모달 스케줄링 로직
   // ===============================
   const scheduledSlots = [9, 12, 18, 22];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
+  // 랭킹 보상 팝업 표시를 위한 상태
+  const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAndShowAbuseModal = () => {
@@ -317,6 +317,7 @@ const DiceEventPage: React.FC = () => {
         // 닫은 기록이 있으면 재오픈하지 않음
         if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
           setabuseModal(true);
+          setShowRankingModal(true);  
         }
       }
     };
@@ -357,6 +358,21 @@ const DiceEventPage: React.FC = () => {
     setabuseModal(false);
   };
   
+  const handleCloseRankingModal = () => {
+    const now = new Date();
+    let currentSlot: number | null = null;
+    for (let slot of scheduledSlots) {
+      if (now.getHours() >= slot) {
+        currentSlot = slot;
+      }
+    }
+    if (currentSlot !== null) {
+      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+      localStorage.setItem("abuseModalLastShown", slotId);
+      localStorage.setItem("abuseModalDismissed", slotId);
+    }
+    setShowRankingModal(false);
+  };
   // ===============================
 
   if (isLoading) {
@@ -571,48 +587,9 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog>
-          
-          {/* 지난 달 보상 다이얼로그 */}
-          <Dialog open={showRankingModal}>
-            <DialogTitle></DialogTitle>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
-              <div className="relative">
-                <DialogClose className="absolute top-0 right-0 p-2">
-                  <HiX 
-                    className="w-5 h-5"
-                    onClick={() => {
-                      playSfx(Audios.button_click);
-                      setShowRankingModal(false);
-                    }} 
-                  />
-                </DialogClose>
-              </div>
-              <div className="flex flex-col items-center justify-around">
-                <div className=" flex flex-col items-center gap-2">
-                  <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
-                    {t("dice_event.check_rank")}
-                  </h1>
-                  <img
-                    src={Images.rankingModal}
-                    alt="ranking modal"
-                    className="mt-2 w-60 h-60"
-                  />
-                </div>
-                <div className="flex flex-col mt-4">
-                  <p className="font-Pretendard text-center text-base font-semibold">{t("dice_event.claim_rewards")}</p>
-                </div>
-                <button
-                  onClick={() => setShowAirDrop(false)}
-                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
-                >
-                  {t("dice_event.check")}
-                </button>
-              </div>
-            </DialogContent>
-          </Dialog>
 
           {/* AirDrop 다이얼로그 */}
-          <Dialog open={showAirDrop}>
+          {/* <Dialog open={showAirDrop}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -648,7 +625,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
           {/* 사용 중지 다이얼로그 */}
           <Dialog open={suspend}>
@@ -660,7 +637,7 @@ const DiceEventPage: React.FC = () => {
                     className="w-5 h-5"
                     onClick={() => {
                       playSfx(Audios.button_click);
-                      setShowRankingModal(false);
+                      setSuspend(false);
                     }} 
                   />
                 </DialogClose>
@@ -834,7 +811,57 @@ const DiceEventPage: React.FC = () => {
           </Dialog>
 
 
+          {/* 지난 달 보상 다이얼로그 */}
+          <Dialog open={showRankingModal}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      setShowRankingModal(false);
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className=" flex flex-col items-center gap-2">
+                  <h1 className=" font-jalnan text-4xl text-[#FACC15] text-center">
+                    {t("dice_event.check_rank")}
+                  </h1>
+                  <img
+                    src={Images.rankingModal}
+                    alt="ranking modal"
+                    className="mt-2 w-[210px] h-[200px]"
+                  />
+                </div>
+                <div className="flex flex-col mt-4">
+                  <p className="font-Pretendard text-center text-base font-semibold">
+                    {t("dice_event.monthly_event")}<br/>
+                    {t("dice_event.qualifying_user")}
+                  </p>
+                  
+                  <p className="font-Pretendard text-center text-sm font-normal text-[#A3A3A3] mt-4">
+                    * {t("dice_event.abnormal")}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    handleCloseRankingModal();
+                    navigate("/previous-ranking");
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  {t("dice_event.check")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
 
+          {/* 아이템 가이드 모달 */}
           <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
@@ -876,6 +903,8 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog>
+
+        
 
           <br />
           <br />

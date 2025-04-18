@@ -227,9 +227,14 @@ const MyAssets: React.FC = () => {
             case "Invite a Friend Reward":
                 contentKey = "invite_friend_reward";
                 break;
-            
             case "Mystery Gift":
                 contentKey = "mystery_gift";
+                break;
+            case "1st Ranking Awards":
+                contentKey = "1st_awards";
+                break;
+            case "AI Examination":
+                contentKey = "ai_exam";
                 break;
             default:
             contentKey = reward.content;

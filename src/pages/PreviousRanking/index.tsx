@@ -38,6 +38,7 @@ const PreviousRanking: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
 
+
   // 컴포넌트 마운트 시 초기 랭킹 데이터 로딩
   useEffect(() => {
     loadInitialRanking();

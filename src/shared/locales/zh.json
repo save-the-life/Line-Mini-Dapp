@@ -127,7 +127,7 @@
       "no_ranking": "目前沒有排名可顯示",
       "your_rank": "你的排名：#",
       "keep_play": "繼續遊玩，下次再接再厲！",
-      "congrate": "恭喜你！以下是你的獎勵：",
+      "congrate": "恭喜你！您已收到獎勵。",
       "recieved": "已領取",
       "you_didnt": "這次你沒有進入排名。",
       "no_airdrop": "上個月沒有進行空投。",
@@ -184,7 +184,9 @@
       "three": "3",
       "four": "4",
       "five": "5",
-      "mystery_gift": "神秘礼物"
+      "mystery_gift": "神秘礼物",
+      "1st_awards": "第1名排名獎勵",
+      "ai_exam": "AI 考試"
     },
     "wallet_page": {
       "wallet": "錢包",
@@ -496,7 +498,10 @@
       "tips": "遊戲小技巧！",
       "which_item": "不確定該購買哪些道具？",
       "ticket_faster": "想更快獲得點數和抽獎券嗎？",
-      "check_guide": "查看以下指南，提升您的遊戲等級！"
+      "check_guide": "查看以下指南，提升您的遊戲等級！",
+      "monthly_event": "請查看您是否符合我們第一個月度活動的獲獎資格！",
+      "qualifying_user": "符合資格的所有用戶均已獲得獎勵。",
+      "abnormal": "通過異常方式獲得點數的用戶已被排除在獎勵之外。"
     },
     "setting": {
       "terms_of_service": "服務條款",
