@@ -184,7 +184,9 @@
       "three": "3",
       "four": "4",
       "five": "5",
-      "mystery_gift": "미스터리 기프트"
+      "mystery_gift": "미스터리 기프트",
+      "1st_awards": "1회차 랭킹 보상",
+      "ai_exam": "AI 진단"
     },
     "wallet_page": {
       "wallet": "지갑",

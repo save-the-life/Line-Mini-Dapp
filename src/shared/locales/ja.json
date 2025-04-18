@@ -184,7 +184,9 @@
         "three": "3",
         "four": "4",
         "five": "5",
-        "mystery_gift": "ミステリーギフト"
+        "mystery_gift": "ミステリーギフト",
+        "1st_awards": "1位ランキング賞",
+        "ai_exam": "AI試験"
     },
     "wallet_page": {
         "wallet": "ウォレット",

@@ -184,7 +184,9 @@
       "three": "3",
       "four": "4",
       "five": "5",
-      "mystery_gift": "神秘礼物"
+      "mystery_gift": "神秘礼物",
+      "1st_awards": "第1名排名獎勵",
+      "ai_exam": "AI 考試"
     },
     "wallet_page": {
       "wallet": "錢包",

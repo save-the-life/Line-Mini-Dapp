@@ -184,7 +184,9 @@
       "three": "3",
       "four": "4",
       "five": "5",
-      "mystery_gift": "ของขวัญลึกลับ"
+      "mystery_gift": "ของขวัญลึกลับ",
+      "1st_awards": "รางวัลอันดับ 1",
+      "ai_exam": "การสอบ AI"
     },
     "wallet_page": {
       "wallet": "กระเป๋า",
