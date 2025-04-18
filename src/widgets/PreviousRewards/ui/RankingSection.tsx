@@ -59,10 +59,10 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           <>
             <p className="font-semibold">{t("reward_page.congrate")}</p>
             <div className="relative flex flex-row items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
-              <p>{myData.rank}</p>
-              <div className="flex flex-col gap-1">
-                <p>{myData.name}</p>
-                <div className="flex flex-row items-center gap-1">
+              <p className="text-center w-1/6">{myData.rank}</p>
+              <div className="flex flex-col justify-center items-center gap-1 flex-1">
+                <p className="text-center">{myData.name}</p>
+                <div className="flex flex-row gap-1">
                   <img
                     src={myData.selectedRewardType === "USDT" ? Images.USDT : Images.TokenReward}
                     alt="token"
