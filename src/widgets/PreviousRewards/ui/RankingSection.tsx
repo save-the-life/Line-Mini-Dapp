@@ -41,7 +41,8 @@ const RankingSection: React.FC<RankingSectionProps> = ({
   handleRangeClick,
 }) => {
   const { t } = useTranslation();
-  const showMyInDialog = myData !== null && dialogRankings.some(r => r.rank === myData.rank);
+  const showMyInDialog =
+    myData !== null && dialogRankings.some((r) => r.rank === myData.rank);
 
   return (
     <div className="p-6 bg-[#0D1226] text-white w-full">
@@ -51,7 +52,8 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-center items-center">
             <p className="font-semibold text-sm text-center">
               {t("reward_page.your_rank")}
-              <span className="text-[#FDE047] font-bold">{myData.rank}</span><br />
+              <span className="text-[#FDE047] font-bold">{myData.rank}</span>
+              <br />
               {t("reward_page.keep_play")}
             </p>
           </div>
@@ -64,7 +66,11 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 <p className="text-center">{myData.name}</p>
                 <div className="flex flex-row gap-1">
                   <img
-                    src={myData.selectedRewardType === "USDT" ? Images.USDT : Images.TokenReward}
+                    src={
+                      myData.selectedRewardType === "USDT"
+                        ? Images.USDT
+                        : Images.TokenReward
+                    }
                     alt="token"
                     className="w-5 h-5"
                   />
@@ -79,7 +85,8 @@ const RankingSection: React.FC<RankingSectionProps> = ({
       ) : (
         <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center items-center">
           <p className="font-semibold text-sm text-center">
-            {t("reward_page.you_didnt")}<br />
+            {t("reward_page.you_didnt")}
+            <br />
             {t("reward_page.keep_play")}
           </p>
         </div>
@@ -89,36 +96,61 @@ const RankingSection: React.FC<RankingSectionProps> = ({
       <div className="flex flex-col mt-8">
         <p className="font-semibold">{t("reward_page.ranking_reward")}</p>
         {topRankings.length > 0 ? (
-          topRankings.slice(0, 20).map((r) => (
-            <div
-              key={r.rank}
-              className="relative flex flex-row items-center p-4 border-b gap-4"
-            >
-              <p className="w-1/6 text-center">{r.rank}</p>
-              <div className="flex flex-col flex-1">
-                <p>{r.name}</p>
-                <div className="flex flex-row items-center gap-1">
-                  {r.selectedRewardType === "USDT" ? (
-                    <>
-                      <img src={Images.USDT} alt="token" className="w-5 h-5" />
-                      <p className="text-sm font-semibold">
-                        {(r.usdtRewards ?? 0).toLocaleString()} <span className="font-normal text-[#a3a3a3]">(or {(r.slRewards ?? 0).toLocaleString()} SL)</span>
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                      <p className="text-sm font-semibold">
-                        {(r.slRewards ?? 0).toLocaleString()}
-                      </p>
-                    </>
-                  )}
+          topRankings.slice(0, 20).map((r) => {
+            // 1~3위 패스 추가 텍스트
+            const passText =
+              r.rank === 1
+                ? "+ GOLD PASS"
+                : r.rank === 2
+                ? "+ SILVER PASS"
+                : r.rank === 3
+                ? "+ BRONZE PASS"
+                : "";
+            return (
+              <div
+                key={r.rank}
+                className="relative flex flex-row items-center p-4 border-b gap-4"
+              >
+                <p className="w-1/6 text-center">{r.rank}</p>
+                <div className="flex flex-col flex-1">
+                  <p>{r.name}</p>
+                  <div className="flex flex-row items-center gap-1">
+                    {r.selectedRewardType === "USDT" ? (
+                      <>
+                        <img
+                          src={Images.USDT}
+                          alt="token"
+                          className="w-5 h-5"
+                        />
+                        <p className="text-sm font-semibold">
+                          {(r.usdtRewards ?? 0).toLocaleString()}{" "}
+                          <span className="font-normal text-[#a3a3a3]">
+                            (or {(r.slRewards ?? 0).toLocaleString()} SL)
+                          </span>
+                          {passText}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src={Images.TokenReward}
+                          alt="token"
+                          className="w-5 h-5"
+                        />
+                        <p className="text-sm font-semibold">
+                          {(r.slRewards ?? 0).toLocaleString()} {passText}
+                        </p>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
-          <p className="text-center text-sm mt-7">{t("reward_page.no_ranking")}</p>
+          <p className="text-center text-sm mt-7">
+            {t("reward_page.no_ranking")}
+          </p>
         )}
       </div>
 
@@ -131,7 +163,9 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
               onClick={() => handleRangeClick(21, 100)}
             >
-              <span>21 - 100 <IoCaretDown className="inline-block ml-1" /></span>
+              <span>
+                21 - 100 <IoCaretDown className="inline-block ml-1" />
+              </span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
                 <span className="text-sm font-semibold">1,000</span>
@@ -141,7 +175,9 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
               onClick={() => handleRangeClick(101, 500)}
             >
-              <span>101 - 500 <IoCaretDown className="inline-block ml-1" /></span>
+              <span>
+                101 - 500 <IoCaretDown className="inline-block ml-1" />
+              </span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
                 <span className="text-sm font-semibold">600</span>
@@ -151,7 +187,9 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
               onClick={() => handleRangeClick(501, 1000)}
             >
-              <span>501 - 1000 <IoCaretDown className="inline-block ml-1" /></span>
+              <span>
+                501 - 1000 <IoCaretDown className="inline-block ml-1" />
+              </span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
                 <span className="text-sm font-semibold">40</span>
@@ -168,7 +206,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
             <div className="overflow-y-auto flex-1">
               {isLoadingRange && <LoadingSpinner className="h-full" />}
               {rangeError && <ErrorMessage message={rangeError} />}
-              {!isLoadingRange && !rangeError && (
+              {!isLoadingRange && !rangeError &&
                 dialogRankings.map((r) => (
                   <div
                     key={r.rank}
@@ -179,8 +217,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                     <p className="w-1/6 text-center">{r.rank}</p>
                     <p className="flex-1 text-center">{r.name}</p>
                   </div>
-                ))
-              )}
+                ))}
             </div>
 
             {/* 내 순위 고정 영역 */}
