@@ -571,48 +571,9 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog>
-          
-          {/* 지난 달 보상 다이얼로그 */}
-          <Dialog open={showRankingModal}>
-            <DialogTitle></DialogTitle>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
-              <div className="relative">
-                <DialogClose className="absolute top-0 right-0 p-2">
-                  <HiX 
-                    className="w-5 h-5"
-                    onClick={() => {
-                      playSfx(Audios.button_click);
-                      setShowRankingModal(false);
-                    }} 
-                  />
-                </DialogClose>
-              </div>
-              <div className="flex flex-col items-center justify-around">
-                <div className=" flex flex-col items-center gap-2">
-                  <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
-                    {t("dice_event.check_rank")}
-                  </h1>
-                  <img
-                    src={Images.rankingModal}
-                    alt="ranking modal"
-                    className="mt-2 w-60 h-60"
-                  />
-                </div>
-                <div className="flex flex-col mt-4">
-                  <p className="font-Pretendard text-center text-base font-semibold">{t("dice_event.claim_rewards")}</p>
-                </div>
-                <button
-                  onClick={() => setShowAirDrop(false)}
-                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
-                >
-                  {t("dice_event.check")}
-                </button>
-              </div>
-            </DialogContent>
-          </Dialog>
 
           {/* AirDrop 다이얼로그 */}
-          <Dialog open={showAirDrop}>
+          {/* <Dialog open={showAirDrop}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -648,7 +609,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
           {/* 사용 중지 다이얼로그 */}
           <Dialog open={suspend}>
@@ -660,7 +621,7 @@ const DiceEventPage: React.FC = () => {
                     className="w-5 h-5"
                     onClick={() => {
                       playSfx(Audios.button_click);
-                      setShowRankingModal(false);
+                      setSuspend(false);
                     }} 
                   />
                 </DialogClose>
@@ -834,7 +795,46 @@ const DiceEventPage: React.FC = () => {
           </Dialog>
 
 
+          {/* 지난 달 보상 다이얼로그 */}
+          <Dialog open={true}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      setShowRankingModal(false);
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className=" flex flex-col items-center gap-2">
+                  <h1 className=" font-jalnan text-4xl text-[#DD2726] text-center">
+                    {t("dice_event.check_rank")}
+                  </h1>
+                  <img
+                    src={Images.rankingModal}
+                    alt="ranking modal"
+                    className="mt-2 w-60 h-60"
+                  />
+                </div>
+                <div className="flex flex-col mt-4">
+                  <p className="font-Pretendard text-center text-base font-semibold">{t("dice_event.claim_rewards")}</p>
+                </div>
+                <button
+                  onClick={() => setShowAirDrop(false)}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  {t("dice_event.check")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
 
+          {/* 아이템 가이드 모달 */}
           <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
@@ -876,6 +876,8 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog>
+
+        
 
           <br />
           <br />
