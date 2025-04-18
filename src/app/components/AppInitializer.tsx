@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
@@ -322,6 +323,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
+          // setShowMaintenance(true);
           onInitialized();
           // setShowMaintenance(true);
           return;
@@ -337,6 +339,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           "LIFF init Timeout"
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
+
+        await DappPortalSDK.init({
+          clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+          chainId: "8217",
+        });
+        
 
         await handleTokenFlow();
       } catch (error: any) {
