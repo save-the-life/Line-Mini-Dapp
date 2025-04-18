@@ -41,8 +41,17 @@ const RankingSection: React.FC<RankingSectionProps> = ({
   handleRangeClick,
 }) => {
   const { t } = useTranslation();
-  const showMyInDialog =
-    myData !== null && dialogRankings.some((r) => r.rank === myData.rank);
+  const showMyInDialog = myData !== null && dialogRankings.some((r) => r.rank === myData.rank);
+
+  // 내 순위 PASS 텍스트
+  const myPassText =
+    myData?.rank === 1
+      ? "+ GOLD PASS"
+      : myData?.rank === 2
+      ? "+ SILVER PASS"
+      : myData?.rank === 3
+      ? "+ BRONZE PASS"
+      : "";
 
   return (
     <div className="p-6 bg-[#0D1226] text-white w-full">
@@ -64,7 +73,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               <p className="text-center w-1/6">{myData.rank}</p>
               <div className="flex flex-col justify-center items-center gap-1 flex-1">
                 <p className="text-center">{myData.name}</p>
-                <div className="flex flex-row gap-1">
+                <div className="flex flex-row items-center gap-1">
                   <img
                     src={
                       myData.selectedRewardType === "USDT"
@@ -75,7 +84,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                     className="w-5 h-5"
                   />
                   <p className="text-sm font-semibold">
-                    {(myData.slRewards ?? 0).toLocaleString()}
+                    {(myData.slRewards ?? 0).toLocaleString()} {myPassText}
                   </p>
                 </div>
               </div>
