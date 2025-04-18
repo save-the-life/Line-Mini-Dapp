@@ -1,6 +1,4 @@
-// src/widgets/PreviousRewards/ui/RankingSection.tsx
-
-import React, { useEffect } from "react";
+import React from "react";
 import Images from "@/shared/assets/images";
 import { IoCaretDown } from "react-icons/io5";
 import {
@@ -30,8 +28,8 @@ interface RankingSectionProps {
 }
 
 const RankingSection: React.FC<RankingSectionProps> = ({
-  myData = null, // 기본값 설정
-  topRankings = [], // 기본값 설정
+  myData = null,
+  topRankings = [],
   isReceived,
   onGetReward,
   dialogOpen,
@@ -42,39 +40,28 @@ const RankingSection: React.FC<RankingSectionProps> = ({
   rangeError,
   handleRangeClick,
 }) => {
-  // useEffect(() => {
-  //   console.log("RankingSection myData:", myData);
-  // }, [myData]);
-
   const { t } = useTranslation();
-
   const showMyInDialog = myData !== null && dialogRankings.some(r => r.rank === myData.rank);
 
   return (
-    <div className="p-6 bg-[#0D1226] text-white w-full ">
+    <div className="p-6 bg-[#0D1226] text-white w-full">
+      {/* 상단 myData & topRankings 렌더링 */}
       {myData ? (
         myData.rank > 1000 ? (
-          // 1000위권 밖 UI (변경 없음)
           <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-center items-center">
             <p className="font-semibold text-sm text-center">
               {t("reward_page.your_rank")}
-              <span className="text-[#FDE047] font-bold">{myData.rank}</span><br/>
+              <span className="text-[#FDE047] font-bold">{myData.rank}</span><br />
               {t("reward_page.keep_play")}
             </p>
           </div>
         ) : (
-          // 1000위권 내 UI (1~1000 모두 동일하게 보상 섹션 노출)
           <>
             <p className="font-semibold">{t("reward_page.congrate")}</p>
             <div className="relative flex flex-row items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
-              {/* {isReceived && (
-                <div className="absolute top-2 right-2 bg-[#0147E5] rounded-full px-3 py-1 text-sm">
-                  {t("reward_page.recieved")}
-                </div>
-              )} */}
-              <p>{myData.rank}</p>
-              <div className="flex flex-col gap-1">
-                <p>{myData.name}</p>
+              <p className="text-center w-1/6">{myData.rank}</p>
+              <div className="flex flex-col justify-center items-center gap-1 flex-1">
+                <p className="text-center">{myData.name}</p>
                 <div className="flex flex-row items-center gap-1">
                   <img
                     src={myData.selectedRewardType === "USDT" ? Images.USDT : Images.TokenReward}
@@ -90,131 +77,131 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           </>
         )
       ) : (
-        // 랭킹 데이터 없음 UI
         <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center items-center">
           <p className="font-semibold text-sm text-center">
-            {t("reward_page.you_didnt")}<br/>
+            {t("reward_page.you_didnt")}<br />
             {t("reward_page.keep_play")}
           </p>
         </div>
       )}
-      
+
       {/* Top Rankings */}
       <div className="flex flex-col mt-8">
-      <p className="font-semibold">{t("reward_page.ranking_reward")}</p>
+        <p className="font-semibold">{t("reward_page.ranking_reward")}</p>
         {topRankings.length > 0 ? (
-          topRankings.slice(0, 20).map((r) => {
-            return (
-              <div
-                key={r.rank}
-                className={`relative flex flex-row items-center p-4 border-b gap-4`}
-              >
-                <p>{r.rank}</p>
-                <div className="flex flex-col gap-1">
-                  <p>{r.name}</p>
-                  <div className="flex flex-row items-center gap-1">
-                    {r.selectedRewardType === "USDT" ? (
-                      <>
-                        <img src={Images.USDT} alt="token" className="w-5 h-5" />
-                        <p className="text-sm font-semibold">
-                          {(r.usdtRewards ?? 0).toLocaleString()}{" "}
-                          <span className="font-normal text-[#a3a3a3]">
-                            (or {(r.slRewards ?? 0).toLocaleString()} SL)
-                          </span>
-                          {r.nftType ? ` + ${r.nftType} PASS` : ""}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <img
-                          src={Images.TokenReward}
-                          alt="token"
-                          className="w-5 h-5"
-                        />
-                        <p className="text-sm font-semibold">
-                          {(r.slRewards ?? 0).toLocaleString()}{" "}
-                          {/* <span className="font-normal text-[#a3a3a3]">
-                            (or {(r.usdtRewards ?? 0).toLocaleString()} USDT)
-                          </span> */}
-                          {r.nftType ? ` + ${r.nftType} PASS` : ""}
-                        </p>
-                      </>
-                    )}
-                  </div>
+          topRankings.slice(0, 20).map((r) => (
+            <div
+              key={r.rank}
+              className="relative flex flex-row items-center p-4 border-b gap-4"
+            >
+              <p className="w-1/6 text-center">{r.rank}</p>
+              <div className="flex flex-col flex-1">
+                <p>{r.name}</p>
+                <div className="flex flex-row items-center gap-1">
+                  {r.selectedRewardType === "USDT" ? (
+                    <>
+                      <img src={Images.USDT} alt="token" className="w-5 h-5" />
+                      <p className="text-sm font-semibold">
+                        {(r.usdtRewards ?? 0).toLocaleString()} <span className="font-normal text-[#a3a3a3]">(or {(r.slRewards ?? 0).toLocaleString()} SL)</span>
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                      <p className="text-sm font-semibold">
+                        {(r.slRewards ?? 0).toLocaleString()}
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
-            );
-          })
+            </div>
+          ))
         ) : (
           <p className="text-center text-sm mt-7">{t("reward_page.no_ranking")}</p>
         )}
       </div>
 
-      {/* Dialogs */}
+      {/* Range Dialogs */}
       <div className="mt-14 space-y-4">
         <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
-          <DialogTrigger
-            className="w-full cursor-pointer"
-            onClick={() => handleRangeClick(21, 100)}
-          >
-            <div className="flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-2">
-                21-100 <IoCaretDown className={"w-5 h-5"} />
-              </div>
-              <div className="flex flex-row items-center gap-1">
+          <div className="space-y-4">
+            <DialogTrigger
+              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+              onClick={() => handleRangeClick(21, 50)}
+            >
+              <span>21-50 <IoCaretDown className="inline-block ml-1" /></span>
+              <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <p className="text-sm font-semibold">500 </p>
-              </div>
-            </div>
-          </DialogTrigger>
+                <span className="text-sm font-semibold">{t("reward_page.reward_21_50")}</span>
+              </span>
+            </DialogTrigger>
+
+            <DialogTrigger
+              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+              onClick={() => handleRangeClick(51, 100)}
+            >
+              <span>51-100 <IoCaretDown className="inline-block ml-1" /></span>
+              <span className="flex items-center gap-1">
+                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                <span className="text-sm font-semibold">{t("reward_page.reward_51_100")}</span>
+              </span>
+            </DialogTrigger>
+
+            <DialogTrigger
+              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+              onClick={() => handleRangeClick(101, 500)}
+            >
+              <span>101-500 <IoCaretDown className="inline-block ml-1" /></span>
+              <span className="flex items-center gap-1">
+                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                <span className="text-sm font-semibold">{t("reward_page.reward_101_500")}</span>
+              </span>
+            </DialogTrigger>
+
+            <DialogTrigger
+              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+              onClick={() => handleRangeClick(501, 1000)}
+            >
+              <span>501-1000 <IoCaretDown className="inline-block ml-1" /></span>
+              <span className="flex items-center gap-1">
+                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                <span className="text-sm font-semibold">{t("reward_page.reward_501_1000")}</span>
+              </span>
+            </DialogTrigger>
+          </div>
+
           <DialogContent className="text-white rounded-3xl w-[80%] md:w-full border-none bg-[#21212F] max-h-[80%] overflow-y-auto text-sm">
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
-            {isLoadingRange && <LoadingSpinner className="h-screen"/>}
+
+            {isLoadingRange && <LoadingSpinner className="h-screen" />}
             {rangeError && <ErrorMessage message={rangeError} />}
-            {!isLoadingRange &&
-              !rangeError &&
-              dialogRankings.map((r) => (
-                <div
-                  key={r.rank}
-                  className={`flex flex-row gap-10 border-b pb-2 truncate ${
-                    r.itsMe ? "text-[#FDE047] font-bold" : ""
-                  }`}
-                >
-                  <p>{r.rank}</p>
-                  <p>{r.name}</p>
-                </div>
-              ))}
+            {!isLoadingRange && !rangeError && (
+              <>
+                {dialogRankings.map((r) => (
+                  <div
+                    key={r.rank}
+                    className={`flex flex-row items-center p-4 border-b gap-10 truncate ${
+                      r.itsMe ? "text-[#FDE047] font-bold" : ""
+                    }`}
+                  >
+                    <p className="w-1/6 text-center">{r.rank}</p>
+                    <p className="flex-1 text-center">{r.name}</p>
+                  </div>
+                ))}
+
+                {showMyInDialog && (
+                  <div className="relative flex flex-row justify-center items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
+                    <p className="text-center w-1/6">{myData!.rank}</p>
+                    <p className="flex-1 text-center">{myData!.name}</p>
+                  </div>
+                )}
+              </>
+            )}
           </DialogContent>
         </Dialog>
-
-        <div className="w-full border-b"></div>
-        <div
-          className="flex flex-row justify-between items-center cursor-pointer"
-          onClick={() => handleRangeClick(101, 500)}
-        >
-          <div className="flex flex-row items-center gap-2">
-            101-500 <IoCaretDown className={"w-5 h-5"} />
-          </div>
-          <div className="flex flex-row items-center gap-1">
-            <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-            <p className="text-sm font-semibold">25 </p>
-          </div>
-        </div>
-        <div className="w-full border-b"></div>
-        <div
-          className="flex flex-row justify-between items-center cursor-pointer"
-          onClick={() => handleRangeClick(501, 1000)}
-        >
-          <div className="flex flex-row items-center gap-2">
-            501-1000 <IoCaretDown className={"w-5 h-5"} />
-          </div>
-          <div className="flex flex-row items-center gap-1">
-            <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-            <p className="text-sm font-semibold">10 </p>
-          </div>
-        </div>
       </div>
     </div>
   );
