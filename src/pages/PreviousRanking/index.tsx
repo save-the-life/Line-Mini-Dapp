@@ -38,10 +38,6 @@ const PreviousRanking: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
 
-  // myRanking 이 비어 있으면 로딩 스피너나 빈 화면을 띄움
-  if (!myRanking || myRanking.length === 0) {
-    console.log("아직 비어있어");
-  }
 
   // 컴포넌트 마운트 시 초기 랭킹 데이터 로딩
   useEffect(() => {
