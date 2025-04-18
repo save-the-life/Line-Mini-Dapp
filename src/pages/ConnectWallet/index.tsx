@@ -39,7 +39,7 @@ const is502Error = (error: any): boolean => {
 };
 
 // 테스터 지갑 주소를 미리 정의 (여기에 테스터 지갑 주소들을 기입)
-// const testerWallets = ["0xbe9ec75c91eff6a958d27de9b9b5faeafb00e5c7"];
+// const testerWallets = ["0xbe9ec75c91eff6a958d27de9b9b5faeafb00e5c7", "0xe7173731309e07da77da0452179212b9ea7dbfd7"];
 
 
 const ConnectWalletPage: React.FC = () => {

@@ -324,6 +324,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           setShowSplash(false);
           // setShowMaintenance(true);
           onInitialized();
+          // setShowMaintenance(true);
           return;
         }
 
