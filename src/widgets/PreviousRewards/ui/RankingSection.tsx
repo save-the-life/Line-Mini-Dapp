@@ -43,7 +43,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
   handleRangeClick,
 }) => {
   useEffect(() => {
-    // console.log("RankingSection myData:", myData);
+    console.log("RankingSection myData:", myData);
   }, [myData]);
 
   const { t } = useTranslation();
@@ -51,88 +51,52 @@ const RankingSection: React.FC<RankingSectionProps> = ({
   return (
     <div className="p-6 bg-[#0D1226] text-white w-full ">
       {myData ? (
-        <>
-          {/* 여기서부터 랭킹 조건 분기 */}
-          {myData.rank > 1000 ? (
-            // 1000등 밖인 경우
-            <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-center items-center">
-              <p className="font-semibold text-sm text-center">
-                {t("reward_page.your_rank")}
-                <span className="text-[#FDE047] font-bold">{myData.rank}</span>
-                <br />
-                {t("reward_page.keep_play")}
-              </p>
-            </div>
-          ) : myData.rank <= 20 ? (
-            // 1~20등까지 보상 버튼 노출
-            <>
-              <p className="font-semibold">
-                {t("reward_page.congrate")}
-              </p>
-              <div className="relative flex flex-row items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
-                {isReceived && (
-                  <div className="absolute top-2 right-2 bg-[#0147E5] rounded-full px-3 py-1 text-sm">
-                    {t("reward_page.recieved")}
-                  </div>
-                )}
-                <p>{myData.rank}</p>
-                <div className="flex flex-col gap-1">
-                  <p>{myData.name}</p>
-                  <div className="flex flex-row items-center gap-1">
-                    <img
-                      src={
-                        myData.selectedRewardType === "USDT"
-                          ? Images.USDT
-                          : Images.TokenReward
-                      }
-                      alt="token"
-                      className="w-5 h-5"
-                    />
-                    <p className="text-sm font-semibold">
-                      {(myData.slRewards ?? 0).toLocaleString()}{" "}
-                      {/* <span className="font-normal text-[#a3a3a3]">
-                        (or {(myData.usdtRewards ?? 0).toLocaleString()} USDT)
-                      </span>{" "} */}
-                      {myData.nftType ? `+ ${myData.nftType} PASS` : ""}
-                    </p>
-                  </div>
+        myData.rank > 1000 ? (
+          // 1000위권 밖 UI (변경 없음)
+          <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-center items-center">
+            <p className="font-semibold text-sm text-center">
+              {t("reward_page.your_rank")}
+              <span className="text-[#FDE047] font-bold">{myData.rank}</span><br/>
+              {t("reward_page.keep_play")}
+            </p>
+          </div>
+        ) : (
+          // 1000위권 내 UI (1~1000 모두 동일하게 보상 섹션 노출)
+          <>
+            <p className="font-semibold">{t("reward_page.congrate")}</p>
+            <div className="relative flex flex-row items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
+              {isReceived && (
+                <div className="absolute top-2 right-2 bg-[#0147E5] rounded-full px-3 py-1 text-sm">
+                  {t("reward_page.recieved")}
+                </div>
+              )}
+              <p>{myData.rank}</p>
+              <div className="flex flex-col gap-1">
+                <p>{myData.name}</p>
+                <div className="flex flex-row items-center gap-1">
+                  <img
+                    src={myData.selectedRewardType === "USDT" ? Images.USDT : Images.TokenReward}
+                    alt="token"
+                    className="w-5 h-5"
+                  />
+                  <p className="text-sm font-semibold">
+                    {(myData.slRewards ?? 0).toLocaleString()}
+                  </p>
                 </div>
               </div>
-              {/* 보상 버튼 */}
-              {/* <button
-                className={`bg-[#0147E5] rounded-full w-full h-14 mt-3 font-medium ${
-                  isReceived ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                onClick={onGetReward}
-                disabled={isReceived}
-              >
-                {myData.selectedRewardType === null
-                  ? "Claim your reward"
-                  : `Reward Issued (${myData.selectedRewardType})`}
-              </button> */}
-            </>
-          ) : (
-            // 21~1000등 사이인 경우 (보상 버튼 비노출)
-            <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center items-center">
-              <p className="font-semibold text-sm text-center">
-                {t("reward_page.your_rank")}
-                <span className="text-[#FDE047] font-bold">{myData.rank}</span>
-                <br />
-                {t("reward_page.keep_play")}
-              </p>
             </div>
-          )}
-        </>
+          </>
+        )
       ) : (
-        // myData가 null인 경우 (랭킹 데이터 자체가 없는 경우)
+        // 랭킹 데이터 없음 UI
         <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center items-center">
           <p className="font-semibold text-sm text-center">
-            {t("reward_page.you_didnt")}<br />
+            {t("reward_page.you_didnt")}<br/>
             {t("reward_page.keep_play")}
           </p>
         </div>
       )}
-
+      
       {/* Top Rankings */}
       <div className="flex flex-col mt-8">
       <p className="font-semibold">{t("reward_page.ranking_reward")}</p>
