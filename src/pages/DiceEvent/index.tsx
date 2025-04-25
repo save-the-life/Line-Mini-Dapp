@@ -296,7 +296,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [9, 12, 18, 22];
+  const scheduledSlots = [0];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -812,7 +812,7 @@ const DiceEventPage: React.FC = () => {
 
 
           {/* 지난 달 보상 다이얼로그 */}
-          <Dialog open={showRankingModal}>
+          {/* <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -859,10 +859,10 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
           {/* 아이템 가이드 모달 */}
-          <Dialog open={abuseModal}>
+          {/* <Dialog open={abuseModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
               <div className="relative">
@@ -900,6 +900,58 @@ const DiceEventPage: React.FC = () => {
                     https://shorturl.at/d0c3B
                   </a>
                 </div>
+              </div>
+            </DialogContent>
+          </Dialog> */}
+              
+          {/* 래플권 알림 모달창 */}
+          <Dialog open={showRankingModal}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      handleCloseRankingModal();
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className=" flex flex-col items-center gap-2">
+                  <h1 className=" font-jalnan text-xl font-bold text-white text-center">
+                    Dear Lucky Dice users,
+                  </h1>
+                </div>
+                <div className="flex flex-col mt-4">
+                  <p className="font-Pretendard text-center text-base font-semibold">
+                    Our Raffle Draw will proceed on April 28th - are you lucky enough to be a winner and earn USDT and SL tokens?
+                  </p>
+                  
+                  <p className="font-Pretendard text-center text-base font-semibold text-white mt-4">
+                    Maybe it’s your chance! 💸
+                  </p>
+                      
+                  <p className="font-Pretendard text-center text-base font-semibold mt-4">
+                    The more tickets you have, the higher your chances of winning!
+                  </p>
+                      
+                      
+                  <p className="font-Pretendard text-center text-base font-semibold mt-4">
+                    Don’t miss out <br/>- stack those raffle tickets now! 🚀
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    handleCloseRankingModal();
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  Close
+                </button>
               </div>
             </DialogContent>
           </Dialog>
