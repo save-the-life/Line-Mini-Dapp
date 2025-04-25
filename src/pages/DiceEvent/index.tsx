@@ -296,7 +296,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [0];
+  const scheduledSlots = [20];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -922,25 +922,25 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    Dear Lucky Dice users,
+                    {t("dice_event.dear_user")},
                   </h1>
                 </div>
                 <div className="flex flex-col mt-4">
                   <p className="font-Pretendard text-center text-base font-semibold">
-                    Our Raffle Draw will proceed on April 28th - are you lucky enough to be a winner and earn USDT and SL tokens?
+                    {t("dice_event.our_raffle")}
                   </p>
                   
                   <p className="font-Pretendard text-center text-base font-semibold text-white mt-4">
-                    Maybe it’s your chance! 💸
+                    {t("dice_event.maybe")} 💸
                   </p>
                       
                   <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    The more tickets you have, the higher your chances of winning!
+                    {t("dice_event.more_ticket")}
                   </p>
                       
                       
                   <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    Don’t miss out <br/>- stack those raffle tickets now! 🚀
+                    {t("dice_event.miss_out")} <br/>- {t("dice_event.stack_raffle")} 🚀
                   </p>
                 </div>
                 <button
@@ -950,7 +950,7 @@ const DiceEventPage: React.FC = () => {
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
-                  Close
+                  {t("dice_event.close")}
                 </button>
               </div>
             </DialogContent>

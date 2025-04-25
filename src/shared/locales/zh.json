@@ -501,7 +501,13 @@
       "check_guide": "查看以下指南，提升您的遊戲等級！",
       "monthly_event": "請查看您是否符合我們第一個月度活動的獲獎資格！",
       "qualifying_user": "符合資格的所有用戶均已獲得獎勵。",
-      "abnormal": "通過異常方式獲得點數的用戶已被排除在獎勵之外。"
+      "abnormal": "通過異常方式獲得點數的用戶已被排除在獎勵之外。",
+      "our_raffle": "我們的抽獎活動將於4月28日進行 — 你夠幸運成為得獎者並獲得USDT和SL代幣嗎？",
+      "maybe": "也許就是你的機會！",
+      "more_ticket": "你擁有的抽獎券越多，中獎機率就越高！",
+      "miss_out": "別錯過！",
+      "stack_raffle": "立即累積抽獎券吧！",
+      "close": "關閉"
     },
     "setting": {
       "terms_of_service": "服務條款",

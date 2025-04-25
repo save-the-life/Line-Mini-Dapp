@@ -500,7 +500,13 @@
       "check_guide": "Check out the guide below to level up your game!",
       "monthly_event": "Check to see if you qualify as a winner for our first monthly event!",
       "qualifying_user": "Rewards have been distributed to all qualifying users.",
-      "abnormal": "Users who earned points through abnormal methods have been excluded from the rewards"
+      "abnormal": "Users who earned points through abnormal methods have been excluded from the rewards",
+      "our_raffle": "Our Raffle Draw will proceed on April 28th - are you lucky enough to be a winner and earn USDT and SL tokens?",
+      "maybe": "Maybe it’s your chance!",
+      "more_ticket": "The more tickets you have, the higher your chances of winning!",
+      "miss_out": "Don’t miss out",
+      "stack_raffle": "stack those raffle tickets now!",
+      "close": "Close"
     },
     "setting": {
       "terms_of_service": "Terms of Service",
