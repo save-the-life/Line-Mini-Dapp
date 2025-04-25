@@ -296,83 +296,83 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  // const scheduledSlots = [9, 12, 18, 22];
-  // const [abuseModal , setabuseModal ] = useState<boolean>(false);
-  // // 랭킹 보상 팝업 표시를 위한 상태
-  // const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
+  const scheduledSlots = [20];
+  const [abuseModal , setabuseModal ] = useState<boolean>(false);
+  // 랭킹 보상 팝업 표시를 위한 상태
+  const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   const checkAndShowAbuseModal = () => {
-  //     const now = new Date();
-  //     let currentSlot: number | null = null;
-  //     for (let slot of scheduledSlots) {
-  //       if (now.getHours() >= slot) {
-  //         currentSlot = slot;
-  //       }
-  //     }
-  //     if (currentSlot !== null) {
-  //       const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-  //       const lastShownSlot = localStorage.getItem("abuseModalLastShown");
-  //       const dismissedSlot = localStorage.getItem("abuseModalDismissed");
-  //       // 닫은 기록이 있으면 재오픈하지 않음
-  //       if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
-  //         setabuseModal(true);
-  //         setShowRankingModal(true);  
-  //       }
-  //     }
-  //   };
+  useEffect(() => {
+    const checkAndShowAbuseModal = () => {
+      const now = new Date();
+      let currentSlot: number | null = null;
+      for (let slot of scheduledSlots) {
+        if (now.getHours() >= slot) {
+          currentSlot = slot;
+        }
+      }
+      if (currentSlot !== null) {
+        const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+        const lastShownSlot = localStorage.getItem("abuseModalLastShown");
+        const dismissedSlot = localStorage.getItem("abuseModalDismissed");
+        // 닫은 기록이 있으면 재오픈하지 않음
+        if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
+          setabuseModal(true);
+          setShowRankingModal(true);  
+        }
+      }
+    };
 
-  //   // 최초 5초 동안 2초마다 체크
-  //   const fastInterval = setInterval(checkAndShowAbuseModal, 2000);
-  //   let slowInterval: number | undefined;
+    // 최초 5초 동안 2초마다 체크
+    const fastInterval = setInterval(checkAndShowAbuseModal, 2000);
+    let slowInterval: number | undefined;
 
-  //   // 5초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
-  //   const switchTimeout = setTimeout(() => {
-  //     clearInterval(fastInterval);
-  //     slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
-  //   }, 5000);
+    // 5초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
+    const switchTimeout = setTimeout(() => {
+      clearInterval(fastInterval);
+      slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
+    }, 5000);
 
-  //   return () => {
-  //     clearInterval(fastInterval);
-  //     clearTimeout(switchTimeout);
-  //     if (slowInterval) {
-  //       clearInterval(slowInterval);
-  //     }
-  //   };
-  // }, []);
+    return () => {
+      clearInterval(fastInterval);
+      clearTimeout(switchTimeout);
+      if (slowInterval) {
+        clearInterval(slowInterval);
+      }
+    };
+  }, []);
 
-  // // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
-  // const handleCloseAbuseModal = () => {
-  //   const now = new Date();
-  //   let currentSlot: number | null = null;
-  //   for (let slot of scheduledSlots) {
-  //     if (now.getHours() >= slot) {
-  //       currentSlot = slot;
-  //     }
-  //   }
-  //   if (currentSlot !== null) {
-  //     const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-  //     localStorage.setItem("abuseModalLastShown", slotId);
-  //     localStorage.setItem("abuseModalDismissed", slotId);
-  //   }
-  //   setabuseModal(false);
-  // };
+  // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
+  const handleCloseAbuseModal = () => {
+    const now = new Date();
+    let currentSlot: number | null = null;
+    for (let slot of scheduledSlots) {
+      if (now.getHours() >= slot) {
+        currentSlot = slot;
+      }
+    }
+    if (currentSlot !== null) {
+      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+      localStorage.setItem("abuseModalLastShown", slotId);
+      localStorage.setItem("abuseModalDismissed", slotId);
+    }
+    setabuseModal(false);
+  };
   
-  // const handleCloseRankingModal = () => {
-  //   const now = new Date();
-  //   let currentSlot: number | null = null;
-  //   for (let slot of scheduledSlots) {
-  //     if (now.getHours() >= slot) {
-  //       currentSlot = slot;
-  //     }
-  //   }
-  //   if (currentSlot !== null) {
-  //     const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-  //     localStorage.setItem("abuseModalLastShown", slotId);
-  //     localStorage.setItem("abuseModalDismissed", slotId);
-  //   }
-  //   setShowRankingModal(false);
-  // };
+  const handleCloseRankingModal = () => {
+    const now = new Date();
+    let currentSlot: number | null = null;
+    for (let slot of scheduledSlots) {
+      if (now.getHours() >= slot) {
+        currentSlot = slot;
+      }
+    }
+    if (currentSlot !== null) {
+      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+      localStorage.setItem("abuseModalLastShown", slotId);
+      localStorage.setItem("abuseModalDismissed", slotId);
+    }
+    setShowRankingModal(false);
+  };
   // ===============================
 
   if (isLoading) {
@@ -903,6 +903,58 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog> */}
+              
+          {/* 래플권 알림 모달창 */}
+          <Dialog open={showRankingModal}>
+            <DialogTitle></DialogTitle>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[70%]">
+              <div className="relative">
+                <DialogClose className="absolute top-0 right-0 p-2">
+                  <HiX 
+                    className="w-5 h-5"
+                    onClick={() => {
+                      playSfx(Audios.button_click);
+                      handleCloseRankingModal();
+                    }} 
+                  />
+                </DialogClose>
+              </div>
+              <div className="flex flex-col items-center justify-around">
+                <div className=" flex flex-col items-center gap-2">
+                  <h1 className="font-Pretendard text-xl font-bold text-white text-center">
+                    {t("dice_event.dear_user")},
+                  </h1>
+                </div>
+                <div className="flex flex-col mt-4">
+                  <p className="font-Pretendard text-center text-base font-semibold">
+                    {t("dice_event.our_raffle")}
+                  </p>
+                  
+                  <p className="font-Pretendard text-center text-base font-semibold text-white mt-4">
+                    {t("dice_event.maybe")} 💸
+                  </p>
+                      
+                  <p className="font-Pretendard text-center text-base font-semibold mt-4">
+                    {t("dice_event.more_ticket")}
+                  </p>
+                      
+                      
+                  <p className="font-Pretendard text-center text-base font-semibold mt-4">
+                    {t("dice_event.miss_out")} <br/>- {t("dice_event.stack_raffle")} 🚀
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    handleCloseRankingModal();
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                >
+                  {t("dice_event.close")}
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
 
         
 
