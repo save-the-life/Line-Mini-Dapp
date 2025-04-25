@@ -907,7 +907,7 @@ const DiceEventPage: React.FC = () => {
           {/* 래플권 알림 모달창 */}
           <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[70%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
@@ -921,7 +921,7 @@ const DiceEventPage: React.FC = () => {
               </div>
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
-                  <h1 className=" font-jalnan text-xl font-bold text-white text-center">
+                  <h1 className="font-Pretendard text-xl font-bold text-white text-center">
                     Dear Lucky Dice users,
                   </h1>
                 </div>
