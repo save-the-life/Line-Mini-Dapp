@@ -296,7 +296,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [20];
+  const scheduledSlots = [16, 18, 20, 22, 24];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -922,25 +922,27 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    {t("dice_event.dear_user")},
+                    {t("dice_event.raffle_end")}<br/>{t("dice_event.end_note")}
                   </h1>
+                  <img
+                    src={Images.Raffle}
+                    alt="tips"
+                    className="mt-8 w-[100px] h-[100px]"
+                  />
                 </div>
                 <div className="flex flex-col mt-4">
-                  <p className="font-Pretendard text-center text-base font-semibold">
-                    {t("dice_event.our_raffle")}
-                  </p>
                   
                   <p className="font-Pretendard text-center text-base font-semibold text-white mt-4">
-                    {t("dice_event.maybe")} 💸
+                    {t("dice_event.end_today")}
                   </p>
                       
                   <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    {t("dice_event.more_ticket")}
+                    {t("dice_event.winner")}
                   </p>
                       
                       
-                  <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    {t("dice_event.miss_out")} <br/>- {t("dice_event.stack_raffle")} 🚀
+                  <p className="font-Pretendard text-center text-sm font-normal mt-4 text-[#A3A3A3]">
+                    * {t("dice_event.all_raffle")}
                   </p>
                 </div>
                 <button

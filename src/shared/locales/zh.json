@@ -507,7 +507,12 @@
       "more_ticket": "你擁有的抽獎券越多，中獎機率就越高！",
       "miss_out": "別錯過！",
       "stack_raffle": "立即累積抽獎券吧！",
-      "close": "關閉"
+      "close": "關閉",
+      "raffle_end": "抽獎活動",
+      "end_note": "結束通知",
+      "end_today": "抽獎活動將於今天結束。",
+      "winner": "中獎者將獲得USDT和SL代幣作為獎勵，中獎者名單公告及獎勵發放將於本週內完成。",
+      "all_raffle": "所有累積的抽獎券將於活動結束後清零。"
     },
     "setting": {
       "terms_of_service": "服務條款",
