@@ -507,7 +507,12 @@
       "more_ticket": "티켓을 많이 가질수록 당첨 확률이 높아집니다!",
       "miss_out": "놓치지 마세요",
       "stack_raffle": "지금 바로 추첨 티켓을 모으세요!",
-      "close": "닫기"
+      "close": "닫기",
+      "raffle_end": "추첨 이벤트",
+      "end_note": "종료 안내",
+      "end_today": "추첨 이벤트가 오늘 종료됩니다.",
+      "winner": "당첨자는 보상으로 USDT 및 SL 토큰을 받게 되며, 당첨자 발표 및 보상 지급은 이번 주 내에 완료됩니다.",
+      "all_raffle": "이벤트 종료 후 누적된 모든 추첨 티켓이 초기화됩니다."
     },
     "setting": {
       "terms_of_service": "이용 약관",

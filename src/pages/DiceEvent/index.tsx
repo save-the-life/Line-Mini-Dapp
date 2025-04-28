@@ -922,7 +922,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    Raffle Event<br/>Ending Notice
+                    {t("dice_event.raffle_end")}<br/>{t("dice_event.end_note")}
                   </h1>
                   <img
                     src={Images.Raffle}
@@ -933,16 +933,16 @@ const DiceEventPage: React.FC = () => {
                 <div className="flex flex-col mt-4">
                   
                   <p className="font-Pretendard text-center text-base font-semibold text-white mt-4">
-                    The raffle event will end today.
+                    {t("dice_event.end_today")}
                   </p>
                       
                   <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    Winners will receive USDT & SL Tokens as rewards, and the announcement of winners and distribution of rewards will be completed within this week.
+                    {t("dice_event.winner")}
                   </p>
                       
                       
                   <p className="font-Pretendard text-center text-sm font-normal mt-4 text-[#A3A3A3]">
-                    * All accumulated raffle tickets will be reset after the event ends.
+                    * {t("dice_event.all_raffle")}
                   </p>
                 </div>
                 <button
