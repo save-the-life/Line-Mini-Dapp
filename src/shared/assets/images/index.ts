@@ -189,6 +189,7 @@ import Pylon from "./pylon.png"
 import DarkSplash from "./dark-splash.png"
 import KaiaLevel2 from "./kaia-level2.png"
 import Tips from "./tips.png"
+import Raffle from "./raffle.png"
 
 
 const Images = {
@@ -381,7 +382,8 @@ const Images = {
   Pylon,
   DarkSplash,
   KaiaLevel2,
-  Tips
+  Tips,
+  Raffle
 };
 
 export default Images;
