@@ -148,7 +148,7 @@ const Reward: React.FC = () => {
              flex flex-col items-center justify-center
              p-2
            ">
-             <p className="text-xs font-normal text-white text-center">{t("reward_page.raffle_draw")}</p>
+             <p className="text-xs font-normal text-white text-center whitespace-nowrap">{t("reward_page.raffle_draw")}</p>
              <p className="text-xs font-normal text-white text-center">(USDT/KAIA)</p>
              <img 
                className="w-4 h-4"
