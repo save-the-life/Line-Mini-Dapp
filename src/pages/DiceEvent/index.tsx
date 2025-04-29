@@ -922,7 +922,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    First Raffle Draw Ended
+                    {t("dice_event.raffle_end")}
                   </h1>
                   <img
                     src={Images.Raffle}
@@ -932,16 +932,16 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col mt-5">
                   <p className="font-Pretendard text-center text-base font-semibold text-white mt-4">
-                    Thank you for participating!<br/>Winners will be announced within a week.
+                    {t("dice_event.thank_participate")}<br/>{t("dice_event.winner_will")}
                   </p>
                       
                   <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    Rewards:<br/>$310 in USDT prizes 100,000 SL Tokens for selected users
+                    {t("dice_event.rewards")}:<br/>{t("dice_event.usdt")}<br/>{t("dice_event.sl")}
                   </p>
                       
                       
                   <p className="font-Pretendard text-center text-sm font-semibold mt-4 text-[#DD2726]">
-                    * Please note *<br/>All raffle tickets have been reset.<br/>New tickets from April 29th will counttoward Round 2 in May!
+                    * {t("dice_event.note")} *<br/>{t("dice_event.raffle_reset")}<br/>{t("dice_event.new_tickets")}
                   </p>
                 </div>
                 <button

@@ -508,11 +508,19 @@
       "miss_out": "別錯過！",
       "stack_raffle": "立即累積抽獎券吧！",
       "close": "關閉",
-      "raffle_end": "抽獎活動",
+      "raffle_end": "第一次抽獎已結束",
       "end_note": "結束通知",
       "end_today": "抽獎活動將於今天結束。",
       "winner": "中獎者將獲得USDT和SL代幣作為獎勵，中獎者名單公告及獎勵發放將於本週內完成。",
-      "all_raffle": "所有累積的抽獎券將於活動結束後清零。"
+      "all_raffle": "所有累積的抽獎券將於活動結束後清零。",
+      "thank_participate": "感謝您的參與！",
+      "winner_will": "得獎者將在一週內公布。",
+      "rewards": "獎勵",
+      "usdt": "310 美元 USDT",
+      "sl": "為特定用戶提供 100,000 SL 代幣",
+      "note": "請注意",
+      "raffle_reset": "所有抽獎券已被重置",
+      "new_tickets": "4月29日起的新抽獎券將計入5月的第2輪！"
     },
     "setting": {
       "terms_of_service": "服務條款",

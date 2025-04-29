@@ -507,11 +507,19 @@
       "miss_out": "Don’t miss out",
       "stack_raffle": "stack those raffle tickets now!",
       "close": "Close",
-      "raffle_end": "Raffle Event",
+      "raffle_end": "First Raffle Draw Ended",
       "end_note": "Ending Notice",
       "end_today": "The raffle event will end today.",
       "winner": "Winners will receive USDT & SL Tokens as rewards, and the announcement of winners and distribution of rewards will be completed within this week.",
-      "all_raffle": "All accumulated raffle tickets will be reset after the event ends."
+      "all_raffle": "All accumulated raffle tickets will be reset after the event ends.",
+      "thank_participate": "Thank you for participating!",
+      "winner_will": "Winners will be announced within a week.",
+      "rewards": "Rewards",
+      "usdt": "$310 in USDT",
+      "sl": "Prizes 100,000 SL Tokens for selected users",
+      "note": "Please Note",
+      "raffle_reset": "All raffle tickets have been reset",
+      "new_tickets": "New tickets from April 29th will counttoward Round 2 in May!"
     },
     "setting": {
       "terms_of_service": "Terms of Service",
