@@ -38,7 +38,7 @@ const Reward: React.FC = () => {
   
   // 날짜 포맷 및 번역
   const dateFormat = t("date_format_md");
-  const event2 = new Date(2025, 3, 14);
+  const event2 = new Date(2025, 5, 15);
   const event3 = new Date(2025, 4, 28);
   const event4 = new Date(2025, 4, 15);
 
@@ -159,8 +159,24 @@ const Reward: React.FC = () => {
              <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
            </div>
 
-          {/* 빈 영역 */}
-          <div className="w-[110px] h-[126px] flex flex-col items-center justify-center p-2">
+          {/* 세 번째 박스 */}
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.three")} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
+            <img 
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event2).format(dateFormat)}</p>
           </div>
 
         </div>

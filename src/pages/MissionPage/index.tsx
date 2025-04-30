@@ -23,6 +23,96 @@ import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
 import requestKaiaMission from "@/entities/Mission/api/kaiaMission";
 
+
+const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac";
+const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
+const abi = [
+  {
+     "anonymous": false,
+     "inputs": [
+        {
+           "indexed": true,
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "name": "AttendanceChecked",
+     "type": "event"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "bytes32",
+           "name": "messageHash",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "uint8",
+           "name": "v",
+           "type": "uint8"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "r",
+           "type": "bytes32"
+        },
+        {
+           "internalType": "bytes32",
+           "name": "s",
+           "type": "bytes32"
+        }
+     ],
+     "name": "checkAttendance",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [],
+     "name": "checkAttendanceWithoutSignature",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
+        }
+     ],
+     "name": "users",
+     "outputs": [
+        {
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  }
+];
+
 interface OneTimeMissionCardProps {
   mission: Mission;
   onClear: (id: number) => void;
