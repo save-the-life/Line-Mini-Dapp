@@ -22,11 +22,20 @@ import Attendance from "@/widgets/Attendance";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
 import requestKaiaMission from "@/entities/Mission/api/kaiaMission";
+import { Web3Provider } from "@kaiachain/ethers-ext"; 
+import { TxType } from "@kaiachain/js-ext-core"; // ✅ Fee Delegation 타입 추가
+import { ethers } from "ethers";
+import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac";
+const contractAddress = "0x87BF07a38333d4f86f1f595Cc9bcF7d484D04F29";
 const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
 const abi = [
+  {
+     "inputs": [],
+     "stateMutability": "nonpayable",
+     "type": "constructor"
+  },
   {
      "anonymous": false,
      "inputs": [
@@ -35,54 +44,20 @@ const abi = [
            "internalType": "address",
            "name": "user",
            "type": "address"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
         }
      ],
-     "name": "AttendanceChecked",
+     "name": "Claimed",
      "type": "event"
   },
   {
      "inputs": [
         {
-           "internalType": "bytes32",
-           "name": "messageHash",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "uint8",
-           "name": "v",
-           "type": "uint8"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "r",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "s",
-           "type": "bytes32"
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
         }
      ],
-     "name": "checkAttendance",
-     "outputs": [],
-     "stateMutability": "nonpayable",
-     "type": "function"
-  },
-  {
-     "inputs": [],
-     "name": "checkAttendanceWithoutSignature",
+     "name": "markClaimed",
      "outputs": [],
      "stateMutability": "nonpayable",
      "type": "function"
@@ -95,23 +70,50 @@ const abi = [
            "type": "address"
         }
      ],
-     "name": "users",
+     "name": "hasClaimed",
      "outputs": [
         {
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
+           "internalType": "bool",
+           "name": "",
+           "type": "bool"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  },
+  {
+     "inputs": [
         {
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        }
+     ],
+     "name": "isClaimed",
+     "outputs": [
+        {
+           "internalType": "bool",
+           "name": "",
+           "type": "bool"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  },
+  {
+     "inputs": [],
+     "name": "owner",
+     "outputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
         }
      ],
      "stateMutability": "view",
      "type": "function"
   }
-];
+]
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -386,55 +388,111 @@ const MissionPage: React.FC = () => {
 
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
-    // let currentProvider = provider;
-    // let currentWalletAddress = walletAddress;
-    // let currentSdk = sdk;
-    // let currentWalletType = walletType;
+    let currentProvider = provider;
+    let currentWalletAddress = walletAddress;
+    let currentSdk = sdk;
+    let currentWalletType = walletType;
 
-    // if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
-    //     if (isConnecting) return;
-    //     setIsConnecting(true);
-    //     const connection = await connectWallet();
-    //     setIsConnecting(false);
-    //     if (!connection.provider || !connection.walletAddress) {
-    //       setShowModal(true);
-    //       setMessage(t("attendance.wallet_fail"));
-    //       return;
-    //     }
-    //     currentProvider = connection.provider;
-    //     currentWalletAddress = connection.walletAddress;
-    //     currentSdk = connection.sdk;
-    //     currentWalletType = connection.walletType;
-    // }
-
-    // 지갑 주소가 존재하는 경우에 진행
-    if(walletAddress != null){
-      // 시간이 걸리므로 로딩창 표시
-      setKaiaLoading(true);
-      try{
-        const kaia = await requestKaiaMission(walletAddress);
-
-        if(kaia.message === "Success"){
-          setKaiaLoading(false);
-          setKaiaModal(true);
-          setKaiaMessage(t("mission_page.success"));
-        } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
-          setKaiaLoading(false);
-          setKaiaModal(true);
-          setKaiaMessage(t("mission_page.already"));
-        } else if( kaia.message === "You're not eligible for the reward."){
-          setKaiaLoading(false);
-          setKaiaModal(true);
-          setKaiaMessage(t("mission_page.not_eligible"));
+    if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+        if (isConnecting) return;
+        setIsConnecting(true);
+        const connection = await connectWallet();
+        setIsConnecting(false);
+        if (!connection.provider || !connection.walletAddress) {
+          setShowModal(true);
+          setMessage(t("attendance.wallet_fail"));
+          return;
         }
-      } catch(error: any){
-        setKaiaLoading(false);
-        setKaiaModal(true);
-        setKaiaMessage(t("mission_page.failed"));
-      }
-    } else {
-      setNeedWallet(true);
+        currentProvider = connection.provider;
+        currentWalletAddress = connection.walletAddress;
+        currentSdk = connection.sdk;
+        currentWalletType = connection.walletType;
     }
+
+    // Kaia 미션 트랜젝션 실행
+    try{
+      const ethersProvider = new Web3Provider(currentProvider);
+      const signer = ethersProvider.getSigner();
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+
+      // 출석 체크 메시지 생성 및 서명
+      const message = `출석 체크: ${currentWalletAddress}`;
+      const messageHash = ethers.utils.hashMessage(message);
+      const signature = await signer.signMessage(message);
+      const sig = ethers.utils.splitSignature(signature);
+
+      // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
+      if (currentProvider.getWalletType() === "OKX") {
+        const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
+        const receipt = await tx.wait();
+        // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
+
+        if (receipt.status === 1) {
+            // await okxAttendance();
+            setShowModal(true);
+            setMessage(t("attendance.attendance_success"));
+        } else {
+            setShowModal(true);
+            setMessage(t("attendance.attendance_failed"));
+        }
+        return;
+      }
+
+      // OKX가 아닌 경우: Fee Delegation 로직 적용
+      const contractCallData = contract.interface.encodeFunctionData("checkAttendance", [
+        messageHash,
+        sig.v,
+        sig.r,
+        sig.s,
+      ]);
+
+      const tx = {
+        typeInt: TxType.FeeDelegatedSmartContractExecution,
+        from: currentWalletAddress,
+        to: contractAddress,
+        input: contractCallData,
+        value: "0x0",
+        feePayer,
+      };
+
+      const signedTx = await currentProvider.request({
+        method: "kaia_signTransaction",
+        params: [tx],
+      });
+
+      const test = await testingKaia(signedTx, walletAddress);
+    } catch(error: any){
+
+    }
+
+    // // 지갑 주소가 존재하는 경우에 진행
+    // if(walletAddress != null){
+    //   // 시간이 걸리므로 로딩창 표시
+    //   setKaiaLoading(true);
+    //   try{
+    //     const kaia = await requestKaiaMission(walletAddress);
+
+    //     if(kaia.message === "Success"){
+    //       setKaiaLoading(false);
+    //       setKaiaModal(true);
+    //       setKaiaMessage(t("mission_page.success"));
+    //     } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
+    //       setKaiaLoading(false);
+    //       setKaiaModal(true);
+    //       setKaiaMessage(t("mission_page.already"));
+    //     } else if( kaia.message === "You're not eligible for the reward."){
+    //       setKaiaLoading(false);
+    //       setKaiaModal(true);
+    //       setKaiaMessage(t("mission_page.not_eligible"));
+    //     }
+    //   } catch(error: any){
+    //     setKaiaLoading(false);
+    //     setKaiaModal(true);
+    //     setKaiaMessage(t("mission_page.failed"));
+    //   }
+    // } else {
+    //   setNeedWallet(true);
+    // }
   }
 
   const handleConnectWallet = async() => {
