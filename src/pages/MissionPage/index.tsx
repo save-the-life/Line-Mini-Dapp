@@ -416,7 +416,7 @@ const MissionPage: React.FC = () => {
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
       // 출석 체크 메시지 생성 및 서명
-      const message = `출석 체크: ${currentWalletAddress}`;
+      const message = `Kaia Mission Rewards: ${currentWalletAddress}`;
       const messageHash = ethers.utils.hashMessage(message);
       const signature = await signer.signMessage(message);
       const sig = ethers.utils.splitSignature(signature);
