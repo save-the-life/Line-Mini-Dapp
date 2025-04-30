@@ -28,8 +28,8 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-const contractAddress = "0x87BF07a38333d4f86f1f595Cc9bcF7d484D04F29";
-const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+const contractAddress = "0xd07EFc4A0eCfA74FFBfEE5d5435195dbbf7274F3";
+const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
 const abi = [
   {
      "inputs": [],
@@ -48,19 +48,6 @@ const abi = [
      ],
      "name": "Claimed",
      "type": "event"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        }
-     ],
-     "name": "markClaimed",
-     "outputs": [],
-     "stateMutability": "nonpayable",
-     "type": "function"
   },
   {
      "inputs": [
@@ -98,6 +85,19 @@ const abi = [
         }
      ],
      "stateMutability": "view",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        }
+     ],
+     "name": "markClaimed",
+     "outputs": [],
+     "stateMutability": "nonpayable",
      "type": "function"
   },
   {
