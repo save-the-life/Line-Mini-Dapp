@@ -16,9 +16,11 @@ import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import okxAttendance from "@/entities/User/api/okxAttendance";
 
-const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
+// const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
+const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"
 //const contractAddress ="0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1"; //testnet checkin contractaddress
-const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
+// const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
+const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 // const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; //testnet feepayer
 // const feePayerServer = "https://fee-delegation.kaia.io"; // mainnet feepayerserver
 // const feePayerServer = "https://fee-delegation-kairos.kaia.io";
