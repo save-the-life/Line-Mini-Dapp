@@ -451,6 +451,7 @@ const MissionPage: React.FC = () => {
         input: contractCallData,
         value: "0x0",
         feePayer,
+        gas: "0x186A0",
       };
       console.log("tx: ", tx);
 
