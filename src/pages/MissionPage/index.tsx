@@ -452,11 +452,14 @@ const MissionPage: React.FC = () => {
         value: "0x0",
         feePayer,
       };
+      console.log("tx: ", tx);
 
       const signedTx = await currentProvider.request({
         method: "kaia_signTransaction",
         params: [tx],
       });
+
+      console.log("signedTx: ", signedTx);
 
       const test = await testingKaia(signedTx.raw, walletAddress);
       if(test){
