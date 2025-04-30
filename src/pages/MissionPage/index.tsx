@@ -30,7 +30,7 @@ import testingKaia from "@/entities/User/api/kaiaTX";
 
 const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-const abi = [
+const abi  = [
   {
      "anonymous": false,
      "inputs": [
