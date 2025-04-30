@@ -445,6 +445,7 @@ const MissionPage: React.FC = () => {
         sig.r,
         sig.s,
       ]);
+      console.log("서명 진행");
 
       const tx = {
         typeInt: TxType.FeeDelegatedSmartContractExecution,
@@ -460,7 +461,10 @@ const MissionPage: React.FC = () => {
         params: [tx],
       });
 
-      const test = await testingKaia(signedTx, walletAddress);
+      const test = await testingKaia(signedTx.raw, walletAddress);
+      if(test){
+        console.log("응답: ", test);
+      }
     } catch(error: any){
 
     }
