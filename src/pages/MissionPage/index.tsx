@@ -267,8 +267,11 @@ const MissionPage: React.FC = () => {
   const kaiaMission = missions.find((mission) => mission.type === "KAIA");
 
   // 지갑 관련 전역 상태
-  const { walletAddress } = useWalletStore();
-
+  const { walletAddress, provider, sdk, walletType } = useWalletStore();
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("");
+  
   // 보상 다이얼로그 상태
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [rewardData, setRewardData] = useState<{
@@ -383,6 +386,26 @@ const MissionPage: React.FC = () => {
 
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
+    // let currentProvider = provider;
+    // let currentWalletAddress = walletAddress;
+    // let currentSdk = sdk;
+    // let currentWalletType = walletType;
+
+    // if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+    //     if (isConnecting) return;
+    //     setIsConnecting(true);
+    //     const connection = await connectWallet();
+    //     setIsConnecting(false);
+    //     if (!connection.provider || !connection.walletAddress) {
+    //       setShowModal(true);
+    //       setMessage(t("attendance.wallet_fail"));
+    //       return;
+    //     }
+    //     currentProvider = connection.provider;
+    //     currentWalletAddress = connection.walletAddress;
+    //     currentSdk = connection.sdk;
+    //     currentWalletType = connection.walletType;
+    // }
 
     // 지갑 주소가 존재하는 경우에 진행
     if(walletAddress != null){
