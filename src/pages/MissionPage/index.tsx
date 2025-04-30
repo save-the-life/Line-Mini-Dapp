@@ -28,14 +28,9 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-const contractAddress = "0xd07EFc4A0eCfA74FFBfEE5d5435195dbbf7274F3";
-const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
+const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
+const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const abi = [
-  {
-     "inputs": [],
-     "stateMutability": "nonpayable",
-     "type": "constructor"
-  },
   {
      "anonymous": false,
      "inputs": [
@@ -44,70 +39,70 @@ const abi = [
            "internalType": "address",
            "name": "user",
            "type": "address"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "indexed": false,
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
         }
      ],
-     "name": "Claimed",
+     "name": "AttendanceChecked",
      "type": "event"
   },
   {
      "inputs": [
         {
-           "internalType": "address",
-           "name": "",
-           "type": "address"
-        }
-     ],
-     "name": "hasClaimed",
-     "outputs": [
+           "internalType": "bytes32",
+           "name": "messageHash",
+           "type": "bytes32"
+        },
         {
-           "internalType": "bool",
-           "name": "",
-           "type": "bool"
-        }
-     ],
-     "stateMutability": "view",
-     "type": "function"
-  },
-  {
-     "inputs": [
+           "internalType": "uint8",
+           "name": "v",
+           "type": "uint8"
+        },
         {
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        }
-     ],
-     "name": "isClaimed",
-     "outputs": [
+           "internalType": "bytes32",
+           "name": "r",
+           "type": "bytes32"
+        },
         {
-           "internalType": "bool",
-           "name": "",
-           "type": "bool"
+           "internalType": "bytes32",
+           "name": "s",
+           "type": "bytes32"
         }
      ],
-     "stateMutability": "view",
-     "type": "function"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        }
-     ],
-     "name": "markClaimed",
+     "name": "checkAttendance",
      "outputs": [],
      "stateMutability": "nonpayable",
      "type": "function"
   },
   {
-     "inputs": [],
-     "name": "owner",
-     "outputs": [
+     "inputs": [
         {
            "internalType": "address",
            "name": "",
            "type": "address"
+        }
+     ],
+     "name": "users",
+     "outputs": [
+        {
+           "internalType": "uint256",
+           "name": "lastAttendance",
+           "type": "uint256"
+        },
+        {
+           "internalType": "uint256",
+           "name": "consecutiveDays",
+           "type": "uint256"
         }
      ],
      "stateMutability": "view",
