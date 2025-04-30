@@ -7,7 +7,7 @@ export const testingKaia = async(userSignedTx: string, walletAddress: string): P
         walletAddress: walletAddress
     }
 
-    const response = await api.post("/test/kaia/tx", {userSignedTx});
+    const response = await api.post("/test/kaia/tx", info);
     console.log("뭐지: ", response);
     if(response){
         console.log("Kaia 확인 응답 : ", response);

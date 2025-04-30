@@ -462,7 +462,7 @@ const MissionPage: React.FC = () => {
 
       console.log("signedTx: ", signedTx);
 
-      const test = await testingKaia(signedTx.raw, walletAddress);
+      const test = await testingKaia(signedTx.raw, currentWalletAddress);
       if(test){
         console.log("응답: ", test);
       }
