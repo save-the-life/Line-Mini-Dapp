@@ -463,11 +463,36 @@ const MissionPage: React.FC = () => {
       console.log("signedTx: ", signedTx);
 
       const test = await testingKaia(signedTx.raw, currentWalletAddress);
+
       if(test){
         console.log("응답: ", test);
+        setKaiaLoading(true);
+        try{
+          const kaia = await requestKaiaMission(walletAddress);
+
+          if(kaia.message === "Success"){
+            setKaiaLoading(false);
+            setKaiaModal(true);
+            setKaiaMessage(t("mission_page.success"));
+          } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
+            setKaiaLoading(false);
+            setKaiaModal(true);
+            setKaiaMessage(t("mission_page.already"));
+          } else if( kaia.message === "You're not eligible for the reward."){
+            setKaiaLoading(false);
+            setKaiaModal(true);
+            setKaiaMessage(t("mission_page.not_eligible"));
+          }
+        } catch(error: any){
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage(t("mission_page.failed"));
+        }
       }
     } catch(error: any){
-
+      setKaiaLoading(false);
+      setKaiaModal(true);
+      setKaiaMessage(t("mission_page.failed"));
     }
 
     // // 지갑 주소가 존재하는 경우에 진행
