@@ -439,11 +439,8 @@ const MissionPage: React.FC = () => {
       }
 
       // OKX가 아닌 경우: Fee Delegation 로직 적용
-      const contractCallData = contract.interface.encodeFunctionData("checkAttendance", [
-        messageHash,
-        sig.v,
-        sig.r,
-        sig.s,
+      const contractCallData = contract.interface.encodeFunctionData("markClaimed", [
+        currentWalletAddress
       ]);
       console.log("서명 진행");
 
