@@ -113,7 +113,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
           }`}
           onClick={() => setSelectedTab('SL')}
         >
-          SL Token
+          SL
         </button>
       </div>
 
