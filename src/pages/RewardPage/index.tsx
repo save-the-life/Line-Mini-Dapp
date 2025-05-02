@@ -31,7 +31,7 @@ const Reward: React.FC = () => {
   } = useRewardStore();
 
   const [showMoreRanking, setShowMoreRanking] = useState(false);
-  // const [showMoreRaffle, setShowMoreRaffle] = useState(false);
+  const [showMoreRaffle, setShowMoreRaffle] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -59,8 +59,8 @@ const Reward: React.FC = () => {
   const currentRound = rankingProducts.length > 0 ? rankingProducts[0].round : null;
   const nextRound = currentRound !== null ? currentRound + 1 : null;
 
-  // const raffleProducts = drawAwards.slice(0, 3); 
-  // const raffleOthers = drawAwards.slice(3); 
+  const raffleProducts = drawAwards.slice(0, 3); 
+  const raffleOthers = drawAwards.slice(3); 
 
   // const truncateString = (str: string, num: number): string => {
   //   if (str.length <= num) {
@@ -74,10 +74,10 @@ const Reward: React.FC = () => {
     setShowMoreRanking(true);
   }
 
-  // const handleShowMoreRaffle = () => {
-  //   playSfx(Audios.button_click);
-  //   setShowMoreRaffle(true);
-  // }
+  const handleShowMoreRaffle = () => {
+    playSfx(Audios.button_click);
+    setShowMoreRaffle(true);
+  }
 
   const handlePreviousRewardPage = async() => {
     playSfx(Audios.button_click);
@@ -91,16 +91,16 @@ const Reward: React.FC = () => {
   }
 
   
-  // const handlePreviousAirdropPage = async() => {
-  //   playSfx(Audios.button_click);
+  const handlePreviousAirdropPage = async() => {
+    playSfx(Audios.button_click);
 
-  //   const response = await api.get("/leader/ranking/initial");
-  //   if(response.data.data === null) {
-  //     setShowModal(true);
-  //   } else {
-  //     navigate('/previous-raffle');
-  //   }
-  // }
+    const response = await api.get("/leader/ranking/initial");
+    if(response.data.data === null) {
+      setShowModal(true);
+    } else {
+      navigate('/previous-raffle');
+    }
+  }
 
 
   const handleCloseModal = () => {
@@ -253,7 +253,7 @@ const Reward: React.FC = () => {
       </div>
 
       {/* 래플-에어드랍 영역 */}
-      {/* <div 
+      <div 
         className="first-to-third-pace-box h-36 rounded-3xl mb-14 flex flex-row items-center justify-around p-5 cursor-pointer"
         onClick={handlePreviousAirdropPage}>
         <div className="flex flex-col gap-2">
@@ -263,10 +263,10 @@ const Reward: React.FC = () => {
           </p>
         </div>
         <img src={Images.airDropBox} alt="trophy" className="w-24 h-24" />
-      </div> */}
+      </div>
 
       {/** 지난 에어드랍 경품 보여주기 */}
-      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14">
+      <div className="flex flex-col gap-3 justify-center items-center mb-14">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
             {t("reward_page.this_month")}
@@ -278,20 +278,20 @@ const Reward: React.FC = () => {
             alt="Raffle"
             className="absolute -top-1 -right-12 w-[68px] h-[68px] -z-10"
           />
-        </div> */}
+        </div>
       
         {/* 상위 3위 래플 보상 */}
-        {/* {raffleProducts.map((award, index) =>
+        {raffleProducts.map((award, index) =>
           <RewardItem
             key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
             rank={index + 1}
             award={award}
             isTop={true}
           />
-        )} */}
+        )}
 
         {/* AnimatePresence로 4위 이후 래플 보상 슬라이드 인 애니메이션 */}
-        {/* <AnimatePresence>
+        <AnimatePresence>
           {showMoreRaffle && raffleOthers.map((award, index) => (
             <motion.div
               key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
@@ -308,9 +308,9 @@ const Reward: React.FC = () => {
               />
             </motion.div>
           ))}
-        </AnimatePresence> */}
+        </AnimatePresence>
 
-        {/* {raffleOthers.length > 0 && !showMoreRaffle && (
+        {raffleOthers.length > 0 && !showMoreRaffle && (
           <button
             onClick={handleShowMoreRaffle}
             className="border border-[#ffffff] text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
@@ -319,7 +319,7 @@ const Reward: React.FC = () => {
           </button>
         )}
       
-      </div> */}
+      </div>
 
       {/** 이번달 에어드랍 보상 : 있는 경우만 보여주기 */}
       {/* {airDropAwards && airDropAwards.length > 0 && (
