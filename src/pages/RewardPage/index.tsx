@@ -279,7 +279,24 @@ const Reward: React.FC = () => {
             className="absolute -top-1 -right-12 w-[68px] h-[68px] -z-10"
           />
         </div>
-      
+        
+        {/* USDT 보상 영역 */}
+        <div className="flex flex-col gap-3 justify-center items-center">
+          <div className="relative text-center font-jalnan text-xl font-bold">
+            USDT WINNER
+          </div>
+
+        </div>
+
+        
+        {/* SL 보상 영역 */}
+        <div className="flex flex-col gap-3 justify-center items-center">
+          <div className="relative text-center font-jalnan text-xl font-bold">
+            SL WINNER
+          </div>
+
+        </div>
+
         {/* 상위 3위 래플 보상 */}
         {raffleProducts.map((award, index) =>
           <RewardItem
