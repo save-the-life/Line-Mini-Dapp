@@ -113,7 +113,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
           }`}
           onClick={() => setSelectedTab('SL')}
         >
-          SL
+          SL Token
         </button>
       </div>
 
@@ -170,7 +170,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
         <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center mb-4">
           <p className="font-semibold text-sm text-center">
             {t("reward_page.better_luck")} <br />
-            {t("reward_page.next_raffle")}
+            {t("reward_page.next_raffle")} 
           </p>
         </div>
       )}
@@ -220,40 +220,45 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
           </div>
           <div className="mt-6 space-y-4">
             <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
-              {slRanges.map(range => (
-                <DialogTrigger
-                  key={range.label}
-                  className="flex justify-between items-center p-4 border rounded-lg"
-                  onClick={() => handleRangeClick(range.start, range.end)}
-                >
-                  <span>{range.label}</span>
-                  <div className="flex items-center gap-1">
-                    <img src={Images.TokenReward} alt="SL" className="w-5 h-5" />
-                    <p className="text-sm font-semibold">{range.amount}</p>
-                    <IoCaretDown className="w-5 h-5" />
-                  </div>
-                </DialogTrigger>
-              ))}
+              <div className="space-y-2">
+                {slRanges.map(range => (
+                  <DialogTrigger
+                    key={range.label}
+                    className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+                    onClick={() => handleRangeClick(range.start, range.end)}
+                  >
+                    <span>
+                      {range.label} <IoCaretDown className="inline-block ml-1" />
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <img src={Images.TokenReward} alt="SL" className="w-5 h-5" />
+                      <span className="text-sm font-semibold">{range.amount}</span>
+                    </span>
+                  </DialogTrigger>
+                ))}
+              </div>
 
-              <DialogContent className="text-white rounded-3xl w-[80%] md:w-full bg-[#21212F] max-h-[80%] overflow-y-auto text-sm">
+              <DialogContent className="text-white rounded-3xl w-[80%] md:w-full border-none bg-[#21212F] max-h-[80%] flex flex-col overflow-hidden text-sm">
                 <DialogHeader>
                   <DialogTitle>{dialogTitle}</DialogTitle>
                 </DialogHeader>
-                {isLoadingRaffleRange && <LoadingSpinner className="h-screen" />}
-                {raffleRangeError && <ErrorMessage message={raffleRangeError} />}
-                {!isLoadingRaffleRange &&
-                  !raffleRangeError &&
-                  dialogRaffleRankings.map(r => (
-                    <div
-                      key={r.rank}
-                      className={`flex gap-10 border-b py-2 truncate ${
-                        r.itsMe ? 'text-[#FDE047] font-bold' : ''
-                      }`}
-                    >
-                      <p>{r.rank}</p>
-                      <p>{r.name}</p>
-                    </div>
-                  ))}
+                <div className="overflow-y-auto flex-1">
+                  {isLoadingRaffleRange && <LoadingSpinner className="h-full" />}
+                  {raffleRangeError && <ErrorMessage message={raffleRangeError} />}
+                  {!isLoadingRaffleRange &&
+                    !raffleRangeError &&
+                    dialogRaffleRankings.map(r => (
+                      <div
+                        key={r.rank}
+                        className={`flex flex-row items-center p-4 border-b gap-10 truncate ${
+                          r.itsMe ? 'text-[#FDE047] font-bold' : ''
+                        }`}
+                      >
+                        <p className="w-1/6 text-center">{r.rank}</p>
+                        <p className="flex-1 text-center">{r.name}</p>
+                      </div>
+                    ))}
+                </div>
               </DialogContent>
             </Dialog>
           </div>
