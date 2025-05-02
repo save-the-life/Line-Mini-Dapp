@@ -109,7 +109,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                         </div>
                       )}
                       <div className="flex flex-row items-center gap-3">
-                        <p>#{item.rank}</p>
+                        <p>{item.rank}</p>
                         <div className="flex flex-col gap-1">
                           <p>{item.name}</p>
                           <div className="flex flex-row items-center gap-1">
@@ -180,7 +180,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                 key={r.rank}
                 className={`relative flex flex-row items-center p-4 border-b gap-4`}
               >
-                <p>#{r.rank}</p>
+                <p>{r.rank}</p>
                 <div className="flex flex-col gap-1">
                   <p>{r.name}</p>
                   <div className="flex flex-row items-center gap-1">
@@ -257,7 +257,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
                     r.itsMe ? "text-[#FDE047] font-bold" : ""
                   }`}
                 >
-                  <p>#{r.rank}</p>
+                  <p>{r.rank}</p>
                   <p>{r.name}</p>
                 </div>
               ))}
