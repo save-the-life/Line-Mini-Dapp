@@ -286,6 +286,44 @@ const Reward: React.FC = () => {
             USDT WINNER
           </div>
 
+          {/* 상위 3위 래플 USDT 보상 */}
+          {raffleProducts.map((award, index) =>
+            <RewardItem
+              key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
+              rank={index + 1}
+              award={award}
+              isTop={true}
+            />
+          )}
+
+          {/* AnimatePresence로 4위 이후 래플 보상 슬라이드 인 애니메이션 */}
+          <AnimatePresence>
+            {showMoreRaffle && raffleOthers.map((award, index) => (
+              <motion.div
+                key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
+                className="w-full"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <RewardItem
+                  rank={award.rangeStart === award.rangeEnd ? award.rangeStart : `${award.rangeStart}-${award.rangeEnd}`}
+                  award={award}
+                  isTop={false}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {raffleOthers.length > 0 && !showMoreRaffle && (
+            <button
+              onClick={handleShowMoreRaffle}
+              className="border border-[#ffffff] text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
+            >
+              {t("reward_page.view_more")}
+            </button>
+          )}
         </div>
 
         
@@ -295,47 +333,45 @@ const Reward: React.FC = () => {
             SL WINNER
           </div>
 
-        </div>
-
-        {/* 상위 3위 래플 보상 */}
-        {raffleProducts.map((award, index) =>
-          <RewardItem
-            key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
-            rank={index + 1}
-            award={award}
-            isTop={true}
-          />
-        )}
-
-        {/* AnimatePresence로 4위 이후 래플 보상 슬라이드 인 애니메이션 */}
-        <AnimatePresence>
-          {showMoreRaffle && raffleOthers.map((award, index) => (
-            <motion.div
+          {/* 상위 3위 래플 SL 보상 */}
+          {raffleProducts.map((award, index) =>
+            <RewardItem
               key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
-              className="w-full"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <RewardItem
-                rank={award.rangeStart === award.rangeEnd ? award.rangeStart : `${award.rangeStart}-${award.rangeEnd}`}
-                award={award}
-                isTop={false}
-              />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              rank={index + 1}
+              award={award}
+              isTop={true}
+            />
+          )}
 
-        {raffleOthers.length > 0 && !showMoreRaffle && (
-          <button
-            onClick={handleShowMoreRaffle}
-            className="border border-[#ffffff] text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
-          >
-            {t("reward_page.view_more")}
-          </button>
-        )}
-      
+          {/* AnimatePresence로 4위 이후 래플 보상 슬라이드 인 애니메이션 */}
+          <AnimatePresence>
+            {showMoreRaffle && raffleOthers.map((award, index) => (
+              <motion.div
+                key={`${award.rangeStart}-${award.rangeEnd}-${index}`}
+                className="w-full"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <RewardItem
+                  rank={award.rangeStart === award.rangeEnd ? award.rangeStart : `${award.rangeStart}-${award.rangeEnd}`}
+                  award={award}
+                  isTop={false}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {raffleOthers.length > 0 && !showMoreRaffle && (
+            <button
+              onClick={handleShowMoreRaffle}
+              className="border border-[#ffffff] text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
+            >
+              {t("reward_page.view_more")}
+            </button>
+          )}
+        </div>
       </div>
 
       {/** 이번달 에어드랍 보상 : 있는 경우만 보여주기 */}
