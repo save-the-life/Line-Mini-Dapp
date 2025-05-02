@@ -1,6 +1,4 @@
-// src/widgets/PreviousRewards/ui/RaffleSection.tsx
-
-import React from "react";
+import React, { useState } from "react";
 import Images from "@/shared/assets/images";
 import { IoCaretDown } from "react-icons/io5";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,10 +14,8 @@ import {
 import "swiper/css";
 import "swiper/css/pagination";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
-import ErrorMessage from "@/shared/components/ui/ErrorMessage"; // 에러 메시지 컴포넌트 임포트
+import ErrorMessage from "@/shared/components/ui/ErrorMessage";
 import { useTranslation } from "react-i18next";
-
-
 
 interface RaffleSectionProps {
   myRankings: PlayerData[];
@@ -37,12 +33,12 @@ interface RaffleSectionProps {
   raffleRangeError: string | null;
   handleRangeClick: (start: number, end: number) => void;
   currentUserId?: string;
-  isLoadingInitialRaffle: boolean; // 추가된 prop
+  isLoadingInitialRaffle: boolean;
 }
 
 const RaffleSection: React.FC<RaffleSectionProps> = ({
-  myRankings = [], // 기본값 설정
-  raffleTopRankings = [], // 기본값 설정
+  myRankings = [],
+  raffleTopRankings = [],
   currentRaffleIndex,
   setCurrentRaffleIndex,
   raffleIsReceived,
@@ -58,109 +54,127 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
   currentUserId,
   isLoadingInitialRaffle,
 }) => {
-  // 총 보상 개수
-  const totalRewards = myRankings.length;
   const { t } = useTranslation();
-
-  // 아직 받지 않은 보상 개수
-  const leftRewards = myRankings.filter(
-    (r) => r.selectedRewardType === null
-  ).length;
+  const [selectedTab, setSelectedTab] = useState<'USDT' | 'SL'>('USDT');
 
   if (isLoadingInitialRaffle) {
     return (
       <div className="flex justify-center items-center h-full">
-        <LoadingSpinner className="h-screen"/> {/* 로딩 스피너 컴포넌트 사용 */}
+        <LoadingSpinner className="h-screen" />
       </div>
     );
   }
 
+  const filteredMyRankings = myRankings.filter(item =>
+    selectedTab === 'USDT'
+      ? item.selectedRewardType === 'USDT'
+      : item.selectedRewardType === 'SL'
+  );
+  const filteredTopRankings = raffleTopRankings.filter(item =>
+    selectedTab === 'USDT'
+      ? item.selectedRewardType === 'USDT'
+      : item.selectedRewardType === 'SL'
+  );
+
   return (
     <div className="p-6 bg-[#0D1226] text-white w-full h-full">
-      {myRankings && myRankings.length > 0 ? (
+      {/* 제목 */}
+      <h1 className="text-center text-lg font-semibold mb-4">
+        Raffle Airdrop
+      </h1>
+
+      {/* 탭 헤더 */}
+      <div className="flex mb-4">
+        <button
+          className={`flex-1 text-center pb-2 font-medium transition-all ${
+            selectedTab === 'USDT'
+              ? 'border-b-2 border-blue-500 text-white'
+              : 'border-b-2 border-transparent text-white opacity-60'
+          }`}
+          onClick={() => setSelectedTab('USDT')}
+        >
+          USDT
+        </button>
+        <button
+          className={`flex-1 text-center pb-2 font-medium transition-all ${
+            selectedTab === 'SL'
+              ? 'border-b-2 border-blue-500 text-white'
+              : 'border-b-2 border-transparent text-white opacity-60'
+          }`}
+          onClick={() => setSelectedTab('SL')}
+        >
+          SL
+        </button>
+      </div>
+
+      {/* 내 보상 */}
+      {filteredMyRankings.length > 0 ? (
         <>
-          {/* 보상 정보 표시 */}
-          <p className="font-semibold text-sm">
-            {totalRewards} Rewards. Swipe to Check! {leftRewards} Left.
+          <p className="font-semibold text-sm mb-2">
+            {filteredMyRankings.length} {selectedTab} Rewards. Swipe to Check!
           </p>
-          <div className="mt-4">
+          <div className="mt-2">
             <Swiper
               modules={[Pagination]}
-              pagination={{
-                el: ".my-pagination",
-                clickable: true,
-              }}
+              pagination={{ el: ".my-pagination", clickable: true }}
               spaceBetween={16}
               slidesPerView={1}
-              onSlideChange={(swiper) => {
-                setCurrentRaffleIndex(swiper.activeIndex);
-              }}
+              onSlideChange={swiper => setCurrentRaffleIndex(swiper.activeIndex)}
             >
-              {myRankings.map((item, index) => {
-                const isRaffleReceived =
-                  item.selectedRewardType === "USDT" ||
-                  item.selectedRewardType === "SL";
-                return (
-                  <SwiperSlide key={index}>
-                    <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5  h-24 justify-between">
-                      {isRaffleReceived && (
-                        <div className="absolute top-2 right-2 bg-[#0147E5] rounded-full px-3 py-1 text-sm">
-                          {t("reward_page.recieved")}
-                        </div>
-                      )}
-                      <div className="flex flex-row items-center gap-3">
-                        <p>{item.rank}</p>
-                        <div className="flex flex-col gap-1">
-                          <p>{item.name}</p>
-                          <div className="flex flex-row items-center gap-1">
-                            <img
-                              src={
-                                item.selectedRewardType === "USDT"
-                                  ? Images.USDT
-                                  : Images.TokenReward
-                              }
-                              alt="token"
-                              className="w-5 h-5"
-                            />
-                            <p className="text-sm font-semibold">
-                              {(item.slRewards ?? 0).toLocaleString()}{" "}
-                              <span className="font-normal text-[#a3a3a3]">
-                                (or {(item.usdtRewards ?? 0).toLocaleString()} USDT)
-                              </span>{" "}
-                              {item.nftType ? `+ ${item.nftType} NFT` : ""}
-                            </p>
-                          </div>
+              {filteredMyRankings.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-between">
+                    {item.selectedRewardType && (
+                      <div className="absolute top-2 right-2 bg-[#0147E5] rounded-full px-3 py-1 text-sm">
+                        {t("reward_page.recieved")}
+                      </div>
+                    )}
+                    <div className="flex flex-row items-center gap-3">
+                      <p>{item.rank}</p>
+                      <div className="flex flex-col gap-1">
+                        <p>{item.name}</p>
+                        <div className="flex flex-row items-center gap-1">
+                          <img
+                            src={
+                              selectedTab === 'USDT' ? Images.USDT : Images.TokenReward
+                            }
+                            alt="token"
+                            className="w-5 h-5"
+                          />
+                          <p className="text-sm font-semibold">
+                            {selectedTab === 'USDT'
+                              ? `${(item.usdtRewards ?? 0).toLocaleString()} USDT`
+                              : `${(item.slRewards ?? 0).toLocaleString()} SL`}
+                          </p>
                         </div>
                       </div>
                     </div>
-                  </SwiperSlide>
-                );
-              })}
+                  </div>
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
           <div className="my-pagination w-full flex items-center justify-center mt-4"></div>
 
-          {/*
-            현재 슬라이드로 선택된 래플 아이템이 존재하며,
-            그 랭킹이 20등 이내일 때만 보상 버튼 노출
-          */}
-          {currentRaffleItem && currentRaffleItem.rank <= 20 && (
-            <button
-              className={`bg-[#0147E5] rounded-full w-full h-14 mt-6 font-medium ${
-                raffleIsReceived ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              onClick={onGetReward}
-              disabled={raffleIsReceived}
-            >
-              {currentRaffleItem.selectedRewardType === null
-                ? "Select your reward"
-                : `Reward Issued (${currentRaffleItem.selectedRewardType})`}
-            </button>
-          )}
+          {/* 보상 버튼 */}
+          {currentRaffleItem &&
+            currentRaffleItem.selectedRewardType === selectedTab &&
+            currentRaffleItem.rank <= 20 && (
+              <button
+                className={`bg-[#0147E5] rounded-full w-full h-14 mt-6 font-medium ${
+                  raffleIsReceived ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={onGetReward}
+                disabled={raffleIsReceived}
+              >
+                {currentRaffleItem.selectedRewardType === null
+                  ? 'Select your reward'
+                  : `Reward Issued (${currentRaffleItem.selectedRewardType})`}
+              </button>
+            )}
         </>
       ) : (
-        // 보상 데이터가 없는 경우
-        <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-between">
+        <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center">
           <p className="font-semibold text-sm text-center">
             {t("reward_page.better_luck")} <br />
             {t("reward_page.next_raffle")}
@@ -168,73 +182,44 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
         </div>
       )}
 
-      {/* Top Rankings */}
+      {/* Top 랭킹 */}
       <div className="flex flex-col mt-8">
-      <p className="font-semibold">{t("reward_page.raffle_winner")}</p>
-        {raffleTopRankings.length > 0 ? (
-          raffleTopRankings.slice(0, 20).map((r) => {
-            const raffleTopReceived =
-              r.selectedRewardType === "USDT" || r.selectedRewardType === "SL";
-            return (
-              <div
-                key={r.rank}
-                className={`relative flex flex-row items-center p-4 border-b gap-4`}
-              >
-                <p>{r.rank}</p>
-                <div className="flex flex-col gap-1">
-                  <p>{r.name}</p>
-                  <div className="flex flex-row items-center gap-1">
-                    {r.selectedRewardType === "USDT" ? (
-                      <>
-                        <img
-                          src={Images.USDT}
-                          alt="token"
-                          className="w-5 h-5"
-                        />
-                        <p className="text-sm font-semibold">
-                          {(r.usdtRewards ?? 0).toLocaleString()}{" "}
-                          <span className="font-normal text-[#a3a3a3]">
-                            (or {(r.slRewards ?? 0).toLocaleString()} SL)
-                          </span>
-                          {r.nftType ? ` + ${r.nftType} NFT` : ""}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <img
-                          src={Images.TokenReward}
-                          alt="token"
-                          className="w-5 h-5"
-                        />
-                        <p className="text-sm font-semibold">
-                          {(r.slRewards ?? 0).toLocaleString()}{" "}
-                          <span className="font-normal text-[#a3a3a3]">
-                            (or {(r.usdtRewards ?? 0).toLocaleString()} USDT)
-                          </span>
-                          {r.nftType ? ` + ${r.nftType} NFT` : ""}
-                        </p>
-                      </>
-                    )}
-                  </div>
+        <p className="font-semibold mb-2">{t("reward_page.raffle_winner")}</p>
+        {filteredTopRankings.length > 0 ? (
+          filteredTopRankings.map(r => (
+            <div key={r.rank} className="relative flex flex-row items-center p-4 border-b gap-4">
+              <p>{r.rank}</p>
+              <div className="flex flex-col gap-1">
+                <p>{r.name}</p>
+                <div className="flex flex-row items-center gap-1">
+                  <img
+                    src={
+                      selectedTab === 'USDT' ? Images.USDT : Images.TokenReward
+                    }
+                    alt="token"
+                    className="w-5 h-5"
+                  />
+                  <p className="text-sm font-semibold">
+                    {selectedTab === 'USDT'
+                      ? `${(r.usdtRewards ?? 0).toLocaleString()} USDT`
+                      : `${(r.slRewards ?? 0).toLocaleString()} SL`}
+                  </p>
                 </div>
               </div>
-            );
-          })
+            </div>
+          ))
         ) : (
           <p className="text-center text-sm">{t("reward_page.no_ranking")}</p>
         )}
       </div>
 
-      {/* Dialogs */}
+      {/* 다이얼로그: 랭킹 범위 상세 */}
       <div className="mt-14 space-y-4">
         <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
-          <DialogTrigger
-            className="w-full cursor-pointer"
-            onClick={() => handleRangeClick(21, 100)}
-          >
+          <DialogTrigger className="w-full cursor-pointer" onClick={() => handleRangeClick(21, 100)}>
             <div className="flex flex-row justify-between items-center">
               <div className="flex flex-row items-center gap-2">
-                21-100 <IoCaretDown className={"w-5 h-5"} />
+                21-100 <IoCaretDown className="w-5 h-5" />
               </div>
               <div className="flex flex-row items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
@@ -246,17 +231,11 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
-            {isLoadingRaffleRange && <LoadingSpinner className="h-screen"/>}
+            {isLoadingRaffleRange && <LoadingSpinner className="h-screen" />}
             {raffleRangeError && <ErrorMessage message={raffleRangeError} />}
-            {!isLoadingRaffleRange &&
-              !raffleRangeError &&
-              dialogRaffleRankings.map((r) => (
-                <div
-                  key={r.rank}
-                  className={`flex flex-row gap-10 border-b pb-2 truncate ${
-                    r.itsMe ? "text-[#FDE047] font-bold" : ""
-                  }`}
-                >
+            {!isLoadingRaffleRange && !raffleRangeError &&
+              dialogRaffleRankings.map(r => (
+                <div key={r.rank} className={`flex flex-row gap-10 border-b pb-2 truncate ${r.itsMe ? "text-[#FDE047] font-bold" : ""}`}>
                   <p>{r.rank}</p>
                   <p>{r.name}</p>
                 </div>
@@ -265,25 +244,20 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
         </Dialog>
 
         <div className="w-full border-b"></div>
-        <div
-          className="flex flex-row justify-between items-center cursor-pointer"
-          onClick={() => handleRangeClick(101, 500)}
-        >
+        <div className="flex flex-row justify-between items-center cursor-pointer" onClick={() => handleRangeClick(101, 500)}>
           <div className="flex flex-row items-center gap-2">
-            101-500 <IoCaretDown className={"w-5 h-5"} />
+            101-500 <IoCaretDown className="w-5 h-5" />
           </div>
           <div className="flex flex-row items-center gap-1">
             <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
             <p className="text-sm font-semibold">25</p>
           </div>
         </div>
+
         <div className="w-full border-b"></div>
-        <div
-          className="flex flex-row justify-between items-center cursor-pointer"
-          onClick={() => handleRangeClick(501, 1000)}
-        >
+        <div className="flex flex-row justify-between items-center cursor-pointer" onClick={() => handleRangeClick(501, 1000)}>
           <div className="flex flex-row items-center gap-2">
-            501-1000 <IoCaretDown className={"w-5 h-5"} />
+            501-1000 <IoCaretDown className="w-5 h-5" />
           </div>
           <div className="flex flex-row items-center gap-1">
             <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
