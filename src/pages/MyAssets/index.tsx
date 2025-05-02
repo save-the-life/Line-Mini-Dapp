@@ -673,7 +673,7 @@ const MyAssets: React.FC = () => {
                         className="w-full h-14 mt-3 py-4 rounded-full text-base font-medium bg-[#0147E5] text-white"
                         onClick={() => {
                             playSfx(Audios.button_click);
-                            setShowModal(true);
+                            setClaimModalOpen(true);
                         }}>
                         {t("asset_page.claim_reward")}
                     </button>
