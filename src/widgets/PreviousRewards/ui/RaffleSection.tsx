@@ -123,7 +123,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
           <p className="font-semibold text-sm mb-2">
             {filteredMyRankings.length} {selectedTab} Rewards. Swipe to Check!
           </p>
-          <div className="mt-2">
+          <div className="mt-2 mb-4">
             <Swiper
               modules={[Pagination]}
               pagination={{ el: ".my-pagination", clickable: true }}
@@ -167,7 +167,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
           <div className="my-pagination w-full flex items-center justify-center mt-4" />
         </>
       ) : (
-        <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center">
+        <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center mb-4">
           <p className="font-semibold text-sm text-center">
             {t("reward_page.better_luck")} <br />
             {t("reward_page.next_raffle")}
