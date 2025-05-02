@@ -136,12 +136,12 @@ const PreviousRaffle: React.FC = () => {
     <div className="flex flex-col mb-44 text-white items-center w-full min-h-screen">
       <TopTitle title={t("reward_page.last_month")} className="px-6" back={true} />
 
-      <RewardSelectionDialog
+      {/* <RewardSelectionDialog
         open={rewardDialogOpen}
         onClose={() => setRewardDialogOpen(false)}
         data={selectedMyData}
         onSelect={(type) => handleSelectRewardType(type)}
-      />
+      /> */}
 
       <RaffleSection
               myRankings={(raffleMyRankings ?? []).map((r) => ({
