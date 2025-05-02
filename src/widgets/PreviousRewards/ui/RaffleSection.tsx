@@ -6,10 +6,10 @@ import { Pagination } from "swiper/modules";
 import { PlayerData } from "@/features/PreviousRewards/types/PlayerData";
 import {
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/shared/components/ui/dialog";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -19,12 +19,12 @@ import { useTranslation } from "react-i18next";
 
 interface RaffleSectionProps {
   myRankings: PlayerData[];
-  raffleTopRankings: PlayerData[];
   currentRaffleIndex: number;
   setCurrentRaffleIndex: (index: number) => void;
   raffleIsReceived: boolean;
   currentRaffleItem: PlayerData | null;
   onGetReward: () => void;
+  raffleTopRankings: PlayerData[];
   dialogOpen: boolean;
   onDialogOpenChange: (open: boolean) => void;
   dialogTitle: string;
@@ -32,18 +32,17 @@ interface RaffleSectionProps {
   isLoadingRaffleRange: boolean;
   raffleRangeError: string | null;
   handleRangeClick: (start: number, end: number) => void;
-  currentUserId?: string;
   isLoadingInitialRaffle: boolean;
 }
 
 const RaffleSection: React.FC<RaffleSectionProps> = ({
   myRankings = [],
-  raffleTopRankings = [],
   currentRaffleIndex,
   setCurrentRaffleIndex,
   raffleIsReceived,
   currentRaffleItem,
   onGetReward,
+  raffleTopRankings = [],
   dialogOpen,
   onDialogOpenChange,
   dialogTitle,
@@ -51,7 +50,6 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
   isLoadingRaffleRange,
   raffleRangeError,
   handleRangeClick,
-  currentUserId,
   isLoadingInitialRaffle,
 }) => {
   const { t } = useTranslation();
@@ -65,24 +63,36 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
     );
   }
 
-  const filteredMyRankings = myRankings.filter(item =>
-    selectedTab === 'USDT'
-      ? item.selectedRewardType === 'USDT'
-      : item.selectedRewardType === 'SL'
-  );
-  const filteredTopRankings = raffleTopRankings.filter(item =>
-    selectedTab === 'USDT'
-      ? item.selectedRewardType === 'USDT'
-      : item.selectedRewardType === 'SL'
-  );
+  // 내 보상 필터 + 정렬
+  const filteredMyRankings = myRankings
+    .filter(item =>
+      selectedTab === 'USDT'
+        ? item.selectedRewardType === 'USDT'
+        : item.selectedRewardType === 'SL'
+    )
+    .sort((a, b) => a.rank - b.rank);
+
+  // USDT: 상위 20명
+  const usdtRanks = raffleTopRankings
+    .filter(r => r.selectedRewardType === 'USDT')
+    .sort((a, b) => a.rank - b.rank)
+    .slice(0, 20);
+
+  // SL: 전체 정렬 후 상위 10명 인라인, 나머지는 다이얼로그
+  const allSl = raffleTopRankings
+    .filter(r => r.selectedRewardType === 'SL')
+    .sort((a, b) => a.rank - b.rank);
+  const inlineSl = allSl.slice(0, 10);
+  const slRanges = [
+    { start: 11, end: 100, label: '11-100', amount: 200 },
+    { start: 101, end: 500, label: '101-500', amount: 100 },
+    { start: 501, end: 800, label: '501-800', amount: 40 },
+    { start: 801, end: 1600, label: '801-1600', amount: 20 },
+    { start: 1601, end: 2000, label: '1601-2000', amount: 10 },
+  ];
 
   return (
     <div className="p-6 bg-[#0D1226] text-white w-full h-full">
-      {/* 제목 */}
-      <h1 className="text-center text-lg font-semibold mb-4">
-        Raffle Airdrop
-      </h1>
-
       {/* 탭 헤더 */}
       <div className="flex mb-4">
         <button
@@ -154,24 +164,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
               ))}
             </Swiper>
           </div>
-          <div className="my-pagination w-full flex items-center justify-center mt-4"></div>
-
-          {/* 보상 버튼 */}
-          {currentRaffleItem &&
-            currentRaffleItem.selectedRewardType === selectedTab &&
-            currentRaffleItem.rank <= 20 && (
-              <button
-                className={`bg-[#0147E5] rounded-full w-full h-14 mt-6 font-medium ${
-                  raffleIsReceived ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-                onClick={onGetReward}
-                disabled={raffleIsReceived}
-              >
-                {currentRaffleItem.selectedRewardType === null
-                  ? 'Select your reward'
-                  : `Reward Issued (${currentRaffleItem.selectedRewardType})`}
-              </button>
-            )}
+          <div className="my-pagination w-full flex items-center justify-center mt-4" />
         </>
       ) : (
         <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center">
@@ -182,89 +175,90 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
         </div>
       )}
 
-      {/* Top 랭킹 */}
-      <div className="flex flex-col mt-8">
-        <p className="font-semibold mb-2">{t("reward_page.raffle_winner")}</p>
-        {filteredTopRankings.length > 0 ? (
-          filteredTopRankings.map(r => (
-            <div key={r.rank} className="relative flex flex-row items-center p-4 border-b gap-4">
-              <p>{r.rank}</p>
-              <div className="flex flex-col gap-1">
-                <p>{r.name}</p>
-                <div className="flex flex-row items-center gap-1">
-                  <img
-                    src={
-                      selectedTab === 'USDT' ? Images.USDT : Images.TokenReward
-                    }
-                    alt="token"
-                    className="w-5 h-5"
-                  />
+      {/* USDT 탭: 1~20위 리스트 */}
+      {selectedTab === 'USDT' && (
+        <div className="space-y-2">
+          {usdtRanks.length === 0 ? (
+            <p className="text-center text-sm">{t('reward_page.no_ranking')}</p>
+          ) : (
+            usdtRanks.map(item => (
+              <div key={item.rank} className="flex items-center p-4 border-b gap-2">
+                <p className="w-6 text-center">{item.rank}</p>
+                <p className="flex-1 truncate">{item.name}</p>
+                <div className="flex items-center gap-1">
+                  <img src={Images.USDT} alt="USDT" className="w-5 h-5" />
                   <p className="text-sm font-semibold">
-                    {selectedTab === 'USDT'
-                      ? `${(r.usdtRewards ?? 0).toLocaleString()} USDT`
-                      : `${(r.slRewards ?? 0).toLocaleString()} SL`}
+                    {item.usdtRewards?.toLocaleString()} USDT
                   </p>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-center text-sm">{t("reward_page.no_ranking")}</p>
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      )}
 
-      {/* 다이얼로그: 랭킹 범위 상세 */}
-      <div className="mt-14 space-y-4">
-        <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
-          <DialogTrigger className="w-full cursor-pointer" onClick={() => handleRangeClick(21, 100)}>
-            <div className="flex flex-row justify-between items-center">
-              <div className="flex flex-row items-center gap-2">
-                21-100 <IoCaretDown className="w-5 h-5" />
-              </div>
-              <div className="flex flex-row items-center gap-1">
-                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <p className="text-sm font-semibold">500</p>
-              </div>
-            </div>
-          </DialogTrigger>
-          <DialogContent className="text-white rounded-3xl w-[80%] md:w-full border-none bg-[#21212F] max-h-[80%] overflow-y-auto text-sm">
-            <DialogHeader>
-              <DialogTitle>{dialogTitle}</DialogTitle>
-            </DialogHeader>
-            {isLoadingRaffleRange && <LoadingSpinner className="h-screen" />}
-            {raffleRangeError && <ErrorMessage message={raffleRangeError} />}
-            {!isLoadingRaffleRange && !raffleRangeError &&
-              dialogRaffleRankings.map(r => (
-                <div key={r.rank} className={`flex flex-row gap-10 border-b pb-2 truncate ${r.itsMe ? "text-[#FDE047] font-bold" : ""}`}>
-                  <p>{r.rank}</p>
-                  <p>{r.name}</p>
+      {/* SL 탭: 1~10위 인라인, 그 외 다이얼로그 */}
+      {selectedTab === 'SL' && (
+        <>
+          <div className="space-y-2">
+            {inlineSl.length === 0 ? (
+              <p className="text-center text-sm">{t('reward_page.no_ranking')}</p>
+            ) : (
+              inlineSl.map(item => (
+                <div key={item.rank} className="flex items-center p-4 border-b gap-2">
+                  <p className="w-6 text-center">{item.rank}</p>
+                  <p className="flex-1 truncate">{item.name}</p>
+                  <div className="flex items-center gap-1">
+                    <img src={Images.TokenReward} alt="SL" className="w-5 h-5" />
+                    <p className="text-sm font-semibold">
+                      {item.slRewards?.toLocaleString()} SL
+                    </p>
+                  </div>
                 </div>
+              ))
+            )}
+          </div>
+          <div className="mt-6 space-y-4">
+            <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
+              {slRanges.map(range => (
+                <DialogTrigger
+                  key={range.label}
+                  className="flex justify-between items-center p-4 border rounded-lg"
+                  onClick={() => handleRangeClick(range.start, range.end)}
+                >
+                  <span>{range.label}</span>
+                  <div className="flex items-center gap-1">
+                    <img src={Images.TokenReward} alt="SL" className="w-5 h-5" />
+                    <p className="text-sm font-semibold">{range.amount}</p>
+                    <IoCaretDown className="w-5 h-5" />
+                  </div>
+                </DialogTrigger>
               ))}
-          </DialogContent>
-        </Dialog>
 
-        <div className="w-full border-b"></div>
-        <div className="flex flex-row justify-between items-center cursor-pointer" onClick={() => handleRangeClick(101, 500)}>
-          <div className="flex flex-row items-center gap-2">
-            101-500 <IoCaretDown className="w-5 h-5" />
+              <DialogContent className="text-white rounded-3xl w-[80%] md:w-full bg-[#21212F] max-h-[80%] overflow-y-auto text-sm">
+                <DialogHeader>
+                  <DialogTitle>{dialogTitle}</DialogTitle>
+                </DialogHeader>
+                {isLoadingRaffleRange && <LoadingSpinner className="h-screen" />}
+                {raffleRangeError && <ErrorMessage message={raffleRangeError} />}
+                {!isLoadingRaffleRange &&
+                  !raffleRangeError &&
+                  dialogRaffleRankings.map(r => (
+                    <div
+                      key={r.rank}
+                      className={`flex gap-10 border-b py-2 truncate ${
+                        r.itsMe ? 'text-[#FDE047] font-bold' : ''
+                      }`}
+                    >
+                      <p>{r.rank}</p>
+                      <p>{r.name}</p>
+                    </div>
+                  ))}
+              </DialogContent>
+            </Dialog>
           </div>
-          <div className="flex flex-row items-center gap-1">
-            <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-            <p className="text-sm font-semibold">25</p>
-          </div>
-        </div>
-
-        <div className="w-full border-b"></div>
-        <div className="flex flex-row justify-between items-center cursor-pointer" onClick={() => handleRangeClick(501, 1000)}>
-          <div className="flex flex-row items-center gap-2">
-            501-1000 <IoCaretDown className="w-5 h-5" />
-          </div>
-          <div className="flex flex-row items-center gap-1">
-            <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-            <p className="text-sm font-semibold">10</p>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };
