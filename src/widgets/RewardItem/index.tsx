@@ -23,27 +23,27 @@ const RewardItem: React.FC<RewardItemProps> = ({ rank, award, isTop = false }) =
   const rewardText = `${amount.toLocaleString()} ${unit}`;
   const nftText = award.nftType ? ` + ${award.nftType} PASS` : "";
 
-  // 아이콘 선택 (TokenReward는 SL 토큰, USDT 아이콘이 별도 없을 경우 재사용)
-  const iconSrc = Images.TokenReward;
-  const iconAlt = unit === "USDT" ? "usdt-reward" : "token-reward";
+  // 아이콘 선택: USDT vs SL
+  const iconSrc = isUsdt ? Images.USDT : Images.TokenReward;
+  const iconAlt = isUsdt ? "usdt-reward" : "sl-reward";
 
   return isTop ? (
-    <div className="h-16 w-full rounded-3xl first-to-third-pace-box flex flex-row items-center justify-center gap-4 text-sm">
+    <div className="h-16 w-full rounded-3xl first-to-third-pace-box flex flex-row items-center justify-center gap-4 text-sm text-left">
       <p className="font-semibold">{rank}</p>
       <div className="flex flex-row gap-1 font-medium items-center">
         <img src={iconSrc} alt={iconAlt} className="w-6 h-6" />
-        <p>
+        <p className="text-left">
           {rewardText}
           {nftText}
         </p>
       </div>
     </div>
   ) : (
-    <div className="h-16 w-full flex flex-row items-center justify-between border-b text-sm">
-      <p>{rank}</p>
+    <div className="h-16 w-full flex flex-row items-center justify-between border-b text-sm text-left">
+      <p className="text-left">{rank}</p>
       <div className="flex flex-row items-center gap-2">
         <img src={iconSrc} alt={iconAlt} className="w-6 h-6" />
-        <p>
+        <p className="text-left">
           {rewardText}
           {nftText}
         </p>
