@@ -39,11 +39,11 @@ const RewardItem: React.FC<RewardItemProps> = ({ rank, award, isTop = false }) =
       </div>
     </div>
   ) : (
-    <div className="h-16 w-full flex flex-row items-center justify-start border-b text-sm text-left px-5">
-      <p className="text-left ml-5">{rank}</p>
-      <div className="flex flex-row items-center gap-2">
+    <div className="h-16 w-full flex items-center justify-between border-b text-sm text-left px-5">
+      <p className="ml-5">{rank}</p>
+      <div className="flex items-center gap-2">
         <img src={iconSrc} alt={iconAlt} className="w-6 h-6" />
-        <p className="text-left ml-1">
+        <p className="ml-1">
           {rewardText}
           {nftText}
         </p>
