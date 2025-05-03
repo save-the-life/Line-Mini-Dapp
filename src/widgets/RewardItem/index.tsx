@@ -28,9 +28,9 @@ const RewardItem: React.FC<RewardItemProps> = ({ rank, award, isTop = false }) =
   const iconAlt = isUsdt ? "usdt-reward" : "sl-reward";
 
   return isTop ? (
-    <div className="h-16 w-full rounded-3xl first-to-third-pace-box flex flex-row items-start justify-center gap-4 text-sm text-left">
+    <div className="h-16 w-full rounded-3xl first-to-third-pace-box flex flex-row items-center justify-start gap-4 text-sm text-left">
       <p className="font-semibold">{rank}</p>
-      <div className="flex flex-row gap-1 font-medium items-start">
+      <div className="flex flex-row gap-1 font-medium items-center">
         <img src={iconSrc} alt={iconAlt} className="w-6 h-6" />
         <p className="text-left ml-5">
           {rewardText}
@@ -39,9 +39,9 @@ const RewardItem: React.FC<RewardItemProps> = ({ rank, award, isTop = false }) =
       </div>
     </div>
   ) : (
-    <div className="h-16 w-full flex flex-row items-start justify-between border-b text-sm text-left">
+    <div className="h-16 w-full flex flex-row items-center justify-start border-b text-sm text-left">
       <p className="text-left">{rank}</p>
-      <div className="flex flex-row items-start gap-2">
+      <div className="flex flex-row items-center gap-2">
         <img src={iconSrc} alt={iconAlt} className="w-6 h-6" />
         <p className="text-left ml-5">
           {rewardText}
