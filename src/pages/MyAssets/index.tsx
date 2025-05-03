@@ -24,6 +24,7 @@ import { BigNumber, ethers } from "ethers";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import getMyAssets from "@/entities/Asset/api/getMyAssets";
 import requestClaim from "@/entities/Asset/api/requestClaim";
+import requestUSDTClaim from "@/entities/Asset/requrstUSDTClaim";
 import useWalletStore from "@/shared/store/useWalletStore";
 import requestWallet from "@/entities/User/api/addWallet";
 import { connectWallet } from "@/shared/services/walletService";
@@ -431,6 +432,36 @@ const MyAssets: React.FC = () => {
             setClaimFailed(true);
         }
     };
+
+    // USDT 클래임 요청 함수
+    const hadleUsdtClaim = async(amount: string, address: string) => {
+        playSfx(Audios.button_click);
+        setSLClaim(false);
+        setUsdtCaim(false);
+        setLoadingModal(true);
+
+        try {
+            const claim = await requestUSDTClaim(amount, address);
+            if (claim.message === "Success") {
+                setClaimData(claim.data);
+                setLoadingModal(false);
+                setClaimSuccess(true);
+            } else if (claim.message === "Please check your balance.") {
+                setFailMessage("Please check your balance.");
+                setLoadingModal(false);
+                setClaimFailed(true);
+            } else {
+                setFailMessage("Network error occurred");
+                setLoadingModal(false);
+                setClaimFailed(true);
+            }
+        } catch(err: any) {
+            setFailMessage("Network error occurred");
+            setLoadingModal(false);
+            setClaimFailed(true);
+        }
+
+    }
 
     
   // 클립보드 복사 함수
@@ -869,7 +900,8 @@ const MyAssets: React.FC = () => {
                                     onClick={() => {
                                         playSfx(Audios.button_click);
                                         setWalletConnectionSLT(false);
-                                        setSLClaim(true);
+                                        // setSLClaim(true);
+                                        setShowModal(true); // SL 토큰 발행 전까지는 서비스 준비 안내 표시
                                     }}
                                     className="w-full md:w-[180px] h-14 rounded-full bg-[#0147E5] text-white text-base font-medium">
                                     {t("asset_page.claim.connect")}
@@ -962,7 +994,7 @@ const MyAssets: React.FC = () => {
                             </p>
                             <p className="text-sm text-[#A3A3A3] mb-5 leading-5 font-normal">
                                 {t("asset_page.claim.gas_note")} <br />
-                                {t("asset_page.claim.min_claim")}
+                                {/* {t("asset_page.claim.min_claim")} */}
                             </p>
                             <label className="block text-base font-semibold mb-1">{t("asset_page.claim.enter_sl")}</label>
                             <input
@@ -1008,7 +1040,7 @@ const MyAssets: React.FC = () => {
                             </p>
                             <p className="text-sm font-normal text-[#A3A3A3] mb-5 leading-5">
                                 {t("asset_page.claim.gas_note")} <br />
-                                {t("asset_page.claim.min_claim")}
+                                {/* {t("asset_page.claim.min_claim")} */}
                             </p>
                             <label className="block text-base font-semibold mb-1">
                                 {t("asset_page.claim.enter_usdt")}
@@ -1021,7 +1053,7 @@ const MyAssets: React.FC = () => {
                                 className="w-full h-16 rounded-2xl bg-[#181A20] border-2 border-[#35383F] px-3 py-2 mb-6 focus:outline-none focus:border-[#0147E5]"
                             />
                             <button
-                                onClick={() => handleClaim("USDT", userClaimAmount, walletAddress)}
+                                onClick={() => hadleUsdtClaim(userClaimAmount, walletAddress)}
                                 className="w-full h-14 rounded-full bg-[#0147E5] text-white text-base font-medium">
                                 {t("asset_page.claim.claim_btn")}
                             </button>
