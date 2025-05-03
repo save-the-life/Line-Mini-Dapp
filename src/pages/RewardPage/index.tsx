@@ -240,7 +240,7 @@ const Reward: React.FC = () => {
       </div>
 
       {/** 지난 에어드랍 경품 보여주기 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14">
+      <div className="flex flex-col gap-3 justify-center items-center mb-8">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
             {t("reward_page.this_month")}
