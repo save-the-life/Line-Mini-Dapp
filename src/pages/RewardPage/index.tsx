@@ -93,7 +93,7 @@ const Reward: React.FC = () => {
 
   const handlePreviousAirdropPage = async () => {
     playSfx(Audios.button_click);
-    const response = await api.get("/leader/ranking/initial");
+    const response = await api.get("/leader/raffle/initial");
     if (response.data.data === null) {
       setShowModal(true);
     } else {
