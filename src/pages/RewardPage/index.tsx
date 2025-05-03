@@ -31,7 +31,8 @@ const Reward: React.FC = () => {
   } = useRewardStore();
 
   const [showMoreRanking, setShowMoreRanking] = useState(false);
-  const [showMoreRaffle, setShowMoreRaffle] = useState(false);
+  const [showMoreUSDT, setShowMoreUSDT] = useState(false);
+  const [showMoreSL, setShowMoreSL] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   // 날짜 포맷 및 번역
@@ -70,11 +71,15 @@ const Reward: React.FC = () => {
     playSfx(Audios.button_click);
     setShowMoreRanking(true);
   };
-
-  const handleShowMoreRaffle = () => {
+  const handleShowMoreUSDT = () => {
     playSfx(Audios.button_click);
-    setShowMoreRaffle(true);
+    setShowMoreUSDT(true);
   };
+  const handleShowMoreSL = () => {
+    playSfx(Audios.button_click);
+    setShowMoreSL(true);
+  };
+
 
   const handlePreviousRewardPage = async () => {
     playSfx(Audios.button_click);
@@ -267,7 +272,7 @@ const Reward: React.FC = () => {
           <RewardItem key={idx} rank={idx + 1} award={award} isTop />
         ))}
         <AnimatePresence>
-          {showMoreRaffle && usdtOthers.map((award, idx) => (
+          {showMoreUSDT && usdtOthers.map((award, idx) => (
             <motion.div
               key={idx}
               className="w-full"
@@ -283,9 +288,9 @@ const Reward: React.FC = () => {
             </motion.div>
           ))}
         </AnimatePresence>
-        {!showMoreRaffle && usdtOthers.length > 0 && (
+        {!showMoreUSDT && usdtOthers.length > 0 && (
           <button
-            onClick={handleShowMoreRaffle}
+            onClick={handleShowMoreUSDT}
             className="border border-white text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
           >
             {t("reward_page.view_more")}
@@ -302,7 +307,7 @@ const Reward: React.FC = () => {
           <RewardItem key={idx} rank={idx + 1} award={award} isTop />
         ))}
         <AnimatePresence>
-          {showMoreRaffle && slOthers.map((award, idx) => (
+          {showMoreSL && slOthers.map((award, idx) => (
             <motion.div
               key={idx}
               className="w-full"
@@ -318,9 +323,9 @@ const Reward: React.FC = () => {
             </motion.div>
           ))}
         </AnimatePresence>
-        {!showMoreRaffle && slOthers.length > 0 && (
+        {!showMoreSL && slOthers.length > 0 && (
           <button
-            onClick={handleShowMoreRaffle}
+            onClick={handleShowMoreSL}
             className="border border-white text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
           >
             {t("reward_page.view_more")}
