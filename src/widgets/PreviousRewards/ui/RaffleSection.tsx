@@ -166,9 +166,6 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
       {/* 내 보상 슬라이드 */}
       {filteredMyRankings.length > 0 ? (
         <>
-          <p className="font-semibold text-sm mb-2">
-            {filteredMyRankings.length} {selectedTab} Rewards. Swipe to Check!
-          </p>
           <div className="mt-2 mb-4">
             <Swiper
               modules={[Pagination]}
