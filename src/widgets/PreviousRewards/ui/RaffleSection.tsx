@@ -144,7 +144,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
         <button
           className={`flex-1 text-center pb-2 font-medium transition-all ${
             selectedTab === "USDT"
-              ? "border-b-2 border-blue-500 text-white"
+              ? "border-b-2 border-[#0147E5] text-white"
               : "border-b-2 border-transparent text-white opacity-60"
           }`}
           onClick={() => handleTabClick("USDT")}
@@ -154,7 +154,7 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
         <button
           className={`flex-1 text-center pb-2 font-medium transition-all ${
             selectedTab === "SL"
-              ? "border-b-2 border-blue-500 text-white"
+              ? "border-b-2 border-[#0147E5] text-white"
               : "border-b-2 border-transparent text-white opacity-60"
           }`}
           onClick={() => handleTabClick("SL")}
