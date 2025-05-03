@@ -240,6 +240,9 @@ const MyAssets: React.FC = () => {
             case "1st Raffle Awards":
                 contentKey = "1st_raffle";
                 break;
+            case "Request Claim":
+                contentKey = "request_claim";
+                break;
             default:
             contentKey = reward.content;
         }
@@ -688,6 +691,15 @@ const MyAssets: React.FC = () => {
                 <div className="mt-8 w-full">
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold">{t("asset_page.claimable")}</h2>
+                        <button
+                            className="flex items-center text-white text-xs"
+                            onClick={() => {
+                                playSfx(Audios.button_click);
+                                navigate("/claim-history");
+                            }}
+                            aria-label="View All Items">
+                            {t("asset_page.claim_history")} <FaChevronRight className="ml-1 w-2 h-2" />
+                        </button>
                     </div>
                     <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-4">
                         <div className="flex items-center">

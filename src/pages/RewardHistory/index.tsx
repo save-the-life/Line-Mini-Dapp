@@ -193,6 +193,9 @@ const RewardHistory: React.FC = () => {
       case "1st Raffle Awards":
           contentKey = "1st_raffle";
           break;
+      case "Request Claim":
+          contentKey = "request_claim";
+          break;
       default:
         contentKey = reward.content;
     }

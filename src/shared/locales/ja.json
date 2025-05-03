@@ -187,7 +187,8 @@
         "mystery_gift": "ミステリーギフト",
         "1st_awards": "1位ランキング賞",
         "ai_exam": "AI試験",
-        "1st_raffle": "第1回抽選賞"
+        "1st_raffle": "第1回抽選賞",
+        "request_claim": "請求を申請"
     },
     "wallet_page": {
         "wallet": "ウォレット",
