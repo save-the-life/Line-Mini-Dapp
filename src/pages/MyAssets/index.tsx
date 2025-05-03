@@ -698,7 +698,7 @@ const MyAssets: React.FC = () => {
                                 navigate("/claim-history");
                             }}
                             aria-label="View All Items">
-                            {t("asset_page.claim_history")} <FaChevronRight className="ml-1 w-2 h-2" />
+                            {t("asset_page.claim.claim_history")} <FaChevronRight className="ml-1 w-2 h-2" />
                         </button>
                     </div>
                     <div className="flex items-center justify-between h-14 py-4 px-5 border-[2px] rounded-full bg-[#1F1E27] border-[#35383F] mt-4">
