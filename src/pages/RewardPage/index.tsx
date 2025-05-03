@@ -226,16 +226,33 @@ const Reward: React.FC = () => {
         )}
       </div>
 
-      {/* 래플/에어드랍 영역 */}
-      <div
+     {/* 래플-에어드랍 영역 */}
+     <div 
         className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
-        onClick={handlePreviousAirdropPage}
-      >
+        onClick={handlePreviousAirdropPage}>
         <div className="flex flex-col gap-2">
           <p className="text-xl font-semibold">{t("reward_page.raffle_airdrop")}</p>
-          <p className="text-sm">{t("reward_page.Check_winner")}</p>
+          <p className="text-sm">
+            {t("reward_page.Check_winner")}
+          </p>
         </div>
-        <img src={Images.airDropBox} alt="raffle" className="w-24 h-24" />
+        <img src={Images.airDropBox} alt="trophy" className="w-24 h-24" />
+      </div>
+
+      {/** 지난 에어드랍 경품 보여주기 */}
+      <div className="flex flex-col gap-3 justify-center items-center mb-14">
+        <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
+          <h1 className="z-30">
+            {t("reward_page.this_month")}
+            <br />
+            {t("reward_page.air_drop")}
+          </h1>
+          <img
+            src={Images.LotteryTicket}
+            alt="Raffle"
+            className="absolute -top-1 -right-12 w-[68px] h-[68px] -z-10"
+          />
+        </div>
       </div>
 
       {/* USDT 보상 */}
