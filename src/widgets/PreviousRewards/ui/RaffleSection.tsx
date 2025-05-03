@@ -134,11 +134,6 @@ const RaffleSection: React.FC<RaffleSectionProps> = ({
               {filteredMyRankings.map((item, index) => (
                 <SwiperSlide key={index}>
                   <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-between">
-                    {item.selectedRewardType && (
-                      <div className="absolute top-2 right-2 bg-[#0147E5] rounded-full px-3 py-1 text-sm">
-                        {t("reward_page.recieved")}
-                      </div>
-                    )}
                     <div className="flex flex-row items-center gap-3">
                       <p>{item.rank}</p>
                       <div className="flex flex-col gap-1">
