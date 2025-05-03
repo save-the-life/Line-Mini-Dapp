@@ -12,10 +12,11 @@ export interface RankingAward {
 export interface DrawAward {
   rangeStart: number;
   rangeEnd: number;
-  slRewards: number;
+  slRewards: number | null;
   usdtRewards: number | null;
   round: number;
   nftType: "GOLD" | "SILVER" | "BRONZE" | null;
+  rewardType: "SL" | "USDT";
 }
 
 export interface AirDropAward {
@@ -39,7 +40,8 @@ export interface Rank {
 
 export interface LeaderHomeData {
   rankingAwards: RankingAward[];
-  drawAwards: DrawAward[];
+  slDrawAwards: DrawAward[];
+  usdtDrawAwards: DrawAward[];
   airDropAwards: AirDropAward[] | null;
   rank: Rank;
 }
