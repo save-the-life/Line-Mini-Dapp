@@ -63,6 +63,9 @@ const Reward: React.FC = () => {
   const slProducts = slDrawAwards.slice(0, 3);
   const slOthers = slDrawAwards.slice(3);
 
+  // 에어드랍 회차
+  const slRound = slDrawAwards.length > 0 ? slDrawAwards[0].round : null;
+
   const handleShowMoreRanking = () => {
     playSfx(Audios.button_click);
     setShowMoreRanking(true);
@@ -243,7 +246,7 @@ const Reward: React.FC = () => {
       <div className="flex flex-col gap-3 justify-center items-center mb-8">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
-            {t("reward_page.this_month")}
+            {slRound} {t("reward_page.this_month")}
             <br />
             {t("reward_page.air_drop")}
           </h1>
