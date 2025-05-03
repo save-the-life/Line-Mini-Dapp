@@ -102,18 +102,77 @@ const Reward: React.FC = () => {
     <div className="flex flex-col text-white mb-44 w-full min-h-screen">
       <TopTitle title={t("reward_page.reward")} />
 
-      {/* 이벤트 배너 영역 */}
-      <div
-        className="w-full h-[170px] bg-cover bg-center flex items-center justify-center px-6"
-        style={{ backgroundImage: `url(${Images.RewardBanner})` }}
-      >
-        {/* 3개의 박스 */}
+     {/* 이벤트 배너 영역 */}
+     <div
+          className="w-full h-[170px] bg-cover bg-center flex items-center justify-center px-6"
+          style={{ backgroundImage: `url(${Images.RewardBanner})` }}
+        >
+        {/* 3개의 박스를 나란히 배치할 컨테이너 */}
         <div className="flex gap-3">
-          {/* ... 생략: 기존 박스 코드 동일 ... */}
+          {/* 첫 번째 박스 */}
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.two")} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
+            <img 
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event4).format(dateFormat)}</p>
+          </div>
+
+          {/* 두 번째 박스 */}
+          <div className="
+             w-[110px] h-[126px] 
+             bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+             rounded-3xl 
+             border-2 border-yellow-400 border-blink
+             flex flex-col items-center justify-center
+             p-2
+           ">
+             <p className="text-xs font-normal text-white text-center whitespace-nowrap">{t("reward_page.raffle_draw")}</p>
+             <p className="text-xs font-normal text-white text-center">(USDT/KAIA)</p>
+             <img 
+               className="w-4 h-4"
+               src={Images.RedTriangle}
+               alt="Red Triangle"
+             />
+             <p className="text-xs font-normal text-white text-center">{t("reward_page.schedule")}</p>
+             <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
+           </div>
+
+          {/* 세 번째 박스 */}
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.three")} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
+            <img 
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event2).format(dateFormat)}</p>
+          </div>
+
         </div>
       </div>
       <p className="mt-1 ml-1 text-xs font-normal text-white">* {t("reward_page.all_events")}</p>
-
+      
       {/* 지난 달 보상 확인 */}
       <div
         className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
@@ -180,9 +239,9 @@ const Reward: React.FC = () => {
       </div>
 
       {/* USDT 보상 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14">
+      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         <div className="relative text-center font-jalnan text-xl font-bold">
-          USDT {t("reward_page.winner")}
+          USDT WINNER
         </div>
         {usdtProducts.map((award, idx) => (
           <RewardItem key={idx} rank={idx + 1} award={award} isTop />
@@ -215,9 +274,9 @@ const Reward: React.FC = () => {
       </div>
 
       {/* SL 보상 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14">
+      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         <div className="relative text-center font-jalnan text-xl font-bold">
-          SL {t("reward_page.winner")}
+          SL WINNER
         </div>
         {slProducts.map((award, idx) => (
           <RewardItem key={idx} rank={idx + 1} award={award} isTop />
