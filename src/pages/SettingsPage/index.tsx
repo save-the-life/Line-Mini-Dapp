@@ -5,7 +5,7 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
-
+import deleteUser from '@/entities/User/api/delUser';
 
 const SettingsPage: React.FC =() => {
     const navigate = useNavigate();
@@ -32,6 +32,10 @@ const SettingsPage: React.FC =() => {
     //     const { playSfx } = useSound();
     //     navigate("");
     // };
+
+    // const handleDel = async() => {
+    //     deleteUser();
+    // }
 
 
     return(
@@ -85,9 +89,9 @@ const SettingsPage: React.FC =() => {
                 </div> */}
                  {/* <div 
                     className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
-                    onClick={() => navigate('/edit-nickname')}>
+                    onClick={handleDel}>
                     <div>
-                        <p className="font-semibold">{t("setting.edit_nickname")}</p>
+                        <p className="font-semibold">del</p>
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
                 </div> */}

@@ -117,7 +117,7 @@
       "this_month": "回合",
       "awards": "排名獎勵",
       "raffle": "抽獎獎勵",
-      "air_drop": "空投活動",
+      "air_drop": "抽獎活動",
       "view_more": "查看更多",
       "last_month": "上個月的結果",
       "ranking_tap": "排名",
@@ -153,7 +153,7 @@
       "welcom_gift": "歡迎加入禮",
       "rewards": "7,777 點數 + 10SL 代幣 + 30 骰子",
       "start_now": "立即領取獎勵並開始！",
-      "raffle_airdrop": "抽獎空投活動",
+      "raffle_airdrop": "抽獎活動",
       "Check_winner": "檢查你是否成為幸運得主之一！",
       "dice_game_reward": "擲骰遊戲獎勵",
       "level_up": "升級",
@@ -186,7 +186,9 @@
       "five": "5",
       "mystery_gift": "神秘礼物",
       "1st_awards": "第1名排名獎勵",
-      "ai_exam": "AI 考試"
+      "ai_exam": "AI 考試",
+      "1st_raffle": "第1次抽獎獎勵",
+      "request_claim": "請求領取"
     },
     "wallet_page": {
       "wallet": "錢包",
@@ -492,7 +494,7 @@
       "snapshot": "我們將於4月15日00:00至01:00 (KST) 進行預定維護，以對第一輪排名活動進行快照並重置星點。",
       "kindly": "懇請您的諒解。",
       "qualified": "參加第一期月度排行榜並符合資格的用戶，其獎勵將在一週內公告並發放。",
-      "date_2": "4月15日, 00:00 – 01:00 (KST)",
+      "date_2": "5月5日, 00:00 – 00:30 (KST)",
       "snapshot_now": "我們正在進行預定維護，以對第一輪排名活動進行快照並重置星點。",
       "item_guide": "小物指南",
       "tips": "遊戲小技巧！",

@@ -1,3 +1,4 @@
+// src/entities/PreviousRewards/model/raffleEntityModel.ts
 import create from 'zustand';
 import { fetchInitialRaffleAPI, RaffleInitialDataResponse } from '../api/raffleApi';
 import { PlayerData } from '@/features/PreviousRewards/types/PlayerData';

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { IoChevronBackOutline } from "react-icons/io5";
+import { IoChevronBackOutline, IoChevronDownOutline, IoChevronUpOutline  } from "react-icons/io5";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
@@ -23,6 +24,14 @@ import { v4 as uuidv4 } from "uuid";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
 
+
+// Consumable items (재화)
+const consumableItems = [
+  { itemId: 6, itemName: "DICE", itemUrl: "https://via.placeholder.com/80" },
+  { itemId: 7, itemName: "POINTS", itemUrl: "https://via.placeholder.com/80" },
+  { itemId: 8, itemName: "RAFFLE TICKET", itemUrl: "https://via.placeholder.com/80" },
+];
+
 const ItemStore: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -44,6 +53,9 @@ const ItemStore: React.FC = () => {
   const balanceFromState = location.state?.balance || null;
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
+  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+  const [isConsumableOpen, setIsConsumableOpen] = useState(true);
 
   const { walletAddress, sdk, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
@@ -431,7 +443,6 @@ const ItemStore: React.FC = () => {
                 className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                 style={{ background: getBackgroundGradient(item.itemName) }}
               >                              
-                {/* 할인 이미지 추가 */}
                 <img
                   src={Images.Discount}
                   alt="Discount"
@@ -449,6 +460,96 @@ const ItemStore: React.FC = () => {
             </div>
           ))}
         </div>
+
+        {/* 드롭다운: Premium Boosts */}
+        {/* <div className="w-full mb-4">
+          <button
+            className="flex items-start justify w-full"
+            onClick={() => {
+              playSfx(Audios.button_click);
+              setIsDropdownOpen(!isDropdownOpen);
+            }}
+          >
+            <span className="text-base font-semibold">Premium Boosts</span>
+            {isDropdownOpen ? (
+              <IoChevronUpOutline className="ml-2 w-5 h-5" />
+            ) : (
+              <IoChevronDownOutline className="ml-2 w-5 h-5" />
+            )}
+          </button> */}
+
+          {/* AnimatePresence로 감싸고, motion.div로 애니메이션 적용 */}
+          {/* <AnimatePresence>
+            {isDropdownOpen && (
+              <motion.div
+                key="dropdown" // AnimatePresence에서 식별자 역할
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              > */}
+                {/* 실제 아이템 목록 */}
+                {/* <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-6">
+                  {sortedItemData.map((item) => (
+                    <div
+                      key={item.itemId}
+                      className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${
+                        selectedItem === item.itemId ? "border-blue-400" : "border-[#737373]"
+                      }`}
+                      onClick={() => handleSelectItem(item.itemId)}
+                    >
+                      <div
+                        className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
+                        style={{ background: getBackgroundGradient(item.itemName) }}
+                      > */}
+                        {/* 할인 이미지 */}
+                        {/* <img
+                          src={Images.Discount}
+                          alt="Discount"
+                          className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover"
+                        />
+                        <img
+                          src={item.itemUrl}
+                          alt={item.itemName}
+                          className="w-[80px] h-[80px] object-cover"
+                        />
+                      </div>
+                      <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+                      <div className="mt-1">{customText(item.itemName)}</div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div> */}
+
+
+
+        {/* Consumable Items 추가 */}
+        {/* <div className="w-full mb-4">
+          <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(!isConsumableOpen); }}>
+            <span className="text-base font-semibold">Consumable Items</span>
+            {isConsumableOpen ? <IoChevronUpOutline className="ml-2 w-5 h-5" /> : <IoChevronDownOutline className="ml-2 w-5 h-5" />}
+          </button>
+          <AnimatePresence>
+            {isConsumableOpen && (
+              <motion.div key="consumable" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
+                <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-6">
+                  {consumableItems.map(item => (
+                    <div key={item.itemId} className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${selectedItem===item.itemId?"border-blue-400":"border-[#737373]"}`} onClick={() => handleSelectItem(item.itemId)}>
+                      <div className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center" style={{ background: getBackgroundGradient(item.itemName) }}>
+                        <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
+                      </div>
+                      <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div> */}
 
         {/* 체크박스 및 결제 버튼 영역 */}
         <div className="mt-5 px-6">

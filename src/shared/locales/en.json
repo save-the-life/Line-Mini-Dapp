@@ -117,7 +117,7 @@
       "this_month": "Round",
       "awards": "Ranking Awards",
       "raffle": "Raffle Prizes",
-      "air_drop": "AirDrop Event",
+      "air_drop": "Raffle Draw Event",
       "view_more": "View More",
       "last_month": "Last month's results",
       "ranking_tap": "Ranking",
@@ -153,7 +153,7 @@
       "welcom_gift": "Welcome gift for joining",
       "rewards": "7,777 Points + 10SL Tokens + 30 Dice",
       "start_now": "Receive Reward & Start Now!",
-      "raffle_airdrop" : "Raffle AirDrop Event",
+      "raffle_airdrop" : "Raffle Draw Event",
       "Check_winner": "Check if you're one of the lucky winners!",
       "dice_game_reward": "Dice Game Reward",
       "level_up": "Level Up",
@@ -186,7 +186,9 @@
       "five": "5th",
       "mystery_gift": "Mystery Gift",
       "1st_awards": "1st Ranking Awards",
-      "ai_exam": "AI Examination"
+      "ai_exam": "AI Examination",
+      "1st_raffle": "1st Raffle Awards",
+      "request_claim": "Request Claim"
     },
     "wallet_page": {
         "wallet": "Wallet",
@@ -491,7 +493,7 @@
       "snapshot": "We will be conducting scheduled maintenance on April 15th from 00:00 to 01:00 KST to perform a snapshot of the 1st round ranking event and reset star points.",
       "kindly": "We kindly ask for your understanding.",
       "qualified": "Rewards for users who qualified in the 1st Monthly Leaderboard event will be announced and distributed within one week.",
-      "date_2": "April 15th, 00:00 – 01:00 (KST)",
+      "date_2": "May 5th, 00:00 – 00:30 (KST)",
       "snapshot_now": "We are conducting scheduled maintenance to perform a snapshot of the 1st round ranking event and reset star points.",
       "item_guide": "Little Items Guide",
       "tips": "Gaming Tips!",

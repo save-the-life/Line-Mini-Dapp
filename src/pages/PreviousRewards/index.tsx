@@ -413,7 +413,7 @@ const PreviousRewards: React.FC = () => {
 
         {/* 2) Raffle 탭 내용 */}
         <TabsContent value="raffle">
-          <RaffleSection
+          {/* <RaffleSection
             myRankings={
               (raffleMyRankings ?? []).map((r) => ({
                 ...r,
@@ -466,7 +466,7 @@ const PreviousRewards: React.FC = () => {
             raffleRangeError={raffleRangeError}
             handleRangeClick={handleRangeClick}
             isLoadingInitialRaffle={isLoadingInitialRaffle}
-          />
+          /> */}
         </TabsContent>
 
         {/* 3) Airdrop 탭 내용 */}
