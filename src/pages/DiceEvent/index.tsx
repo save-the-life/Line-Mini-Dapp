@@ -296,7 +296,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [8, 19];
+  const scheduledSlots = [12, 19];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -925,23 +925,26 @@ const DiceEventPage: React.FC = () => {
                     {t("dice_event.raffle_end")}
                   </h1>
                   <img
-                    src={Images.Raffle}
+                    src={Images.RaffleBox}
                     alt="tips"
                     className="mt-8 w-[100px] h-[100px]"
                   />
                 </div>
                 <div className="flex flex-col mt-5">
-                  <p className="font-Pretendard text-center text-base font-semibold text-white mt-4">
-                    {t("dice_event.thank_participate")}<br/>{t("dice_event.winner_will")}
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/1o-xgcH0QzTgIIz-d5Nv6oQUuyyTGoNAHYwHxbvaweJo/edit?gid=0#gid=0" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="underline text-[#3B82F6] my-[10px] text-base font-semibold text-center"
+                  >
+                    👉 Check the winners here!
+                  </a>
+                  <p className="font-Pretendard text-center text-base font-semibold text-white">
+                    If you qualified for the USDT prize, you can claim your reward by clicking the asset icon in our dApp.
                   </p>
                       
                   <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    {t("dice_event.rewards")}:<br/>{t("dice_event.usdt")}<br/>{t("dice_event.sl")}
-                  </p>
-                      
-                      
-                  <p className="font-Pretendard text-center text-sm font-semibold mt-4 text-[#DD2726]">
-                    * {t("dice_event.note")} *<br/>{t("dice_event.raffle_reset")}<br/>{t("dice_event.new_tickets")}
+                    Congratulations to all the winners, and thank you for participating!
                   </p>
                 </div>
                 <button
@@ -949,7 +952,7 @@ const DiceEventPage: React.FC = () => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
                   }}
-                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7"
                 >
                   {t("dice_event.close")}
                 </button>
