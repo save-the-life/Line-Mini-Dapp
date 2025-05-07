@@ -430,7 +430,7 @@ const ItemStore: React.FC = () => {
         </div>
 
         {/* 아이템 목록 (2열 그리드) */}
-        <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-10">
+        {/* <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-10">
           {sortedItemData.map((item) => (
             <div
               key={item.itemId}
@@ -459,10 +459,10 @@ const ItemStore: React.FC = () => {
               <div className="mt-1">{sortedItemData? customText(item.itemName):"" }</div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* 드롭다운: Premium Boosts */}
-        {/* <div className="w-full mb-4">
+        <div className="w-full mb-4">
           <button
             className="flex items-start justify w-full"
             onClick={() => {
@@ -476,10 +476,10 @@ const ItemStore: React.FC = () => {
             ) : (
               <IoChevronDownOutline className="ml-2 w-5 h-5" />
             )}
-          </button> */}
+          </button>
 
           {/* AnimatePresence로 감싸고, motion.div로 애니메이션 적용 */}
-          {/* <AnimatePresence>
+          <AnimatePresence>
             {isDropdownOpen && (
               <motion.div
                 key="dropdown" // AnimatePresence에서 식별자 역할
@@ -488,9 +488,9 @@ const ItemStore: React.FC = () => {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="overflow-hidden"
-              > */}
+              >
                 {/* 실제 아이템 목록 */}
-                {/* <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-6">
+                <div className="grid grid-cols-2 gap-4 mt-4 w-full mb-6">
                   {sortedItemData.map((item) => (
                     <div
                       key={item.itemId}
@@ -502,9 +502,9 @@ const ItemStore: React.FC = () => {
                       <div
                         className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center"
                         style={{ background: getBackgroundGradient(item.itemName) }}
-                      > */}
+                      >
                         {/* 할인 이미지 */}
-                        {/* <img
+                        <img
                           src={Images.Discount}
                           alt="Discount"
                           className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover"
@@ -523,12 +523,12 @@ const ItemStore: React.FC = () => {
               </motion.div>
             )}
           </AnimatePresence>
-        </div> */}
+        </div>
 
 
 
         {/* Consumable Items 추가 */}
-        {/* <div className="w-full mb-4">
+        <div className="w-full mb-4">
           <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(!isConsumableOpen); }}>
             <span className="text-base font-semibold">Consumable Items</span>
             {isConsumableOpen ? <IoChevronUpOutline className="ml-2 w-5 h-5" /> : <IoChevronDownOutline className="ml-2 w-5 h-5" />}
@@ -549,7 +549,7 @@ const ItemStore: React.FC = () => {
               </motion.div>
             )}
           </AnimatePresence>
-        </div> */}
+        </div>
 
         {/* 체크박스 및 결제 버튼 영역 */}
         <div className="mt-5 px-6">
