@@ -28,87 +28,87 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
-const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-const abi  = [
-  {
-     "anonymous": false,
-     "inputs": [
-        {
-           "indexed": true,
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
-        }
-     ],
-     "name": "AttendanceChecked",
-     "type": "event"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "bytes32",
-           "name": "messageHash",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "uint8",
-           "name": "v",
-           "type": "uint8"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "r",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "s",
-           "type": "bytes32"
-        }
-     ],
-     "name": "checkAttendance",
-     "outputs": [],
-     "stateMutability": "nonpayable",
-     "type": "function"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "",
-           "type": "address"
-        }
-     ],
-     "name": "users",
-     "outputs": [
-        {
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
-        }
-     ],
-     "stateMutability": "view",
-     "type": "function"
-  }
-]
+// const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
+// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+// const abi  = [
+//   {
+//      "anonymous": false,
+//      "inputs": [
+//         {
+//            "indexed": true,
+//            "internalType": "address",
+//            "name": "user",
+//            "type": "address"
+//         },
+//         {
+//            "indexed": false,
+//            "internalType": "uint256",
+//            "name": "lastAttendance",
+//            "type": "uint256"
+//         },
+//         {
+//            "indexed": false,
+//            "internalType": "uint256",
+//            "name": "consecutiveDays",
+//            "type": "uint256"
+//         }
+//      ],
+//      "name": "AttendanceChecked",
+//      "type": "event"
+//   },
+//   {
+//      "inputs": [
+//         {
+//            "internalType": "bytes32",
+//            "name": "messageHash",
+//            "type": "bytes32"
+//         },
+//         {
+//            "internalType": "uint8",
+//            "name": "v",
+//            "type": "uint8"
+//         },
+//         {
+//            "internalType": "bytes32",
+//            "name": "r",
+//            "type": "bytes32"
+//         },
+//         {
+//            "internalType": "bytes32",
+//            "name": "s",
+//            "type": "bytes32"
+//         }
+//      ],
+//      "name": "checkAttendance",
+//      "outputs": [],
+//      "stateMutability": "nonpayable",
+//      "type": "function"
+//   },
+//   {
+//      "inputs": [
+//         {
+//            "internalType": "address",
+//            "name": "",
+//            "type": "address"
+//         }
+//      ],
+//      "name": "users",
+//      "outputs": [
+//         {
+//            "internalType": "uint256",
+//            "name": "lastAttendance",
+//            "type": "uint256"
+//         },
+//         {
+//            "internalType": "uint256",
+//            "name": "consecutiveDays",
+//            "type": "uint256"
+//         }
+//      ],
+//      "stateMutability": "view",
+//      "type": "function"
+//   }
+// ]
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -383,141 +383,141 @@ const MissionPage: React.FC = () => {
 
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
-    let currentProvider = provider;
-    let currentWalletAddress = walletAddress;
-    let currentSdk = sdk;
-    let currentWalletType = walletType;
+    // let currentProvider = provider;
+    // let currentWalletAddress = walletAddress;
+    // let currentSdk = sdk;
+    // let currentWalletType = walletType;
 
-    if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
-        if (isConnecting) return;
-        setIsConnecting(true);
-        const connection = await connectWallet();
-        setIsConnecting(false);
-        if (!connection.provider || !connection.walletAddress) {
-          setShowModal(true);
-          setMessage(t("attendance.wallet_fail"));
-          return;
-        }
-        currentProvider = connection.provider;
-        currentWalletAddress = connection.walletAddress;
-        currentSdk = connection.sdk;
-        currentWalletType = connection.walletType;
-    }
+    // if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+    //     if (isConnecting) return;
+    //     setIsConnecting(true);
+    //     const connection = await connectWallet();
+    //     setIsConnecting(false);
+    //     if (!connection.provider || !connection.walletAddress) {
+    //       setShowModal(true);
+    //       setMessage(t("attendance.wallet_fail"));
+    //       return;
+    //     }
+    //     currentProvider = connection.provider;
+    //     currentWalletAddress = connection.walletAddress;
+    //     currentSdk = connection.sdk;
+    //     currentWalletType = connection.walletType;
+    // }
 
-    // Kaia 미션 트랜젝션 실행
-    try{
-      const ethersProvider = new Web3Provider(currentProvider);
-      const signer = ethersProvider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi, signer);
+    // // Kaia 미션 트랜젝션 실행
+    // try{
+    //   const ethersProvider = new Web3Provider(currentProvider);
+    //   const signer = ethersProvider.getSigner();
+    //   const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      // 출석 체크 메시지 생성 및 서명
-      const message = `Kaia Mission Rewards: ${currentWalletAddress}`;
-      const messageHash = ethers.utils.hashMessage(message);
-      const signature = await signer.signMessage(message);
-      const sig = ethers.utils.splitSignature(signature);
+    //   // 출석 체크 메시지 생성 및 서명
+    //   const message = `Kaia Mission Rewards: ${currentWalletAddress}`;
+    //   const messageHash = ethers.utils.hashMessage(message);
+    //   const signature = await signer.signMessage(message);
+    //   const sig = ethers.utils.splitSignature(signature);
 
-      // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
-      if (currentProvider.getWalletType() === "OKX") {
-        const tx = await contract.markClaimed(currentWalletAddress);
-        const receipt = await tx.wait();
-        // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
+    //   // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
+    //   if (currentProvider.getWalletType() === "OKX") {
+    //     const tx = await contract.markClaimed(currentWalletAddress);
+    //     const receipt = await tx.wait();
+    //     // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
 
-        if (receipt.status === 1) {
-            // await okxAttendance();
-            setShowModal(true);
-            setMessage(t("attendance.attendance_success"));
-        } else {
-            setShowModal(true);
-            setMessage(t("attendance.attendance_failed"));
-        }
-        return;
-      }
+    //     if (receipt.status === 1) {
+    //         // await okxAttendance();
+    //         setShowModal(true);
+    //         setMessage(t("attendance.attendance_success"));
+    //     } else {
+    //         setShowModal(true);
+    //         setMessage(t("attendance.attendance_failed"));
+    //     }
+    //     return;
+    //   }
 
-      // OKX가 아닌 경우: Fee Delegation 로직 적용
-      const contractCallData = contract.interface.encodeFunctionData("markClaimed", [
-        currentWalletAddress
-      ]);
-      console.log("서명 진행");
+    //   // OKX가 아닌 경우: Fee Delegation 로직 적용
+    //   const contractCallData = contract.interface.encodeFunctionData("markClaimed", [
+    //     currentWalletAddress
+    //   ]);
+    //   console.log("서명 진행");
 
-      const tx = {
-        typeInt: TxType.FeeDelegatedSmartContractExecution,
-        from: currentWalletAddress,
-        to: contractAddress,
-        input: contractCallData,
-        value: "0x0",
-        feePayer,
-        gas: "0x186A0",
-      };
-      console.log("tx: ", tx);
+    //   const tx = {
+    //     typeInt: TxType.FeeDelegatedSmartContractExecution,
+    //     from: currentWalletAddress,
+    //     to: contractAddress,
+    //     input: contractCallData,
+    //     value: "0x0",
+    //     feePayer,
+    //     gas: "0x186A0",
+    //   };
+    //   console.log("tx: ", tx);
 
-      const signedTx = await currentProvider.request({
-        method: "kaia_signTransaction",
-        params: [tx],
-      });
+    //   const signedTx = await currentProvider.request({
+    //     method: "kaia_signTransaction",
+    //     params: [tx],
+    //   });
 
-      console.log("signedTx: ", signedTx);
+    //   console.log("signedTx: ", signedTx);
 
-      const test = await testingKaia(signedTx.raw, currentWalletAddress);
+    //   const test = await testingKaia(signedTx.raw, currentWalletAddress);
 
-      if(test){
-        console.log("응답: ", test);
-        setKaiaLoading(true);
-        try{
-          const kaia = await requestKaiaMission(walletAddress);
+    //   if(test){
+    //     console.log("응답: ", test);
+    //     setKaiaLoading(true);
+    //     try{
+    //       const kaia = await requestKaiaMission(walletAddress);
 
-          if(kaia.message === "Success"){
-            setKaiaLoading(false);
-            setKaiaModal(true);
-            setKaiaMessage(t("mission_page.success"));
-          } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
-            setKaiaLoading(false);
-            setKaiaModal(true);
-            setKaiaMessage(t("mission_page.already"));
-          } else if( kaia.message === "You're not eligible for the reward."){
-            setKaiaLoading(false);
-            setKaiaModal(true);
-            setKaiaMessage(t("mission_page.not_eligible"));
-          }
-        } catch(error: any){
+    //       if(kaia.message === "Success"){
+    //         setKaiaLoading(false);
+    //         setKaiaModal(true);
+    //         setKaiaMessage(t("mission_page.success"));
+    //       } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
+    //         setKaiaLoading(false);
+    //         setKaiaModal(true);
+    //         setKaiaMessage(t("mission_page.already"));
+    //       } else if( kaia.message === "You're not eligible for the reward."){
+    //         setKaiaLoading(false);
+    //         setKaiaModal(true);
+    //         setKaiaMessage(t("mission_page.not_eligible"));
+    //       }
+    //     } catch(error: any){
+    //       setKaiaLoading(false);
+    //       setKaiaModal(true);
+    //       setKaiaMessage(t("mission_page.failed"));
+    //     }
+    //   }
+    // } catch(error: any){
+    //   setKaiaLoading(false);
+    //   setKaiaModal(true);
+    //   setKaiaMessage(t("mission_page.failed"));
+    // }
+
+    // 지갑 주소가 존재하는 경우에 진행
+    if(walletAddress != null){
+      // 시간이 걸리므로 로딩창 표시
+      setKaiaLoading(true);
+      try{
+        const kaia = await requestKaiaMission(walletAddress);
+
+        if(kaia.message === "Success"){
           setKaiaLoading(false);
           setKaiaModal(true);
-          setKaiaMessage(t("mission_page.failed"));
+          setKaiaMessage(t("mission_page.success"));
+        } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage(t("mission_page.already"));
+        } else if( kaia.message === "You're not eligible for the reward."){
+          setKaiaLoading(false);
+          setKaiaModal(true);
+          setKaiaMessage(t("mission_page.not_eligible"));
         }
+      } catch(error: any){
+        setKaiaLoading(false);
+        setKaiaModal(true);
+        setKaiaMessage(t("mission_page.failed"));
       }
-    } catch(error: any){
-      setKaiaLoading(false);
-      setKaiaModal(true);
-      setKaiaMessage(t("mission_page.failed"));
+    } else {
+      setNeedWallet(true);
     }
-
-    // // 지갑 주소가 존재하는 경우에 진행
-    // if(walletAddress != null){
-    //   // 시간이 걸리므로 로딩창 표시
-    //   setKaiaLoading(true);
-    //   try{
-    //     const kaia = await requestKaiaMission(walletAddress);
-
-    //     if(kaia.message === "Success"){
-    //       setKaiaLoading(false);
-    //       setKaiaModal(true);
-    //       setKaiaMessage(t("mission_page.success"));
-    //     } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
-    //       setKaiaLoading(false);
-    //       setKaiaModal(true);
-    //       setKaiaMessage(t("mission_page.already"));
-    //     } else if( kaia.message === "You're not eligible for the reward."){
-    //       setKaiaLoading(false);
-    //       setKaiaModal(true);
-    //       setKaiaMessage(t("mission_page.not_eligible"));
-    //     }
-    //   } catch(error: any){
-    //     setKaiaLoading(false);
-    //     setKaiaModal(true);
-    //     setKaiaMessage(t("mission_page.failed"));
-    //   }
-    // } else {
-    //   setNeedWallet(true);
-    // }
   }
 
   const handleConnectWallet = async() => {
