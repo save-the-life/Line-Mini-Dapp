@@ -224,6 +224,18 @@ const ItemStore: React.FC = () => {
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
                 <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
+      case "DICE":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">+100 Dice Pack</p>
+              </div>;
+      case "POINTS":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">+100,000 Star Points Pack</p>
+              </div>;
+      case "RAFFLE TICKET":
+        return <div className="mt-1 text-center">
+                <p className="text-lg font-semibold">+100 Raffle Tickets Pack</p>
+              </div>;
       default:
         return <div></div>;
     }
