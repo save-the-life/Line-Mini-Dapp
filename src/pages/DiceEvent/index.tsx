@@ -935,7 +935,7 @@ const DiceEventPage: React.FC = () => {
                     href="https://docs.google.com/spreadsheets/d/1o-xgcH0QzTgIIz-d5Nv6oQUuyyTGoNAHYwHxbvaweJo/edit?gid=0#gid=0" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="underline text-[#3B82F6] my-[10px] text-base font-semibold text-center"
+                    className="no-underline hover:no-underline text-[#3B82F6] my-[10px] text-base font-semibold text-center"
                   >
                     👉 {t("dice_event.winner_link")}
                   </a>
