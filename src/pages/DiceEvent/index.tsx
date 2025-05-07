@@ -296,7 +296,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [12, 19];
+  const scheduledSlots = [11, 19];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -922,7 +922,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    {t("dice_event.raffle_end")}
+                    Raffle Draw Winners Announced
                   </h1>
                   <img
                     src={Images.RaffleBox}
