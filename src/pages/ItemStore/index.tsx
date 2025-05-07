@@ -508,6 +508,7 @@ const ItemStore: React.FC = () => {
                 {consumableItemsFromApi.map(item => (
                   <div key={item.itemId} className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${selectedItem===item.itemId ? "border-blue-400" : "border-[#737373]"}`} onClick={() => handleSelectItem(item.itemId)}>
                     <div className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center" style={{ background: getBackgroundGradient(item.itemName) }}>
+                      <img src={Images.Discount} alt="Discount" className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover" />
                       <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
                     </div>
                     <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
