@@ -188,7 +188,8 @@
       "1st_awards": "1st Ranking Awards",
       "ai_exam": "AI Examination",
       "1st_raffle": "1st Raffle Awards",
-      "request_claim": "Request Claim"
+      "request_claim": "Request Claim",
+      "shop_purchase": "Shop Purchase"
     },
     "wallet_page": {
         "wallet": "Wallet",
@@ -525,7 +526,10 @@
       "raffle_anounce": "Raffle Draw Winners Announced",
       "winner_link": "Check the winners here!",
       "check_dapp": "If you qualified for the USDT prize, you can claim your reward by clicking the asset icon in our dApp.",
-      "cong": "Congratulations to all the winners, and thank you for participating!"
+      "cong": "Congratulations to all the winners, and thank you for participating!",
+      "dice_pack": "Dice Pack",
+      "point_pack": "Star Points Pack",
+      "raffle_pack": "Raffle Tickets Pack"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

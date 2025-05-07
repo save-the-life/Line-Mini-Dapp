@@ -195,16 +195,28 @@ const ItemStore: React.FC = () => {
     switch (itemName.toUpperCase()) {
       case "AUTO ITEM":
         return <div className="mt-1 text-center">
+                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+                  <p>{t("asset_page.one_month")}</p>
+                  <p>({t("asset_page.purchase")})</p>
+                </div>
                 <p className="text-lg font-semibold">{t("dice_event.auto_roller")}</p>
                 <p className="text-base font-normal">{t("dice_event.automatically")}</p>
               </div>;
       case "REWARD BOOSTER":
         return <div className="mt-1 text-center">
+                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+                  <p>{t("asset_page.one_month")}</p>
+                  <p>({t("asset_page.purchase")})</p>
+                </div>
                 <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
                 <p className="text-base font-normal">{t("dice_event.board_spin_reward")} : x2</p>
               </div>;
       case "GOLD PASS":
         return <div className="mt-1 text-center">
+                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+                  <p>{t("asset_page.one_month")}</p>
+                  <p>({t("asset_page.purchase")})</p>
+                </div>
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
                 <p className="text-base font-normal">{t("dice_event.game_board_points")} : x3</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
@@ -212,6 +224,10 @@ const ItemStore: React.FC = () => {
               </div>;
       case "SILVER PASS":
         return <div className="mt-1 text-center">
+                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+                  <p>{t("asset_page.one_month")}</p>
+                  <p>({t("asset_page.purchase")})</p>
+                </div>
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
                 <p className="text-base font-normal">{t("dice_event.game_board_points")} : x2</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
@@ -219,6 +235,10 @@ const ItemStore: React.FC = () => {
               </div>;
       case "BRONZE PASS":
         return <div className="mt-1 text-center">
+                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+                  <p>{t("asset_page.one_month")}</p>
+                  <p>({t("asset_page.purchase")})</p>
+                </div>
                 <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
                 <p className="text-base font-normal">{t("dice_event.game_board_points")} : x1</p><br />
                 <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
@@ -226,15 +246,15 @@ const ItemStore: React.FC = () => {
               </div>;
       case "DICE":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">+100 Dice Pack</p>
+                <p className="text-lg font-semibold">+100 {t("dice_event.dice_pack")}</p>
               </div>;
       case "POINTS":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">+100,000 Star Points Pack</p>
+                <p className="text-lg font-semibold">+100,000 {t("dice_event.point_pack")}</p>
               </div>;
       case "RAFFLE TICKET":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">+100 Raffle Tickets Pack</p>
+                <p className="text-lg font-semibold">+100 {t("dice_event.raffle_pack")}</p>
               </div>;
       default:
         return <div></div>;
@@ -268,15 +288,15 @@ const ItemStore: React.FC = () => {
               </div>;
       case "DICE":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">+100 Dice Pack</p>
+                <p className="text-xs font-medium">+100 {t("dice_event.dice_pack")}</p>
               </div>;
       case "POINTS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">+100,000 Star Points Pack</p>
+                <p className="text-xs font-medium">+100,000 {t("dice_event.point_pack")}</p>
               </div>;
       case "RAFFLE TICKET":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">+100 Raffle Tickets Pack</p>
+                <p className="text-xs font-medium">+100 {t("dice_event.raffle_pack")}</p>
               </div>;
       default:
         return <div></div>;
@@ -679,10 +699,6 @@ const ItemStore: React.FC = () => {
                   alt={selectedItemInfo?.itemName}
                   className="w-[120px] h-[120px] object-cover"
                 />
-              </div>
-              <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
-                <p>{t("asset_page.one_month")}</p>
-                <p>({t("asset_page.purchase")})</p>
               </div>
               <p>{selectedItemInfo ? getCustomDescription(selectedItemInfo.itemName) : ""}</p>
             </div>
