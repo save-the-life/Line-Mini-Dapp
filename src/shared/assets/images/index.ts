@@ -190,6 +190,7 @@ import DarkSplash from "./dark-splash.png"
 import KaiaLevel2 from "./kaia-level2.png"
 import Tips from "./tips.png"
 import Raffle from "./raffle.png"
+import RaffleBox from "./raffle_box.png"
 
 
 const Images = {
@@ -383,7 +384,8 @@ const Images = {
   DarkSplash,
   KaiaLevel2,
   Tips,
-  Raffle
+  Raffle,
+  RaffleBox
 };
 
 export default Images;
