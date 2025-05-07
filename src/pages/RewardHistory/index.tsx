@@ -196,6 +196,9 @@ const RewardHistory: React.FC = () => {
       case "Request Claim":
           contentKey = "request_claim";
           break;
+      case "Shop Purchase":
+          contentKey = "shop_purchase";
+          break;
       default:
         contentKey = reward.content;
     }

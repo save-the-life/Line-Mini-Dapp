@@ -188,7 +188,8 @@
       "1st_awards": "第1名排名獎勵",
       "ai_exam": "AI 考試",
       "1st_raffle": "第1次抽獎獎勵",
-      "request_claim": "請求領取"
+      "request_claim": "請求領取",
+      "shop_purchase": "商店購買"
     },
     "wallet_page": {
       "wallet": "錢包",
@@ -526,7 +527,10 @@
       "raffle_anounce": "抽獎中獎者已公布",
       "winner_link": "在此查看中獎名單！",
       "check_dapp": "若您獲得USDT獎勵，請在我們的dApp中點擊資產圖示領取獎勵。",
-      "cong": "恭喜所有中獎者，感謝您的參與！"
+      "cong": "恭喜所有中獎者，感謝您的參與！",
+      "dice_pack": "骰子組合包",
+      "point_pack": "星點組合包",
+      "raffle_pack": "抽獎券組合包"
     },
     "setting": {
       "terms_of_service": "服務條款",

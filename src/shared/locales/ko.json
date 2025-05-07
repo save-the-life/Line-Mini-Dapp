@@ -188,7 +188,8 @@
       "1st_awards": "1회차 랭킹 보상",
       "ai_exam": "AI 진단",
       "1st_raffle": "1회차 추첨 보상",
-      "request_claim": "클래임 신청"
+      "request_claim": "클래임 신청",
+      "shop_purchase": "상점 구매"
     },
     "wallet_page": {
       "wallet": "지갑",
@@ -526,7 +527,10 @@
       "raffle_anounce": "추첨 당첨자 발표",
       "winner_link": "여기에서 당첨자를 확인하세요!",
       "check_dapp": "USDT 상품 대상이시면, dApp에서 자산 아이콘을 클릭하여 보상을 받을 수 있습니다.",
-      "cong": "모든 당첨자분들께 축하드리며, 참여해 주셔서 감사합니다!"
+      "cong": "모든 당첨자분들께 축하드리며, 참여해 주셔서 감사합니다!",
+      "dice_pack": "주사위 팩",
+      "point_pack": "스타 포인트 팩",
+      "raffle_pack": "추첨 티켓 팩"
     },
     "setting": {
       "terms_of_service": "이용 약관",

@@ -188,7 +188,8 @@
         "1st_awards": "1位ランキング賞",
         "ai_exam": "AI試験",
         "1st_raffle": "第1回抽選賞",
-        "request_claim": "請求を申請"
+        "request_claim": "請求を申請",
+        "shop_purchase": "ショップ購入"
     },
     "wallet_page": {
         "wallet": "ウォレット",
@@ -526,7 +527,10 @@
         "raffle_anounce": "抽選の当選者が発表されました",
         "winner_link": "ここで当選者を確認してください！",
         "check_dapp": "USDT賞に当選された場合は、dApp内の資産アイコンをクリックして報酬を請求できます。",
-        "cong": "当選された皆様、おめでとうございます。そしてご参加いただきありがとうございました！"
+        "cong": "当選された皆様、おめでとうございます。そしてご参加いただきありがとうございました！",
+        "dice_pack": "サイコロパック",
+        "point_pack": "スター・ポイントパック",
+        "raffle_pack": "ラッフルチケットパック"
     },
     "setting": {
         "terms_of_service": "利用規約",
