@@ -254,6 +254,18 @@ const ItemStore: React.FC = () => {
                 <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x1</p>
                 <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
               </div>;
+      case "DICE":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">+100 Dice Pack</p>
+              </div>;
+      case "POINTS":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">+100,000 Star Points Pack</p>
+              </div>;
+      case "RAFFLE TICKET":
+        return <div className="mt-1 text-center">
+                <p className="text-xs font-medium">+100 Raffle Tickets Pack</p>
+              </div>;
       default:
         return <div></div>;
     }
@@ -487,6 +499,7 @@ const ItemStore: React.FC = () => {
                       <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
                     </div>
                     <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+                    <div className="mt-1">{customText(item.itemName)}</div>
                   </div>
                 ))}
               </div>
@@ -512,6 +525,7 @@ const ItemStore: React.FC = () => {
                       <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
                     </div>
                     <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+                    <div className="mt-1">{customText(item.itemName)}</div>
                   </div>
                 ))}
               </div>
