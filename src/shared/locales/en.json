@@ -521,7 +521,11 @@
       "sl": "Prizes 100,000 SL Tokens for selected users",
       "note": "Please Note",
       "raffle_reset": "All raffle tickets have been reset",
-      "new_tickets": "New tickets from April 29th will count toward Round 2 in May!"
+      "new_tickets": "New tickets from April 29th will count toward Round 2 in May!",
+      "raffle_anounce": "Raffle Draw Winners Announced",
+      "winner_link": "Check the winners here!",
+      "check_dapp": "If you qualified for the USDT prize, you can claim your reward by clicking the asset icon in our dApp.",
+      "cong": "Congratulations to all the winners, and thank you for participating!"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

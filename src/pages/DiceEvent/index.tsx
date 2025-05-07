@@ -296,7 +296,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [11, 19];
+  const scheduledSlots = [12, 19];
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
@@ -922,7 +922,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    Raffle Draw Winners Announced
+                    {t("dice_event.raffle_anounce")}
                   </h1>
                   <img
                     src={Images.RaffleBox}
@@ -937,14 +937,14 @@ const DiceEventPage: React.FC = () => {
                     rel="noopener noreferrer" 
                     className="underline text-[#3B82F6] my-[10px] text-base font-semibold text-center"
                   >
-                    👉 Check the winners here!
+                    👉 {t("dice_event.winner_link")}
                   </a>
                   <p className="font-Pretendard text-center text-base font-semibold text-white">
-                    If you qualified for the USDT prize, you can claim your reward by clicking the asset icon in our dApp.
+                    {t("dice_event.check_dapp")}
                   </p>
                       
                   <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    Congratulations to all the winners, and thank you for participating!
+                    {t("dice_event.cong")}
                   </p>
                 </div>
                 <button
