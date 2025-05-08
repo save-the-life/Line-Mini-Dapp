@@ -388,10 +388,8 @@ const MissionPage: React.FC = () => {
 
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
-    console.log("Kaia 미션 버튼 클릭");
-
+    
     if (!provider || !walletAddress || !sdk || !walletType) {
-      console.log("지갑 연결 필요");
       if (isConnecting) return;
       setIsConnecting(true);
       const connection = await connectWallet();
@@ -405,13 +403,11 @@ const MissionPage: React.FC = () => {
 
     // Kaia 미션 트랜젝션 실행
     try{
-      console.log("Kaia 미션 트랜젝션 실행");
       const ethersProvider = new Web3Provider(provider);
       const signer = ethersProvider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
       // 출석 체크 메시지 생성 및 서명
-      console.log("Kaia 미션 서명");
       const message = `Kaia Mission Rewards: ${walletAddress}`;
       const messageHash = ethers.utils.hashMessage(message);
       const signature = await signer.signMessage(message);
@@ -438,7 +434,6 @@ const MissionPage: React.FC = () => {
       const contractCallData = contract.interface.encodeFunctionData("markClaimed", [
         walletAddress
       ]);
-      console.log("서명 진행");
 
       const tx = {
         typeInt: TxType.FeeDelegatedSmartContractExecution,
@@ -449,19 +444,15 @@ const MissionPage: React.FC = () => {
         feePayer,
         gas: "0x186A0",
       };
-      console.log("tx: ", tx);
 
       const signedTx = await provider.request({
         method: "kaia_signTransaction",
         params: [tx],
       });
 
-      console.log("signedTx: ", signedTx);
-
       const test = await testingKaia(signedTx.raw, walletAddress);
 
       if(test){
-        console.log("응답: ", test);
         setKaiaLoading(true);
         try{
           const kaia = await requestKaiaMission(walletAddress);
@@ -480,14 +471,12 @@ const MissionPage: React.FC = () => {
             setKaiaMessage(t("mission_page.not_eligible"));
           }
         } catch(error: any){
-          console.log("뭘까요? ", error);
           setKaiaLoading(false);
           setKaiaModal(true);
           setKaiaMessage(t("mission_page.failed"));
         }
       }
     } catch(error: any){
-      console.log("뭐지: ", error);
       setKaiaLoading(false);
       setKaiaModal(true);
       setKaiaMessage(t("mission_page.failed"));
