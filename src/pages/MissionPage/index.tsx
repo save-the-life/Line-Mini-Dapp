@@ -389,32 +389,24 @@ const MissionPage: React.FC = () => {
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
     console.log("Kaia 미션 버튼 클릭");
-    let currentProvider = provider;
-    let currentWalletAddress = walletAddress;
-    let currentSdk = sdk;
-    let currentWalletType = walletType;
 
-    if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+    if (!provider || !walletAddress || !sdk || !walletType) {
       console.log("지갑 연결 필요");
-        if (isConnecting) return;
-        setIsConnecting(true);
-        const connection = await connectWallet();
-        setIsConnecting(false);
-        if (!connection.provider || !connection.walletAddress) {
-          setShowModal(true);
-          setMessage(t("attendance.wallet_fail"));
-          return;
-        }
-        currentProvider = connection.provider;
-        currentWalletAddress = connection.walletAddress;
-        currentSdk = connection.sdk;
-        currentWalletType = connection.walletType;
+      if (isConnecting) return;
+      setIsConnecting(true);
+      const connection = await connectWallet();
+      setIsConnecting(false);
+      if (!connection.provider || !connection.walletAddress) {
+        setShowModal(true);
+        setMessage(t("attendance.wallet_fail"));
+        return;
+      }
     }
 
     // Kaia 미션 트랜젝션 실행
     try{
       console.log("Kaia 미션 트랜젝션 실행");
-      const ethersProvider = new Web3Provider(currentProvider);
+      const ethersProvider = new Web3Provider(provider);
       const signer = ethersProvider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
@@ -426,18 +418,18 @@ const MissionPage: React.FC = () => {
       const sig = ethers.utils.splitSignature(signature);
 
       // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
-      if (currentProvider.getWalletType() === "OKX") {
+      if (provider.getWalletType() === "OKX") {
         const tx = await contract.markClaimed(walletAddress);
         const receipt = await tx.wait();
         // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
 
         if (receipt.status === 1) {
-            // await okxAttendance();
-            setShowModal(true);
-            setMessage(t("attendance.attendance_success"));
+          // await okxAttendance();
+          setShowModal(true);
+          setMessage(t("attendance.attendance_success"));
         } else {
-            setShowModal(true);
-            setMessage(t("attendance.attendance_failed"));
+          setShowModal(true);
+          setMessage(t("attendance.attendance_failed"));
         }
         return;
       }
@@ -459,7 +451,7 @@ const MissionPage: React.FC = () => {
       };
       console.log("tx: ", tx);
 
-      const signedTx = await currentProvider.request({
+      const signedTx = await provider.request({
         method: "kaia_signTransaction",
         params: [tx],
       });
