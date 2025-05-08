@@ -415,14 +415,14 @@ const MissionPage: React.FC = () => {
 
       // 출석 체크 메시지 생성 및 서명
       console.log("Kaia 미션 서명");
-      const message = `Kaia Mission Rewards: ${currentWalletAddress}`;
+      const message = `Kaia Mission Rewards: ${walletAddress}`;
       const messageHash = ethers.utils.hashMessage(message);
       const signature = await signer.signMessage(message);
       const sig = ethers.utils.splitSignature(signature);
 
       // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
       if (currentProvider.getWalletType() === "OKX") {
-        const tx = await contract.markClaimed(currentWalletAddress);
+        const tx = await contract.markClaimed(walletAddress);
         const receipt = await tx.wait();
         // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
 
@@ -439,13 +439,13 @@ const MissionPage: React.FC = () => {
 
       // OKX가 아닌 경우: Fee Delegation 로직 적용
       const contractCallData = contract.interface.encodeFunctionData("markClaimed", [
-        currentWalletAddress
+        walletAddress
       ]);
       console.log("서명 진행");
 
       const tx = {
         typeInt: TxType.FeeDelegatedSmartContractExecution,
-        from: currentWalletAddress,
+        from: walletAddress,
         to: contractAddress,
         input: contractCallData,
         value: "0x0",
@@ -461,7 +461,7 @@ const MissionPage: React.FC = () => {
 
       console.log("signedTx: ", signedTx);
 
-      const test = await testingKaia(signedTx.raw, currentWalletAddress);
+      const test = await testingKaia(signedTx.raw, walletAddress);
 
       if(test){
         console.log("응답: ", test);
@@ -483,12 +483,14 @@ const MissionPage: React.FC = () => {
             setKaiaMessage(t("mission_page.not_eligible"));
           }
         } catch(error: any){
+          console.log("뭘까요? ", error);
           setKaiaLoading(false);
           setKaiaModal(true);
           setKaiaMessage(t("mission_page.failed"));
         }
       }
     } catch(error: any){
+      console.log("뭐지: ", error);
       setKaiaLoading(false);
       setKaiaModal(true);
       setKaiaMessage(t("mission_page.failed"));
