@@ -32,6 +32,11 @@ const contractAddress = "0x36c52010a2408DeBee6b197A75E3a37Ee15d6283";
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const abi = [
   {
+     "inputs": [],
+     "stateMutability": "nonpayable",
+     "type": "constructor"
+  },
+  {
      "anonymous": false,
      "inputs": [
         {
@@ -39,50 +44,10 @@ const abi = [
            "internalType": "address",
            "name": "user",
            "type": "address"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
-        {
-           "indexed": false,
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
         }
      ],
-     "name": "AttendanceChecked",
+     "name": "Claimed",
      "type": "event"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "bytes32",
-           "name": "messageHash",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "uint8",
-           "name": "v",
-           "type": "uint8"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "r",
-           "type": "bytes32"
-        },
-        {
-           "internalType": "bytes32",
-           "name": "s",
-           "type": "bytes32"
-        }
-     ],
-     "name": "checkAttendance",
-     "outputs": [],
-     "stateMutability": "nonpayable",
-     "type": "function"
   },
   {
      "inputs": [
@@ -92,17 +57,57 @@ const abi = [
            "type": "address"
         }
      ],
-     "name": "users",
+     "name": "hasClaimed",
      "outputs": [
         {
-           "internalType": "uint256",
-           "name": "lastAttendance",
-           "type": "uint256"
-        },
+           "internalType": "bool",
+           "name": "",
+           "type": "bool"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  },
+  {
+     "inputs": [
         {
-           "internalType": "uint256",
-           "name": "consecutiveDays",
-           "type": "uint256"
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        }
+     ],
+     "name": "isClaimed",
+     "outputs": [
+        {
+           "internalType": "bool",
+           "name": "",
+           "type": "bool"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        }
+     ],
+     "name": "markClaimed",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [],
+     "name": "owner",
+     "outputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
         }
      ],
      "stateMutability": "view",
