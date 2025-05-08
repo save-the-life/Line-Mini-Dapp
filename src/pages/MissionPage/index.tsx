@@ -383,12 +383,14 @@ const MissionPage: React.FC = () => {
 
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
+    console.log("Kaia 미션 버튼 클릭");
     let currentProvider = provider;
     let currentWalletAddress = walletAddress;
     let currentSdk = sdk;
     let currentWalletType = walletType;
 
     if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+      console.log("지갑 연결 필요");
         if (isConnecting) return;
         setIsConnecting(true);
         const connection = await connectWallet();
@@ -406,11 +408,13 @@ const MissionPage: React.FC = () => {
 
     // Kaia 미션 트랜젝션 실행
     try{
+      console.log("Kaia 미션 트랜젝션 실행");
       const ethersProvider = new Web3Provider(currentProvider);
       const signer = ethersProvider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
       // 출석 체크 메시지 생성 및 서명
+      console.log("Kaia 미션 서명");
       const message = `Kaia Mission Rewards: ${currentWalletAddress}`;
       const messageHash = ethers.utils.hashMessage(message);
       const signature = await signer.signMessage(message);
