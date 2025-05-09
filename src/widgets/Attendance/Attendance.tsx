@@ -236,14 +236,14 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
     if (attendanceData[day]) return "checked";
     if (day === today) return "today";
 
-    const daysOfWeek: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    const daysOfWeek: DayKeys[] = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     const todayIndex = daysOfWeek.indexOf(today);
     const dayIndex = daysOfWeek.indexOf(day);
 
     return dayIndex < todayIndex ? "missed" : "default";
   };
 
-  const days: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const days: DayKeys[] = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
 
