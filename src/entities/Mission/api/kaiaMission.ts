@@ -3,7 +3,7 @@ import api from '@/shared/api/axiosInstance';
 // Level2 KAIA 보상 api 
 export const requestKaiaMission = async(signedTx:string, walletAddress: string): Promise<any> => {
     const info = {
-        signedTx: signedTx,
+        userSignedTx: signedTx,
         walletAddress: walletAddress
     }
 
