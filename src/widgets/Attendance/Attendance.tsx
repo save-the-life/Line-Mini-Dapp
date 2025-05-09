@@ -360,7 +360,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         )}
       </div>
       <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 text-white">
-        * {t("dice_event.star_rewards")}
+        * {t("dice_event.star_rewards")} <br/> * {t("dice_event.7th")}
       </p>
       
 
