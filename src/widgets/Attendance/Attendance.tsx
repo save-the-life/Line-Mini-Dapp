@@ -326,6 +326,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             setMessage(t("attendance.attendance_failed"));
          }
       } catch (error) {
+         console.log("에러 확인: ", error)
          setShowModal(true);
          setMessage(t("attendance.attendance_err"));
       }
