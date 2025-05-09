@@ -1,8 +1,13 @@
 import api from '@/shared/api/axiosInstance';
 
 // Level2 KAIA 보상 api 
-export const requestKaiaMission = async(walletAddress: string): Promise<any> => {
-    const response = await api.post("/mission/kaia", {walletAddress});
+export const requestKaiaMission = async(signedTx:string, walletAddress: string): Promise<any> => {
+    const info = {
+        signedTx: signedTx,
+        walletAddress: walletAddress
+    }
+
+    const response = await api.post("/mission/kaia", info);
 
     if(response.data.code === "OK"){
         console.log("kaia mission response: ", response);

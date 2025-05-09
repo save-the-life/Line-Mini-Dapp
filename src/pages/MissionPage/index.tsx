@@ -450,12 +450,12 @@ const MissionPage: React.FC = () => {
         params: [tx],
       });
 
-      const test = await testingKaia(signedTx.raw, walletAddress);
+      // const test = await testingKaia(signedTx.raw, walletAddress);
 
-      if(test){
+      if(signedTx){
         setKaiaLoading(true);
         try{
-          const kaia = await requestKaiaMission(walletAddress);
+          const kaia = await requestKaiaMission(signedTx.raw, walletAddress);
 
           if(kaia.message === "Success"){
             setKaiaLoading(false);
