@@ -236,7 +236,7 @@ const DiceEventPage: React.FC = () => {
         try {
           const sdkInstance = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "1001",
+            chainId: "8217",
           });
           console.log("[Main Page] SDK 초기화 성공:", sdkInstance);
           setSdk(sdkInstance);
