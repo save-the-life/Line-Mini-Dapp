@@ -884,72 +884,89 @@ const DiceEventPage: React.FC = () => {
                   />
                 </DialogClose>
               </div>
-              <div className="flex flex-col items-center justify-center">
-                <div className=" flex flex-col items-center text-center">
-                  <h1 className=" font-jalnan text-3xl font-bold text-[#FACC15] text-center">
-                    Attendance Rewards Update Notice
-                  </h1>
-                </div>
-                <div className="flex flex-col mt-[10px]">
-                  <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-[70%]">
-                    <p className="font-Pretendard text-center text-base font-semibold text-[#A3A3A3]">
-                      [Before]
-                    </p>
+              <div className="flex flex-col items-center justify-center p-4 space-y-4">
+                {/* 헤더 */}
+                <h1 className="font-Pretendard text-xl font-bold text-white text-center">
+                  Attendance Rewards Update Notice
+                </h1>
+
+                {/* Before 블록 */}
+                <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4">
+                  <p className="font-Pretendard text-base font-semibold text-[#A3A3A3]">
+                    [Before]
+                  </p>
+                  <div className="flex justify-center items-center mt-2">
                     <img
                       src={Images.Reward3000}
                       alt="3000 point"
-                      className="mt-2 w-16 h-16"
+                      className="w-16 h-16"
                     />
                   </div>
-                    <img
-                      src={Images.DownArrow}
-                      alt="downArrow"
-                      className="my-[10px] w-6 h-6"
-                    />
-                    <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-[70%]">
-                      <p className="font-Pretendard text-center text-base font-semibold text-white">
-                        [Now]
-                      </p>
-                      <p className="text-center font-semibold text-xs text-white">
-                        Daily Attendance Rewards
-                      </p>
-                      <img
-                        src={Images.Reward3000}
-                        alt="3000 point"
-                        className="mt-2 w-16 h-16"
-                      />
-                      <img
-                        src={Images.RewardDice}
-                        alt="3000 point"
-                        className="mt-2 w-16 h-16"
-                      />
-                      <p className="text-center font-semibold text-xs text-white">
-                        Upon checking in for 7 consecutive days
-                      </p>
-                      <img
-                        src={Images.Reward100000}
-                        alt="3000 point"
-                        className="mt-2 w-16 h-16"
-                      />
-                      <img
-                        src={Images.RewardRaffle}
-                        alt="3000 point"
-                        className="mt-2 w-16 h-16"
-                      />
-                    </div>
                 </div>
+
+                {/* 화살표 */}
+                <img
+                  src={Images.DownArrow}
+                  alt="downArrow"
+                  className="w-6 h-6"
+                />
+
+                {/* Now 블록 */}
+                <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
+                  <p className="font-Pretendard text-base font-semibold text-white">
+                    [Now]
+                  </p>
+                  <p className="text-center font-semibold text-xs text-white">
+                    Daily Attendance Rewards
+                  </p>
+
+                  {/* 3000 point & dice 한 줄 */}
+                  <div className="flex justify-center items-center gap-2">
+                    <img
+                      src={Images.Reward3000}
+                      alt="3000 point"
+                      className="w-16 h-16"
+                    />
+                    <img
+                      src={Images.RewardDice}
+                      alt="dice"
+                      className="w-16 h-16"
+                    />
+                  </div>
+
+                  <p className="text-center font-semibold text-xs text-white">
+                    Upon checking in for 7 consecutive days
+                  </p>
+
+                  {/* 1000000 point & raffle 한 줄 */}
+                  <div className="flex justify-center items-center gap-2">
+                    <img
+                      src={Images.Reward100000}
+                      alt="1000000 point"
+                      className="w-16 h-16"
+                    />
+                    <img
+                      src={Images.RewardRaffle}
+                      alt="raffle"
+                      className="w-16 h-16"
+                    />
+                  </div>
+                </div>
+
+                {/* 닫기 버튼 */}
                 <button
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseItemGuideModal();
                   }}
-                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7"
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14"
                 >
                   {t("dice_event.close")}
                 </button>
               </div>
             </DialogContent>
           </Dialog>
+
               
           {/* 래플권 알림 모달창 */}
           <Dialog open={showRankingModal}>
