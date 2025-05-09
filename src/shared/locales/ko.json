@@ -531,7 +531,12 @@
       "cong": "모든 당첨자분들께 축하드리며, 참여해 주셔서 감사합니다!",
       "dice_pack": "주사위 팩",
       "point_pack": "스타 포인트 팩",
-      "raffle_pack": "추첨 티켓 팩"
+      "raffle_pack": "추첨 티켓 팩",
+      "attendance_reward": "출석 보상 업데이트 안내",
+      "before": "[이전]",
+      "now": "[현재]",
+      "daily": "일일 출석 보상",
+      "7_day": "7일 연속 출석 시"
     },
     "setting": {
       "terms_of_service": "이용 약관",

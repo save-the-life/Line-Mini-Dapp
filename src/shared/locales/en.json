@@ -530,7 +530,12 @@
       "cong": "Congratulations to all the winners, and thank you for participating!",
       "dice_pack": "Dice Pack",
       "point_pack": "Star Points Pack",
-      "raffle_pack": "Raffle Tickets Pack"
+      "raffle_pack": "Raffle Tickets Pack",
+      "attendance_reward": "Attendance Rewards Update Notice",
+      "before": "[Before]",
+      "now": "[Now]",
+      "daily": "Daily Attendance Rewards",
+      "7_day": "Upon checking in for 7 consecutive days"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

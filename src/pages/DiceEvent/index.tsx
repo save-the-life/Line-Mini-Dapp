@@ -887,13 +887,13 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-center p-4 space-y-4">
                 {/* 헤더 */}
                 <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                  Attendance Rewards Update Notice
+                  {t("dice_event.attendance_reward")}
                 </h1>
 
                 {/* Before 블록 */}
                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4">
                   <p className="font-Pretendard text-base font-semibold text-[#A3A3A3]">
-                    [Before]
+                    {t("dice_event.before")}
                   </p>
                   <div className="flex justify-center items-center mt-2">
                     <img
@@ -914,10 +914,10 @@ const DiceEventPage: React.FC = () => {
                 {/* Now 블록 */}
                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
                   <p className="font-Pretendard text-base font-semibold text-white">
-                    [Now]
+                    {t("dice_event.now")}
                   </p>
                   <p className="text-center font-semibold text-xs text-white">
-                    Daily Attendance Rewards
+                    {t("dice_event.daily")}
                   </p>
 
                   {/* 3000 point & dice 한 줄 */}
@@ -935,7 +935,7 @@ const DiceEventPage: React.FC = () => {
                   </div>
 
                   <p className="text-center font-semibold text-xs text-white">
-                    Upon checking in for 7 consecutive days
+                    {t("dice_event.7_day")}
                   </p>
 
                   {/* 1000000 point & raffle 한 줄 */}

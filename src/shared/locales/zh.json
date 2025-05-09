@@ -531,7 +531,12 @@
       "cong": "恭喜所有中獎者，感謝您的參與！",
       "dice_pack": "骰子組合包",
       "point_pack": "星點組合包",
-      "raffle_pack": "抽獎券組合包"
+      "raffle_pack": "抽獎券組合包",
+      "attendance_reward": "出勤獎勵更新通知",
+      "before": "[之前]",
+      "now": "[現在]",
+      "daily": "每日出勤獎勵",
+      "7_day": "連續簽到7天時"
     },
     "setting": {
       "terms_of_service": "服務條款",
