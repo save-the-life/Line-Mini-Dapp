@@ -242,12 +242,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
 
    const handleAttendanceClick = async () => {
-      let currentProvider = provider;
-      let currentWalletAddress = walletAddress;
-      let currentSdk = sdk;
-      let currentWalletType = walletType;
-
-      if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+      if (!provider || !walletAddress || !sdk || !walletType) {
          if (isConnecting) return;
          setIsConnecting(true);
          const connection = await connectWallet();
@@ -257,25 +252,21 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             setMessage(t("attendance.wallet_fail"));
             return;
          }
-         currentProvider = connection.provider;
-         currentWalletAddress = connection.walletAddress;
-         currentSdk = connection.sdk;
-         currentWalletType = connection.walletType;
       }
 
       try {
-         const ethersProvider = new Web3Provider(currentProvider);
+         const ethersProvider = new Web3Provider(provider);
          const signer = ethersProvider.getSigner();
          const contract = new ethers.Contract(contractAddress, abi, signer);
 
          // 출석 체크 메시지 생성 및 서명
-         const message = `출석 체크: ${currentWalletAddress}`;
+         const message = `출석 체크: ${walletAddress}`;
          const messageHash = ethers.utils.hashMessage(message);
          const signature = await signer.signMessage(message);
          const sig = ethers.utils.splitSignature(signature);
 
          // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
-         if (currentProvider.getWalletType() === "OKX") {
+         if (provider.getWalletType() === "OKX") {
             const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
             const receipt = await tx.wait();
             // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
@@ -303,14 +294,14 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
          const tx = {
             typeInt: TxType.FeeDelegatedSmartContractExecution,
-            from: currentWalletAddress,
+            from: walletAddress,
             to: contractAddress,
             input: contractCallData,
             value: "0x0",
             feePayer,
          };
 
-         const signedTx = await currentProvider.request({
+         const signedTx = await provider.request({
             method: "kaia_signTransaction",
             params: [tx],
          });
