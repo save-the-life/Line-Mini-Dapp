@@ -17,12 +17,10 @@ import Audios from "@/shared/assets/audio";
 import okxAttendance from "@/entities/User/api/okxAttendance";
 
 const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
-// const contractAddress ="0x36c52010a2408DeBee6b197A75E3a37Ee15d6283"; //testnet checkin contractaddress
 const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
-// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; //testnet feepayer
 
-// const feePayerServer = "https://fee-delegation.kaia.io"; // mainnet feepayerserver
-// const feePayerServer = "https://fee-delegation-kairos.kaia.io";
+// const contractAddress ="0xf2c2CE3aD1d5eBBC831071848AE76bBEE8762624"; //testnet checkin contractaddress
+// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; //testnet feepayer
 
 //mainnet abi
 const abi = [
@@ -112,6 +110,94 @@ const abi = [
    }
  ];
 
+ //testnet abi
+//  const abi = [
+//    {
+//       "anonymous": false,
+//       "inputs": [
+//          {
+//             "indexed": true,
+//             "internalType": "address",
+//             "name": "user",
+//             "type": "address"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "lastAttendance",
+//             "type": "uint256"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "consecutiveDays",
+//             "type": "uint256"
+//          }
+//       ],
+//       "name": "AttendanceChecked",
+//       "type": "event"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "bytes32",
+//             "name": "messageHash",
+//             "type": "bytes32"
+//          },
+//          {
+//             "internalType": "uint8",
+//             "name": "v",
+//             "type": "uint8"
+//          },
+//          {
+//             "internalType": "bytes32",
+//             "name": "r",
+//             "type": "bytes32"
+//          },
+//          {
+//             "internalType": "bytes32",
+//             "name": "s",
+//             "type": "bytes32"
+//          }
+//       ],
+//       "name": "checkAttendance",
+//       "outputs": [],
+//       "stateMutability": "nonpayable",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [],
+//       "name": "checkAttendanceWithoutSignature",
+//       "outputs": [],
+//       "stateMutability": "nonpayable",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "address",
+//             "name": "",
+//             "type": "address"
+//          }
+//       ],
+//       "name": "users",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "lastAttendance",
+//             "type": "uint256"
+//          },
+//          {
+//             "internalType": "uint256",
+//             "name": "consecutiveDays",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    }
+// ]
+
 type DayKeys = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
 interface AttendanceProps {
@@ -150,25 +236,20 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
     if (attendanceData[day]) return "checked";
     if (day === today) return "today";
 
-    const daysOfWeek: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    const daysOfWeek: DayKeys[] = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     const todayIndex = daysOfWeek.indexOf(today);
     const dayIndex = daysOfWeek.indexOf(day);
 
     return dayIndex < todayIndex ? "missed" : "default";
   };
 
-  const days: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const days: DayKeys[] = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
 
 
    const handleAttendanceClick = async () => {
-      let currentProvider = provider;
-      let currentWalletAddress = walletAddress;
-      let currentSdk = sdk;
-      let currentWalletType = walletType;
-
-      if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
+      if (!provider || !walletAddress || !sdk || !walletType) {
          if (isConnecting) return;
          setIsConnecting(true);
          const connection = await connectWallet();
@@ -178,25 +259,21 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             setMessage(t("attendance.wallet_fail"));
             return;
          }
-         currentProvider = connection.provider;
-         currentWalletAddress = connection.walletAddress;
-         currentSdk = connection.sdk;
-         currentWalletType = connection.walletType;
       }
 
       try {
-         const ethersProvider = new Web3Provider(currentProvider);
+         const ethersProvider = new Web3Provider(provider);
          const signer = ethersProvider.getSigner();
          const contract = new ethers.Contract(contractAddress, abi, signer);
 
          // 출석 체크 메시지 생성 및 서명
-         const message = `출석 체크: ${currentWalletAddress}`;
+         const message = `출석 체크: ${walletAddress}`;
          const messageHash = ethers.utils.hashMessage(message);
          const signature = await signer.signMessage(message);
          const sig = ethers.utils.splitSignature(signature);
 
          // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
-         if (currentProvider.getWalletType() === "OKX") {
+         if (provider.getWalletType() === "OKX") {
             const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
             const receipt = await tx.wait();
             // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
@@ -224,14 +301,14 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
          const tx = {
             typeInt: TxType.FeeDelegatedSmartContractExecution,
-            from: currentWalletAddress,
+            from: walletAddress,
             to: contractAddress,
             input: contractCallData,
             value: "0x0",
             feePayer,
          };
 
-         const signedTx = await currentProvider.request({
+         const signedTx = await provider.request({
             method: "kaia_signTransaction",
             params: [tx],
          });
@@ -247,6 +324,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             setMessage(t("attendance.attendance_failed"));
          }
       } catch (error) {
+         console.log("에러 확인: ", error)
          setShowModal(true);
          setMessage(t("attendance.attendance_err"));
       }
@@ -282,7 +360,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         )}
       </div>
       <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 text-white">
-        * {t("dice_event.star_rewards")}
+        * {t("dice_event.star_rewards")} <br/> * {t("dice_event.7th")}
       </p>
       
 

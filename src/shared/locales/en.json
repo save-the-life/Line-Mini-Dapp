@@ -444,7 +444,8 @@
       "grap_prize": "Grab your prize!",
       "my_rank":"My Rank",
       "ranking_base": "Rankings are based on Star Points",
-      "star_rewards": "Rewards: 3,000 Star Points",
+      "star_rewards": "Rewards: 3,000 Star Points + 10 Dice",
+      "7th": "7th Day Reward: 100,000 Star Points + 100 Raffle Tickets",
       "mission": "Mission",
       "get_more_dice": "Get More Dice",
       "Earn_extra_rolls": "Earn extra rolls",
@@ -529,7 +530,12 @@
       "cong": "Congratulations to all the winners, and thank you for participating!",
       "dice_pack": "Dice Pack",
       "point_pack": "Star Points Pack",
-      "raffle_pack": "Raffle Tickets Pack"
+      "raffle_pack": "Raffle Tickets Pack",
+      "attendance_reward": "Attendance Rewards Update Notice",
+      "before": "[Before]",
+      "now": "[Now]",
+      "daily": "Daily Attendance Rewards",
+      "7_day": "Upon checking in for 7 consecutive days"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

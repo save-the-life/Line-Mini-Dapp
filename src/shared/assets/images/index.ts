@@ -191,6 +191,11 @@ import KaiaLevel2 from "./kaia-level2.png"
 import Tips from "./tips.png"
 import Raffle from "./raffle.png"
 import RaffleBox from "./raffle_box.png"
+import DownArrow from "./down-arrow.png"
+import RewardRaffle from "./reward-100raffle.png"
+import RewardDice from "./reward-10dice.png"
+import Reward3000 from "./reward-3000point.png"
+import Reward100000 from "./reward-100000point.png"
 
 
 const Images = {
@@ -385,7 +390,12 @@ const Images = {
   KaiaLevel2,
   Tips,
   Raffle,
-  RaffleBox
+  RaffleBox,
+  DownArrow,
+  RewardRaffle,
+  RewardDice,
+  Reward3000,
+  Reward100000
 };
 
 export default Images;

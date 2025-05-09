@@ -28,87 +28,92 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-// const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
-// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-// const abi  = [
-//   {
-//      "anonymous": false,
-//      "inputs": [
-//         {
-//            "indexed": true,
-//            "internalType": "address",
-//            "name": "user",
-//            "type": "address"
-//         },
-//         {
-//            "indexed": false,
-//            "internalType": "uint256",
-//            "name": "lastAttendance",
-//            "type": "uint256"
-//         },
-//         {
-//            "indexed": false,
-//            "internalType": "uint256",
-//            "name": "consecutiveDays",
-//            "type": "uint256"
-//         }
-//      ],
-//      "name": "AttendanceChecked",
-//      "type": "event"
-//   },
-//   {
-//      "inputs": [
-//         {
-//            "internalType": "bytes32",
-//            "name": "messageHash",
-//            "type": "bytes32"
-//         },
-//         {
-//            "internalType": "uint8",
-//            "name": "v",
-//            "type": "uint8"
-//         },
-//         {
-//            "internalType": "bytes32",
-//            "name": "r",
-//            "type": "bytes32"
-//         },
-//         {
-//            "internalType": "bytes32",
-//            "name": "s",
-//            "type": "bytes32"
-//         }
-//      ],
-//      "name": "checkAttendance",
-//      "outputs": [],
-//      "stateMutability": "nonpayable",
-//      "type": "function"
-//   },
-//   {
-//      "inputs": [
-//         {
-//            "internalType": "address",
-//            "name": "",
-//            "type": "address"
-//         }
-//      ],
-//      "name": "users",
-//      "outputs": [
-//         {
-//            "internalType": "uint256",
-//            "name": "lastAttendance",
-//            "type": "uint256"
-//         },
-//         {
-//            "internalType": "uint256",
-//            "name": "consecutiveDays",
-//            "type": "uint256"
-//         }
-//      ],
-//      "stateMutability": "view",
-//      "type": "function"
-//   }
-// ]
+const contractAddress = "0x36c52010a2408DeBee6b197A75E3a37Ee15d6283";
+const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+const abi = [
+  {
+     "inputs": [],
+     "stateMutability": "nonpayable",
+     "type": "constructor"
+  },
+  {
+     "anonymous": false,
+     "inputs": [
+        {
+           "indexed": true,
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        }
+     ],
+     "name": "Claimed",
+     "type": "event"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
+        }
+     ],
+     "name": "hasClaimed",
+     "outputs": [
+        {
+           "internalType": "bool",
+           "name": "",
+           "type": "bool"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        }
+     ],
+     "name": "isClaimed",
+     "outputs": [
+        {
+           "internalType": "bool",
+           "name": "",
+           "type": "bool"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  },
+  {
+     "inputs": [
+        {
+           "internalType": "address",
+           "name": "user",
+           "type": "address"
+        }
+     ],
+     "name": "markClaimed",
+     "outputs": [],
+     "stateMutability": "nonpayable",
+     "type": "function"
+  },
+  {
+     "inputs": [],
+     "name": "owner",
+     "outputs": [
+        {
+           "internalType": "address",
+           "name": "",
+           "type": "address"
+        }
+     ],
+     "stateMutability": "view",
+     "type": "function"
+  }
+]
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -383,87 +388,74 @@ const MissionPage: React.FC = () => {
 
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
-    // let currentProvider = provider;
-    // let currentWalletAddress = walletAddress;
-    // let currentSdk = sdk;
-    // let currentWalletType = walletType;
-
-    // if (!currentProvider || !currentWalletAddress || !currentSdk || !currentWalletType) {
-    //     if (isConnecting) return;
-    //     setIsConnecting(true);
-    //     const connection = await connectWallet();
-    //     setIsConnecting(false);
-    //     if (!connection.provider || !connection.walletAddress) {
-    //       setShowModal(true);
-    //       setMessage(t("attendance.wallet_fail"));
-    //       return;
-    //     }
-    //     currentProvider = connection.provider;
-    //     currentWalletAddress = connection.walletAddress;
-    //     currentSdk = connection.sdk;
-    //     currentWalletType = connection.walletType;
+    
+    // if (!provider || !walletAddress || !sdk || !walletType) {
+    //   if (isConnecting) return;
+    //   setIsConnecting(true);
+    //   const connection = await connectWallet();
+    //   setIsConnecting(false);
+    //   if (!connection.provider || !connection.walletAddress) {
+    //     setShowModal(true);
+    //     setMessage(t("attendance.wallet_fail"));
+    //     return;
+    //   }
     // }
 
     // // Kaia 미션 트랜젝션 실행
     // try{
-    //   const ethersProvider = new Web3Provider(currentProvider);
+    //   const ethersProvider = new Web3Provider(provider);
     //   const signer = ethersProvider.getSigner();
     //   const contract = new ethers.Contract(contractAddress, abi, signer);
 
     //   // 출석 체크 메시지 생성 및 서명
-    //   const message = `Kaia Mission Rewards: ${currentWalletAddress}`;
+    //   const message = `Kaia Mission Rewards: ${walletAddress}`;
     //   const messageHash = ethers.utils.hashMessage(message);
     //   const signature = await signer.signMessage(message);
     //   const sig = ethers.utils.splitSignature(signature);
 
     //   // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
-    //   if (currentProvider.getWalletType() === "OKX") {
-    //     const tx = await contract.markClaimed(currentWalletAddress);
+    //   if (provider.getWalletType() === "OKX") {
+    //     const tx = await contract.markClaimed(walletAddress);
     //     const receipt = await tx.wait();
     //     // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
 
     //     if (receipt.status === 1) {
-    //         // await okxAttendance();
-    //         setShowModal(true);
-    //         setMessage(t("attendance.attendance_success"));
+    //       // await okxAttendance();
+    //       setShowModal(true);
+    //       setMessage(t("attendance.attendance_success"));
     //     } else {
-    //         setShowModal(true);
-    //         setMessage(t("attendance.attendance_failed"));
+    //       setShowModal(true);
+    //       setMessage(t("attendance.attendance_failed"));
     //     }
     //     return;
     //   }
 
     //   // OKX가 아닌 경우: Fee Delegation 로직 적용
     //   const contractCallData = contract.interface.encodeFunctionData("markClaimed", [
-    //     currentWalletAddress
+    //     walletAddress
     //   ]);
-    //   console.log("서명 진행");
 
     //   const tx = {
     //     typeInt: TxType.FeeDelegatedSmartContractExecution,
-    //     from: currentWalletAddress,
+    //     from: walletAddress,
     //     to: contractAddress,
     //     input: contractCallData,
     //     value: "0x0",
     //     feePayer,
     //     gas: "0x186A0",
     //   };
-    //   console.log("tx: ", tx);
 
-    //   const signedTx = await currentProvider.request({
+    //   const signedTx = await provider.request({
     //     method: "kaia_signTransaction",
     //     params: [tx],
     //   });
 
-    //   console.log("signedTx: ", signedTx);
+    //   // const test = await testingKaia(signedTx.raw, walletAddress);
 
-    //   const test = await testingKaia(signedTx.raw, currentWalletAddress);
-
-    //   if(test){
-    //     console.log("응답: ", test);
+    //   if(signedTx){
     //     setKaiaLoading(true);
     //     try{
-    //       const kaia = await requestKaiaMission(walletAddress);
+    //       const kaia = await requestKaiaMission(signedTx.raw, walletAddress);
 
     //       if(kaia.message === "Success"){
     //         setKaiaLoading(false);

@@ -297,65 +297,76 @@ const DiceEventPage: React.FC = () => {
   //  모달 스케줄링 로직
   // ===============================
   const scheduledSlots = [12, 19];
+  const itemGuideSlots = [0, 9, 18]; 
+
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
+  const [showItemGuideModal, setShowItemGuideModal] = useState(false);
 
   useEffect(() => {
-    const checkAndShowAbuseModal = () => {
+    const checkAndShowModals = () => {
       const now = new Date();
-      let currentSlot: number | null = null;
+      const hour = now.getHours();
+      const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+      // ——————————————
+      // 1) abuseModal + 래플권 모달
+      // ——————————————
+      let currentAbuseSlot: number | null = null;
       for (let slot of scheduledSlots) {
-        if (now.getHours() >= slot) {
-          currentSlot = slot;
+        if (hour >= slot) currentAbuseSlot = slot;
+      }
+      if (currentAbuseSlot !== null) {
+        const slotId = `${dateKey}-${currentAbuseSlot}`;
+        const lastShown = localStorage.getItem("abuseModalLastShown");
+        const dismissed = localStorage.getItem("abuseModalDismissed");
+        if (lastShown !== slotId && dismissed !== slotId) {
+          setabuseModal(true);
+          setShowRankingModal(true);
         }
       }
-      if (currentSlot !== null) {
-        const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-        const lastShownSlot = localStorage.getItem("abuseModalLastShown");
-        const dismissedSlot = localStorage.getItem("abuseModalDismissed");
-        // 닫은 기록이 있으면 재오픈하지 않음
-        if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
-          setabuseModal(true);
-          setShowRankingModal(true);  
+
+      // ——————————————
+      // 2) 아이템 가이드 모달
+      // ——————————————
+      const currentItemSlot = itemGuideSlots.filter(slot => hour >= slot).pop();
+      if (currentItemSlot != null) {
+        const key = `${dateKey}-${currentItemSlot}-itemGuide`;
+        if (!localStorage.getItem(key)) {
+          setShowItemGuideModal(true);
         }
       }
     };
 
-    // 최초 5초 동안 2초마다 체크
-    const fastInterval = setInterval(checkAndShowAbuseModal, 2000);
-    let slowInterval: number | undefined;
 
-    // 5초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
-    const switchTimeout = setTimeout(() => {
+    // 최초 5초간 2초마다
+    const fastInterval = window.setInterval(checkAndShowModals, 2000);
+
+    // 5초 후 1시간 간격으로 전환
+    let slowInterval: number;
+    const switchTimeout = window.setTimeout(() => {
       clearInterval(fastInterval);
-      slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
+      slowInterval = window.setInterval(checkAndShowModals, 3600_000);
     }, 5000);
 
     return () => {
       clearInterval(fastInterval);
       clearTimeout(switchTimeout);
-      if (slowInterval) {
-        clearInterval(slowInterval);
-      }
+      if (slowInterval) clearInterval(slowInterval);
     };
   }, []);
 
   // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
-  const handleCloseAbuseModal = () => {
+  const handleCloseItemGuideModal = () => {
     const now = new Date();
-    let currentSlot: number | null = null;
-    for (let slot of scheduledSlots) {
-      if (now.getHours() >= slot) {
-        currentSlot = slot;
-      }
+    const hour = now.getHours();
+    const dateKey = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+    const slot = itemGuideSlots.filter(s => hour >= s).pop();
+    if (slot != null) {
+      localStorage.setItem(`${dateKey}-${slot}-itemGuide`, "shown");
     }
-    if (currentSlot !== null) {
-      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-      localStorage.setItem("abuseModalLastShown", slotId);
-      localStorage.setItem("abuseModalDismissed", slotId);
-    }
-    setabuseModal(false);
+    setShowItemGuideModal(false);
   };
   
   const handleCloseRankingModal = () => {
@@ -861,48 +872,101 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog> */}
 
-          {/* 아이템 가이드 모달 */}
-          {/* <Dialog open={abuseModal}>
+          {/* 출석 보상 업데이트 모달 */}
+          <Dialog open={showItemGuideModal}>
             <DialogTitle></DialogTitle>
-            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
+            <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
                     className="w-5 h-5"
-                    onClick={handleCloseAbuseModal} 
+                    onClick={handleCloseItemGuideModal} 
                   />
                 </DialogClose>
               </div>
-              <div className="flex flex-col items-center justify-center">
-                <div className=" flex flex-col items-center text-center">
-                  <h1 className=" font-jalnan text-3xl font-bold text-[#FACC15] text-center">
-                    {t("dice_event.item_guide")}<br/>& {t("dice_event.tips")}
-                  </h1>
-                  <img
-                    src={Images.Tips}
-                    alt="tips"
-                    className="mt-[10px] w-[200px] h-[200px]"
-                  />
-                </div>
-                <div className="flex flex-col mt-[10px]">
-                  <p className="font-Pretendard text-center text-base font-semibold">
-                    {t("dice_event.which_item")}<br/>{t("dice_event.ticket_faster")}
+              <div className="flex flex-col items-center justify-center p-4 space-y-4">
+                {/* 헤더 */}
+                <h1 className="font-Pretendard text-xl font-bold text-white text-center">
+                  {t("dice_event.attendance_reward")}
+                </h1>
+
+                {/* Before 블록 */}
+                <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4">
+                  <p className="font-Pretendard text-base font-semibold text-[#A3A3A3]">
+                    {t("dice_event.before")}
                   </p>
-                  <p className="font-Pretendard text-center text-base font-semibold mt-2">
-                    👉 {t("dice_event.check_guide")}
-                  </p>
-                  <a
-                    href="https://shorturl.at/d0c3B" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="underline text-[#3B82F6] mt-[10px] text-base font-semibold text-center"
-                  >
-                    https://shorturl.at/d0c3B
-                  </a>
+                  <div className="flex justify-center items-center mt-2">
+                    <img
+                      src={Images.Reward3000}
+                      alt="3000 point"
+                      className="w-16 h-16"
+                    />
+                  </div>
                 </div>
+
+                {/* 화살표 */}
+                <img
+                  src={Images.DownArrow}
+                  alt="downArrow"
+                  className="w-6 h-6"
+                />
+
+                {/* Now 블록 */}
+                <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
+                  <p className="font-Pretendard text-base font-semibold text-white">
+                    {t("dice_event.now")}
+                  </p>
+                  <p className="text-center font-semibold text-xs text-white">
+                    {t("dice_event.daily")}
+                  </p>
+
+                  {/* 3000 point & dice 한 줄 */}
+                  <div className="flex justify-center items-center gap-2">
+                    <img
+                      src={Images.Reward3000}
+                      alt="3000 point"
+                      className="w-16 h-16"
+                    />
+                    <img
+                      src={Images.RewardDice}
+                      alt="dice"
+                      className="w-16 h-16"
+                    />
+                  </div>
+
+                  <p className="text-center font-semibold text-xs text-white">
+                    {t("dice_event.7_day")}
+                  </p>
+
+                  {/* 1000000 point & raffle 한 줄 */}
+                  <div className="flex justify-center items-center gap-2">
+                    <img
+                      src={Images.Reward100000}
+                      alt="1000000 point"
+                      className="w-16 h-16"
+                    />
+                    <img
+                      src={Images.RewardRaffle}
+                      alt="raffle"
+                      className="w-16 h-16"
+                    />
+                  </div>
+                </div>
+
+                {/* 닫기 버튼 */}
+                <button
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    handleCloseItemGuideModal();
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14"
+                >
+                  {t("dice_event.close")}
+                </button>
               </div>
             </DialogContent>
-          </Dialog> */}
+          </Dialog>
+
               
           {/* 래플권 알림 모달창 */}
           <Dialog open={showRankingModal}>

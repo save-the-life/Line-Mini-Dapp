@@ -445,7 +445,8 @@
       "grap_prize": "領取你的獎品！",
       "my_rank": "我的排名",
       "ranking_base": "排名依據星星點數而定",
-      "star_rewards": "獎勵：3,000 星星點數",
+      "star_rewards": "獎勵：3,000 星點 + 10 個骰子",
+      "7th": "第7天獎勵：100,000 星點 + 100 張抽獎券",
       "mission": "任務",
       "get_more_dice": "獲取更多骰子",
       "Earn_extra_rolls": "獲得更多擲骰次數",
@@ -530,7 +531,12 @@
       "cong": "恭喜所有中獎者，感謝您的參與！",
       "dice_pack": "骰子組合包",
       "point_pack": "星點組合包",
-      "raffle_pack": "抽獎券組合包"
+      "raffle_pack": "抽獎券組合包",
+      "attendance_reward": "出勤獎勵更新通知",
+      "before": "[之前]",
+      "now": "[現在]",
+      "daily": "每日出勤獎勵",
+      "7_day": "連續簽到7天時"
     },
     "setting": {
       "terms_of_service": "服務條款",

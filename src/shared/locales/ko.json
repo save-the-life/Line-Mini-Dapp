@@ -445,7 +445,8 @@
       "grap_prize": "보상을 받아가세요!",
       "my_rank": "나의 랭킹",
       "ranking_base": "랭킹은 스타 포인트를 기준으로 합니다",
-      "star_rewards": "보상: 3,000 스타 포인트",
+      "star_rewards": "보상: 3,000 스타 포인트 + 주사위 10개",
+      "7th": "7일차 보상: 100,00 스타 포인트 + 래플권 100개",
       "mission": "미션",
       "get_more_dice": "주사위 더 얻기",
       "Earn_extra_rolls": "추가로 주사위를 굴릴 기회를 얻어",
@@ -530,7 +531,12 @@
       "cong": "모든 당첨자분들께 축하드리며, 참여해 주셔서 감사합니다!",
       "dice_pack": "주사위 팩",
       "point_pack": "스타 포인트 팩",
-      "raffle_pack": "추첨 티켓 팩"
+      "raffle_pack": "추첨 티켓 팩",
+      "attendance_reward": "출석 보상 업데이트 안내",
+      "before": "[이전]",
+      "now": "[현재]",
+      "daily": "일일 출석 보상",
+      "7_day": "7일 연속 출석 시"
     },
     "setting": {
       "terms_of_service": "이용 약관",
