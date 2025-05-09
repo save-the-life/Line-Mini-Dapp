@@ -297,65 +297,76 @@ const DiceEventPage: React.FC = () => {
   //  모달 스케줄링 로직
   // ===============================
   const scheduledSlots = [12, 19];
+  const itemGuideSlots = [0, 9, 18]; 
+
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
+  const [showItemGuideModal, setShowItemGuideModal] = useState(false);
 
   useEffect(() => {
-    const checkAndShowAbuseModal = () => {
+    const checkAndShowModals = () => {
       const now = new Date();
-      let currentSlot: number | null = null;
+      const hour = now.getHours();
+      const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+      // ——————————————
+      // 1) abuseModal + 래플권 모달
+      // ——————————————
+      let currentAbuseSlot: number | null = null;
       for (let slot of scheduledSlots) {
-        if (now.getHours() >= slot) {
-          currentSlot = slot;
+        if (hour >= slot) currentAbuseSlot = slot;
+      }
+      if (currentAbuseSlot !== null) {
+        const slotId = `${dateKey}-${currentAbuseSlot}`;
+        const lastShown = localStorage.getItem("abuseModalLastShown");
+        const dismissed = localStorage.getItem("abuseModalDismissed");
+        if (lastShown !== slotId && dismissed !== slotId) {
+          setabuseModal(true);
+          setShowRankingModal(true);
         }
       }
-      if (currentSlot !== null) {
-        const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-        const lastShownSlot = localStorage.getItem("abuseModalLastShown");
-        const dismissedSlot = localStorage.getItem("abuseModalDismissed");
-        // 닫은 기록이 있으면 재오픈하지 않음
-        if (lastShownSlot !== slotId && dismissedSlot !== slotId) {
-          setabuseModal(true);
-          setShowRankingModal(true);  
+
+      // ——————————————
+      // 2) 아이템 가이드 모달
+      // ——————————————
+      const currentItemSlot = itemGuideSlots.filter(slot => hour >= slot).pop();
+      if (currentItemSlot != null) {
+        const key = `${dateKey}-${currentItemSlot}-itemGuide`;
+        if (!localStorage.getItem(key)) {
+          setShowItemGuideModal(true);
         }
       }
     };
 
-    // 최초 5초 동안 2초마다 체크
-    const fastInterval = setInterval(checkAndShowAbuseModal, 2000);
-    let slowInterval: number | undefined;
 
-    // 5초 후에 빠른 체크를 중단하고 1시간 간격으로 체크 전환
-    const switchTimeout = setTimeout(() => {
+    // 최초 5초간 2초마다
+    const fastInterval = window.setInterval(checkAndShowModals, 2000);
+
+    // 5초 후 1시간 간격으로 전환
+    let slowInterval: number;
+    const switchTimeout = window.setTimeout(() => {
       clearInterval(fastInterval);
-      slowInterval = window.setInterval(checkAndShowAbuseModal, 3600000);
+      slowInterval = window.setInterval(checkAndShowModals, 3600_000);
     }, 5000);
 
     return () => {
       clearInterval(fastInterval);
       clearTimeout(switchTimeout);
-      if (slowInterval) {
-        clearInterval(slowInterval);
-      }
+      if (slowInterval) clearInterval(slowInterval);
     };
   }, []);
 
   // 모달 닫을 때 현재 슬롯 정보를 기록하는 함수
-  const handleCloseAbuseModal = () => {
+  const handleCloseItemGuideModal = () => {
     const now = new Date();
-    let currentSlot: number | null = null;
-    for (let slot of scheduledSlots) {
-      if (now.getHours() >= slot) {
-        currentSlot = slot;
-      }
+    const hour = now.getHours();
+    const dateKey = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+    const slot = itemGuideSlots.filter(s => hour >= s).pop();
+    if (slot != null) {
+      localStorage.setItem(`${dateKey}-${slot}-itemGuide`, "shown");
     }
-    if (currentSlot !== null) {
-      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
-      localStorage.setItem("abuseModalLastShown", slotId);
-      localStorage.setItem("abuseModalDismissed", slotId);
-    }
-    setabuseModal(false);
+    setShowItemGuideModal(false);
   };
   
   const handleCloseRankingModal = () => {
@@ -861,48 +872,84 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog> */}
 
-          {/* 아이템 가이드 모달 */}
-          {/* <Dialog open={abuseModal}>
+          {/* 출석 보상 업데이트 모달 */}
+          <Dialog open={showItemGuideModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
                     className="w-5 h-5"
-                    onClick={handleCloseAbuseModal} 
+                    onClick={handleCloseItemGuideModal} 
                   />
                 </DialogClose>
               </div>
               <div className="flex flex-col items-center justify-center">
                 <div className=" flex flex-col items-center text-center">
                   <h1 className=" font-jalnan text-3xl font-bold text-[#FACC15] text-center">
-                    {t("dice_event.item_guide")}<br/>& {t("dice_event.tips")}
+                    Attendance Rewards Update Notice
                   </h1>
-                  <img
-                    src={Images.Tips}
-                    alt="tips"
-                    className="mt-[10px] w-[200px] h-[200px]"
-                  />
                 </div>
                 <div className="flex flex-col mt-[10px]">
-                  <p className="font-Pretendard text-center text-base font-semibold">
-                    {t("dice_event.which_item")}<br/>{t("dice_event.ticket_faster")}
-                  </p>
-                  <p className="font-Pretendard text-center text-base font-semibold mt-2">
-                    👉 {t("dice_event.check_guide")}
-                  </p>
-                  <a
-                    href="https://shorturl.at/d0c3B" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="underline text-[#3B82F6] mt-[10px] text-base font-semibold text-center"
-                  >
-                    https://shorturl.at/d0c3B
-                  </a>
+                  <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-[70%]">
+                    <p className="font-Pretendard text-center text-base font-semibold text-[#A3A3A3]">
+                      [Before]
+                    </p>
+                    <img
+                      src={Images.Reward3000}
+                      alt="3000 point"
+                      className="mt-2 w-16 h-16"
+                    />
+                  </div>
+                    <img
+                      src={Images.DownArrow}
+                      alt="downArrow"
+                      className="my-[10px] w-6 h-6"
+                    />
+                    <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-[70%]">
+                      <p className="font-Pretendard text-center text-base font-semibold text-white">
+                        [Now]
+                      </p>
+                      <p className="text-center font-semibold text-xs text-white">
+                        Daily Attendance Rewards
+                      </p>
+                      <img
+                        src={Images.Reward3000}
+                        alt="3000 point"
+                        className="mt-2 w-16 h-16"
+                      />
+                      <img
+                        src={Images.RewardDice}
+                        alt="3000 point"
+                        className="mt-2 w-16 h-16"
+                      />
+                      <p className="text-center font-semibold text-xs text-white">
+                        Upon checking in for 7 consecutive days
+                      </p>
+                      <img
+                        src={Images.Reward100000}
+                        alt="3000 point"
+                        className="mt-2 w-16 h-16"
+                      />
+                      <img
+                        src={Images.RewardRaffle}
+                        alt="3000 point"
+                        className="mt-2 w-16 h-16"
+                      />
+                    </div>
                 </div>
+                <button
+                  onClick={() => {
+                    playSfx(Audios.button_click);
+                    handleCloseItemGuideModal();
+                  }}
+                  className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7"
+                >
+                  {t("dice_event.close")}
+                </button>
               </div>
             </DialogContent>
-          </Dialog> */}
+          </Dialog>
               
           {/* 래플권 알림 모달창 */}
           <Dialog open={showRankingModal}>
