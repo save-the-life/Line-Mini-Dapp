@@ -968,7 +968,7 @@ const DiceEventPage: React.FC = () => {
           </Dialog>
 
               
-          {/* 래플권 알림 모달창 */}
+          {/* 아이템 추가 안내 모달창 */}
           <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[85%]">
@@ -986,39 +986,51 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    {t("dice_event.raffle_anounce")}
+                    Check Out What's New!
                   </h1>
-                  <img
-                    src={Images.RaffleBox}
-                    alt="tips"
-                    className="mt-8 w-[100px] h-[100px]"
-                  />
                 </div>
-                <div className="flex flex-col mt-5">
-                  <a
-                    href="https://docs.google.com/spreadsheets/d/1o-xgcH0QzTgIIz-d5Nv6oQUuyyTGoNAHYwHxbvaweJo/edit?gid=0#gid=0" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="no-underline hover:no-underline text-[#3B82F6] my-[10px] text-base font-semibold text-center"
-                  >
-                    👉 {t("dice_event.winner_link")}
-                  </a>
-                  <p className="font-Pretendard text-center text-base font-semibold text-white">
-                    {t("dice_event.check_dapp")}
+                <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
+                  <p className="text-center font-semibold text-xs text-white">
+                    [New Items]
                   </p>
-                      
-                  <p className="font-Pretendard text-center text-base font-semibold mt-4">
-                    {t("dice_event.cong")}
-                  </p>
+
+                  <div className="flex justify-center items-center gap-2">
+                    <div>
+                      <img
+                        src={Images.Reward100000}
+                        alt="1000000 point"
+                        className="w-16 h-16"
+                      />
+                      <p className="text-base font-semibold text-white text-center">Dice</p>
+                    </div>
+                    <div>
+                      <img
+                        src={Images.Reward100000}
+                        alt="1000000 point"
+                        className="w-16 h-16"
+                      />
+                      <p className="text-base font-semibold text-white text-center">Points</p>
+                    </div>
+                    <div>
+                      <img
+                        src={Images.Reward100000}
+                        alt="1000000 point"
+                        className="w-16 h-16"
+                      />
+                      <p className="text-base font-semibold text-white text-center">Raffle Ticket</p>
+                    </div>
+                  </div>
+
                 </div>
                 <button
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
+                    navigate("/item-store")
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7"
                 >
-                  {t("dice_event.close")}
+                  View Items
                 </button>
               </div>
             </DialogContent>
