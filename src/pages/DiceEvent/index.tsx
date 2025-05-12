@@ -986,12 +986,12 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    Check Out What's New!
+                    {t("dice_event.what_new")}
                   </h1>
                 </div>
                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
                   <p className="text-center font-semibold text-xs text-white">
-                    [New Items]
+                    {t("dice_event.new_item")}
                   </p>
 
                   <div className="flex justify-center items-center gap-2">
@@ -1023,7 +1023,7 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 
                 <p className="text-center text-white font-semibold text-base my-5">
-                  New Items just dropped in the shop!<br/>Click the button below to shop for it!
+                  {t("dice_event.just_drop")}<br/>{t("dice_event.click_below")}
                 </p>
 
                 <button
@@ -1034,7 +1034,7 @@ const DiceEventPage: React.FC = () => {
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7"
                 >
-                  View Items
+                  {t("dice_event.view")}
                 </button>
               </div>
             </DialogContent>
