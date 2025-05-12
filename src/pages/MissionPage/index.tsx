@@ -457,6 +457,7 @@ const MissionPage: React.FC = () => {
         }
       }
     } catch(error: any){
+      console.log("에러 확인: ", error);
       setKaiaLoading(false);
       setKaiaModal(true);
       setKaiaMessage(t("mission_page.failed"));
