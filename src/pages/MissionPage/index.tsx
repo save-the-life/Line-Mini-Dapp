@@ -28,21 +28,28 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-const contractAddress = "0x86B0F05F2601aa4E39003AC3430DbD82c0C105d8";
+const contractAddress = "0xa34cCeA3bd47A11358b7348A4798AD887022EF49";
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const abi = [
-   {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-   },
    {
       "anonymous": false,
       "inputs": [
          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+         },
+         {
             "indexed": false,
             "internalType": "uint256",
-            "name": "newTotal",
+            "name": "userClaimCount",
+            "type": "uint256"
+         },
+         {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "totalClaimCount",
             "type": "uint256"
          }
       ],
@@ -50,8 +57,33 @@ const abi = [
       "type": "event"
    },
    {
-      "inputs": [],
-      "name": "getTotalClaims",
+      "inputs": [
+         {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+         }
+      ],
+      "name": "claimCount",
+      "outputs": [
+         {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+         }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+   },
+   {
+      "inputs": [
+         {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+         }
+      ],
+      "name": "getClaimCount",
       "outputs": [
          {
             "internalType": "uint256",
@@ -67,19 +99,6 @@ const abi = [
       "name": "markClaimed",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-         {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-         }
-      ],
-      "stateMutability": "view",
       "type": "function"
    },
    {
