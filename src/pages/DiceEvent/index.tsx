@@ -1020,11 +1020,12 @@ const DiceEventPage: React.FC = () => {
                       <p className="text-xs font-semibold text-white text-center">Raffle Ticket</p>
                     </div>
                   </div>
-                  <p className="text-center text-white font-semibold text-base my-5">
-                    New Items just dropped in the shop!<br/>Click the button below to shop for it!
-                  </p>
-
                 </div>
+                
+                <p className="text-center text-white font-semibold text-base my-5">
+                  New Items just dropped in the shop!<br/>Click the button below to shop for it!
+                </p>
+
                 <button
                   onClick={() => {
                     playSfx(Audios.button_click);
