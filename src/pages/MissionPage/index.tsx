@@ -413,9 +413,7 @@ const MissionPage: React.FC = () => {
       }
 
       // OKX가 아닌 경우: Fee Delegation 로직 적용
-      const contractCallData = contract.interface.encodeFunctionData("markClaimed", [
-        walletAddress
-      ]);
+      const contractCallData = contract.interface.encodeFunctionData("markClaimed", []);
 
       const tx = {
         typeInt: TxType.FeeDelegatedSmartContractExecution,
