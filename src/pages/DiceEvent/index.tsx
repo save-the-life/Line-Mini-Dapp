@@ -971,7 +971,7 @@ const DiceEventPage: React.FC = () => {
           {/* 아이템 추가 안내 모달창 */}
           <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[85%]">
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[70%] md:max-w-lg max-h-[85%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
                   <HiX 
@@ -997,29 +997,32 @@ const DiceEventPage: React.FC = () => {
                   <div className="flex justify-center items-center gap-2">
                     <div>
                       <img
-                        src={Images.Reward100000}
+                        src={Images.DiceReward}
                         alt="1000000 point"
                         className="w-16 h-16"
                       />
-                      <p className="text-base font-semibold text-white text-center">Dice</p>
+                      <p className="text-xs font-semibold text-white text-center">Dice</p>
                     </div>
                     <div>
                       <img
-                        src={Images.Reward100000}
+                        src={Images.PointReward}
                         alt="1000000 point"
                         className="w-16 h-16"
                       />
-                      <p className="text-base font-semibold text-white text-center">Points</p>
+                      <p className="text-xs font-semibold text-white text-center">Points</p>
                     </div>
                     <div>
                       <img
-                        src={Images.Reward100000}
+                        src={Images.RaffleReward}
                         alt="1000000 point"
                         className="w-16 h-16"
                       />
-                      <p className="text-base font-semibold text-white text-center">Raffle Ticket</p>
+                      <p className="text-xs font-semibold text-white text-center">Raffle Ticket</p>
                     </div>
                   </div>
+                  <p className="text-center text-white font-semibold text-base my-5">
+                    New Items just dropped in the shop!<br/>Click the button below to shop for it!
+                  </p>
 
                 </div>
                 <button
