@@ -296,7 +296,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [8, 19];
+  const scheduledSlots = [12, 19];
   const itemGuideSlots = [0, 9, 18]; 
 
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
