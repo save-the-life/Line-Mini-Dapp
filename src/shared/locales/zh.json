@@ -536,7 +536,12 @@
       "before": "[之前]",
       "now": "[現在]",
       "daily": "每日出勤獎勵",
-      "7_day": "連續簽到7天時"
+      "7_day": "連續簽到7天時",
+      "what_new": "看看有什麼新內容！",
+      "new_item": "[新商品]",
+      "just_drop": "新商品已上架商店！",
+      "click_below": "點擊下方按鈕立即購買！",
+      "view": "查看商品"
     },
     "setting": {
       "terms_of_service": "服務條款",

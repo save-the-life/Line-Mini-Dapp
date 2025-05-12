@@ -196,6 +196,9 @@ import RewardRaffle from "./reward-100raffle.png"
 import RewardDice from "./reward-10dice.png"
 import Reward3000 from "./reward-3000point.png"
 import Reward100000 from "./reward-100000point.png"
+import DiceReward from "./dice-reward.png"
+import PointReward from "./point-reward.png"
+import RaffleReward from "./raffle-reward.png"
 
 
 const Images = {
@@ -395,7 +398,10 @@ const Images = {
   RewardRaffle,
   RewardDice,
   Reward3000,
-  Reward100000
+  Reward100000,
+  DiceReward,
+  PointReward,
+  RaffleReward
 };
 
 export default Images;

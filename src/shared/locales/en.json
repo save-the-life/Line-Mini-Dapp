@@ -535,7 +535,12 @@
       "before": "[Before]",
       "now": "[Now]",
       "daily": "Daily Attendance Rewards",
-      "7_day": "Upon checking in for 7 consecutive days"
+      "7_day": "Upon checking in for 7 consecutive days",
+      "what_new": "Check Out What's New!",
+      "new_item": "[New Items]",
+      "just_drop": "New Items just dropped in the shop!",
+      "click_below": "Click the button below to shop for it!",
+      "view": "View Items"
     },
     "setting": {
       "terms_of_service": "Terms of Service",
