@@ -28,91 +28,73 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-const contractAddress = "0x54009ACc2ef5630c9D9d2e82B6aBa1C5Ce334DCd";
+const contractAddress = "0x86B0F05F2601aa4E39003AC3430DbD82c0C105d8";
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const abi = [
-  {
-     "inputs": [],
-     "stateMutability": "nonpayable",
-     "type": "constructor"
-  },
-  {
-     "anonymous": false,
-     "inputs": [
-        {
-           "indexed": true,
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        }
-     ],
-     "name": "Claimed",
-     "type": "event"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "",
-           "type": "address"
-        }
-     ],
-     "name": "hasClaimed",
-     "outputs": [
-        {
-           "internalType": "bool",
-           "name": "",
-           "type": "bool"
-        }
-     ],
-     "stateMutability": "view",
-     "type": "function"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        }
-     ],
-     "name": "isClaimed",
-     "outputs": [
-        {
-           "internalType": "bool",
-           "name": "",
-           "type": "bool"
-        }
-     ],
-     "stateMutability": "view",
-     "type": "function"
-  },
-  {
-     "inputs": [
-        {
-           "internalType": "address",
-           "name": "user",
-           "type": "address"
-        }
-     ],
-     "name": "markClaimed",
-     "outputs": [],
-     "stateMutability": "nonpayable",
-     "type": "function"
-  },
-  {
-     "inputs": [],
-     "name": "owner",
-     "outputs": [
-        {
-           "internalType": "address",
-           "name": "",
-           "type": "address"
-        }
-     ],
-     "stateMutability": "view",
-     "type": "function"
-  }
+   {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+   },
+   {
+      "anonymous": false,
+      "inputs": [
+         {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "newTotal",
+            "type": "uint256"
+         }
+      ],
+      "name": "Claimed",
+      "type": "event"
+   },
+   {
+      "inputs": [],
+      "name": "getTotalClaims",
+      "outputs": [
+         {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+         }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+   },
+   {
+      "inputs": [],
+      "name": "markClaimed",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+   },
+   {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+         {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+         }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+   },
+   {
+      "inputs": [],
+      "name": "totalClaims",
+      "outputs": [
+         {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+         }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+   }
 ]
 
 interface OneTimeMissionCardProps {
