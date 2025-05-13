@@ -408,7 +408,7 @@ export const useUserStore = create<UserState>((set, get) => ({
   
         slToken: rank.slToken,
         rank: rankData.myRank.rank,
-        previousRank: rank.rank,
+        previousRank: rankData.myRank.rank,
         diceRefilledAt: rank.diceRefilledAt, // 추가된 부분: diceRefilledAt 설정
   
         items: {
