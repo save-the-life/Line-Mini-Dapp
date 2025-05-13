@@ -28,8 +28,8 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 
-const contractAddress = "0xa34cCeA3bd47A11358b7348A4798AD887022EF49";
-const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
+const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
 const abi = [
    {
       "anonymous": false,
