@@ -232,7 +232,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
           <div className="absolute top-[18%] md:top-[24%] min-w-32 flex items-center justify-center w-full">
             <AnimatePresence mode="wait">
               {/* (A) 기본 My Rank */}
-              {showRankText === 'myRank' && (
+              {/* {showRankText === 'myRank' && (
                 <motion.p
                   key="myRank"
                   className="text-base font-semibold"
@@ -243,10 +243,10 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
                 >
                   {t("dice_event.my_rank")}
                 </motion.p>
-              )}
+              )} */}
 
               {/* (B) Rank Up */}
-              {showRankText === 'rankUp' && (
+              {/* {showRankText === 'rankUp' && (
                 <motion.p
                   key="rankUp"
                   className="font-jalnan text-[#22C55E]"
@@ -257,10 +257,10 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
                 >
                   Rank Up!
                 </motion.p>
-              )}
+              )} */}
 
               {/* (C) Rank Down */}
-              {showRankText === 'rankDown' && (
+              {/* {showRankText === 'rankDown' && (
                 <motion.p
                   key="rankDown"
                   className="font-jalnan text-[#DD2726]"
@@ -271,7 +271,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
                 >
                   Rank Down!
                 </motion.p>
-              )}
+              )} */}
             </AnimatePresence>
           </div>
 
