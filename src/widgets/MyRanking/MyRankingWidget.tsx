@@ -246,7 +246,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
               )}
 
               {/* (B) Rank Up */}
-              {/* {showRankText === 'rankUp' && (
+              {showRankText === 'rankUp' && (
                 <motion.p
                   key="rankUp"
                   className="font-jalnan text-[#22C55E]"
@@ -257,10 +257,10 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
                 >
                   Rank Up!
                 </motion.p>
-              )} */}
+              )}
 
               {/* (C) Rank Down */}
-              {/* {showRankText === 'rankDown' && (
+              {showRankText === 'rankDown' && (
                 <motion.p
                   key="rankDown"
                   className="font-jalnan text-[#DD2726]"
@@ -271,7 +271,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
                 >
                   Rank Down!
                 </motion.p>
-              )} */}
+              )}
             </AnimatePresence>
           </div>
 
