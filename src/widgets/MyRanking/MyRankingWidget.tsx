@@ -56,10 +56,11 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // 5) 값 변경 감지 후 애니메이션 트리거 (기존 코드)
   // -----------------------
   useEffect(() => {
+    console.log("이전 랭킹: ", prevRankRef.current);
+    console.log("지금 랭킹: ", rank);
+    console.log("지금 랭킹인가: ", myRankReal);
     handleGetRank();
     if (prevRankRef.current !== rank) {
-      console.log("이전 랭킹: ", prevRankRef.current);
-      console.log("지금 랭킹: ", rank);
       setRankChanged(true);
       const timer = setTimeout(() => setRankChanged(false), 700);
       prevRankRef.current = rank;
