@@ -5,8 +5,8 @@ import CountUp from 'react-countup';
 import { IoIosArrowRoundUp, IoIosArrowRoundDown } from "react-icons/io";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from "react-i18next";
-import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
-import { LeaderTabData } from '@/entities/Leaderboard/types';
+// import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
+// import { LeaderTabData } from '@/entities/Leaderboard/types';
 
 interface MyRankingWidgetProps {
   titleHidden?: boolean;
@@ -21,7 +21,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // 1) 필요한 데이터 가져오기
   // -----------------------
   const { rank, previousRank, starPoints, lotteryCount, slToken } = useUserStore();
-  const [myRankReal, setMyRankReal] = useState(0);
+  // const [myRankReal, setMyRankReal] = useState(0);
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
@@ -58,20 +58,19 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   useEffect(() => {
     console.log("이전 랭킹: ", prevRankRef.current);
     console.log("지금 랭킹: ", rank);
-    console.log("지금 랭킹인가: ", myRankReal);
-    handleGetRank();
+    // handleGetRank();
     if (prevRankRef.current !== rank) {
       setRankChanged(true);
       const timer = setTimeout(() => setRankChanged(false), 700);
       prevRankRef.current = rank;
       return () => clearTimeout(timer);
     }
-  }, [myRankReal]);
+  }, [rank]);
 
-  const handleGetRank = async () => {
-    const data: LeaderTabData = await fetchLeaderTabAPI();
-    setMyRankReal(data.myRank.rank)
-  }
+  // const handleGetRank = async () => {
+  //   const data: LeaderTabData = await fetchLeaderTabAPI();
+  //   setMyRankReal(data.myRank.rank)
+  // }
 
   useEffect(() => {
     if (prevStarPointsRef.current !== starPoints) {
@@ -282,13 +281,13 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
               (기존) 랭크 숫자 부분
              ----------------------------- */}
          <motion.p 
-          className={`${myRankReal > 9999 ? "text-xl" : "text-2xl"} text-[#fde047] font-jalnan`}
+          className={`${rank > 9999 ? "text-xl" : "text-2xl"} text-[#fde047] font-jalnan`}
           variants={scaleAndGlow}
           animate={rankChanged ? 'animate' : 'initial'}
         >
           <CountUp
             start={0}
-            end={myRankReal}
+            end={rank}
             duration={1}
             separator=","
           />
