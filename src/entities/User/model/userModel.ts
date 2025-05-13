@@ -8,6 +8,8 @@ import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi'; // 분�
 import { autoAPI } from '@/features/DiceEvent/api/autoApi';
 import { completeTutorialAPI} from '@/features/DiceEvent/api/completeTutorialApi';
 import { useSoundStore } from '@/shared/store/useSoundStore';
+import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
+import { LeaderTabData } from '@/entities/Leaderboard/types';
 
 
 // 월간 보상 정보 인터페이스
@@ -311,11 +313,12 @@ export const useUserStore = create<UserState>((set, get) => ({
   
     try {
       const data = await rollDiceAPI(gauge, sequence);
+      const rankData: LeaderTabData = await fetchLeaderTabAPI();
   
       // 서버 응답에서 level과 exp를 상태에 직접 설정
       set((state) =>({
         previousRank: state.rank, // 이전 랭크 저장
-        rank: data.rank,
+        rank: rankData.myRank.rank,
         starPoints: data.star,
         lotteryCount: data.ticket,
         diceCount: data.dice,
