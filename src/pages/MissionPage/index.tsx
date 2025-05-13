@@ -416,7 +416,7 @@ const MissionPage: React.FC = () => {
 
       // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
       if (provider.getWalletType() === "OKX") {
-        const tx = await contract.markClaimed(walletAddress);
+        const tx = await contract.markClaimed();
         const receipt = await tx.wait();
         // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
 
