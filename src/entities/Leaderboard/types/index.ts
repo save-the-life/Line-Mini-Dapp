@@ -5,9 +5,17 @@ export interface LeaderBoardEntry {
     starCount: number;
     rank: number;
   }
+export interface myRankEntry {
+    rank: number;
+    number: number;
+    ticket: number;
+    slToken: number;
+    diceRefilledAt: string;
+  }
   
   export interface LeaderTabData {
     leaderBoard: LeaderBoardEntry[];
+    myRank: myRankEntry;
   }
   
   export interface Pageable {
