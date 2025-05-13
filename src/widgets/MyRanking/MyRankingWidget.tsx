@@ -26,7 +26,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
   // -----------------------
-  const prevRankRef = useRef(rank);
+  const prevRankRef = useRef(myRankReal);
   const prevStarPointsRef = useRef(starPoints);
   const prevLotteryCountRef = useRef(lotteryCount);
   const prevSlTokenRef = useRef(slToken);
@@ -48,7 +48,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // -----------------------
   // 4) rank 차이 계산
   // -----------------------
-  const rankDifference = previousRank - rank; 
+  const rankDifference = previousRank - myRankReal; 
   const isRankUp = rankDifference > 0;    // 랭크 상승 여부
   const isRankDown = rankDifference < 0;  // 랭크 하락 여부
 
@@ -56,10 +56,12 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // 5) 값 변경 감지 후 애니메이션 트리거 (기존 코드)
   // -----------------------
   useEffect(() => {
-    if (prevRankRef.current !== rank) {
+    if (prevRankRef.current !== myRankReal) {
+      console.log("이전 랭킹: ", prevRankRef.current);
+      console.log("지금 랭킹: ", myRankReal);
       setRankChanged(true);
       const timer = setTimeout(() => setRankChanged(false), 700);
-      prevRankRef.current = rank;
+      prevRankRef.current = myRankReal;
       return () => clearTimeout(timer);
     }
     handleGetRank();
