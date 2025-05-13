@@ -365,6 +365,8 @@ export const useUserStore = create<UserState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       let data = await fetchHomeData();
+      
+      const rankData: LeaderTabData = await fetchLeaderTabAPI();
       if (!data || data.data === null) {
         // 응답 객체가 있고, message가 "Please choose your character first."인 경우 바로 에러 발생
         if (data && data.message === "Please choose your character first.") {
@@ -405,7 +407,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         characterType: pet.type ? pet.type.toLowerCase() as 'dog' | 'cat' : null, // 수정된 부분: pet.type이 null일 수 있음
   
         slToken: rank.slToken,
-        rank: rank.rank,
+        rank: rankData.myRank.rank,
         previousRank: rank.rank,
         diceRefilledAt: rank.diceRefilledAt, // 추가된 부분: diceRefilledAt 설정
   
