@@ -5,7 +5,6 @@ import CountUp from 'react-countup';
 import { IoIosArrowRoundUp, IoIosArrowRoundDown } from "react-icons/io";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from "react-i18next";
-import shallow from 'zustand/shallow';
 
 interface MyRankingWidgetProps {
   titleHidden?: boolean;
@@ -19,24 +18,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // -----------------------
   // 1) 필요한 데이터 가져오기
   // -----------------------
- 
-  const { rank, previousRank, starPoints, lotteryCount, slToken } = useUserStore(
-    s => ({
-      rank:         s.rank,
-      previousRank: s.previousRank,
-      starPoints:   s.starPoints,
-      lotteryCount: s.lotteryCount,
-      slToken:      s.slToken,
-    }),
-    shallow
-  )
-  
-  const fetchRankData = useUserStore(s => s.fetchRankData)
-
-  // 2) 마운트 시 한 번만 호출
-  useEffect(() => {
-    fetchRankData().catch(console.error)
-  }, [])
+  const { rank, previousRank, starPoints, lotteryCount, slToken } = useUserStore();
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
