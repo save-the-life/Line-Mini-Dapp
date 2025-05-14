@@ -24,12 +24,10 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   const starPoints   = useUserStore(s => s.starPoints);
   const lotteryCount = useUserStore(s => s.lotteryCount);
   const slToken = useUserStore(s => s.slToken);
-  
-  const fetchRankData = useUserStore.getState().fetchRankData;
 
   
   useEffect(() => {
-    fetchRankData();
+    useUserStore.getState().fetchRankData().catch(console.error);
   }, []);
 
   // -----------------------
