@@ -23,6 +23,10 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // 2) 로컬 상태로 순위 관리 (초기값은 store의 rank)
   const [rank, setRank] = useState<number>(storeRank);
 
+  useEffect(() => {
+    setRank(storeRank);
+  }, [storeRank]);
+
   // 3) 이전 값 추적을 위한 ref
   const prevRankRef = useRef<number>(rank);
   const prevStarPointsRef = useRef<number>(starPoints);
