@@ -947,9 +947,9 @@ export const useUserStore = create<UserState>((set, get) => ({
   fetchRankData: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await fetchLeaderTabAPI();
+      const leaderData  = await fetchLeaderTabAPI();
       // response.data 에 { leaderBoard[], myRank:{ rank, star, ticket, slToken, diceRefilledAt } }
-      const { myRank } = (response as any).data;
+      const { myRank } = leaderData as any;
       set(state => ({
         previousRank: state.rank,
         rank: myRank.rank,
