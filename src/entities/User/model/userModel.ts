@@ -196,12 +196,12 @@ export const useUserStore = create<UserState>((set, get) => ({
         slToken:      myRank.slToken,
       }))
     } catch (err: any) {
-      set({ error: err.message || 'Failed to load rank' })
+      set({ error: err.message || '랭크 로드 실패' })
     } finally {
       set({ isLoading: false })
     }
   },
-  
+
   //타임존 추가
   timeZone: null,
   setTimeZone: (timeZone) => set({ timeZone }),
@@ -454,16 +454,16 @@ export const useUserStore = create<UserState>((set, get) => ({
   
       // 3) 최신 랭크 API 호출 및 덮어쓰기
       set({ isLoading: true });
-      const { myRank } = await fetchLeaderTabAPI();
-      set(state => ({
-        previousRank: state.rank,
-        rank: myRank.rank,
-        starPoints: myRank.star,
-        lotteryCount: myRank.ticket,
-        slToken: myRank.slToken,
-        diceRefilledAt: myRank.diceRefilledAt,
-        isLoading: false,
-      }));
+      // const { myRank } = await fetchLeaderTabAPI();
+      // set(state => ({
+      //   previousRank: state.rank,
+      //   rank: myRank.rank,
+      //   starPoints: myRank.star,
+      //   lotteryCount: myRank.ticket,
+      //   slToken: myRank.slToken,
+      //   diceRefilledAt: myRank.diceRefilledAt,
+      //   isLoading: false,
+      // }));
   
       // 4) BGM 볼륨·뮤트 설정
       const soundStore = useSoundStore.getState();

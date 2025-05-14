@@ -21,21 +21,22 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // -----------------------
  
   const { rank, previousRank, starPoints, lotteryCount, slToken } = useUserStore(
-    state => ({
-      rank: state.rank,
-      previousRank: state.previousRank,
-      starPoints: state.starPoints,
-      lotteryCount: state.lotteryCount,
-      slToken: state.slToken,
+    s => ({
+      rank:         s.rank,
+      previousRank: s.previousRank,
+      starPoints:   s.starPoints,
+      lotteryCount: s.lotteryCount,
+      slToken:      s.slToken,
     }),
     shallow
-  );
-  const fetchRankData = useUserStore(state => state.fetchRankData);
+  )
+  
+  const fetchRankData = useUserStore(s => s.fetchRankData)
 
   // 2) 마운트 시 한 번만 호출
   useEffect(() => {
-    fetchRankData().catch(console.error);
-  }, [fetchRankData]);
+    fetchRankData().catch(console.error)
+  }, [fetchRankData])
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
