@@ -8,6 +8,7 @@ import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi'; // 분�
 import { autoAPI } from '@/features/DiceEvent/api/autoApi';
 import { completeTutorialAPI} from '@/features/DiceEvent/api/completeTutorialApi';
 import { useSoundStore } from '@/shared/store/useSoundStore';
+import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
 
 
 // 월간 보상 정보 인터페이스
@@ -73,7 +74,10 @@ interface UserState {
   rank: number;
   setRank: (rank: number) => void;
 
-  previousRank : number;
+  previousRank: number;
+  
+  
+  fetchRankData: () => Promise<void>;
 
   monthlyPrize: MonthlyPrize;
   setMonthlyPrize: (monthlyPrize: MonthlyPrize) => void;
@@ -181,6 +185,27 @@ interface Pet {
 
 // 사용자 상태를 관리하는 Zustand 스토어 생성
 export const useUserStore = create<UserState>((set, get) => ({
+
+  fetchRankData: async () => {
+    set({ /* 로딩 표시를 원하면 isLoading: true 등 추가 */ });
+    try {
+      const leaderData = await fetchLeaderTabAPI();
+      const { myRank } = leaderData;
+      set(state => ({
+        previousRank: state.rank,
+        rank: myRank.rank,
+        starPoints: myRank.star,
+        lotteryCount: myRank.ticket,
+        slToken: myRank.slToken,
+        /* 필요 시 diceRefilledAt 등도 set */
+      }));
+    } catch (err) {
+      console.error('순위 불러오기 실패', err);
+    } finally {
+      set({ /* isLoading: false */ });
+    }
+  },
+  
   //타임존 추가
   timeZone: null,
   setTimeZone: (timeZone) => set({ timeZone }),
