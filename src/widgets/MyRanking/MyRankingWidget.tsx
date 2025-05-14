@@ -18,14 +18,13 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   titleHidden = false
 }) => {
   // 1) store에서 직접 가져오기
-  const {
-    rank,
-    previousRank,
-    starPoints,
-    lotteryCount,
-    slToken,
-    fetchRankData
-  } = useUserStore();
+  
+  const rank          = useUserStore(s => s.rank);
+  const previousRank  = useUserStore(s => s.previousRank);
+  const starPoints    = useUserStore(s => s.starPoints);
+  const lotteryCount  = useUserStore(s => s.lotteryCount);
+  const slToken       = useUserStore(s => s.slToken);
+  const fetchRankData = useUserStore(s => s.fetchRankData);
 
   const { t } = useTranslation();
 
