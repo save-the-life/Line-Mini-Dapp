@@ -36,7 +36,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // 2) 마운트 시 한 번만 호출
   useEffect(() => {
     fetchRankData().catch(console.error)
-  }, [fetchRankData])
+  }, [])
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
