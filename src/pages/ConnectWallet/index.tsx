@@ -45,7 +45,7 @@ const is502Error = (error: any): boolean => {
 const ConnectWalletPage: React.FC = () => {
   const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
-  const { fetchUserData } = useUserStore();
+  const { fetchUserData, fetchRankData  } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
 
@@ -94,6 +94,7 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       await fetchUserData();
+      await fetchRankData();
 
       const userTimeZone = useUserStore.getState().timeZone;
       console.log("서버로부터 받은 타임존: ", userTimeZone);
