@@ -367,8 +367,8 @@ export const useUserStore = create<UserState>((set, get) => ({
       error: null,
     }));
 
-+    // ② 진짜 순위(fetchRankData) 호출 → store.rank에 반영
-+    await get().fetchRankData();
+    // ② 진짜 순위(fetchRankData) 호출 → store.rank에 반영
+    await get().fetchRankData();
   
       return data; // 데이터를 반환합니다.
     } catch (error: any) {
