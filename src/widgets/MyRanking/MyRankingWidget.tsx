@@ -18,23 +18,12 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // -----------------------
   // 1) 필요한 데이터 가져오기
   // -----------------------
-  
-  const rank         = useUserStore(s => s.rank);
-  const previousRank = useUserStore(s => s.previousRank);
-  const starPoints   = useUserStore(s => s.starPoints);
-  const lotteryCount = useUserStore(s => s.lotteryCount);
-  const slToken = useUserStore(s => s.slToken);
-  
-  const fetchRankData = useUserStore.getState().fetchRankData;
-  
-
-  useEffect(() => {
-    fetchRankData().catch(console.error);
-  }, []); 
+  const { rank, previousRank, starPoints, lotteryCount, slToken } = useUserStore();
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
   // -----------------------
+  const prevRankRef = useRef(rank);
   const prevStarPointsRef = useRef(starPoints);
   const prevLotteryCountRef = useRef(lotteryCount);
   const prevSlTokenRef = useRef(slToken);
@@ -48,6 +37,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   const [showRankText, setShowRankText] = useState<'myRank' | 'rankUp' | 'rankDown'>('myRank');
 
   // (2) 기존 코드의 애니메이션 트리거 state
+  const [rankChanged, setRankChanged] = useState(false);
   const [starChanged, setStarChanged] = useState(false);
   const [lotteryChanged, setLotteryChanged] = useState(false);
   const [tokenChanged, setTokenChanged] = useState(false);
@@ -62,14 +52,12 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // -----------------------
   // 5) 값 변경 감지 후 애니메이션 트리거 (기존 코드)
   // -----------------------
-  
-  const prevRankRef = useRef(previousRank);
-  const [rankChanged, setRankChanged] = useState(false);
   useEffect(() => {
     if (prevRankRef.current !== rank) {
       setRankChanged(true);
-      setTimeout(() => setRankChanged(false), 700);
+      const timer = setTimeout(() => setRankChanged(false), 700);
       prevRankRef.current = rank;
+      return () => clearTimeout(timer);
     }
   }, [rank]);
 
