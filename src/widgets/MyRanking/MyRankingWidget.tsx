@@ -31,7 +31,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   
   useEffect(() => {
     fetchRankData();
-  }, [fetchRankData]);
+  }, []);
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
