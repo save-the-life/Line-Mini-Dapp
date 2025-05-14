@@ -187,22 +187,21 @@ interface Pet {
 export const useUserStore = create<UserState>((set, get) => ({
 
   fetchRankData: async () => {
-    set({ /* 로딩 표시를 원하면 isLoading: true 등 추가 */ });
+    set({ isLoading: true, error: null });
     try {
-      const leaderData = await fetchLeaderTabAPI();
-      const { myRank } = leaderData;
+      const { myRank } = await fetchLeaderTabAPI();
       set(state => ({
         previousRank: state.rank,
         rank: myRank.rank,
         starPoints: myRank.star,
         lotteryCount: myRank.ticket,
         slToken: myRank.slToken,
-        /* 필요 시 diceRefilledAt 등도 set */
+        diceRefilledAt: myRank.diceRefilledAt,
       }));
-    } catch (err) {
-      console.error('순위 불러오기 실패', err);
+    } catch (err: any) {
+      set({ error: err.message });
     } finally {
-      set({ /* isLoading: false */ });
+      set({ isLoading: false });
     }
   },
 
@@ -330,40 +329,36 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   diceResult: 0,
   rollDice: async (gauge: number): Promise<RollDiceResponseData> => {
-      set({ isLoading: true, error: null });
-      const sequence = get().position;
-      try {
-        // 1) 캐시된 주사위 결과 먼저 가져오기
-        const data = await rollDiceAPI(gauge, sequence);
-    
-        // 2) 주사위 결과(다이스, 스타, 티켓, 토큰, 레벨·경험)만 반영
-        set(state => ({
-          diceCount: data.dice,
-          starPoints: data.star,
-          lotteryCount: data.ticket,
-          slToken: data.slToken,
-          userLv: data.level,
-          pet: { ...get().pet, level: data.level, exp: data.exp },
-        }));
-    
-        // 3) 바로 실시간 랭크 호출
-        const leaderData = await fetchLeaderTabAPI();
-        const { myRank } = leaderData;
-    
-        // 4) 랭크만 이전→새로운 값으로 업데이트
-        set(state => ({
-          previousRank: state.rank,
-          rank: myRank.rank,
-          diceRefilledAt: myRank.diceRefilledAt,
-        }));
-    
-        set({ isLoading: false });
-        return data;
-      } catch (error: any) {
-        set({ isLoading: false, error: error.message || 'Roll dice failed' });
-        throw error;
-      }
-    },
+    set({ isLoading: true, error: null });
+    const seq = get().position;
+    try {
+      const data = await rollDiceAPI(gauge, seq);
+
+      // ① 캐시된 랭크는 무시하고, 리소스만 업데이트
+      set(state => ({
+        diceCount: data.dice,
+        starPoints: data.star,
+        lotteryCount: data.ticket,
+        slToken: data.slToken,
+        userLv: data.level,
+        pet: { ...get().pet, level: data.level, exp: data.exp },
+      }));
+
+      // ② 진짜 내 랭크 한 번만 덮어쓰기
+      const { myRank } = await fetchLeaderTabAPI();
+      set(state => ({
+        previousRank: state.rank,
+        rank: myRank.rank,
+        diceRefilledAt: myRank.diceRefilledAt,
+      }));
+
+      set({ isLoading: false });
+      return data;
+    } catch (err: any) {
+      set({ isLoading: false, error: err.message });
+      throw err;
+    }
+  },
   
 
   diceRefilledAt: null,

@@ -25,12 +25,13 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   const lotteryCount = useUserStore(s => s.lotteryCount);
   const slToken = useUserStore(s => s.slToken);
   
-  const fetchRankData = useUserStore.getState().fetchRankData;
+  
+  const fetchRankData= useUserStore(s => s.fetchRankData); 
 
   
   useEffect(() => {
     fetchRankData();
-  }, []);
+  }, [fetchRankData]);
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
