@@ -8,7 +8,6 @@ import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi'; // 분�
 import { autoAPI } from '@/features/DiceEvent/api/autoApi';
 import { completeTutorialAPI} from '@/features/DiceEvent/api/completeTutorialApi';
 import { useSoundStore } from '@/shared/store/useSoundStore';
-import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
 
 
 // 월간 보상 정보 인터페이스
@@ -34,7 +33,6 @@ interface WeekAttendance {
 // 사용자 상태 인터페이스
 interface UserState {
   // 사용자 관련 상태들
-  fetchRankData: () => Promise<void>;
   nickName: string | null;
   setNickName: (nickName: string | null) => void;
   uid: number | null;
@@ -315,36 +313,22 @@ export const useUserStore = create<UserState>((set, get) => ({
       const data = await rollDiceAPI(gauge, sequence);
   
       // 서버 응답에서 level과 exp를 상태에 직접 설정
-      // set((state) =>({
-      //   previousRank: state.rank, // 이전 랭크 저장
-      //   rank: data.rank,
-      //   starPoints: data.star,
-      //   lotteryCount: data.ticket,
-      //   diceCount: data.dice,
-      //   slToken: data.slToken,
-      //   userLv: data.level, // 레벨 업데이트
-      //   pet: {
-      //     ...get().pet,
-      //     level: data.level,
-      //     exp: data.exp,
-      //   },
-      //   isLoading: false,
-      //   error: null,
-      // }));
-      // 1) 주사위 결과만 반영
-    set(state => ({
-      diceCount: data.dice,
-      starPoints: data.star,
-      lotteryCount: data.ticket,
-      slToken: data.slToken,
-      userLv: data.level,
-      pet: { ...get().pet, level: data.level, exp: data.exp },
-      isLoading: false,
-      error: null,
-    }));
-
-    // 2) 그리고 진짜 순위 API 호출
-    await get().fetchRankData();
+      set((state) =>({
+        previousRank: state.rank, // 이전 랭크 저장
+        rank: data.rank,
+        starPoints: data.star,
+        lotteryCount: data.ticket,
+        diceCount: data.dice,
+        slToken: data.slToken,
+        userLv: data.level, // 레벨 업데이트
+        pet: {
+          ...get().pet,
+          level: data.level,
+          exp: data.exp,
+        },
+        isLoading: false,
+        error: null,
+      }));
   
       return data; // 데이터를 반환합니다.
     } catch (error: any) {
@@ -642,14 +626,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       const { nowDice, rank }  = data;
       
       // 주사위 리필 후 diceCount만 업데이트
-      // set({
-      //   diceCount: nowDice.dice,
-      //   diceRefilledAt: rank.diceRefilledAt,
-      //   isLoading: false,
-      //   error: null,
-      // });
-      set({ diceCount: nowDice.dice, isLoading: false, error: null });
-      await get().fetchRankData();
+      set({
+        diceCount: nowDice.dice,
+        diceRefilledAt: rank.diceRefilledAt,
+        isLoading: false,
+        error: null,
+      });
     } catch (error: any) {
       // console.error('주사위 리필 중 에러 발생:', error);
       set({ error: error.message || '주사위 리필에 실패했습니다.' });
@@ -938,29 +920,6 @@ export const useUserStore = create<UserState>((set, get) => ({
     } catch (error: any) {
       // console.error('SL 토큰 아이템 삭제 실패:', error);
       set({ error: error.message || 'SL 토큰 아이템 삭제에 실패했습니다.' });
-      throw error;
-    }
-  },
-
-
-  
-  fetchRankData: async () => {
-    set({ isLoading: true, error: null });
-    try {
-      const leaderData  = await fetchLeaderTabAPI();
-      // response.data 에 { leaderBoard[], myRank:{ rank, star, ticket, slToken, diceRefilledAt } }
-      const { myRank } = leaderData as any;
-      set(state => ({
-        previousRank: state.rank,
-        rank: myRank.rank,
-        starPoints: myRank.star,
-        lotteryCount: myRank.ticket,
-        slToken: myRank.slToken,
-        diceRefilledAt: myRank.diceRefilledAt,
-        isLoading: false,
-      }));
-    } catch (error: any) {
-      set({ isLoading: false, error: error.message || '순위 업데이트 실패' });
       throw error;
     }
   },
