@@ -270,7 +270,7 @@ const DiceEventPage: React.FC = () => {
       }
     }
     initializeSdkAndUserData();
-  }, [fetchUserData]);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
