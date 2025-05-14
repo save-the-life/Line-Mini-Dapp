@@ -8,8 +8,6 @@ import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi'; // 분�
 import { autoAPI } from '@/features/DiceEvent/api/autoApi';
 import { completeTutorialAPI} from '@/features/DiceEvent/api/completeTutorialApi';
 import { useSoundStore } from '@/shared/store/useSoundStore';
-import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
-import { LeaderTabData } from '@/entities/Leaderboard/types';
 
 
 // 월간 보상 정보 인터페이스
@@ -313,12 +311,11 @@ export const useUserStore = create<UserState>((set, get) => ({
   
     try {
       const data = await rollDiceAPI(gauge, sequence);
-      const rankData: LeaderTabData = await fetchLeaderTabAPI();
   
       // 서버 응답에서 level과 exp를 상태에 직접 설정
       set((state) =>({
         previousRank: state.rank, // 이전 랭크 저장
-        rank: rankData.myRank.rank,
+        rank: data.rank,
         starPoints: data.star,
         lotteryCount: data.ticket,
         diceCount: data.dice,
@@ -365,8 +362,6 @@ export const useUserStore = create<UserState>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       let data = await fetchHomeData();
-      
-      const rankData: LeaderTabData = await fetchLeaderTabAPI();
       if (!data || data.data === null) {
         // 응답 객체가 있고, message가 "Please choose your character first."인 경우 바로 에러 발생
         if (data && data.message === "Please choose your character first.") {
@@ -407,8 +402,8 @@ export const useUserStore = create<UserState>((set, get) => ({
         characterType: pet.type ? pet.type.toLowerCase() as 'dog' | 'cat' : null, // 수정된 부분: pet.type이 null일 수 있음
   
         slToken: rank.slToken,
-        rank: rankData.myRank.rank,
-        previousRank: rankData.myRank.rank,
+        rank: rank.rank,
+        previousRank: rank.rank,
         diceRefilledAt: rank.diceRefilledAt, // 추가된 부분: diceRefilledAt 설정
   
         items: {
