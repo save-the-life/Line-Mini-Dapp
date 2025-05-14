@@ -330,52 +330,40 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   diceResult: 0,
   rollDice: async (gauge: number): Promise<RollDiceResponseData> => {
-    set({ isLoading: true, error: null });
-  
-    const sequence = get().position; // 현재 위치 가져오기
-  
-    try {
-      const data = await rollDiceAPI(gauge, sequence);
-  
-      // 서버 응답에서 level과 exp를 상태에 직접 설정
-      // set((state) =>({
-      //   previousRank: state.rank, // 이전 랭크 저장
-      //   rank: data.rank,
-      //   starPoints: data.star,
-      //   lotteryCount: data.ticket,
-      //   diceCount: data.dice,
-      //   slToken: data.slToken,
-      //   userLv: data.level, // 레벨 업데이트
-      //   pet: {
-      //     ...get().pet,
-      //     level: data.level,
-      //     exp: data.exp,
-      //   },
-      //   isLoading: false,
-      //   error: null,
-      // }));
-      
-    // ① 주사위 결과(다이스 개수, 스타, 티켓, 토큰, 레벨·경험)만 반영
-    set(state => ({
-      diceCount: data.dice,
-      starPoints: data.star,
-      lotteryCount: data.ticket,
-      slToken: data.slToken,
-      userLv: data.level,
-      pet: { ...get().pet, level: data.level, exp: data.exp },
-      isLoading: false,
-      error: null,
-    }));
-
-    // ② 진짜 순위(fetchRankData) 호출 → store.rank에 반영
-    await get().fetchRankData();
-  
-      return data; // 데이터를 반환합니다.
-    } catch (error: any) {
-      set({ isLoading: false, error: error.message || 'Roll dice failed' });
-      throw error;
-    }
-  },
+      set({ isLoading: true, error: null });
+      const sequence = get().position;
+      try {
+        // 1) 캐시된 주사위 결과 먼저 가져오기
+        const data = await rollDiceAPI(gauge, sequence);
+    
+        // 2) 주사위 결과(다이스, 스타, 티켓, 토큰, 레벨·경험)만 반영
+        set(state => ({
+          diceCount: data.dice,
+          starPoints: data.star,
+          lotteryCount: data.ticket,
+          slToken: data.slToken,
+          userLv: data.level,
+          pet: { ...get().pet, level: data.level, exp: data.exp },
+        }));
+    
+        // 3) 바로 실시간 랭크 호출
+        const leaderData = await fetchLeaderTabAPI();
+        const { myRank } = leaderData;
+    
+        // 4) 랭크만 이전→새로운 값으로 업데이트
+        set(state => ({
+          previousRank: state.rank,
+          rank: myRank.rank,
+          diceRefilledAt: myRank.diceRefilledAt,
+        }));
+    
+        set({ isLoading: false });
+        return data;
+      } catch (error: any) {
+        set({ isLoading: false, error: error.message || 'Roll dice failed' });
+        throw error;
+      }
+    },
   
 
   diceRefilledAt: null,
