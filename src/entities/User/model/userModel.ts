@@ -381,50 +381,50 @@ export const useUserStore = create<UserState>((set, get) => ({
   fetchUserData: async () => {
     set({ isLoading: true, error: null });
     try {
-      // 1) 홈 데이터(캐시 포함) 가져오기
-      const home = await fetchHomeData();
-      if (!home || home.data === null) {
-        if (home && home.message === "Please choose your character first.") {
-          throw new Error(home.message);
+      let data = await fetchHomeData();
+      if (!data || data.data === null) {
+        // 응답 객체가 있고, message가 "Please choose your character first."인 경우 바로 에러 발생
+        if (data && data.message === "Please choose your character first.") {
+          throw new Error(data.message);
         }
       }
+
+      // 서버 응답에서 필요한 데이터 추출
       const {
         user,
         nowDice,
-        rank: cachedRank,
+        rank,
         pet,
         monthlyPrize,
         weekAttendance,
         items,
         boards,
         bgm
-      } = home.data;
+      } = data.data;
   
-      // 2) 홈 데이터 기반 상태 초기 세팅
       set({
+        // userId를 nickName으로 대체
         nickName: user.nickName,
         uid: user.uid,
         walletAddress: user.walletAddress,
-        referrerId: user.referrerId,
-        isAuto: items.autoNftCount > 0 ? user.isAuto : false,
+        referrerId: user.referrerId, // 추가된 부분: referrerId 설정
+        isAuto: items.autoNftCount > 0 ? user.isAuto : false, // 추가된 부분: isAuto 설정
         completeTutorial: user.completeTutorial,
         timeZone: user.timeZone,
-        suspend: user.suspended,
+        suspend: user.suspended, // 추가된 부분: suspend 값 저장
         redirect: user.redirect,
   
         position: nowDice.tileSequence,
         diceCount: nowDice.dice,
+        starPoints: rank.star,
+        lotteryCount: rank.ticket,
+        userLv: pet.level || 100, // 서버에서 받은 레벨 설정, 기본값 1
+        characterType: pet.type ? pet.type.toLowerCase() as 'dog' | 'cat' : null, // 수정된 부분: pet.type이 null일 수 있음
   
-        starPoints: cachedRank.star,
-        lotteryCount: cachedRank.ticket,
-        slToken: cachedRank.slToken,
-  
-        userLv: pet.level || 100,
-        characterType: pet.type ? pet.type.toLowerCase() as 'dog' | 'cat' : null,
-  
-        rank: cachedRank.rank,
-        previousRank: cachedRank.rank,
-        diceRefilledAt: cachedRank.diceRefilledAt,
+        slToken: rank.slToken,
+        rank: rank.rank,
+        previousRank: rank.rank,
+        diceRefilledAt: rank.diceRefilledAt, // 추가된 부분: diceRefilledAt 설정
   
         items: {
           goldCount: items.goldCount || 0,
@@ -433,53 +433,59 @@ export const useUserStore = create<UserState>((set, get) => ({
           timeDiceTimes: items.timeDiceTimes || 1,
           boardRewardTimes: items.boardRewardTimes || 1,
           ticketTimes: items.ticketTimes || 1,
-          spinTimes: items.spinTimes || 1,
-          autoNftCount: items.autoNftCount || 0,
-          rewardNftCount: items.rewardNftCount || 0,
+          spinTimes: items.spinTimes || 1, // 추가된 필드 설정
+          autoNftCount: items.autoNftCount || 0, // 추가된 필드 설정
+          rewardNftCount: items.rewardNftCount || 0, // 추가된 필드 설정
         },
   
-        boards,
-        monthlyPrize,
-        weekAttendance,
+        boards: boards,
+  
+        monthlyPrize: {
+          year: monthlyPrize.year,
+          month: monthlyPrize.month,
+          prizeType: monthlyPrize.prizeType,
+          amount: monthlyPrize.amount,
+          eventFinishTime: monthlyPrize.eventFinishTime, // 추가된 부분: eventFinish
+        },
+  
+        weekAttendance: {
+          mon: weekAttendance.mon,
+          tue: weekAttendance.tue,
+          wed: weekAttendance.wed,
+          thu: weekAttendance.thu,
+          fri: weekAttendance.fri,
+          sat: weekAttendance.sat,
+          sun: weekAttendance.sun,
+        },
   
         pet: {
           type: pet.type ? pet.type.toLowerCase() as 'DOG' | 'CAT' : null,
-          level: pet.level || 1,
-          exp: pet.exp || 0,
+          level: pet.level || 1, // 서버에서 받은 레벨 설정, 기본값 1
+          exp: pet.exp || 0, // 서버에서 받은 경험치 설정, 기본값 0
         },
   
         isLoading: false,
         error: null,
       });
-  
-      // 3) 최신 랭크 API 호출 및 덮어쓰기
-      set({ isLoading: true });
-      // const { myRank } = await fetchLeaderTabAPI();
-      // set(state => ({
-      //   previousRank: state.rank,
-      //   rank: myRank.rank,
-      //   starPoints: myRank.star,
-      //   lotteryCount: myRank.ticket,
-      //   slToken: myRank.slToken,
-      //   diceRefilledAt: myRank.diceRefilledAt,
-      //   isLoading: false,
-      // }));
-  
-      // 4) BGM 볼륨·뮤트 설정
       const soundStore = useSoundStore.getState();
+
       soundStore.setMasterVolume((bgm.masterVolume / 10) * 0.3);
       soundStore.setBgmVolume((bgm.backVolume / 10) * 0.3);
       soundStore.setSfxVolume((bgm.effectVolume / 10) * 0.3);
+
       useSoundStore.setState({
         masterMuted: bgm.masterMute,
         bgmMuted: bgm.backMute,
         sfxMuted: bgm.effectMute,
       });
-  
+
     } catch (error: any) {
-      const message = error.response?.data?.message || error.message;
-      set({ isLoading: false, error: message });
-      throw new Error(message);
+      // error.response.data.message가 있으면 그 값을 사용
+      const errorMessage = error.response?.data?.message || error.message;
+      // console.error('fetchUserData 실패:', errorMessage);
+      set({ isLoading: false, error: errorMessage });
+      // 새로운 에러 객체를 던져서 error.message에 원하는 메시지가 포함되도록 함
+      throw new Error(errorMessage);
     }
   },
   
