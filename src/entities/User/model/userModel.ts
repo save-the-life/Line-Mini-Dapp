@@ -205,7 +205,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       set({ /* isLoading: false */ });
     }
   },
-  
+
   //타임존 추가
   timeZone: null,
   setTimeZone: (timeZone) => set({ timeZone }),
@@ -338,22 +338,37 @@ export const useUserStore = create<UserState>((set, get) => ({
       const data = await rollDiceAPI(gauge, sequence);
   
       // 서버 응답에서 level과 exp를 상태에 직접 설정
-      set((state) =>({
-        previousRank: state.rank, // 이전 랭크 저장
-        rank: data.rank,
-        starPoints: data.star,
-        lotteryCount: data.ticket,
-        diceCount: data.dice,
-        slToken: data.slToken,
-        userLv: data.level, // 레벨 업데이트
-        pet: {
-          ...get().pet,
-          level: data.level,
-          exp: data.exp,
-        },
-        isLoading: false,
-        error: null,
-      }));
+      // set((state) =>({
+      //   previousRank: state.rank, // 이전 랭크 저장
+      //   rank: data.rank,
+      //   starPoints: data.star,
+      //   lotteryCount: data.ticket,
+      //   diceCount: data.dice,
+      //   slToken: data.slToken,
+      //   userLv: data.level, // 레벨 업데이트
+      //   pet: {
+      //     ...get().pet,
+      //     level: data.level,
+      //     exp: data.exp,
+      //   },
+      //   isLoading: false,
+      //   error: null,
+      // }));
+      
+    // ① 주사위 결과(다이스 개수, 스타, 티켓, 토큰, 레벨·경험)만 반영
+    set(state => ({
+      diceCount: data.dice,
+      starPoints: data.star,
+      lotteryCount: data.ticket,
+      slToken: data.slToken,
+      userLv: data.level,
+      pet: { ...get().pet, level: data.level, exp: data.exp },
+      isLoading: false,
+      error: null,
+    }));
+
++    // ② 진짜 순위(fetchRankData) 호출 → store.rank에 반영
++    await get().fetchRankData();
   
       return data; // 데이터를 반환합니다.
     } catch (error: any) {
