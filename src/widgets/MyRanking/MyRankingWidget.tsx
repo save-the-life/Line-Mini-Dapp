@@ -27,8 +27,11 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
 
   
   useEffect(() => {
-    useUserStore.getState().fetchRankData().catch(console.error);
-  }, []);
+    useUserStore
+      .getState()
+      .fetchRankData()
+      .catch(console.error);
+  }, [])
 
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
