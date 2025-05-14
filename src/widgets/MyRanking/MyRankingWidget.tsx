@@ -24,14 +24,15 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   const starPoints    = useUserStore(s => s.starPoints);
   const lotteryCount  = useUserStore(s => s.lotteryCount);
   const slToken       = useUserStore(s => s.slToken);
-  const fetchRankData = useUserStore(s => s.fetchRankData);
+  const fetchRankData = useUserStore.getState().fetchRankData;
 
   const { t } = useTranslation();
 
   // 2) 마운트 시점에 최신 순위 가져오기
   useEffect(() => {
     fetchRankData().catch(console.error);
-  }, [fetchRankData]);
+  // 빈 배열로 두어 마운트 때 단 한 번만 실행
+  }, []);
 
   // 3) 애니메이션 트리거용 ref/state (기존 로직 그대로)
   const prevRankRef = useRef(previousRank);
