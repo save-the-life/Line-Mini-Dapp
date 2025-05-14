@@ -25,8 +25,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   const lotteryCount = useUserStore(s => s.lotteryCount);
   const slToken = useUserStore(s => s.slToken);
   
-  
-  const fetchRankData= useUserStore(s => s.fetchRankData); 
+  const fetchRankData = useUserStore.getState().fetchRankData;
 
   
   useEffect(() => {
