@@ -63,6 +63,7 @@ const levelRewards = [
 const DiceEventPage: React.FC = () => {
   const {
     fetchUserData,
+    fetchRankData,
     isLoading,
     error,
     userLv,
@@ -247,6 +248,7 @@ const DiceEventPage: React.FC = () => {
       }
       // 사용자 데이터를 불러오고 타임존 업데이트 진행
       await fetchUserData();
+      await fetchRankData();
       const userTimeZone = useUserStore.getState().timeZone;
       console.log("서버로부터 받은 타임존: ", userTimeZone);
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
