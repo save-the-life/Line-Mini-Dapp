@@ -39,7 +39,7 @@ const Reward: React.FC = () => {
   const dateFormat = t("date_format_md");
   const event2 = new Date(2025, 5, 15);
   const event3 = new Date(2025, 4, 28);
-  const event4 = new Date(2025, 4, 15);
+  const event4 = new Date(2025, 5, 28);
 
   useEffect(() => {
     fetchLeaderHome();
@@ -117,27 +117,8 @@ const Reward: React.FC = () => {
         >
         {/* 3개의 박스를 나란히 배치할 컨테이너 */}
         <div className="flex gap-3">
-          {/* 첫 번째 박스 */}
-          <div className="
-            w-[110px] h-[126px] 
-            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
-            rounded-3xl 
-            border-2 border-yellow-400 border-blink
-            flex flex-col items-center justify-center
-            p-2
-          ">
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.two")} {t("reward_page.this_month")}</p>
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
-            <img 
-              className="w-4 h-4"
-              src={Images.RedTriangle}
-              alt="Red Triangle"
-            />
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
-            <p className="text-base font-semibold text-white text-center">{moment(event4).format(dateFormat)}</p>
-          </div>
 
-          {/* 두 번째 박스 */}
+          {/* 첫 번째 박스 */}
           <div className="
              w-[110px] h-[126px] 
              bg-gradient-to-b from-[#484ADA] to-[#2D2774]
@@ -157,7 +138,7 @@ const Reward: React.FC = () => {
              <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
            </div>
 
-          {/* 세 번째 박스 */}
+          {/* 두 번째 박스 */}
           <div className="
             w-[110px] h-[126px] 
             bg-gradient-to-b from-[#484ADA] to-[#2D2774]
@@ -175,6 +156,26 @@ const Reward: React.FC = () => {
             />
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
             <p className="text-base font-semibold text-white text-center">{moment(event2).format(dateFormat)}</p>
+          </div>
+          
+          {/* 세 번째 박스 */}
+          <div className="
+            w-[110px] h-[126px] 
+            bg-gradient-to-b from-[#484ADA] to-[#2D2774]
+            rounded-3xl 
+            border-2 border-yellow-400 border-blink
+            flex flex-col items-center justify-center
+            p-2
+          ">
+            <p className="text-xs font-normal text-white text-center whitespace-nowrap">{t("reward_page.raf_draw")}</p>
+            <p className="text-xs font-normal text-white text-center">(USDT/KAIA)</p>
+            <img 
+              className="w-4 h-4"
+              src={Images.RedTriangle}
+              alt="Red Triangle"
+            />
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
+            <p className="text-base font-semibold text-white text-center">{moment(event4).format(dateFormat)}</p>
           </div>
 
         </div>
