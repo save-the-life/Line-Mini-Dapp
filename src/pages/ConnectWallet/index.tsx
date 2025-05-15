@@ -47,7 +47,7 @@ const ConnectWalletPage: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [showMaintenance, setShowMaintenance] = useState<boolean>(true);
+  const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
@@ -150,9 +150,9 @@ const ConnectWalletPage: React.FC = () => {
     }
   };
 
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
 
   return (
     <div
