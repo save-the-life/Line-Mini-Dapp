@@ -140,7 +140,7 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
         "
       >
         {/* {monthNames[month - 1]} */}
-        <p>2nd Round</p>
+        <p>3rd Round</p>
       </div>
 
       {/* 메인 상품 이미지 */}
