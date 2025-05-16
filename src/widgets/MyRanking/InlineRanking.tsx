@@ -30,7 +30,7 @@ export const InlineRanking: React.FC = () => {
         starPoints={starPoints}
         lotteryCount={lotteryCount}
         slToken={slToken}
-        className="justify-center"
+        className="justify-start"
         titleHidden={true}
       />
     </div>
