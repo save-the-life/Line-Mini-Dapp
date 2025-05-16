@@ -486,7 +486,7 @@ const DiceEventPage: React.FC = () => {
               
           {/* my-rank 위젯 표시 */}
           <Dialog>
-            <DialogTrigger className="w-full flex" onClick={() => playSfx(Audios.button_click)}>
+            <DialogTrigger className="w-full flex justify-center" onClick={() => playSfx(Audios.button_click)}>
               <InlineRanking />
             </DialogTrigger>
             <DialogContent className=" flex flex-col bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto  max-h-[80%]">
