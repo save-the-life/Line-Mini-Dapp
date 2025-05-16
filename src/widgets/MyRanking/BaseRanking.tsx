@@ -171,7 +171,7 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
       </div>
 
       {/* Footer text */}
-      <p className="w-full font-medium text-xs md:text-sm mt-2 px-2">* {t('dice_event.ranking_base')}</p>
+      <p className="w-full font-medium text-xs md:text-sm mt-2 px-2 text-left">* {t('dice_event.ranking_base')}</p>
     </div>
   );
 };
