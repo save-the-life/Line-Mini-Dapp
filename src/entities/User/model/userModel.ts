@@ -153,6 +153,13 @@ interface UserState {
   setRedirect: (suspend: boolean) => void;
 
   fetchLeaderTab: () => Promise<void>
+
+  modalRank: number | null;
+  modalPreviousRank: number | null;
+  modalStarPoints: number | null;
+  modalLotteryCount: number | null;
+  modalSlToken: number | null;
+  resetModalData: () => void;
 }
 
 // 필요한 인터페이스 정의
@@ -947,5 +954,20 @@ export const useUserStore = create<UserState>((set, get) => ({
       set({ error: error.message || 'SL 토큰 아이템 삭제에 실패했습니다.' });
       throw error;
     }
+  },
+
+  modalRank: null,
+  modalPreviousRank: null,
+  modalStarPoints: null,
+  modalLotteryCount: null,
+  modalSlToken: null,
+  resetModalData: () => {
+    set({
+      modalRank: null,
+      modalPreviousRank: null,
+      modalStarPoints: null,
+      modalLotteryCount: null,
+      modalSlToken: null,
+    });
   },
 }));
