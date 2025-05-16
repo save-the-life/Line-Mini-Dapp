@@ -5,7 +5,7 @@ import { BaseRanking } from './BaseRanking'
 
 export const InlineRanking: React.FC = () => {
   // 1) 오직 fetchUserData 함수만 가져오기
-  const fetchUserData = useUserStore(state => state.fetchUserData)
+//   const fetchUserData = useUserStore(state => state.fetchUserData)
 
   // 2) 화면에 렌더링할 데이터만 선택해서 가져오기
   const { rank, previousRank, starPoints, lotteryCount, slToken } =
@@ -18,9 +18,9 @@ export const InlineRanking: React.FC = () => {
     }))
 
   // mount 시 한 번만 실행
-  useEffect(() => {
-    fetchUserData()
-  }, [])
+//   useEffect(() => {
+//     fetchUserData()
+//   }, [])
 
   return (
     <div className="w-full bg-gradient-to-r from-blue-700 to-blue-500 p-4 rounded-lg">
