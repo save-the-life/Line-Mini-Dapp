@@ -20,7 +20,7 @@ export const InlineRanking: React.FC = () => {
   // mount 시 한 번만 실행
   useEffect(() => {
     fetchUserData()
-  }, [fetchUserData])
+  }, [])
 
   return (
     <div className="w-full bg-gradient-to-r from-blue-700 to-blue-500 p-4 rounded-lg">
