@@ -15,7 +15,7 @@ export const ModalRanking: React.FC = () => {
     // 모달 오픈 시마다 최신 랭크 가져오기
     useEffect(() => {
         fetchLeaderTab();
-    }, []);
+    }, [fetchLeaderTab]);
 
     return (
         <div>
@@ -27,7 +27,7 @@ export const ModalRanking: React.FC = () => {
                 lotteryCount={lotteryCount}
                 slToken={slToken}
                 className="justify-center"
-                showTitle={false}  // 타이틀은 상단 h2로 대체
+                titleHidden={false}  // 타이틀은 상단 h2로 대체
             />
         </div>
     );

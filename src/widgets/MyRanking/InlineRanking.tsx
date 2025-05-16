@@ -31,7 +31,7 @@ export const InlineRanking: React.FC = () => {
         lotteryCount={lotteryCount}
         slToken={slToken}
         className="justify-between"
-        showTitle={false}
+        titleHidden={false}
       />
     </div>
   )
