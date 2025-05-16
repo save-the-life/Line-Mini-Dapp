@@ -27,7 +27,7 @@ export const ModalRanking: React.FC = () => {
                 lotteryCount={lotteryCount}
                 slToken={slToken}
                 className="justify-center"
-                titleHidden={false}  // 타이틀은 상단 h2로 대체
+                titleHidden={true}
             />
         </div>
     );

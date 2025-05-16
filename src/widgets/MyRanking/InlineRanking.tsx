@@ -23,7 +23,7 @@ export const InlineRanking: React.FC = () => {
 //   }, [])
 
   return (
-    <div className="w-full">
+    <div className="max-w-[332px] md:max-w-full">
       <BaseRanking
         rank={rank}
         previousRank={previousRank}
@@ -31,7 +31,7 @@ export const InlineRanking: React.FC = () => {
         lotteryCount={lotteryCount}
         slToken={slToken}
         className="justify-between"
-        titleHidden={false}
+        titleHidden={true}
       />
     </div>
   )
