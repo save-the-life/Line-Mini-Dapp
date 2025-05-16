@@ -18,7 +18,7 @@ export const ModalRanking: React.FC = () => {
     }, []);
 
     return (
-        <div className="p-6 bg-gray-900 rounded-xl">
+        <div>
             <h2 className="text-2xl font-bold mb-4 text-center">{t('dice_event.my_rank')}</h2>
             <BaseRanking
                 rank={rank}
@@ -29,9 +29,6 @@ export const ModalRanking: React.FC = () => {
                 className="justify-center"
                 showTitle={false}  // 타이틀은 상단 h2로 대체
             />
-            <p className="mt-3 text-sm text-gray-400 text-center">
-                * {t('dice_event.ranking_base')}
-            </p>
         </div>
     );
 };

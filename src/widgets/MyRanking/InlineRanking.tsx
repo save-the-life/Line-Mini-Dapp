@@ -23,7 +23,7 @@ export const InlineRanking: React.FC = () => {
 //   }, [])
 
   return (
-    <div className="w-full bg-gradient-to-r from-blue-700 to-blue-500 p-4 rounded-lg">
+    <div className="w-full">
       <BaseRanking
         rank={rank}
         previousRank={previousRank}
