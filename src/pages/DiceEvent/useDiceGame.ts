@@ -36,7 +36,8 @@ export const useDiceGame = () => {
     boards, // boards 디스트럭처링 추가
     items, // items 디스트럭처링 추가
     setUserLv, // 추가
-   setPet, // 추가
+    setPet, // 추가
+   fetchLeaderTab
   } = useUserStore();
 
   const [moving, setMoving] = useState<boolean>(false);
@@ -174,7 +175,7 @@ export const useDiceGame = () => {
       const newPosition = data.tileSequence; // 서버에서 받은 새로운 위치
 
       // 서버 응답 데이터를 상태에 업데이트
-      setRank(data.rank);
+      // setRank(data.rank);
       setStarPoints(data.star);
       setLotteryCount(data.ticket);
       setDiceCount(data.dice);
@@ -237,6 +238,7 @@ export const useDiceGame = () => {
               break;
           }
         }
+        fetchLeaderTab();
         setIsRolling(false); // 주사위 굴리기 완료 후 상태 리셋
       });
     },
@@ -261,6 +263,7 @@ export const useDiceGame = () => {
       rpsGameStore,
       isAuto, // isAuto 추가
       boards, // boards 추가
+      fetchLeaderTab
     ]
   );
 

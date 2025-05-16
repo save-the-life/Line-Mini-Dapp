@@ -205,7 +205,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       console.error('fetchLeaderTab error', err)
     }
   },
-  
+
   //타임존 추가
   timeZone: null,
   setTimeZone: (timeZone) => set({ timeZone }),
@@ -340,7 +340,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       // 서버 응답에서 level과 exp를 상태에 직접 설정
       set((state) =>({
         previousRank: state.rank, // 이전 랭크 저장
-        rank: data.rank,
+        // rank: data.rank,
         starPoints: data.star,
         lotteryCount: data.ticket,
         diceCount: data.dice,
