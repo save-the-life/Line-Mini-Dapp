@@ -205,6 +205,13 @@ export const useUserStore = create<UserState>((set, get) => ({
         lotteryCount: data.myRank.ticket,
         slToken: data.myRank.slToken,
 
+        // 모달 데이터도 함께 업데이트
+        modalRank: data.myRank.rank,
+        modalPreviousRank: state.rank,
+        modalStarPoints: data.myRank.star,
+        modalLotteryCount: data.myRank.ticket,
+        modalSlToken: data.myRank.slToken,
+
         // 상위 10명 리스트
         leaderTabData: data.leaderBoard,
       }))
