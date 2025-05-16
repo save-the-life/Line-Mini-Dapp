@@ -13,7 +13,7 @@ export const InlineRanking: React.FC = () => {
   // 페이지 진입 시 한 번만: fetchUserData 에서 캐싱된 랭크 사용
   useEffect(() => {
     fetchUserData();
-  }, [fetchUserData]);
+  }, []);
 
   return (
     <div className="w-full bg-gradient-to-r from-blue-700 to-blue-500 p-4 rounded-lg">

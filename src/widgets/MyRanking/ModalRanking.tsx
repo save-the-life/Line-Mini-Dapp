@@ -15,7 +15,7 @@ export const ModalRanking: React.FC = () => {
     // 모달 오픈 시마다 최신 랭크 가져오기
     useEffect(() => {
         fetchLeaderTab();
-    }, [fetchLeaderTab]);
+    }, []);
 
     return (
         <div className="p-6 bg-gray-900 rounded-xl">

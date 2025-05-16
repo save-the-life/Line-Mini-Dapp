@@ -29,7 +29,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // 마운트 시 최신 데이터를 불러옵니다
   useEffect(() => {
     fetchLeaderTab();
-  }, [fetchLeaderTab]);
+  }, []);
 
   const { t } = useTranslation();
 
