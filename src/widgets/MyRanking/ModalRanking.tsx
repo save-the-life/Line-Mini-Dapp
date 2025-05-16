@@ -19,7 +19,6 @@ export const ModalRanking: React.FC = () => {
 
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-4 text-center">{t('dice_event.my_rank')}</h2>
             <BaseRanking
                 rank={rank}
                 previousRank={previousRank}
@@ -27,7 +26,7 @@ export const ModalRanking: React.FC = () => {
                 lotteryCount={lotteryCount}
                 slToken={slToken}
                 className="justify-center"
-                titleHidden={true}
+                titleHidden={false}
             />
         </div>
     );
