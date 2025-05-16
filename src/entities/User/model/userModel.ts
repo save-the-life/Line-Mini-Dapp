@@ -196,18 +196,9 @@ export const useUserStore = create<UserState>((set, get) => ({
       const data = await fetchLeaderTabAPI()
       // data: { leaderBoard: [...], myRank: { rank, star, ticket, slToken, diceRefilledAt } }
       set(state => ({
-        // 이전 랭크를 보존해 두었다가 애니메이션에 사용
-        previousRank: state.rank,
-
-        // myRank 필드로부터 각 값 갱신
-        rank: data.myRank.rank,
-        starPoints: data.myRank.star,
-        lotteryCount: data.myRank.ticket,
-        slToken: data.myRank.slToken,
-
-        // 모달 데이터도 함께 업데이트
+        // 모달 데이터만 업데이트
         modalRank: data.myRank.rank,
-        modalPreviousRank: state.rank,
+        modalPreviousRank: state.rank, // 현재 랭크를 이전 랭크로 사용
         modalStarPoints: data.myRank.star,
         modalLotteryCount: data.myRank.ticket,
         modalSlToken: data.myRank.slToken,
