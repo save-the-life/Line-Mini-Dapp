@@ -18,8 +18,11 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
   // -----------------------
   // 1) 필요한 데이터 가져오기
   // -----------------------
-  const { rank, previousRank, starPoints, lotteryCount, slToken } = useUserStore();
+  const { rank, previousRank, starPoints, lotteryCount, slToken, fetchLeaderTab } = useUserStore();
 
+  useEffect(() => {
+    fetchLeaderTab();
+  }, [fetchLeaderTab]);
   // -----------------------
   // 2) 이전 값 추적 (기존 코드)
   // -----------------------
