@@ -128,7 +128,7 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
       {/* Title */}
       <h1 className={`font-jalnan text-3xl ${titleHidden ? 'hidden' : 'block'}`}>{t('dice_event.my_rank')}</h1>
 
-      <div className={`bg-box w-full h-24 md:h-32 flex font-semibold ${titleHidden ? 'mt-0' : 'mt-4'}`}>
+      <div className={`bg-box px-8 w-full h-24 md:h-32 flex font-semibold ${titleHidden ? 'mt-0' : 'mt-4'}`}>
         {/* Rank text & number */}
         <div className="relative w-[121px] h-full flex flex-col items-center justify-center gap-2">
           <p className="text-base font-semibold invisible">{t('dice_event.my_rank')}</p>
