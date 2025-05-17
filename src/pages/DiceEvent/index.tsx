@@ -875,7 +875,7 @@ const DiceEventPage: React.FC = () => {
           </Dialog> */}
 
           {/* 출석 보상 업데이트 모달 */}
-          <Dialog open={showItemGuideModal}>
+          {/* <Dialog open={showItemGuideModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className="bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -887,12 +887,10 @@ const DiceEventPage: React.FC = () => {
                 </DialogClose>
               </div>
               <div className="flex flex-col items-center justify-center p-4 space-y-4">
-                {/* 헤더 */}
                 <h1 className="font-Pretendard text-xl font-bold text-white text-center">
                   {t("dice_event.attendance_reward")}
                 </h1>
 
-                {/* Before 블록 */}
                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4">
                   <p className="font-Pretendard text-base font-semibold text-[#A3A3A3]">
                     {t("dice_event.before")}
@@ -906,14 +904,11 @@ const DiceEventPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 화살표 */}
                 <img
                   src={Images.DownArrow}
                   alt="downArrow"
                   className="w-6 h-6"
                 />
-
-                {/* Now 블록 */}
                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
                   <p className="font-Pretendard text-base font-semibold text-white">
                     {t("dice_event.now")}
@@ -922,7 +917,6 @@ const DiceEventPage: React.FC = () => {
                     {t("dice_event.daily")}
                   </p>
 
-                  {/* 3000 point & dice 한 줄 */}
                   <div className="flex justify-center items-center gap-2">
                     <img
                       src={Images.Reward3000}
@@ -940,7 +934,6 @@ const DiceEventPage: React.FC = () => {
                     {t("dice_event.7_day")}
                   </p>
 
-                  {/* 1000000 point & raffle 한 줄 */}
                   <div className="flex justify-center items-center gap-2">
                     <img
                       src={Images.Reward100000}
@@ -955,7 +948,6 @@ const DiceEventPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 닫기 버튼 */}
                 <button
                   onClick={() => {
                     playSfx(Audios.button_click);
@@ -967,7 +959,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
               
           {/* 아이템 추가 안내 모달창 */}
