@@ -29,6 +29,8 @@ import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import useWalletStore from "@/shared/store/useWalletStore";
 import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
+import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
+import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 
 
 const levelRewards = [
@@ -270,7 +272,7 @@ const DiceEventPage: React.FC = () => {
       }
     }
     initializeSdkAndUserData();
-  }, [fetchUserData]);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -485,7 +487,7 @@ const DiceEventPage: React.FC = () => {
           {/* my-rank 위젯 표시 */}
           <Dialog>
             <DialogTrigger className="w-full flex justify-center" onClick={() => playSfx(Audios.button_click)}>
-              <MyRankingWidget className="max-w-[332px] md:max-w-full" titleHidden={true} />
+              <InlineRanking />
             </DialogTrigger>
             <DialogContent className=" flex flex-col bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto  max-h-[80%]">
               <DialogHeader className="flex w-full items-end">
@@ -493,7 +495,7 @@ const DiceEventPage: React.FC = () => {
                 <HiX className="w-5 h-5" />
                 </DialogClose>
               </DialogHeader>
-              <MyRankingWidget />
+              <ModalRanking />
               <LeaderBoard />
             </DialogContent>
           </Dialog>
@@ -960,7 +962,7 @@ const DiceEventPage: React.FC = () => {
           </Dialog> */}
 
               
-          {/* 래플권 알림 모달창 */}
+          {/* 아이템 추가 안내 모달창 */}
           {/* <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">

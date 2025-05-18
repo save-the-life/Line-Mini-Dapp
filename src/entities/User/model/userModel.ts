@@ -8,6 +8,7 @@ import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi'; // 분�
 import { autoAPI } from '@/features/DiceEvent/api/autoApi';
 import { completeTutorialAPI} from '@/features/DiceEvent/api/completeTutorialApi';
 import { useSoundStore } from '@/shared/store/useSoundStore';
+import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
 
 
 // 월간 보상 정보 인터페이스
@@ -150,6 +151,15 @@ interface UserState {
   
   redirect: boolean;
   setRedirect: (suspend: boolean) => void;
+
+  fetchLeaderTab: () => Promise<void>
+
+  modalRank: number | null;
+  modalPreviousRank: number | null;
+  modalStarPoints: number | null;
+  modalLotteryCount: number | null;
+  modalSlToken: number | null;
+  resetModalData: () => void;
 }
 
 // 필요한 인터페이스 정의
@@ -181,6 +191,35 @@ interface Pet {
 
 // 사용자 상태를 관리하는 Zustand 스토어 생성
 export const useUserStore = create<UserState>((set, get) => ({
+  fetchLeaderTab: async () => {
+    try {
+      const data = await fetchLeaderTabAPI()
+      // data: { leaderBoard: [...], myRank: { rank, star, ticket, slToken, diceRefilledAt } }
+      set(state => ({
+        // 이전 랭크를 보존해 두었다가 애니메이션에 사용
+        previousRank: state.rank,
+
+        // myRank 필드로부터 각 값 갱신
+        rank: data.myRank.rank,
+        starPoints: data.myRank.star,
+        lotteryCount: data.myRank.ticket,
+        slToken: data.myRank.slToken,
+
+        // 모달 데이터도 함께 업데이트
+        modalRank: data.myRank.rank,
+        modalPreviousRank: state.rank,
+        modalStarPoints: data.myRank.star,
+        modalLotteryCount: data.myRank.ticket,
+        modalSlToken: data.myRank.slToken,
+
+        // 상위 10명 리스트
+        leaderTabData: data.leaderBoard,
+      }))
+    } catch (err) {
+      console.error('fetchLeaderTab error', err)
+    }
+  },
+  
   //타임존 추가
   timeZone: null,
   setTimeZone: (timeZone) => set({ timeZone }),
@@ -922,5 +961,20 @@ export const useUserStore = create<UserState>((set, get) => ({
       set({ error: error.message || 'SL 토큰 아이템 삭제에 실패했습니다.' });
       throw error;
     }
+  },
+
+  modalRank: null,
+  modalPreviousRank: null,
+  modalStarPoints: null,
+  modalLotteryCount: null,
+  modalSlToken: null,
+  resetModalData: () => {
+    set({
+      modalRank: null,
+      modalPreviousRank: null,
+      modalStarPoints: null,
+      modalLotteryCount: null,
+      modalSlToken: null,
+    });
   },
 }));

@@ -1,60 +1,56 @@
-// src/widgets/MyRankingWidget.tsx
+// src/widgets/MyRanking/BaseRanking.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import Images from '@/shared/assets/images';
-import { useUserStore } from '@/entities/User/model/userModel';
 import CountUp from 'react-countup';
-import { IoIosArrowRoundUp, IoIosArrowRoundDown } from 'react-icons/io';
 import { motion, AnimatePresence } from 'framer-motion';
+import { IoIosArrowRoundUp, IoIosArrowRoundDown } from 'react-icons/io';
+import Images from '@/shared/assets/images';
 import { useTranslation } from 'react-i18next';
 
-interface MyRankingWidgetProps {
-  titleHidden?: boolean;
+export interface BaseRankingProps {
+  rank: number;
+  previousRank: number;
+  starPoints: number;
+  lotteryCount: number;
+  slToken: number;
   className?: string;
+  titleHidden?: boolean;
 }
 
-const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
-  className,
-  titleHidden = false
+export const BaseRanking: React.FC<BaseRankingProps> = ({
+  rank,
+  previousRank,
+  starPoints,
+  lotteryCount,
+  slToken,
+  className = '',
+  titleHidden = true
 }) => {
-  // 1) 스토어에서 순위(tab API) 상태 및 fetch 액션
-  const {
-    rank,
-    previousRank,
-    starPoints,
-    lotteryCount,
-    slToken,
-    fetchLeaderTab
-  } = useUserStore();
-
-  // 마운트 시 최신 데이터를 불러옵니다
-  useEffect(() => {
-    fetchLeaderTab();
-  }, []);
-
   const { t } = useTranslation();
 
-  // 2) 애니메이션 트리거 state
-  const [showRankText, setShowRankText] = useState<'myRank' | 'rankUp' | 'rankDown'>('myRank');
+  // --- 1) 애니메이션 트리거 상태 ---
+  const [showRankText, setShowRankText] = useState<'myRank'|'rankUp'|'rankDown'>('myRank');
   const [rankChanged, setRankChanged] = useState(false);
   const [starChanged, setStarChanged] = useState(false);
   const [lotteryChanged, setLotteryChanged] = useState(false);
   const [tokenChanged, setTokenChanged] = useState(false);
 
-  // 3) 변경 전 로컬 Ref (rank 외)
+  // --- 2) 이전 값 레퍼런스 ---
   const prevStarRef = useRef(starPoints);
   const prevLotteryRef = useRef(lotteryCount);
   const prevTokenRef = useRef(slToken);
 
-  // 4) rank 변경 애니메이션
+  // --- 3) Rank 애니메이션 감지 ---
   useEffect(() => {
     if (previousRank !== rank) {
       setRankChanged(true);
-      const timer = setTimeout(() => setRankChanged(false), 700);
-      return () => clearTimeout(timer);
+      setShowRankText(rank < previousRank ? 'rankUp' : 'rankDown');
+      const t1 = setTimeout(() => setRankChanged(false), 700);
+      const t2 = setTimeout(() => setShowRankText('myRank'), 1500);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
     }
   }, [rank, previousRank]);
 
-  // 5) other metrics animation
+  // --- 4) Star/Ticket/Token 애니메이션 감지 ---
   useEffect(() => {
     if (prevStarRef.current !== starPoints) {
       setStarChanged(true);
@@ -82,17 +78,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
     }
   }, [slToken]);
 
-  // 6) Rank Up/Down 텍스트 표시
-  useEffect(() => {
-    if (previousRank !== rank) {
-      if (rank < previousRank) setShowRankText('rankUp');
-      else if (rank > previousRank) setShowRankText('rankDown');
-      const t = setTimeout(() => setShowRankText('myRank'), 1500);
-      return () => clearTimeout(t);
-    }
-  }, [rank, previousRank]);
-
-  // 7) Framer motion variants
+  // --- 5) Framer Motion Variants ---
   const scaleGlow = {
     initial: { scale: 1, filter: 'brightness(1)', rotate: 0 },
     animate: {
@@ -102,7 +88,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
       transition: { duration: 1, ease: 'easeInOut' }
     }
   };
-
+    
   const scaleGlowImg = {
     initial: { scale: 1, filter: 'brightness(1) drop-shadow(0 0 0px rgba(255,255,255,0))', rotate: 0 },
     animate: {
@@ -117,23 +103,26 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
       transition: { duration: 1, ease: 'easeInOut' }
     }
   };
-
   const upDownVar = {
-    initial: { scale: 1, opacity: 0, y: 0 },
-    animate: { scale: [1,1.3,1,1.3,1], opacity: [0,1,1,1,0], y: [0,-5,0,-5,5], transition: { duration: 1.4, ease: 'easeInOut' } },
+    initial: { scale:1, opacity:0, y:0 },
+    animate: {
+      scale:[1,1.3,1,1.3,1],
+      opacity:[0,1,1,1,0],
+      y:[0,-5,0,-5,5],
+      transition:{ duration:1.4, ease:'easeInOut' }
+    },
     exit: { opacity:0, scale:1, y:10, transition:{ duration:0.2 } }
   };
-
   const myVar = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { duration: 0.2 } },
-    exit: { opacity: 0, transition: { duration: 0.2 } }
+    initial: { opacity:0 },
+    animate: { opacity:1, transition:{duration:0.2} },
+    exit: { opacity:0, transition:{duration:0.2} }
   };
 
   const diff = previousRank - rank;
   const isUp = diff > 0;
 
-  // 8) 렌더링
+  // --- 6) 렌더링 ---
   return (
     <div className={`flex flex-col items-center justify-center text-white cursor-pointer w-full ${className}`} role="button">
       {/* Title */}
@@ -182,9 +171,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
       </div>
 
       {/* Footer text */}
-      <p className="w-full font-medium text-xs md:text-sm mt-2 px-2">* {t('dice_event.ranking_base')}</p>
+      <p className="w-full font-medium text-xs md:text-sm mt-2 px-2 text-left">* {t('dice_event.ranking_base')}</p>
     </div>
   );
 };
-
-export default MyRankingWidget;
