@@ -963,7 +963,7 @@ const DiceEventPage: React.FC = () => {
 
               
           {/* 아이템 추가 안내 모달창 */}
-          <Dialog open={showRankingModal}>
+          {/* <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
               <div className="relative">
@@ -1032,7 +1032,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
         
 
