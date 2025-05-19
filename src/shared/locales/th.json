@@ -190,7 +190,8 @@
       "ai_exam": "การสอบ AI",
       "1st_raffle": "รางวัลการจับรางวัลครั้งที่ 1",
       "request_claim": "ขอเคลม",
-      "shop_purchase": "ร้านค้า ซื้อ"
+      "shop_purchase": "ร้านค้า ซื้อ",
+      "result": "ผลลัพธ์"
     },
     "wallet_page": {
       "wallet": "กระเป๋า",

@@ -87,7 +87,8 @@ const Reward: React.FC = () => {
     if (response.data.data === null) {
       setShowModal(true);
     } else {
-      navigate('/previous-ranking');
+      const currentRound = response.data.data.round || 1;
+      navigate('/previous-ranking', { state: { round: currentRound - 1 } });
     }
   };
 
