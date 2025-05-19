@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { TopTitle } from "@/shared/components/ui";
 import { useTranslation } from "react-i18next";
+import { useLocation } from 'react-router-dom';
 import "./PreviousRewards.css";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
@@ -30,6 +31,8 @@ interface RewardData {
 const PreviousRanking: React.FC = () => {
   const { t } = useTranslation();
   const { playSfx } = useSound();
+  const location = useLocation();
+  const round = location.state?.round || 1;
 
   const { myRanking, topRankings, loadInitialRanking } = usePreviousRewardsEntityStore();
   const { dialogRankings, isLoadingRange, rangeError, loadRangeRanking } = usePreviousRewardsFeatureStore();
@@ -103,7 +106,7 @@ const PreviousRanking: React.FC = () => {
 
   return (
     <div className="flex flex-col mb-44 text-white items-center w-full min-h-screen">
-      <TopTitle title={t("reward_page.last_month")} className="px-6" back={true} />
+      <TopTitle title={`${round} ${t("reward_page.this_month")} ${t("reward_page.result")}`} className="px-6" back={true} />
 
       {/* 기존의 RewardSelectionDialog 대신 보상 수령 버튼 */}
       {/* <div className="my-4">

@@ -190,7 +190,8 @@
         "ai_exam": "AI試験",
         "1st_raffle": "第1回抽選賞",
         "request_claim": "請求を申請",
-        "shop_purchase": "ショップ購入"
+        "shop_purchase": "ショップ購入",
+        "result": "結果"
     },
     "wallet_page": {
         "wallet": "ウォレット",
