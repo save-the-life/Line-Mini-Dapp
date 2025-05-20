@@ -78,9 +78,9 @@ const CardFlipGame: React.FC<CardFlipGameProps> = ({ onGameEnd, onCancel }) => {
 
   return (
     <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-[#21212F]/95 backdrop-blur-md p-4 sm:p-8 rounded-3xl w-full max-w-[600px] shadow-2xl">
+      <div className="bg-[#21212F]/95 backdrop-blur-md p-4 sm:p-8 rounded-3xl w-full max-w-[600px] shadow-2xl h-[70vh] flex flex-col">
         {!gameStarted ? (
-          <div className="text-center">
+          <div className="text-center flex-1 flex flex-col justify-center">
             <h2 className="text-2xl font-bold text-white mb-6">{t('card_flip_game.title')}</h2>
             <p className="text-white mb-8">{t('card_flip_game.description')}</p>
             <div className="flex justify-center gap-4">
@@ -99,8 +99,9 @@ const CardFlipGame: React.FC<CardFlipGameProps> = ({ onGameEnd, onCancel }) => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center">
-            <div className="flex justify-center gap-4 sm:gap-8 mb-8 w-full">
+          <div className="flex flex-col items-center flex-1">
+            <h2 className="text-2xl font-bold text-white mb-8">Pick a Card!</h2>
+            <div className="flex justify-center gap-4 sm:gap-8 mb-8 w-full flex-1">
               {cards.map((card, index) => (
                 <div key={index} className="w-[45%] sm:w-[220px]">
                   <ReactCardFlip
@@ -134,7 +135,7 @@ const CardFlipGame: React.FC<CardFlipGameProps> = ({ onGameEnd, onCancel }) => {
             </div>
 
             {showResult && (
-              <div className="text-center">
+              <div className="text-center mb-8">
                 <h3 className={`text-2xl font-bold mb-4 ${gameResult?.success ? 'text-[#F59E0B]' : 'text-gray-400'}`}>
                   {gameResult?.success ? t('card_flip_game.success') : t('card_flip_game.fail')}
                 </h3>
