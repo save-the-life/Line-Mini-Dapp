@@ -101,12 +101,12 @@ const SettingsPage: React.FC =() => {
             </div>
 
             {/* 카드 뒤집기 게임 */}
-            {isCardFlipGameActive && (
+            {/* {isCardFlipGameActive && (
                 <CardFlipGame
                     onGameEnd={handleCardFlipGameEnd}
                     onCancel={() => setIsCardFlipGameActive(false)}
                 />
-            )}
+            )} */}
         </div>
     );
 };
