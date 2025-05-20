@@ -77,8 +77,8 @@ const CardFlipGame: React.FC<CardFlipGameProps> = ({ onGameEnd, onCancel }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-[#21212F] p-8 rounded-3xl w-[90%] max-w-[600px]">
+    <div className="fixed inset-0 bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#21212F] p-4 sm:p-8 rounded-3xl w-full max-w-[600px]">
         {!gameStarted ? (
           <div className="text-center">
             <h2 className="text-2xl font-bold text-white mb-6">{t('card_flip_game.title')}</h2>
@@ -100,35 +100,36 @@ const CardFlipGame: React.FC<CardFlipGameProps> = ({ onGameEnd, onCancel }) => {
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            <div className="flex justify-center gap-8 mb-8">
+            <div className="flex justify-center gap-4 sm:gap-8 mb-8 w-full">
               {cards.map((card, index) => (
-                <ReactCardFlip
-                  key={index}
-                  isFlipped={selectedCard === index && isFlipped}
-                  flipDirection="horizontal"
-                >
-                  {/* 카드 앞면 */}
-                  <div
-                    onClick={() => handleCardClick(index)}
-                    className={`w-[220px] h-[300px] rounded-xl flex items-center justify-center ${
-                      selectedCard === null && !isLoading ? 'cursor-pointer hover:opacity-90' : 'cursor-not-allowed opacity-50'
-                    }`}
+                <div key={index} className="w-[45%] sm:w-[220px]">
+                  <ReactCardFlip
+                    isFlipped={selectedCard === index && isFlipped}
+                    flipDirection="horizontal"
                   >
-                    <img 
-                      src={index === 0 ? Images.CardCat : Images.CardDog} 
-                      alt="card" 
-                      className="w-full h-full object-cover rounded-xl"
-                    />
-                  </div>
-                  {/* 카드 뒷면 */}
-                  <div className="w-[220px] h-[300px] bg-white rounded-xl flex items-center justify-center">
-                    <img 
-                      src={card === 1 ? Images.CardPoint : Images.CardBomb}
-                      alt="card result"
-                      className="w-full h-full object-cover rounded-xl"
-                    />
-                  </div>
-                </ReactCardFlip>
+                    {/* 카드 앞면 */}
+                    <div
+                      onClick={() => handleCardClick(index)}
+                      className={`w-full aspect-[220/300] rounded-xl flex items-center justify-center ${
+                        selectedCard === null && !isLoading ? 'cursor-pointer hover:opacity-90' : 'cursor-not-allowed opacity-50'
+                      }`}
+                    >
+                      <img 
+                        src={index === 0 ? Images.CardCat : Images.CardDog} 
+                        alt="card" 
+                        className="w-full h-full object-cover rounded-xl"
+                      />
+                    </div>
+                    {/* 카드 뒷면 */}
+                    <div className="w-full aspect-[220/300] bg-white rounded-xl flex items-center justify-center">
+                      <img 
+                        src={card === 1 ? Images.CardPoint : Images.CardBomb}
+                        alt="card result"
+                        className="w-full h-full object-cover rounded-xl"
+                      />
+                    </div>
+                  </ReactCardFlip>
+                </div>
               ))}
             </div>
 
