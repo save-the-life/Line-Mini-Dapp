@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TopTitle } from '@/shared/components/ui';
 import { FaChevronLeft } from 'react-icons/fa';
@@ -6,11 +6,13 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import deleteUser from '@/entities/User/api/delUser';
+import CardFlipGame from '../CardFlipGame';
 
 const SettingsPage: React.FC =() => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { playSfx } = useSound();
+    const [isCardFlipGameActive, setIsCardFlipGameActive] = useState(false);
 
     // navigate에 policyType을 전달
     const handleNavigation = (policyType: string) => {
@@ -28,15 +30,14 @@ const SettingsPage: React.FC =() => {
         navigate('/sound-setting');
     };
 
-    // const handleLanguage = () => {
-    //     const { playSfx } = useSound();
-    //     navigate("");
-    // };
-
     const handleDel = async() => {
         deleteUser();
     }
 
+    const handleCardFlipGameEnd = (result: 'win' | 'lose', reward?: { type: string; amount: number }) => {
+        console.log('Game Result:', result, reward);
+        setIsCardFlipGameActive(false);
+    };
 
     return(
         <div className="flex flex-col items-center text-white px-6 min-h-screen">
@@ -70,31 +71,6 @@ const SettingsPage: React.FC =() => {
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
                 </div>
-                {/* 개인정보 수집 */}
-                {/* <div 
-                    className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
-                    onClick={() => handleNavigation('personal')}>
-                    <div>
-                        <p className="font-semibold">Collecting Personal Information</p>
-                    </div>
-                    <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
-                </div> */}
-                {/* <div 
-                    className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
-                    onClick={() => navigate('/sdk-test')}>
-                    <div>
-                        <p className="font-semibold">sdk-test</p>
-                    </div>
-                    <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
-                </div> */}
-                 {/* <div 
-                    className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
-                    onClick={handleDel}>
-                    <div>
-                        <p className="font-semibold">del</p>
-                    </div>
-                    <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
-                </div> */}
                 
                 <div 
                     className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
@@ -112,7 +88,25 @@ const SettingsPage: React.FC =() => {
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
                 </div>
+
+                {/* 카드 뒤집기 게임 테스트 버튼 */}
+                <div 
+                    className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
+                    onClick={() => setIsCardFlipGameActive(true)}>
+                    <div>
+                        <p className="font-semibold">카드 뒤집기 게임 테스트</p>
+                    </div>
+                    <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
+                </div>
             </div>
+
+            {/* 카드 뒤집기 게임 */}
+            {isCardFlipGameActive && (
+                <CardFlipGame
+                    onGameEnd={handleCardFlipGameEnd}
+                    onCancel={() => setIsCardFlipGameActive(false)}
+                />
+            )}
         </div>
     );
 };
