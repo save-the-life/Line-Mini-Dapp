@@ -77,8 +77,8 @@ const CardFlipGame: React.FC<CardFlipGameProps> = ({ onGameEnd, onCancel }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#21212F] p-4 sm:p-8 rounded-3xl w-full max-w-[600px]">
+    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-[#21212F]/95 backdrop-blur-md p-4 sm:p-8 rounded-3xl w-full max-w-[600px] shadow-2xl">
         {!gameStarted ? (
           <div className="text-center">
             <h2 className="text-2xl font-bold text-white mb-6">{t('card_flip_game.title')}</h2>
