@@ -123,7 +123,7 @@ const Reward: React.FC = () => {
         <div className="flex gap-3">
 
           {/* 첫 번째 박스 */}
-          <div className="
+          {/* <div className="
              w-[110px] h-[126px] 
              bg-gradient-to-b from-[#484ADA] to-[#2D2774]
              rounded-3xl 
@@ -140,7 +140,7 @@ const Reward: React.FC = () => {
              />
              <p className="text-xs font-normal text-white text-center">{t("reward_page.schedule")}</p>
              <p className="text-base font-semibold text-white text-center">{moment(event3).format(dateFormat)}</p>
-           </div>
+           </div> */}
 
           {/* 두 번째 박스 */}
           <div className="
@@ -163,7 +163,7 @@ const Reward: React.FC = () => {
           </div>
           
           {/* 세 번째 박스 */}
-          <div className="
+          {/* <div className="
             w-[110px] h-[126px] 
             bg-gradient-to-b from-[#484ADA] to-[#2D2774]
             rounded-3xl 
@@ -180,6 +180,14 @@ const Reward: React.FC = () => {
             />
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ends_on")}</p>
             <p className="text-base font-semibold text-white text-center">{moment(event4).format(dateFormat)}</p>
+          </div> */}
+          
+          {/* 빈 영역 */}
+          <div className="w-[110px] h-[126px] flex flex-col items-center justify-center p-2">
+          </div>
+          
+          {/* 빈 영역 */}
+          <div className="w-[110px] h-[126px] flex flex-col items-center justify-center p-2">
           </div>
 
         </div>
@@ -199,7 +207,7 @@ const Reward: React.FC = () => {
       </div>
 
       {/* 이번 달 랭킹 보상 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
+      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
             {currentRound} {t("reward_page.this_month")}<br />{t("reward_page.awards")}
@@ -237,7 +245,7 @@ const Reward: React.FC = () => {
             {t("reward_page.view_more")}
           </button>
         )}
-      </div>
+      </div> */}
 
      {/* 래플-에어드랍 영역 */}
      <div 
