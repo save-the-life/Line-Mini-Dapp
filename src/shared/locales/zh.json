@@ -187,7 +187,7 @@
       "five": "5",
       "mystery_gift": "神秘礼物",
       "1st_awards": "第1名排名獎勵",
-      "2ndawards": "第2名排名獎勵",
+      "2nd_awards": "第2名排名獎勵",
       "ai_exam": "AI 考試",
       "1st_raffle": "第1次抽獎獎勵",
       "request_claim": "請求領取",
@@ -544,7 +544,10 @@
       "new_item": "[新商品]",
       "just_drop": "新商品已上架商店！",
       "click_below": "點擊下方按鈕立即購買！",
-      "view": "查看商品"
+      "view": "查看商品",
+      "2nd_rank": "我們的第2輪月度排行榜排名活動已於5月15日結束！",
+      "made_cut": "覺得自己上榜了嗎？",
+      "check_winner": "立即查看中獎者！"
     },
     "setting": {
       "terms_of_service": "服務條款",
