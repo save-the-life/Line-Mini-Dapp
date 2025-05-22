@@ -199,6 +199,9 @@ const RewardHistory: React.FC = () => {
       case "Shop Purchase":
           contentKey = "shop_purchase";
           break;
+      case "2nd Ranking Awards":
+          contentKey = "2nd_awards";
+          break;
       default:
         contentKey = reward.content;
     }
