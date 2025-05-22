@@ -855,7 +855,7 @@ const DiceEventPage: React.FC = () => {
                     🎉 The 2nd Round of our Monthly Leaderboard Rankings Event wrapped up on May 15th!
                   </p>
                   
-                  <p className="font-Pretendard text-center text-sm font-normal text-[#A3A3A3] mt-4">
+                  <p className="font-Pretendard text-center text-sm font-normal my-4">
                     Think you made the cut? 🏆
                   </p>
 
@@ -864,7 +864,7 @@ const DiceEventPage: React.FC = () => {
                     href="https://docs.google.com/spreadsheets/d/1MrfmxEPKdOx5iDLCTUhjIVKEj5olNgCBR3wgfnF6s7o/edit?gid=0#gid=0" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="underline text-[#3B82F6] mt-1 text-base font-semibold"
+                    className="underline text-[#3B82F6] mt-1 text-base font-semibold text-center"
                   >
                     👉 Check out the winners now!
                   </a>
@@ -873,7 +873,7 @@ const DiceEventPage: React.FC = () => {
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
-                    navigate("/previous-ranking");
+                    navigate("/previous-ranking", {state: {round:2}});
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
