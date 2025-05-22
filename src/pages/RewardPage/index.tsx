@@ -196,7 +196,7 @@ const Reward: React.FC = () => {
       
       {/* 지난 달 보상 확인 */}
       <div
-        className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
+        className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-5 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
         onClick={handlePreviousRewardPage}
       >
         <div className="flex flex-col gap-2">
