@@ -653,7 +653,7 @@ const MissionPage: React.FC = () => {
       )}
 
       {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      {kaiaMission && kaiaMission.hasEventAccess && (
+      {/* {kaiaMission && kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
@@ -669,7 +669,6 @@ const MissionPage: React.FC = () => {
               }
             }}
           >
-            {/* 오버레이: 비활성인 경우 */}
             {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
               <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
             )}
@@ -695,7 +694,7 @@ const MissionPage: React.FC = () => {
             />
           </div>
         </>
-      )}
+      )} */}
 
 
       {/* 일일 미션 */}
@@ -807,7 +806,7 @@ const MissionPage: React.FC = () => {
       )}
 
             {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      {kaiaMission && !kaiaMission.hasEventAccess && (
+      {/* {kaiaMission && !kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
@@ -823,7 +822,6 @@ const MissionPage: React.FC = () => {
               }
             }}
           >
-            {/* 오버레이: 비활성인 경우 */}
             {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
               <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
             )}
@@ -849,7 +847,7 @@ const MissionPage: React.FC = () => {
             />
           </div>
         </>
-      )}
+      )} */}
 
       <div className="my-10"></div>
 

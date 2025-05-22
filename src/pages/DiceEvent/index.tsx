@@ -298,7 +298,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [12, 19];
+  const scheduledSlots = [8, 17];
   const itemGuideSlots = [0, 9, 18]; 
 
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
@@ -825,7 +825,7 @@ const DiceEventPage: React.FC = () => {
 
 
           {/* 지난 달 보상 다이얼로그 */}
-          {/* <Dialog open={showRankingModal}>
+          <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -852,13 +852,22 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col mt-4">
                   <p className="font-Pretendard text-center text-base font-semibold">
-                    {t("dice_event.monthly_event")}<br/>
-                    {t("dice_event.qualifying_user")}
+                    🎉 The 2nd Round of our Monthly Leaderboard Rankings Event wrapped up on May 15th!
                   </p>
                   
                   <p className="font-Pretendard text-center text-sm font-normal text-[#A3A3A3] mt-4">
-                    * {t("dice_event.abnormal")}
+                    Think you made the cut? 🏆
                   </p>
+
+                  
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/1MrfmxEPKdOx5iDLCTUhjIVKEj5olNgCBR3wgfnF6s7o/edit?gid=0#gid=0" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="underline text-[#3B82F6] mt-1 text-base font-semibold"
+                  >
+                    👉 Check out the winners now!
+                  </a>
                 </div>
                 <button
                   onClick={() => {
@@ -872,7 +881,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog> */}
+          </Dialog>
 
           {/* 출석 보상 업데이트 모달 */}
           {/* <Dialog open={showItemGuideModal}>
