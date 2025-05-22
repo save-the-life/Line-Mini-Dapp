@@ -852,11 +852,11 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col mt-4">
                   <p className="font-Pretendard text-center text-base font-semibold">
-                    🎉 The 2nd Round of our Monthly Leaderboard Rankings Event wrapped up on May 15th!
+                    🎉 {t("dice_event.2nd_rank")}
                   </p>
                   
                   <p className="font-Pretendard text-center text-sm font-normal my-4">
-                    Think you made the cut? 🏆
+                    {t("dice_event.made_cut")} 🏆
                   </p>
 
                   
@@ -866,7 +866,7 @@ const DiceEventPage: React.FC = () => {
                     rel="noopener noreferrer" 
                     className="underline text-[#3B82F6] mt-1 text-base font-semibold text-center"
                   >
-                    👉 Check out the winners now!
+                    👉 {t("dice_event.check_winner")}
                   </a>
                 </div>
                 <button

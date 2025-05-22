@@ -543,7 +543,10 @@
       "new_item": "[New Items]",
       "just_drop": "New Items just dropped in the shop!",
       "click_below": "Click the button below to shop for it!",
-      "view": "View Items"
+      "view": "View Items",
+      "2nd_rank": "The 2nd Round of our Monthly Leaderboard Rankings Event wrapped up on May 15th!",
+      "made_cut": "Think you made the cut?",
+      "check_winner": "Check out the winners now!"
     },
     "setting": {
       "terms_of_service": "Terms of Service",
