@@ -28,14 +28,9 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 //test-net
-const contractAddress = "0x54009ACc2ef5630c9D9d2e82B6aBa1C5Ce334DCd";
+const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const abi = [
-   {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-   },
    {
       "anonymous": false,
       "inputs": [
@@ -44,6 +39,18 @@ const abi = [
             "internalType": "address",
             "name": "user",
             "type": "address"
+         },
+         {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "userClaimCount",
+            "type": "uint256"
+         },
+         {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "totalClaimCount",
+            "type": "uint256"
          }
       ],
       "name": "Claimed",
@@ -57,12 +64,12 @@ const abi = [
             "type": "address"
          }
       ],
-      "name": "hasClaimed",
+      "name": "claimCount",
       "outputs": [
          {
-            "internalType": "bool",
+            "internalType": "uint256",
             "name": "",
-            "type": "bool"
+            "type": "uint256"
          }
       ],
       "stateMutability": "view",
@@ -76,25 +83,19 @@ const abi = [
             "type": "address"
          }
       ],
-      "name": "isClaimed",
+      "name": "getClaimCount",
       "outputs": [
          {
-            "internalType": "bool",
+            "internalType": "uint256",
             "name": "",
-            "type": "bool"
+            "type": "uint256"
          }
       ],
       "stateMutability": "view",
       "type": "function"
    },
    {
-      "inputs": [
-         {
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-         }
-      ],
+      "inputs": [],
       "name": "markClaimed",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -102,12 +103,12 @@ const abi = [
    },
    {
       "inputs": [],
-      "name": "owner",
+      "name": "totalClaims",
       "outputs": [
          {
-            "internalType": "address",
+            "internalType": "uint256",
             "name": "",
-            "type": "address"
+            "type": "uint256"
          }
       ],
       "stateMutability": "view",
