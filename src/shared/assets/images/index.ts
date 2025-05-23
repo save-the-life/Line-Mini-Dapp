@@ -188,6 +188,7 @@ import NoticeBox from "./notice-box.png"
 import Pylon from "./pylon.png"
 import DarkSplash from "./dark-splash.png"
 import KaiaLevel2 from "./kaia-level2.png"
+import KaiaLevel10 from "./kaia-level10.png"
 import Tips from "./tips.png"
 import Raffle from "./raffle.png"
 import RaffleBox from "./raffle_box.png"
@@ -395,6 +396,7 @@ const Images = {
   Pylon,
   DarkSplash,
   KaiaLevel2,
+  KaiaLevel10,
   Tips,
   Raffle,
   RaffleBox,

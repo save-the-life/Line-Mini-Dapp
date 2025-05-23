@@ -653,7 +653,7 @@ const MissionPage: React.FC = () => {
       )}
 
       {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      {/* {kaiaMission && kaiaMission.hasEventAccess && (
+      {kaiaMission && kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
@@ -678,7 +678,7 @@ const MissionPage: React.FC = () => {
                 {t("mission_page.level2")}
               </p>
               <div className="flex items-center">
-                <p className="text-base font-semibold text-white">+0.2</p>
+                <p className="text-base font-semibold text-white">+0.1</p>
                 <img
                   src={Images.KaiaLogo}
                   alt="Kaia Icon"
@@ -688,13 +688,13 @@ const MissionPage: React.FC = () => {
             </div>
 
             <img
-              src={Images.KaiaLevel2}
+              src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="w-[142px] h-[142px] object-cover mr-[10px]"
             />
           </div>
         </>
-      )} */}
+      )}
 
 
       {/* 일일 미션 */}
@@ -805,8 +805,8 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
-            {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      {/* {kaiaMission && !kaiaMission.hasEventAccess && (
+      {/* kaia 미션 - 2레벨 달성 시 활성화 */}
+      {kaiaMission && !kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
@@ -831,7 +831,7 @@ const MissionPage: React.FC = () => {
                 {t("mission_page.level2")}
               </p>
               <div className="flex items-center">
-                <p className="text-base font-semibold text-white">+0.2</p>
+                <p className="text-base font-semibold text-white">+0.1</p>
                 <img
                   src={Images.KaiaLogo}
                   alt="Kaia Icon"
@@ -841,13 +841,13 @@ const MissionPage: React.FC = () => {
             </div>
 
             <img
-              src={Images.KaiaLevel2}
+              src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="w-[142px] h-[142px] object-cover mr-[10px]"
             />
           </div>
         </>
-      )} */}
+      )}
 
       <div className="my-10"></div>
 
