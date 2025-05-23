@@ -189,6 +189,9 @@ const AIXrayAnalysis: React.FC = () => {
                 prev.probability > current.probability ? prev : current
               );
 
+              const highestPercentage = Math.round(highestPrediction.probability * 100);
+              setProbability(highestPercentage.toString());
+
               const rawLabel = highestPrediction.className;
               const translatedLabel =
                 highestPrediction.probability > 0.95
@@ -200,26 +203,39 @@ const AIXrayAnalysis: React.FC = () => {
               setPredictedLabel(rawLabel);
               setDisplayLabel(translatedLabel);
               setIsAnalyzed(true);
+              setLoading(false);
             };
+          } else {
+            setLoading(false);
           }
+        } else {
+          showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
+          setIsAnalyzed(false);
+          setSelectedImage(null);
+          setDisplayLabel(t("ai_page.Analysis_failed"));
+          setPredictedLabel('');
         }
       } catch (error) {
         showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
         setIsAnalyzed(false);
         setSelectedImage(null);
-        setDisplayLabel(t("ai_page.Upload_an_X-ray_image_to_start_analysis"));
+        setDisplayLabel(t("ai_page.Analysis_failed"));
         setPredictedLabel('');
       }
-    } catch (error) {
-      showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
+    } catch (error: any) {
       setIsAnalyzed(false);
       setSelectedImage(null);
-      setDisplayLabel(t("ai_page.Upload_an_X-ray_image_to_start_analysis"));
-      setPredictedLabel('');
+      showModalFunction(t("ai_page.Failed_to_analyze_the_image"));
     } finally {
       setLoading(false);
     }
   };
+
+  const { mutate: saveResultMutate, isPending: isSaving } = useMutation({
+    mutationFn: (formData: FormData) => storeResult(formData, "xray"),
+    onSuccess: () => navigate('/AI-menu', { state: { id: petId } }),
+    onError: () => showModalFunction(t("ai_page.Failed_to_save_result._Please_try_again.")),
+  });
 
   const saveResult = () => {
     playSfx(Audios.button_click);
@@ -229,22 +245,20 @@ const AIXrayAnalysis: React.FC = () => {
       return;
     }
 
-    const payload = {
-      petId,
-      details: [{
-        label: predictedLabel,
-        probability: 100,
-        description: displayLabel,
-        caution: ""
-      }]
-    };
-
     const formData = new FormData();
     formData.append(
-      "json",
-      new Blob([JSON.stringify(payload)], { type: "application/json" })
+      'json',
+      new Blob([JSON.stringify({ 
+        petId, 
+        details: [{
+          label: predictedLabel,
+          probability: parseInt(probability, 10),
+          description: "",
+          caution: ""
+        }],
+      })], { type: 'application/json' })
     );
-    formData.append("file", selectedImage);
+    formData.append('file', selectedImage);
 
     saveResultMutate(formData);
   };
@@ -252,8 +266,8 @@ const AIXrayAnalysis: React.FC = () => {
   const resetAnalysis = () => {
     playSfx(Audios.button_click);
     setDisplayLabel(t("ai_page.Upload_an_X-ray_image_to_start_analysis"));
-    setSelectedImage(null);
     setPredictedLabel('');
+    setSelectedImage(null);
     setIsAnalyzed(false);
   };
 
@@ -262,15 +276,9 @@ const AIXrayAnalysis: React.FC = () => {
     setShowFullText(!showFullText)
   }
 
-  const { mutate: saveResultMutate, isPending: isSaving } = useMutation({
-    mutationFn: (formData: FormData) => storeResult(formData, "xray"),
-    onSuccess: () => navigate('/AI-menu', { state: { id: petId } }),
-    onError: () => showModalFunction(t("ai_page.Failed_to_save_result._Please_try_again.")),
-  });
-
   return (
     <div className="flex flex-col items-center text-white mx-6 h-screen overflow-x-hidden">
-      <TopTitle title={t('ai_page.ai_xray_examination')} back={true} />
+      <TopTitle title={t('ai_page.ai_xray_analysis')} back={true} />
 
       <div className="mt-6 w-full max-w-sm mx-auto p-2 flex flex-col items-center">
         <input
@@ -297,7 +305,9 @@ const AIXrayAnalysis: React.FC = () => {
                 alt="Upload arrow"
                 className="w-20 h-20 mb-6"
               />
-              <p className="text-white font-medium text-base whitespace-nowrap">{t("ai_page.click_here")}</p>
+              <p className="text-white font-medium text-base whitespace-nowrap">
+                {t("ai_page.click_here")}
+              </p>
             </>
           )}
         </label>
@@ -318,8 +328,23 @@ const AIXrayAnalysis: React.FC = () => {
 
       {isAnalyzed && (
         <>
+          <div className="mt-4 text-lg font-semibold">
+            <p>{t("ai_page.Analysis_results")}: {displayLabel}</p>
+          </div>
+
           <div className="mt-4 p-4 bg-gray-800 rounded-xl max-w-sm mx-auto">
-            <p className="font-semibold text-base">{displayLabel}</p>
+            <p className={`overflow-hidden text-sm ${showFullText ? '' : 'line-clamp-3'}`}>
+              {getSymptomDescription(predictedLabel)}
+            </p>
+            <div className="flex justify-center mt-2">
+              <button
+                className="mt-2 w-1/2 text-black font-semibold py-2 px-4 rounded-xl"
+                style={{ backgroundColor: '#FFFFFF' }}
+                onClick={handleSeeMore}
+              >
+                {t(showFullText ? "ai_page.See_less" : "ai_page.See_more")}
+              </button>
+            </div>
           </div>
 
           <div className="flex w-full max-w-sm justify-between mt-10 mb-16">
@@ -345,11 +370,7 @@ const AIXrayAnalysis: React.FC = () => {
       {(showModal || modalInfo.isVisible) && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
           <div className="bg-white p-6 rounded-lg text-black text-center w-[70%] max-w-[550px]">
-            <p>
-              {modalInfo.isVisible
-                ? modalInfo.message
-                : t("ai_page.Please_upload_an_image_before_analysis.")}
-            </p>
+            <p>{modalInfo.isVisible ? modalInfo.message : t("ai_page.Please_upload_an_image_before_analysis.")}</p>
             <button
               className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
               onClick={() => {
