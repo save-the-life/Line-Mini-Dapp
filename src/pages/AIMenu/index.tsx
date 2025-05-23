@@ -69,15 +69,15 @@ const AIMenu: React.FC = () => {
   // }, []);
 
   // 모달 초기 상태를 LocalStorage 확인 후 설정
-  const [showModal, setShowModal] = useState(() => {
-    return !localStorage.getItem('modalDisplayed');
-  });
+  // const [showModal, setShowModal] = useState(() => {
+  //   return !localStorage.getItem('modalDisplayed');
+  // });
 
-  const handleCloseModal = () => {
-    playSfx(Audios.button_click);
-    setShowModal(false);
-    localStorage.setItem('modalDisplayed', 'true'); // 모달 표시 여부 기록
-  };
+  // const handleCloseModal = () => {
+  //   playSfx(Audios.button_click);
+  //   setShowModal(false);
+  //   localStorage.setItem('modalDisplayed', 'true'); // 모달 표시 여부 기록
+  // };
 
   // 각 메뉴 클릭 시 전역 상태 설정 후 반려동물 선택 페이지로 이동
   const handleMenuClick = (menu: 'x-ray' | 'ai-analysis' | 'records') => {
@@ -102,10 +102,10 @@ const AIMenu: React.FC = () => {
   //   }
   // };
 
-  if (loading) {
-    // 로딩 중일 때는 로딩스피너만 보여줌
-    return <LoadingSpinner className="h-screen"/>;
-  }
+  // if (loading) {
+  //   // 로딩 중일 때는 로딩스피너만 보여줌
+  //   return <LoadingSpinner className="h-screen"/>;
+  // }
 
   return (
     <div className="flex flex-col text-white mx-6 md:mx-28 min-h-screen">
