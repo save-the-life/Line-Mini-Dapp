@@ -14,7 +14,7 @@ export async function connectWallet(): Promise<{
   // SDK 초기화
   const sdk = await DappPortalSDK.init({
     clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-    chainId: "8217",
+    chainId: "1001",
   });
   
   // SDK 초기화 성공 시, 콘솔 로그 출력 및 상태 업데이트
