@@ -674,7 +674,7 @@ const MissionPage: React.FC = () => {
             )}
 
             <div className="pl-8">
-              <p className="text-sm font-medium text-white">
+              <p className="text-sm font-medium text-white whitespace-nowrap">
                 {t("mission_page.level2")}
               </p>
               <div className="flex items-center">
@@ -827,7 +827,7 @@ const MissionPage: React.FC = () => {
             )}
 
             <div className="pl-8">
-              <p className="text-sm font-medium text-white">
+              <p className="text-sm font-medium text-white whitespace-nowrap">
                 {t("mission_page.level2")}
               </p>
               <div className="flex items-center">
