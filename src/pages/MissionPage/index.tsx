@@ -750,23 +750,25 @@ const MissionPage: React.FC = () => {
           </h1>
           <div
             className={`
-              relative              /* ① 부모가 기준 */
+              relative
               h-[132px] flex items-center justify-between
-              rounded-3xl mx-6 mb-6
+              rounded-3xl overflow-hidden
+              mx-6 mb-6
               ${(!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""}
             `}
             style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
-            
             onClick={() => {
               if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
                 handleKaiaMission();
               }
             }}
           >
+            {/* 비활성화 시 전체 덮는 오버레이 */}
             {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
               <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
             )}
-            {/* ② 텍스트는 z-20으로 위쪽에 */}
+
+            {/* 텍스트 블록 (z-20) */}
             <div className="pl-8 relative z-20">
               <p className="text-sm font-medium text-white whitespace-nowrap">
                 {t("mission_page.level2")}
@@ -781,16 +783,14 @@ const MissionPage: React.FC = () => {
               </div>
             </div>
 
-            {/* ③ 이미지 절대배치, z-10으로 텍스트 뒤, 좌우/위아래는 필요에 맞게 조정 */}
+            {/* 배경 이미지 (z-10) */}
             <img
               src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="
                 absolute
-                right-0
-                bottom-0
-                w-[136px]
-                h-[136px]
+                right-0 bottom-0
+                w-[142px] h-[142px]
                 object-cover
                 z-10
               "
@@ -798,6 +798,7 @@ const MissionPage: React.FC = () => {
           </div>
         </>
       )}
+
 
 
       {/* 일일 미션 */}
@@ -910,15 +911,16 @@ const MissionPage: React.FC = () => {
 
       {/* kaia 미션 - 2레벨 달성 시 활성화 */}
       {kaiaMission && !kaiaMission.hasEventAccess && (
-        <>
+         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
           </h1>
           <div
             className={`
-              relative              /* ① 부모가 기준 */
+              relative
               h-[132px] flex items-center justify-between
-              rounded-3xl mx-6 mb-6
+              rounded-3xl overflow-hidden
+              mx-6 mb-6
               ${(!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""}
             `}
             style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
@@ -928,11 +930,12 @@ const MissionPage: React.FC = () => {
               }
             }}
           >
-            
+            {/* 비활성화 시 전체 덮는 오버레이 */}
             {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
               <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
             )}
-            {/* ② 텍스트는 z-20으로 위쪽에 */}
+
+            {/* 텍스트 블록 (z-20) */}
             <div className="pl-8 relative z-20">
               <p className="text-sm font-medium text-white whitespace-nowrap">
                 {t("mission_page.level2")}
@@ -947,16 +950,14 @@ const MissionPage: React.FC = () => {
               </div>
             </div>
 
-            {/* ③ 이미지 절대배치, z-10으로 텍스트 뒤, 좌우/위아래는 필요에 맞게 조정 */}
+            {/* 배경 이미지 (z-10) */}
             <img
               src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="
                 absolute
-                right-0
-                bottom-0
-                w-[136px]
-                h-[136px]
+                right-0 bottom-0
+                w-[142px] h-[142px]
                 object-cover
                 z-10
               "
