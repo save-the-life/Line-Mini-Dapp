@@ -49,35 +49,35 @@ const AIMenu: React.FC = () => {
   const [slToken, setSlToken] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
-    const getMyTokenCount = async () => {
-      try{
-        const count = await getMyslToken();
+  // useEffect(()=>{
+  //   const getMyTokenCount = async () => {
+  //     try{
+  //       const count = await getMyslToken();
   
-        if(count){
-          setSlToken(count.slCount);
-        }else{
-          // console.warn('Failed to fetch sl token count');
-        }
-      }catch(error:any){
-        // console.error('Failed to fetch sl token count:', error);
-      }finally {
-        setLoading(false); // 로딩 종료
-      }
-    };
-    getMyTokenCount();
-  }, []);
+  //       if(count){
+  //         setSlToken(count.slCount);
+  //       }else{
+  //         // console.warn('Failed to fetch sl token count');
+  //       }
+  //     }catch(error:any){
+  //       // console.error('Failed to fetch sl token count:', error);
+  //     }finally {
+  //       setLoading(false); // 로딩 종료
+  //     }
+  //   };
+  //   getMyTokenCount();
+  // }, []);
 
   // 모달 초기 상태를 LocalStorage 확인 후 설정
-  const [showModal, setShowModal] = useState(() => {
-    return !localStorage.getItem('modalDisplayed');
-  });
+  // const [showModal, setShowModal] = useState(() => {
+  //   return !localStorage.getItem('modalDisplayed');
+  // });
 
-  const handleCloseModal = () => {
-    playSfx(Audios.button_click);
-    setShowModal(false);
-    localStorage.setItem('modalDisplayed', 'true'); // 모달 표시 여부 기록
-  };
+  // const handleCloseModal = () => {
+  //   playSfx(Audios.button_click);
+  //   setShowModal(false);
+  //   localStorage.setItem('modalDisplayed', 'true'); // 모달 표시 여부 기록
+  // };
 
   // 각 메뉴 클릭 시 전역 상태 설정 후 반려동물 선택 페이지로 이동
   const handleMenuClick = (menu: 'x-ray' | 'ai-analysis' | 'records') => {
@@ -102,21 +102,21 @@ const AIMenu: React.FC = () => {
   //   }
   // };
 
-  if (loading) {
-    // 로딩 중일 때는 로딩스피너만 보여줌
-    return <LoadingSpinner className="h-screen"/>;
-  }
+  // if (loading) {
+  //   // 로딩 중일 때는 로딩스피너만 보여줌
+  //   return <LoadingSpinner className="h-screen"/>;
+  // }
 
   return (
     <div className="flex flex-col text-white mx-6 md:mx-28 min-h-screen">
-      <div className="flex items-center w-full mt-8 relative">
+      {/* <div className="flex items-center w-full mt-8 relative">
         <img
           src={Images.SLToken}
           alt="Star"
           className="w-6 h-6 mr-2"
           />
         <p className="text-lg font-semibold mr-2">{slToken} SL</p>
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-2 gap-3 mt-6">
         {/* 실사진 진단 */}
@@ -149,7 +149,7 @@ const AIMenu: React.FC = () => {
 
 
       {/* SL토큰 소요 알림 모달창 */}
-      {showModal && (
+      {/* {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
             <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
                 <p>{t("ai_page.5SL_tokens")}</p>
@@ -161,7 +161,7 @@ const AIMenu: React.FC = () => {
                 </button>
             </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

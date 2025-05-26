@@ -27,7 +27,97 @@ import { TxType } from "@kaiachain/js-ext-core"; // ✅ Fee Delegation 타입 �
 import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
+//test-net
+// const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
+// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+// const abi = [
+//    {
+//       "anonymous": false,
+//       "inputs": [
+//          {
+//             "indexed": true,
+//             "internalType": "address",
+//             "name": "user",
+//             "type": "address"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "userClaimCount",
+//             "type": "uint256"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "totalClaimCount",
+//             "type": "uint256"
+//          }
+//       ],
+//       "name": "Claimed",
+//       "type": "event"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "address",
+//             "name": "",
+//             "type": "address"
+//          }
+//       ],
+//       "name": "claimCount",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "address",
+//             "name": "user",
+//             "type": "address"
+//          }
+//       ],
+//       "name": "getClaimCount",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [],
+//       "name": "markClaimed",
+//       "outputs": [],
+//       "stateMutability": "nonpayable",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [],
+//       "name": "totalClaims",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    }
+// ]
 
+
+//main-net
 const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
 const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
 const abi = [
@@ -653,7 +743,7 @@ const MissionPage: React.FC = () => {
       )}
 
       {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      {/* {kaiaMission && kaiaMission.hasEventAccess && (
+      {kaiaMission && kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
@@ -674,11 +764,11 @@ const MissionPage: React.FC = () => {
             )}
 
             <div className="pl-8">
-              <p className="text-sm font-medium text-white">
+              <p className="text-sm font-medium text-white whitespace-nowrap">
                 {t("mission_page.level2")}
               </p>
               <div className="flex items-center">
-                <p className="text-base font-semibold text-white">+0.2</p>
+                <p className="text-base font-semibold text-white">+0.1</p>
                 <img
                   src={Images.KaiaLogo}
                   alt="Kaia Icon"
@@ -688,13 +778,13 @@ const MissionPage: React.FC = () => {
             </div>
 
             <img
-              src={Images.KaiaLevel2}
+              src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="w-[142px] h-[142px] object-cover mr-[10px]"
             />
           </div>
         </>
-      )} */}
+      )}
 
 
       {/* 일일 미션 */}
@@ -805,8 +895,8 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
-            {/* kaia 미션 - 2레벨 달성 시 활성화 */}
-      {/* {kaiaMission && !kaiaMission.hasEventAccess && (
+      {/* kaia 미션 - 2레벨 달성 시 활성화 */}
+      {kaiaMission && !kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
@@ -827,11 +917,11 @@ const MissionPage: React.FC = () => {
             )}
 
             <div className="pl-8">
-              <p className="text-sm font-medium text-white">
+              <p className="text-sm font-medium text-white whitespace-nowrap">
                 {t("mission_page.level2")}
               </p>
               <div className="flex items-center">
-                <p className="text-base font-semibold text-white">+0.2</p>
+                <p className="text-base font-semibold text-white">+0.1</p>
                 <img
                   src={Images.KaiaLogo}
                   alt="Kaia Icon"
@@ -841,13 +931,13 @@ const MissionPage: React.FC = () => {
             </div>
 
             <img
-              src={Images.KaiaLevel2}
+              src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="w-[142px] h-[142px] object-cover mr-[10px]"
             />
           </div>
         </>
-      )} */}
+      )}
 
       <div className="my-10"></div>
 
