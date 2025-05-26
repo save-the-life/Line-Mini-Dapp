@@ -780,7 +780,7 @@ const MissionPage: React.FC = () => {
             <img
               src={Images.KaiaLevel10}
               alt="kaia-level2"
-              className="w-[142px] h-[142px] object-cover mr-[10px]"
+              className="w-[136px] h-[136px] object-cover mr-[20px]"
             />
           </div>
         </>
