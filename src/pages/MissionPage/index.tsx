@@ -763,9 +763,9 @@ const MissionPage: React.FC = () => {
               }
             }}
           >
-            {/* 비활성화 시 전체 덮는 오버레이 */}
+            {/* 비활성화 시 전체 덮는 오버레이 (z-30으로 상향) */}
             {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
-              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
+              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-30" />
             )}
 
             {/* 텍스트 블록 (z-20) */}
@@ -798,6 +798,7 @@ const MissionPage: React.FC = () => {
           </div>
         </>
       )}
+
 
 
 
@@ -930,9 +931,9 @@ const MissionPage: React.FC = () => {
               }
             }}
           >
-            {/* 비활성화 시 전체 덮는 오버레이 */}
+            {/* 비활성화 시 전체 덮는 오버레이 (z-30으로 상향) */}
             {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
-              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
+              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-30" />
             )}
 
             {/* 텍스트 블록 (z-20) */}
