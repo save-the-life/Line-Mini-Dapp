@@ -341,7 +341,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         await DappPortalSDK.init({
           clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-          chainId: "1001",
+          chainId: "8217",
         });
         
 
