@@ -932,7 +932,7 @@ const MissionPage: React.FC = () => {
               alt="kaia-level2"
               className="
                 absolute
-                right-0
+                right-10
                 bottom-0
                 w-[142px]
                 h-[142px]
