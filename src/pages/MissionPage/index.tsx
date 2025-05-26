@@ -902,21 +902,17 @@ const MissionPage: React.FC = () => {
             KAIA {t("mission_page.Mission")}
           </h1>
           <div
-            className={`relative h-[132px] flex items-center justify-between rounded-3xl mx-6 mb-6 ${
-              (!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""
-            }`}
+            className={`
+              relative
+              h-[132px] flex items-center justify-between
+              rounded-3xl mx-6 mb-6
+              ${(!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""}
+            `}
             style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
-            onClick={() => {
-              if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
-                handleKaiaMission();
-              }
-            }}
+            onClick={handleKaiaMission}
           >
-            {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
-              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
-            )}
-
-            <div className="pl-8">
+            {/* ② 텍스트는 z-20으로 위쪽에 */}
+            <div className="pl-8 relative z-20">
               <p className="text-sm font-medium text-white whitespace-nowrap">
                 {t("mission_page.level2")}
               </p>
@@ -930,10 +926,19 @@ const MissionPage: React.FC = () => {
               </div>
             </div>
 
+            {/* ③ 이미지 절대배치, z-10으로 텍스트 뒤, 좌우/위아래는 필요에 맞게 조정 */}
             <img
               src={Images.KaiaLevel10}
               alt="kaia-level2"
-              className="w-[142px] h-[142px] object-cover mr-[10px]"
+              className="
+                absolute
+                right-0
+                bottom-0
+                w-[142px]
+                h-[142px]
+                object-cover
+                z-10
+              "
             />
           </div>
         </>
