@@ -756,8 +756,16 @@ const MissionPage: React.FC = () => {
               ${(!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""}
             `}
             style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
-            onClick={handleKaiaMission}
+            
+            onClick={() => {
+              if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
+                handleKaiaMission();
+              }
+            }}
           >
+            {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
+              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
+            )}
             {/* ② 텍스트는 z-20으로 위쪽에 */}
             <div className="pl-8 relative z-20">
               <p className="text-sm font-medium text-white whitespace-nowrap">
@@ -914,8 +922,16 @@ const MissionPage: React.FC = () => {
               ${(!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""}
             `}
             style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
-            onClick={handleKaiaMission}
+            onClick={() => {
+              if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
+                handleKaiaMission();
+              }
+            }}
           >
+            
+            {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
+              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-20" />
+            )}
             {/* ② 텍스트는 z-20으로 위쪽에 */}
             <div className="pl-8 relative z-20">
               <p className="text-sm font-medium text-white whitespace-nowrap">
