@@ -177,7 +177,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               </span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">1,000</span>
+                <span className="text-sm font-semibold">500</span>
               </span>
             </DialogTrigger>
             <DialogTrigger
@@ -189,7 +189,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               </span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">600</span>
+                <span className="text-sm font-semibold">300</span>
               </span>
             </DialogTrigger>
             <DialogTrigger
@@ -201,7 +201,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               </span>
               <span className="flex items-center gap-1">
                 <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
-                <span className="text-sm font-semibold">40</span>
+                <span className="text-sm font-semibold">20</span>
               </span>
             </DialogTrigger>
           </div>
