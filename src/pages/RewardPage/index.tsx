@@ -261,7 +261,7 @@ const Reward: React.FC = () => {
       </div>
 
       {/** 지난 에어드랍 경품 보여주기 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-8">
+      {/* <div className="flex flex-col gap-3 justify-center items-center mb-8">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
             {slRound} {t("reward_page.this_month")}
@@ -274,10 +274,10 @@ const Reward: React.FC = () => {
             className="absolute -top-1 -right-12 w-[68px] h-[68px] -z-10"
           />
         </div>
-      </div>
+      </div> */}
 
       {/* USDT 보상 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
+      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         <div className="relative text-center font-jalnan text-xl font-bold">
           USDT WINNER
         </div>
@@ -309,10 +309,10 @@ const Reward: React.FC = () => {
             {t("reward_page.view_more")}
           </button>
         )}
-      </div>
+      </div> */}
 
       {/* SL 보상 */}
-      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
+      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         <div className="relative text-center font-jalnan text-xl font-bold">
           SL WINNER
         </div>
@@ -344,7 +344,7 @@ const Reward: React.FC = () => {
             {t("reward_page.view_more")}
           </button>
         )}
-      </div>
+      </div> */}
 
       {/* 모달 */}
       {showModal && (
