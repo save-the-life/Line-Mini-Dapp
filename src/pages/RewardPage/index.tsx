@@ -207,7 +207,7 @@ const Reward: React.FC = () => {
       </div>
 
       {/* 이번 달 랭킹 보상 */}
-      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
+      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <h1 className="z-30">
             {currentRound} {t("reward_page.this_month")}<br />{t("reward_page.awards")}
@@ -245,7 +245,7 @@ const Reward: React.FC = () => {
             {t("reward_page.view_more")}
           </button>
         )}
-      </div> */}
+      </div>
 
      {/* 래플-에어드랍 영역 */}
      <div 
