@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { IoChevronBackOutline, IoChevronDownOutline, IoChevronUpOutline  } from "react-icons/io5";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -500,6 +500,24 @@ const ItemStore: React.FC = () => {
   const totalKaia = cartItems.reduce((sum, item) => sum + item.kaiaPrice * item.qty, 0);
   const totalUSD = cartItems.reduce((sum, item) => sum + item.usdPrice * item.qty, 0);
 
+  const checkoutRef = useRef<HTMLDivElement>(null);
+  const [cartFixed, setCartFixed] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!checkoutRef.current) return;
+      const checkoutRect = checkoutRef.current.getBoundingClientRect();
+      // 결제 버튼이 화면 하단에서 165px(장바구니 높이)보다 위에 있으면 absolute, 아니면 fixed
+      if (checkoutRect.top < window.innerHeight - 165) {
+        setCartFixed(false);
+      } else {
+        setCartFixed(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     isLoading ? (
       <LoadingSpinner className="h-screen" />
@@ -601,10 +619,48 @@ const ItemStore: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+        </div>
+
+        {/* 장바구니 영역 */}
+        {cartItems.length > 0 && (
+          <div
+            style={{
+              position: cartFixed ? "fixed" : "absolute",
+              left: 0,
+              right: 0,
+              bottom: cartFixed ? "0" : undefined,
+              top: !cartFixed ? undefined : undefined,
+              height: "165px",
+              background: "#181c2b",
+              zIndex: 1000,
+              overflowY: "auto",
+              width: "100vw",
+              boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
+              padding: "16px"
+            }}
+          >
+            {/* 최상단 경계선 */}
+            <div style={{height: 4, background: "#0D1226", width: "100%", marginBottom: 8}} />
+            {cartItems.map((item, idx) => (
+              <React.Fragment key={item.id}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff", marginBottom: 0 }}>
+                  <span>{item.name}</span>
+                  <button onClick={() => handleRemove(item.id)} style={{ margin: "0 8px" }}>×</button>
+                  <button onClick={() => handleChangeQty(item.id, item.qty - 1)} style={{ margin: "0 4px" }}>-</button>
+                  <span>{item.qty}</span>
+                  <button onClick={() => handleChangeQty(item.id, item.qty + 1)} style={{ margin: "0 4px" }}>+</button>
+                </div>
+                {/* 아이템 사이 경계선 (마지막 제외) */}
+                {idx < cartItems.length - 1 && (
+                  <div style={{height: 1, background: "#35383F", width: "100%", margin: "8px 0"}} />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        )}
 
         {/* 체크박스 및 결제 버튼 영역 */}
-        <div className="mt-5 px-6">
+        <div ref={checkoutRef} className="mt-5 px-6">
           <div className="flex flex-col gap-3 mb-5">
             {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
@@ -671,37 +727,7 @@ const ItemStore: React.FC = () => {
             </span>
           </div>
 
-          {/* 장바구니 영역 */}
-          {cartItems.length > 0 && (
-            <div
-              style={{
-                position: "fixed",
-                left: 0,
-                right: 0,
-                bottom: "90px", // 결제 버튼 위에 오도록 조정
-                height: "165px",
-                background: "#181c2b",
-                zIndex: 1000,
-                overflowY: "auto",
-                width: "100vw",
-                boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
-                padding: "16px"
-              }}
-            >
-              {cartItems.map(item => (
-                <div key={item.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff", marginBottom: 12 }}>
-                  <span>{item.name}</span>
-                  <button onClick={() => handleRemove(item.id)} style={{ margin: "0 8px" }}>×</button>
-                  <button onClick={() => handleChangeQty(item.id, item.qty - 1)} style={{ margin: "0 4px" }}>-</button>
-                  <span>{item.qty}</span>
-                  <button onClick={() => handleChangeQty(item.id, item.qty + 1)} style={{ margin: "0 4px" }}>+</button>
-                </div>
-              ))}
-              <div style={{ marginTop: 8, textAlign: "right", color: "#fff" }}>
-                총합: <b>{totalKaia} KAIA</b> / <b>${totalUSD.toFixed(2)} USD</b>
-              </div>
-            </div>
-          )}
+
 
           <div className="flex w-full gap-3 mb-5">
             <button
