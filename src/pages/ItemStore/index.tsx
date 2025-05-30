@@ -62,6 +62,39 @@ const ItemStore: React.FC = () => {
   const isEnabled =
     selectedItem !== null && agreeRefund && agreeEncrypted && !isLoading;
 
+  // 1. 장바구니 상태 및 핸들러 추가
+  const [cartItems, setCartItems] = useState<{
+    id: number,
+    name: string,
+    qty: number,
+    kaiaPrice: number,
+    usdPrice: number
+  }[]>([]);
+
+  const handleAddToCart = (item: any) => {
+    setCartItems(prev => {
+      const found = prev.find(i => i.id === item.itemId);
+      if (found) {
+        return prev.map(i => i.id === item.itemId ? { ...i, qty: i.qty + 1 } : i);
+      }
+      return [...prev, {
+        id: item.itemId,
+        name: item.itemName,
+        qty: 1,
+        kaiaPrice: item.kaiaPrice,
+        usdPrice: item.usdPrice
+      }];
+    });
+  };
+
+  const handleChangeQty = (id: number, qty: number) => {
+    setCartItems(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, qty) } : i));
+  };
+
+  const handleRemove = (id: number) => {
+    setCartItems(prev => prev.filter(i => i.id !== id));
+  };
+
   // API를 통해 아이템 데이터 조회
   useEffect(() => {
     const fetchItems = async () => {
@@ -187,8 +220,8 @@ const ItemStore: React.FC = () => {
   // 아이템 선택 (itemId를 selectedItem에 저장)
   const handleSelectItem = (itemId: number) => {
     playSfx(Audios.button_click);
-    setSelectedItem(itemId);
-    setShowModal(true);
+    const item = itemData.find(i => i.itemId === itemId);
+    if (item) handleAddToCart(item);
   };
 
   const getCustomDescription = (itemName: string): React.ReactNode => {
@@ -463,6 +496,10 @@ const ItemStore: React.FC = () => {
     return "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)";
   };
 
+  // 3. 장바구니 총합 계산
+  const totalKaia = cartItems.reduce((sum, item) => sum + item.kaiaPrice * item.qty, 0);
+  const totalUSD = cartItems.reduce((sum, item) => sum + item.usdPrice * item.qty, 0);
+
   return (
     isLoading ? (
       <LoadingSpinner className="h-screen" />
@@ -634,32 +671,60 @@ const ItemStore: React.FC = () => {
             </span>
           </div>
 
+          {/* 장바구니 영역 */}
+          {cartItems.length > 0 && (
+            <div
+              style={{
+                position: "fixed",
+                left: 0,
+                right: 0,
+                bottom: "90px", // 결제 버튼 위에 오도록 조정
+                height: "165px",
+                background: "#181c2b",
+                zIndex: 1000,
+                overflowY: "auto",
+                width: "100vw",
+                boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
+                padding: "16px"
+              }}
+            >
+              {cartItems.map(item => (
+                <div key={item.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff", marginBottom: 12 }}>
+                  <span>{item.name}</span>
+                  <button onClick={() => handleRemove(item.id)} style={{ margin: "0 8px" }}>×</button>
+                  <button onClick={() => handleChangeQty(item.id, item.qty - 1)} style={{ margin: "0 4px" }}>-</button>
+                  <span>{item.qty}</span>
+                  <button onClick={() => handleChangeQty(item.id, item.qty + 1)} style={{ margin: "0 4px" }}>+</button>
+                </div>
+              ))}
+              <div style={{ marginTop: 8, textAlign: "right", color: "#fff" }}>
+                총합: <b>{totalKaia} KAIA</b> / <b>${totalUSD.toFixed(2)} USD</b>
+              </div>
+            </div>
+          )}
+
           <div className="flex w-full gap-3 mb-5">
             <button
-              disabled={!isEnabled}
+              disabled={!isEnabled || cartItems.length === 0}
               onClick={handleKaiaCheckout}
               className={
-                isEnabled
+                isEnabled && cartItems.length > 0
                   ? "w-1/2 bg-[#0147E5] px-6 py-3 rounded-full text-base font-medium"
                   : "w-1/2 bg-[#555] px-6 py-3 rounded-full text-base font-medium text-white"
               }
             >
-              {selectedItemInfo
-                ? `${selectedItemInfo.kaiaPrice} KAIA`
-                : "KAIA"}
+              {totalKaia > 0 ? `${totalKaia} KAIA` : "KAIA"}
             </button>
             <button
-              disabled={!isEnabled}
+              disabled={!isEnabled || cartItems.length === 0}
               onClick={handleUSDCheckout}
               className={
-                isEnabled
+                isEnabled && cartItems.length > 0
                   ? "w-1/2 border-2 border-[#0147E5] text-white px-6 py-3 rounded-full text-base font-medium"
                   : "w-1/2 border-2 border-[#555] text-[#555] px-6 py-3 rounded-full text-base font-medium"
               }
             >
-              {selectedItemInfo
-                ? `USD $${selectedItemInfo.usdPrice}`
-                : "USD"}
+              {totalUSD > 0 ? `USD $${totalUSD.toFixed(2)}` : "USD"}
             </button>
           </div>
         </div>
