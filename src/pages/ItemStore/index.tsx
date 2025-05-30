@@ -503,24 +503,17 @@ const ItemStore: React.FC = () => {
   const checkoutRef = useRef<HTMLDivElement>(null);
   const [cartFixed, setCartFixed] = useState(true);
   const [cartAbsTop, setCartAbsTop] = useState<number>(0);
-  const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       if (!checkoutRef.current) return;
       const checkoutRect = checkoutRef.current.getBoundingClientRect();
-      
-      // 결제 버튼이 화면 하단에서 165px(장바구니 높이)보다 위에 있으면 absolute로 전환
       if (checkoutRect.top < window.innerHeight - 165) {
         setCartFixed(false);
+        // absolute일 때 top 위치 계산 (스크롤 포함)
         setCartAbsTop(checkoutRef.current.offsetTop - 165);
-        
-        // 스크롤이 거의 최하단에 도달했는지 확인
-        const isNearBottom = window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 50;
-        setIsAtBottom(isNearBottom);
       } else {
         setCartFixed(true);
-        setIsAtBottom(false);
       }
     };
     window.addEventListener("scroll", handleScroll);
@@ -670,8 +663,7 @@ const ItemStore: React.FC = () => {
 
         {/* 체크박스 및 결제 버튼 영역 */}
         <div ref={checkoutRef} className="mt-5 px-6">
-          {/* 장바구니가 absolute이고 스크롤이 최하단일 때만 마진 추가 */}
-          <div className={`flex flex-col gap-3 mb-5 ${!cartFixed && isAtBottom && cartItems.length > 0 ? 'mt-[165px]' : ''}`}>
+          <div className="flex flex-col gap-3 mb-5">
             {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
               <input
