@@ -502,14 +502,16 @@ const ItemStore: React.FC = () => {
 
   const checkoutRef = useRef<HTMLDivElement>(null);
   const [cartFixed, setCartFixed] = useState(true);
+  const [cartAbsTop, setCartAbsTop] = useState<number>(0);
 
   useEffect(() => {
     const handleScroll = () => {
       if (!checkoutRef.current) return;
       const checkoutRect = checkoutRef.current.getBoundingClientRect();
-      // 결제 버튼이 화면 하단에서 165px(장바구니 높이)보다 위에 있으면 absolute, 아니면 fixed
       if (checkoutRect.top < window.innerHeight - 165) {
         setCartFixed(false);
+        // absolute일 때 top 위치 계산 (스크롤 포함)
+        setCartAbsTop(checkoutRef.current.offsetTop - 165);
       } else {
         setCartFixed(true);
       }
@@ -628,7 +630,8 @@ const ItemStore: React.FC = () => {
               position: cartFixed ? "fixed" : "absolute",
               left: 0,
               right: 0,
-              bottom: 0,
+              bottom: cartFixed ? 0 : undefined,
+              top: !cartFixed ? cartAbsTop : undefined,
               height: "165px",
               background: "#181c2b",
               zIndex: 1000,
