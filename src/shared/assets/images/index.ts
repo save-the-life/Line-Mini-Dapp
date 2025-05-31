@@ -204,7 +204,9 @@ import CardDog from "./card-dog.png"
 import CardCat from "./card-cat.png"
 import CardBomb from "./card-bomb.png"
 import CardPoint from "./card-point.png"
-
+import Close from "./close.png"
+import Minus from "./minus.png"
+import Plus from "./plus.png"
 
 const Images = {
   HorizontalLogo,
@@ -411,7 +413,10 @@ const Images = {
   CardDog,
   CardCat,
   CardBomb,
-  CardPoint
+  CardPoint,
+  Close,
+  Minus,
+  Plus
 };
 
 export default Images;

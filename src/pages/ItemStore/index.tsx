@@ -643,6 +643,9 @@ const ItemStore: React.FC = () => {
               overflowY: "auto",
               width: "100vw",
               boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
+              paddingLeft: "24px",
+              paddingRight: "24px",
+              paddingBottom: "16px"
             }}
           >
             {/* 최상단 경계선 */}
@@ -651,10 +654,31 @@ const ItemStore: React.FC = () => {
               <React.Fragment key={item.id}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff", marginBottom: 0 }}>
                   <span className="text-base font-normal">{item.name}</span>
-                  <button onClick={() => handleRemove(item.id)} style={{ margin: "0 8px" }}>×</button>
-                  <button onClick={() => handleChangeQty(item.id, item.qty - 1)} style={{ margin: "0 4px" }}>-</button>
-                  <span>{item.qty}</span>
-                  <button onClick={() => handleChangeQty(item.id, item.qty + 1)} style={{ margin: "0 4px" }}>+</button>
+                  <img
+                    src={Images.Close}
+                    alt="close"
+                    width={18}
+                    height={18}
+                    style={{ margin: "0 8px", cursor: "pointer" }}
+                    onClick={() => handleRemove(item.id)}
+                  />
+                  <img
+                    src={Images.Minus}
+                    alt="minus"
+                    width={24}
+                    height={24}
+                    style={{ margin: "0 4px", cursor: "pointer" }}
+                    onClick={() => handleChangeQty(item.id, item.qty - 1)}
+                  />
+                  <span className="text-base font-normal">{item.qty}</span>
+                  <img
+                    src={Images.Plus}
+                    alt="plus"
+                    width={24}
+                    height={24}
+                    style={{ margin: "0 4px", cursor: "pointer" }}
+                    onClick={() => handleChangeQty(item.id, item.qty + 1)}
+                  />
                 </div>
                 {/* 아이템 사이 경계선 (마지막 제외) */}
                 {idx < cartItems.length - 1 && (
@@ -666,7 +690,7 @@ const ItemStore: React.FC = () => {
         )}
 
         {/* 체크박스 및 결제 버튼 영역 */}
-        <div ref={checkoutRef} className="mt-[190px] px-6">
+        <div ref={checkoutRef} className="mt-[200px] px-6">
           <div className="flex flex-col gap-3 mb-5">
             {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
