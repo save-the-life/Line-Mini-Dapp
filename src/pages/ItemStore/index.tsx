@@ -666,7 +666,7 @@ const ItemStore: React.FC = () => {
         )}
 
         {/* 체크박스 및 결제 버튼 영역 */}
-        <div ref={checkoutRef} className="mt-[180px] px-6">
+        <div ref={checkoutRef} className="mt-[190px] px-6">
           <div className="flex flex-col gap-3 mb-5">
             {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
