@@ -510,10 +510,10 @@ const ItemStore: React.FC = () => {
       if (!checkoutRef.current) return;
       const checkoutRect = checkoutRef.current.getBoundingClientRect();
       
-      // 두 드롭다운이 모두 닫혀있을 때는 카트를 항상 하단에 고정
+      // 두 드롭다운이 모두 닫혀있을 때는 카트를 체크박스 및 결제 버튼 영역 바로 위에 위치
       if (!isDropdownOpen && !isConsumableOpen) {
         setCartFixed(false);
-        setCartAbsTop(checkoutRef.current.offsetTop - 150);
+        setCartAbsTop(checkoutRef.current.offsetTop - 165); // 165는 카트 높이
         return;
       }
 
@@ -526,8 +526,10 @@ const ItemStore: React.FC = () => {
       }
     };
     window.addEventListener("scroll", handleScroll);
+    // 드롭다운 상태 변경 시에도 위치 재계산
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDropdownOpen, isConsumableOpen]); // 드롭다운 상태 변경도 감지하도록 의존성 추가
+  }, [isDropdownOpen, isConsumableOpen]);
 
   const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
 
