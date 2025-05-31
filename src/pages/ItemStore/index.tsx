@@ -511,7 +511,7 @@ const ItemStore: React.FC = () => {
       if (checkoutRect.top < window.innerHeight - 165) {
         setCartFixed(false);
         // absolute일 때 top 위치 계산 (스크롤 포함)
-        setCartAbsTop(checkoutRef.current.offsetTop - 165);
+        setCartAbsTop(checkoutRef.current.offsetTop - 195);
       } else {
         setCartFixed(true);
       }
