@@ -223,6 +223,7 @@ const ItemStore: React.FC = () => {
     setSelectedItem(itemId);  // selectedItem 상태 업데이트
     const item = itemData.find(i => i.itemId === itemId);
     if (item) handleAddToCart(item);
+    setTimeout(handleScroll, 0); // 아이템 추가 후 위치 재계산
   };
 
   const getCustomDescription = (itemName: string): React.ReactNode => {
