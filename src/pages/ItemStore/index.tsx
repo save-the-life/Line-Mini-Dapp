@@ -512,18 +512,12 @@ const ItemStore: React.FC = () => {
       const cartHeight = 165; // 장바구니 높이
       const bufferSpace = 30; // 추가 여유 공간
 
-      // 드롭다운 상태에 따른 추가 여백 계산
-      const dropdownOffset = (!isDropdownOpen && !isConsumableOpen) ? 100 : 0;
-      const premiumItemsHeight = isDropdownOpen ? 400 : 0; // Premium Boosts 섹션 높이
-      const consumableItemsHeight = isConsumableOpen ? 400 : 0; // Consumable Items 섹션 높이
-      const totalDropdownHeight = premiumItemsHeight + consumableItemsHeight;
-
       // 체크아웃 영역이 화면 하단에 가까워지면 장바구니를 absolute로 변경
-      if (checkoutRect.top < windowHeight - cartHeight - bufferSpace - dropdownOffset - totalDropdownHeight) {
+      if (checkoutRect.top < windowHeight - cartHeight - bufferSpace) {
         setCartFixed(false);
         // absolute일 때 top 위치 계산 (스크롤 포함)
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        setCartAbsTop(checkoutRect.top + scrollTop - cartHeight - bufferSpace - dropdownOffset - totalDropdownHeight);
+        setCartAbsTop(checkoutRect.top + scrollTop - cartHeight - bufferSpace);
       } else {
         setCartFixed(true);
       }
@@ -534,7 +528,7 @@ const ItemStore: React.FC = () => {
     handleScroll();
     
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDropdownOpen, isConsumableOpen]); // 드롭다운 상태 변경 시에도 위치 재계산
+  }, []);
 
   const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
 
