@@ -643,7 +643,6 @@ const ItemStore: React.FC = () => {
               overflowY: "auto",
               width: "100vw",
               boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
-              padding: "16px"
             }}
           >
             {/* 최상단 경계선 */}
@@ -651,7 +650,7 @@ const ItemStore: React.FC = () => {
             {cartItems.map((item, idx) => (
               <React.Fragment key={item.id}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff", marginBottom: 0 }}>
-                  <span>{item.name}</span>
+                  <span className="text-base font-normal">{item.name}</span>
                   <button onClick={() => handleRemove(item.id)} style={{ margin: "0 8px" }}>×</button>
                   <button onClick={() => handleChangeQty(item.id, item.qty - 1)} style={{ margin: "0 4px" }}>-</button>
                   <span>{item.qty}</span>
@@ -667,7 +666,7 @@ const ItemStore: React.FC = () => {
         )}
 
         {/* 체크박스 및 결제 버튼 영역 */}
-        <div ref={checkoutRef} className="mt-5 px-6">
+        <div ref={checkoutRef} className="mt-[180px] px-6">
           <div className="flex flex-col gap-3 mb-5">
             {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
