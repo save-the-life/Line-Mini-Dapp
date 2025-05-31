@@ -520,11 +520,16 @@ const ItemStore: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
+
   return (
     isLoading ? (
       <LoadingSpinner className="h-screen" />
     ) : (
-      <div className="flex flex-col items-center text-white px-6 min-h-screen" style={{paddingBottom: "165px"}}>
+      <div
+        className="flex flex-col items-center text-white px-6 min-h-screen"
+        style={{ paddingBottom: !cartFixed && isAtBottom && cartItems.length > 0 ? "165px" : undefined }}
+      >
         {/* 상단 영역 */}
         <div className="h-14 flex items-center w-full font-bold text-xl mb-4 justify-between">
           <IoChevronBackOutline
