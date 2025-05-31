@@ -88,7 +88,7 @@ const ItemStore: React.FC = () => {
   };
 
   const handleChangeQty = (id: number, qty: number) => {
-    setCartItems(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, qty) } : i));
+    setCartItems(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, Math.min(99, qty)) } : i));
   };
 
   const handleRemove = (id: number) => {
@@ -652,37 +652,51 @@ const ItemStore: React.FC = () => {
             <div style={{height: 4, background: "#0D1226", width: "100%", marginBottom: 8}} />
             {cartItems.map((item, idx) => (
               <React.Fragment key={item.id}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: "#fff", marginBottom: 0 }}>
-                  <span className="text-base font-normal">{item.name}</span>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                    marginBottom: 0,
+                  }}
+                >
+                  {/* 아이템 이름 */}
+                  <span className="text-base font-normal" style={{ marginRight: 6 }}>
+                    {item.name}
+                  </span>
+                  {/* Close 버튼 */}
                   <img
                     src={Images.Close}
                     alt="close"
                     width={18}
                     height={18}
-                    style={{ margin: "0 8px", cursor: "pointer" }}
+                    style={{ marginRight: "auto", cursor: "pointer" }}
                     onClick={() => handleRemove(item.id)}
                   />
-                  <img
-                    src={Images.Minus}
-                    alt="minus"
-                    width={24}
-                    height={24}
-                    style={{ margin: "0 4px", cursor: "pointer" }}
-                    onClick={() => handleChangeQty(item.id, item.qty - 1)}
-                  />
-                  <span className="text-base font-normal">{item.qty}</span>
-                  <img
-                    src={Images.Plus}
-                    alt="plus"
-                    width={24}
-                    height={24}
-                    style={{ margin: "0 4px", cursor: "pointer" }}
-                    onClick={() => handleChangeQty(item.id, item.qty + 1)}
-                  />
+                  {/* 오른쪽 끝: - 수량 + */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <img
+                      src={Images.Minus}
+                      alt="minus"
+                      width={24}
+                      height={24}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleChangeQty(item.id, item.qty - 1)}
+                    />
+                    <span style={{ minWidth: 24, textAlign: "center" }}>{item.qty}</span>
+                    <img
+                      src={Images.Plus}
+                      alt="plus"
+                      width={24}
+                      height={24}
+                      style={{ cursor: item.qty >= 99 ? "not-allowed" : "pointer", opacity: item.qty >= 99 ? 0.5 : 1 }}
+                      onClick={() => item.qty < 99 && handleChangeQty(item.id, item.qty + 1)}
+                    />
+                  </div>
                 </div>
                 {/* 아이템 사이 경계선 (마지막 제외) */}
                 {idx < cartItems.length - 1 && (
-                  <div style={{height: 1, background: "#35383F", width: "100%", margin: "8px 0"}} />
+                  <div style={{ height: 1, background: "#35383F", width: "100%", margin: "8px 0" }} />
                 )}
               </React.Fragment>
             ))}
