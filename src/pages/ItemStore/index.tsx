@@ -590,7 +590,7 @@ const ItemStore: React.FC = () => {
 
         {/* 드롭다운: Premium Boosts */}
         <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsDropdownOpen(v => { const next = !v; setTimeout(handleScroll, 0); return next; }); }}>
+        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsDropdownOpen(v => !v); }}>
           <span className="text-base font-semibold">Premium Boosts</span>
           {isDropdownOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
         </button>
@@ -616,7 +616,7 @@ const ItemStore: React.FC = () => {
 
       {/* Consumable Items */}
       <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(v => { const next = !v; setTimeout(handleScroll, 0); return next; }); }}>
+        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(v => !v); }}>
           <span className="text-base font-semibold">Consumable Items</span>
           {isConsumableOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
         </button>
