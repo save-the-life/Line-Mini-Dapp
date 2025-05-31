@@ -638,7 +638,7 @@ const ItemStore: React.FC = () => {
               bottom: cartFixed ? 0 : undefined,
               top: !cartFixed ? cartAbsTop : undefined,
               height: "165px",
-              background: "#181c2b",
+              background: "#0D1226",
               zIndex: 1000,
               overflowY: "auto",
               width: "100vw",
@@ -649,7 +649,7 @@ const ItemStore: React.FC = () => {
             }}
           >
             {/* 최상단 경계선 */}
-            <div style={{height: 4, background: "#0D1226", width: "100%", marginBottom: 8}} />
+            <div style={{height: 4, background: "#1F1E27", width: "100%", marginBottom: 8}} />
             {cartItems.map((item, idx) => (
               <React.Fragment key={item.id}>
                 <div
