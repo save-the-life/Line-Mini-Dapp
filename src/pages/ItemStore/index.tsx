@@ -532,6 +532,23 @@ const ItemStore: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isDropdownOpen, isConsumableOpen, handleScroll]);
 
+  // 두 드롭다운이 모두 닫혔을 때 스크롤을 아래로 이동
+  useEffect(() => {
+    if (!isDropdownOpen && !isConsumableOpen) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    } else if (isDropdownOpen || isConsumableOpen) {
+      // 하나라도 열리면 스크롤을 약간 위로 이동
+      const currentScroll = window.scrollY;
+      window.scrollTo({
+        top: Math.max(0, currentScroll - 100), // 100px 위로 이동, 음수가 되지 않도록 보호
+        behavior: 'smooth'
+      });
+    }
+  }, [isDropdownOpen, isConsumableOpen]);
+
   const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
 
   return (
@@ -669,7 +686,6 @@ const ItemStore: React.FC = () => {
                     alignItems: "center",
                     width: "100%",
                     marginBottom: 0,
-                    marginTop: "4px"
                   }}
                 >
                   {/* 아이템 이름 */}
