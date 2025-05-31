@@ -510,54 +510,34 @@ const ItemStore: React.FC = () => {
   const handleScroll = React.useCallback(() => {
     if (!checkoutRef.current) return;
     const checkoutRect = checkoutRef.current.getBoundingClientRect();
-    // 두 드롭다운이 모두 닫혀있을 때는 카트를 체크박스 및 결제 버튼 영역 바로 위에 위치
-    if (!isDropdownOpen && !isConsumableOpen) {
-      setCartFixed(false);
-      setCartAbsTop(checkoutRef.current.offsetTop - 195);
-      return;
-    }
-    // 그 외의 경우는 기존 로직대로 스크롤 위치에 따라 결정
     if (checkoutRect.top < window.innerHeight - 165) {
       setCartFixed(false);
       setCartAbsTop(checkoutRef.current.offsetTop - 195);
     } else {
       setCartFixed(true);
     }
-  }, [isDropdownOpen, isConsumableOpen]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-    // 드롭다운 상태 변경 시에도 위치 재계산
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDropdownOpen, isConsumableOpen, handleScroll]);
+  }, [handleScroll]);
 
-  // 두 드롭다운이 모두 닫혔을 때 스크롤을 아래로 이동
-  useEffect(() => {
-    // 스크롤 동작을 약간 지연시켜 실행
-    const scrollTimeout = setTimeout(() => {
-      if (!isDropdownOpen && !isConsumableOpen) {
-        // 체크박스 영역의 위치를 찾아서 그 위치로 스크롤
-        const checkoutElement = checkoutRef.current;
-        if (checkoutElement) {
-          const checkoutPosition = checkoutElement.getBoundingClientRect().top + window.scrollY - 20;
-          window.scrollTo({
-            top: checkoutPosition,
-            behavior: 'smooth'
-          });
-        }
-      } else if (isDropdownOpen || isConsumableOpen) {
-        // 현재 스크롤 위치에서 200px 위로 이동
-        const currentScroll = window.scrollY;
-        window.scrollTo({
-          top: Math.max(0, currentScroll - 20),
-          behavior: 'smooth'
-        });
-      }
-    }, 100); // 100ms 지연
-
-    return () => clearTimeout(scrollTimeout);
-  }, [isDropdownOpen, isConsumableOpen]);
+  // 드롭다운 클릭 시 스크롤 다운
+  const handleDropdownClick = (isPremium: boolean) => {
+    playSfx(Audios.button_click);
+    if (isPremium) {
+      setIsDropdownOpen(v => !v);
+    } else {
+      setIsConsumableOpen(v => !v);
+    }
+    // 현재 스크롤 위치에서 20px 아래로 이동
+    window.scrollBy({
+      top: 20,
+      behavior: 'smooth'
+    });
+  };
 
   const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
 
@@ -617,7 +597,7 @@ const ItemStore: React.FC = () => {
 
         {/* 드롭다운: Premium Boosts */}
         <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsDropdownOpen(v => !v); }}>
+        <button className="flex items-start justify-between w-full" onClick={() => handleDropdownClick(true)}>
           <span className="text-base font-semibold">Premium Boosts</span>
           {isDropdownOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
         </button>
@@ -643,7 +623,7 @@ const ItemStore: React.FC = () => {
 
       {/* Consumable Items */}
       <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(v => !v); }}>
+        <button className="flex items-start justify-between w-full" onClick={() => handleDropdownClick(false)}>
           <span className="text-base font-semibold">Consumable Items</span>
           {isConsumableOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
         </button>
