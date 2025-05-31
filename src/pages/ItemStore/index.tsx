@@ -509,9 +509,17 @@ const ItemStore: React.FC = () => {
     const handleScroll = () => {
       if (!checkoutRef.current) return;
       const checkoutRect = checkoutRef.current.getBoundingClientRect();
+      
+      // 두 드롭다운이 모두 닫혀있을 때는 카트를 항상 하단에 고정
+      if (!isDropdownOpen && !isConsumableOpen) {
+        setCartFixed(true);
+        setCartAbsTop(checkoutRef.current.offsetTop - 150);
+        return;
+      }
+
+      // 그 외의 경우는 기존 로직대로 스크롤 위치에 따라 결정
       if (checkoutRect.top < window.innerHeight - 165) {
         setCartFixed(false);
-        // absolute일 때 top 위치 계산 (스크롤 포함)
         setCartAbsTop(checkoutRef.current.offsetTop - 195);
       } else {
         setCartFixed(true);
@@ -519,7 +527,7 @@ const ItemStore: React.FC = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isDropdownOpen, isConsumableOpen]); // 드롭다운 상태 변경도 감지하도록 의존성 추가
 
   const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
 
