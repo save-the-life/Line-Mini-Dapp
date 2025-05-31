@@ -543,7 +543,7 @@ const ItemStore: React.FC = () => {
       // 하나라도 열리면 스크롤을 약간 위로 이동
       const currentScroll = window.scrollY;
       window.scrollTo({
-        top: Math.max(0, currentScroll - 100), // 100px 위로 이동, 음수가 되지 않도록 보호
+        top: Math.max(0, currentScroll - 10), 
         behavior: 'smooth'
       });
     }
