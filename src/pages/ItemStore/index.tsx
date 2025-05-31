@@ -656,12 +656,10 @@ const ItemStore: React.FC = () => {
               boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
               paddingLeft: "24px",
               paddingRight: "24px",
-              paddingBottom: "16px"
+              paddingBottom: "16px",
+              borderTop: "4px solid #1F1E27"
             }}
           >
-            {/* 최상단 경계선 */}
-            <div style={{height: 4, background: "#1F1E27", width: "100%"}} />
-            <div style={{marginBottom: 8}} />
             {cartItems.map((item, idx) => (
               <React.Fragment key={item.id}>
                 <div
