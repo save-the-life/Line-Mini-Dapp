@@ -508,25 +508,15 @@ const ItemStore: React.FC = () => {
     const handleScroll = () => {
       if (!checkoutRef.current) return;
       const checkoutRect = checkoutRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const cartHeight = 165; // 장바구니 높이
-      const bufferSpace = 30; // 추가 여유 공간
-
-      // 체크아웃 영역이 화면 하단에 가까워지면 장바구니를 absolute로 변경
-      if (checkoutRect.top < windowHeight - cartHeight - bufferSpace) {
+      if (checkoutRect.top < window.innerHeight - 165) {
         setCartFixed(false);
         // absolute일 때 top 위치 계산 (스크롤 포함)
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        setCartAbsTop(checkoutRect.top + scrollTop - cartHeight - bufferSpace);
+        setCartAbsTop(checkoutRef.current.offsetTop - 195);
       } else {
         setCartFixed(true);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
-    // 초기 위치 계산을 위해 한 번 실행
-    handleScroll();
-    
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
