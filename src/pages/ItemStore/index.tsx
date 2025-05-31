@@ -220,6 +220,7 @@ const ItemStore: React.FC = () => {
   // 아이템 선택 (itemId를 selectedItem에 저장)
   const handleSelectItem = (itemId: number) => {
     playSfx(Audios.button_click);
+    setSelectedItem(itemId);  // selectedItem 상태 업데이트
     const item = itemData.find(i => i.itemId === itemId);
     if (item) handleAddToCart(item);
   };
