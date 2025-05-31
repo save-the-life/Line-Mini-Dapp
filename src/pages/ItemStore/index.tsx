@@ -512,7 +512,7 @@ const ItemStore: React.FC = () => {
     // 두 드롭다운이 모두 닫혀있을 때는 카트를 체크박스 및 결제 버튼 영역 바로 위에 위치
     if (!isDropdownOpen && !isConsumableOpen) {
       setCartFixed(false);
-      setCartAbsTop(checkoutRef.current.offsetTop - 195);
+      setCartAbsTop(checkoutRef.current.offsetTop - 165); // 165는 카트 높이
       return;
     }
     // 그 외의 경우는 기존 로직대로 스크롤 위치에 따라 결정
@@ -660,7 +660,8 @@ const ItemStore: React.FC = () => {
             }}
           >
             {/* 최상단 경계선 */}
-            <div style={{height: 4, background: "#1F1E27", width: "100%", marginBottom: 8}} />
+            <div style={{height: 4, background: "#1F1E27", width: "100%"}} />
+            <div style={{marginBottom: 8}} />
             {cartItems.map((item, idx) => (
               <React.Fragment key={item.id}>
                 <div
