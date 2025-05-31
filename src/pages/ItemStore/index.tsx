@@ -512,7 +512,7 @@ const ItemStore: React.FC = () => {
       
       // 두 드롭다운이 모두 닫혀있을 때는 카트를 항상 하단에 고정
       if (!isDropdownOpen && !isConsumableOpen) {
-        setCartFixed(true);
+        setCartFixed(false);
         setCartAbsTop(checkoutRef.current.offsetTop - 150);
         return;
       }
