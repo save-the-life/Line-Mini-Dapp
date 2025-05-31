@@ -534,19 +534,29 @@ const ItemStore: React.FC = () => {
 
   // 두 드롭다운이 모두 닫혔을 때 스크롤을 아래로 이동
   useEffect(() => {
-    if (!isDropdownOpen && !isConsumableOpen) {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth'
-      });
-    } else if (isDropdownOpen || isConsumableOpen) {
-      // 하나라도 열리면 스크롤을 약간 위로 이동
-      const currentScroll = window.scrollY;
-      window.scrollTo({
-        top: Math.max(0, currentScroll - 10), 
-        behavior: 'smooth'
-      });
-    }
+    // 스크롤 동작을 약간 지연시켜 실행
+    const scrollTimeout = setTimeout(() => {
+      if (!isDropdownOpen && !isConsumableOpen) {
+        // 체크박스 영역의 위치를 찾아서 그 위치로 스크롤
+        const checkoutElement = checkoutRef.current;
+        if (checkoutElement) {
+          const checkoutPosition = checkoutElement.getBoundingClientRect().top + window.scrollY - 20;
+          window.scrollTo({
+            top: checkoutPosition,
+            behavior: 'smooth'
+          });
+        }
+      } else if (isDropdownOpen || isConsumableOpen) {
+        // 현재 스크롤 위치에서 200px 위로 이동
+        const currentScroll = window.scrollY;
+        window.scrollTo({
+          top: Math.max(0, currentScroll - 20),
+          behavior: 'smooth'
+        });
+      }
+    }, 100); // 100ms 지연
+
+    return () => clearTimeout(scrollTimeout);
   }, [isDropdownOpen, isConsumableOpen]);
 
   const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
