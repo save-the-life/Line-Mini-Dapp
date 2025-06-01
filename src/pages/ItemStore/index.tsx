@@ -696,6 +696,7 @@ const ItemStore: React.FC = () => {
                     alignItems: "center",
                     width: "100%",
                     marginBottom: 0,
+                    marginTop: 2
                   }}
                 >
                   {/* 아이템 이름 */}
