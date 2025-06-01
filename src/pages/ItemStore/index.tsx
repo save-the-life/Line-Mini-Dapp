@@ -547,10 +547,10 @@ const ItemStore: React.FC = () => {
           });
         }
       } else if (isDropdownOpen || isConsumableOpen) {
-        // 현재 스크롤 위치에서 200px 위로 이동
+        // 현재 스크롤 위치에서 10px 아래로 이동
         const currentScroll = window.scrollY;
         window.scrollTo({
-          top: Math.max(0, currentScroll - 20),
+          top: currentScroll + 10,
           behavior: 'smooth'
         });
       }
