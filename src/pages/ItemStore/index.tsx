@@ -684,7 +684,8 @@ const ItemStore: React.FC = () => {
               boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
               paddingLeft: "24px",
               paddingRight: "24px",
-              paddingBottom: "16px",
+              paddingBottom: "8px",
+              paddingTop: "8px",
               borderTop: "4px solid #1F1E27"
             }}
           >
@@ -696,7 +697,6 @@ const ItemStore: React.FC = () => {
                     alignItems: "center",
                     width: "100%",
                     marginBottom: 0,
-                    marginTop: 2
                   }}
                 >
                   {/* 아이템 이름 */}
