@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { IoChevronBackOutline, IoChevronDownOutline, IoChevronUpOutline  } from "react-icons/io5";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -61,39 +61,6 @@ const ItemStore: React.FC = () => {
   // 결제 버튼은 아이템 선택, 체크박스 동의, 결제 진행 중이 아닐 때 활성화됩니다.
   const isEnabled =
     selectedItem !== null && agreeRefund && agreeEncrypted && !isLoading;
-
-  // 1. 장바구니 상태 및 핸들러 추가
-  const [cartItems, setCartItems] = useState<{
-    id: number,
-    name: string,
-    qty: number,
-    kaiaPrice: number,
-    usdPrice: number
-  }[]>([]);
-
-  const handleAddToCart = (item: any) => {
-    setCartItems(prev => {
-      const found = prev.find(i => i.id === item.itemId);
-      if (found) {
-        return prev.map(i => i.id === item.itemId ? { ...i, qty: i.qty + 1 } : i);
-      }
-      return [...prev, {
-        id: item.itemId,
-        name: item.itemName,
-        qty: 1,
-        kaiaPrice: item.kaiaPrice,
-        usdPrice: item.usdPrice
-      }];
-    });
-  };
-
-  const handleChangeQty = (id: number, qty: number) => {
-    setCartItems(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, Math.min(99, qty)) } : i));
-  };
-
-  const handleRemove = (id: number) => {
-    setCartItems(prev => prev.filter(i => i.id !== id));
-  };
 
   // API를 통해 아이템 데이터 조회
   useEffect(() => {
@@ -220,10 +187,8 @@ const ItemStore: React.FC = () => {
   // 아이템 선택 (itemId를 selectedItem에 저장)
   const handleSelectItem = (itemId: number) => {
     playSfx(Audios.button_click);
-    setSelectedItem(itemId);  // selectedItem 상태 업데이트
-    const item = itemData.find(i => i.itemId === itemId);
-    if (item) handleAddToCart(item);
-    setTimeout(handleScroll, 0); // 아이템 추가 후 위치 재계산
+    setSelectedItem(itemId);
+    setShowModal(true);
   };
 
   const getCustomDescription = (itemName: string): React.ReactNode => {
@@ -498,77 +463,11 @@ const ItemStore: React.FC = () => {
     return "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)";
   };
 
-  // 3. 장바구니 총합 계산
-  const totalKaia = cartItems.reduce((sum, item) => sum + item.kaiaPrice * item.qty, 0);
-  const totalUSD = cartItems.reduce((sum, item) => sum + item.usdPrice * item.qty, 0);
-
-  const checkoutRef = useRef<HTMLDivElement>(null);
-  const [cartFixed, setCartFixed] = useState(true);
-  const [cartAbsTop, setCartAbsTop] = useState<number>(0);
-
-  // handleScroll을 useCallback으로 분리
-  const handleScroll = React.useCallback(() => {
-    if (!checkoutRef.current) return;
-    const checkoutRect = checkoutRef.current.getBoundingClientRect();
-    // 두 드롭다운이 모두 닫혀있을 때는 카트를 체크박스 및 결제 버튼 영역 바로 위에 위치
-    if (!isDropdownOpen && !isConsumableOpen) {
-      setCartFixed(false);
-      setCartAbsTop(checkoutRef.current.offsetTop - 195);
-      return;
-    }
-    // 그 외의 경우는 기존 로직대로 스크롤 위치에 따라 결정
-    if (checkoutRect.top < window.innerHeight - 165) {
-      setCartFixed(false);
-      setCartAbsTop(checkoutRef.current.offsetTop - 195);
-    } else {
-      setCartFixed(true);
-    }
-  }, [isDropdownOpen, isConsumableOpen]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    // 드롭다운 상태 변경 시에도 위치 재계산
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDropdownOpen, isConsumableOpen, handleScroll]);
-
-  // 두 드롭다운이 모두 닫혔을 때 스크롤을 아래로 이동
-  useEffect(() => {
-    // 스크롤 동작을 약간 지연시켜 실행
-    const scrollTimeout = setTimeout(() => {
-      if (!isDropdownOpen && !isConsumableOpen) {
-        // 체크박스 영역의 위치를 찾아서 그 위치로 스크롤
-        const checkoutElement = checkoutRef.current;
-        if (checkoutElement) {
-          const checkoutPosition = checkoutElement.getBoundingClientRect().top + window.scrollY - 20;
-          window.scrollTo({
-            top: checkoutPosition,
-            behavior: 'smooth'
-          });
-        }
-      } else if (isDropdownOpen || isConsumableOpen) {
-        // 현재 스크롤 위치에서 10px 아래로 이동
-        const currentScroll = window.scrollY;
-        window.scrollTo({
-          top: currentScroll + 10,
-          behavior: 'smooth'
-        });
-      }
-    }, 100); // 100ms 지연
-
-    return () => clearTimeout(scrollTimeout);
-  }, [isDropdownOpen, isConsumableOpen]);
-
-  const isAtBottom = cartFixed ? cartAbsTop === 0 : true;
-
   return (
     isLoading ? (
       <LoadingSpinner className="h-screen" />
     ) : (
-      <div
-        className="flex flex-col items-center text-white px-6 min-h-screen"
-        style={{ paddingBottom: !cartFixed && isAtBottom && cartItems.length > 0 ? "165px" : undefined }}
-      >
+      <div className="flex flex-col items-center text-white px-6 min-h-screen">
         {/* 상단 영역 */}
         <div className="h-14 flex items-center w-full font-bold text-xl mb-4 justify-between">
           <IoChevronBackOutline
@@ -617,7 +516,7 @@ const ItemStore: React.FC = () => {
 
         {/* 드롭다운: Premium Boosts */}
         <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsDropdownOpen(v => !v); }}>
+        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsDropdownOpen(!isDropdownOpen); }}>
           <span className="text-base font-semibold">Premium Boosts</span>
           {isDropdownOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
         </button>
@@ -643,7 +542,7 @@ const ItemStore: React.FC = () => {
 
       {/* Consumable Items */}
       <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(v => !v); }}>
+        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(!isConsumableOpen); }}>
           <span className="text-base font-semibold">Consumable Items</span>
           {isConsumableOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
         </button>
@@ -665,85 +564,10 @@ const ItemStore: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
-        </div>
-
-        {/* 장바구니 영역 */}
-        {cartItems.length > 0 && (
-          <div
-            style={{
-              position: cartFixed ? "fixed" : "absolute",
-              left: 0,
-              right: 0,
-              bottom: cartFixed ? 0 : undefined,
-              top: !cartFixed ? cartAbsTop : undefined,
-              height: "165px",
-              background: "#0D1226",
-              zIndex: 1000,
-              overflowY: "auto",
-              width: "100vw",
-              boxShadow: "0 -2px 8px rgba(0,0,0,0.2)",
-              paddingLeft: "24px",
-              paddingRight: "24px",
-              paddingBottom: "8px",
-              paddingTop: "8px",
-              borderTop: "4px solid #1F1E27"
-            }}
-          >
-            {cartItems.map((item, idx) => (
-              <React.Fragment key={item.id}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    marginBottom: 0,
-                  }}
-                >
-                  {/* 아이템 이름 */}
-                  <span className="text-base font-normal" style={{ marginRight: 6 }}>
-                    {item.name}
-                  </span>
-                  {/* Close 버튼 */}
-                  <img
-                    src={Images.Close}
-                    alt="close"
-                    width={18}
-                    height={18}
-                    style={{ marginRight: "auto", cursor: "pointer" }}
-                    onClick={() => handleRemove(item.id)}
-                  />
-                  {/* 오른쪽 끝: - 수량 + */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <img
-                      src={Images.Minus}
-                      alt="minus"
-                      width={24}
-                      height={24}
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleChangeQty(item.id, item.qty - 1)}
-                    />
-                    <span style={{ minWidth: 24, textAlign: "center" }}>{item.qty}</span>
-                    <img
-                      src={Images.Plus}
-                      alt="plus"
-                      width={24}
-                      height={24}
-                      style={{ cursor: item.qty >= 99 ? "not-allowed" : "pointer", opacity: item.qty >= 99 ? 0.5 : 1 }}
-                      onClick={() => item.qty < 99 && handleChangeQty(item.id, item.qty + 1)}
-                    />
-                  </div>
-                </div>
-                {/* 아이템 사이 경계선 (마지막 제외) */}
-                {idx < cartItems.length - 1 && (
-                  <div style={{ height: 1, background: "#35383F", width: "100%", margin: "8px 0" }} />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        )}
+      </div>
 
         {/* 체크박스 및 결제 버튼 영역 */}
-        <div ref={checkoutRef} className="mt-[200px] px-6">
+        <div className="mt-5 px-6">
           <div className="flex flex-col gap-3 mb-5">
             {/* 환불 정책 동의 사항 */}
             <label className="flex items-start gap-2">
@@ -810,30 +634,32 @@ const ItemStore: React.FC = () => {
             </span>
           </div>
 
-
-
           <div className="flex w-full gap-3 mb-5">
             <button
-              disabled={!isEnabled || cartItems.length === 0}
+              disabled={!isEnabled}
               onClick={handleKaiaCheckout}
               className={
-                isEnabled && cartItems.length > 0
+                isEnabled
                   ? "w-1/2 bg-[#0147E5] px-6 py-3 rounded-full text-base font-medium"
                   : "w-1/2 bg-[#555] px-6 py-3 rounded-full text-base font-medium text-white"
               }
             >
-              {totalKaia > 0 ? `${totalKaia} KAIA` : "KAIA"}
+              {selectedItemInfo
+                ? `${selectedItemInfo.kaiaPrice} KAIA`
+                : "KAIA"}
             </button>
             <button
-              disabled={!isEnabled || cartItems.length === 0}
+              disabled={!isEnabled}
               onClick={handleUSDCheckout}
               className={
-                isEnabled && cartItems.length > 0
+                isEnabled
                   ? "w-1/2 border-2 border-[#0147E5] text-white px-6 py-3 rounded-full text-base font-medium"
                   : "w-1/2 border-2 border-[#555] text-[#555] px-6 py-3 rounded-full text-base font-medium"
               }
             >
-              {totalUSD > 0 ? `USD $${totalUSD.toFixed(2)}` : "USD"}
+              {selectedItemInfo
+                ? `USD $${selectedItemInfo.usdPrice}`
+                : "USD"}
             </button>
           </div>
         </div>
