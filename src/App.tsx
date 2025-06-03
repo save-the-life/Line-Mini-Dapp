@@ -176,10 +176,8 @@ const App:React.FC = () =>{
           {isInitialized && (
             <SoundProvider bgmSrc={Audios.bgm}>
               <Routes>
-                  {/* Root path redirect */}
-                  <Route path="/" element={<Navigate to="/dice-event" replace />} />
-                  
                   {/* DiceEventLayout Pages */}
+                  <Route path="/" element={<Navigate to="/" />} />
                   <Route path="/dice-event" element={<DiceEventLayout><DiceEvent /></DiceEventLayout>} />
                   <Route path="/AI-menu" element={<DiceEventLayout><AIMenu /></DiceEventLayout>} />
                   <Route path="/mission" element={<DiceEventLayout><MissionPage /></DiceEventLayout>} />
