@@ -62,10 +62,13 @@ api.interceptors.response.use(
 
     // 액세스 토큰이 없는 경우 처리
     if (!localStorage.getItem('accessToken')) {
-      // 현재 경로가 로그인 관련 페이지가 아닌 경우에만 리다이렉트
-      const currentPath = window.location.pathname;
-      if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
-        window.location.href = "/";
+      // LIFF 브라우저가 아닌 경우에만 리다이렉트 체크
+      if (!window.location.href.includes('liff.line.me')) {
+        // 현재 경로가 로그인 관련 페이지가 아닌 경우에만 리다이렉트
+        const currentPath = window.location.pathname;
+        if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
+          window.location.href = "/";
+        }
       }
       return Promise.reject(new Error("Access token not found."));
     }
@@ -94,21 +97,25 @@ api.interceptors.response.use(
             return api(originalRequest);
           }
         }
-        // 토큰 갱신 실패 시 현재 경로가 로그인 관련 페이지가 아닌 경우에만 리다이렉트
-        const currentPath = window.location.pathname;
-        if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
-          localStorage.removeItem('accessToken');
-          Cookies.remove('refreshToken');
-          window.location.href = "/";
+        // 토큰 갱신 실패 시 LIFF 브라우저가 아닌 경우에만 리다이렉트 체크
+        if (!window.location.href.includes('liff.line.me')) {
+          const currentPath = window.location.pathname;
+          if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
+            localStorage.removeItem('accessToken');
+            Cookies.remove('refreshToken');
+            window.location.href = "/";
+          }
         }
         return Promise.reject(error);
       } catch (refreshError) {
-        // 토큰 갱신 실패 시 현재 경로가 로그인 관련 페이지가 아닌 경우에만 리다이렉트
-        const currentPath = window.location.pathname;
-        if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
-          localStorage.removeItem('accessToken');
-          Cookies.remove('refreshToken');
-          window.location.href = "/";
+        // 토큰 갱신 실패 시 LIFF 브라우저가 아닌 경우에만 리다이렉트 체크
+        if (!window.location.href.includes('liff.line.me')) {
+          const currentPath = window.location.pathname;
+          if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
+            localStorage.removeItem('accessToken');
+            Cookies.remove('refreshToken');
+            window.location.href = "/";
+          }
         }
         return Promise.reject(refreshError);
       }
