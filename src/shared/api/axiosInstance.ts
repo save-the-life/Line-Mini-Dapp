@@ -62,7 +62,10 @@ api.interceptors.response.use(
 
     // 액세스 토큰이 없는 경우 처리 (로그인 페이지 등으로 이동)
     if (!localStorage.getItem('accessToken')) {
-      window.location.href = "/"; // 로그인 페이지 등으로 리다이렉트
+      // LIFF 브라우저가 아닌 경우에만 리다이렉트
+      if (!window.location.href.includes('liff.line.me')) {
+        window.location.href = "/";
+      }
       return Promise.reject(new Error("Access token not found."));
     }
 
@@ -91,12 +94,18 @@ api.interceptors.response.use(
         }
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
-        window.location.href = "/";
+        // LIFF 브라우저가 아닌 경우에만 리다이렉트
+        if (!window.location.href.includes('liff.line.me')) {
+          window.location.href = "/";
+        }
         return Promise.reject(error);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
         Cookies.remove('refreshToken');
-        window.location.href = "/";
+        // LIFF 브라우저가 아닌 경우에만 리다이렉트
+        if (!window.location.href.includes('liff.line.me')) {
+          window.location.href = "/";
+        }
         return Promise.reject(refreshError);
       }
     }
