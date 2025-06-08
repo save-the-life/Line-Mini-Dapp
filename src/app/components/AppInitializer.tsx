@@ -306,15 +306,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       initializedRef.current = true;
 
       try {
-        // 이미 초기화된 상태인지 확인
-        const isAlreadyInitialized = localStorage.getItem('isInitialized');
-        if (isAlreadyInitialized === 'true' && !liff.isInClient()) {
-          console.log("[InitializeApp] 이미 초기화된 상태, 바로 onInitialized 호출");
-          setShowSplash(false);
-          onInitialized();
-          return;
-        }
-
         setReferralCode();
 
         const browserLanguage = navigator.language;
@@ -326,12 +317,28 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
 
+        // 토큰이 있는지 확인
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+          console.log("[Step 2-1] 기존 토큰 발견 -> 사용자 정보 가져오기");
+          try {
+            await fetchUserData();
+            setShowSplash(false);
+            onInitialized();
+            return;
+          } catch (error: any) {
+            console.log("[Step 2-1] 사용자 정보 가져오기 실패:", error);
+            // 토큰이 만료되었거나 유효하지 않은 경우 토큰 제거
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+          }
+        }
+
         if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
           onInitialized();
-          // setShowMaintenance(true);
           return;
         }
 
@@ -351,6 +358,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           chainId: "8217",
         });
         
+
         await handleTokenFlow();
       } catch (error: any) {
         if (is502Error(error)) {
@@ -379,7 +387,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             setShowMaintenance(true);
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-            localStorage.setItem('isInitialized', 'true');
             onInitialized();
           }
         }
