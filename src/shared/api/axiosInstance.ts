@@ -60,16 +60,9 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // 액세스 토큰이 없는 경우 처리
+    // 액세스 토큰이 없는 경우 처리 (로그인 페이지 등으로 이동)
     if (!localStorage.getItem('accessToken')) {
-      // LIFF 브라우저가 아닌 경우에만 리다이렉트 체크
-      if (!window.location.href.includes('liff.line.me')) {
-        // 현재 경로가 로그인 관련 페이지가 아닌 경우에만 리다이렉트
-        const currentPath = window.location.pathname;
-        if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
-          window.location.href = "/";
-        }
-      }
+      window.location.href = "/"; // 로그인 페이지 등으로 리다이렉트
       return Promise.reject(new Error("Access token not found."));
     }
 
@@ -82,7 +75,6 @@ api.interceptors.response.use(
       error.response &&
       (!originalRequest._retry) &&
       (
-        error.response.status === 401 ||
         error.response.status === 404 ||
         errorMessage.includes("Token not found in Redis or expired")
       )
@@ -97,26 +89,14 @@ api.interceptors.response.use(
             return api(originalRequest);
           }
         }
-        // 토큰 갱신 실패 시 LIFF 브라우저가 아닌 경우에만 리다이렉트 체크
-        if (!window.location.href.includes('liff.line.me')) {
-          const currentPath = window.location.pathname;
-          if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
-            localStorage.removeItem('accessToken');
-            Cookies.remove('refreshToken');
-            window.location.href = "/";
-          }
-        }
+        localStorage.removeItem('accessToken');
+        Cookies.remove('refreshToken');
+        window.location.href = "/";
         return Promise.reject(error);
       } catch (refreshError) {
-        // 토큰 갱신 실패 시 LIFF 브라우저가 아닌 경우에만 리다이렉트 체크
-        if (!window.location.href.includes('liff.line.me')) {
-          const currentPath = window.location.pathname;
-          if (!currentPath.includes('/connect-wallet') && !currentPath.includes('/choose-character')) {
-            localStorage.removeItem('accessToken');
-            Cookies.remove('refreshToken');
-            window.location.href = "/";
-          }
-        }
+        localStorage.removeItem('accessToken');
+        Cookies.remove('refreshToken');
+        window.location.href = "/";
         return Promise.reject(refreshError);
       }
     }
@@ -127,4 +107,3 @@ api.interceptors.response.use(
 
 
 export default api;
-  

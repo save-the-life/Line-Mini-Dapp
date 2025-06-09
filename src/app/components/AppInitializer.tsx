@@ -317,34 +317,17 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
 
-        // LIFF 브라우저가 아닌 경우에만 토큰 체크
-        if (!liff.isInClient()) {
-          // 토큰이 있는지 확인
-          const accessToken = localStorage.getItem('accessToken');
-          if (accessToken) {
-            console.log("[Step 2-1] 기존 토큰 발견 -> 사용자 정보 가져오기");
-            try {
-              await fetchUserData();
-              setShowSplash(false);
-              onInitialized();
-              return;
-            } catch (error: any) {
-              console.log("[Step 2-1] 사용자 정보 가져오기 실패:", error);
-              // 토큰이 만료되었거나 유효하지 않은 경우 토큰 제거
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-            }
-          }
 
+
+        if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
           onInitialized();
+          // setShowMaintenance(true);
           return;
         }
 
-        // LIFF 브라우저인 경우 항상 초기화 진행
-        console.log("[InitializeApp] LIFF 브라우저 감지 -> 초기화 진행");
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(
           liff.init({
@@ -358,7 +341,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         await DappPortalSDK.init({
           clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-          chainId: "1001",
+          chainId: "8217",
         });
         
 
@@ -391,6 +374,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
             onInitialized();
+            // setShowMaintenance(true);
           }
         }
       }
