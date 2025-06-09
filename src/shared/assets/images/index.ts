@@ -188,6 +188,7 @@ import NoticeBox from "./notice-box.png"
 import Pylon from "./pylon.png"
 import DarkSplash from "./dark-splash.png"
 import KaiaLevel2 from "./kaia-level2.png"
+import KaiaLevel3 from "./kaia-level3.png"
 import KaiaLevel10 from "./kaia-level10.png"
 import Tips from "./tips.png"
 import Raffle from "./raffle.png"
@@ -204,7 +205,9 @@ import CardDog from "./card-dog.png"
 import CardCat from "./card-cat.png"
 import CardBomb from "./card-bomb.png"
 import CardPoint from "./card-point.png"
-
+import Close from "./close.png"
+import Minus from "./minus.png"
+import Plus from "./plus.png"
 
 const Images = {
   HorizontalLogo,
@@ -396,6 +399,7 @@ const Images = {
   Pylon,
   DarkSplash,
   KaiaLevel2,
+  KaiaLevel3,
   KaiaLevel10,
   Tips,
   Raffle,
@@ -411,7 +415,10 @@ const Images = {
   CardDog,
   CardCat,
   CardBomb,
-  CardPoint
+  CardPoint,
+  Close,
+  Minus,
+  Plus
 };
 
 export default Images;
