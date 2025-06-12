@@ -1,6 +1,6 @@
 // walletService.ts
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import useWalletStore from "../store/useWalletStore";
+import SDKService from "./sdkServices";
 
 export async function connectWallet(): Promise<{
   walletAddress: string;
@@ -12,10 +12,8 @@ export async function connectWallet(): Promise<{
     useWalletStore.getState();
   
   // SDK 초기화
-  const sdk = await DappPortalSDK.init({
-    clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-    chainId: "8217",
-  });
+  const sdkService = SDKService.getInstance();
+  const sdk = await sdkService.initialize();
   
   // SDK 초기화 성공 시, 콘솔 로그 출력 및 상태 업데이트
   console.log("[지갑 연결] sdk 초기화 성공: ", sdk);

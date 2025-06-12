@@ -31,6 +31,7 @@ import useWalletStore from "@/shared/store/useWalletStore";
 import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
+import SDKService from "@/shared/services/sdkServices";
 
 
 const levelRewards = [
@@ -236,10 +237,8 @@ const DiceEventPage: React.FC = () => {
       const { initialized, setSdk, setInitialized } = useWalletStore.getState();
       if (!initialized) {
         try {
-          const sdkInstance = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "8217",
-          });
+          const sdkService = SDKService.getInstance();
+          const sdkInstance = await sdkService.initialize();
           console.log("[Main Page] SDK 초기화 성공:", sdkInstance);
           setSdk(sdkInstance);
           setInitialized(true);
