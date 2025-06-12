@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
-// import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
@@ -300,35 +299,27 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
   useEffect(() => {
     const initializeApp = async () => {
-      console.log("[InitializeApp] 초기화 시작");
-      if (initializedRef.current) {
-        console.log("[InitializeApp] 이미 초기화됨, 종료");
-        return;
-      }
-      initializedRef.current = true;
-
       try {
-        setReferralCode();
+        // 1. accessToken이 있으면 바로 메인 페이지로 이동
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+          onInitialized();
+          return;
+        }
 
-        const browserLanguage = navigator.language;
-        const lang = browserLanguage.slice(0, 2);
-        const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
-        const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
-        console.log("[Step 1] 브라우저 언어:", browserLanguage, "-> 설정 언어:", i18nLanguage);
-        i18n.changeLanguage(i18nLanguage);
-
-        console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
+        // 2. LIFF 브라우저 처리
         if (liff.isInClient()) {
           const lineToken = liff.getAccessToken();
           if (lineToken) {
-            // 서버 인증 및 지갑 주소 fetch
             await userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode"));
-            // (지갑 주소 등은 서버에서 받아서 localStorage에 저장)
             onInitialized();
+            return;
+          } else {
+            setErrorMessage("LIFF 토큰이 없습니다. LINE 앱에서 다시 로그인해 주세요.");
             return;
           }
         } else {
-          // 2. 외부 브라우저
+          // 3. 외부 브라우저
           const walletConnected = localStorage.getItem("walletConnected");
           const walletAddress = localStorage.getItem("walletAddress");
           const walletType = localStorage.getItem("walletType");
@@ -344,71 +335,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             return;
           }
         }
-
-
-        // if (!liff.isInClient()) {
-        //   console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
-        //   navigate("/connect-wallet");
-        //   setShowSplash(false);
-        //   onInitialized();
-        //   // setShowMaintenance(true);
-        //   return;
-        // }
-
-        console.log("[InitializeApp] LIFF 초기화 시작");
-        await withTimeout(
-          liff.init({
-            liffId: import.meta.env.VITE_LIFF_ID,
-            withLoginOnExternalBrowser: true,
-          }),
-          5000,
-          "LIFF init Timeout"
-        );
-        console.log("[InitializeApp] LIFF 초기화 완료");
-
-        
-        // SDK 초기화
-        const sdkService = SDKService.getInstance();
-        await sdkService.initialize();
-        
-
-        await handleTokenFlow();
+        // 4. 아무 조건도 해당하지 않으면 에러 메시지 표시
+        setErrorMessage("로그인이 필요합니다. 지갑을 연결하거나 LINE 앱에서 다시 시도해 주세요.");
       } catch (error: any) {
-        if (is502Error(error)) {
-          console.log("[InitializeApp] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
-          is502ErrorRef.current = true;
-          return;
-        }
-        console.error("[InitializeApp] 초기화 중 에러 발생:", error);
-
-        if (error.message === "Please choose your character first.") {
-          console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
-          navigate("/choose-character");
-          return;
-        }
-
-        localStorage.clear();
-        if (isMountedRef.current) {
-          setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
-        }
-        return;
-      } finally {
-        if (isMountedRef.current) {
-          setShowSplash(false);
-          if (is502ErrorRef.current) {
-            console.log("[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시");
-            setShowMaintenance(true);
-          } else {
-            console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-            onInitialized();
-            // setShowMaintenance(true);
-          }
-        }
+        setErrorMessage("초기화 중 오류가 발생했습니다: " + (error?.message || ""));
       }
     };
-
     initializeApp();
-  }, [fetchUserData, navigate, onInitialized]);
+  }, [onInitialized]);
 
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
