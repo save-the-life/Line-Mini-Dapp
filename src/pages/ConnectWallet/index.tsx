@@ -59,6 +59,25 @@ const ConnectWalletPage: React.FC = () => {
     const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
     const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
     i18n.changeLanguage(i18nLanguage);
+
+    // SDK 초기화
+    const initializeSdk = async () => {
+      const { sdk, initialized, setSdk, setInitialized } = useWalletStore.getState();
+      if (!initialized || !sdk) {
+        try {
+          const sdkInstance = await DappPortalSDK.init({
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: "8217",
+          });
+          setSdk(sdkInstance);
+          setInitialized(true);
+          console.log("[ConnectWallet] SDK 초기화 성공");
+        } catch (error) {
+          console.error("[ConnectWallet] SDK 초기화 실패:", error);
+        }
+      }
+    };
+    initializeSdk();
   }, []);
 
   const handleConnectWallet = async (retry = false) => {
