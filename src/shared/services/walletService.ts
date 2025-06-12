@@ -1,6 +1,5 @@
 // walletService.ts
 import useWalletStore from "../store/useWalletStore";
-import SDKService from "./sdkServices";
 
 export async function connectWallet(): Promise<{
   walletAddress: string;
@@ -11,13 +10,11 @@ export async function connectWallet(): Promise<{
   const { setWalletAddress, setProvider, setWalletType, setSdk, setInitialized } =
     useWalletStore.getState();
   
-  // SDK 초기화
-  const sdkService = SDKService.getInstance();
-  const sdk = await sdkService.initialize();
-  
-  // SDK 초기화 성공 시, 콘솔 로그 출력 및 상태 업데이트
-  console.log("[지갑 연결] sdk 초기화 성공: ", sdk);
-  setInitialized(true);
+  // zustand에서 sdk 인스턴스 가져오기
+  const sdk = useWalletStore.getState().sdk;
+  if (!sdk) {
+    throw new Error("SDK가 초기화되지 않았습니다. 새로고침 후 다시 시도해 주세요.");
+  }
 
   const walletProvider = sdk.getWalletProvider();
   
@@ -38,12 +35,8 @@ export async function connectWallet(): Promise<{
   if (account && walletType) {
     setWalletAddress(account);
     setWalletType(walletType);
-    setSdk(sdk);
     setProvider(walletProvider);
-    // 연결 정보 localStorage에 저장
-    localStorage.setItem("walletConnected", "true");
-    localStorage.setItem("walletAddress", account);
-    localStorage.setItem("walletType", walletType);
+    setInitialized(true);
   }
   
   return { walletAddress, provider: walletProvider, walletType, sdk };

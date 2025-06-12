@@ -31,7 +31,6 @@ import useWalletStore from "@/shared/store/useWalletStore";
 import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
-import SDKService from "@/shared/services/sdkServices";
 
 
 const levelRewards = [
@@ -231,27 +230,18 @@ const DiceEventPage: React.FC = () => {
     };
   }, []);
 
-  // SDK 초기화와 사용자 데이터 불러오기 및 타임존 업데이트를 하나의 useEffect로 통합
   useEffect(() => {
-    async function initializeSdkAndUserData() {
-      const { initialized, setSdk, setInitialized } = useWalletStore.getState();
-      if (!initialized) {
-        try {
-          const sdkService = SDKService.getInstance();
-          const sdkInstance = await sdkService.initialize();
-          console.log("[Main Page] SDK 초기화 성공:", sdkInstance);
-          setSdk(sdkInstance);
-          setInitialized(true);
-        } catch (error) {
-          console.error("[Main Page] SDK 초기화 실패:", error);
-        }
+    async function initializeUserData() {
+      const sdk = useWalletStore.getState().sdk;
+      if (!sdk) {
+        // AppInitializer에서 초기화가 안 된 경우
+        console.error("SDK가 초기화되지 않았습니다. 새로고침 후 다시 시도해 주세요.");
+        return;
       }
       // 사용자 데이터를 불러오고 타임존 업데이트 진행
       await fetchUserData();
       const userTimeZone = useUserStore.getState().timeZone;
-      console.log("서버로부터 받은 타임존: ", userTimeZone);
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("사용자의 타임존: ", currentTimeZone);
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
           await updateTimeZone(currentTimeZone);
@@ -259,7 +249,6 @@ const DiceEventPage: React.FC = () => {
           console.log("timezone error", error);
         }
       }
-
       // 카이아 미션 인입 여부 확인
       const kaiaRedirect = localStorage.getItem("KaiaMission");
       if(kaiaRedirect === "kaia-reward"){
@@ -270,7 +259,7 @@ const DiceEventPage: React.FC = () => {
         }
       }
     }
-    initializeSdkAndUserData();
+    initializeUserData();
   }, []);
 
   useEffect(() => {

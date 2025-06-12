@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import AttendanceDay from "@/features/AttendanceDay/components/AttendanceDay";
 import { useUserStore } from "@/entities/User/model/userModel";
 import { useTranslation } from "react-i18next";
-import DappPortalSDK from "@linenext/dapp-portal-sdk"; // ✅ SDK 가져오기
 import { Web3Provider } from "@kaiachain/ethers-ext"; // ✅ Fee Delegation 지원
 import { TxType } from "@kaiachain/js-ext-core"; // ✅ Fee Delegation 타입 추가
 import { ethers } from "ethers";

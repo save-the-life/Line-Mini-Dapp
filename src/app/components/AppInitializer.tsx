@@ -9,7 +9,6 @@ import SplashScreen from "./SplashScreen";
 import MaintenanceScreen from "./Maintenance";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
-import SDKService from "@/shared/services/sdkServices";
 import useWalletStore from "@/shared/store/useWalletStore";
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
@@ -300,77 +299,97 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
   useEffect(() => {
     const initializeApp = async () => {
+      console.log("[InitializeApp] 초기화 시작");
+      if (initializedRef.current) {
+        console.log("[InitializeApp] 이미 초기화됨, 종료");
+        return;
+      }
+      initializedRef.current = true;
+
       try {
-        // 1. 언어 설정
+        setReferralCode();
+
         const browserLanguage = navigator.language;
         const lang = browserLanguage.slice(0, 2);
         const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
         const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
+        console.log("[Step 1] 브라우저 언어:", browserLanguage, "-> 설정 언어:", i18nLanguage);
         i18n.changeLanguage(i18nLanguage);
 
-        // 2. LIFF 브라우저 여부 확인
-        if (liff.isInClient()) {
-          // 2-1. LIFF SDK 반드시 먼저 초기화
-          await withTimeout(
-            liff.init({
-              liffId: import.meta.env.VITE_LIFF_ID,
-              withLoginOnExternalBrowser: true,
-            }),
-            5000,
-            "LIFF init Timeout"
-          );
+        console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
 
-          // 2-2. accessToken이 있으면 바로 메인 페이지로 이동
-          const accessToken = localStorage.getItem("accessToken");
-          if (accessToken) {
-            onInitialized();
-            setShowSplash(false);
-            return;
-          }
+        if (!liff.isInClient()) {
+          console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
+          navigate("/connect-wallet");
+          setShowSplash(false);
+          onInitialized();
+          // setShowMaintenance(true);
+          return;
+        }
 
-          // 2-3. LIFF 토큰으로 인증
-          const lineToken = liff.getAccessToken();
-          if (lineToken) {
-            await userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode"));
-            onInitialized();
-            setShowSplash(false);
-            return;
-          } else {
-            setErrorMessage("LIFF 토큰이 없습니다. LINE 앱에서 다시 로그인해 주세요.");
-            setShowSplash(false);
-            return;
-          }
+        console.log("[InitializeApp] LIFF 초기화 시작");
+        await withTimeout(
+          liff.init({
+            liffId: import.meta.env.VITE_LIFF_ID,
+            withLoginOnExternalBrowser: true,
+          }),
+          5000,
+          "LIFF init Timeout"
+        );
+        console.log("[InitializeApp] LIFF 초기화 완료");
+
+        // === DappPortalSDK 싱글톤 패턴 적용 ===
+        const sdkInStore = useWalletStore.getState().sdk;
+        if (!sdkInStore) {
+          const sdk = await DappPortalSDK.init({
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: "8217",
+          });
+          useWalletStore.getState().setSdk(sdk);
+          useWalletStore.getState().setInitialized(true);
+          console.log("[InitializeApp] DappPortalSDK 싱글톤 초기화 및 zustand에 저장");
         } else {
-          // 3. 외부 브라우저
-          const walletConnected = localStorage.getItem("walletConnected");
-          const walletAddress = localStorage.getItem("walletAddress");
-          const walletType = localStorage.getItem("walletType");
-          if (walletConnected === "true" && walletAddress && walletType) {
-            // SDK 싱글톤 초기화 및 상태 복구
-            const sdkService = SDKService.getInstance();
-            const sdk = await sdkService.initialize();
-            useWalletStore.getState().setWalletAddress(walletAddress);
-            useWalletStore.getState().setWalletType(walletType);
-            useWalletStore.getState().setSdk(sdk);
-            useWalletStore.getState().setInitialized(true);
-            onInitialized();
-            setShowSplash(false);
-            return;
+          console.log("[InitializeApp] 이미 SDK가 zustand에 저장되어 있음, 재초기화하지 않음");
+        }
+        // === 싱글톤 패턴 끝 ===
+
+        await handleTokenFlow();
+      } catch (error: any) {
+        if (is502Error(error)) {
+          console.log("[InitializeApp] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
+          is502ErrorRef.current = true;
+          return;
+        }
+        console.error("[InitializeApp] 초기화 중 에러 발생:", error);
+
+        if (error.message === "Please choose your character first.") {
+          console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
+          navigate("/choose-character");
+          return;
+        }
+
+        localStorage.clear();
+        if (isMountedRef.current) {
+          setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
+        }
+        return;
+      } finally {
+        if (isMountedRef.current) {
+          setShowSplash(false);
+          if (is502ErrorRef.current) {
+            console.log("[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시");
+            setShowMaintenance(true);
           } else {
-            // 연결 정보 없으면 지갑 연결 페이지로 이동
-            navigate("/connect-wallet");
-            setShowSplash(false);
-            return;
+            console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
+            onInitialized();
+            // setShowMaintenance(true);
           }
         }
-      } catch (error: any) {
-        setErrorMessage("초기화 중 오류가 발생했습니다: " + (error?.message || ""));
-        setShowSplash(false);
       }
     };
+
     initializeApp();
-    // eslint-disable-next-line
-  }, [onInitialized]);
+  }, [fetchUserData, navigate, onInitialized]);
 
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
@@ -378,9 +397,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
   return null;
 };
 
