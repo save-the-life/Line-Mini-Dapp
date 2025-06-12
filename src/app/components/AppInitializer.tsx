@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
@@ -300,22 +301,43 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // 1. accessToken이 있으면 바로 메인 페이지로 이동
-        const accessToken = localStorage.getItem("accessToken");
-        if (accessToken) {
-          onInitialized();
-          return;
-        }
+        // 1. 언어 설정
+        const browserLanguage = navigator.language;
+        const lang = browserLanguage.slice(0, 2);
+        const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
+        const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
+        i18n.changeLanguage(i18nLanguage);
 
-        // 2. LIFF 브라우저 처리
+        // 2. LIFF 브라우저 여부 확인
         if (liff.isInClient()) {
+          // 2-1. LIFF SDK 반드시 먼저 초기화
+          await withTimeout(
+            liff.init({
+              liffId: import.meta.env.VITE_LIFF_ID,
+              withLoginOnExternalBrowser: true,
+            }),
+            5000,
+            "LIFF init Timeout"
+          );
+
+          // 2-2. accessToken이 있으면 바로 메인 페이지로 이동
+          const accessToken = localStorage.getItem("accessToken");
+          if (accessToken) {
+            onInitialized();
+            setShowSplash(false);
+            return;
+          }
+
+          // 2-3. LIFF 토큰으로 인증
           const lineToken = liff.getAccessToken();
           if (lineToken) {
             await userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode"));
             onInitialized();
+            setShowSplash(false);
             return;
           } else {
             setErrorMessage("LIFF 토큰이 없습니다. LINE 앱에서 다시 로그인해 주세요.");
+            setShowSplash(false);
             return;
           }
         } else {
@@ -332,16 +354,22 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             useWalletStore.getState().setSdk(sdk);
             useWalletStore.getState().setInitialized(true);
             onInitialized();
+            setShowSplash(false);
+            return;
+          } else {
+            // 연결 정보 없으면 지갑 연결 페이지로 이동
+            navigate("/connect-wallet");
+            setShowSplash(false);
             return;
           }
         }
-        // 4. 아무 조건도 해당하지 않으면 에러 메시지 표시
-        setErrorMessage("로그인이 필요합니다. 지갑을 연결하거나 LINE 앱에서 다시 시도해 주세요.");
       } catch (error: any) {
         setErrorMessage("초기화 중 오류가 발생했습니다: " + (error?.message || ""));
+        setShowSplash(false);
       }
     };
     initializeApp();
+    // eslint-disable-next-line
   }, [onInitialized]);
 
   if (errorMessage) {
@@ -350,9 +378,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
-  // }
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
   return null;
 };
 
