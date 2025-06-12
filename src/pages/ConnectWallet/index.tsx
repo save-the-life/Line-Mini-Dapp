@@ -11,6 +11,7 @@ import requestWallet from "@/entities/User/api/addWallet";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import MaintenanceScreen from "@/app/components/Maintenance";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -62,6 +63,14 @@ const ConnectWalletPage: React.FC = () => {
 
   const handleConnectWallet = async (retry = false) => {
     try {
+      // SDK 초기화 상태 확인
+      const { sdk, initialized } = useWalletStore.getState();
+      
+      // SDK가 초기화되지 않았다면 에러
+      if (!initialized || !sdk) {
+        throw new Error("SDK가 초기화되지 않았습니다. 새로고침 후 다시 시도해 주세요.");
+      }
+
       // 외부 모듈에서 지갑 연결 및 전역 상태 업데이트 수행
       await connectWallet();
 
