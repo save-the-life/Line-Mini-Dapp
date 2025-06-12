@@ -10,6 +10,7 @@ import MaintenanceScreen from "./Maintenance";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import SDKService from "@/shared/services/sdkServices";
+import useWalletStore from "@/shared/store/useWalletStore";
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
 const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
@@ -317,17 +318,42 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         i18n.changeLanguage(i18nLanguage);
 
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
-
-
-
-        if (!liff.isInClient()) {
-          console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
-          navigate("/connect-wallet");
-          setShowSplash(false);
-          onInitialized();
-          // setShowMaintenance(true);
-          return;
+        if (liff.isInClient()) {
+          const lineToken = liff.getAccessToken();
+          if (lineToken) {
+            // 서버 인증 및 지갑 주소 fetch
+            await userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode"));
+            // (지갑 주소 등은 서버에서 받아서 localStorage에 저장)
+            onInitialized();
+            return;
+          }
+        } else {
+          // 2. 외부 브라우저
+          const walletConnected = localStorage.getItem("walletConnected");
+          const walletAddress = localStorage.getItem("walletAddress");
+          const walletType = localStorage.getItem("walletType");
+          if (walletConnected === "true" && walletAddress && walletType) {
+            // SDK 싱글톤 초기화 및 상태 복구
+            const sdkService = SDKService.getInstance();
+            const sdk = await sdkService.initialize();
+            useWalletStore.getState().setWalletAddress(walletAddress);
+            useWalletStore.getState().setWalletType(walletType);
+            useWalletStore.getState().setSdk(sdk);
+            useWalletStore.getState().setInitialized(true);
+            onInitialized();
+            return;
+          }
         }
+
+
+        // if (!liff.isInClient()) {
+        //   console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
+        //   navigate("/connect-wallet");
+        //   setShowSplash(false);
+        //   onInitialized();
+        //   // setShowMaintenance(true);
+        //   return;
+        // }
 
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(

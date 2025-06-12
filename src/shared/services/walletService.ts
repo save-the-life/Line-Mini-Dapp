@@ -40,6 +40,10 @@ export async function connectWallet(): Promise<{
     setWalletType(walletType);
     setSdk(sdk);
     setProvider(walletProvider);
+    // 연결 정보 localStorage에 저장
+    localStorage.setItem("walletConnected", "true");
+    localStorage.setItem("walletAddress", account);
+    localStorage.setItem("walletType", walletType);
   }
   
   return { walletAddress, provider: walletProvider, walletType, sdk };
