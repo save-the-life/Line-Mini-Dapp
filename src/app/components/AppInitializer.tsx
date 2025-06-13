@@ -336,9 +336,18 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           }
           // === 싱글톤 패턴 끝 ===
 
-          // 외부 브라우저에서는 지갑 연결 페이지로 이동
-          console.log("[Step 2-2] 외부 브라우저 -> /connect-wallet 이동");
-          navigate("/connect-wallet");
+          // 지갑 연결 상태 확인
+          const walletAddress = localStorage.getItem('walletAddress');
+          if (!walletAddress) {
+            console.log("[Step 2-2] 지갑 연결 필요 -> /connect-wallet 이동");
+            navigate("/connect-wallet");
+          } else {
+            console.log("[Step 2-2] 이미 지갑 연결됨 -> 메인 페이지로 이동");
+            // 지갑 주소를 store에 설정
+            useWalletStore.getState().setWalletAddress(walletAddress);
+            navigate("/dice-event");
+          }
+          
           setShowSplash(false);
           onInitialized();
           return;
