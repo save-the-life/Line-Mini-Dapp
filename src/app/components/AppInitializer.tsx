@@ -319,11 +319,28 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
 
         if (!liff.isInClient()) {
-          console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
+          console.log("[Step 2-2] 외부 브라우저 감지");
+          
+          // === DappPortalSDK 싱글톤 패턴 적용 ===
+          const sdkInStore = useWalletStore.getState().sdk;
+          if (!sdkInStore) {
+            const sdk = await DappPortalSDK.init({
+              clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+              chainId: "8217",
+            });
+            useWalletStore.getState().setSdk(sdk);
+            useWalletStore.getState().setInitialized(true);
+            console.log("[InitializeApp] DappPortalSDK 싱글톤 초기화 및 zustand에 저장");
+          } else {
+            console.log("[InitializeApp] 이미 SDK가 zustand에 저장되어 있음, 재초기화하지 않음");
+          }
+          // === 싱글톤 패턴 끝 ===
+
+          // 외부 브라우저에서는 지갑 연결 페이지로 이동
+          console.log("[Step 2-2] 외부 브라우저 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
           onInitialized();
-          // setShowMaintenance(true);
           return;
         }
 
@@ -382,7 +399,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
             onInitialized();
-            // setShowMaintenance(true);
           }
         }
       }
