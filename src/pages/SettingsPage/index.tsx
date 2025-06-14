@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import deleteUser from '@/entities/User/api/delUser';
-import CardFlipGame from '../CardFlipGame';
+import CardGameModal from '../CardGame/CardGameModal';
 
 const SettingsPage: React.FC =() => {
     const navigate = useNavigate();
@@ -100,13 +100,13 @@ const SettingsPage: React.FC =() => {
                 </div> */}
             </div>
 
+            
             {/* 카드 뒤집기 게임 */}
-            {/* {isCardFlipGameActive && (
-                <CardFlipGame
-                    onGameEnd={handleCardFlipGameEnd}
-                    onCancel={() => setIsCardFlipGameActive(false)}
+            {isCardFlipGameActive && (
+                <CardGameModal
+                    onClose={() => setIsCardFlipGameActive(false)}
                 />
-            )} */}
+            )}
         </div>
     );
 };
