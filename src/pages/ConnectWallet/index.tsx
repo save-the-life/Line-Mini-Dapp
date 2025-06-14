@@ -49,6 +49,7 @@ const ConnectWalletPage: React.FC = () => {
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
+  const [isCheckingConnection, setIsCheckingConnection] = useState<boolean>(true);
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
@@ -60,7 +61,7 @@ const ConnectWalletPage: React.FC = () => {
     const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
     i18n.changeLanguage(i18nLanguage);
 
-    // SDK 초기화
+    // SDK 초기화 및 연결 상태 확인
     const initializeSdk = async () => {
       const { sdk, initialized, setSdk, setInitialized } = useWalletStore.getState();
       if (!initialized || !sdk) {
@@ -75,6 +76,29 @@ const ConnectWalletPage: React.FC = () => {
         } catch (error) {
           console.error("[ConnectWallet] SDK 초기화 실패:", error);
         }
+      }
+
+      // 저장된 지갑 주소가 있는 경우 자동 연결 시도
+      const savedWalletAddress = localStorage.getItem('walletAddress');
+      if (savedWalletAddress) {
+        try {
+          const { sdk } = useWalletStore.getState();
+          if (sdk) {
+            const isConnected = await sdk.isConnected();
+            if (isConnected) {
+              console.log("[ConnectWallet] 지갑이 이미 연결되어 있음");
+              await handleConnectWallet();
+            } else {
+              console.log("[ConnectWallet] 지갑 연결 필요");
+              setIsCheckingConnection(false);
+            }
+          }
+        } catch (error) {
+          console.error("[ConnectWallet] 지갑 연결 상태 확인 실패:", error);
+          setIsCheckingConnection(false);
+        }
+      } else {
+        setIsCheckingConnection(false);
       }
     };
     initializeSdk();
@@ -177,6 +201,23 @@ const ConnectWalletPage: React.FC = () => {
       console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
+
+  if (isCheckingConnection) {
+    return (
+      <div className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
+        style={{ backgroundImage: `url(${Images.SplashBackground})` }}>
+        <motion.img
+          src={Images.SplashTitle}
+          alt="Lucky Dice Logo"
+          className="w-[272px] mb-[90px]"
+          initial={shouldReduceMotion ? {} : { y: 80 }}
+          animate={shouldReduceMotion ? {} : { y: 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        />
+        <div className="text-white">Checking wallet connection...</div>
+      </div>
+    );
+  }
 
   // if (showMaintenance) {
   //   return <MaintenanceScreen />;

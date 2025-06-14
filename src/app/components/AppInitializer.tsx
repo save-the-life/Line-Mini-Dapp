@@ -342,10 +342,27 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             console.log("[Step 2-2] 지갑 연결 필요 -> /connect-wallet 이동");
             navigate("/connect-wallet");
           } else {
-            console.log("[Step 2-2] 이미 지갑 연결됨 -> 메인 페이지로 이동");
-            // 지갑 주소를 store에 설정
-            useWalletStore.getState().setWalletAddress(walletAddress);
-            navigate("/dice-event");
+            try {
+              const sdk = useWalletStore.getState().sdk;
+              if (sdk) {
+                const isConnected = await sdk.isConnected();
+                if (isConnected) {
+                  console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 메인 페이지로 이동");
+                  // 지갑 주소를 store에 설정
+                  useWalletStore.getState().setWalletAddress(walletAddress);
+                  navigate("/dice-event");
+                } else {
+                  console.log("[Step 2-2] 지갑 연결이 끊어짐 -> /connect-wallet 이동");
+                  navigate("/connect-wallet");
+                }
+              } else {
+                console.log("[Step 2-2] SDK가 초기화되지 않음 -> /connect-wallet 이동");
+                navigate("/connect-wallet");
+              }
+            } catch (error) {
+              console.error("[Step 2-2] 지갑 연결 상태 확인 실패:", error);
+              navigate("/connect-wallet");
+            }
           }
           
           setShowSplash(false);
