@@ -82,6 +82,23 @@ const ConnectWalletPage: React.FC = () => {
           console.log("[ConnectWallet] SDK가 이미 초기화되어 있음");
         }
 
+        // 액세스 토큰 확인
+        const accessToken = localStorage.getItem('accessToken');
+        console.log("[ConnectWallet] 액세스 토큰 존재 여부:", !!accessToken);
+
+        if (accessToken) {
+          console.log("[ConnectWallet] 액세스 토큰으로 로그인 시도");
+          try {
+            await fetchUserData();
+            console.log("[ConnectWallet] 사용자 데이터 fetch 성공");
+            navigate("/dice-event");
+            return;
+          } catch (error) {
+            console.error("[ConnectWallet] 토큰 기반 로그인 실패:", error);
+            // 토큰이 만료되었거나 유효하지 않은 경우 지갑 연결 시도
+          }
+        }
+
         // 저장된 지갑 주소가 있는 경우 자동 연결 시도
         const savedWalletAddress = localStorage.getItem('walletAddress');
         console.log("[ConnectWallet] 저장된 지갑 주소:", savedWalletAddress);
@@ -164,9 +181,21 @@ const ConnectWalletPage: React.FC = () => {
         throw new Error("SDK가 초기화되지 않았습니다. 새로고침 후 다시 시도해 주세요.");
       }
 
-      // 외부 모듈에서 지갑 연결 및 전역 상태 업데이트 수행
-      console.log("[ConnectWallet] connectWallet 호출");
-      await connectWallet();
+      // 지갑 연결 상태 확인
+      const provider = sdk.getWalletProvider();
+      const accounts = await provider.request({ method: 'kaia_accounts' });
+      const isConnected = accounts && accounts.length > 0;
+      console.log("[ConnectWallet] 현재 지갑 연결 상태:", isConnected, "계정:", accounts);
+
+      if (!isConnected) {
+        console.log("[ConnectWallet] 지갑 연결 필요");
+        // 지갑 연결 요청
+        const connectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
+        if (!connectedAccounts || connectedAccounts.length === 0) {
+          throw new Error("지갑 연결이 필요합니다.");
+        }
+        console.log("[ConnectWallet] 지갑 연결 성공:", connectedAccounts);
+      }
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
       const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
@@ -201,7 +230,6 @@ const ConnectWalletPage: React.FC = () => {
         await connectWallet();
       }
 
-      console.log("[ConnectWallet] fetchUserData 호출");
       await fetchUserData();
 
       const userTimeZone = useUserStore.getState().timeZone;

@@ -234,28 +234,66 @@ const DiceEventPage: React.FC = () => {
     async function initializeUserData() {
       const sdk = useWalletStore.getState().sdk;
       if (!sdk) {
-        // AppInitializer에서 초기화가 안 된 경우
-        console.error("SDK가 초기화되지 않았습니다. 새로고침 후 다시 시도해 주세요.");
-        return;
-      }
-      // 사용자 데이터를 불러오고 타임존 업데이트 진행
-      await fetchUserData();
-      const userTimeZone = useUserStore.getState().timeZone;
-      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+        console.log("[DiceEvent] SDK가 초기화되지 않았습니다. 지갑 연결을 시도합니다.");
         try {
-          await updateTimeZone(currentTimeZone);
-        } catch (error: any) {
-          console.log("timezone error", error);
+          const sdkInstance = await DappPortalSDK.init({
+            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+            chainId: "8217",
+          });
+          useWalletStore.getState().setSdk(sdkInstance);
+          useWalletStore.getState().setInitialized(true);
+          
+          // 지갑 연결 상태 확인
+          const provider = sdkInstance.getWalletProvider();
+          console.log("[DiceEvent] 지갑 타입:", provider.getWalletType());
+          const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
+          const isConnected = accounts && accounts.length > 0;
+          console.log("[DiceEvent] 지갑 연결 상태:", isConnected, "계정:", accounts);
+
+          if (isConnected) {
+            console.log("[DiceEvent] 지갑이 이미 연결되어 있습니다.");
+            // 사용자 데이터를 불러오고 타임존 업데이트 진행
+            await fetchUserData();
+            const userTimeZone = useUserStore.getState().timeZone;
+            const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+              try {
+                await updateTimeZone(currentTimeZone);
+              } catch (error: any) {
+                console.log("[DiceEvent] timezone error", error);
+              }
+            }
+          } else {
+            console.log("[DiceEvent] 지갑이 연결되어 있지 않습니다. 지갑 연결 페이지로 이동합니다.");
+            navigate("/connect-wallet");
+          }
+        } catch (error) {
+          console.error("[DiceEvent] SDK 초기화 또는 지갑 연결 중 오류 발생:", error);
+          navigate("/connect-wallet");
+        }
+      } else {
+        // SDK가 이미 초기화된 경우
+        console.log("[DiceEvent] SDK가 이미 초기화되어 있습니다.");
+        // 사용자 데이터를 불러오고 타임존 업데이트 진행
+        await fetchUserData();
+        const userTimeZone = useUserStore.getState().timeZone;
+        const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+          try {
+            await updateTimeZone(currentTimeZone);
+          } catch (error: any) {
+            console.log("[DiceEvent] timezone error", error);
+          }
         }
       }
+
       // 카이아 미션 인입 여부 확인
       const kaiaRedirect = localStorage.getItem("KaiaMission");
       if(kaiaRedirect === "kaia-reward"){
         try{
           await getKaiaRedirection();
         } catch(error: any){
-          console.log("timezone error", error);
+          console.log("[DiceEvent] kaia redirection error", error);
         }
       }
     }
