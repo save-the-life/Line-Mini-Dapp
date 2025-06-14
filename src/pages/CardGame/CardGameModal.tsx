@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
+import Images from "@/shared/assets/images";
 
 const COLORS = ["RED", "BLACK"];
 const SUITS = [
@@ -11,10 +12,10 @@ const SUITS = [
 ];
 
 const CARD_IMAGES = [
-  { suit: "DIAMOND", url: "https://upload.wikimedia.org/wikipedia/commons/5/57/Playing_card_diamond_A.svg" },
-  { suit: "SPADE", url: "https://upload.wikimedia.org/wikipedia/commons/2/25/Playing_card_spade_A.svg" },
-  { suit: "HEART", url: "https://upload.wikimedia.org/wikipedia/commons/5/50/Playing_card_heart_A.svg" },
-  { suit: "CLUB", url: "https://upload.wikimedia.org/wikipedia/commons/2/27/Playing_card_club_A.svg" },
+  { suit: "DIAMOND", url: Images.CardDiamond},
+  { suit: "SPADE", url: Images.CardSpade },
+  { suit: "HEART", url: Images.CardHeart},
+  { suit: "CLUB", url: Images.CardClover},
 ];
 
 const AnimatedCard = () => {
@@ -37,8 +38,6 @@ const AnimatedCard = () => {
 const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   const [bet, setBet] = useState("");
   const [error, setError] = useState("");
-  // 예시 카드 이미지 (A 다이아몬드)
-  const cardImageUrl = "https://upload.wikimedia.org/wikipedia/commons/5/57/Playing_card_diamond_A.svg";
 
   const handleBet = () => {
     const amount = Number(bet);
@@ -216,12 +215,20 @@ const CardGameModal = ({ onClose }: any) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
 
   return (
-    <div style={{
-      position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-      background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", justifyContent: "center", alignItems: "center"
-    }}>
-      <div style={{ background: "#2d2060", borderRadius: 16, padding: 24, minWidth: 350, position: "relative" }}>
-        <button onClick={onClose} style={{ position: "absolute", top: 16, right: 16, color: '#fff', fontWeight: 700 }}>X</button>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+      style={{ minHeight: '100vh', minWidth: '100vw' }}
+    >
+      <div
+        className="w-full max-w-md md:max-w-xl lg:max-w-2xl bg-[#2d2060] rounded-2xl p-6 md:p-10 flex flex-col items-center relative shadow-2xl"
+        style={{ minHeight: '80vh', minWidth: '320px', maxHeight: '95vh', overflowY: 'auto' }}
+      >
+        <button
+          onClick={onClose}
+          style={{ position: "absolute", top: 24, right: 32, color: '#fff', fontWeight: 700, fontSize: 24, zIndex: 10 }}
+        >
+          ×
+        </button>
         {!isGameStarted ? (
           <CardBettingModal
             myPoint={myPoint}
