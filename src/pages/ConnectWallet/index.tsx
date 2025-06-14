@@ -52,6 +52,7 @@ const ConnectWalletPage: React.FC = () => {
   const [isCheckingConnection, setIsCheckingConnection] = useState<boolean>(true);
 
   useEffect(() => {
+    console.log("[ConnectWallet] 페이지 마운트");
     setIsMobile(checkIsMobile());
 
     // 브라우저 언어 기반 언어 설정
@@ -63,9 +64,13 @@ const ConnectWalletPage: React.FC = () => {
 
     // SDK 초기화 및 연결 상태 확인
     const initializeSdk = async () => {
-      const { sdk, initialized, setSdk, setInitialized } = useWalletStore.getState();
-      if (!initialized || !sdk) {
-        try {
+      console.log("[ConnectWallet] SDK 초기화 시작");
+      try {
+        const { sdk, initialized, setSdk, setInitialized } = useWalletStore.getState();
+        console.log("[ConnectWallet] 현재 SDK 상태:", { initialized, hasSdk: !!sdk });
+
+        if (!initialized || !sdk) {
+          console.log("[ConnectWallet] SDK 초기화 필요");
           const sdkInstance = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
             chainId: "8217",
@@ -73,41 +78,82 @@ const ConnectWalletPage: React.FC = () => {
           setSdk(sdkInstance);
           setInitialized(true);
           console.log("[ConnectWallet] SDK 초기화 성공");
-        } catch (error) {
-          console.error("[ConnectWallet] SDK 초기화 실패:", error);
+        } else {
+          console.log("[ConnectWallet] SDK가 이미 초기화되어 있음");
         }
-      }
 
-      // 저장된 지갑 주소가 있는 경우 자동 연결 시도
-      const savedWalletAddress = localStorage.getItem('walletAddress');
-      if (savedWalletAddress) {
-        try {
+        // 저장된 지갑 주소가 있는 경우 자동 연결 시도
+        const savedWalletAddress = localStorage.getItem('walletAddress');
+        console.log("[ConnectWallet] 저장된 지갑 주소:", savedWalletAddress);
+
+        if (savedWalletAddress) {
           const { sdk } = useWalletStore.getState();
           if (sdk) {
-            const isConnected = await sdk.isConnected();
-            if (isConnected) {
-              console.log("[ConnectWallet] 지갑이 이미 연결되어 있음");
-              await handleConnectWallet();
-            } else {
-              console.log("[ConnectWallet] 지갑 연결 필요");
-              setIsCheckingConnection(false);
+            try {
+              // 먼저 연결 상태 확인
+              console.log("[ConnectWallet] 지갑 연결 상태 확인 시작");
+              const isConnected = await sdk.isConnected();
+              console.log("[ConnectWallet] 지갑 연결 상태:", isConnected);
+
+              if (isConnected) {
+                console.log("[ConnectWallet] 지갑이 이미 연결되어 있음");
+                // 지갑 주소를 store에 설정
+                useWalletStore.getState().setWalletAddress(savedWalletAddress);
+                console.log("[ConnectWallet] 지갑 주소를 store에 설정:", savedWalletAddress);
+                await handleConnectWallet();
+                return;
+              }
+
+              // 연결이 끊어져 있다면 재연결 시도
+              console.log("[ConnectWallet] 지갑 재연결 시도");
+              await sdk.connect();
+              const reconnected = await sdk.isConnected();
+              console.log("[ConnectWallet] 지갑 재연결 결과:", reconnected);
+
+              if (reconnected) {
+                console.log("[ConnectWallet] 지갑 재연결 성공");
+                useWalletStore.getState().setWalletAddress(savedWalletAddress);
+                console.log("[ConnectWallet] 재연결된 지갑 주소를 store에 설정:", savedWalletAddress);
+                await handleConnectWallet();
+                return;
+              } else {
+                console.log("[ConnectWallet] 지갑 재연결 실패");
+              }
+            } catch (error: any) {
+              console.error("[ConnectWallet] 지갑 연결 상태 확인/재연결 실패:", error);
+              console.error("[ConnectWallet] 에러 상세:", {
+                message: error.message,
+                code: error.code,
+                stack: error.stack
+              });
             }
+          } else {
+            console.log("[ConnectWallet] SDK 인스턴스가 없음");
           }
-        } catch (error) {
-          console.error("[ConnectWallet] 지갑 연결 상태 확인 실패:", error);
-          setIsCheckingConnection(false);
+        } else {
+          console.log("[ConnectWallet] 저장된 지갑 주소가 없음");
         }
-      } else {
+        setIsCheckingConnection(false);
+      } catch (error: any) {
+        console.error("[ConnectWallet] SDK 초기화 실패:", error);
+        console.error("[ConnectWallet] 초기화 실패 상세:", {
+          message: error.message,
+          code: error.code,
+          stack: error.stack
+        });
         setIsCheckingConnection(false);
       }
     };
+
     initializeSdk();
   }, []);
 
   const handleConnectWallet = async (retry = false) => {
+    console.log("[ConnectWallet] handleConnectWallet 시작", { retry });
     try {
       // SDK 초기화 상태 확인
       const { sdk, initialized } = useWalletStore.getState();
+      console.log("[ConnectWallet] 현재 SDK 상태:", { initialized, hasSdk: !!sdk });
       
       // SDK가 초기화되지 않았다면 에러
       if (!initialized || !sdk) {
@@ -115,68 +161,90 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       // 외부 모듈에서 지갑 연결 및 전역 상태 업데이트 수행
+      console.log("[ConnectWallet] connectWallet 호출");
       await connectWallet();
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
       const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
+      console.log("[ConnectWallet] 연결된 지갑 정보:", { walletAddress, walletType });
 
-      // 테스터 지갑 주소 목록에 포함되어 있는지 확인
-      // if (!testerWallets.includes(walletAddress)) {
-      //   console.log("현재 지갑 주소: ", walletAddress);
-      //   console.log("테스터 지갑 주소가 아님 -> MaintenanceScreen 표시");
-      //   setShowMaintenance(true);
-      //   return;
-      // }
+      // 지갑 주소를 localStorage에 저장
+      if (walletAddress) {
+        localStorage.setItem('walletAddress', walletAddress);
+        console.log("[ConnectWallet] 지갑 주소를 localStorage에 저장:", walletAddress);
+      }
 
       // 로컬스토리지에서 레퍼럴 코드 확인
       const referralCode = localStorage.getItem("referralCode");
+      console.log("[ConnectWallet] 레퍼럴 코드:", referralCode);
 
-      // 주소 기반 Web 로그인 (502 에러 발생 시 에러를 throw하도록 webLoginWithAddress 수정 필요)
+      // 주소 기반 Web 로그인
+      console.log("[ConnectWallet] webLoginWithAddress 호출");
       const webLogin = await webLoginWithAddress(walletAddress, referralCode);
+      console.log("[ConnectWallet] webLogin 결과:", webLogin);
+
       if (!webLogin) {
         throw new Error("Web login failed.");
       }
 
       // webLoginWithAddress 성공 시, requestWallet 실행
       if (walletAddress && walletType) {
+        console.log("[ConnectWallet] requestWallet 호출");
         await requestWallet(walletAddress, walletType.toUpperCase());
       } else {
+        console.log("[ConnectWallet] 지갑 정보 누락, 재연결 시도");
         clearWallet();
         await connectWallet();
       }
 
+      console.log("[ConnectWallet] fetchUserData 호출");
       await fetchUserData();
 
       const userTimeZone = useUserStore.getState().timeZone;
-      console.log("서버로부터 받은 타임존: ", userTimeZone);
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("사용자의 타임존: ", currentTimeZone);
+      console.log("[ConnectWallet] 타임존 정보:", { userTimeZone, currentTimeZone });
 
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
+          console.log("[ConnectWallet] 타임존 업데이트 시도");
           await updateTimeZone(currentTimeZone);
+          console.log("[ConnectWallet] 타임존 업데이트 성공");
         } catch (error: any) {
-          console.log("timezone error", error);
+          console.error("[ConnectWallet] 타임존 업데이트 실패:", error);
         }
       }
 
       if (referralCode === "dapp-portal-promotions") {
         try {
+          console.log("[ConnectWallet] 프로모션 확인");
           const promo = await getPromotion();
+          console.log("[ConnectWallet] 프로모션 결과:", promo);
           if (promo === "Success") {
+            console.log("[ConnectWallet] 프로모션 페이지로 이동");
             navigate("/promotion");
           } else {
+            console.log("[ConnectWallet] 메인 페이지로 이동");
             navigate("/dice-event");
           }
         } catch (error: any) {
+          console.error("[ConnectWallet] 프로모션 확인 실패:", error);
           navigate("/dice-event");
         }
       } else {
+        console.log("[ConnectWallet] 메인 페이지로 이동");
         navigate("/dice-event");
       }
     } catch (error: any) {
+      console.error("[ConnectWallet] 에러 발생:", error);
+      console.error("[ConnectWallet] 에러 상세:", {
+        message: error.message,
+        code: error.code,
+        response: error.response?.data,
+        stack: error.stack
+      });
+
       if (is502Error(error)) {
-        console.log("502 에러 감지됨 -> MaintenanceScreen 표시");
+        console.log("[ConnectWallet] 502 에러 감지됨 -> MaintenanceScreen 표시");
         setShowMaintenance(true);
         return;
       }
@@ -187,18 +255,17 @@ const ConnectWalletPage: React.FC = () => {
         (error.response?.data === "Token not found in Redis or expired" ||
           error.message === "Web login failed.")
       ) {
+        console.log("[ConnectWallet] 토큰 관련 에러, 재시도");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         return handleConnectWallet(true);
       }
 
       if (error.message === "Please choose your character first.") {
+        console.log("[ConnectWallet] 캐릭터 선택 필요");
         navigate("/choose-character");
         return;
       }
-      console.error("에러 발생 메시지:", error.message);
-      console.error("에러 발생 코드:", error.code);
-      console.error("에러 응답:", error.response?.data || "응답 없음");
     }
   };
 
