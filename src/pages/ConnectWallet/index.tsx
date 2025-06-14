@@ -90,10 +90,14 @@ const ConnectWalletPage: React.FC = () => {
           const { sdk } = useWalletStore.getState();
           if (sdk) {
             try {
-              // 먼저 연결 상태 확인
+              const provider = sdk.getWalletProvider();
+              console.log("[ConnectWallet] 지갑 타입:", provider.getWalletType());
+
+              // 먼저 연결 상태 확인 (kaia_accounts는 연결 화면을 표시하지 않음)
               console.log("[ConnectWallet] 지갑 연결 상태 확인 시작");
-              const isConnected = await sdk.isConnected();
-              console.log("[ConnectWallet] 지갑 연결 상태:", isConnected);
+              const accounts = await provider.request({ method: 'kaia_accounts' });
+              const isConnected = accounts && accounts.length > 0;
+              console.log("[ConnectWallet] 지갑 연결 상태:", isConnected, "계정:", accounts);
 
               if (isConnected) {
                 console.log("[ConnectWallet] 지갑이 이미 연결되어 있음");
@@ -106,9 +110,9 @@ const ConnectWalletPage: React.FC = () => {
 
               // 연결이 끊어져 있다면 재연결 시도
               console.log("[ConnectWallet] 지갑 재연결 시도");
-              await sdk.connect();
-              const reconnected = await sdk.isConnected();
-              console.log("[ConnectWallet] 지갑 재연결 결과:", reconnected);
+              const reconnectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
+              const reconnected = reconnectedAccounts && reconnectedAccounts.length > 0;
+              console.log("[ConnectWallet] 지갑 재연결 결과:", reconnected, "계정:", reconnectedAccounts);
 
               if (reconnected) {
                 console.log("[ConnectWallet] 지갑 재연결 성공");
