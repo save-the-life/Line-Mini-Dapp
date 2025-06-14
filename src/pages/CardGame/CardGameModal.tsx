@@ -30,7 +30,7 @@ const AnimatedCard = () => {
     <img
       src={CARD_IMAGES[index].url}
       alt={CARD_IMAGES[index].suit}
-      className="w-32 h-48 rounded-xl shadow-lg bg-white mx-auto"
+      className="w-32 h-48 rounded-xl shadow-lg bg-white mx-auto object-cover"
     />
   );
 };
@@ -72,7 +72,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       </div>
       <input
         type="number"
-        className="w-full rounded-xl px-4 py-3 mb-2 text-center text-lg outline-none border border-gray-300"
+        className="w-full rounded-xl px-4 py-3 mb-2 text-center text-lg outline-none border border-gray-300 text-black"
         placeholder="How many star would you like to bet?"
         value={bet}
         onChange={e => setBet(e.target.value)}
