@@ -323,8 +323,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
-          onInitialized();
-          // setShowMaintenance(true);
+          // onInitialized();
+          setShowMaintenance(true);
           return;
         }
 
