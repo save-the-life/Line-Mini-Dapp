@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Images from "@/shared/assets/images";
@@ -53,6 +53,7 @@ const ConnectWalletPage: React.FC = () => {
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
   const [isCheckingConnection, setIsCheckingConnection] = useState<boolean>(true);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const initializationRef = useRef<boolean>(false);
 
   // 모바일 체크는 한 번만 실행
   useEffect(() => {
@@ -62,9 +63,15 @@ const ConnectWalletPage: React.FC = () => {
   // SDK 초기화 및 연결 상태 확인
   useEffect(() => {
     const initializeSdk = async () => {
-      if (isInitialized) return;
-      
+      // 이미 초기화 중이거나 완료된 경우 중복 실행 방지
+      if (initializationRef.current || isInitialized) {
+        console.log("[ConnectWallet] 이미 초기화 중이거나 완료됨");
+        return;
+      }
+
+      initializationRef.current = true;
       console.log("[ConnectWallet] SDK 초기화 시작");
+      
       try {
         if (!sdk) {
           console.log("[ConnectWallet] SDK 초기화 필요");
@@ -140,8 +147,6 @@ const ConnectWalletPage: React.FC = () => {
         } else {
           console.log("[ConnectWallet] 저장된 지갑 주소가 없거나 SDK가 초기화되지 않음");
         }
-        setIsCheckingConnection(false);
-        setIsInitialized(true);
       } catch (error: any) {
         console.error("[ConnectWallet] SDK 초기화 실패:", error);
         console.error("[ConnectWallet] 초기화 실패 상세:", {
@@ -149,13 +154,15 @@ const ConnectWalletPage: React.FC = () => {
           code: error.code,
           stack: error.stack
         });
+      } finally {
         setIsCheckingConnection(false);
         setIsInitialized(true);
+        initializationRef.current = false;
       }
     };
 
     initializeSdk();
-  }, [sdk, initializeSDK, navigate, fetchUserData, isInitialized]);
+  }, [sdk, initializeSDK, navigate, fetchUserData]);
 
   const handleConnectWallet = async (retry = false) => {
     if (!sdk) {
