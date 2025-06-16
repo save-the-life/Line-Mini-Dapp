@@ -1019,10 +1019,7 @@ const DiceEventPage: React.FC = () => {
                   </h1>
                 </div>
                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
-                  <p className="text-center font-semibold text-base text-white">
-                    Round 3 Ranking Event Has Ended!<br/>
-                    rewards will be announced and distributed within the week.
-                  </p>
+                  
 
                   {/* <div className="flex justify-center items-center gap-2">
                     <div>
@@ -1051,9 +1048,12 @@ const DiceEventPage: React.FC = () => {
                     </div>
                   </div> */}
                 </div>
-                
+                <p className="text-center font-semibold text-base text-white">
+                    Round 3 Ranking Event Has Ended!<br/>
+                    rewards will be announced and distributed within the week.
+                </p>
                 <p className="text-center text-white font-semibold text-base my-5">
-                  Round 4 is officially live—time to roll & roll!
+                  Round 4 is officially live — time to roll & roll!
                 </p>
 
                 <button
