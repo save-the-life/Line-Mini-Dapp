@@ -53,7 +53,7 @@ const ItemStore: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
   const [isConsumableOpen, setIsConsumableOpen] = useState(true);
 
-  const { walletAddress, sdk, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
+  const { walletAddress, sdk, provider, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
   // USD(STRIPE) 결제 진행 시 시작 시간을 기록합니다.
   const [paymentStartTime, setPaymentStartTime] = useState<number | null>(null);
@@ -404,7 +404,7 @@ const ItemStore: React.FC = () => {
       setNeedWallet(false);
       try {
         // connectWallet이 연결 정보를 반환하도록 수정(예: { walletAddress, provider, walletType, sdk })
-        const connection = await connectWallet();
+        const connection = await connectWallet({ sdk, provider });
         if (connection && connection.walletAddress && connection.provider) {
           try {
             const response: KaiaRpcResponse<string> = await kaiaGetBalance(connection.walletAddress);

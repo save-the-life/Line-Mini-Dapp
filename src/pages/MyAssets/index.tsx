@@ -315,7 +315,7 @@ const MyAssets: React.FC = () => {
             // console.log("지갑 주소 혹은 sdk가 없어요. 지갑 연동 시작");
             try {
                 // connectWallet이 반환하는 연결 정보를 바로 활용
-                const connection = await connectWallet();
+                const connection = await connectWallet({ sdk, provider });
                 if (connection && connection.walletAddress && connection.provider) {
                     await fetchBalance(connection.walletAddress);
                     setShowWalletModal(true);
@@ -401,7 +401,7 @@ const MyAssets: React.FC = () => {
                     clearWallet();
                 }
                 alert("TypeError가 발생했습니다. 지갑을 다시 연결합니다.");
-                await connectWallet();
+                await connectWallet({ sdk, provider });
             } else if (error.code === "-32001") {
                 // 사용자가 팝업을 닫은 경우 자동 재연결 대신 사용자에게 안내
                 // console.log("사용자가 결제 팝업을 닫음");

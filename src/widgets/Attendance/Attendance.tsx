@@ -246,12 +246,11 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
 
-
    const handleAttendanceClick = async () => {
       if (!provider || !walletAddress || !sdk || !walletType) {
          if (isConnecting) return;
          setIsConnecting(true);
-         const connection = await connectWallet();
+         const connection = await connectWallet({ sdk, provider });
          setIsConnecting(false);
          if (!connection.provider || !connection.walletAddress) {
             setShowModal(true);

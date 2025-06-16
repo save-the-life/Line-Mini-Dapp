@@ -423,7 +423,7 @@ const MissionPage: React.FC = () => {
       if (!walletAddress) {
         try {
           // connectWallet 함수는 지갑 연결만 수행합니다.
-          await connectWallet();
+          await connectWallet({ sdk, provider });
         } catch (error) {
           console.error("Wallet connection failed:", error);
         }
@@ -483,7 +483,7 @@ const MissionPage: React.FC = () => {
     if (!provider || !walletAddress || !sdk || !walletType) {
       if (isConnecting) return;
       setIsConnecting(true);
-      const connection = await connectWallet();
+      const connection = await connectWallet({ sdk, provider });
       setIsConnecting(false);
       if (!connection.provider || !connection.walletAddress) {
         setShowModal(true);
@@ -607,7 +607,7 @@ const MissionPage: React.FC = () => {
     setNeedWallet(false);
     try {
       // connectWallet 함수는 지갑 연결만 수행합니다.
-      await connectWallet();
+      await connectWallet({ sdk, provider });
     } catch (error) {
       console.error("Wallet connection failed:", error);
     }
