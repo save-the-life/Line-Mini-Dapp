@@ -1018,10 +1018,8 @@ const DiceEventPage: React.FC = () => {
                     Ranking Event has ended
                   </h1>
                 </div>
-                <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
-                  
-
-                  {/* <div className="flex justify-center items-center gap-2">
+                 {/*<div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
+                  <div className="flex justify-center items-center gap-2">
                     <div>
                       <img
                         src={Images.DiceReward}
@@ -1046,8 +1044,9 @@ const DiceEventPage: React.FC = () => {
                       />
                       <p className="text-xs font-semibold text-white text-center">Raffle Ticket</p>
                     </div>
-                  </div> */}
-                </div>
+                  </div> 
+                </div>*/}
+                    
                 <p className="text-center font-semibold text-base text-white">
                     Round 3 Ranking Event Has Ended!<br/>
                     rewards will be announced and distributed within the week.
