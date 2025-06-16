@@ -547,7 +547,11 @@
       "view": "View Items",
       "2nd_rank": "The 2nd Round of our Monthly Leaderboard Rankings Event wrapped up on May 15th!",
       "made_cut": "Think you made the cut?",
-      "check_winner": "Check out the winners now!"
+      "check_winner": "Check out the winners now!",
+      "round_end": "Ranking Event has ended",
+      "round_3": "Round 3 Ranking Event Has Ended!",
+      "reward_announce": "Rewards will be announced and distributed within the week.",
+      "round_4": "Round 4 is officially live — time to roll & roll!"
     },
     "setting": {
       "terms_of_service": "Terms of Service",
