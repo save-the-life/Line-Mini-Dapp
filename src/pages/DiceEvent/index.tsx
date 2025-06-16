@@ -324,7 +324,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [8, 17];
+  const scheduledSlots = [14];
   const itemGuideSlots = [0, 9, 18]; 
 
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
@@ -998,7 +998,7 @@ const DiceEventPage: React.FC = () => {
 
               
           {/* 아이템 추가 안내 모달창 */}
-          {/* <Dialog open={showRankingModal}>
+          <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
               <div className="relative">
@@ -1015,15 +1015,16 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    {t("dice_event.what_new")}
+                    Ranking Event has ended
                   </h1>
                 </div>
                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
-                  <p className="text-center font-semibold text-xs text-white">
-                    {t("dice_event.new_item")}
+                  <p className="text-center font-semibold text-base text-white">
+                    Round 3 Ranking Event Has Ended!<br/>
+                    rewards will be announced and distributed within the week.
                   </p>
 
-                  <div className="flex justify-center items-center gap-2">
+                  {/* <div className="flex justify-center items-center gap-2">
                     <div>
                       <img
                         src={Images.DiceReward}
@@ -1048,26 +1049,26 @@ const DiceEventPage: React.FC = () => {
                       />
                       <p className="text-xs font-semibold text-white text-center">Raffle Ticket</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 
                 <p className="text-center text-white font-semibold text-base my-5">
-                  {t("dice_event.just_drop")}<br/>{t("dice_event.click_below")}
+                  Round 4 is officially live—time to roll & roll!
                 </p>
 
                 <button
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
-                    navigate("/item-store")
+                    // navigate("/item-store")
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-5 mb-7"
                 >
-                  {t("dice_event.view")}
+                  {t("dice_event.close")}
                 </button>
               </div>
             </DialogContent>
-          </Dialog> */}
+          </Dialog>
 
         
 
