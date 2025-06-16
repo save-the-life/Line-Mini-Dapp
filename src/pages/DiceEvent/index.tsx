@@ -1046,7 +1046,7 @@ const DiceEventPage: React.FC = () => {
                     </div>
                   </div> 
                 </div>*/}
-                    
+                
                 <p className="text-center font-semibold text-base text-white">
                     Round 3 Ranking Event Has Ended!<br/>
                     rewards will be announced and distributed within the week.
