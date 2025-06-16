@@ -12,6 +12,7 @@ import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import MaintenanceScreen from "@/app/components/Maintenance";
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
+import { useSDK } from '@/shared/hooks/useSDK';
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -47,16 +48,10 @@ const ConnectWalletPage: React.FC = () => {
   const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
+  const { sdk, initializeSDK } = useSDK();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
   const [isCheckingConnection, setIsCheckingConnection] = useState<boolean>(true);
-
-  // zustand store에서 sdk와 initialized를 가져오고, sdk의 실체를 로그로 확인
-  const { sdk, initialized } = useWalletStore.getState();
-  useEffect(() => {
-    console.log("[ConnectWallet] sdk:", sdk, "typeof sdk:", typeof sdk, "initialized:", initialized);
-    console.log("[ConnectWallet] sdk.getWalletProvider:", sdk?.getWalletProvider);
-  }, [sdk, initialized]);
 
   useEffect(() => {
     console.log("[ConnectWallet] 페이지 마운트");
@@ -73,18 +68,9 @@ const ConnectWalletPage: React.FC = () => {
     const initializeSdk = async () => {
       console.log("[ConnectWallet] SDK 초기화 시작");
       try {
-        const { sdk, initialized, setSdk, setInitialized } = useWalletStore.getState();
-        console.log("[ConnectWallet] 현재 SDK 상태:", { initialized, hasSdk: !!sdk });
-
-        if (!initialized || !sdk) {
+        if (!sdk) {
           console.log("[ConnectWallet] SDK 초기화 필요");
-          const sdkInstance = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "8217",
-          });
-          setSdk(sdkInstance);
-          setInitialized(true);
-          console.log("[ConnectWallet] SDK 초기화 성공");
+          await initializeSDK();
         } else {
           console.log("[ConnectWallet] SDK가 이미 초기화되어 있음");
         }
@@ -110,56 +96,51 @@ const ConnectWalletPage: React.FC = () => {
         const savedWalletAddress = localStorage.getItem('walletAddress');
         console.log("[ConnectWallet] 저장된 지갑 주소:", savedWalletAddress);
 
-        if (savedWalletAddress) {
-          const { sdk } = useWalletStore.getState();
-          if (sdk) {
-            try {
-              const provider = sdk.getWalletProvider();
-              console.log("[ConnectWallet] 지갑 타입:", provider.getWalletType());
+        if (savedWalletAddress && sdk) {
+          try {
+            const provider = sdk.getWalletProvider();
+            console.log("[ConnectWallet] 지갑 타입:", provider.getWalletType());
 
-              // 먼저 연결 상태 확인 (kaia_accounts는 연결 화면을 표시하지 않음)
-              console.log("[ConnectWallet] 지갑 연결 상태 확인 시작");
-              const accounts = await provider.request({ method: 'kaia_accounts' });
-              const isConnected = accounts && accounts.length > 0;
-              console.log("[ConnectWallet] 지갑 연결 상태:", isConnected, "계정:", accounts);
+            // 먼저 연결 상태 확인 (kaia_accounts는 연결 화면을 표시하지 않음)
+            console.log("[ConnectWallet] 지갑 연결 상태 확인 시작");
+            const accounts = await provider.request({ method: 'kaia_accounts' });
+            const isConnected = accounts && accounts.length > 0;
+            console.log("[ConnectWallet] 지갑 연결 상태:", isConnected, "계정:", accounts);
 
-              if (isConnected) {
-                console.log("[ConnectWallet] 지갑이 이미 연결되어 있음");
-                // 지갑 주소를 store에 설정
-                useWalletStore.getState().setWalletAddress(savedWalletAddress);
-                console.log("[ConnectWallet] 지갑 주소를 store에 설정:", savedWalletAddress);
-                await handleConnectWallet();
-                return;
-              }
-
-              // 연결이 끊어져 있다면 재연결 시도
-              console.log("[ConnectWallet] 지갑 재연결 시도");
-              const reconnectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
-              const reconnected = reconnectedAccounts && reconnectedAccounts.length > 0;
-              console.log("[ConnectWallet] 지갑 재연결 결과:", reconnected, "계정:", reconnectedAccounts);
-
-              if (reconnected) {
-                console.log("[ConnectWallet] 지갑 재연결 성공");
-                useWalletStore.getState().setWalletAddress(savedWalletAddress);
-                console.log("[ConnectWallet] 재연결된 지갑 주소를 store에 설정:", savedWalletAddress);
-                await handleConnectWallet();
-                return;
-              } else {
-                console.log("[ConnectWallet] 지갑 재연결 실패");
-              }
-            } catch (error: any) {
-              console.error("[ConnectWallet] 지갑 연결 상태 확인/재연결 실패:", error);
-              console.error("[ConnectWallet] 에러 상세:", {
-                message: error.message,
-                code: error.code,
-                stack: error.stack
-              });
+            if (isConnected) {
+              console.log("[ConnectWallet] 지갑이 이미 연결되어 있음");
+              // 지갑 주소를 store에 설정
+              useWalletStore.getState().setWalletAddress(savedWalletAddress);
+              console.log("[ConnectWallet] 지갑 주소를 store에 설정:", savedWalletAddress);
+              await handleConnectWallet();
+              return;
             }
-          } else {
-            console.log("[ConnectWallet] SDK 인스턴스가 없음");
+
+            // 연결이 끊어져 있다면 재연결 시도
+            console.log("[ConnectWallet] 지갑 재연결 시도");
+            const reconnectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
+            const reconnected = reconnectedAccounts && reconnectedAccounts.length > 0;
+            console.log("[ConnectWallet] 지갑 재연결 결과:", reconnected, "계정:", reconnectedAccounts);
+
+            if (reconnected) {
+              console.log("[ConnectWallet] 지갑 재연결 성공");
+              useWalletStore.getState().setWalletAddress(savedWalletAddress);
+              console.log("[ConnectWallet] 재연결된 지갑 주소를 store에 설정:", savedWalletAddress);
+              await handleConnectWallet();
+              return;
+            } else {
+              console.log("[ConnectWallet] 지갑 재연결 실패");
+            }
+          } catch (error: any) {
+            console.error("[ConnectWallet] 지갑 연결 상태 확인/재연결 실패:", error);
+            console.error("[ConnectWallet] 에러 상세:", {
+              message: error.message,
+              code: error.code,
+              stack: error.stack
+            });
           }
         } else {
-          console.log("[ConnectWallet] 저장된 지갑 주소가 없음");
+          console.log("[ConnectWallet] 저장된 지갑 주소가 없거나 SDK가 초기화되지 않음");
         }
         setIsCheckingConnection(false);
       } catch (error: any) {
@@ -174,10 +155,10 @@ const ConnectWalletPage: React.FC = () => {
     };
 
     initializeSdk();
-  }, []);
+  }, [sdk, initializeSDK, navigate, fetchUserData]);
 
   const handleConnectWallet = async (retry = false) => {
-    if (!initialized || !sdk || typeof sdk.getWalletProvider !== "function") {
+    if (!sdk) {
       console.warn("[ConnectWallet] SDK가 아직 준비되지 않았음. handleConnectWallet 실행 중단");
       return;
     }
@@ -199,7 +180,6 @@ const ConnectWalletPage: React.FC = () => {
     useWalletStore.getState().setWalletAddress(walletAddress);
     useWalletStore.getState().setWalletType(walletType);
     useWalletStore.getState().setProvider(provider);
-    useWalletStore.getState().setInitialized(true);
 
     // connectWalletService에 sdk와 provider를 파라미터로 넘김
     try {
@@ -270,7 +250,7 @@ const ConnectWalletPage: React.FC = () => {
     }
   };
 
-  if (!initialized || !sdk || typeof sdk.getWalletProvider !== "function") {
+  if (!sdk) {
     return (
       <div className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
         style={{ backgroundImage: `url(${Images.SplashBackground})` }}>

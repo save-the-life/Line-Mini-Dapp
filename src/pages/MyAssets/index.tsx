@@ -25,8 +25,8 @@ import getMyAssets from "@/entities/Asset/api/getMyAssets";
 import requestClaim from "@/entities/Asset/api/requestClaim";
 import requestUSDTClaim from "@/entities/Asset/requrstUSDTClaim";
 import useWalletStore from "@/shared/store/useWalletStore";
-import requestWallet from "@/entities/User/api/addWallet";
 import { connectWallet } from "@/shared/services/walletService";
+import { useSDK } from '@/shared/hooks/useSDK';
 
 interface TruncateMiddleProps {
     text: any;
@@ -83,9 +83,10 @@ const MyAssets: React.FC = () => {
     const [claimData, setClaimData] = useState<ClaimData | null>(null);
     const [userClaimAmount, setUserClaimAmount] = useState("");  
     const [showHistoryModal, setShowHistoryModal] = useState(false);
-      const [copySuccess, setCopySuccess] = useState(false);
+    const [copySuccess, setCopySuccess] = useState(false);
     
     const { walletAddress, provider, sdk, clearWallet } = useWalletStore();
+    const { initializeSDK } = useSDK();
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -314,7 +315,6 @@ const MyAssets: React.FC = () => {
         if (!walletAddress || !sdk) {
             // console.log("지갑 주소 혹은 sdk가 없어요. 지갑 연동 시작");
             try {
-                // connectWallet이 반환하는 연결 정보를 바로 활용
                 const connection = await connectWallet({ sdk, provider });
                 if (connection && connection.walletAddress && connection.provider) {
                     await fetchBalance(connection.walletAddress);
@@ -385,29 +385,22 @@ const MyAssets: React.FC = () => {
 
             if (!provider) { throw new Error("Wallet provider not found."); }
 
-            // 전역 provider를 이용하여 계정 요청
             await provider.request({
                 method: "kaia_requestAccounts",
             });
 
             await paymentProvider.openPaymentHistory();
         } catch (error: any) {
-            // console.log("결제 내역 확인 중 에러 발생: ", error);
             if (error instanceof TypeError) {
-                // console.error("TypeError 발생:", error);
                 if (provider && provider.disconnectWallet) {
-                    // console.log("지갑 연결 해제");
                     provider.disconnectWallet();
                     clearWallet();
                 }
                 alert("TypeError가 발생했습니다. 지갑을 다시 연결합니다.");
                 await connectWallet({ sdk, provider });
             } else if (error.code === "-32001") {
-                // 사용자가 팝업을 닫은 경우 자동 재연결 대신 사용자에게 안내
-                // console.log("사용자가 결제 팝업을 닫음");
                 alert("결제 내역 팝업이 닫혔습니다. 다시 시도하려면 버튼을 눌러주세요.");
             } else {
-                // console.log("결제 내역 확인 중 다른 에러 발생: ", error);
                 alert("결제 내역 팝업이 닫혔습니다. 다시 시도하려면 버튼을 눌러주세요.");
             }
         }
@@ -483,6 +476,31 @@ const MyAssets: React.FC = () => {
         setCopySuccess(false);
     }
   };
+
+    const checkWalletConnection = async () => {
+        try {
+            if (!sdk) {
+                console.log('[MyAssets] SDK가 초기화되지 않았습니다. 초기화를 시도합니다...');
+                const initializedSDK = await initializeSDK();
+                if (!initializedSDK) {
+                    throw new Error('SDK 초기화에 실패했습니다.');
+                }
+            }
+
+            const provider = sdk.getWalletProvider();
+            const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
+            const isConnected = accounts && accounts.length > 0;
+
+            if (!isConnected) {
+                throw new Error('지갑이 연결되어 있지 않습니다.');
+            }
+
+            // ... rest of the existing code ...
+        } catch (error: any) {
+            console.error('[MyAssets] 지갑 연결 확인 중 오류 발생:', error);
+            // ... rest of the error handling code ...
+        }
+    };
 
     return (  
         loading 

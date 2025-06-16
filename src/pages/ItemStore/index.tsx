@@ -23,6 +23,7 @@ import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
+import { useSDK } from '@/shared/hooks/useSDK';
 
 
 // Consumable item names
@@ -61,6 +62,8 @@ const ItemStore: React.FC = () => {
   // 결제 버튼은 아이템 선택, 체크박스 동의, 결제 진행 중이 아닐 때 활성화됩니다.
   const isEnabled =
     selectedItem !== null && agreeRefund && agreeEncrypted && !isLoading;
+
+  const { initializeSDK } = useSDK();
 
   // API를 통해 아이템 데이터 조회
   useEffect(() => {
@@ -403,7 +406,6 @@ const ItemStore: React.FC = () => {
       playSfx(Audios.button_click);
       setNeedWallet(false);
       try {
-        // connectWallet이 연결 정보를 반환하도록 수정(예: { walletAddress, provider, walletType, sdk })
         const connection = await connectWallet({ sdk, provider });
         if (connection && connection.walletAddress && connection.provider) {
           try {
@@ -461,6 +463,31 @@ const ItemStore: React.FC = () => {
       return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
     }
     return "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)";
+  };
+
+  const checkWalletConnection = async () => {
+    try {
+      if (!sdk) {
+        console.log('[ItemStore] SDK가 초기화되지 않았습니다. 초기화를 시도합니다...');
+        const initializedSDK = await initializeSDK();
+        if (!initializedSDK) {
+          throw new Error('SDK 초기화에 실패했습니다.');
+        }
+      }
+
+      const provider = sdk.getWalletProvider();
+      const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
+      const isConnected = accounts && accounts.length > 0;
+
+      if (!isConnected) {
+        throw new Error('지갑이 연결되어 있지 않습니다.');
+      }
+
+      // ... rest of the existing code ...
+    } catch (error: any) {
+      console.error('[ItemStore] 지갑 연결 확인 중 오류 발생:', error);
+      // ... rest of the error handling code ...
+    }
   };
 
   return (

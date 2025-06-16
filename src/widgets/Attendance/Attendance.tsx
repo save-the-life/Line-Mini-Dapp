@@ -14,6 +14,7 @@ import testingAttendance from "@/entities/User/api/testAttendance";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import okxAttendance from "@/entities/User/api/okxAttendance";
+import { useSDK } from '@/shared/hooks/useSDK';
 
 const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
 const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
@@ -219,6 +220,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
    const [isConnecting, setIsConnecting] = useState(false);
    const [showModal, setShowModal] = useState(false);
    const [message, setMessage] = useState("");
+   const { initializeSDK } = useSDK();
 
   // 출석 상태 결정 로직
   const getStatus = (day: DayKeys) => {
@@ -246,20 +248,25 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
 
-   const handleAttendanceClick = async () => {
-      if (!provider || !walletAddress || !sdk || !walletType) {
-         if (isConnecting) return;
-         setIsConnecting(true);
-         const connection = await connectWallet({ sdk, provider });
-         setIsConnecting(false);
-         if (!connection.provider || !connection.walletAddress) {
-            setShowModal(true);
-            setMessage(t("attendance.wallet_fail"));
-            return;
-         }
-      }
 
+   const handleAttendanceClick = async () => {
       try {
+         if (!sdk) {
+            console.log('[Attendance] SDK가 초기화되지 않았습니다. 초기화를 시도합니다...');
+            const initializedSDK = await initializeSDK();
+            if (!initializedSDK) {
+               throw new Error('SDK 초기화에 실패했습니다.');
+            }
+         }
+
+         const provider = sdk.getWalletProvider();
+         const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
+         const isConnected = accounts && accounts.length > 0;
+
+         if (!isConnected) {
+            throw new Error('지갑이 연결되어 있지 않습니다.');
+         }
+
          const ethersProvider = new Web3Provider(provider);
          const signer = ethersProvider.getSigner();
          const contract = new ethers.Contract(contractAddress, abi, signer);
@@ -321,8 +328,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             setShowModal(true);
             setMessage(t("attendance.attendance_failed"));
          }
-      } catch (error) {
-         console.log("에러 확인: ", error)
+      } catch (error: any) {
+         console.error('[Attendance] 출석체크 중 오류 발생:', error);
          setShowModal(true);
          setMessage(t("attendance.attendance_err"));
       }

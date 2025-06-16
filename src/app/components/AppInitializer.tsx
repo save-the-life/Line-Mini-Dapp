@@ -10,6 +10,7 @@ import MaintenanceScreen from "./Maintenance";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import useWalletStore from "@/shared/store/useWalletStore";
+import { useSDK } from '@/shared/hooks/useSDK';
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
 const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
@@ -26,6 +27,7 @@ interface AppInitializerProps {
 const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const navigate = useNavigate();
   const { fetchUserData } = useUserStore();
+  const { sdk, initializeSDK } = useSDK();
   const [showSplash, setShowSplash] = useState(true);
   const [showMaintenance, setShowMaintenance] = useState(false);
   const initializedRef = useRef(false);
@@ -321,20 +323,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지");
           
-          // === DappPortalSDK 싱글톤 패턴 적용 ===
-          const sdkInStore = useWalletStore.getState().sdk;
-          if (!sdkInStore) {
-            const sdk = await DappPortalSDK.init({
-              clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-              chainId: "8217",
-            });
-            useWalletStore.getState().setSdk(sdk);
-            useWalletStore.getState().setInitialized(true);
-            console.log("[InitializeApp] DappPortalSDK 싱글톤 초기화 및 zustand에 저장");
+          // SDK 초기화
+          if (!sdk) {
+            console.log("[InitializeApp] SDK 초기화 필요");
+            await initializeSDK();
           } else {
-            console.log("[InitializeApp] 이미 SDK가 zustand에 저장되어 있음, 재초기화하지 않음");
+            console.log("[InitializeApp] SDK가 이미 초기화되어 있음");
           }
-          // === 싱글톤 패턴 끝 ===
 
           // 지갑 연결 상태 확인
           const walletAddress = localStorage.getItem('walletAddress');
@@ -343,7 +338,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             navigate("/connect-wallet");
           } else {
             try {
-              const sdk = useWalletStore.getState().sdk;
               if (sdk) {
                 const isConnected = await sdk.isConnected();
                 if (isConnected) {
@@ -381,20 +375,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
 
-        // === DappPortalSDK 싱글톤 패턴 적용 ===
-        const sdkInStore = useWalletStore.getState().sdk;
-        if (!sdkInStore) {
-          const sdk = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "8217",
-          });
-          useWalletStore.getState().setSdk(sdk);
-          useWalletStore.getState().setInitialized(true);
-          console.log("[InitializeApp] DappPortalSDK 싱글톤 초기화 및 zustand에 저장");
+        // SDK 초기화
+        if (!sdk) {
+          console.log("[InitializeApp] SDK 초기화 필요");
+          await initializeSDK();
         } else {
-          console.log("[InitializeApp] 이미 SDK가 zustand에 저장되어 있음, 재초기화하지 않음");
+          console.log("[InitializeApp] SDK가 이미 초기화되어 있음");
         }
-        // === 싱글톤 패턴 끝 ===
 
         await handleTokenFlow();
       } catch (error: any) {
@@ -431,7 +418,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
     };
 
     initializeApp();
-  }, [fetchUserData, navigate, onInitialized]);
+  }, [fetchUserData, navigate, onInitialized, sdk, initializeSDK]);
 
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
