@@ -6,7 +6,7 @@ import webLoginWithAddress from "@/entities/User/api/webLogin";
 import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
 import i18n from "@/shared/lib/il8n";
-import { connectWallet } from "@/shared/services/walletService";
+import { connectWallet as connectWalletService } from "@/shared/services/walletService";
 import requestWallet from "@/entities/User/api/addWallet";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
@@ -181,134 +181,92 @@ const ConnectWalletPage: React.FC = () => {
       console.warn("[ConnectWallet] SDK가 아직 준비되지 않았음. handleConnectWallet 실행 중단");
       return;
     }
-    console.log("[ConnectWallet] handleConnectWallet 시작", { retry });
+
+    const provider = sdk.getWalletProvider();
+    let accounts = await provider.request({ method: 'kaia_accounts' });
+    let walletAddress = accounts && accounts.length > 0 ? accounts[0] : null;
+
+    if (!walletAddress) {
+      const connectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
+      walletAddress = connectedAccounts && connectedAccounts.length > 0 ? connectedAccounts[0] : null;
+      if (!walletAddress) {
+        throw new Error("지갑 연결이 필요합니다.");
+      }
+    }
+
+    // provider에서 직접 walletType을 읽음
+    const walletType = provider.getWalletType() || "";
+    useWalletStore.getState().setWalletAddress(walletAddress);
+    useWalletStore.getState().setWalletType(walletType);
+    useWalletStore.getState().setProvider(provider);
+    useWalletStore.getState().setInitialized(true);
+
+    // connectWalletService에 sdk와 provider를 파라미터로 넘김
     try {
-      // SDK 초기화 상태 확인
-      const { sdk, initialized } = useWalletStore.getState();
-      console.log("[ConnectWallet] 현재 SDK 상태:", { initialized, hasSdk: !!sdk });
-      
-      // SDK가 초기화되지 않았다면 에러
-      if (!initialized || !sdk) {
-        throw new Error("SDK가 초기화되지 않았습니다. 새로고침 후 다시 시도해 주세요.");
+      await connectWalletService({ sdk, provider });
+    } catch (error) {
+      console.error("[ConnectWallet] connectWalletService 에러:", error);
+      throw error;
+    }
+
+    // 로컬스토리지에서 레퍼럴 코드 확인
+    const referralCode = localStorage.getItem("referralCode");
+    console.log("[ConnectWallet] 레퍼럴 코드:", referralCode);
+
+    // 주소 기반 Web 로그인
+    console.log("[ConnectWallet] webLoginWithAddress 호출");
+    const webLogin = await webLoginWithAddress(walletAddress, referralCode);
+    console.log("[ConnectWallet] webLogin 결과:", webLogin);
+
+    if (!webLogin) {
+      throw new Error("Web login failed.");
+    }
+
+    // webLoginWithAddress 성공 시, requestWallet 실행
+    if (walletAddress && walletType) {
+      console.log("[ConnectWallet] requestWallet 호출");
+      await requestWallet(walletAddress, walletType.toUpperCase());
+    } else {
+      console.log("[ConnectWallet] 지갑 정보 누락, 재연결 시도");
+      useWalletStore.getState().clearWallet();
+      await connectWalletService({ sdk, provider });
+    }
+
+    await fetchUserData();
+
+    const userTimeZone = useUserStore.getState().timeZone;
+    const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("[ConnectWallet] 타임존 정보:", { userTimeZone, currentTimeZone });
+
+    if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+      try {
+        console.log("[ConnectWallet] 타임존 업데이트 시도");
+        await updateTimeZone(currentTimeZone);
+        console.log("[ConnectWallet] 타임존 업데이트 성공");
+      } catch (error: any) {
+        console.error("[ConnectWallet] 타임존 업데이트 실패:", error);
       }
+    }
 
-      // 지갑 연결 상태 확인
-      const provider = sdk.getWalletProvider();
-      const accounts = await provider.request({ method: 'kaia_accounts' });
-      const isConnected = accounts && accounts.length > 0;
-      console.log("[ConnectWallet] 현재 지갑 연결 상태:", isConnected, "계정:", accounts);
-
-      if (!isConnected) {
-        console.log("[ConnectWallet] 지갑 연결 필요");
-        // 지갑 연결 요청
-        const connectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
-        if (!connectedAccounts || connectedAccounts.length === 0) {
-          throw new Error("지갑 연결이 필요합니다.");
-        }
-        console.log("[ConnectWallet] 지갑 연결 성공:", connectedAccounts);
-      }
-
-      // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
-      const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
-      console.log("[ConnectWallet] 연결된 지갑 정보:", { walletAddress, walletType });
-
-      // 지갑 주소를 localStorage에 저장
-      if (walletAddress) {
-        localStorage.setItem('walletAddress', walletAddress);
-        console.log("[ConnectWallet] 지갑 주소를 localStorage에 저장:", walletAddress);
-      }
-
-      // 로컬스토리지에서 레퍼럴 코드 확인
-      const referralCode = localStorage.getItem("referralCode");
-      console.log("[ConnectWallet] 레퍼럴 코드:", referralCode);
-
-      // 주소 기반 Web 로그인
-      console.log("[ConnectWallet] webLoginWithAddress 호출");
-      const webLogin = await webLoginWithAddress(walletAddress, referralCode);
-      console.log("[ConnectWallet] webLogin 결과:", webLogin);
-
-      if (!webLogin) {
-        throw new Error("Web login failed.");
-      }
-
-      // webLoginWithAddress 성공 시, requestWallet 실행
-      if (walletAddress && walletType) {
-        console.log("[ConnectWallet] requestWallet 호출");
-        await requestWallet(walletAddress, walletType.toUpperCase());
-      } else {
-        console.log("[ConnectWallet] 지갑 정보 누락, 재연결 시도");
-        clearWallet();
-        await connectWallet();
-      }
-
-      await fetchUserData();
-
-      const userTimeZone = useUserStore.getState().timeZone;
-      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("[ConnectWallet] 타임존 정보:", { userTimeZone, currentTimeZone });
-
-      if (userTimeZone === null || userTimeZone !== currentTimeZone) {
-        try {
-          console.log("[ConnectWallet] 타임존 업데이트 시도");
-          await updateTimeZone(currentTimeZone);
-          console.log("[ConnectWallet] 타임존 업데이트 성공");
-        } catch (error: any) {
-          console.error("[ConnectWallet] 타임존 업데이트 실패:", error);
-        }
-      }
-
-      if (referralCode === "dapp-portal-promotions") {
-        try {
-          console.log("[ConnectWallet] 프로모션 확인");
-          const promo = await getPromotion();
-          console.log("[ConnectWallet] 프로모션 결과:", promo);
-          if (promo === "Success") {
-            console.log("[ConnectWallet] 프로모션 페이지로 이동");
-            navigate("/promotion");
-          } else {
-            console.log("[ConnectWallet] 메인 페이지로 이동");
-            navigate("/dice-event");
-          }
-        } catch (error: any) {
-          console.error("[ConnectWallet] 프로모션 확인 실패:", error);
+    if (referralCode === "dapp-portal-promotions") {
+      try {
+        console.log("[ConnectWallet] 프로모션 확인");
+        const promo = await getPromotion();
+        console.log("[ConnectWallet] 프로모션 결과:", promo);
+        if (promo === "Success") {
+          console.log("[ConnectWallet] 프로모션 페이지로 이동");
+          navigate("/promotion");
+        } else {
+          console.log("[ConnectWallet] 메인 페이지로 이동");
           navigate("/dice-event");
         }
-      } else {
-        console.log("[ConnectWallet] 메인 페이지로 이동");
+      } catch (error: any) {
+        console.error("[ConnectWallet] 프로모션 확인 실패:", error);
         navigate("/dice-event");
       }
-    } catch (error: any) {
-      console.error("[ConnectWallet] 에러 발생:", error);
-      console.error("[ConnectWallet] 에러 상세:", {
-        message: error.message,
-        code: error.code,
-        response: error.response?.data,
-        stack: error.stack
-      });
-
-      if (is502Error(error)) {
-        console.log("[ConnectWallet] 502 에러 감지됨 -> MaintenanceScreen 표시");
-        setShowMaintenance(true);
-        return;
-      }
-
-      // 토큰 관련 에러라면 한 번만 재시도
-      if (
-        !retry &&
-        (error.response?.data === "Token not found in Redis or expired" ||
-          error.message === "Web login failed.")
-      ) {
-        console.log("[ConnectWallet] 토큰 관련 에러, 재시도");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        return handleConnectWallet(true);
-      }
-
-      if (error.message === "Please choose your character first.") {
-        console.log("[ConnectWallet] 캐릭터 선택 필요");
-        navigate("/choose-character");
-        return;
-      }
+    } else {
+      console.log("[ConnectWallet] 메인 페이지로 이동");
+      navigate("/dice-event");
     }
   };
 
