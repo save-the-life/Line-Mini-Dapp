@@ -52,20 +52,18 @@ const ConnectWalletPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
   const [isCheckingConnection, setIsCheckingConnection] = useState<boolean>(true);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
+  // 모바일 체크는 한 번만 실행
   useEffect(() => {
-    console.log("[ConnectWallet] 페이지 마운트");
     setIsMobile(checkIsMobile());
+  }, []);
 
-    // 브라우저 언어 기반 언어 설정
-    const browserLanguage = navigator.language;
-    const lang = browserLanguage.slice(0, 2);
-    const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
-    const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
-    i18n.changeLanguage(i18nLanguage);
-
-    // SDK 초기화 및 연결 상태 확인
+  // SDK 초기화 및 연결 상태 확인
+  useEffect(() => {
     const initializeSdk = async () => {
+      if (isInitialized) return;
+      
       console.log("[ConnectWallet] SDK 초기화 시작");
       try {
         if (!sdk) {
@@ -143,6 +141,7 @@ const ConnectWalletPage: React.FC = () => {
           console.log("[ConnectWallet] 저장된 지갑 주소가 없거나 SDK가 초기화되지 않음");
         }
         setIsCheckingConnection(false);
+        setIsInitialized(true);
       } catch (error: any) {
         console.error("[ConnectWallet] SDK 초기화 실패:", error);
         console.error("[ConnectWallet] 초기화 실패 상세:", {
@@ -151,11 +150,12 @@ const ConnectWalletPage: React.FC = () => {
           stack: error.stack
         });
         setIsCheckingConnection(false);
+        setIsInitialized(true);
       }
     };
 
     initializeSdk();
-  }, [sdk, initializeSDK, navigate, fetchUserData]);
+  }, [sdk, initializeSDK, navigate, fetchUserData, isInitialized]);
 
   const handleConnectWallet = async (retry = false) => {
     if (!sdk) {
