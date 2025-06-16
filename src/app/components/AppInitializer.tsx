@@ -339,11 +339,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           } else {
             try {
               if (sdk) {
-                const isConnected = await sdk.isConnected();
-                if (isConnected) {
+                const provider = sdk.getWalletProvider();
+                const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
+                if (accounts && accounts.length > 0) {
                   console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 메인 페이지로 이동");
                   // 지갑 주소를 store에 설정
-                  useWalletStore.getState().setWalletAddress(walletAddress);
+                  useWalletStore.getState().setWalletAddress(accounts[0]);
                   navigate("/dice-event");
                 } else {
                   console.log("[Step 2-2] 지갑 연결이 끊어짐 -> /connect-wallet 이동");
@@ -364,6 +365,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           return;
         }
 
+        // LIFF 브라우저인 경우 기존 로직 실행
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(
           liff.init({
@@ -374,14 +376,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           "LIFF init Timeout"
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
-
-        // SDK 초기화
-        if (!sdk) {
-          console.log("[InitializeApp] SDK 초기화 필요");
-          await initializeSDK();
-        } else {
-          console.log("[InitializeApp] SDK가 이미 초기화되어 있음");
-        }
 
         await handleTokenFlow();
       } catch (error: any) {
