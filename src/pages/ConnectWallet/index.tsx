@@ -51,6 +51,13 @@ const ConnectWalletPage: React.FC = () => {
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
   const [isCheckingConnection, setIsCheckingConnection] = useState<boolean>(true);
 
+  // zustand store에서 sdk와 initialized를 가져오고, sdk의 실체를 로그로 확인
+  const { sdk, initialized } = useWalletStore.getState();
+  useEffect(() => {
+    console.log("[ConnectWallet] sdk:", sdk, "typeof sdk:", typeof sdk, "initialized:", initialized);
+    console.log("[ConnectWallet] sdk.getWalletProvider:", sdk?.getWalletProvider);
+  }, [sdk, initialized]);
+
   useEffect(() => {
     console.log("[ConnectWallet] 페이지 마운트");
     setIsMobile(checkIsMobile());
@@ -170,6 +177,10 @@ const ConnectWalletPage: React.FC = () => {
   }, []);
 
   const handleConnectWallet = async (retry = false) => {
+    if (!initialized || !sdk || typeof sdk.getWalletProvider !== "function") {
+      console.warn("[ConnectWallet] SDK가 아직 준비되지 않았음. handleConnectWallet 실행 중단");
+      return;
+    }
     console.log("[ConnectWallet] handleConnectWallet 시작", { retry });
     try {
       // SDK 초기화 상태 확인
@@ -300,6 +311,23 @@ const ConnectWalletPage: React.FC = () => {
       }
     }
   };
+
+  if (!initialized || !sdk || typeof sdk.getWalletProvider !== "function") {
+    return (
+      <div className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
+        style={{ backgroundImage: `url(${Images.SplashBackground})` }}>
+        <motion.img
+          src={Images.SplashTitle}
+          alt="Lucky Dice Logo"
+          className="w-[272px] mb-[90px]"
+          initial={shouldReduceMotion ? {} : { y: 80 }}
+          animate={shouldReduceMotion ? {} : { y: 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        />
+        <div className="text-white">지갑 SDK를 초기화 중입니다...</div>
+      </div>
+    );
+  }
 
   if (isCheckingConnection) {
     return (
