@@ -19,7 +19,7 @@ class SDKService {
       try {
         this.sdk = await DappPortalSDK.init({
           clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-          chainId: "8217",
+          chainId: "1001",
         });
         this.initialized = true;
         console.log("[SDK Service] SDK 초기화 성공:", this.sdk);

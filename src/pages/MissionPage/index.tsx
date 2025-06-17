@@ -28,98 +28,8 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 //test-net
-// const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
-// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-// const abi = [
-//    {
-//       "anonymous": false,
-//       "inputs": [
-//          {
-//             "indexed": true,
-//             "internalType": "address",
-//             "name": "user",
-//             "type": "address"
-//          },
-//          {
-//             "indexed": false,
-//             "internalType": "uint256",
-//             "name": "userClaimCount",
-//             "type": "uint256"
-//          },
-//          {
-//             "indexed": false,
-//             "internalType": "uint256",
-//             "name": "totalClaimCount",
-//             "type": "uint256"
-//          }
-//       ],
-//       "name": "Claimed",
-//       "type": "event"
-//    },
-//    {
-//       "inputs": [
-//          {
-//             "internalType": "address",
-//             "name": "",
-//             "type": "address"
-//          }
-//       ],
-//       "name": "claimCount",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [
-//          {
-//             "internalType": "address",
-//             "name": "user",
-//             "type": "address"
-//          }
-//       ],
-//       "name": "getClaimCount",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [],
-//       "name": "markClaimed",
-//       "outputs": [],
-//       "stateMutability": "nonpayable",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [],
-//       "name": "totalClaims",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    }
-// ]
-
-
-//main-net
-const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
-const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
+const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
+const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const abi = [
    {
       "anonymous": false,
@@ -205,6 +115,96 @@ const abi = [
       "type": "function"
    }
 ]
+
+
+//main-net
+// const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
+// const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
+// const abi = [
+//    {
+//       "anonymous": false,
+//       "inputs": [
+//          {
+//             "indexed": true,
+//             "internalType": "address",
+//             "name": "user",
+//             "type": "address"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "userClaimCount",
+//             "type": "uint256"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "totalClaimCount",
+//             "type": "uint256"
+//          }
+//       ],
+//       "name": "Claimed",
+//       "type": "event"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "address",
+//             "name": "",
+//             "type": "address"
+//          }
+//       ],
+//       "name": "claimCount",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "address",
+//             "name": "user",
+//             "type": "address"
+//          }
+//       ],
+//       "name": "getClaimCount",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [],
+//       "name": "markClaimed",
+//       "outputs": [],
+//       "stateMutability": "nonpayable",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [],
+//       "name": "totalClaims",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    }
+// ]
 
 interface OneTimeMissionCardProps {
   mission: Mission;

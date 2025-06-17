@@ -29,7 +29,7 @@ export const useSDK = () => {
       console.log('[useSDK] SDK 초기화를 시작합니다...');
       const sdkInstance = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "8217",
+        chainId: "1001",
       });
 
       setSdk(sdkInstance);

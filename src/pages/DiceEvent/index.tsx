@@ -238,7 +238,7 @@ const DiceEventPage: React.FC = () => {
         try {
           const sdkInstance = await DappPortalSDK.init({
             clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "8217",
+            chainId: "1001",
           });
           useWalletStore.getState().setSdk(sdkInstance);
           useWalletStore.getState().setInitialized(true);
