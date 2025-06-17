@@ -785,7 +785,7 @@ const MissionPage: React.FC = () => {
 
             {/* 배경 이미지 (z-10) */}
             <img
-              src={Images.KaiaLevel3}
+              src={Images.KaiaLevel5}
               alt="kaia-level2"
               className="
                 absolute
@@ -953,7 +953,7 @@ const MissionPage: React.FC = () => {
 
             {/* 배경 이미지 (z-10) */}
             <img
-              src={Images.KaiaLevel3}
+              src={Images.KaiaLevel5}
               alt="kaia-level2"
               className="
                 absolute

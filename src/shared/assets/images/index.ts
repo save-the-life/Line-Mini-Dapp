@@ -189,6 +189,7 @@ import Pylon from "./pylon.png"
 import DarkSplash from "./dark-splash.png"
 import KaiaLevel2 from "./kaia-level2.png"
 import KaiaLevel3 from "./kaia-level3.png"
+import KaiaLevel5 from "./kaia-level5.png"
 import KaiaLevel10 from "./kaia-level10.png"
 import Tips from "./tips.png"
 import Raffle from "./raffle.png"
@@ -400,6 +401,7 @@ const Images = {
   DarkSplash,
   KaiaLevel2,
   KaiaLevel3,
+  KaiaLevel5,
   KaiaLevel10,
   Tips,
   Raffle,
