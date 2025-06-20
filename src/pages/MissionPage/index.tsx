@@ -441,12 +441,21 @@ const MissionPage: React.FC = () => {
         // connectWallet 함수는 지갑 연결만 수행합니다.
         await connectWallet({ sdk: sdkInstance, provider: sdkInstance.getWalletProvider() });
         console.log('[MissionPage] 지갑 연결 성공');
-      } catch (error) {
+      } catch (error: any) {
         console.error("[MissionPage] Wallet connection failed:", error);
+        
+        // JSON-RPC 오류인 경우 특별 처리
+        if (error.code === -32603 || error.code === -32001) {
+          console.log('[MissionPage] JSON-RPC 오류 발생, 지갑 연결 건너뜀:', error.message);
+          return;
+        }
       }
     };
 
-    checkWalletConnection();
+    // 지연 실행으로 중복 요청 방지
+    const timeoutId = setTimeout(checkWalletConnection, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, [walletAddress, sdkInstance, initialized, isInitializing, provider]);
 
   // 미션 클리어 시 보상 처리 (이미 보상 모달이 표시된 미션은 건너뜁니다)
