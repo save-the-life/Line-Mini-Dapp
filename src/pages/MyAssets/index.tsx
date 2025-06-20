@@ -86,7 +86,7 @@ const MyAssets: React.FC = () => {
     const [copySuccess, setCopySuccess] = useState(false);
     
     const { walletAddress, provider, sdk, clearWallet } = useWalletStore();
-    const { initializeSDK } = useSDK();
+    useSDK(); // SDK 초기화를 위해 훅 호출
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -312,45 +312,25 @@ const MyAssets: React.FC = () => {
     // 지갑 연결 및 잔액 확인 함수
     const handleBalance = async () => {
         playSfx(Audios.button_click);
-        if (!walletAddress || !sdk) {
-            // console.log("지갑 주소 혹은 sdk가 없어요. 지갑 연동 시작");
-            try {
-                const connection = await connectWallet({ sdk, provider });
-                if (connection && connection.walletAddress && connection.provider) {
-                    await fetchBalance(connection.walletAddress);
-                    setShowWalletModal(true);
-                } else {
-                    // console.error("지갑 연결 상태 업데이트 실패");
-                }
-            } catch (error: any) {
-                // console.error("지갑 연결 에러:", error.message);
-            }
-        } else {
-            // console.log("지갑 주소가 있어요. ", walletAddress);
+        if (walletAddress) {
             await fetchBalance(walletAddress);
             setShowWalletModal(true);
+        } else {
+            // 지갑이 연결되지 않았을 때 사용자에게 알림
+            alert(t("asset_page.claim.wallet_connect"));
+            navigate('/wallet');
         }
     };
 
-    // 통합 useEffect: useWalletStore 에서 지갑 주소 확인 후, 없으면 자동 지갑 연결, 있으면 잔액 조회
+    // walletAddress가 있을 때 잔액과 자산 정보를 불러옴
     useEffect(() => {
-        const checkStoredWallet = async () => {
+        const fetchWalletData = async () => {
             if (walletAddress) {
-                // console.log("지갑 주소 확인: ", walletAddress);
-                // console.log("provider 확인: ", provider);
                 await fetchBalance(walletAddress);
-            } else {
-                // console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행");
-                if (provider && provider.disconnectWallet) {
-                    // console.log("provider가 존재한다면 지갑 연결 해제");
-                    provider.disconnectWallet();
-                    clearWallet();
-                }
-                await handleBalance();
             }
         };
-        checkStoredWallet();
-    }, []);
+        fetchWalletData();
+    }, [walletAddress]);
 
     // walletAccount가 있을 때 내 자산 정보를 불러옴
     useEffect(() => {
@@ -476,31 +456,6 @@ const MyAssets: React.FC = () => {
         setCopySuccess(false);
     }
   };
-
-    const checkWalletConnection = async () => {
-        try {
-            if (!sdk) {
-                console.log('[MyAssets] SDK가 초기화되지 않았습니다. 초기화를 시도합니다...');
-                const initializedSDK = await initializeSDK();
-                if (!initializedSDK) {
-                    throw new Error('SDK 초기화에 실패했습니다.');
-                }
-            }
-
-            const provider = sdk.getWalletProvider();
-            const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
-            const isConnected = accounts && accounts.length > 0;
-
-            if (!isConnected) {
-                throw new Error('지갑이 연결되어 있지 않습니다.');
-            }
-
-            // ... rest of the existing code ...
-        } catch (error: any) {
-            console.error('[MyAssets] 지갑 연결 확인 중 오류 발생:', error);
-            // ... rest of the error handling code ...
-        }
-    };
 
     return (  
         loading 
