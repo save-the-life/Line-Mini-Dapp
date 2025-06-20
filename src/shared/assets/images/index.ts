@@ -202,13 +202,15 @@ import Reward100000 from "./reward-100000point.png"
 import DiceReward from "./dice-reward.png"
 import PointReward from "./point-reward.png"
 import RaffleReward from "./raffle-reward.png"
-import CardDog from "./card-dog.png"
-import CardCat from "./card-cat.png"
-import CardBomb from "./card-bomb.png"
-import CardPoint from "./card-point.png"
 import Close from "./close.png"
 import Minus from "./minus.png"
 import Plus from "./plus.png"
+import CardBack from "./card-back.png"
+import CardGame from "./card-game.png"
+import CardClover from "./card-clover.png"
+import CardDiamond from "./card-daimond.png"
+import CardSpade from "./card-spade.png"
+import CardHeart from "./card-heart.png"
 
 const Images = {
   HorizontalLogo,
@@ -414,13 +416,15 @@ const Images = {
   DiceReward,
   PointReward,
   RaffleReward,
-  CardDog,
-  CardCat,
-  CardBomb,
-  CardPoint,
   Close,
   Minus,
-  Plus
+  Plus,
+  CardBack,
+  CardClover,
+  CardDiamond,
+  CardSpade,
+  CardHeart,
+  CardGame
 };
 
 export default Images;

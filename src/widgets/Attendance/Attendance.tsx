@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import AttendanceDay from "@/features/AttendanceDay/components/AttendanceDay";
 import { useUserStore } from "@/entities/User/model/userModel";
 import { useTranslation } from "react-i18next";
-import DappPortalSDK from "@linenext/dapp-portal-sdk"; // ✅ SDK 가져오기
 import { Web3Provider } from "@kaiachain/ethers-ext"; // ✅ Fee Delegation 지원
 import { TxType } from "@kaiachain/js-ext-core"; // ✅ Fee Delegation 타입 추가
 import { ethers } from "ethers";
@@ -15,6 +14,7 @@ import testingAttendance from "@/entities/User/api/testAttendance";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import okxAttendance from "@/entities/User/api/okxAttendance";
+import { useSDK } from '@/shared/hooks/useSDK';
 
 const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
 const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
@@ -220,6 +220,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
    const [isConnecting, setIsConnecting] = useState(false);
    const [showModal, setShowModal] = useState(false);
    const [message, setMessage] = useState("");
+   const { isInitialized } = useSDK();
 
   // 출석 상태 결정 로직
   const getStatus = (day: DayKeys) => {
@@ -249,19 +250,32 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
 
    const handleAttendanceClick = async () => {
-      if (!provider || !walletAddress || !sdk || !walletType) {
-         if (isConnecting) return;
-         setIsConnecting(true);
-         const connection = await connectWallet();
-         setIsConnecting(false);
-         if (!connection.provider || !connection.walletAddress) {
+      try {
+         if (!isInitialized) {
+            console.log('[Attendance] SDK가 아직 초기화되지 않았습니다.');
             setShowModal(true);
-            setMessage(t("attendance.wallet_fail"));
+            setMessage(t("attendance.attendance_err"));
             return;
          }
-      }
 
-      try {
+         if (!sdk) {
+            console.log('[Attendance] SDK가 초기화되지 않았습니다.');
+            setShowModal(true);
+            setMessage(t("attendance.attendance_err"));
+            return;
+         }
+
+         const provider = sdk.getWalletProvider();
+         const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
+         const isConnected = accounts && accounts.length > 0;
+
+         if (!isConnected) {
+            console.log('[Attendance] 지갑이 연결되어 있지 않습니다.');
+            setShowModal(true);
+            setMessage(t("attendance.attendance_err"));
+            return;
+         }
+
          const ethersProvider = new Web3Provider(provider);
          const signer = ethersProvider.getSigner();
          const contract = new ethers.Contract(contractAddress, abi, signer);
@@ -323,8 +337,8 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
             setShowModal(true);
             setMessage(t("attendance.attendance_failed"));
          }
-      } catch (error) {
-         console.log("에러 확인: ", error)
+      } catch (error: any) {
+         console.error('[Attendance] 출석체크 중 오류 발생:', error);
          setShowModal(true);
          setMessage(t("attendance.attendance_err"));
       }
