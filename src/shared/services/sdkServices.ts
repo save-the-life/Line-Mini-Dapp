@@ -55,7 +55,7 @@ class SDKService {
       console.log("[SDK Service] SDK 초기화 시작...");
       globalSDKInstance = await DappPortalSDK.init({
         clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "1001",
+        chainId: "8217",
       });
       console.log("[SDK Service] SDK 초기화 성공:", globalSDKInstance);
       return globalSDKInstance;
