@@ -32,6 +32,7 @@ import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 import SDKService from "@/shared/services/sdkServices";
+import { useSDK } from "@/shared/hooks/useSDK";
 
 
 const levelRewards = [
@@ -87,6 +88,8 @@ const DiceEventPage: React.FC = () => {
   const [delta, setDelta] = useState<number>(56);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { isInitialized } = useSDK();
+  const { walletAddress } = useWalletStore();
 
 
   // AirDrop 팝업 표시를 위한 상태
@@ -232,55 +235,12 @@ const DiceEventPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    async function initializeUserData() {
-      const sdk = useWalletStore.getState().sdk;
-      if (!sdk) {
-        console.log("[DiceEvent] SDK가 초기화되지 않았습니다. 지갑 연결을 시도합니다.");
-        try {
-          
-          // SDKService를 통한 싱글톤 초기화
-          const sdkService = SDKService.getInstance();
-          const sdkInstance = await sdkService.initialize();
-          // const sdkInstance = await DappPortalSDK.init({
-          //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-          //   chainId: "1001",
-          // });
-          useWalletStore.getState().setSdk(sdkInstance);
-          useWalletStore.getState().setInitialized(true);
-          
-          // 지갑 연결 상태 확인
-          const provider = sdkInstance.getWalletProvider();
-          console.log("[DiceEvent] 지갑 타입:", provider.getWalletType());
-          const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
-          const isConnected = accounts && accounts.length > 0;
-          console.log("[DiceEvent] 지갑 연결 상태:", isConnected, "계정:", accounts);
-
-          if (isConnected) {
-            console.log("[DiceEvent] 지갑이 이미 연결되어 있습니다.");
-            // 사용자 데이터를 불러오고 타임존 업데이트 진행
-            await fetchUserData();
-            const userTimeZone = useUserStore.getState().timeZone;
-            const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            if (userTimeZone === null || userTimeZone !== currentTimeZone) {
-              try {
-                await updateTimeZone(currentTimeZone);
-              } catch (error: any) {
-                console.log("[DiceEvent] timezone error", error);
-              }
-            }
-          } else {
-            console.log("[DiceEvent] 지갑이 연결되어 있지 않습니다. 지갑 연결 페이지로 이동합니다.");
-            navigate("/connect-wallet");
-          }
-        } catch (error) {
-          console.error("[DiceEvent] SDK 초기화 또는 지갑 연결 중 오류 발생:", error);
-          navigate("/connect-wallet");
-        }
-      } else {
-        // SDK가 이미 초기화된 경우
-        console.log("[DiceEvent] SDK가 이미 초기화되어 있습니다.");
-        // 사용자 데이터를 불러오고 타임존 업데이트 진행
+    // SDK가 초기화되고 지갑이 연결된 후에 사용자 데이터를 가져옵니다.
+    const initializeUserData = async () => {
+      if (isInitialized && walletAddress) {
+        console.log("[DiceEvent] SDK is initialized and wallet is connected. Fetching user data.");
         await fetchUserData();
+
         const userTimeZone = useUserStore.getState().timeZone;
         const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         if (userTimeZone === null || userTimeZone !== currentTimeZone) {
@@ -290,20 +250,22 @@ const DiceEventPage: React.FC = () => {
             console.log("[DiceEvent] timezone error", error);
           }
         }
-      }
 
-      // 카이아 미션 인입 여부 확인
-      const kaiaRedirect = localStorage.getItem("KaiaMission");
-      if(kaiaRedirect === "kaia-reward"){
-        try{
-          await getKaiaRedirection();
-        } catch(error: any){
-          console.log("[DiceEvent] kaia redirection error", error);
+        const kaiaRedirect = localStorage.getItem("KaiaMission");
+        if(kaiaRedirect === "kaia-reward"){
+          try{
+            await getKaiaRedirection();
+          } catch(error: any){
+            console.log("[DiceEvent] kaia redirection error", error);
+          }
         }
+      } else {
+        console.log(`[DiceEvent] Waiting for SDK and wallet... SDK Initialized: ${isInitialized}, Wallet Connected: ${!!walletAddress}`);
       }
-    }
+    };
+
     initializeUserData();
-  }, []);
+  }, [isInitialized, walletAddress, fetchUserData]);
 
   useEffect(() => {
     const handleResize = () => {
