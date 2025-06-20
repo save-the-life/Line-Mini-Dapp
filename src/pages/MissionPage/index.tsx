@@ -26,7 +26,6 @@ import { Web3Provider } from "@kaiachain/ethers-ext";
 import { TxType } from "@kaiachain/js-ext-core"; // ✅ Fee Delegation 타입 추가
 import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
-import { useSDK } from "@/shared/hooks/useSDK";
 
 //test-net
 // const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
@@ -334,7 +333,7 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
               10% Payback
             </span>
             <span className="font-normal text-sm">
-              on Your Friend's Purchase
+              on Your Friend’s Purchase
             </span>
           </Trans>
         </div>
@@ -360,11 +359,8 @@ const MissionPage: React.FC = () => {
   const { missions, fetchMissions, clearMission } = useMissionStore();
   const kaiaMission = missions.find((mission) => mission.type === "KAIA");
 
-  // SDK 훅 사용
-  const { sdk: sdkInstance, isInitializing } = useSDK();
-
   // 지갑 관련 전역 상태
-  const { walletAddress, provider, sdk, walletType, initialized } = useWalletStore();
+  const { walletAddress, provider, sdk, walletType } = useWalletStore();
   const [isConnecting, setIsConnecting] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
@@ -421,42 +417,20 @@ const MissionPage: React.FC = () => {
     fetchMissions();
   }, [fetchMissions]);
 
-  // SDK 초기화 완료 후 지갑 연결 상태 확인
+  // 여기에 지갑 연결 로직 추가 (잔액 조회 없이)
   useEffect(() => {
     const checkWalletConnection = async () => {
-      // SDK가 초기화되지 않았거나 초기화 중이면 대기
-      if (isInitializing || !sdkInstance || !initialized) {
-        console.log('[MissionPage] SDK 초기화 대기 중...');
-        return;
-      }
-
-      // 이미 지갑이 연결되어 있으면 스킵
-      if (walletAddress && provider) {
-        console.log('[MissionPage] 지갑이 이미 연결되어 있습니다:', walletAddress);
-        return;
-      }
-
-      try {
-        console.log('[MissionPage] 지갑 연결 시도...');
-        // connectWallet 함수는 지갑 연결만 수행합니다.
-        await connectWallet({ sdk: sdkInstance, provider: sdkInstance.getWalletProvider() });
-        console.log('[MissionPage] 지갑 연결 성공');
-      } catch (error: any) {
-        console.error("[MissionPage] Wallet connection failed:", error);
-        
-        // JSON-RPC 오류인 경우 특별 처리
-        if (error.code === -32603 || error.code === -32001) {
-          console.log('[MissionPage] JSON-RPC 오류 발생, 지갑 연결 건너뜀:', error.message);
-          return;
+      if (!walletAddress) {
+        try {
+          // connectWallet 함수는 지갑 연결만 수행합니다.
+          await connectWallet();
+        } catch (error) {
+          console.error("Wallet connection failed:", error);
         }
       }
     };
-
-    // 지연 실행으로 중복 요청 방지
-    const timeoutId = setTimeout(checkWalletConnection, 100);
-    
-    return () => clearTimeout(timeoutId);
-  }, [walletAddress, sdkInstance, initialized, isInitializing, provider]);
+    checkWalletConnection();
+  }, [walletAddress]);
 
   // 미션 클리어 시 보상 처리 (이미 보상 모달이 표시된 미션은 건너뜁니다)
   const handleMissionCleared = (mission: Mission) => {
@@ -506,29 +480,14 @@ const MissionPage: React.FC = () => {
   const handleKaiaMission = async() => {
     playSfx(Audios.button_click);
     
-    // SDK 초기화 상태 확인
-    if (isInitializing || !sdkInstance || !initialized) {
-      console.log('[MissionPage] SDK 초기화 대기 중...');
-      setShowModal(true);
-      setMessage("SDK가 초기화되지 않았습니다. 잠시 후 다시 시도해 주세요.");
-      return;
-    }
-    
     if (!provider || !walletAddress || !sdk || !walletType) {
       if (isConnecting) return;
       setIsConnecting(true);
-      try {
-        const connection = await connectWallet({ sdk: sdkInstance, provider: sdkInstance.getWalletProvider() });
-        setIsConnecting(false);
-        if (!connection.provider || !connection.walletAddress) {
-          setShowModal(true);
-          setMessage(t("attendance.wallet_fail"));
-          return;
-        }
-      } catch (error) {
-        setIsConnecting(false);
+      const connection = await connectWallet();
+      setIsConnecting(false);
+      if (!connection.provider || !connection.walletAddress) {
         setShowModal(true);
-        setMessage("지갑 연결에 실패했습니다. 다시 시도해 주세요.");
+        setMessage(t("attendance.wallet_fail"));
         return;
       }
     }
@@ -612,27 +571,45 @@ const MissionPage: React.FC = () => {
       setKaiaModal(true);
       setKaiaMessage(t("mission_page.failed"));
     }
+
+    // 지갑 주소가 존재하는 경우에 진행
+    // if(walletAddress != null){
+    //   // 시간이 걸리므로 로딩창 표시
+    //   setKaiaLoading(true);
+    //   try{
+    //     const kaia = await requestKaiaMission(walletAddress);
+
+    //     if(kaia.message === "Success"){
+    //       setKaiaLoading(false);
+    //       setKaiaModal(true);
+    //       setKaiaMessage(t("mission_page.success"));
+    //     } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
+    //       setKaiaLoading(false);
+    //       setKaiaModal(true);
+    //       setKaiaMessage(t("mission_page.already"));
+    //     } else if( kaia.message === "You're not eligible for the reward."){
+    //       setKaiaLoading(false);
+    //       setKaiaModal(true);
+    //       setKaiaMessage(t("mission_page.not_eligible"));
+    //     }
+    //   } catch(error: any){
+    //     setKaiaLoading(false);
+    //     setKaiaModal(true);
+    //     setKaiaMessage(t("mission_page.failed"));
+    //   }
+    // } else {
+    //   setNeedWallet(true);
+    // }
   }
 
   const handleConnectWallet = async() => {
     playSfx(Audios.button_click)
     setNeedWallet(false);
-    
-    // SDK 초기화 상태 확인
-    if (isInitializing || !sdkInstance || !initialized) {
-      console.log('[MissionPage] SDK 초기화 대기 중...');
-      setShowModal(true);
-      setMessage("SDK가 초기화되지 않았습니다. 잠시 후 다시 시도해 주세요.");
-      return;
-    }
-    
     try {
       // connectWallet 함수는 지갑 연결만 수행합니다.
-      await connectWallet({ sdk: sdkInstance, provider: sdkInstance.getWalletProvider() });
+      await connectWallet();
     } catch (error) {
       console.error("Wallet connection failed:", error);
-      setShowModal(true);
-      setMessage("지갑 연결에 실패했습니다. 다시 시도해 주세요.");
     }
   }
 

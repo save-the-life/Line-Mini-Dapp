@@ -23,7 +23,6 @@ import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import { v4 as uuidv4 } from "uuid";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
-import { useSDK } from '@/shared/hooks/useSDK';
 
 
 // Consumable item names
@@ -54,7 +53,7 @@ const ItemStore: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
   const [isConsumableOpen, setIsConsumableOpen] = useState(true);
 
-  const { walletAddress, sdk, provider, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
+  const { walletAddress, sdk, setWalletAddress, setProvider, setWalletType, setSdk } = useWalletStore();
 
   // USD(STRIPE) 결제 진행 시 시작 시간을 기록합니다.
   const [paymentStartTime, setPaymentStartTime] = useState<number | null>(null);
@@ -62,8 +61,6 @@ const ItemStore: React.FC = () => {
   // 결제 버튼은 아이템 선택, 체크박스 동의, 결제 진행 중이 아닐 때 활성화됩니다.
   const isEnabled =
     selectedItem !== null && agreeRefund && agreeEncrypted && !isLoading;
-
-  const { isInitialized } = useSDK();
 
   // API를 통해 아이템 데이터 조회
   useEffect(() => {
@@ -406,7 +403,8 @@ const ItemStore: React.FC = () => {
       playSfx(Audios.button_click);
       setNeedWallet(false);
       try {
-        const connection = await connectWallet({ sdk, provider });
+        // connectWallet이 연결 정보를 반환하도록 수정(예: { walletAddress, provider, walletType, sdk })
+        const connection = await connectWallet();
         if (connection && connection.walletAddress && connection.provider) {
           try {
             const response: KaiaRpcResponse<string> = await kaiaGetBalance(connection.walletAddress);
@@ -463,34 +461,6 @@ const ItemStore: React.FC = () => {
       return "linear-gradient(180deg, #22C55E 0%, #FFFFFF 100%)";
     }
     return "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)";
-  };
-
-  const checkWalletConnection = async () => {
-    try {
-      if (!isInitialized) {
-        console.log('[ItemStore] SDK가 아직 초기화되지 않았습니다.');
-        return false;
-      }
-
-      if (!sdk) {
-        console.log('[ItemStore] SDK가 초기화되지 않았습니다.');
-        return false;
-      }
-
-      const provider = sdk.getWalletProvider();
-      const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
-      const isConnected = accounts && accounts.length > 0;
-
-      if (!isConnected) {
-        console.log('[ItemStore] 지갑이 연결되어 있지 않습니다.');
-        return false;
-      }
-
-      return true;
-    } catch (error: any) {
-      console.error('[ItemStore] 지갑 연결 확인 중 오류 발생:', error);
-      return false;
-    }
   };
 
   return (

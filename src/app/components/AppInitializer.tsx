@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
@@ -8,8 +9,6 @@ import SplashScreen from "./SplashScreen";
 import MaintenanceScreen from "./Maintenance";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
-import useWalletStore from "@/shared/store/useWalletStore";
-import { useSDK } from '@/shared/hooks/useSDK';
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
 const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
@@ -26,7 +25,6 @@ interface AppInitializerProps {
 const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const navigate = useNavigate();
   const { fetchUserData } = useUserStore();
-  const { isInitialized } = useSDK();
   const [showSplash, setShowSplash] = useState(true);
   const [showMaintenance, setShowMaintenance] = useState(false);
   const initializedRef = useRef(false);
@@ -319,31 +317,17 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
 
+
+
         if (!liff.isInClient()) {
-          console.log("[Step 2-2] 외부 브라우저 감지");
-
-          if (!isInitialized) {
-            console.log("[InitializeApp] SDK 초기화 대기중...");
-            return;
-          }
-
-          // SDK가 초기화되었고, SDKService가 지갑 상태를 복원했습니다.
-          // Store에서 지갑 주소를 확인합니다.
-          const { walletAddress } = useWalletStore.getState();
-          if (!walletAddress) {
-            console.log("[Step 2-2] 지갑 연결 필요 -> /connect-wallet 이동");
-            navigate("/connect-wallet");
-          } else {
-            console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 메인 페이지로 이동");
-            navigate("/dice-event");
-          }
-          
+          console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
+          navigate("/connect-wallet");
           setShowSplash(false);
           onInitialized();
+          // setShowMaintenance(true);
           return;
         }
 
-        // LIFF 브라우저인 경우 기존 로직 실행
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(
           liff.init({
@@ -354,6 +338,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           "LIFF init Timeout"
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
+
+        await DappPortalSDK.init({
+          clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+          chainId: "8217",
+        });
+        
 
         await handleTokenFlow();
       } catch (error: any) {
@@ -384,13 +374,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
             onInitialized();
+            // setShowMaintenance(true);
           }
         }
       }
     };
 
     initializeApp();
-  }, [fetchUserData, navigate, onInitialized, isInitialized]);
+  }, [fetchUserData, navigate, onInitialized]);
 
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
