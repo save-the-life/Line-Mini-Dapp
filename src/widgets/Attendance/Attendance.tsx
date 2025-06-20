@@ -220,7 +220,7 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
    const [isConnecting, setIsConnecting] = useState(false);
    const [showModal, setShowModal] = useState(false);
    const [message, setMessage] = useState("");
-   const { initializeSDK } = useSDK();
+   const { isInitialized } = useSDK();
 
   // 출석 상태 결정 로직
   const getStatus = (day: DayKeys) => {
@@ -251,12 +251,18 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
 
    const handleAttendanceClick = async () => {
       try {
+         if (!isInitialized) {
+            console.log('[Attendance] SDK가 아직 초기화되지 않았습니다.');
+            setShowModal(true);
+            setMessage(t("attendance.attendance_err"));
+            return;
+         }
+
          if (!sdk) {
-            console.log('[Attendance] SDK가 초기화되지 않았습니다. 초기화를 시도합니다...');
-            const initializedSDK = await initializeSDK();
-            if (!initializedSDK) {
-               throw new Error('SDK 초기화에 실패했습니다.');
-            }
+            console.log('[Attendance] SDK가 초기화되지 않았습니다.');
+            setShowModal(true);
+            setMessage(t("attendance.attendance_err"));
+            return;
          }
 
          const provider = sdk.getWalletProvider();
@@ -264,7 +270,10 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
          const isConnected = accounts && accounts.length > 0;
 
          if (!isConnected) {
-            throw new Error('지갑이 연결되어 있지 않습니다.');
+            console.log('[Attendance] 지갑이 연결되어 있지 않습니다.');
+            setShowModal(true);
+            setMessage(t("attendance.attendance_err"));
+            return;
          }
 
          const ethersProvider = new Web3Provider(provider);

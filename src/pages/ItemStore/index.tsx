@@ -63,7 +63,7 @@ const ItemStore: React.FC = () => {
   const isEnabled =
     selectedItem !== null && agreeRefund && agreeEncrypted && !isLoading;
 
-  const { initializeSDK } = useSDK();
+  const { isInitialized } = useSDK();
 
   // API를 통해 아이템 데이터 조회
   useEffect(() => {
@@ -467,12 +467,14 @@ const ItemStore: React.FC = () => {
 
   const checkWalletConnection = async () => {
     try {
+      if (!isInitialized) {
+        console.log('[ItemStore] SDK가 아직 초기화되지 않았습니다.');
+        return false;
+      }
+
       if (!sdk) {
-        console.log('[ItemStore] SDK가 초기화되지 않았습니다. 초기화를 시도합니다...');
-        const initializedSDK = await initializeSDK();
-        if (!initializedSDK) {
-          throw new Error('SDK 초기화에 실패했습니다.');
-        }
+        console.log('[ItemStore] SDK가 초기화되지 않았습니다.');
+        return false;
       }
 
       const provider = sdk.getWalletProvider();
@@ -480,13 +482,14 @@ const ItemStore: React.FC = () => {
       const isConnected = accounts && accounts.length > 0;
 
       if (!isConnected) {
-        throw new Error('지갑이 연결되어 있지 않습니다.');
+        console.log('[ItemStore] 지갑이 연결되어 있지 않습니다.');
+        return false;
       }
 
-      // ... rest of the existing code ...
+      return true;
     } catch (error: any) {
       console.error('[ItemStore] 지갑 연결 확인 중 오류 발생:', error);
-      // ... rest of the error handling code ...
+      return false;
     }
   };
 
