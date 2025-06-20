@@ -11,7 +11,6 @@ import requestWallet from "@/entities/User/api/addWallet";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import MaintenanceScreen from "@/app/components/Maintenance";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useSDK } from '@/shared/hooks/useSDK';
 
 // 간단한 모바일 체크 함수
@@ -48,216 +47,88 @@ const ConnectWalletPage: React.FC = () => {
   const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
-  const { sdk, initializeSDK } = useSDK();
+  const { sdk, isInitialized } = useSDK();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
-  const [isCheckingConnection, setIsCheckingConnection] = useState<boolean>(true);
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
-  const initializationRef = useRef<boolean>(false);
 
   // 모바일 체크는 한 번만 실행
   useEffect(() => {
     setIsMobile(checkIsMobile());
   }, []);
 
-  // SDK 초기화 및 연결 상태 확인
-  useEffect(() => {
-    const initializeSdk = async () => {
-      // 이미 초기화 중이거나 완료된 경우 중복 실행 방지
-      if (initializationRef.current || isInitialized) {
-        console.log("[ConnectWallet] 이미 초기화 중이거나 완료됨");
-        return;
-      }
-
-      initializationRef.current = true;
-      console.log("[ConnectWallet] SDK 초기화 시작");
-      
-      try {
-        if (!sdk) {
-          console.log("[ConnectWallet] SDK 초기화 필요");
-          await initializeSDK();
-        } else {
-          console.log("[ConnectWallet] SDK가 이미 초기화되어 있음");
-        }
-
-        // 액세스 토큰 확인
-        const accessToken = localStorage.getItem('accessToken');
-        console.log("[ConnectWallet] 액세스 토큰 존재 여부:", !!accessToken);
-
-        if (accessToken) {
-          console.log("[ConnectWallet] 액세스 토큰으로 로그인 시도");
-          try {
-            await fetchUserData();
-            console.log("[ConnectWallet] 사용자 데이터 fetch 성공");
-            navigate("/dice-event");
-            return;
-          } catch (error) {
-            console.error("[ConnectWallet] 토큰 기반 로그인 실패:", error);
-            // 토큰이 만료되었거나 유효하지 않은 경우 지갑 연결 시도
-          }
-        }
-
-        // 저장된 지갑 주소가 있는 경우 자동 연결 시도
-        const savedWalletAddress = localStorage.getItem('walletAddress');
-        console.log("[ConnectWallet] 저장된 지갑 주소:", savedWalletAddress);
-
-        if (savedWalletAddress && sdk) {
-          try {
-            const provider = sdk.getWalletProvider();
-            console.log("[ConnectWallet] 지갑 타입:", provider.getWalletType());
-
-            // 먼저 연결 상태 확인 (kaia_accounts는 연결 화면을 표시하지 않음)
-            console.log("[ConnectWallet] 지갑 연결 상태 확인 시작");
-            const accounts = await provider.request({ method: 'kaia_accounts' });
-            const isConnected = accounts && accounts.length > 0;
-            console.log("[ConnectWallet] 지갑 연결 상태:", isConnected, "계정:", accounts);
-
-            if (isConnected) {
-              console.log("[ConnectWallet] 지갑이 이미 연결되어 있음");
-              // 지갑 주소를 store에 설정
-              useWalletStore.getState().setWalletAddress(savedWalletAddress);
-              console.log("[ConnectWallet] 지갑 주소를 store에 설정:", savedWalletAddress);
-              await handleConnectWallet();
-              return;
-            }
-
-            // 연결이 끊어져 있다면 재연결 시도
-            console.log("[ConnectWallet] 지갑 재연결 시도");
-            const reconnectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
-            const reconnected = reconnectedAccounts && reconnectedAccounts.length > 0;
-            console.log("[ConnectWallet] 지갑 재연결 결과:", reconnected, "계정:", reconnectedAccounts);
-
-            if (reconnected) {
-              console.log("[ConnectWallet] 지갑 재연결 성공");
-              useWalletStore.getState().setWalletAddress(savedWalletAddress);
-              console.log("[ConnectWallet] 재연결된 지갑 주소를 store에 설정:", savedWalletAddress);
-              await handleConnectWallet();
-              return;
-            } else {
-              console.log("[ConnectWallet] 지갑 재연결 실패");
-            }
-          } catch (error: any) {
-            console.error("[ConnectWallet] 지갑 연결 상태 확인/재연결 실패:", error);
-            console.error("[ConnectWallet] 에러 상세:", {
-              message: error.message,
-              code: error.code,
-              stack: error.stack
-            });
-          }
-        } else {
-          console.log("[ConnectWallet] 저장된 지갑 주소가 없거나 SDK가 초기화되지 않음");
-        }
-      } catch (error: any) {
-        console.error("[ConnectWallet] SDK 초기화 실패:", error);
-        console.error("[ConnectWallet] 초기화 실패 상세:", {
-          message: error.message,
-          code: error.code,
-          stack: error.stack
-        });
-      } finally {
-        setIsCheckingConnection(false);
-        setIsInitialized(true);
-        initializationRef.current = false;
-      }
-    };
-
-    initializeSdk();
-  }, [sdk, initializeSDK, navigate, fetchUserData]);
-
-  const handleConnectWallet = async (retry = false) => {
-    if (!sdk) {
+  const handleConnectWallet = async () => {
+    if (!sdk || !isInitialized) {
       console.warn("[ConnectWallet] SDK가 아직 준비되지 않았음. handleConnectWallet 실행 중단");
       return;
     }
-
-    const provider = sdk.getWalletProvider();
-    let accounts = await provider.request({ method: 'kaia_accounts' });
-    let walletAddress = accounts && accounts.length > 0 ? accounts[0] : null;
-
-    if (!walletAddress) {
-      const connectedAccounts = await provider.request({ method: 'kaia_requestAccounts' });
-      walletAddress = connectedAccounts && connectedAccounts.length > 0 ? connectedAccounts[0] : null;
-      if (!walletAddress) {
-        throw new Error("지갑 연결이 필요합니다.");
-      }
-    }
-
-    // provider에서 직접 walletType을 읽음
-    const walletType = provider.getWalletType() || "";
-    useWalletStore.getState().setWalletAddress(walletAddress);
-    useWalletStore.getState().setWalletType(walletType);
-    useWalletStore.getState().setProvider(provider);
-
-    // connectWalletService에 sdk와 provider를 파라미터로 넘김
+  
     try {
-      await connectWalletService({ sdk, provider });
-    } catch (error) {
-      console.error("[ConnectWallet] connectWalletService 에러:", error);
-      throw error;
-    }
-
-    // 로컬스토리지에서 레퍼럴 코드 확인
-    const referralCode = localStorage.getItem("referralCode");
-    console.log("[ConnectWallet] 레퍼럴 코드:", referralCode);
-
-    // 주소 기반 Web 로그인
-    console.log("[ConnectWallet] webLoginWithAddress 호출");
-    const webLogin = await webLoginWithAddress(walletAddress, referralCode);
-    console.log("[ConnectWallet] webLogin 결과:", webLogin);
-
-    if (!webLogin) {
-      throw new Error("Web login failed.");
-    }
-
-    // webLoginWithAddress 성공 시, requestWallet 실행
-    if (walletAddress && walletType) {
+      const provider = sdk.getWalletProvider();
+      const { walletAddress, walletType } = await connectWalletService({ sdk, provider });
+  
+      if (!walletAddress || !walletType) {
+        throw new Error("지갑 연결에 실패했습니다.");
+      }
+  
+      // 로컬스토리지에서 레퍼럴 코드 확인
+      const referralCode = localStorage.getItem("referralCode");
+      console.log("[ConnectWallet] 레퍼럴 코드:", referralCode);
+  
+      // 주소 기반 Web 로그인
+      console.log("[ConnectWallet] webLoginWithAddress 호출");
+      const webLogin = await webLoginWithAddress(walletAddress, referralCode);
+      console.log("[ConnectWallet] webLogin 결과:", webLogin);
+  
+      if (!webLogin) {
+        throw new Error("Web login failed.");
+      }
+  
+      // webLoginWithAddress 성공 시, requestWallet 실행
       console.log("[ConnectWallet] requestWallet 호출");
       await requestWallet(walletAddress, walletType.toUpperCase());
-    } else {
-      console.log("[ConnectWallet] 지갑 정보 누락, 재연결 시도");
-      useWalletStore.getState().clearWallet();
-      await connectWalletService({ sdk, provider });
-    }
-
-    await fetchUserData();
-
-    const userTimeZone = useUserStore.getState().timeZone;
-    const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log("[ConnectWallet] 타임존 정보:", { userTimeZone, currentTimeZone });
-
-    if (userTimeZone === null || userTimeZone !== currentTimeZone) {
-      try {
-        console.log("[ConnectWallet] 타임존 업데이트 시도");
-        await updateTimeZone(currentTimeZone);
-        console.log("[ConnectWallet] 타임존 업데이트 성공");
-      } catch (error: any) {
-        console.error("[ConnectWallet] 타임존 업데이트 실패:", error);
+      
+      await fetchUserData();
+  
+      const userTimeZone = useUserStore.getState().timeZone;
+      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      console.log("[ConnectWallet] 타임존 정보:", { userTimeZone, currentTimeZone });
+  
+      if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+        try {
+          console.log("[ConnectWallet] 타임존 업데이트 시도");
+          await updateTimeZone(currentTimeZone);
+          console.log("[ConnectWallet] 타임존 업데이트 성공");
+        } catch (error: any) {
+          console.error("[ConnectWallet] 타임존 업데이트 실패:", error);
+        }
       }
-    }
-
-    if (referralCode === "dapp-portal-promotions") {
-      try {
-        console.log("[ConnectWallet] 프로모션 확인");
-        const promo = await getPromotion();
-        console.log("[ConnectWallet] 프로모션 결과:", promo);
-        if (promo === "Success") {
-          console.log("[ConnectWallet] 프로모션 페이지로 이동");
-          navigate("/promotion");
-        } else {
-          console.log("[ConnectWallet] 메인 페이지로 이동");
+  
+      if (referralCode === "dapp-portal-promotions") {
+        try {
+          console.log("[ConnectWallet] 프로모션 확인");
+          const promo = await getPromotion();
+          console.log("[ConnectWallet] 프로모션 결과:", promo);
+          if (promo === "Success") {
+            console.log("[ConnectWallet] 프로모션 페이지로 이동");
+            navigate("/promotion");
+          } else {
+            console.log("[ConnectWallet] 메인 페이지로 이동");
+            navigate("/dice-event");
+          }
+        } catch (error: any) {
+          console.error("[ConnectWallet] 프로모션 확인 실패:", error);
           navigate("/dice-event");
         }
-      } catch (error: any) {
-        console.error("[ConnectWallet] 프로모션 확인 실패:", error);
+      } else {
+        console.log("[ConnectWallet] 메인 페이지로 이동");
         navigate("/dice-event");
       }
-    } else {
-      console.log("[ConnectWallet] 메인 페이지로 이동");
-      navigate("/dice-event");
+    } catch (error) {
+      console.error("[ConnectWalletPage] 지갑 연결 프로세스 에러:", error);
+      // 사용자에게 에러 메시지를 보여주는 UI/UX 처리를 추가할 수 있습니다.
     }
   };
 
-  if (!sdk) {
+  if (!isInitialized) {
     return (
       <div className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
         style={{ backgroundImage: `url(${Images.SplashBackground})` }}>
@@ -274,27 +145,6 @@ const ConnectWalletPage: React.FC = () => {
     );
   }
 
-  if (isCheckingConnection) {
-    return (
-      <div className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
-        style={{ backgroundImage: `url(${Images.SplashBackground})` }}>
-        <motion.img
-          src={Images.SplashTitle}
-          alt="Lucky Dice Logo"
-          className="w-[272px] mb-[90px]"
-          initial={shouldReduceMotion ? {} : { y: 80 }}
-          animate={shouldReduceMotion ? {} : { y: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-        />
-        <div className="text-white">Checking wallet connection...</div>
-      </div>
-    );
-  }
-
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
-  // }
-
   return (
     <div
       className="relative w-full h-screen flex flex-col justify-center items-center bg-cover bg-center"
@@ -309,7 +159,7 @@ const ConnectWalletPage: React.FC = () => {
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
       <motion.button
-        onClick={() => handleConnectWallet()}
+        onClick={handleConnectWallet}
         className="relative w-[342px] h-[56px]"
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
         animate={shouldReduceMotion ? {} : { opacity: 1 }}
