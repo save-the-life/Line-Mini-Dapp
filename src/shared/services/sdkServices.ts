@@ -1,10 +1,12 @@
 import DappPortalSDK from "@linenext/dapp-portal-sdk";
 
+// 전역 SDK 인스턴스 (진정한 싱글톤)
+let globalSDKInstance: any = null;
+let isInitializing = false;
+let initializationPromise: Promise<any> | null = null;
+
 class SDKService {
   private static instance: SDKService;
-  private sdk: any = null;
-  private initialized: boolean = false;
-  private initializing: boolean = false;
 
   private constructor() {}
 
@@ -16,60 +18,73 @@ class SDKService {
   }
 
   public async initialize(): Promise<any> {
-    // 이미 초기화 중이면 대기
-    if (this.initializing) {
-      console.log("[SDK Service] SDK 초기화가 이미 진행 중입니다.");
-      // 초기화 완료까지 대기
-      while (this.initializing) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-      }
-      return this.sdk;
+    // 이미 초기화된 경우 기존 인스턴스 반환
+    if (globalSDKInstance) {
+      console.log("[SDK Service] SDK가 이미 초기화되어 있습니다.");
+      return globalSDKInstance;
     }
 
-    if (!this.initialized) {
-      this.initializing = true;
-      try {
-        console.log("[SDK Service] SDK 초기화 시작...");
-        this.sdk = await DappPortalSDK.init({
-          clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-          chainId: "1001",
-        });
-        this.initialized = true;
-        console.log("[SDK Service] SDK 초기화 성공:", this.sdk);
-        return this.sdk;
-      } catch (error) {
-        console.error("[SDK Service] SDK 초기화 실패:", error);
-        this.initialized = false;
-        this.sdk = null;
-        throw error;
-      } finally {
-        this.initializing = false;
-      }
+    // 초기화 중인 경우 기존 Promise 반환
+    if (isInitializing && initializationPromise) {
+      console.log("[SDK Service] SDK 초기화가 이미 진행 중입니다.");
+      return initializationPromise;
     }
-    return this.sdk;
+
+    // 새로운 초기화 시작
+    isInitializing = true;
+    initializationPromise = this.performInitialization();
+    
+    try {
+      const result = await initializationPromise;
+      return result;
+    } finally {
+      isInitializing = false;
+      initializationPromise = null;
+    }
+  }
+
+  private async performInitialization(): Promise<any> {
+    try {
+      console.log("[SDK Service] SDK 초기화 시작...");
+      globalSDKInstance = await DappPortalSDK.init({
+        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+        chainId: "1001",
+      });
+      console.log("[SDK Service] SDK 초기화 성공:", globalSDKInstance);
+      return globalSDKInstance;
+    } catch (error) {
+      console.error("[SDK Service] SDK 초기화 실패:", error);
+      globalSDKInstance = null;
+      throw error;
+    }
   }
 
   public getSDK(): any {
-    if (!this.initialized) {
-      throw new Error("SDK가 초기화되지 않았습니다.");
+    if (!globalSDKInstance) {
+      throw new Error("SDK가 초기화되지 않았습니다. initialize()를 먼저 호출하세요.");
     }
-    return this.sdk;
+    return globalSDKInstance;
   }
 
   public isInitialized(): boolean {
-    return this.initialized;
+    return globalSDKInstance !== null;
   }
 
   public isInitializing(): boolean {
-    return this.initializing;
+    return isInitializing;
   }
 
   // SDK 재설정 (테스트용 또는 오류 복구용)
   public reset(): void {
-    this.sdk = null;
-    this.initialized = false;
-    this.initializing = false;
+    globalSDKInstance = null;
+    isInitializing = false;
+    initializationPromise = null;
     console.log("[SDK Service] SDK 상태가 재설정되었습니다.");
+  }
+
+  // 전역 인스턴스 직접 접근 (비상용)
+  public static getGlobalInstance(): any {
+    return globalSDKInstance;
   }
 }
 

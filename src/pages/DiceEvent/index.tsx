@@ -31,6 +31,7 @@ import useWalletStore from "@/shared/store/useWalletStore";
 import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
+import SDKService from "@/shared/services/sdkServices";
 
 
 const levelRewards = [
@@ -236,10 +237,14 @@ const DiceEventPage: React.FC = () => {
       if (!sdk) {
         console.log("[DiceEvent] SDK가 초기화되지 않았습니다. 지갑 연결을 시도합니다.");
         try {
-          const sdkInstance = await DappPortalSDK.init({
-            clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-            chainId: "1001",
-          });
+          
+          // SDKService를 통한 싱글톤 초기화
+          const sdkService = SDKService.getInstance();
+          const sdkInstance = await sdkService.initialize();
+          // const sdkInstance = await DappPortalSDK.init({
+          //   clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+          //   chainId: "1001",
+          // });
           useWalletStore.getState().setSdk(sdkInstance);
           useWalletStore.getState().setInitialized(true);
           

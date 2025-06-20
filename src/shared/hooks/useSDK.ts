@@ -1,9 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
-import DappPortalSDK from '@linenext/dapp-portal-sdk';
 import useWalletStore from '@/shared/store/useWalletStore';
 import { useNavigate } from 'react-router-dom';
-
-let sdkInstance: any = null;
+import SDKService from '@/shared/services/sdkServices';
 
 // 지갑 계정 배열 타입 정의
 type WalletAccounts = string[];
@@ -30,10 +28,10 @@ export const useSDK = () => {
     setIsInitializing(true);
     try {
       console.log('[useSDK] SDK 초기화를 시작합니다...');
-      const sdkInstance = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "1001",
-      });
+      
+      // SDKService를 통한 싱글톤 초기화
+      const sdkService = SDKService.getInstance();
+      const sdkInstance = await sdkService.initialize();
 
       setSdk(sdkInstance);
       setInitialized(true);
