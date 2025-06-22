@@ -10,6 +10,7 @@ import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { useSDK } from '@/shared/hooks/useSDK';
+import webLoginWithAddress from "@/entities/User/api/webLogin";
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
 const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
@@ -349,13 +350,35 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             console.log("[Step 2-2] 지갑 연결 필요 -> /connect-wallet 이동");
             navigate("/connect-wallet");
           } else {
-            console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 사용자 데이터 가져오기 후 메인 페이지로 이동");
-            try {
-              await getUserInfo();
-            } catch (error: any) {
-              console.error("[Step 2-2] 사용자 데이터 가져오기 실패:", error);
-              // 에러가 발생해도 메인 페이지로 이동 (에러 처리는 각 페이지에서)
-              navigate("/dice-event");
+            console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 토큰 확인 및 사용자 데이터 가져오기");
+            
+            // 액세스 토큰 확인
+            const accessToken = localStorage.getItem("accessToken");
+            if (!accessToken) {
+              console.log("[Step 2-2] 액세스 토큰 없음 -> webLoginWithAddress로 토큰 발급");
+              try {
+                const referralCode = localStorage.getItem("referralCode");
+                const webLogin = await webLoginWithAddress(walletAddress, referralCode);
+                if (webLogin) {
+                  console.log("[Step 2-2] 토큰 발급 성공 -> 사용자 데이터 가져오기");
+                  await getUserInfo();
+                } else {
+                  console.error("[Step 2-2] 토큰 발급 실패");
+                  navigate("/connect-wallet");
+                }
+              } catch (error: any) {
+                console.error("[Step 2-2] 토큰 발급 중 에러:", error);
+                navigate("/connect-wallet");
+              }
+            } else {
+              console.log("[Step 2-2] 액세스 토큰 존재 -> 사용자 데이터 가져오기");
+              try {
+                await getUserInfo();
+              } catch (error: any) {
+                console.error("[Step 2-2] 사용자 데이터 가져오기 실패:", error);
+                // 에러가 발생해도 메인 페이지로 이동 (에러 처리는 각 페이지에서)
+                navigate("/dice-event");
+              }
             }
           }
           

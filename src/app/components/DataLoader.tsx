@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useUserStore } from '@/entities/User/model/userModel';
 import LoadingSpinner from '@/shared/components/ui/loadingSpinner';
+import useWalletStore from '@/shared/store/useWalletStore';
+import webLoginWithAddress from '@/entities/User/api/webLogin';
 
 interface DataLoaderProps {
   children: React.ReactNode;
@@ -8,11 +10,33 @@ interface DataLoaderProps {
 
 const DataLoader: React.FC<DataLoaderProps> = ({ children }) => {
   const { fetchUserData, isLoading } = useUserStore();
+  const { walletAddress } = useWalletStore();
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const loadUserData = async () => {
       console.log("[DataLoader] Loading user data...");
+      
+      // 액세스 토큰 확인 및 발급
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken && walletAddress) {
+        console.log("[DataLoader] No access token found, attempting to get token...");
+        try {
+          const referralCode = localStorage.getItem("referralCode");
+          const webLogin = await webLoginWithAddress(walletAddress, referralCode);
+          if (!webLogin) {
+            console.error("[DataLoader] Failed to obtain token");
+            setDataLoaded(true);
+            return;
+          }
+          console.log("[DataLoader] Token obtained successfully");
+        } catch (error: any) {
+          console.error("[DataLoader] Error obtaining token:", error);
+          setDataLoaded(true);
+          return;
+        }
+      }
+      
       try {
         await fetchUserData();
         console.log("[DataLoader] User data loaded successfully");
@@ -43,7 +67,7 @@ const DataLoader: React.FC<DataLoaderProps> = ({ children }) => {
     };
 
     loadUserData();
-  }, [fetchUserData]);
+  }, [fetchUserData, walletAddress]);
 
   if (!dataLoaded || isLoading) {
     return (

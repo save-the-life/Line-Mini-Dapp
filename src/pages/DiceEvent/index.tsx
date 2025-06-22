@@ -33,6 +33,7 @@ import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 import SDKService from "@/shared/services/sdkServices";
 import { useSDK } from "@/shared/hooks/useSDK";
+import webLoginWithAddress from "@/entities/User/api/webLogin";
 
 
 const levelRewards = [
@@ -237,6 +238,27 @@ const DiceEventPage: React.FC = () => {
   useEffect(() => {
     const forceFetchUserData = async () => {
       console.log("[DiceEvent] Page mounted - forcing fetchUserData");
+      
+      // 액세스 토큰 확인 및 발급
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken && walletAddress) {
+        console.log("[DiceEvent] No access token found, attempting to get token...");
+        try {
+          const referralCode = localStorage.getItem("referralCode");
+          const webLogin = await webLoginWithAddress(walletAddress, referralCode);
+          if (!webLogin) {
+            console.error("[DiceEvent] Failed to obtain token");
+            setDataLoaded(true);
+            return;
+          }
+          console.log("[DiceEvent] Token obtained successfully");
+        } catch (error: any) {
+          console.error("[DiceEvent] Error obtaining token:", error);
+          setDataLoaded(true);
+          return;
+        }
+      }
+      
       try {
         await fetchUserData();
         console.log("[DiceEvent] Force fetchUserData completed successfully");
@@ -267,7 +289,7 @@ const DiceEventPage: React.FC = () => {
     };
 
     forceFetchUserData();
-  }, []); // 빈 의존성 배열로 페이지 마운트 시에만 실행
+  }, [walletAddress]); // walletAddress 의존성 추가
 
   useEffect(() => {
     // SDK가 초기화되고 지갑이 연결된 후에 사용자 데이터를 가져옵니다.
