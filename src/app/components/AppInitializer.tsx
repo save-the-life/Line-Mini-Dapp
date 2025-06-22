@@ -334,8 +334,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             console.log("[Step 2-2] 지갑 연결 필요 -> /connect-wallet 이동");
             navigate("/connect-wallet");
           } else {
-            console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 메인 페이지로 이동");
-            navigate("/dice-event");
+            console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 사용자 데이터 가져오기 후 메인 페이지로 이동");
+            try {
+              await getUserInfo();
+            } catch (error: any) {
+              console.error("[Step 2-2] 사용자 데이터 가져오기 실패:", error);
+              // 에러가 발생해도 메인 페이지로 이동 (에러 처리는 각 페이지에서)
+              navigate("/dice-event");
+            }
           }
           
           setShowSplash(false);
