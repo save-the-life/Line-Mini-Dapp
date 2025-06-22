@@ -90,7 +90,7 @@ const DiceEventPage: React.FC = () => {
   const navigate = useNavigate();
   const { isInitialized } = useSDK();
   const { walletAddress } = useWalletStore();
-
+  const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
   // AirDrop 팝업 표시를 위한 상태
   const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
@@ -110,7 +110,6 @@ const DiceEventPage: React.FC = () => {
     }
     setPrevLevel(userLv);
   }, [userLv, prevLevel]);
-
 
   // 보상 링크를 통한 접근 여부 확인 및 보상 API 호출
   useEffect(() => {
@@ -234,36 +233,61 @@ const DiceEventPage: React.FC = () => {
     };
   }, []);
 
+  // 페이지 마운트 시 무조건 사용자 데이터 가져오기
+  useEffect(() => {
+    const forceFetchUserData = async () => {
+      console.log("[DiceEvent] Page mounted - forcing fetchUserData");
+      try {
+        await fetchUserData();
+        console.log("[DiceEvent] Force fetchUserData completed successfully");
+        setDataLoaded(true);
+      } catch (error: any) {
+        console.error("[DiceEvent] Force fetchUserData failed:", error);
+        // 에러가 발생해도 데이터 로드 완료로 간주 (기본값 사용)
+        setDataLoaded(true);
+      }
+    };
+
+    forceFetchUserData();
+  }, []); // 빈 의존성 배열로 페이지 마운트 시에만 실행
+
   useEffect(() => {
     // SDK가 초기화되고 지갑이 연결된 후에 사용자 데이터를 가져옵니다.
     const initializeUserData = async () => {
       if (isInitialized && walletAddress) {
         console.log("[DiceEvent] SDK is initialized and wallet is connected. Fetching user data.");
-        await fetchUserData();
+        try {
+          await fetchUserData();
+          console.log("[DiceEvent] User data fetched successfully.");
 
-        const userTimeZone = useUserStore.getState().timeZone;
-        const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        if (userTimeZone === null || userTimeZone !== currentTimeZone) {
-          try {
-            await updateTimeZone(currentTimeZone);
-          } catch (error: any) {
-            console.log("[DiceEvent] timezone error", error);
+          const userTimeZone = useUserStore.getState().timeZone;
+          const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+            try {
+              await updateTimeZone(currentTimeZone);
+            } catch (error: any) {
+              console.log("[DiceEvent] timezone error", error);
+            }
           }
-        }
 
-        const kaiaRedirect = localStorage.getItem("KaiaMission");
-        if(kaiaRedirect === "kaia-reward"){
-          try{
-            await getKaiaRedirection();
-          } catch(error: any){
-            console.log("[DiceEvent] kaia redirection error", error);
+          const kaiaRedirect = localStorage.getItem("KaiaMission");
+          if(kaiaRedirect === "kaia-reward"){
+            try{
+              await getKaiaRedirection();
+            } catch(error: any){
+              console.log("[DiceEvent] kaia redirection error", error);
+            }
           }
+        } catch (error: any) {
+          console.error("[DiceEvent] Failed to fetch user data:", error);
+          // 에러가 발생해도 페이지는 계속 표시
         }
       } else {
         console.log(`[DiceEvent] Waiting for SDK and wallet... SDK Initialized: ${isInitialized}, Wallet Connected: ${!!walletAddress}`);
       }
     };
 
+    // 페이지 로드 시 즉시 실행
     initializeUserData();
   }, [isInitialized, walletAddress, fetchUserData]);
 
@@ -381,8 +405,14 @@ const DiceEventPage: React.FC = () => {
   };
   // ===============================
 
-  if (isLoading) {
-    return <LoadingSpinner className="h-screen"/>;
+  // 데이터가 로드되지 않았거나 로딩 중일 때 로딩 화면 표시
+  if (!dataLoaded || isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#0D1226]">
+        <LoadingSpinner />
+        <p className="text-white mt-4">데이터를 불러오는 중...</p>
+      </div>
+    );
   }
 
   if (error) {

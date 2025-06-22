@@ -11,6 +11,7 @@ import parse from 'html-react-parser';
 import { SoundProvider } from "./shared/provider/SoundProvider";
 import Audios from "./shared/assets/audio";
 import "./App.css";
+import DataLoader from "./app/components/DataLoader";
 
 // 페이지 컴포넌트들
 import AIMenu from "@/pages/AIMenu";
@@ -180,7 +181,11 @@ const App:React.FC = () =>{
                   <Route path="/" element={<Navigate to="/dice-event" replace />} />
                   
                   {/* DiceEventLayout Pages */}
-                  <Route path="/dice-event" element={<DiceEventLayout><DiceEvent /></DiceEventLayout>} />
+                  <Route path="/dice-event" element={
+                    <DataLoader>
+                      <DiceEventLayout><DiceEvent /></DiceEventLayout>
+                    </DataLoader>
+                  } />
                   <Route path="/AI-menu" element={<DiceEventLayout><AIMenu /></DiceEventLayout>} />
                   <Route path="/mission" element={<DiceEventLayout><MissionPage /></DiceEventLayout>} />
                   <Route path="/reward" element={<DiceEventLayout><Reward /></DiceEventLayout>} />
