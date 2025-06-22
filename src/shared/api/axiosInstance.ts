@@ -75,6 +75,7 @@ api.interceptors.response.use(
       error.response &&
       (!originalRequest._retry) &&
       (
+        error.response.status === 401 ||
         error.response.status === 404 ||
         errorMessage.includes("Token not found in Redis or expired")
       )

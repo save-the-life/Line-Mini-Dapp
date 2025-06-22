@@ -228,6 +228,21 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
+      // 401 에러인 경우 토큰 갱신 시도
+      if (error.response?.status === 401) {
+        console.log("[Step 6] 401 에러 감지 -> 토큰 갱신 시도");
+        try {
+          const refreshSuccessful = await useUserStore.getState().refreshToken();
+          if (refreshSuccessful && retryCount < MAX_RETRY_COUNT) {
+            console.log("[Step 6] 토큰 갱신 성공 -> 재시도");
+            await getUserInfo(retryCount + 1);
+            return;
+          }
+        } catch (refreshError: any) {
+          console.error("[Step 6] 토큰 갱신 실패:", refreshError);
+        }
+      }
+
       if (retryCount < 1) {
         console.log("[Step 6] 기타 에러 -> accessToken 삭제 후 재시도");
         localStorage.removeItem("accessToken");

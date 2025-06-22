@@ -243,6 +243,24 @@ const DiceEventPage: React.FC = () => {
         setDataLoaded(true);
       } catch (error: any) {
         console.error("[DiceEvent] Force fetchUserData failed:", error);
+        
+        // 401 에러인 경우 토큰 갱신 시도
+        if (error.response?.status === 401) {
+          console.log("[DiceEvent] 401 error detected, attempting token refresh...");
+          try {
+            const refreshSuccessful = await useUserStore.getState().refreshToken();
+            if (refreshSuccessful) {
+              console.log("[DiceEvent] Token refresh successful, retrying fetchUserData...");
+              await fetchUserData();
+              console.log("[DiceEvent] Force fetchUserData completed successfully after token refresh");
+              setDataLoaded(true);
+              return;
+            }
+          } catch (refreshError: any) {
+            console.error("[DiceEvent] Token refresh failed:", refreshError);
+          }
+        }
+        
         // 에러가 발생해도 데이터 로드 완료로 간주 (기본값 사용)
         setDataLoaded(true);
       }
