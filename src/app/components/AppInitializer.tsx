@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
+import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
@@ -8,9 +9,6 @@ import SplashScreen from "./SplashScreen";
 import MaintenanceScreen from "./Maintenance";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
-import useWalletStore from "@/shared/store/useWalletStore";
-import { useSDK } from '@/shared/hooks/useSDK';
-import webLoginWithAddress from "@/entities/User/api/webLogin";
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
 const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
@@ -27,7 +25,6 @@ interface AppInitializerProps {
 const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const navigate = useNavigate();
   const { fetchUserData } = useUserStore();
-  const { isInitialized } = useSDK();
   const [showSplash, setShowSplash] = useState(true);
   const [showMaintenance, setShowMaintenance] = useState(false);
   const initializedRef = useRef(false);
@@ -229,21 +226,6 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
-      // 401 에러인 경우 토큰 갱신 시도
-      if (error.response?.status === 401) {
-        console.log("[Step 6] 401 에러 감지 -> 토큰 갱신 시도");
-        try {
-          const refreshSuccessful = await useUserStore.getState().refreshToken();
-          if (refreshSuccessful && retryCount < MAX_RETRY_COUNT) {
-            console.log("[Step 6] 토큰 갱신 성공 -> 재시도");
-            await getUserInfo(retryCount + 1);
-            return;
-          }
-        } catch (refreshError: any) {
-          console.error("[Step 6] 토큰 갱신 실패:", refreshError);
-        }
-      }
-
       if (retryCount < 1) {
         console.log("[Step 6] 기타 에러 -> accessToken 삭제 후 재시도");
         localStorage.removeItem("accessToken");
@@ -335,59 +317,17 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
 
+
+
         if (!liff.isInClient()) {
-          console.log("[Step 2-2] 외부 브라우저 감지");
-
-          if (!isInitialized) {
-            console.log("[InitializeApp] SDK 초기화 대기중...");
-            return;
-          }
-
-          // SDK가 초기화되었고, SDKService가 지갑 상태를 복원했습니다.
-          // Store에서 지갑 주소를 확인합니다.
-          const { walletAddress } = useWalletStore.getState();
-          if (!walletAddress) {
-            console.log("[Step 2-2] 지갑 연결 필요 -> /connect-wallet 이동");
-            navigate("/connect-wallet");
-          } else {
-            console.log("[Step 2-2] 지갑이 이미 연결되어 있음 -> 토큰 확인 및 사용자 데이터 가져오기");
-            
-            // 액세스 토큰 확인
-            const accessToken = localStorage.getItem("accessToken");
-            if (!accessToken) {
-              console.log("[Step 2-2] 액세스 토큰 없음 -> webLoginWithAddress로 토큰 발급");
-              try {
-                const referralCode = localStorage.getItem("referralCode");
-                const webLogin = await webLoginWithAddress(walletAddress, referralCode);
-                if (webLogin) {
-                  console.log("[Step 2-2] 토큰 발급 성공 -> 사용자 데이터 가져오기");
-                  await getUserInfo();
-                } else {
-                  console.error("[Step 2-2] 토큰 발급 실패");
-                  navigate("/connect-wallet");
-                }
-              } catch (error: any) {
-                console.error("[Step 2-2] 토큰 발급 중 에러:", error);
-                navigate("/connect-wallet");
-              }
-            } else {
-              console.log("[Step 2-2] 액세스 토큰 존재 -> 사용자 데이터 가져오기");
-              try {
-                await getUserInfo();
-              } catch (error: any) {
-                console.error("[Step 2-2] 사용자 데이터 가져오기 실패:", error);
-                // 에러가 발생해도 메인 페이지로 이동 (에러 처리는 각 페이지에서)
-                navigate("/dice-event");
-              }
-            }
-          }
-          
+          console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
+          navigate("/connect-wallet");
           setShowSplash(false);
           onInitialized();
+          // setShowMaintenance(true);
           return;
         }
 
-        // LIFF 브라우저인 경우 기존 로직 실행
         console.log("[InitializeApp] LIFF 초기화 시작");
         await withTimeout(
           liff.init({
@@ -398,6 +338,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           "LIFF init Timeout"
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
+
+        await DappPortalSDK.init({
+          clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
+          chainId: "8217",
+        });
+        
 
         await handleTokenFlow();
       } catch (error: any) {
@@ -428,13 +374,14 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
             onInitialized();
+            // setShowMaintenance(true);
           }
         }
       }
     };
 
     initializeApp();
-  }, [fetchUserData, navigate, onInitialized, isInitialized]);
+  }, [fetchUserData, navigate, onInitialized]);
 
   if (errorMessage) {
     return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;

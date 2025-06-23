@@ -33,7 +33,6 @@ import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 import SDKService from "@/shared/services/sdkServices";
 import { useSDK } from "@/shared/hooks/useSDK";
-import webLoginWithAddress from "@/entities/User/api/webLogin";
 
 
 const levelRewards = [
@@ -91,7 +90,7 @@ const DiceEventPage: React.FC = () => {
   const navigate = useNavigate();
   const { isInitialized } = useSDK();
   const { walletAddress } = useWalletStore();
-  const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+
 
   // AirDrop 팝업 표시를 위한 상태
   const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
@@ -111,6 +110,7 @@ const DiceEventPage: React.FC = () => {
     }
     setPrevLevel(userLv);
   }, [userLv, prevLevel]);
+
 
   // 보상 링크를 통한 접근 여부 확인 및 보상 API 호출
   useEffect(() => {
@@ -234,100 +234,36 @@ const DiceEventPage: React.FC = () => {
     };
   }, []);
 
-  // 페이지 마운트 시 무조건 사용자 데이터 가져오기
-  useEffect(() => {
-    const forceFetchUserData = async () => {
-      console.log("[DiceEvent] Page mounted - forcing fetchUserData");
-      
-      // 액세스 토큰 확인 및 발급
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken && walletAddress) {
-        console.log("[DiceEvent] No access token found, attempting to get token...");
-        try {
-          const referralCode = localStorage.getItem("referralCode");
-          const webLogin = await webLoginWithAddress(walletAddress, referralCode);
-          if (!webLogin) {
-            console.error("[DiceEvent] Failed to obtain token");
-            setDataLoaded(true);
-            return;
-          }
-          console.log("[DiceEvent] Token obtained successfully");
-        } catch (error: any) {
-          console.error("[DiceEvent] Error obtaining token:", error);
-          setDataLoaded(true);
-          return;
-        }
-      }
-      
-      try {
-        await fetchUserData();
-        console.log("[DiceEvent] Force fetchUserData completed successfully");
-        setDataLoaded(true);
-      } catch (error: any) {
-        console.error("[DiceEvent] Force fetchUserData failed:", error);
-        
-        // 401 에러인 경우 토큰 갱신 시도
-        if (error.response?.status === 401) {
-          console.log("[DiceEvent] 401 error detected, attempting token refresh...");
-          try {
-            const refreshSuccessful = await useUserStore.getState().refreshToken();
-            if (refreshSuccessful) {
-              console.log("[DiceEvent] Token refresh successful, retrying fetchUserData...");
-              await fetchUserData();
-              console.log("[DiceEvent] Force fetchUserData completed successfully after token refresh");
-              setDataLoaded(true);
-              return;
-            }
-          } catch (refreshError: any) {
-            console.error("[DiceEvent] Token refresh failed:", refreshError);
-          }
-        }
-        
-        // 에러가 발생해도 데이터 로드 완료로 간주 (기본값 사용)
-        setDataLoaded(true);
-      }
-    };
-
-    forceFetchUserData();
-  }, [walletAddress]); // walletAddress 의존성 추가
-
   useEffect(() => {
     // SDK가 초기화되고 지갑이 연결된 후에 사용자 데이터를 가져옵니다.
     const initializeUserData = async () => {
       if (isInitialized && walletAddress) {
         console.log("[DiceEvent] SDK is initialized and wallet is connected. Fetching user data.");
-        try {
-          await fetchUserData();
-          console.log("[DiceEvent] User data fetched successfully.");
+        await fetchUserData();
 
-          const userTimeZone = useUserStore.getState().timeZone;
-          const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          if (userTimeZone === null || userTimeZone !== currentTimeZone) {
-            try {
-              await updateTimeZone(currentTimeZone);
-            } catch (error: any) {
-              console.log("[DiceEvent] timezone error", error);
-            }
+        const userTimeZone = useUserStore.getState().timeZone;
+        const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+          try {
+            await updateTimeZone(currentTimeZone);
+          } catch (error: any) {
+            console.log("[DiceEvent] timezone error", error);
           }
+        }
 
-          const kaiaRedirect = localStorage.getItem("KaiaMission");
-          if(kaiaRedirect === "kaia-reward"){
-            try{
-              await getKaiaRedirection();
-            } catch(error: any){
-              console.log("[DiceEvent] kaia redirection error", error);
-            }
+        const kaiaRedirect = localStorage.getItem("KaiaMission");
+        if(kaiaRedirect === "kaia-reward"){
+          try{
+            await getKaiaRedirection();
+          } catch(error: any){
+            console.log("[DiceEvent] kaia redirection error", error);
           }
-        } catch (error: any) {
-          console.error("[DiceEvent] Failed to fetch user data:", error);
-          // 에러가 발생해도 페이지는 계속 표시
         }
       } else {
         console.log(`[DiceEvent] Waiting for SDK and wallet... SDK Initialized: ${isInitialized}, Wallet Connected: ${!!walletAddress}`);
       }
     };
 
-    // 페이지 로드 시 즉시 실행
     initializeUserData();
   }, [isInitialized, walletAddress, fetchUserData]);
 
@@ -355,7 +291,7 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [14];
+  const scheduledSlots = [20];
   const itemGuideSlots = [0, 9, 18]; 
 
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
@@ -445,14 +381,8 @@ const DiceEventPage: React.FC = () => {
   };
   // ===============================
 
-  // 데이터가 로드되지 않았거나 로딩 중일 때 로딩 화면 표시
-  if (!dataLoaded || isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#0D1226]">
-        <LoadingSpinner />
-        <p className="text-white mt-4">데이터를 불러오는 중...</p>
-      </div>
-    );
+  if (isLoading) {
+    return <LoadingSpinner className="h-screen"/>;
   }
 
   if (error) {
@@ -1052,7 +982,7 @@ const DiceEventPage: React.FC = () => {
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
                   <h1 className="font-Pretendard text-xl font-bold text-white text-center">
-                    Ranking Event has ended
+                    {t("dice_event.round_end")}
                   </h1>
                 </div>
                  {/*<div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
@@ -1085,11 +1015,11 @@ const DiceEventPage: React.FC = () => {
                 </div>*/}
                 
                 <p className="text-center font-semibold text-base text-white">
-                    Round 3 Ranking Event Has Ended!<br/>
-                    rewards will be announced and distributed within the week.
+                  {t("dice_event.round_3")}<br/>
+                  {t("dice_event.reward_announce")}
                 </p>
                 <p className="text-center text-white font-semibold text-base my-5">
-                  Round 4 is officially live — time to roll & roll!
+                  {t("dice_event.round_4")}
                 </p>
 
                 <button
