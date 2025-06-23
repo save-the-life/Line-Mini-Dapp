@@ -25,14 +25,21 @@ const useWalletStore = create<WalletStore>((set) => ({
   setWalletType: (walletType: string) => set({ walletType }),
   setSdk: (sdk: any) => set({ sdk }),
   setInitialized: (initialized: boolean) => set({ initialized }),
-  clearWallet: () =>
+  clearWallet: () => {
+    // localStorage에서 지갑 연결 정보 제거
+    localStorage.removeItem('walletAddress');
+    localStorage.removeItem('isWalletConnected');
+    console.log("[지갑 해제] localStorage 연결 정보 제거 완료");
+    
+    // Zustand Store 초기화
     set({
       walletAddress: "",
       provider: null,
       walletType: "",
       sdk: null,
       initialized: false, // 초기화 여부도 초기 상태로 리셋
-    }),
+    });
+  },
 }));
 
 export default useWalletStore;
