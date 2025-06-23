@@ -548,7 +548,10 @@
       "view": "查看商品",
       "2nd_rank": "我們的第2輪月度排行榜排名活動已於5月15日結束！",
       "made_cut": "覺得自己上榜了嗎？",
-      "check_winner": "立即查看中獎者！"
+      "check_winner": "立即查看中獎者！",
+      "3rd_rank": "第3輪排行榜得獎者！",
+      "reward_dis": "獎勵已發放。",
+      "check_winner_here": "在此查看完整得獎名單："
     },
     "setting": {
       "terms_of_service": "服務條款",

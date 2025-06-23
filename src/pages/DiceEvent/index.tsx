@@ -843,12 +843,12 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col mt-4">
                   <p className="font-Pretendard text-center text-base font-semibold">
-                    🎉 Round 3 Leaderboard Winners!<br/>
-                    Rewards have been distributed.
+                    🎉 {t("dice_event.3rd_rank")}<br/>
+                    {t("dice_event.reward_dis")}
                   </p>
                   
                   <p className="font-Pretendard text-center text-sm font-normal mt-4">
-                    Check the full winners list here:
+                    {t("dice_event.check_winner_here")}
                   </p>
 
                   
@@ -865,7 +865,7 @@ const DiceEventPage: React.FC = () => {
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
-                    navigate("/previous-ranking", {state: {round:2}});
+                    navigate("/previous-ranking", {state: {round:3}});
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
