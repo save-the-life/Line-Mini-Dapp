@@ -26,12 +26,10 @@ import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import useWalletStore from "@/shared/store/useWalletStore";
 import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
-import SDKService from "@/shared/services/sdkServices";
 import { useSDK } from "@/shared/hooks/useSDK";
 
 
@@ -818,7 +816,7 @@ const DiceEventPage: React.FC = () => {
 
 
           {/* 지난 달 보상 다이얼로그 */}
-          {/* <Dialog open={showRankingModal}>
+          <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -845,28 +843,29 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col mt-4">
                   <p className="font-Pretendard text-center text-base font-semibold">
-                    🎉 {t("dice_event.2nd_rank")}
+                    🎉 {t("dice_event.3rd_rank")}<br/>
+                    {t("dice_event.reward_dis")}
                   </p>
                   
-                  <p className="font-Pretendard text-center text-sm font-normal my-4">
-                    {t("dice_event.made_cut")} 🏆
+                  <p className="font-Pretendard text-center text-sm font-normal mt-4">
+                    {t("dice_event.check_winner_here")}
                   </p>
 
                   
                   <a
-                    href="https://docs.google.com/spreadsheets/d/1MrfmxEPKdOx5iDLCTUhjIVKEj5olNgCBR3wgfnF6s7o/edit?gid=0#gid=0" 
+                    href="https://shorturl.at/bCrDT" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="underline text-[#3B82F6] mt-1 text-base font-semibold text-center"
+                    className="underline text-[#3B82F6] text-base font-semibold text-center"
                   >
-                    👉 {t("dice_event.check_winner")}
+                    👉 https://shorturl.at/bCrDT
                   </a>
                 </div>
                 <button
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
-                    navigate("/previous-ranking", {state: {round:2}});
+                    navigate("/previous-ranking", {state: {round:3}});
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
@@ -874,7 +873,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog> */}
+          </Dialog>
 
           {/* 출석 보상 업데이트 모달 */}
           {/* <Dialog open={showItemGuideModal}>
@@ -965,7 +964,7 @@ const DiceEventPage: React.FC = () => {
 
               
           {/* 아이템 추가 안내 모달창 */}
-          <Dialog open={showRankingModal}>
+          {/* <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[60%]">
               <div className="relative">
@@ -985,7 +984,7 @@ const DiceEventPage: React.FC = () => {
                     {t("dice_event.round_end")}
                   </h1>
                 </div>
-                 {/*<div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
+                 <div className="rounded-2xl border-[#35383F] border-2 bg-[#181A20] w-full flex flex-col items-center py-4 space-y-3">
                   <div className="flex justify-center items-center gap-2">
                     <div>
                       <img
@@ -1012,7 +1011,7 @@ const DiceEventPage: React.FC = () => {
                       <p className="text-xs font-semibold text-white text-center">Raffle Ticket</p>
                     </div>
                   </div> 
-                </div>*/}
+                </div>
                 
                 <p className="text-center font-semibold text-base text-white">
                   {t("dice_event.round_3")}<br/>
@@ -1034,7 +1033,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
         
 

@@ -5,6 +5,7 @@ import SDKService from '@/shared/services/sdkServices';
 export const useSDK = () => {
   const { sdk, setSdk, setInitialized } = useWalletStore();
   const [isInitializing, setIsInitializing] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -14,6 +15,8 @@ export const useSDK = () => {
       if (sdkService.isInitializing() || isInitializing) return;
       
       setIsInitializing(true);
+      setError(null);
+      
       try {
         const sdkInstance = await sdkService.initialize();
         if (sdkInstance) {
@@ -23,6 +26,7 @@ export const useSDK = () => {
         }
       } catch (error) {
         console.error('[useSDK] SDK 초기화 실패:', error);
+        setError(error as Error);
         setInitialized(false);
       } finally {
         setIsInitializing(false);
@@ -36,5 +40,13 @@ export const useSDK = () => {
     sdk,
     isInitializing: isInitializing || SDKService.getInstance().isInitializing(),
     isInitialized: !!sdk,
+    error,
+    hasError: SDKService.getInstance().hasError(),
+    reset: () => {
+      SDKService.getInstance().reset();
+      setSdk(null);
+      setInitialized(false);
+      setError(null);
+    }
   };
 }; 

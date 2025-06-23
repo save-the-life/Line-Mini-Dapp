@@ -189,6 +189,7 @@
       "mystery_gift": "Mystery Gift",
       "1st_awards": "1st Ranking Awards",
       "2nd_awards": "2nd Ranking Awards",
+      "3rd_awards": "3rd Ranking Awards",
       "ai_exam": "AI Examination",
       "1st_raffle": "1st Raffle Awards",
       "request_claim": "Request Claim",
@@ -548,10 +549,9 @@
       "2nd_rank": "The 2nd Round of our Monthly Leaderboard Rankings Event wrapped up on May 15th!",
       "made_cut": "Think you made the cut?",
       "check_winner": "Check out the winners now!",
-      "round_end": "Ranking Event has ended",
-      "round_3": "Round 3 Ranking Event Has Ended!",
-      "reward_announce": "Rewards will be announced and distributed within the week.",
-      "round_4": "Round 4 is officially live — time to roll & roll!"
+      "3rd_rank": "Round 3 Leaderboard Winners!",
+      "reward_dis": "Rewards have been distributed.",
+      "check_winner_here": "Check the full winners list here:"
     },
     "setting": {
       "terms_of_service": "Terms of Service",

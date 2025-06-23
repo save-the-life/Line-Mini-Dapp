@@ -29,8 +29,7 @@ const useWalletStore = create<WalletStore>((set) => ({
     // localStorage에서 지갑 연결 정보 제거
     localStorage.removeItem('walletAddress');
     localStorage.removeItem('isWalletConnected');
-    console.log("[WalletStore] localStorage에서 지갑 연결 정보 제거");
-    
+    console.log("[지갑 해제] localStorage 연결 정보 제거 완료");
     set({
       walletAddress: "",
       provider: null,

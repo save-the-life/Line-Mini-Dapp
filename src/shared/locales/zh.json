@@ -189,6 +189,7 @@
       "mystery_gift": "神秘礼物",
       "1st_awards": "第1名排名獎勵",
       "2nd_awards": "第2名排名獎勵",
+      "3rd_awards": "第3名排名獎勵",
       "ai_exam": "AI 考試",
       "1st_raffle": "第1次抽獎獎勵",
       "request_claim": "請求領取",
@@ -549,10 +550,9 @@
       "2nd_rank": "我們的第2輪月度排行榜排名活動已於5月15日結束！",
       "made_cut": "覺得自己上榜了嗎？",
       "check_winner": "立即查看中獎者！",
-      "round_end": "排名活動已結束。",
-      "round_3": "第3輪排名活動已結束！",
-      "reward_announce": "獎勵將在本週內公布並發放。",
-      "round_4": "第4輪正式開啟 — 是時候擲骰子了！"
+      "3rd_rank": "第3輪排行榜得獎者！",
+      "reward_dis": "獎勵已發放。",
+      "check_winner_here": "在此查看完整得獎名單："
     },
     "setting": {
       "terms_of_service": "服務條款",

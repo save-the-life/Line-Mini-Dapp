@@ -6,6 +6,7 @@ let globalSDKInstance: any = null;
 let isInitializing = false;
 let initializationPromise: Promise<any> | null = null;
 let walletRestored = false;
+let initializationError: Error | null = null;
 
 class SDKService {
   private static instance: SDKService;
@@ -22,12 +23,19 @@ class SDKService {
   public async initialize(): Promise<any> {
     // 이미 초기화된 경우 기존 인스턴스 반환
     if (globalSDKInstance) {
+      console.log("[SDK Service] 이미 초기화된 SDK 인스턴스 반환");
       return globalSDKInstance;
+    }
+
+    // 이전 초기화에서 에러가 발생한 경우 재시도 허용
+    if (initializationError) {
+      console.log("[SDK Service] 이전 초기화 에러가 있었습니다. 재시도합니다.");
+      initializationError = null;
     }
 
     // 초기화 중인 경우 기존 Promise 반환
     if (isInitializing && initializationPromise) {
-      console.log("[SDK Service] SDK 초기화가 이미 진행 중입니다.");
+      console.log("[SDK Service] SDK 초기화가 이미 진행 중입니다. 기존 Promise 반환");
       return initializationPromise;
     }
 
@@ -44,6 +52,9 @@ class SDKService {
       }
 
       return sdkInstance;
+    } catch (error) {
+      initializationError = error as Error;
+      throw error;
     } finally {
       isInitializing = false;
       initializationPromise = null;
@@ -119,12 +130,21 @@ class SDKService {
     return isInitializing;
   }
 
+  public hasError(): boolean {
+    return initializationError !== null;
+  }
+
+  public getError(): Error | null {
+    return initializationError;
+  }
+
   // SDK 재설정 (테스트용 또는 오류 복구용)
   public reset(): void {
     globalSDKInstance = null;
     isInitializing = false;
     initializationPromise = null;
     walletRestored = false;
+    initializationError = null;
     console.log("[SDK Service] SDK 상태가 재설정되었습니다.");
   }
 

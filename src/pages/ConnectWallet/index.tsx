@@ -11,7 +11,7 @@ import requestWallet from "@/entities/User/api/addWallet";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import MaintenanceScreen from "@/app/components/Maintenance";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
+import SDKService from "@/shared/services/sdkServices";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
@@ -81,10 +81,8 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       // 2. SDK 초기화
-      const sdk = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "8217",
-      });
+      const sdkService = SDKService.getInstance();
+      const sdk = await sdkService.initialize();
 
       // 3. 실제 지갑 연결 상태 검증
       const isActuallyConnected = await verifyWalletConnection();
