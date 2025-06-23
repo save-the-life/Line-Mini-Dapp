@@ -26,12 +26,10 @@ import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardPoints from "@/entities/Mission/api/fromRewardPoint";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import useWalletStore from "@/shared/store/useWalletStore";
 import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
-import SDKService from "@/shared/services/sdkServices";
 import { useSDK } from "@/shared/hooks/useSDK";
 
 

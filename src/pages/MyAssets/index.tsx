@@ -19,7 +19,6 @@ import {
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import getRewardsHistory from "@/entities/Asset/api/getRewardsHistory";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { BigNumber, ethers } from "ethers";
 import { kaiaGetBalance, KaiaRpcResponse } from "@/entities/Asset/api/getKaiaBalance";
 import getMyAssets from "@/entities/Asset/api/getMyAssets";

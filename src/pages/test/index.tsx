@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import DappPortalSDK from "@linenext/dapp-portal-sdk"; // Default export로 SDK 가져오기
 import { ethers } from "ethers";
+import SDKService from "@/shared/services/sdkServices";
 
 const contractAddress = "0x01AE259aAc479862eA609D6771AA18fB1b1E097e";
 
@@ -91,11 +91,9 @@ const WalletConnect: React.FC = () => {
     try {
       // console.log("초기화 시작");
 
-      // SDK 초기화
-      const sdk = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "", // 환경 변수에서 clientId 가져오기
-        chainId: "8217", // 테스트넷 체인 ID
-      });
+      // SDKService를 통해 SDK 초기화 (싱글톤)
+      const sdkService = SDKService.getInstance();
+      const sdk = await sdkService.initialize();
 
       // 지갑 연결 요청
         const walletProvider = sdk.getWalletProvider();

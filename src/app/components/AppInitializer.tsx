@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
@@ -9,6 +8,7 @@ import SplashScreen from "./SplashScreen";
 import MaintenanceScreen from "./Maintenance";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
+import SDKService from "@/shared/services/sdkServices";
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
 const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
@@ -339,10 +339,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         );
         console.log("[InitializeApp] LIFF 초기화 완료");
 
-        await DappPortalSDK.init({
-          clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-          chainId: "8217",
-        });
+        // SDKService를 통해 SDK 초기화 (싱글톤)
+        const sdkService = SDKService.getInstance();
+        await sdkService.initialize();
         
 
         await handleTokenFlow();
