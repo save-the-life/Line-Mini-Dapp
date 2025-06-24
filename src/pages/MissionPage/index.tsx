@@ -333,7 +333,7 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
               10% Payback
             </span>
             <span className="font-normal text-sm">
-              on Your Friend’s Purchase
+              on Your Friend's Purchase
             </span>
           </Trans>
         </div>
@@ -386,6 +386,27 @@ const MissionPage: React.FC = () => {
     return stored ? JSON.parse(stored) : [];
   });
 
+  // 지갑 연결 취소 플래그 관련 유틸리티 함수들
+  const getWalletCancelDate = (): string | null => {
+    return localStorage.getItem("walletCancelDate");
+  };
+
+  const setWalletCancelDate = (date: string) => {
+    localStorage.setItem("walletCancelDate", date);
+  };
+
+  const isWalletCanceledToday = (): boolean => {
+    const cancelDate = getWalletCancelDate();
+    if (!cancelDate) return false;
+    
+    const today = new Date().toDateString();
+    return cancelDate === today;
+  };
+
+  const clearWalletCancelDate = () => {
+    localStorage.removeItem("walletCancelDate");
+  };
+
   const mappedImages = Object.values(missionImageMap).flatMap((item) =>
     Images[item.imageKey] ? [Images[item.imageKey]] : []
   );
@@ -420,12 +441,18 @@ const MissionPage: React.FC = () => {
   // 여기에 지갑 연결 로직 추가 (잔액 조회 없이)
   useEffect(() => {
     const checkWalletConnection = async () => {
-      if (!walletAddress) {
+      if (!walletAddress && !isWalletCanceledToday()) {
         try {
           // connectWallet 함수는 지갑 연결만 수행합니다.
           await connectWallet();
-        } catch (error) {
+        } catch (error: any) {
           console.error("Wallet connection failed:", error);
+          
+          // 사용자가 취소한 경우 (코드 -32001)
+          if (error?.code === -32001 && error?.message === "User canceled") {
+            const today = new Date().toDateString();
+            setWalletCancelDate(today);
+          }
         }
       }
     };
@@ -483,9 +510,27 @@ const MissionPage: React.FC = () => {
     if (!provider || !walletAddress || !sdk || !walletType) {
       if (isConnecting) return;
       setIsConnecting(true);
-      const connection = await connectWallet();
-      setIsConnecting(false);
-      if (!connection.provider || !connection.walletAddress) {
+      try {
+        const connection = await connectWallet();
+        setIsConnecting(false);
+        if (!connection.provider || !connection.walletAddress) {
+          setShowModal(true);
+          setMessage(t("attendance.wallet_fail"));
+          return;
+        }
+        // 연결 성공 시 취소 플래그 제거
+        clearWalletCancelDate();
+      } catch (error: any) {
+        setIsConnecting(false);
+        console.error("Wallet connection failed:", error);
+        
+        // 사용자가 취소한 경우 (코드 -32001)
+        if (error?.code === -32001 && error?.message === "User canceled") {
+          const today = new Date().toDateString();
+          setWalletCancelDate(today);
+          return;
+        }
+        
         setShowModal(true);
         setMessage(t("attendance.wallet_fail"));
         return;
@@ -608,8 +653,16 @@ const MissionPage: React.FC = () => {
     try {
       // connectWallet 함수는 지갑 연결만 수행합니다.
       await connectWallet();
-    } catch (error) {
+      // 연결 성공 시 취소 플래그 제거
+      clearWalletCancelDate();
+    } catch (error: any) {
       console.error("Wallet connection failed:", error);
+      
+      // 사용자가 취소한 경우 (코드 -32001)
+      if (error?.code === -32001 && error?.message === "User canceled") {
+        const today = new Date().toDateString();
+        setWalletCancelDate(today);
+      }
     }
   }
 
