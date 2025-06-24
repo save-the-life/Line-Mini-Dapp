@@ -25,7 +25,6 @@ import getMyAssets from "@/entities/Asset/api/getMyAssets";
 import requestClaim from "@/entities/Asset/api/requestClaim";
 import requestUSDTClaim from "@/entities/Asset/requrstUSDTClaim";
 import useWalletStore from "@/shared/store/useWalletStore";
-import requestWallet from "@/entities/User/api/addWallet";
 import { connectWallet } from "@/shared/services/walletService";
 
 interface TruncateMiddleProps {
@@ -86,6 +85,27 @@ const MyAssets: React.FC = () => {
       const [copySuccess, setCopySuccess] = useState(false);
     
     const { walletAddress, provider, sdk, clearWallet } = useWalletStore();
+
+    // 지갑 연결 취소 플래그 관련 유틸리티 함수들
+    const getWalletCancelDate = (): string | null => {
+        return localStorage.getItem("walletCancelDate");
+    };
+
+    const setWalletCancelDate = (date: string) => {
+        localStorage.setItem("walletCancelDate", date);
+    };
+
+    const isWalletCanceledToday = (): boolean => {
+        const cancelDate = getWalletCancelDate();
+        if (!cancelDate) return false;
+        
+        const today = new Date().toDateString();
+        return cancelDate === today;
+    };
+
+    const clearWalletCancelDate = () => {
+        localStorage.removeItem("walletCancelDate");
+    };
 
     const getCharacterImageSrc = () => {
         const index = Math.floor((userLv - 1) / 2);
@@ -322,11 +342,19 @@ const MyAssets: React.FC = () => {
                 if (connection && connection.walletAddress && connection.provider) {
                     await fetchBalance(connection.walletAddress);
                     setShowWalletModal(true);
+                    // 연결 성공 시 취소 플래그 제거
+                    clearWalletCancelDate();
                 } else {
                     // console.error("지갑 연결 상태 업데이트 실패");
                 }
             } catch (error: any) {
                 // console.error("지갑 연결 에러:", error.message);
+                
+                // 사용자가 취소한 경우 (코드 -32001)
+                if (error?.code === -32001 && error?.message === "User canceled") {
+                    const today = new Date().toDateString();
+                    setWalletCancelDate(today);
+                }
             }
         } else {
             // console.log("지갑 주소가 있어요. ", walletAddress);
@@ -349,7 +377,11 @@ const MyAssets: React.FC = () => {
                     provider.disconnectWallet();
                     clearWallet();
                 }
-                await handleBalance();
+                
+                // 오늘 취소한 경우가 아니면 지갑 연결 시도
+                if (!isWalletCanceledToday()) {
+                    await handleBalance();
+                }
             }
         };
         checkStoredWallet();
@@ -404,7 +436,17 @@ const MyAssets: React.FC = () => {
                     clearWallet();
                 }
                 alert("TypeError가 발생했습니다. 지갑을 다시 연결합니다.");
-                await connectWallet();
+                try {
+                    await connectWallet();
+                    // 연결 성공 시 취소 플래그 제거
+                    clearWalletCancelDate();
+                } catch (connectError: any) {
+                    // 사용자가 취소한 경우 (코드 -32001)
+                    if (connectError?.code === -32001 && connectError?.message === "User canceled") {
+                        const today = new Date().toDateString();
+                        setWalletCancelDate(today);
+                    }
+                }
             } else if (error.code === "-32001") {
                 // 사용자가 팝업을 닫은 경우 자동 재연결 대신 사용자에게 안내
                 // console.log("사용자가 결제 팝업을 닫음");
