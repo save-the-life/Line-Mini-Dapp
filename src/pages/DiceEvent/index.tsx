@@ -780,7 +780,7 @@ const DiceEventPage: React.FC = () => {
           </Dialog> */}
 
           {/* 출석 체크 알림 다이얼로그 */}
-          <Dialog open={redirect}>
+          {/* <Dialog open={redirect}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[30%]">
               <div className="relative">
@@ -812,7 +812,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
 
           {/* 지난 달 보상 다이얼로그 */}
