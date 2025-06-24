@@ -28,98 +28,8 @@ import { ethers } from "ethers";
 import testingKaia from "@/entities/User/api/kaiaTX";
 
 //test-net
-// const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
-// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-// const abi = [
-//    {
-//       "anonymous": false,
-//       "inputs": [
-//          {
-//             "indexed": true,
-//             "internalType": "address",
-//             "name": "user",
-//             "type": "address"
-//          },
-//          {
-//             "indexed": false,
-//             "internalType": "uint256",
-//             "name": "userClaimCount",
-//             "type": "uint256"
-//          },
-//          {
-//             "indexed": false,
-//             "internalType": "uint256",
-//             "name": "totalClaimCount",
-//             "type": "uint256"
-//          }
-//       ],
-//       "name": "Claimed",
-//       "type": "event"
-//    },
-//    {
-//       "inputs": [
-//          {
-//             "internalType": "address",
-//             "name": "",
-//             "type": "address"
-//          }
-//       ],
-//       "name": "claimCount",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [
-//          {
-//             "internalType": "address",
-//             "name": "user",
-//             "type": "address"
-//          }
-//       ],
-//       "name": "getClaimCount",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [],
-//       "name": "markClaimed",
-//       "outputs": [],
-//       "stateMutability": "nonpayable",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [],
-//       "name": "totalClaims",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    }
-// ]
-
-
-//main-net
-const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
-const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
+const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
+const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 const abi = [
    {
       "anonymous": false,
@@ -205,6 +115,96 @@ const abi = [
       "type": "function"
    }
 ]
+
+
+//main-net
+// const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
+// const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
+// const abi = [
+//    {
+//       "anonymous": false,
+//       "inputs": [
+//          {
+//             "indexed": true,
+//             "internalType": "address",
+//             "name": "user",
+//             "type": "address"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "userClaimCount",
+//             "type": "uint256"
+//          },
+//          {
+//             "indexed": false,
+//             "internalType": "uint256",
+//             "name": "totalClaimCount",
+//             "type": "uint256"
+//          }
+//       ],
+//       "name": "Claimed",
+//       "type": "event"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "address",
+//             "name": "",
+//             "type": "address"
+//          }
+//       ],
+//       "name": "claimCount",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [
+//          {
+//             "internalType": "address",
+//             "name": "user",
+//             "type": "address"
+//          }
+//       ],
+//       "name": "getClaimCount",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [],
+//       "name": "markClaimed",
+//       "outputs": [],
+//       "stateMutability": "nonpayable",
+//       "type": "function"
+//    },
+//    {
+//       "inputs": [],
+//       "name": "totalClaims",
+//       "outputs": [
+//          {
+//             "internalType": "uint256",
+//             "name": "",
+//             "type": "uint256"
+//          }
+//       ],
+//       "stateMutability": "view",
+//       "type": "function"
+//    }
+// ]
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -333,7 +333,7 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
               10% Payback
             </span>
             <span className="font-normal text-sm">
-              on Your Friend’s Purchase
+              on Your Friend's Purchase
             </span>
           </Trans>
         </div>
@@ -386,6 +386,27 @@ const MissionPage: React.FC = () => {
     return stored ? JSON.parse(stored) : [];
   });
 
+  // 지갑 연결 취소 플래그 관련 유틸리티 함수들
+  const getWalletCancelDate = (): string | null => {
+    return localStorage.getItem("walletCancelDate");
+  };
+
+  const setWalletCancelDate = (date: string) => {
+    localStorage.setItem("walletCancelDate", date);
+  };
+
+  const isWalletCanceledToday = (): boolean => {
+    const cancelDate = getWalletCancelDate();
+    if (!cancelDate) return false;
+    
+    const today = new Date().toDateString();
+    return cancelDate === today;
+  };
+
+  const clearWalletCancelDate = () => {
+    localStorage.removeItem("walletCancelDate");
+  };
+
   const mappedImages = Object.values(missionImageMap).flatMap((item) =>
     Images[item.imageKey] ? [Images[item.imageKey]] : []
   );
@@ -420,12 +441,18 @@ const MissionPage: React.FC = () => {
   // 여기에 지갑 연결 로직 추가 (잔액 조회 없이)
   useEffect(() => {
     const checkWalletConnection = async () => {
-      if (!walletAddress) {
+      if (!walletAddress && !isWalletCanceledToday()) {
         try {
           // connectWallet 함수는 지갑 연결만 수행합니다.
           await connectWallet();
-        } catch (error) {
+        } catch (error: any) {
           console.error("Wallet connection failed:", error);
+          
+          // 사용자가 취소한 경우 (코드 -32001)
+          if (error?.code === -32001 && error?.message === "User canceled") {
+            const today = new Date().toDateString();
+            setWalletCancelDate(today);
+          }
         }
       }
     };
@@ -483,9 +510,27 @@ const MissionPage: React.FC = () => {
     if (!provider || !walletAddress || !sdk || !walletType) {
       if (isConnecting) return;
       setIsConnecting(true);
-      const connection = await connectWallet();
-      setIsConnecting(false);
-      if (!connection.provider || !connection.walletAddress) {
+      try {
+        const connection = await connectWallet();
+        setIsConnecting(false);
+        if (!connection.provider || !connection.walletAddress) {
+          setShowModal(true);
+          setMessage(t("attendance.wallet_fail"));
+          return;
+        }
+        // 연결 성공 시 취소 플래그 제거
+        clearWalletCancelDate();
+      } catch (error: any) {
+        setIsConnecting(false);
+        console.error("Wallet connection failed:", error);
+        
+        // 사용자가 취소한 경우 (코드 -32001)
+        if (error?.code === -32001 && error?.message === "User canceled") {
+          const today = new Date().toDateString();
+          setWalletCancelDate(today);
+          return;
+        }
+        
         setShowModal(true);
         setMessage(t("attendance.wallet_fail"));
         return;
@@ -608,8 +653,16 @@ const MissionPage: React.FC = () => {
     try {
       // connectWallet 함수는 지갑 연결만 수행합니다.
       await connectWallet();
-    } catch (error) {
+      // 연결 성공 시 취소 플래그 제거
+      clearWalletCancelDate();
+    } catch (error: any) {
       console.error("Wallet connection failed:", error);
+      
+      // 사용자가 취소한 경우 (코드 -32001)
+      if (error?.code === -32001 && error?.message === "User canceled") {
+        const today = new Date().toDateString();
+        setWalletCancelDate(today);
+      }
     }
   }
 
