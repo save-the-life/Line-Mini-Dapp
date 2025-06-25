@@ -84,7 +84,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
             value={bet}
             onChange={e => setBet(e.target.value)}
             max={myPoint}
-            className="border-2 border-[#21212f] rounded-2xl h-12 text-sm font-medium px-4 mt-4 w-[342px] text-center"
+            className="border-2 border-[#21212f] rounded-2xl h-12 text-sm font-medium px-4 mt-4 w-[342px] text-center text-black"
           />
           {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
           {/* 5. 버튼 영역 */}
