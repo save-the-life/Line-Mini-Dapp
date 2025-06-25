@@ -259,15 +259,25 @@ const CardGameModal = ({ onClose }: any) => {
       style={{
         minHeight: '100vh',
         minWidth: '100vw',
-        backgroundImage: `url(${Images.CardGameBackground})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'auto 100%',
-        backgroundPosition: 'center',
+        background: '#2d2060',
       }}
     >
       <div
-        className="w-full h-full flex flex-col items-center relative shadow-2xl overflow-hidden"
-        style={{ minWidth: '320px' }}
+        style={{
+          width: '90vw',
+          height: '100vh',
+          backgroundImage: `url(${Images.CardGameBackground})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100% 100%',
+          backgroundPosition: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          position: 'relative',
+          minWidth: '320px',
+          boxShadow: '0 0 40px rgba(0,0,0,0.2)',
+        }}
+        className="shadow-2xl overflow-hidden"
       >
         {!isGameStarted ? (
           <CardBettingModal
