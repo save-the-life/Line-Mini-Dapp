@@ -140,12 +140,19 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
-        <div className="text-xl font-bold text-white mb-4">
-          Bet: {betAmount} {mode === "color" ? "x2" : mode === "suit" ? "x4" : ""}
+        {/* 배팅 금액, 배율 (RPSGame과 동일한 스타일) */}
+        <div className="flex flex-row items-center justify-center h-[86px] w-[264px] border-2 border-[#21212f] rounded-3xl bg-white gap-3 mb-4 mx-auto">
+          <div className="flex flex-row items-center gap-1">
+            <img src={Images.Star} alt="Star" className="w-9 h-9" />
+            <p className="text-3xl font-semibold">{betAmount}</p>
+          </div>
+          <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
+            x2
+          </div>
         </div>
         
-        {/* 중앙 카드 애니메이션 */}
-        <div className="flex justify-center my-6">
+        {/* 중앙: 뒤집어진 카드 */}
+        <div className="flex flex-col items-center mb-8">
           <img
             src={Images.CardBack}
             alt="card"
