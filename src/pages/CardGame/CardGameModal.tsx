@@ -3,7 +3,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
 import Images from "@/shared/assets/images";
 
-const COLORS = ["RED", "BLACK"];
+const COLORS: ("RED" | "BLACK")[] = ["RED", "BLACK"];
 const SUITS = [
   { label: "Spade", value: "SPADE", color: "BLACK" },
   { label: "Diamond", value: "DIAMOND", color: "RED" },
@@ -111,8 +111,10 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
 };
 
 const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
-  const [mode, setMode] = useState<"COLOR" | "SUIT" | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [mode, setMode] = useState<"color" | "suit" | null>(null);
+  const [selectedColor, setSelectedColor] = useState<"RED" | "BLACK" | null>(null);
+  const [selectedSuit, setSelectedSuit] = useState<string | null>(null);
+  const [cardRevealed, setCardRevealed] = useState(false);
   const answer = React.useMemo(() => {
     const color = COLORS[Math.floor(Math.random() * 2)];
     const suit = SUITS[Math.floor(Math.random() * 4)];
@@ -120,16 +122,17 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   }, []);
   const handleSelect = (type: any, value: any) => {
     setMode(type);
-    setSelected(value);
+    setSelectedColor(value as "RED" | "BLACK" | null);
+    setSelectedSuit(value as string | null);
   };
   const handleSubmit = () => {
     let win = false;
     let reward = 0;
-    if (mode === "COLOR") {
-      win = selected === answer.color;
+    if (mode === "color") {
+      win = selectedColor === answer.color;
       reward = win ? betAmount * 2 : 0;
-    } else if (mode === "SUIT") {
-      win = selected === answer.suit.value;
+    } else if (mode === "suit") {
+      win = selectedSuit === answer.suit.value;
       reward = win ? betAmount * 4 : 0;
     }
     onResult(win, reward, answer);
@@ -138,51 +141,61 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
         <div className="text-xl font-bold text-white mb-4">
-          Bet: {betAmount} {mode === "COLOR" ? "x2" : mode === "SUIT" ? "x4" : ""}
+          Bet: {betAmount} {mode === "color" ? "x2" : mode === "suit" ? "x4" : ""}
         </div>
         
         {/* 중앙 카드 애니메이션 */}
         <div className="flex justify-center my-6">
-          <AnimatedCard />
+          <img
+            src={Images.CardBack}
+            alt="card"
+            className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mb-6 object-cover cursor-pointer"
+            onClick={() => {
+              if (!cardRevealed && (mode === 'color' || mode === 'suit')) {
+                // TODO: API 호출로 카드 오픈 (추후 개발)
+                setCardRevealed(true);
+              }
+            }}
+          />
         </div>
         
         <div className="w-full max-w-md">
           <div className="flex gap-2 mb-4">
             <button
               className={`flex-1 py-2 px-4 rounded-xl font-semibold ${
-                mode === "COLOR" 
+                mode === "color" 
                   ? "bg-blue-500 text-white" 
                   : "bg-white text-black"
               }`}
-              onClick={() => setMode("COLOR")}
-              disabled={mode === "SUIT"}
+              onClick={() => setMode("color")}
+              disabled={mode === "suit"}
             >
               색상 맞추기 (x2)
             </button>
             <button
               className={`flex-1 py-2 px-4 rounded-xl font-semibold ${
-                mode === "SUIT" 
+                mode === "suit" 
                   ? "bg-blue-500 text-white" 
                   : "bg-white text-black"
               }`}
-              onClick={() => setMode("SUIT")}
-              disabled={mode === "COLOR"}
+              onClick={() => setMode("suit")}
+              disabled={mode === "color"}
             >
               색상+무늬 맞추기 (x4)
             </button>
           </div>
           
-          {mode === "COLOR" && (
+          {mode === "color" && (
             <div className="flex gap-2 mb-4">
               {COLORS.map(color => (
                 <button
                   key={color}
                   className={`flex-1 py-3 px-4 rounded-xl font-semibold ${
-                    selected === color 
+                    selectedColor === color 
                       ? "bg-red-500 text-white" 
                       : "bg-white text-black"
                   }`}
-                  onClick={() => setSelected(color)}
+                  onClick={() => setSelectedColor(color as "RED" | "BLACK")}
                 >
                   {color}
                 </button>
@@ -190,17 +203,17 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
             </div>
           )}
           
-          {mode === "SUIT" && (
+          {mode === "suit" && (
             <div className="grid grid-cols-2 gap-2 mb-4">
               {SUITS.map(suit => (
                 <button
                   key={suit.value}
                   className={`py-3 px-4 rounded-xl font-semibold ${
-                    selected === suit.value 
+                    selectedSuit === suit.value 
                       ? "bg-blue-500 text-white" 
                       : "bg-white text-black"
                   }`}
-                  onClick={() => setSelected(suit.value)}
+                  onClick={() => setSelectedSuit(suit.value as string)}
                 >
                   {suit.label}
                 </button>
@@ -219,7 +232,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           <button 
             className="flex-1 py-3 rounded-xl bg-blue-500 text-white font-bold"
             onClick={handleSubmit} 
-            disabled={!selected || !mode}
+            disabled={!selectedColor && !selectedSuit}
           >
             뒤집기!
           </button>
@@ -262,10 +275,14 @@ const CardGameResultDialog = ({ isOpen, win, reward, answer, onRetry, onClose }:
 
 const CardGameModal = ({ onClose }: any) => {
   const [isGameStarted, setIsGameStarted] = useState(false);
-  const [betAmount, setBetAmount] = useState(0);
+  const [betAmount, setBetAmount] = useState(500);
   const [myPoint, setMyPoint] = useState(12345);
   const [result, setResult] = useState({ win: false, reward: 0, answer: null });
   const [isResultOpen, setIsResultOpen] = useState(false);
+  const [mode, setMode] = useState<"color" | "suit" | null>(null);
+  const [selectedColor, setSelectedColor] = useState<"RED" | "BLACK" | null>(null);
+  const [selectedSuit, setSelectedSuit] = useState<string | null>(null);
+  const [cardRevealed, setCardRevealed] = useState(false);
 
   return (
     <div
