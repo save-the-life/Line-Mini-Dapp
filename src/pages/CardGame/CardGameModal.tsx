@@ -3,6 +3,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
 import Images from "@/shared/assets/images";
 import ReactCardFlip from 'react-card-flip';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const COLORS: ("RED" | "BLACK")[] = ["RED", "BLACK"];
 const SUITS = [
@@ -116,15 +117,25 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   const [selectedColor, setSelectedColor] = useState<"RED" | "BLACK" | null>(null);
   const [selectedSuit, setSelectedSuit] = useState<string | null>(null);
   const [cardRevealed, setCardRevealed] = useState(false);
+  const [topSelected, setTopSelected] = useState(false);
+  const [bottomSelected, setBottomSelected] = useState(false);
   const answer = React.useMemo(() => {
     const color = COLORS[Math.floor(Math.random() * 2)];
     const suit = SUITS[Math.floor(Math.random() * 4)];
     return { color, suit };
   }, []);
   const handleSelect = (type: any, value: any) => {
-    setMode(type);
-    setSelectedColor(value as "RED" | "BLACK" | null);
-    setSelectedSuit(value as string | null);
+    if (type === 'color') {
+      setMode('color');
+      setSelectedColor(value as "RED" | "BLACK");
+      setSelectedSuit(null);
+      setTopSelected(true); // 상단 선택 시 하단 영역 사라짐
+    } else if (type === 'suit') {
+      setMode('suit');
+      setSelectedSuit(value as string);
+      setSelectedColor(null);
+      setBottomSelected(true); // 하단 선택 시 상단 영역 사라짐
+    }
   };
   const handleSubmit = () => {
     let win = false;
@@ -140,29 +151,47 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   };
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
-      <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl mx-8">
-        {/* 배팅 금액, 2배율 */}
-        <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
-          <div className="flex flex-row items-center gap-1">
-            <img src={Images.Star} alt="Star" className="w-9 h-9" />
-            <p className="text-2xl font-semibold text-black">{betAmount}</p>
-          </div>
-          <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
-            x2
-          </div>
-        </div>
-        {/* Red 버튼 + Black 버튼 */}
-        <div className="flex flex-row gap-5 mb-8">
-          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-[#DD2726] text-black font-bold text-xl w-[150px] h-[40px] items-center justify-center red-inner-shadow">
-            Red
-          </button>
-          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-black text-[#DD2726] font-bold text-xl w-[150px] h-[40px] items-center justify-center black-inner-shadow">
-            Black
-          </button>
-        </div>
-        
-        {/* 중앙: 뒤집어진 카드 */}
-        <div className="flex flex-col items-center mb-8">
+      <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl my-8">
+        {/* 상단 2배율+RED/BLACK */}
+        <AnimatePresence>
+          {!bottomSelected && (
+            <motion.div
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: bottomSelected ? 60 : 0 }}
+              exit={{ opacity: 0, y: 60 }}
+              transition={{ duration: 0.4 }}
+              className="w-full flex flex-col items-center"
+            >
+              {/* 배팅 금액, 2배율 */}
+              <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
+                <div className="flex flex-row items-center gap-1">
+                  <img src={Images.Star} alt="Star" className="w-9 h-9" />
+                  <p className="text-2xl font-semibold text-black">{betAmount}</p>
+                </div>
+                <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
+                  x2
+                </div>
+              </div>
+              {/* Red 버튼 + Black 버튼 */}
+              <div className="flex flex-row gap-5 mb-8">
+                <button onClick={() => handleSelect('color', 'RED')} className="flex flex-row gap-1 rounded-[7px] text-center bg-[#DD2726] text-black font-bold text-xl w-[150px] h-[40px] items-center justify-center red-inner-shadow">
+                  Red
+                </button>
+                <button onClick={() => handleSelect('color', 'BLACK')} className="flex flex-row gap-1 rounded-[7px] text-center bg-black text-[#DD2726] font-bold text-xl w-[150px] h-[40px] items-center justify-center black-inner-shadow">
+                  Black
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {/* 중앙 카드 */}
+        <motion.div
+          animate={{
+            y: topSelected ? 60 : bottomSelected ? -60 : 0
+          }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-col items-center mb-8"
+        >
           <img
             src={Images.CardBack}
             alt="card"
@@ -179,53 +208,64 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
             alt="card-game"
             className="w-[155px] bg-transparent object-cover"
           />
-        </div>
-        {/* 배팅 금액, 4배율 */}
-        <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
-          <div className="flex flex-row items-center gap-1">
-            <img src={Images.Star} alt="Star" className="w-9 h-9" />
-            <p className="text-2xl font-semibold text-black">{betAmount}</p>
-          </div>
-          <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
-            x4
-          </div>
-        </div>
-
-        {/* 카드 선택 */}
-        <div className="flex flex-row gap-[6px] justify-center items-center">
-          {[
-            { key: 'SPADE', img: Images.CardSpade, alt: 'spade' },
-            { key: 'DIAMOND', img: Images.CardDiamond, alt: 'diamond' },
-            { key: 'HEART', img: Images.CardHeart, alt: 'heart' },
-            { key: 'CLUB', img: Images.CardClover, alt: 'clover' },
-          ].map(card => {
-            return (
-              <button
-                key={card.key}
-                type="button"
-                onClick={() => setSelectedSuit(card.key)}
-                className={`focus:outline-none rounded-[7px] bg-transparent p-0 ${selectedSuit === card.key ? 'border-2 border-[#21212F] shadow-lg' : ''}`}
-                style={{ lineHeight: 0 }}
-              >
-                <ReactCardFlip isFlipped={!!selectedSuit && selectedSuit !== card.key} flipDirection="horizontal">
-                  <img
-                    src={card.img}
-                    alt={card.alt}
-                    className="w-[80px] h-[110px] bg-transparent object-cover"
-                    key="front"
-                  />
-                  <img
-                    src={Images.CardBack}
-                    alt="card-back"
-                    className="w-[80px] h-[110px] bg-transparent object-cover"
-                    key="back"
-                  />
-                </ReactCardFlip>
-              </button>
-            );
-          })}
-        </div>
-        
+        </motion.div>
+        {/* 하단 4배율+카드들 */}
+        <AnimatePresence>
+          {!topSelected && (
+            <motion.div
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: topSelected ? -60 : 0 }}
+              exit={{ opacity: 0, y: -60 }}
+              transition={{ duration: 0.4 }}
+              className="w-full flex flex-col items-center"
+            >
+              {/* 배팅 금액, 4배율 */}
+              <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
+                <div className="flex flex-row items-center gap-1">
+                  <img src={Images.Star} alt="Star" className="w-9 h-9" />
+                  <p className="text-2xl font-semibold text-black">{betAmount}</p>
+                </div>
+                <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
+                  x4
+                </div>
+              </div>
+              {/* 카드 선택 */}
+              <div className="flex flex-row gap-[6px] justify-center items-center">
+                {[
+                  { key: 'SPADE', img: Images.CardSpade, alt: 'spade' },
+                  { key: 'DIAMOND', img: Images.CardDiamond, alt: 'diamond' },
+                  { key: 'HEART', img: Images.CardHeart, alt: 'heart' },
+                  { key: 'CLUB', img: Images.CardClover, alt: 'clover' },
+                ].map(card => {
+                  return (
+                    <button
+                      key={card.key}
+                      type="button"
+                      onClick={() => { handleSelect('suit', card.key); }}
+                      className={`focus:outline-none rounded-[7px] bg-transparent p-0 ${selectedSuit === card.key ? 'border-2 border-[#21212F] shadow-lg' : ''}`}
+                      style={{ lineHeight: 0 }}
+                    >
+                      <ReactCardFlip isFlipped={!!selectedSuit && selectedSuit !== card.key} flipDirection="horizontal">
+                        <img
+                          src={card.img}
+                          alt={card.alt}
+                          className="w-[80px] h-[110px] bg-transparent object-cover"
+                          key="front"
+                        />
+                        <img
+                          src={Images.CardBack}
+                          alt="card-back"
+                          className="w-[80px] h-[110px] bg-transparent object-cover"
+                          key="back"
+                        />
+                      </ReactCardFlip>
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
