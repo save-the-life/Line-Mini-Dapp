@@ -150,6 +150,15 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
             x2
           </div>
         </div>
+        {/* Red 버튼 + Black 버튼 */}
+        <div className="flex flex-row gap-3">
+          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-[#DD2726] text-black font-bold text-xl w-[165px] h-[40px] items-center justify-center">
+            Red
+          </button>
+          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-black text-[#DD2726] font-bold text-xl w-[165px] h-[40px] items-center justify-center">
+            Black
+          </button>
+        </div>
         
         {/* 중앙: 뒤집어진 카드 */}
         <div className="flex flex-col items-center mb-8">
