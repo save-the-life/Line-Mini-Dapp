@@ -151,7 +151,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           </div>
         </div>
         {/* Red 버튼 + Black 버튼 */}
-        <div className="flex flex-row gap-5">
+        <div className="flex flex-row gap-5 mb-8">
           <button className="flex flex-row gap-1 rounded-[7px] text-center bg-[#DD2726] text-black font-bold text-xl w-[150px] h-[40px] items-center justify-center red-inner-shadow">
             Red
           </button>
@@ -165,7 +165,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           <img
             src={Images.CardBack}
             alt="card"
-            className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mb-6 object-cover cursor-pointer"
+            className="mb-[10px] w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer"
             onClick={() => {
               if (!cardRevealed && (mode === 'color' || mode === 'suit')) {
                 // TODO: API 호출로 카드 오픈 (추후 개발)
@@ -173,86 +173,14 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               }
             }}
           />
+          <img
+            src={Images.CardGame}
+            alt="card-game"
+            className="w-[155px] bg-transparent object-cover"
+          />
         </div>
         
-        <div className="w-full max-w-md">
-          <div className="flex gap-2 mb-4">
-            <button
-              className={`flex-1 py-2 px-4 rounded-xl font-semibold ${
-                mode === "color" 
-                  ? "bg-blue-500 text-white" 
-                  : "bg-white text-black"
-              }`}
-              onClick={() => setMode("color")}
-              disabled={mode === "suit"}
-            >
-              색상 맞추기 (x2)
-            </button>
-            <button
-              className={`flex-1 py-2 px-4 rounded-xl font-semibold ${
-                mode === "suit" 
-                  ? "bg-blue-500 text-white" 
-                  : "bg-white text-black"
-              }`}
-              onClick={() => setMode("suit")}
-              disabled={mode === "color"}
-            >
-              색상+무늬 맞추기 (x4)
-            </button>
-          </div>
-          
-          {mode === "color" && (
-            <div className="flex gap-2 mb-4">
-              {COLORS.map(color => (
-                <button
-                  key={color}
-                  className={`flex-1 py-3 px-4 rounded-xl font-semibold ${
-                    selectedColor === color 
-                      ? "bg-red-500 text-white" 
-                      : "bg-white text-black"
-                  }`}
-                  onClick={() => setSelectedColor(color as "RED" | "BLACK")}
-                >
-                  {color}
-                </button>
-              ))}
-            </div>
-          )}
-          
-          {mode === "suit" && (
-            <div className="grid grid-cols-2 gap-2 mb-4">
-              {SUITS.map(suit => (
-                <button
-                  key={suit.value}
-                  className={`py-3 px-4 rounded-xl font-semibold ${
-                    selectedSuit === suit.value 
-                      ? "bg-blue-500 text-white" 
-                      : "bg-white text-black"
-                  }`}
-                  onClick={() => setSelectedSuit(suit.value as string)}
-                >
-                  {suit.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
         
-        <div className="flex gap-3 w-full max-w-md">
-          <button 
-            className="flex-1 py-3 rounded-xl bg-gray-200 text-black font-bold"
-            onClick={onCancel}
-          >
-            Cancel
-          </button>
-          <button 
-            className="flex-1 py-3 rounded-xl bg-blue-500 text-white font-bold"
-            onClick={handleSubmit} 
-            disabled={!selectedColor && !selectedSuit}
-          >
-            뒤집기!
-          </button>
-        </div>
       </div>
     </div>
   );
