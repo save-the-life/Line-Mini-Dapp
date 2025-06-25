@@ -139,7 +139,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   };
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
-      <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
+      <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl mt-4">
         {/* 배팅 금액, 2배율 */}
         <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
           <div className="flex flex-row items-center gap-1">
@@ -206,7 +206,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               style={{ lineHeight: 0 }}
             >
               <img
-                src={card.img}
+                src={selectedSuit === card.key ? card.img : Images.CardBack}
                 alt={card.alt}
                 className="w-[80px] h-[110px] bg-transparent object-cover"
               />
