@@ -242,7 +242,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   );
 };
 
-const CardGameResultDialog = ({ isOpen, win, reward, answer, onRetry, onClose }: any) => {
+const CardGameResultDialog = ({ isOpen, win, reward, answer, onClose }: any) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
@@ -254,20 +254,12 @@ const CardGameResultDialog = ({ isOpen, win, reward, answer, onRetry, onClose }:
             획득 금액: {reward.toLocaleString()}
           </p>
         </div>
-        <div className="flex gap-3">
-          <button 
-            className="flex-1 py-3 rounded-xl bg-gray-200 text-black font-bold"
-            onClick={onRetry}
-          >
-            다시하기
-          </button>
-          <button 
-            className="flex-1 py-3 rounded-xl bg-blue-500 text-white font-bold"
-            onClick={onClose}
-          >
-            종료
-          </button>
-        </div>
+        <button 
+          className="w-full py-3 rounded-xl bg-blue-500 text-white font-bold"
+          onClick={onClose}
+        >
+          종료
+        </button>
       </div>
     </div>
   );
@@ -336,10 +328,6 @@ const CardGameModal = ({ onClose }: any) => {
           win={result.win}
           reward={result.reward}
           answer={result.answer || { color: "", suit: { label: "" } }}
-          onRetry={() => {
-            setIsResultOpen(false);
-            setIsGameStarted(false);
-          }}
           onClose={onClose}
         />
       </div>
