@@ -153,12 +153,12 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl my-8">
         {/* 상단 2배율+RED/BLACK */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!bottomSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: bottomSelected ? 60 : 0 }}
-              exit={{ opacity: 0, y: 60 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
             >
@@ -174,10 +174,28 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               </div>
               {/* Red 버튼 + Black 버튼 */}
               <div className="flex flex-row gap-5 mb-8">
-                <button onClick={() => handleSelect('color', 'RED')} className="flex flex-row gap-1 rounded-[7px] text-center bg-[#DD2726] text-black font-bold text-xl w-[150px] h-[40px] items-center justify-center red-inner-shadow">
+                <button 
+                  onClick={() => handleSelect('color', 'RED')} 
+                  className={`flex flex-row gap-1 rounded-[7px] text-center font-bold text-xl w-[150px] h-[40px] items-center justify-center ${
+                    selectedColor === 'RED' 
+                      ? 'bg-[#DD2726] text-black red-inner-shadow' 
+                      : selectedColor === 'BLACK'
+                      ? 'bg-[#35383F] text-white'
+                      : 'bg-[#DD2726] text-black red-inner-shadow'
+                  }`}
+                >
                   Red
                 </button>
-                <button onClick={() => handleSelect('color', 'BLACK')} className="flex flex-row gap-1 rounded-[7px] text-center bg-black text-[#DD2726] font-bold text-xl w-[150px] h-[40px] items-center justify-center black-inner-shadow">
+                <button 
+                  onClick={() => handleSelect('color', 'BLACK')} 
+                  className={`flex flex-row gap-1 rounded-[7px] text-center font-bold text-xl w-[150px] h-[40px] items-center justify-center ${
+                    selectedColor === 'BLACK' 
+                      ? 'bg-black text-[#DD2726] black-inner-shadow' 
+                      : selectedColor === 'RED'
+                      ? 'bg-[#35383F] text-white'
+                      : 'bg-black text-[#DD2726] black-inner-shadow'
+                  }`}
+                >
                   Black
                 </button>
               </div>
@@ -210,12 +228,12 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           />
         </motion.div>
         {/* 하단 4배율+카드들 */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!topSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: topSelected ? -60 : 0 }}
-              exit={{ opacity: 0, y: -60 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
             >
