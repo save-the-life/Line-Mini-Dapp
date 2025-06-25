@@ -206,7 +206,11 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               style={{ lineHeight: 0 }}
             >
               <img
-                src={selectedSuit === card.key ? card.img : Images.CardBack}
+                src={
+                  selectedSuit
+                    ? (selectedSuit === card.key ? card.img : Images.CardBack)
+                    : card.img
+                }
                 alt={card.alt}
                 className="w-[80px] h-[110px] bg-transparent object-cover"
               />
