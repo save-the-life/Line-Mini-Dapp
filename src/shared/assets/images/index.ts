@@ -211,7 +211,7 @@ import CardClover from "./card-clover.png"
 import CardDiamond from "./card-daimond.png"
 import CardSpade from "./card-spade.png"
 import CardHeart from "./card-heart.png"
-import CardGameBackground from "./card-game-background.png"
+import CardGameBackground from "./cardgame-background.png"
 
 const Images = {
   HorizontalLogo,
