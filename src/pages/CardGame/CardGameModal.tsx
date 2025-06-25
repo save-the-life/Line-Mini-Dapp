@@ -266,7 +266,7 @@ const CardGameModal = ({ onClose }: any) => {
       }}
     >
       <div
-        className="w-full h-full bg-[#2d2060] flex flex-col items-center relative shadow-2xl overflow-hidden"
+        className="w-full h-full flex flex-col items-center relative shadow-2xl overflow-hidden"
         style={{ minWidth: '320px' }}
       >
         {!isGameStarted ? (
