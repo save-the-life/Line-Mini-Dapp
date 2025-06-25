@@ -30,7 +30,7 @@ const AnimatedCard = () => {
     <img
       src={CARD_IMAGES[index].url}
       alt={CARD_IMAGES[index].suit}
-      className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mx-auto object-cover"
+      className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mb-14 object-cover"
     />
   );
 };
@@ -55,7 +55,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
 
   return (
     <div className="h-screen w-full flex flex-col items-center px-6">
-      <div className="text-4xl font-bold text-[#FDE047] text-center mt-6 mb-24" style={{letterSpacing: 1}}>
+      <div className="text-4xl font-bold text-[#FDE047] text-center mt-6 mb-24 whitespace-nowrap" style={{letterSpacing: 1}}>
         Draw Your Luck!<br />Win or Lose
       </div>
       {/* 카드 애니메이션션 */}
