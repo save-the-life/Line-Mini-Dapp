@@ -30,7 +30,7 @@ const AnimatedCard = () => {
     <img
       src={CARD_IMAGES[index].url}
       alt={CARD_IMAGES[index].suit}
-      className="w-32 h-48 rounded-xl shadow-lg bg-transparent mx-auto object-cover"
+      className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mx-auto object-cover"
     />
   );
 };
@@ -54,8 +54,8 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center px-12">
-      <div className="text-2xl font-extrabold text-yellow-300 mb-6 text-center" style={{letterSpacing: 1}}>
+    <div className="h-screen w-full flex flex-col items-center px-6">
+      <div className="text-4xl font-bold text-[#FDE047] text-center mt-6 mb-24" style={{letterSpacing: 1}}>
         Draw Your Luck!<br />Win or Lose
       </div>
       {/* 카드 애니메이션션 */}
@@ -125,7 +125,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
     onResult(win, reward, answer);
   };
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center px-12">
+    <div className="h-screen w-full flex flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
         <div className="text-xl font-bold text-white mb-4">
           Bet: {betAmount} {mode === "COLOR" ? "x2" : mode === "SUIT" ? "x4" : ""}
