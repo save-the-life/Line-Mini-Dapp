@@ -54,47 +54,57 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col items-center px-6 overflow-y-auto">
-      <div className="text-4xl font-bold text-[#FDE047] text-center mt-6 mb-24 whitespace-nowrap" style={{letterSpacing: 1}}>
+    <div className="h-screen w-full flex flex-col items-center px-12">
+      {/* 1. 상단 타이틀 */}
+      <div className="text-[#FDE047] font-jalnan text-center text-4xl mt-4 whitespace-nowrap">
         Draw Your Luck!<br />Win or Lose
       </div>
-      {/* 카드 애니메이션션 */}
-      <AnimatedCard />
-      {/* 게임 설명 버튼 + 배팅가능 포인트 */}
-      <div className="flex w-full justify-between mb-3 max-w-md">
-        <button className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-medium text-black text-base shadow">
-          <FaRegQuestionCircle className="text-lg" />
-          How to play
-        </button>
-        <div className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-medium text-black text-base shadow">
-          <span>My point</span>
-          <FaStar className="text-yellow-400" />
-          <span className="font-semibold text-base text-black">{myPoint.toLocaleString()}</span>
+      {/* 2. 카드 애니메이션 */}
+      <div className="flex flex-col items-center justify-center mt-4">
+        <AnimatedCard />
+        {/* 3. 설명/포인트 영역 */}
+        <div className="flex flex-row gap-3 mt-4">
+          <button className="flex flex-row gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
+            <FaRegQuestionCircle className="w-6 h-6" />
+            How to play
+          </button>
+          <div className="flex flex-col gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
+            <span className="text-xs text-[#737373]">My point</span>
+            <div className="flex flex-row items-center justify-center gap-3">
+              <FaStar className="text-yellow-400 w-6 h-6" />
+              <span>{myPoint.toLocaleString()}</span>
+            </div>
+          </div>
         </div>
-      </div>
-      {/* 배팅 금액 입력 */}
-      <input
-        type="number"
-        className="w-full max-w-md rounded-xl px-4 py-3 mb-3 text-center text-lg outline-none border border-gray-300 text-black"
-        placeholder="How many star would you like to bet?"
-        value={bet}
-        onChange={e => setBet(e.target.value)}
-      />
-      {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
-      {/* 취소 버튼 + 배팅 버튼 */}
-      <div className="flex w-full max-w-md gap-3 mt-2">
-        <button
-          className="flex-1 py-3 rounded-full bg-gray-200 text-black font-medium text-base"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          className="flex-1 py-3 rounded-full bg-[#21212F] text-white font-medium text-base"
-          onClick={handleBet}
-        >
-          Bet
-        </button>
+        {/* 4. 배팅 입력 */}
+        <form className="w-full" onSubmit={handleBet}>
+          <input
+            placeholder="How many stars would you like to bet?"
+            type="number"
+            value={bet}
+            onChange={e => setBet(e.target.value)}
+            max={myPoint}
+            className="border-2 border-[#21212f] rounded-2xl h-12 text-sm font-medium px-4 mt-4 w-[342px] text-center"
+          />
+          {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
+          {/* 5. 버튼 영역 */}
+          <div className="flex flex-row mt-4 gap-3">
+            <button
+              className="flex items-center justify-center bg-gray-200 text-[#171717] rounded-full font-medium h-14 w-[165px]"
+              type="button"
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className={`bg-[#21212F] text-white rounded-full font-medium h-14 w-[165px] ${!bet || parseInt(bet) <= 0 ? 'opacity-70 cursor-not-allowed' : ''}`}
+              disabled={!bet || parseInt(bet) <= 0}
+            >
+              Bet
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
