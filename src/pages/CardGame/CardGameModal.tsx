@@ -30,7 +30,7 @@ const AnimatedCard = () => {
     <img
       src={CARD_IMAGES[index].url}
       alt={CARD_IMAGES[index].suit}
-      className="w-32 h-48 rounded-xl shadow-lg bg-white mx-auto object-cover"
+      className="w-32 h-48 rounded-xl shadow-lg bg-transparent mx-auto object-cover"
     />
   );
 };
@@ -58,18 +58,21 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       <div className="text-2xl font-extrabold text-yellow-300 mb-6 text-center" style={{letterSpacing: 1}}>
         Draw Your Luck!<br />Win or Lose
       </div>
+      {/* 카드 애니메이션션 */}
       <AnimatedCard />
+      {/* 게임 설명 버튼 + 배팅가능 포인트 */}
       <div className="flex w-full justify-between mb-3 max-w-md">
-        <button className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-semibold text-black text-sm shadow">
+        <button className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-medium text-black text-base shadow">
           <FaRegQuestionCircle className="text-lg" />
           How to play
         </button>
-        <div className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-semibold text-black text-sm shadow">
+        <div className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-medium text-black text-base shadow">
+          <span>My point</span><br />
           <FaStar className="text-yellow-400" />
-          <span>My point</span>
-          <span className="font-bold text-base text-[#eab308]">{myPoint.toLocaleString()}</span>
+          <span className="font-semibold text-base text-black">{myPoint.toLocaleString()}</span>
         </div>
       </div>
+      {/* 배팅 금액 입력 */}
       <input
         type="number"
         className="w-full max-w-md rounded-xl px-4 py-3 mb-2 text-center text-lg outline-none border border-gray-300 text-black"
@@ -78,15 +81,16 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
         onChange={e => setBet(e.target.value)}
       />
       {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
+      {/* 취소 버튼 + 배팅 버튼 */}
       <div className="flex w-full max-w-md gap-3 mt-2">
         <button
-          className="flex-1 py-3 rounded-xl bg-gray-200 text-black font-bold"
+          className="flex-1 py-3 rounded-full bg-gray-200 text-black font-medium text-base"
           onClick={onCancel}
         >
           Cancel
         </button>
         <button
-          className="flex-1 py-3 rounded-xl bg-black text-white font-bold"
+          className="flex-1 py-3 rounded-full bg-[#21212F] text-white font-medium text-base"
           onClick={handleBet}
         >
           Bet
