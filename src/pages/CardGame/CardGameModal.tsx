@@ -141,21 +141,21 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
         {/* 배팅 금액, 배율 (RPSGame과 동일한 스타일) */}
-        <div className="flex flex-row items-center justify-center h-[86px] w-[264px] border-2 border-[#21212f] rounded-3xl bg-white gap-3 mb-4 mx-auto">
+        <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
           <div className="flex flex-row items-center gap-1">
             <img src={Images.Star} alt="Star" className="w-9 h-9" />
-            <p className="text-3xl font-semibold">{betAmount}</p>
+            <p className="text-2xl font-semibold text-black">{betAmount}</p>
           </div>
           <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
             x2
           </div>
         </div>
         {/* Red 버튼 + Black 버튼 */}
-        <div className="flex flex-row gap-3">
-          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-[#DD2726] text-black font-bold text-xl w-[165px] h-[40px] items-center justify-center">
+        <div className="flex flex-row gap-5">
+          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-[#DD2726] text-black font-bold text-xl w-[150px] h-[40px] items-center justify-center red-inner-shadow">
             Red
           </button>
-          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-black text-[#DD2726] font-bold text-xl w-[165px] h-[40px] items-center justify-center">
+          <button className="flex flex-row gap-1 rounded-[7px] text-center bg-black text-[#DD2726] font-bold text-xl w-[150px] h-[40px] items-center justify-center black-inner-shadow">
             Black
           </button>
         </div>
