@@ -90,14 +90,14 @@ const SettingsPage: React.FC =() => {
                 </div>
 
                 {/* 카드 뒤집기 게임 테스트 버튼 */}
-                <div 
+                {/* <div 
                     className="bg-gray-800 p-4 rounded-lg mb-4 flex justify-between items-center"
                     onClick={() => setIsCardFlipGameActive(true)}>
                     <div>
                         <p className="font-semibold">카드 뒤집기 게임 테스트</p>
                     </div>
                     <FaChevronLeft className="text-lg cursor-pointer transform rotate-180" />
-                </div>
+                </div> */}
             </div>
 
             
