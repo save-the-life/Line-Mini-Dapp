@@ -140,7 +140,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
-        {/* 배팅 금액, 배율 (RPSGame과 동일한 스타일) */}
+        {/* 배팅 금액, 2배율 */}
         <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
           <div className="flex flex-row items-center gap-1">
             <img src={Images.Star} alt="Star" className="w-9 h-9" />
@@ -179,7 +179,40 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
             className="w-[155px] bg-transparent object-cover"
           />
         </div>
-        
+        {/* 배팅 금액, 4배율 */}
+        <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
+          <div className="flex flex-row items-center gap-1">
+            <img src={Images.Star} alt="Star" className="w-9 h-9" />
+            <p className="text-2xl font-semibold text-black">{betAmount}</p>
+          </div>
+          <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
+            x4
+          </div>
+        </div>
+
+        {/* 카드 선택 */}
+        <div className="flex flex-row gap-[6px] justify-center items-center">
+          {[
+            { key: 'SPADE', img: Images.CardSpade, alt: 'spade' },
+            { key: 'DIAMOND', img: Images.CardDiamond, alt: 'diamond' },
+            { key: 'HEART', img: Images.CardHeart, alt: 'heart' },
+            { key: 'CLUB', img: Images.CardClover, alt: 'clover' },
+          ].map(card => (
+            <button
+              key={card.key}
+              type="button"
+              onClick={() => setSelectedSuit(card.key)}
+              className={`focus:outline-none rounded-[7px] bg-transparent p-0 ${selectedSuit === card.key ? 'border-2 border-[#21212F] shadow-lg' : ''}`}
+              style={{ lineHeight: 0 }}
+            >
+              <img
+                src={card.img}
+                alt={card.alt}
+                className="w-[80px] h-[110px] bg-transparent object-cover"
+              />
+            </button>
+          ))}
+        </div>
         
       </div>
     </div>
