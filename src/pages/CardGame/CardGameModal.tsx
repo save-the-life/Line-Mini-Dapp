@@ -54,7 +54,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col items-center px-6">
+    <div className="h-screen w-full flex flex-col items-center px-6 overflow-y-auto">
       <div className="text-4xl font-bold text-[#FDE047] text-center mt-6 mb-24 whitespace-nowrap" style={{letterSpacing: 1}}>
         Draw Your Luck!<br />Win or Lose
       </div>
@@ -75,14 +75,14 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       {/* 배팅 금액 입력 */}
       <input
         type="number"
-        className="w-full max-w-md rounded-xl px-4 py-3 mb-2 text-center text-lg outline-none border border-gray-300 text-black"
+        className="w-full max-w-md rounded-xl px-4 py-3 mb-3 text-center text-lg outline-none border border-gray-300 text-black"
         placeholder="How many star would you like to bet?"
         value={bet}
         onChange={e => setBet(e.target.value)}
       />
       {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
       {/* 취소 버튼 + 배팅 버튼 */}
-      <div className="flex w-full max-w-md gap-3 mt-2">
+      <div className="flex w-full max-w-md gap-3 mt-2 sticky bottom-6 bg-white pb-4 pt-2 z-10">
         <button
           className="flex-1 py-3 rounded-full bg-gray-200 text-black font-medium text-base"
           onClick={onCancel}
