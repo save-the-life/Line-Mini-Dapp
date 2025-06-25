@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
 import Images from "@/shared/assets/images";
+import ReactCardFlip from 'react-card-flip';
 
 const COLORS: ("RED" | "BLACK")[] = ["RED", "BLACK"];
 const SUITS = [
@@ -197,25 +198,32 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
             { key: 'DIAMOND', img: Images.CardDiamond, alt: 'diamond' },
             { key: 'HEART', img: Images.CardHeart, alt: 'heart' },
             { key: 'CLUB', img: Images.CardClover, alt: 'clover' },
-          ].map(card => (
-            <button
-              key={card.key}
-              type="button"
-              onClick={() => setSelectedSuit(card.key)}
-              className={`focus:outline-none rounded-[7px] bg-transparent p-0 ${selectedSuit === card.key ? 'border-2 border-[#21212F] shadow-lg' : ''}`}
-              style={{ lineHeight: 0 }}
-            >
-              <img
-                src={
-                  selectedSuit
-                    ? (selectedSuit === card.key ? card.img : Images.CardBack)
-                    : card.img
-                }
-                alt={card.alt}
-                className="w-[80px] h-[110px] bg-transparent object-cover"
-              />
-            </button>
-          ))}
+          ].map(card => {
+            return (
+              <button
+                key={card.key}
+                type="button"
+                onClick={() => setSelectedSuit(card.key)}
+                className={`focus:outline-none rounded-[7px] bg-transparent p-0 ${selectedSuit === card.key ? 'border-2 border-[#21212F] shadow-lg' : ''}`}
+                style={{ lineHeight: 0 }}
+              >
+                <ReactCardFlip isFlipped={!!selectedSuit && selectedSuit !== card.key} flipDirection="horizontal">
+                  <img
+                    src={card.img}
+                    alt={card.alt}
+                    className="w-[80px] h-[110px] bg-transparent object-cover"
+                    key="front"
+                  />
+                  <img
+                    src={Images.CardBack}
+                    alt="card-back"
+                    className="w-[80px] h-[110px] bg-transparent object-cover"
+                    key="back"
+                  />
+                </ReactCardFlip>
+              </button>
+            );
+          })}
         </div>
         
       </div>
