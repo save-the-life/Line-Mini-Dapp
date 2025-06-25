@@ -30,7 +30,7 @@ const AnimatedCard = () => {
     <img
       src={CARD_IMAGES[index].url}
       alt={CARD_IMAGES[index].suit}
-      className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mb-14 object-cover"
+      className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mb-12 object-cover"
     />
   );
 };
@@ -60,42 +60,46 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       </div>
       {/* 카드 애니메이션션 */}
       <AnimatedCard />
-      {/* 게임 설명 버튼 + 배팅가능 포인트 */}
-      <div className="flex w-full justify-between mb-3 max-w-md">
-        <button className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-medium text-black text-base shadow">
-          <FaRegQuestionCircle className="text-lg" />
-          How to play
-        </button>
-        <div className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-medium text-black text-base shadow">
-          <span>My point</span><br />
-          <FaStar className="text-yellow-400" />
-          <span className="font-semibold text-base text-black">{myPoint.toLocaleString()}</span>
+      {/* sticky 하단 고정 영역 시작 */}
+      <div className="sticky bottom-6 w-full max-w-md pb-4 pt-2 z-10">
+        {/* 게임 설명 버튼 + 배팅가능 포인트 */}
+        <div className="flex w-full justify-between mb-3">
+          <button className="flex items-center gap-2 bg-white w-[72px] h-[165px] rounded-3xl px-3 py-2 font-medium text-black text-base shadow border-[#171717] border-2">
+            <FaRegQuestionCircle className="text-lg" />
+            How to play
+          </button>
+          <div className="flex items-center gap-2 bg-white w-[72px] h-[165px] rounded-3xl px-3 py-2 font-medium text-black text-base shadow border-[#171717] border-2">
+            <span>My point</span><br />
+            <FaStar className="text-yellow-400" />
+            <span className="font-semibold text-base text-black">{myPoint.toLocaleString()}</span>
+          </div>
+        </div>
+        {/* 배팅 금액 입력 */}
+        <input
+          type="number"
+          className="w-full rounded-xl px-4 py-3 mb-3 text-center text-lg outline-none border-2 border-[#171717] text-black"
+          placeholder="How many star would you like to bet?"
+          value={bet}
+          onChange={e => setBet(e.target.value)}
+        />
+        {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
+        {/* 취소 버튼 + 배팅 버튼 */}
+        <div className="flex w-full gap-3">
+          <button
+            className="flex-1 py-3 rounded-full w-[56px] h-[165px] bg-gray-200 text-black font-medium text-base"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            className="flex-1 py-3 rounded-full w-[56px] h-[165px] bg-[#21212F] text-white font-medium text-base"
+            onClick={handleBet}
+          >
+            Bet
+          </button>
         </div>
       </div>
-      {/* 배팅 금액 입력 */}
-      <input
-        type="number"
-        className="w-full max-w-md rounded-xl px-4 py-3 mb-3 text-center text-lg outline-none border border-gray-300 text-black"
-        placeholder="How many star would you like to bet?"
-        value={bet}
-        onChange={e => setBet(e.target.value)}
-      />
-      {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
-      {/* 취소 버튼 + 배팅 버튼 */}
-      <div className="flex w-full max-w-md gap-3 mt-2 sticky bottom-6 bg-white pb-4 pt-2 z-10">
-        <button
-          className="flex-1 py-3 rounded-full bg-gray-200 text-black font-medium text-base"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          className="flex-1 py-3 rounded-full bg-[#21212F] text-white font-medium text-base"
-          onClick={handleBet}
-        >
-          Bet
-        </button>
-      </div>
+      {/* sticky 하단 고정 영역 끝 */}
     </div>
   );
 };
