@@ -255,19 +255,20 @@ const CardGameModal = ({ onClose }: any) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 h-screen w-full"
-      style={{ minHeight: '100vh', minWidth: '100vw' }}
+      className="fixed inset-0 z-50 flex items-center justify-center h-screen w-full"
+      style={{
+        minHeight: '100vh',
+        minWidth: '100vw',
+        backgroundImage: `url(${Images.CardGameBackground})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'auto 100%',
+        backgroundPosition: 'center',
+      }}
     >
       <div
         className="w-full h-full bg-[#2d2060] flex flex-col items-center relative shadow-2xl overflow-hidden"
         style={{ minWidth: '320px' }}
       >
-        <button
-          onClick={onClose}
-          style={{ position: "absolute", top: 24, right: 32, color: '#fff', fontWeight: 700, fontSize: 24, zIndex: 10 }}
-        >
-          ×
-        </button>
         {!isGameStarted ? (
           <CardBettingModal
             myPoint={myPoint}
