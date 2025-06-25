@@ -54,12 +54,12 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="h-screen w-full flex flex-col items-center justify-center px-12">
       <div className="text-2xl font-extrabold text-yellow-300 mb-6 text-center" style={{letterSpacing: 1}}>
         Draw Your Luck!<br />Win or Lose
       </div>
       <AnimatedCard />
-      <div className="flex w-full justify-between mb-3">
+      <div className="flex w-full justify-between mb-3 max-w-md">
         <button className="flex items-center gap-2 bg-white rounded-xl px-3 py-2 font-semibold text-black text-sm shadow">
           <FaRegQuestionCircle className="text-lg" />
           How to play
@@ -72,13 +72,13 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       </div>
       <input
         type="number"
-        className="w-full rounded-xl px-4 py-3 mb-2 text-center text-lg outline-none border border-gray-300 text-black"
+        className="w-full max-w-md rounded-xl px-4 py-3 mb-2 text-center text-lg outline-none border border-gray-300 text-black"
         placeholder="How many star would you like to bet?"
         value={bet}
         onChange={e => setBet(e.target.value)}
       />
       {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
-      <div className="flex w-full gap-3 mt-2">
+      <div className="flex w-full max-w-md gap-3 mt-2">
         <button
           className="flex-1 py-3 rounded-xl bg-gray-200 text-black font-bold"
           onClick={onCancel}
@@ -121,74 +121,95 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
     onResult(win, reward, answer);
   };
   return (
-    <div style={{ padding: 32 }}>
-      <div>
-        <div>Bet: {betAmount} {mode === "COLOR" ? "x2" : mode === "SUIT" ? "x4" : ""}</div>
-      </div>
-      {/* 중앙 카드 애니메이션 */}
-      <div className="flex justify-center my-6">
-        <AnimatedCard />
-      </div>
-      <div style={{ margin: 16 }}>
-        <div>
-          <button
-            style={{ background: mode === "COLOR" ? "#eee" : "#fff" }}
-            onClick={() => setMode("COLOR")}
-            disabled={mode === "SUIT"}
+    <div className="h-screen w-full flex flex-col items-center justify-center px-12">
+      <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
+        <div className="text-xl font-bold text-white mb-4">
+          Bet: {betAmount} {mode === "COLOR" ? "x2" : mode === "SUIT" ? "x4" : ""}
+        </div>
+        
+        {/* 중앙 카드 애니메이션 */}
+        <div className="flex justify-center my-6">
+          <AnimatedCard />
+        </div>
+        
+        <div className="w-full max-w-md">
+          <div className="flex gap-2 mb-4">
+            <button
+              className={`flex-1 py-2 px-4 rounded-xl font-semibold ${
+                mode === "COLOR" 
+                  ? "bg-blue-500 text-white" 
+                  : "bg-white text-black"
+              }`}
+              onClick={() => setMode("COLOR")}
+              disabled={mode === "SUIT"}
+            >
+              색상 맞추기 (x2)
+            </button>
+            <button
+              className={`flex-1 py-2 px-4 rounded-xl font-semibold ${
+                mode === "SUIT" 
+                  ? "bg-blue-500 text-white" 
+                  : "bg-white text-black"
+              }`}
+              onClick={() => setMode("SUIT")}
+              disabled={mode === "COLOR"}
+            >
+              색상+무늬 맞추기 (x4)
+            </button>
+          </div>
+          
+          {mode === "COLOR" && (
+            <div className="flex gap-2 mb-4">
+              {COLORS.map(color => (
+                <button
+                  key={color}
+                  className={`flex-1 py-3 px-4 rounded-xl font-semibold ${
+                    selected === color 
+                      ? "bg-red-500 text-white" 
+                      : "bg-white text-black"
+                  }`}
+                  onClick={() => setSelected(color)}
+                >
+                  {color}
+                </button>
+              ))}
+            </div>
+          )}
+          
+          {mode === "SUIT" && (
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {SUITS.map(suit => (
+                <button
+                  key={suit.value}
+                  className={`py-3 px-4 rounded-xl font-semibold ${
+                    selected === suit.value 
+                      ? "bg-blue-500 text-white" 
+                      : "bg-white text-black"
+                  }`}
+                  onClick={() => setSelected(suit.value)}
+                >
+                  {suit.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        <div className="flex gap-3 w-full max-w-md">
+          <button 
+            className="flex-1 py-3 rounded-xl bg-gray-200 text-black font-bold"
+            onClick={onCancel}
           >
-            색상 맞추기 (x2)
+            Cancel
           </button>
-          <button
-            style={{ background: mode === "SUIT" ? "#eee" : "#fff" }}
-            onClick={() => setMode("SUIT")}
-            disabled={mode === "COLOR"}
+          <button 
+            className="flex-1 py-3 rounded-xl bg-blue-500 text-white font-bold"
+            onClick={handleSubmit} 
+            disabled={!selected || !mode}
           >
-            색상+무늬 맞추기 (x4)
+            뒤집기!
           </button>
         </div>
-        {mode === "COLOR" && (
-          <div>
-            {COLORS.map(color => (
-              <button
-                key={color}
-                style={{
-                  margin: 8,
-                  background: selected === color ? "#f00" : "#fff",
-                  color: color === "RED" ? "red" : "black",
-                }}
-                onClick={() => setSelected(color)}
-              >
-                {color}
-              </button>
-            ))}
-          </div>
-        )}
-        {mode === "SUIT" && (
-          <div>
-            {SUITS.map(suit => (
-              <button
-                key={suit.value}
-                style={{
-                  margin: 8,
-                  background: selected === suit.value ? "#ddd" : "#fff",
-                  color: suit.color === "RED" ? "red" : "black",
-                }}
-                onClick={() => setSelected(suit.value)}
-              >
-                {suit.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-      <div>
-        <button onClick={onCancel}>Cancel</button>
-        <button onClick={handleSubmit} disabled={!selected || !mode}>
-          뒤집기!
-        </button>
-      </div>
-      <div style={{ marginTop: 32 }}>
-        <div>카드 뒷면 (이미지 자리)</div>
       </div>
     </div>
   );
@@ -197,12 +218,30 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
 const CardGameResultDialog = ({ isOpen, win, reward, answer, onRetry, onClose }: any) => {
   if (!isOpen) return null;
   return (
-    <div style={{ padding: 32, background: "#eee" }}>
-      <h3>{win ? "성공!" : "실패!"}</h3>
-      <div>정답: {answer.color} / {answer.suit.label}</div>
-      <div>획득 금액: {reward}</div>
-      <button onClick={onRetry}>다시하기</button>
-      <button onClick={onClose}>종료</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+      <div className="bg-[#2d2060] rounded-3xl p-8 max-w-md w-full mx-4 text-white text-center">
+        <h3 className="text-2xl font-bold mb-4">{win ? "성공!" : "실패!"}</h3>
+        <div className="mb-4">
+          <p className="text-lg">정답: {answer.color} / {answer.suit.label}</p>
+          <p className="text-xl font-bold text-yellow-400 mt-2">
+            획득 금액: {reward.toLocaleString()}
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <button 
+            className="flex-1 py-3 rounded-xl bg-gray-200 text-black font-bold"
+            onClick={onRetry}
+          >
+            다시하기
+          </button>
+          <button 
+            className="flex-1 py-3 rounded-xl bg-blue-500 text-white font-bold"
+            onClick={onClose}
+          >
+            종료
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
@@ -216,12 +255,12 @@ const CardGameModal = ({ onClose }: any) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 h-screen w-full"
       style={{ minHeight: '100vh', minWidth: '100vw' }}
     >
       <div
-        className="w-full max-w-md md:max-w-xl lg:max-w-2xl bg-[#2d2060] rounded-2xl p-6 md:p-10 flex flex-col items-center relative shadow-2xl"
-        style={{ minHeight: '80vh', minWidth: '320px', maxHeight: '95vh', overflowY: 'auto' }}
+        className="w-full h-full bg-[#2d2060] flex flex-col items-center relative shadow-2xl overflow-hidden"
+        style={{ minWidth: '320px' }}
       >
         <button
           onClick={onClose}
