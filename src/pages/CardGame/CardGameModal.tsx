@@ -54,7 +54,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col items-center px-12">
+    <div className="h-screen w-full flex flex-col items-center justify-center px-12">
       {/* 1. 상단 타이틀 */}
       <div className="text-[#FDE047] font-jalnan text-center text-4xl mt-4 whitespace-nowrap">
         Draw Your Luck!<br />Win or Lose
