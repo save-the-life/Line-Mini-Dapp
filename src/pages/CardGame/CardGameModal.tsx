@@ -278,7 +278,7 @@ const CardGameModal = ({ onClose }: any) => {
     >
       <div
         style={{
-          width: '90vw',
+          width: '100vw',
           height: '100vh',
           backgroundImage: `url(${Images.CardGameBackground})`,
           backgroundRepeat: 'no-repeat',
