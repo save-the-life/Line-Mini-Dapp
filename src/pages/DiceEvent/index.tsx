@@ -183,32 +183,22 @@ const DiceEventPage: React.FC = () => {
   const currentReward = levelRewards.find((r) => r.level === userLv);
 
   const getCharacterImageSrc = () => {
-    const index = Math.floor((userLv - 1) / 2);
+    const index = Math.floor((userLv - 1) / 4);
 
     const catImages = [
-      Images.CatLv1to2,
-      Images.CatLv3to4,
-      Images.CatLv5to6,
-      Images.CatLv7to8,
-      Images.CatLv9to10,
-      Images.CatLv11to12,
-      Images.CatLv13to14,
-      Images.CatLv15to16,
-      Images.CatLv17to18,
-      Images.CatLv19to20,
+      Images.Cat1,
+      Images.Cat2,
+      Images.Cat3,
+      Images.Cat4,
+      Images.Cat5,
     ];
 
     const dogImages = [
-      Images.DogLv1to2,
-      Images.DogLv3to4,
-      Images.DogLv5to6,
-      Images.DogLv7to8,
-      Images.DogLv9to10,
-      Images.DogLv11to12,
-      Images.DogLv13to14,
-      Images.DogLv15to16,
-      Images.DogLv17to18,
-      Images.DogLv19to20,
+      Images.Dog1,
+      Images.Dog2,
+      Images.Dog3,
+      Images.Dog4,
+      Images.Dog5,
     ];
 
     if (characterType === "cat") {
