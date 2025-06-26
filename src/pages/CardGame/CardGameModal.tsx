@@ -209,7 +209,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   };
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
-      <div className="flex flex-col items-center h-full w-full max-w-2xl my-8">
+      <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl my-8">
         {/* 상단 2배율+RED/BLACK */}
         <AnimatePresence mode="wait">
           {!bottomSelected && (
