@@ -130,6 +130,15 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   const handleSelect = (type: any, value: any) => {
     if (isAnimating) return; // 애니메이션 중에는 추가 선택 방지
     
+    console.log('🎯 사용자 선택:', {
+      type,
+      value,
+      previousMode: mode,
+      previousTopSelected: topSelected,
+      previousBottomSelected: bottomSelected,
+      timestamp: new Date().toISOString()
+    });
+    
     setIsAnimating(true);
     
     if (type === 'color') {
@@ -137,16 +146,19 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
       setSelectedColor(value as "RED" | "BLACK");
       setSelectedSuit(null);
       setTopSelected(true);
+      console.log('🔴 색상 선택 완료 - 상단 영역 활성화, 하단 영역 비활성화');
     } else if (type === 'suit') {
       setMode('suit');
       setSelectedSuit(value as string);
       setSelectedColor(null);
       setBottomSelected(true);
+      console.log('♠️ 무늬 선택 완료 - 하단 영역 활성화, 상단 영역 비활성화');
     }
     
     // 애니메이션 완료 후 상태 리셋
     setTimeout(() => {
       setIsAnimating(false);
+      console.log('⏰ 애니메이션 락 해제 - 새로운 선택 가능');
     }, 500);
   };
   const handleSubmit = () => {
@@ -173,6 +185,30 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
+              onUpdate={(latest) => {
+                console.log('🔄 상단 영역 애니메이션 진행 중:', {
+                  currentY: latest.y,
+                  currentOpacity: latest.opacity,
+                  bottomSelected,
+                  timestamp: new Date().toISOString()
+                });
+              }}
+              onAnimationStart={() => {
+                console.log('🚀 상단 영역 애니메이션 시작:', {
+                  initialY: 0,
+                  targetY: bottomSelected ? 40 : 0,
+                  action: bottomSelected ? '하단 선택으로 인한 사라짐' : '정상 표시',
+                  timestamp: new Date().toISOString()
+                });
+              }}
+              onAnimationComplete={() => {
+                console.log('✅ 상단 영역 애니메이션 완료:', {
+                  finalY: bottomSelected ? 40 : 0,
+                  finalOpacity: bottomSelected ? 0 : 1,
+                  totalDistance: Math.abs(bottomSelected ? 40 : 0),
+                  timestamp: new Date().toISOString()
+                });
+              }}
             >
               {/* 배팅 금액, 2배율 */}
               <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
@@ -221,6 +257,30 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           }}
           transition={{ duration: 0.4, delay: 0.1 }}
           className="flex flex-col items-center mb-8"
+          onUpdate={(latest) => {
+            console.log('🔄 카드 애니메이션 진행 중:', {
+              currentY: latest.y,
+              topSelected,
+              bottomSelected,
+              timestamp: new Date().toISOString()
+            });
+          }}
+          onAnimationStart={() => {
+            console.log('🚀 카드 애니메이션 시작:', {
+              initialY: 0,
+              targetY: topSelected ? 40 : bottomSelected ? -40 : 0,
+              direction: topSelected ? '아래로' : bottomSelected ? '위로' : '제자리',
+              timestamp: new Date().toISOString()
+            });
+          }}
+          onAnimationComplete={() => {
+            console.log('✅ 카드 애니메이션 완료:', {
+              finalY: topSelected ? 40 : bottomSelected ? -40 : 0,
+              totalDistance: Math.abs(topSelected ? 40 : bottomSelected ? -40 : 0),
+              direction: topSelected ? '아래로 이동 완료' : bottomSelected ? '위로 이동 완료' : '제자리 유지',
+              timestamp: new Date().toISOString()
+            });
+          }}
         >
           <img
             src={Images.CardBack}
@@ -248,6 +308,30 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
+              onUpdate={(latest) => {
+                console.log('🔄 하단 영역 애니메이션 진행 중:', {
+                  currentY: latest.y,
+                  currentOpacity: latest.opacity,
+                  topSelected,
+                  timestamp: new Date().toISOString()
+                });
+              }}
+              onAnimationStart={() => {
+                console.log('🚀 하단 영역 애니메이션 시작:', {
+                  initialY: 0,
+                  targetY: topSelected ? -40 : 0,
+                  action: topSelected ? '상단 선택으로 인한 사라짐' : '정상 표시',
+                  timestamp: new Date().toISOString()
+                });
+              }}
+              onAnimationComplete={() => {
+                console.log('✅ 하단 영역 애니메이션 완료:', {
+                  finalY: topSelected ? -40 : 0,
+                  finalOpacity: topSelected ? 0 : 1,
+                  totalDistance: Math.abs(topSelected ? -40 : 0),
+                  timestamp: new Date().toISOString()
+                });
+              }}
             >
               {/* 배팅 금액, 4배율 */}
               <div className="flex flex-row items-center justify-center h-[54px] w-[264px] border-2 border-[#21212F] rounded-[18px] bg-white gap-3 mb-3 mx-auto">
