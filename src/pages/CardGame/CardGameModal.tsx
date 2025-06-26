@@ -182,7 +182,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
             <motion.div
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: bottomSelected ? 40 : 0 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, y: 40 }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
               onUpdate={(latest) => {
@@ -305,7 +305,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
             <motion.div
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: topSelected ? -40 : 0 }}
-              exit={{ opacity: 0 }}
+              exit={{ opacity: 0, y: -40 }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
               onUpdate={(latest) => {
