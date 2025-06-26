@@ -215,7 +215,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           {!bottomSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: bottomSelected ? animationDistance : 0 }}
+              animate={{ opacity: bottomSelected ? 0 : 1, y: bottomSelected ? animationDistance : 0 }}
               exit={{ opacity: 0, y: animationDistance }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
@@ -233,6 +233,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                 console.log('🚀 상단 영역 애니메이션 시작:', {
                   initialY: 0,
                   targetY: bottomSelected ? animationDistance : 0,
+                  targetOpacity: bottomSelected ? 0 : 1,
                   action: bottomSelected ? '하단 선택으로 인한 사라짐' : '정상 표시',
                   animationDistance,
                   screenHeight,
@@ -350,7 +351,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           {!topSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: topSelected ? -animationDistance : 0 }}
+              animate={{ opacity: topSelected ? 0 : 1, y: topSelected ? -animationDistance : 0 }}
               exit={{ opacity: 0, y: -animationDistance }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
@@ -368,6 +369,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                 console.log('🚀 하단 영역 애니메이션 시작:', {
                   initialY: 0,
                   targetY: topSelected ? -animationDistance : 0,
+                  targetOpacity: topSelected ? 0 : 1,
                   action: topSelected ? '상단 선택으로 인한 사라짐' : '정상 표시',
                   animationDistance,
                   screenHeight,
