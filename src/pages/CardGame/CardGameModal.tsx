@@ -120,6 +120,40 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   const [topSelected, setTopSelected] = useState(false);
   const [bottomSelected, setBottomSelected] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [screenHeight, setScreenHeight] = useState(0);
+  const [animationDistance, setAnimationDistance] = useState(40);
+  
+  // 화면 높이 측정 및 애니메이션 거리 계산
+  useEffect(() => {
+    const updateScreenHeight = () => {
+      const height = window.innerHeight;
+      setScreenHeight(height);
+      
+      // 화면 높이에 따른 애니메이션 거리 계산
+      // 작은 화면에서는 더 작은 거리, 큰 화면에서는 더 큰 거리
+      let distance = 40; // 기본값
+      
+      if (height < 600) {
+        distance = 20; // 매우 작은 화면
+      } else if (height < 700) {
+        distance = 30; // 작은 화면
+      } else if (height > 900) {
+        distance = 60; // 큰 화면
+      }
+      
+      setAnimationDistance(distance);
+      console.log('📱 화면 높이 감지:', {
+        screenHeight: height,
+        calculatedDistance: distance,
+        timestamp: new Date().toISOString()
+      });
+    };
+    
+    updateScreenHeight();
+    window.addEventListener('resize', updateScreenHeight);
+    
+    return () => window.removeEventListener('resize', updateScreenHeight);
+  }, []);
   
   const answer = React.useMemo(() => {
     const color = COLORS[Math.floor(Math.random() * 2)];
@@ -181,8 +215,8 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           {!bottomSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: bottomSelected ? 40 : 0 }}
-              exit={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: bottomSelected ? animationDistance : 0 }}
+              exit={{ opacity: 0, y: animationDistance }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
               onUpdate={(latest) => {
@@ -190,22 +224,28 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                   currentY: latest.y,
                   currentOpacity: latest.opacity,
                   bottomSelected,
+                  animationDistance,
+                  screenHeight,
                   timestamp: new Date().toISOString()
                 });
               }}
               onAnimationStart={() => {
                 console.log('🚀 상단 영역 애니메이션 시작:', {
                   initialY: 0,
-                  targetY: bottomSelected ? 40 : 0,
+                  targetY: bottomSelected ? animationDistance : 0,
                   action: bottomSelected ? '하단 선택으로 인한 사라짐' : '정상 표시',
+                  animationDistance,
+                  screenHeight,
                   timestamp: new Date().toISOString()
                 });
               }}
               onAnimationComplete={() => {
                 console.log('✅ 상단 영역 애니메이션 완료:', {
-                  finalY: bottomSelected ? 40 : 0,
+                  finalY: bottomSelected ? animationDistance : 0,
                   finalOpacity: bottomSelected ? 0 : 1,
-                  totalDistance: Math.abs(bottomSelected ? 40 : 0),
+                  totalDistance: Math.abs(bottomSelected ? animationDistance : 0),
+                  animationDistance,
+                  screenHeight,
                   timestamp: new Date().toISOString()
                 });
               }}
@@ -253,7 +293,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
         {/* 중앙 카드 */}
         <motion.div
           animate={{
-            y: topSelected ? 40 : bottomSelected ? -40 : 0
+            y: topSelected ? animationDistance : bottomSelected ? -animationDistance : 0
           }}
           transition={{ duration: 0.4, delay: 0.1 }}
           className="flex flex-col items-center mb-8"
@@ -262,22 +302,28 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               currentY: latest.y,
               topSelected,
               bottomSelected,
+              animationDistance,
+              screenHeight,
               timestamp: new Date().toISOString()
             });
           }}
           onAnimationStart={() => {
             console.log('🚀 카드 애니메이션 시작:', {
               initialY: 0,
-              targetY: topSelected ? 40 : bottomSelected ? -40 : 0,
+              targetY: topSelected ? animationDistance : bottomSelected ? -animationDistance : 0,
               direction: topSelected ? '아래로' : bottomSelected ? '위로' : '제자리',
+              animationDistance,
+              screenHeight,
               timestamp: new Date().toISOString()
             });
           }}
           onAnimationComplete={() => {
             console.log('✅ 카드 애니메이션 완료:', {
-              finalY: topSelected ? 40 : bottomSelected ? -40 : 0,
-              totalDistance: Math.abs(topSelected ? 40 : bottomSelected ? -40 : 0),
+              finalY: topSelected ? animationDistance : bottomSelected ? -animationDistance : 0,
+              totalDistance: Math.abs(topSelected ? animationDistance : bottomSelected ? -animationDistance : 0),
               direction: topSelected ? '아래로 이동 완료' : bottomSelected ? '위로 이동 완료' : '제자리 유지',
+              animationDistance,
+              screenHeight,
               timestamp: new Date().toISOString()
             });
           }}
@@ -304,8 +350,8 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           {!topSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: topSelected ? -40 : 0 }}
-              exit={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: topSelected ? -animationDistance : 0 }}
+              exit={{ opacity: 0, y: -animationDistance }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
               onUpdate={(latest) => {
@@ -313,22 +359,28 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                   currentY: latest.y,
                   currentOpacity: latest.opacity,
                   topSelected,
+                  animationDistance,
+                  screenHeight,
                   timestamp: new Date().toISOString()
                 });
               }}
               onAnimationStart={() => {
                 console.log('🚀 하단 영역 애니메이션 시작:', {
                   initialY: 0,
-                  targetY: topSelected ? -40 : 0,
+                  targetY: topSelected ? -animationDistance : 0,
                   action: topSelected ? '상단 선택으로 인한 사라짐' : '정상 표시',
+                  animationDistance,
+                  screenHeight,
                   timestamp: new Date().toISOString()
                 });
               }}
               onAnimationComplete={() => {
                 console.log('✅ 하단 영역 애니메이션 완료:', {
-                  finalY: topSelected ? -40 : 0,
+                  finalY: topSelected ? -animationDistance : 0,
                   finalOpacity: topSelected ? 0 : 1,
-                  totalDistance: Math.abs(topSelected ? -40 : 0),
+                  totalDistance: Math.abs(topSelected ? -animationDistance : 0),
+                  animationDistance,
+                  screenHeight,
                   timestamp: new Date().toISOString()
                 });
               }}
