@@ -159,7 +159,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: bottomSelected ? 60 : 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.6 }}
               className="w-full flex flex-col items-center"
             >
               {/* 배팅 금액, 2배율 */}
@@ -207,7 +207,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           animate={{
             y: topSelected ? 60 : bottomSelected ? -60 : 0
           }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.6 }}
           className="flex flex-col items-center mb-8"
         >
           <img
@@ -234,7 +234,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: topSelected ? -60 : 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.6 }}
               className="w-full flex flex-col items-center"
             >
               {/* 배팅 금액, 4배율 */}
