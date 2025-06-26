@@ -157,7 +157,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           {!bottomSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: bottomSelected ? 60 : 0 }}
+              animate={{ opacity: 1, y: bottomSelected ? 40 : 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
               className="w-full flex flex-col items-center"
@@ -205,7 +205,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
         {/* 중앙 카드 */}
         <motion.div
           animate={{
-            y: topSelected ? 60 : bottomSelected ? -60 : 0
+            y: topSelected ? 40 : bottomSelected ? -40 : 0
           }}
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center mb-8"
@@ -232,7 +232,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           {!topSelected && (
             <motion.div
               initial={{ opacity: 1, y: 0 }}
-              animate={{ opacity: 1, y: topSelected ? -60 : 0 }}
+              animate={{ opacity: 1, y: topSelected ? -40 : 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
               className="w-full flex flex-col items-center"
