@@ -216,27 +216,6 @@ const DiceEventPage: React.FC = () => {
 
   const charactorImageSrc = getCharacterImageSrc();
 
-  // 고양이/강아지 이미지 + 6개 아이템을 겹쳐서 표시 (테스트)
-  const charactorImageSrcs = characterType === 'cat'
-    ? [
-        Images.Cat1,
-        Images.CatGreenBallon,
-        Images.CatGreenCrown,
-        Images.CatGreenMuffler,
-        Images.CatGreenRibbon,
-        Images.CatGreenSunglasses,
-        Images.CatGreenWing,
-      ]
-    : [
-        Images.Dog1,
-        Images.DogGreenBallon,
-        Images.DogGreenCrown,
-        Images.DogGreenMuffler,
-        Images.DogGreenRibbon,
-        Images.DogGreenSunglasses,
-        Images.DogGreenWing,
-      ];
-
   useEffect(() => {
     return () => {
       game.setIsAuto(false);
@@ -479,7 +458,7 @@ const DiceEventPage: React.FC = () => {
           )}
           <Board
             position={position}
-            charactorImageSrcs={charactorImageSrcs}
+            charactorImageSrc={charactorImageSrc}
             initialX={initialX}
             initialY={initialY}
             delta={delta}
