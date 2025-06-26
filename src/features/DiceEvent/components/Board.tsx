@@ -35,7 +35,19 @@ const Board: React.FC<BoardProps> = ({
 
   // 아이템 위치에 따른 스타일 계산
   const getItemPositionStyle = (position: string, size: string = 'medium') => {
-    // ... 기존 코드 ...
+    const sizeMap = {
+      small: 'w-4 h-4 md:w-6 md:h-6',
+      medium: 'w-6 h-6 md:w-8 md:h-8',
+      large: 'w-8 h-8 md:w-10 md:h-10',
+    };
+    const positionMap = {
+      top: 'absolute -top-2 left-1/2 transform -translate-x-1/2',
+      bottom: 'absolute -bottom-2 left-1/2 transform -translate-x-1/2',
+      left: 'absolute top-1/2 -left-2 transform -translate-y-1/2',
+      right: 'absolute top-1/2 -right-2 transform -translate-y-1/2',
+      center: 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2',
+    };
+    return `${positionMap[position as keyof typeof positionMap]} ${sizeMap[size as keyof typeof sizeMap]}`;
   };
 
   return (
