@@ -119,23 +119,35 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   const [cardRevealed, setCardRevealed] = useState(false);
   const [topSelected, setTopSelected] = useState(false);
   const [bottomSelected, setBottomSelected] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  
   const answer = React.useMemo(() => {
     const color = COLORS[Math.floor(Math.random() * 2)];
     const suit = SUITS[Math.floor(Math.random() * 4)];
     return { color, suit };
   }, []);
+  
   const handleSelect = (type: any, value: any) => {
+    if (isAnimating) return; // 애니메이션 중에는 추가 선택 방지
+    
+    setIsAnimating(true);
+    
     if (type === 'color') {
       setMode('color');
       setSelectedColor(value as "RED" | "BLACK");
       setSelectedSuit(null);
-      setTopSelected(true); // 상단 선택 시 하단 영역 사라짐
+      setTopSelected(true);
     } else if (type === 'suit') {
       setMode('suit');
       setSelectedSuit(value as string);
       setSelectedColor(null);
-      setBottomSelected(true); // 하단 선택 시 상단 영역 사라짐
+      setBottomSelected(true);
     }
+    
+    // 애니메이션 완료 후 상태 리셋
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 500);
   };
   const handleSubmit = () => {
     let win = false;
@@ -159,7 +171,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: bottomSelected ? 40 : 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
             >
               {/* 배팅 금액, 2배율 */}
@@ -207,7 +219,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           animate={{
             y: topSelected ? 40 : bottomSelected ? -40 : 0
           }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
           className="flex flex-col items-center mb-8"
         >
           <img
@@ -234,7 +246,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: topSelected ? -40 : 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
             >
               {/* 배팅 금액, 4배율 */}
