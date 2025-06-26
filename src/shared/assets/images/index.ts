@@ -212,6 +212,17 @@ import CardDiamond from "./card-daimond.png"
 import CardSpade from "./card-spade.png"
 import CardHeart from "./card-heart.png"
 import CardGameBackground from "./cardgame-background.png"
+import Cat1 from "./cat_1.png"
+import Cat2 from "./cat_2.png"
+import Cat3 from "./cat_3.png"
+import Cat4 from "./cat_4.png"
+import Cat5 from "./cat_5.png"
+import Dog1 from "./dog_1.png"
+import Dog2 from "./dog_2.png"
+import Dog3 from "./dog_3.png"
+import Dog4 from "./dog_4.png"
+import Dog5 from "./dog_5.png"
+
 
 const Images = {
   HorizontalLogo,
@@ -426,7 +437,17 @@ const Images = {
   CardSpade,
   CardHeart,
   CardGame,
-  CardGameBackground
+  CardGameBackground,
+  Cat1,
+  Cat2,
+  Cat3,
+  Cat4,
+  Cat5,
+  Dog1,
+  Dog2,
+  Dog3,
+  Dog4,
+  Dog5,
 };
 
 export default Images;
