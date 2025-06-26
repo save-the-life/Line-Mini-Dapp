@@ -222,7 +222,18 @@ import Dog2 from "./dog_2.png"
 import Dog3 from "./dog_3.png"
 import Dog4 from "./dog_4.png"
 import Dog5 from "./dog_5.png"
-
+import CatGreenBallon from "./cat_green_balloon.png"
+import CatGreenCrown from "./cat_green_crown.png"
+import CatGreenMuffler from "./cat_green_muffler.png"
+import CatGreenRibbon from "./cat_green_ribbon.png"
+import CatGreenSunglasses from "./cat_green_sunglasses.png"
+import CatGreenWing from "./cat_green_wing.png"
+import DogGreenBallon from "./dog_green_balloon.png"
+import DogGreenCrown from "./dog_green_crown.png"
+import DogGreenMuffler from "./dog_green_muffler.png"
+import DogGreenRibbon from "./dog_green_ribbon.png"
+import DogGreenSunglasses from "./dog_green_sunglasses.png"
+import DogGreenWing from "./dog_green_wing.png"
 
 const Images = {
   HorizontalLogo,
@@ -448,6 +459,18 @@ const Images = {
   Dog3,
   Dog4,
   Dog5,
+  CatGreenBallon,
+  CatGreenCrown,
+  CatGreenMuffler,
+  CatGreenRibbon,
+  CatGreenSunglasses,
+  CatGreenWing, 
+  DogGreenBallon,
+  DogGreenCrown,
+  DogGreenMuffler,
+  DogGreenRibbon,
+  DogGreenSunglasses,
+  DogGreenWing,
 };
 
 export default Images;

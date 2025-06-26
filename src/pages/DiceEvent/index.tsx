@@ -216,6 +216,27 @@ const DiceEventPage: React.FC = () => {
 
   const charactorImageSrc = getCharacterImageSrc();
 
+  // 테스트용: 여러 이미지를 겹쳐서 표시 (고양이/강아지 분기)
+  const charactorImageSrcs = characterType === "cat"
+    ? [
+        Images.Cat1,
+        Images.CatGreenCrown,
+        Images.CatGreenWing,
+        Images.CatGreenRibbon,
+        Images.CatGreenBallon,
+        Images.CatGreenMuffler,
+        Images.CatGreenSunglasses,
+      ]
+    : [
+        Images.Dog1,
+        Images.DogGreenCrown,
+        Images.DogGreenWing,
+        Images.DogGreenRibbon,
+        Images.DogGreenBallon,
+        Images.DogGreenMuffler,
+        Images.DogGreenSunglasses,
+      ];
+
   useEffect(() => {
     return () => {
       game.setIsAuto(false);
@@ -458,7 +479,7 @@ const DiceEventPage: React.FC = () => {
           )}
           <Board
             position={position}
-            charactorImageSrc={charactorImageSrc}
+            charactorImageSrcs={charactorImageSrcs}
             initialX={initialX}
             initialY={initialY}
             delta={delta}
