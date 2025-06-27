@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import calculateTilePosition from '@/shared/utils/calculateTilePosition';
+import Images from '@/shared/assets/images';
 
 interface BoardProps {
   position: number;
@@ -43,8 +44,20 @@ const Board: React.FC<BoardProps> = ({
       ></div>
       <img
         src={charactorImageSrc}
-        alt="charactorImageSrc"
-        className="w-12 h-12 md:w-20 md:h-20"
+        alt="character"
+        className="w-12 h-12 md:w-20 md:h-20 relative z-10"
+        style={flipStyle}
+      />
+      <img
+        src={Images.CatGreenCrown}
+        alt="test crown"
+        className="absolute inset-0 w-12 h-12 md:w-20 md:h-20 z-20"
+        style={flipStyle}
+      />
+      <img
+        src={Images.CatGreenSunglasses}
+        alt="test sunglasses"
+        className="absolute inset-0 w-12 h-12 md:w-20 md:h-20 z-20"
         style={flipStyle}
       />
     </motion.div>
