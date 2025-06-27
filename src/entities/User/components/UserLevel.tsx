@@ -177,7 +177,7 @@ const UserLevel: React.FC<{
                 background: '#fff',
                 color: '#333',
                 textAlign: 'center',
-                zIndex: 30,
+                zIndex: 50,
                 overflow: 'visible',
               }}
             >
