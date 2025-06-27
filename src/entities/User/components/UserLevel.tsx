@@ -4,11 +4,16 @@ import { Snowfall } from 'react-snowfall';
 import Images from '@/shared/assets/images';
 import { useTranslation } from "react-i18next";
 
+// 아이템 타입 정의
+type ItemType = 'balloon' | 'crown' | 'muffler' | 'ribbon' | 'sunglasses' | 'wing';
+
 const UserLevel: React.FC<{
   userLv: number;
   charactorImageSrc: string;
-  exp: number; 
-}> = ({ userLv, charactorImageSrc, exp }) => {
+  exp: number;
+  characterType?: 'cat' | 'dog';
+  equippedItems?: ItemType[];
+}> = ({ userLv, charactorImageSrc, exp, characterType = 'cat', equippedItems = [] }) => {
   let levelClassName = '';
   let mainColor = '';
 
@@ -28,6 +33,57 @@ const UserLevel: React.FC<{
     levelClassName = 'lv17to20-box';
     mainColor = '#0147e5';
   }
+
+  // 레벨에 따른 캐릭터 이미지 선택 로직 (DiceEvent와 동일)
+  const getCharacterImageSrc = () => {
+    const index = Math.floor((userLv - 1) / 4);
+
+    const catImages = [
+      Images.Cat1,
+      Images.Cat2,
+      Images.Cat3,
+      Images.Cat4,
+      Images.Cat5,
+    ];
+
+    const dogImages = [
+      Images.Dog1,
+      Images.Dog2,
+      Images.Dog3,
+      Images.Dog4,
+      Images.Dog5,
+    ];
+
+    if (characterType === "cat") {
+      return catImages[index] || catImages[catImages.length - 1];
+    } else {
+      return dogImages[index] || dogImages[dogImages.length - 1];
+    }
+  };
+
+  // 아이템 이미지 매핑 (Board 컴포넌트와 동일)
+  const getItemImage = (itemType: ItemType): string => {
+    const itemMap = {
+      cat: {
+        balloon: Images.CatGreenBallon,
+        crown: Images.CatGreenCrown,
+        muffler: Images.CatGreenMuffler,
+        ribbon: Images.CatGreenRibbon,
+        sunglasses: Images.CatGreenSunglasses,
+        wing: Images.CatGreenWing,
+      },
+      dog: {
+        balloon: Images.DogGreenBallon,
+        crown: Images.DogGreenCrown,
+        muffler: Images.DogGreenMuffler,
+        ribbon: Images.DogGreenRibbon,
+        sunglasses: Images.DogGreenSunglasses,
+        wing: Images.DogGreenWing,
+      },
+    };
+
+    return itemMap[characterType][itemType];
+  };
 
   const roundedExp = Math.floor(exp);
   const { t } = useTranslation();
@@ -97,6 +153,8 @@ const UserLevel: React.FC<{
     images = undefined;
   }
 
+  // 레벨에 따른 캐릭터 이미지 사용
+  const characterImageSrc = getCharacterImageSrc();
 
   return (
     <div
@@ -148,12 +206,25 @@ const UserLevel: React.FC<{
         </AnimatePresence>
       </div>
 
-      {/* 캐릭터 */}
-      <img
-        src={charactorImageSrc}
-        className="w-24 h-24 md:w-32 md:h-32 z-20"
-        alt={`Character Level ${userLv}`}
-      />
+      {/* 캐릭터와 아이템 겹치기 */}
+      <div className="relative">
+        {/* 기본 캐릭터 이미지 */}
+        <img
+          src={characterImageSrc}
+          className="w-24 h-24 md:w-32 md:h-32 z-20"
+          alt={`Character Level ${userLv}`}
+        />
+        
+        {/* 장착된 아이템들을 기본 캐릭터 위에 겹쳐서 표시 */}
+        {equippedItems.map((itemType, index) => (
+          <img
+            key={`${itemType}-${index}`}
+            src={getItemImage(itemType)}
+            alt={`${characterType} ${itemType}`}
+            className="absolute inset-0 w-24 h-24 md:w-32 md:h-32 z-30"
+          />
+        ))}
+      </div>
 
       <div className="flex flex-row items-center w-full px-4 gap-2">
         <p className="font-semibold text-[8px] md:text-xs">Lv.{userLv}</p>

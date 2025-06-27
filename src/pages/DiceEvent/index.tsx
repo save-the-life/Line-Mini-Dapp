@@ -100,6 +100,11 @@ const DiceEventPage: React.FC = () => {
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
 
+  // 장착된 아이템 상태 (예시로 몇 개 아이템을 장착한 상태로 설정)
+  const [equippedItems, setEquippedItems] = useState<Array<'balloon' | 'crown' | 'muffler' | 'ribbon' | 'sunglasses' | 'wing'>>([
+    'crown', 'sunglasses' // 예시: 왕관과 선글라스 장착
+  ]);
+
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
   useEffect(() => {
     if (userLv > prevLevel) {
@@ -462,6 +467,8 @@ const DiceEventPage: React.FC = () => {
             initialX={initialX}
             initialY={initialY}
             delta={delta}
+            equippedItems={equippedItems}
+            characterType={characterType || 'cat'}
           />
           <br />
               
@@ -490,6 +497,8 @@ const DiceEventPage: React.FC = () => {
                   userLv={userLv}
                   charactorImageSrc={charactorImageSrc}
                   exp={pet.exp}
+                  characterType={characterType || 'cat'}
+                  equippedItems={equippedItems}
                 />
               </DialogTrigger>
               <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
