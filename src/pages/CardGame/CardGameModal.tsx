@@ -4,6 +4,11 @@ import { FaStar } from "react-icons/fa6";
 import Images from "@/shared/assets/images";
 import ReactCardFlip from 'react-card-flip';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shared/components/ui";
 
 const COLORS: ("RED" | "BLACK")[] = ["RED", "BLACK"];
 const SUITS = [
@@ -66,10 +71,49 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
         <AnimatedCard />
         {/* 3. 설명/포인트 영역 */}
         <div className="flex flex-row gap-3 mt-4">
-          <button className="flex flex-row gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
-            <FaRegQuestionCircle className="w-6 h-6" />
-            How to play
-          </button>
+          <Popover>
+            <PopoverTrigger className="flex flex-row gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
+              <FaRegQuestionCircle className="w-6 h-6" />
+              How to play
+            </PopoverTrigger>
+            <PopoverContent
+              className="rounded-3xl border-2 border-[#21212f] bg-white"
+              style={{
+                maxHeight: "65vh",
+                overflowY: "auto",
+              }}
+            >
+              <div className="text-black p-4 rounded-lg shadow-lg w-full max-w-lg">
+                <h2 className="text-xl font-bold text-center mb-4">
+                  ✼ Game Instructions ✼
+                </h2>
+                <ol className="text-sm leading-loose space-y-4">
+                  <li>
+                    <strong>Place Your Bet</strong>
+                    <ul className="list-disc pl-5">
+                      <li>Feeling lucky? Enter your desired bet amount.</li>
+                      <li>Maximum bet is limited to half of your total stars.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Play Card Guessing</strong>
+                    <ul className="list-disc pl-5">
+                      <li>Choose RED, BLACK, ♠, ♦, ♥, or ♣ before drawing.</li>
+                      <li>Color guess has a 50% chance; suit guess has a 25% chance.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Win Rewards</strong>
+                    <ul className="list-disc pl-5">
+                      <li>Correct color guess pays 2× your bet.</li>
+                      <li>Correct suit guess pays 4× your bet.</li>
+                      <li>Losing any round forfeits your bet.</li>
+                    </ul>
+                  </li>
+                </ol>
+              </div>
+            </PopoverContent>
+          </Popover>
           <div className="flex flex-col gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
             <span className="text-xs text-[#737373]">My point</span>
             <div className="flex flex-row items-center justify-center gap-3">
