@@ -140,6 +140,7 @@ import spinToken10 from "./spintoken10.png";
 import firstPoints from "./first-star.png";
 import firstSL from "./first-sl.png";
 import firstDice from "./first-dice.png";
+import firstRaffle from "./first_raffle.png"
 import AirDrop from "./airdrop.png";
 import USDC from "./usdc.png";
 import AutoNFT from "./autoNFT.png"
@@ -377,6 +378,7 @@ const Images = {
   spinToken10,
   SpinRapple1Black,
   firstDice,
+  firstRaffle,
   firstPoints,
   firstSL,
   AirDrop,

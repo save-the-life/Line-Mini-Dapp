@@ -48,7 +48,7 @@ const FirstRewardPage: React.FC = () => {
                         className="w-24 h-24"
                     />
                     {/* <img
-                        src={Images.firstSL}
+                        src={Images.firstRaffle}
                         alt="reward-icon"
                         className="w-24 h-24"
                     /> */}
