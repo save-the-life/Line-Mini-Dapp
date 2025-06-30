@@ -39,7 +39,6 @@ import FirstRewardPage from "./pages/FirstReward";
 import SettingsPage from "./pages/SettingsPage";
 import PolicyDetailPage from "./pages/PolicyDetail";
 import FriendRewards from "./pages/FriendRewards";
-import WalletConnect from "./pages/test";
 import ClaimHistory from "./pages/ClaimHistory";
 import ConnectWalletPage from "./pages/ConnectWallet";
 import LanguagePage from "./pages/ChooseLanguage";
@@ -206,7 +205,6 @@ const App:React.FC = () =>{
                   <Route path="/policy-detail" element={<DiceEventLayout hidden={true}><PolicyDetailPage /></DiceEventLayout>} />
                   <Route path="/referral-rewards" element={<DiceEventLayout hidden={true}><FriendRewards /></DiceEventLayout>} />
                   <Route path="/claim-history" element={<DiceEventLayout hidden={true}><ClaimHistory /></DiceEventLayout>} />
-                  <Route path="/sdk-test" element={<DiceEventLayout hidden={true}><WalletConnect /></DiceEventLayout>} />
                   <Route path="/invite-friends-list" element={<DiceEventLayout hidden={true}><InviteFriendsList /></DiceEventLayout>} />
                   <Route path="/choose-language" element={<DiceEventLayout hidden={true}><LanguagePage /></DiceEventLayout>} />
                   <Route path="/sound-setting" element={<DiceEventLayout hidden={true}><SoundSetting /></DiceEventLayout>} />
