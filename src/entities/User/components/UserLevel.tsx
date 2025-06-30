@@ -163,7 +163,7 @@ const UserLevel: React.FC<{
     >
       <Snowfall style={{ borderRadius:"24px" }} snowflakeCount={10} images={images} />
       {/* 말풍선 + 문구 */}
-      <div className="absolute top-1 right-1 flex justify-end w-full px-1 z-30">
+      <div className="absolute top-1 right-1 flex justify-end w-full px-1 z-50">
         <AnimatePresence>
           {visible && (
             <motion.div
