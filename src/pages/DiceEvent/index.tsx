@@ -99,6 +99,9 @@ const DiceEventPage: React.FC = () => {
   // 레벨 업 시 팝업 표시를 위한 상태
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
+  
+  // 레벨별 보상 다이얼로그 표시를 위한 상태
+  const [showLevelRewardsDialog, setShowLevelRewardsDialog] = useState<boolean>(false);
 
   // 장착된 아이템 상태 (예시로 몇 개 아이템을 장착한 상태로 설정)
   const [equippedItems, setEquippedItems] = useState<Array<'balloon' | 'crown' | 'muffler' | 'ribbon' | 'sunglasses' | 'wing'>>([
@@ -490,21 +493,18 @@ const DiceEventPage: React.FC = () => {
               
 
           <div className="w-full flex justify-center mb-4 mt-5 gap-4">
-            {/* 현재 캐릭터 레벨 및 클릭 시 레벨 별 보상 다이얼로그 표시 */}
-            <Dialog>
-              <DialogTrigger onClick={() => playSfx(Audios.button_click)}>
-                <UserLevel
-                  userLv={userLv}
-                  charactorImageSrc={charactorImageSrc}
-                  exp={pet.exp}
-                  characterType={characterType || 'cat'}
-                  equippedItems={equippedItems}
-                />
-              </DialogTrigger>
-              <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
-                <LevelRewards />
-              </DialogContent>
-            </Dialog>
+            {/* 현재 캐릭터 레벨 및 AlertIcon 클릭 시 레벨 별 보상 다이얼로그 표시 */}
+            <UserLevel
+              userLv={userLv}
+              charactorImageSrc={charactorImageSrc}
+              exp={pet.exp}
+              characterType={characterType || 'cat'}
+              equippedItems={equippedItems}
+              onAlertClick={() => {
+                playSfx(Audios.button_click);
+                setShowLevelRewardsDialog(true);
+              }}
+            />
 
             {/* 현재 보유한 아이템 목록 표시 */}
             <div
@@ -533,10 +533,14 @@ const DiceEventPage: React.FC = () => {
             </div>
           </div>
 
-          {/* <Attendance customWidth="w-[332px] md:w-[595.95px]"  />
-          <MissionWidget /> */}
+          {/* 레벨별 보상 다이얼로그 */}
+          <Dialog open={showLevelRewardsDialog} onOpenChange={setShowLevelRewardsDialog}>
+            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+              <LevelRewards />
+            </DialogContent>
+          </Dialog>
 
-          {/* 레벨업 시 다이얼로그: 이전보다 레벨이 올라갔을 때만 표시 */}
+          {/* 레벨 업 시 다이얼로그: 이전보다 레벨이 올라갔을 때만 표시 */}
           <Dialog open={showLevelUpDialog}>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="flex flex-col items-center justify-around">

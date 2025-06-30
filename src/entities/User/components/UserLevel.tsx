@@ -13,7 +13,8 @@ const UserLevel: React.FC<{
   exp: number;
   characterType?: 'cat' | 'dog';
   equippedItems?: ItemType[];
-}> = ({ userLv, charactorImageSrc, exp, characterType = 'cat', equippedItems = [] }) => {
+  onAlertClick?: () => void;
+}> = ({ userLv, charactorImageSrc, exp, characterType = 'cat', equippedItems = [], onAlertClick }) => {
   let levelClassName = '';
   let mainColor = '';
 
@@ -162,6 +163,18 @@ const UserLevel: React.FC<{
       style={{ position: 'relative' }}
     >
       <Snowfall style={{ borderRadius:"24px" }} snowflakeCount={10} images={images} />
+      
+      {/* AlertIcon - 좌측 상단 */}
+      <div className="absolute top-[15px] left-[15px] z-50">
+        <img
+          src={Images.AlertIcon}
+          alt="Alert"
+          className="w-5 h-5 cursor-pointer"
+          style={{ width: '20px', height: '20px' }}
+          onClick={onAlertClick}
+        />
+      </div>
+      
       {/* 말풍선 + 문구 */}
       <div className="absolute top-1 right-1 flex justify-end w-full px-1 z-50">
         <AnimatePresence>
