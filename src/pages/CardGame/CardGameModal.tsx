@@ -116,7 +116,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
           <div className="flex flex-col gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
             <span className="text-xs text-[#737373]">My point</span>
             <div className="flex flex-row items-center justify-center gap-3">
-              <FaStar className="text-yellow-400 w-6 h-6" />
+              <img src={Images.Star} alt="Star" className="w-6 h-6" />
               <span>{myPoint.toLocaleString()}</span>
             </div>
           </div>
