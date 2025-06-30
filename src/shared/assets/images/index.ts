@@ -234,6 +234,7 @@ import DogGreenMuffler from "./dog_green_muffler.png"
 import DogGreenRibbon from "./dog_green_ribbon.png"
 import DogGreenSunglasses from "./dog_green_sunglasses.png"
 import DogGreenWing from "./dog_green_wing.png"
+import AlertIcon from "./alert_circle.png"
 
 const Images = {
   HorizontalLogo,
@@ -471,6 +472,7 @@ const Images = {
   DogGreenRibbon,
   DogGreenSunglasses,
   DogGreenWing,
+  AlertIcon,
 };
 
 export default Images;
