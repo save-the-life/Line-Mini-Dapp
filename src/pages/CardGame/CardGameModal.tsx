@@ -89,21 +89,20 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 </h2>
                 <ol className="text-sm leading-loose space-y-4">
                   <li>
-                    <strong>Place Your Bet</strong>
+                    <strong>1. Place Your Bet</strong>
                     <ul className="list-disc pl-5">
                       <li>Feeling lucky? Enter your desired bet amount.</li>
                       <li>Maximum bet is limited to half of your total stars.</li>
                     </ul>
                   </li>
                   <li>
-                    <strong>Play Card Guessing</strong>
+                    <strong>2. Play Card Guessing ◦ Choose RED, BLACK, ♠, ♦, ♥, or ♣ before drawing.</strong>
                     <ul className="list-disc pl-5">
-                      <li>Choose RED, BLACK, ♠, ♦, ♥, or ♣ before drawing.</li>
                       <li>Color guess has a 50% chance; suit guess has a 25% chance.</li>
                     </ul>
                   </li>
                   <li>
-                    <strong>Win Rewards</strong>
+                    <strong>3. Win Rewards</strong>
                     <ul className="list-disc pl-5">
                       <li>Correct color guess pays 2× your bet.</li>
                       <li>Correct suit guess pays 4× your bet.</li>
