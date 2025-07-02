@@ -484,7 +484,7 @@ const DiceEventPage: React.FC = () => {
               alignItems: 'center',
               gap: 24,
               margin: '0 0 8px 0',
-              // paddingLeft: 24,
+              paddingLeft: 36,
             }}
           >
             {[{
@@ -529,10 +529,13 @@ const DiceEventPage: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 8,
+                  fontSize: 16,
                   fontWeight: 600,
                   color: '#511C0B',
-                  marginTop: 4,
+                  marginTop: 0,
+                  position: 'relative',
+                  top: -7,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 }}>
                   {btn.label}
                 </div>
