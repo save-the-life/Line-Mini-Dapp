@@ -478,13 +478,12 @@ const DiceEventPage: React.FC = () => {
           {/* 래플박스, 다이아박스 아이콘 */}
           <div
             style={{
-              position: 'absolute',
-              left: 0,
-              top: '30%',
+              width: '100%',
               display: 'flex',
-              flexDirection: 'column',
-              gap: 16,
-              zIndex: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 24,
+              margin: '24px 0 8px 0',
             }}
           >
             {[{
