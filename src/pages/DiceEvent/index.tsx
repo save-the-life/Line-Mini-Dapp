@@ -484,7 +484,7 @@ const DiceEventPage: React.FC = () => {
               alignItems: 'center',
               gap: 24,
               margin: '0 0 8px 0',
-              paddingLeft: 24,
+              // paddingLeft: 24,
             }}
           >
             {[{
