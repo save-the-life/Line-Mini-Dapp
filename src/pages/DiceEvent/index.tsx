@@ -474,6 +474,66 @@ const DiceEventPage: React.FC = () => {
             characterType={characterType || 'cat'}
           />
           <br />
+
+          {/* 래플박스, 다이아박스 아이콘 */}
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: '30%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 16,
+              zIndex: 10,
+            }}
+          >
+            {[{
+              key: 'raffle',
+              label: '래플박스',
+              image: Images.GoldRandomBox,
+              onClick: () => alert('래플박스 팝업 예정'),
+            }, {
+              key: 'diamond',
+              label: '다이아 박스',
+              image: Images.DiamondRandomBox,
+              onClick: () => alert('다이아 박스 팝업 예정'),
+            }].map(btn => (
+              <div key={btn.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <button
+                  onClick={btn.onClick}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: '50%',
+                    background: btn.key === 'raffle'
+                      ? 'linear-gradient(180deg, #FFFFFF 0%, #F59E0B 100%)'
+                      : btn.key === 'diamond'
+                        ? 'linear-gradient(180deg, #FFFFFF 0%, #FDE047 100%)'
+                        : '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #eee',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                    padding: 0,
+                    marginBottom: 2,
+                  }}
+                >
+                  <img src={btn.image} alt={btn.label} style={{ width: 34, height: 34 }} />
+                </button>
+                <div style={{
+                  width: 50,
+                  height: 14,
+                  fontSize: 12,
+                  textAlign: 'center',
+                  lineHeight: '14px',
+                  color: '#333',
+                }}>
+                  {btn.label}
+                </div>
+              </div>
+            ))}
+          </div>
               
           {/* my-rank 위젯 표시 */}
           <Dialog>

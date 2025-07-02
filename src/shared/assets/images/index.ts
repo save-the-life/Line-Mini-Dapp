@@ -236,6 +236,10 @@ import DogGreenRibbon from "./dog_green_ribbon.png"
 import DogGreenSunglasses from "./dog_green_sunglasses.png"
 import DogGreenWing from "./dog_green_wing.png"
 import AlertIcon from "./alert_circle.png"
+import BronzeRandomBox from "./bronze-random-box.png"
+import SilverRandomBox from "./silver-random-box.png"
+import GoldRandomBox from "./gold-random-box.png"
+import DiamondRandomBox from "./dia-random-box.png"
 
 const Images = {
   HorizontalLogo,
@@ -475,6 +479,10 @@ const Images = {
   DogGreenSunglasses,
   DogGreenWing,
   AlertIcon,
+  BronzeRandomBox,
+  SilverRandomBox,
+  GoldRandomBox,
+  DiamondRandomBox,
 };
 
 export default Images;
