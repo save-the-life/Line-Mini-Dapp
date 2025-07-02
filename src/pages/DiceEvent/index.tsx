@@ -519,7 +519,7 @@ const DiceEventPage: React.FC = () => {
                     marginBottom: 2,
                   }}
                 >
-                  <img src={btn.image} alt={btn.label} style={{ width: 34, height: 34 }} />
+                  <img src={btn.image} alt={btn.label} style={{ width: 34, height: 34, objectFit: 'contain' }} />
                 </button>
                 <div style={{
                   width: 50,
@@ -529,7 +529,7 @@ const DiceEventPage: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 16,
+                  fontSize: 8,
                   fontWeight: 600,
                   color: '#511C0B',
                   marginTop: 0,
