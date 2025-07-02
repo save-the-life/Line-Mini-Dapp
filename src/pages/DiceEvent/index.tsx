@@ -480,10 +480,11 @@ const DiceEventPage: React.FC = () => {
             style={{
               width: '100%',
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               alignItems: 'center',
               gap: 24,
-              margin: '24px 0 8px 0',
+              margin: '0 0 8px 0',
+              paddingLeft: 24,
             }}
           >
             {[{
@@ -523,10 +524,15 @@ const DiceEventPage: React.FC = () => {
                 <div style={{
                   width: 50,
                   height: 14,
-                  fontSize: 12,
-                  textAlign: 'center',
-                  lineHeight: '14px',
-                  color: '#333',
+                  background: '#FAF0E7',
+                  borderRadius: 5,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 8,
+                  fontWeight: 600,
+                  color: '#511C0B',
+                  marginTop: 4,
                 }}>
                   {btn.label}
                 </div>
