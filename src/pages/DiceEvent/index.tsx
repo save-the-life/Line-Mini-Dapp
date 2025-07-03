@@ -377,6 +377,9 @@ const DiceEventPage: React.FC = () => {
   };
   // ===============================
 
+  // 1. 상태 추가
+  const [showRaffleBoxModal, setShowRaffleBoxModal] = useState(false);
+
   if (isLoading) {
     return <LoadingSpinner className="h-screen"/>;
   }
@@ -491,7 +494,7 @@ const DiceEventPage: React.FC = () => {
                 key: 'raffle',
                 label: 'Raffle Box',
                 image: Images.GoldRandomBox,
-                onClick: () => alert('래플박스 팝업 예정'),
+                onClick: () => setShowRaffleBoxModal(true),
               }, {
                 key: 'diamond',
                 label: 'Diamond Box',
@@ -1114,6 +1117,63 @@ const DiceEventPage: React.FC = () => {
           <br />
           <br />
           <div className="hidden md:block md:mb-40"> &nbsp;</div>
+
+          {/* Raffle Random Box 모달 */}
+          <Dialog open={showRaffleBoxModal} onOpenChange={setShowRaffleBoxModal}>
+            <DialogContent className="bg-[#21212F] rounded-3xl text-white max-w-[90%] md:max-w-md p-6 border-none">
+              <div className="flex flex-col items-center w-full">
+                <h2 className="font-bold text-lg mb-4">Raffle Random Box</h2>
+                <div className="flex items-center justify-center bg-[#23233A] rounded-xl px-6 py-2 mb-6">
+                  <img src={Images.LotteryTicket} className="w-6 h-6 mr-2" alt="ticket" />
+                  <span className="font-semibold text-lg">1000</span>
+                </div>
+                <div className="flex flex-col gap-4 w-full">
+                  {/* Bronze Lucky Box */}
+                  <div className="flex items-center justify-between bg-[#23233A] rounded-xl px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <img src={Images.BronzeRandomBox} className="w-12 h-12" alt="bronze" />
+                      <div>
+                        <div className="font-semibold">Bronze Lucky Box</div>
+                        <div className="flex items-center gap-1 text-sm text-[#A3A3A3]">
+                          <img src={Images.LotteryTicket} className="w-4 h-4" alt="ticket" />
+                          100
+                        </div>
+                      </div>
+                    </div>
+                    <button className="bg-white text-[#21212F] font-bold rounded-full px-4 py-1 text-sm" disabled>OPEN</button>
+                  </div>
+                  {/* Silver Lucky Box */}
+                  <div className="flex items-center justify-between bg-[#23233A] rounded-xl px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <img src={Images.SilverRandomBox} className="w-12 h-12" alt="silver" />
+                      <div>
+                        <div className="font-semibold">Silver Lucky Box</div>
+                        <div className="flex items-center gap-1 text-sm text-[#A3A3A3]">
+                          <img src={Images.LotteryTicket} className="w-4 h-4" alt="ticket" />
+                          300
+                        </div>
+                      </div>
+                    </div>
+                    <button className="bg-white text-[#21212F] font-bold rounded-full px-4 py-1 text-sm" disabled>OPEN</button>
+                  </div>
+                  {/* Gold Lucky Box */}
+                  <div className="flex items-center justify-between bg-[#23233A] rounded-xl px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <img src={Images.GoldRandomBox} className="w-12 h-12" alt="gold" />
+                      <div>
+                        <div className="font-semibold">Gold Lucky Box</div>
+                        <div className="flex items-center gap-1 text-sm text-[#A3A3A3]">
+                          <img src={Images.LotteryTicket} className="w-4 h-4" alt="ticket" />
+                          1000
+                        </div>
+                      </div>
+                    </div>
+                    <button className="bg-white text-[#21212F] font-bold rounded-full px-4 py-1 text-sm" disabled>OPEN</button>
+                  </div>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </>
       )}
     </div>
