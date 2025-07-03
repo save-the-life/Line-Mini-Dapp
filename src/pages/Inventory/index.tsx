@@ -10,10 +10,7 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
     <div className="relative flex flex-col items-center">
       <div
         className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
-        style={{
-          background: "linear-gradient(180deg, #F43F5E 0%, #fff 100%)",
-          border: "2px solid #fff",
-        }}
+        style={{ background: "linear-gradient(180deg, #F43F5E 0%, #fff 100%)" }}
       >
         <img src={icon} alt={alt} className="w-12 h-12" />
       </div>
