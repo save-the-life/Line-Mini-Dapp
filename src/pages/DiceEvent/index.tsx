@@ -480,7 +480,7 @@ const DiceEventPage: React.FC = () => {
             style={{
               width: '100%',
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               alignItems: 'center',
               gap: 24,
               margin: '0 0 8px 0',
