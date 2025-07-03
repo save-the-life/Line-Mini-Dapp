@@ -506,9 +506,9 @@ const DiceEventPage: React.FC = () => {
                       height: 50,
                       borderRadius: '50%',
                       background: btn.key === 'raffle'
-                        ? 'linear-gradient(180deg, #FFFFFF 0%, #F59E0B 100%)'
+                        ? 'linear-gradient(180deg, #F59E0B 100%, #FFFFFF 100%)'
                         : btn.key === 'diamond'
-                          ? 'linear-gradient(180deg, #FFFFFF 0%, #FDE047 100%)'
+                          ? 'linear-gradient(180deg, #FDE047 100%, #FFFFFF 100%)'
                           : '#fff',
                       display: 'flex',
                       alignItems: 'center',
