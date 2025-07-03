@@ -518,7 +518,7 @@ const DiceEventPage: React.FC = () => {
                       marginBottom: 2,
                     }}
                   >
-                    <img src={btn.image} alt={btn.label} style={{ width: 36, height: 36, objectFit: 'contain' }} />
+                    <img src={btn.image} alt={btn.label} style={{ width: 40, height: 40, objectFit: 'contain' }} />
                   </button>
                   <div style={{
                     width: 50,
