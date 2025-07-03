@@ -22,7 +22,7 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
         className="absolute"
         style={{
           left: "50%",
-          bottom: "-14px",
+          bottom: "-5px",
           transform: "translateX(-50%) rotate(45deg)",
           background: "#F43F5E",
           width: "10px",
