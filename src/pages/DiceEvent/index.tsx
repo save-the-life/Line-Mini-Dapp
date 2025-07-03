@@ -566,7 +566,7 @@ const DiceEventPage: React.FC = () => {
           <div className="w-full flex justify-center mb-4 mt-5 gap-4">
             {/* 현재 캐릭터 레벨 및 AlertIcon 클릭 시 레벨 별 보상 다이얼로그 표시 */}
             <div
-              onClick={() => navigate('/inventory')}
+              onClick={() => navigate('/inventory', { state: { charactorImageSrc } })}
               className="cursor-pointer"
               role="button"
               tabIndex={0}
