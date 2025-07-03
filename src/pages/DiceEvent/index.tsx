@@ -476,19 +476,12 @@ const DiceEventPage: React.FC = () => {
           <br />
 
           {/* 래플박스, 다이아박스 아이콘 */}
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center', // 600px 박스 내에서 가운데 정렬
-            }}
-          >
+          <div className="w-full max-w-[332px] md:max-w-full flex justify-center">
             <div
               style={{
                 width: '100%',
-                maxWidth: 332, // 랭킹 위젯과 동일, 모바일에서는 332px, 데스크탑에서는 332px까지만
                 display: 'flex',
-                justifyContent: 'flex-start', // 내부 버튼은 왼쪽 정렬
+                justifyContent: 'flex-start',
                 alignItems: 'center',
                 gap: 24,
                 margin: '0 0 8px 0',
