@@ -76,7 +76,7 @@ const Inventory: React.FC = () => {
                   <ItemSlot icon={Images.CatGreenBallon} alt="balloon" />
                 </div>
                 {/* 중앙 캐릭터 */}
-                <img src={charactorImageSrc} alt="character" className="mx-4 w-[200px] h-[200px]" />
+                <img src={charactorImageSrc} alt="character" className="w-[200px] h-[200px]" />
                 {/* 우측 아이템 슬롯 */}
                 <div className="flex flex-col gap-6 items-center">
                   <ItemSlot icon={Images.CatGreenMuffler} alt="muffler" />
