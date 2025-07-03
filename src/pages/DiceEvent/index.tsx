@@ -1141,7 +1141,7 @@ const DiceEventPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] text-center font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
+                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center" disabled>OPEN</button>
                   </div>
                   {/* Silver Lucky Box */}
                   <div className="flex items-center justify-between px-1 py-3">
@@ -1165,7 +1165,7 @@ const DiceEventPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] text-center font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
+                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center" disabled>OPEN</button>
                   </div>
                   {/* Gold Lucky Box */}
                   <div className="flex items-center justify-between px-1 py-3">
@@ -1189,7 +1189,7 @@ const DiceEventPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] text-center font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
+                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center" disabled>OPEN</button>
                   </div>
                 </div>
               </div>
