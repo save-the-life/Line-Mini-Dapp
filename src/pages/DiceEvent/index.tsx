@@ -1108,16 +1108,7 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog> */}
-
-        
-
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <div className="hidden md:block md:mb-40"> &nbsp;</div>
-
+              
           {/* Raffle Random Box 모달 */}
           <Dialog open={showRaffleBoxModal} onOpenChange={setShowRaffleBoxModal}>
             <DialogContent className="bg-[#21212F] rounded-3xl text-white max-w-[90%] md:max-w-md p-6 border-none">
@@ -1129,7 +1120,7 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-4 w-full">
                   {/* Bronze Lucky Box */}
-                  <div className="flex items-center justify-between px-4 py-3">
+                  <div className="flex items-center justify-between px-1 py-3">
                     <div className="flex items-center gap-3">
                       <div style={{
                         width: 70,
@@ -1150,10 +1141,10 @@ const DiceEventPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
+                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] text-center font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
                   </div>
                   {/* Silver Lucky Box */}
-                  <div className="flex items-center justify-between px-4 py-3">
+                  <div className="flex items-center justify-between px-1 py-3">
                     <div className="flex items-center gap-3">
                       <div style={{
                         width: 70,
@@ -1174,10 +1165,10 @@ const DiceEventPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
+                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] text-center font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
                   </div>
                   {/* Gold Lucky Box */}
-                  <div className="flex items-center justify-between px-4 py-3">
+                  <div className="flex items-center justify-between px-1 py-3">
                     <div className="flex items-center gap-3">
                       <div style={{
                         width: 70,
@@ -1198,12 +1189,21 @@ const DiceEventPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
+                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] text-center font-medium rounded-2xl px-4 py-1 text-xs" disabled>OPEN</button>
                   </div>
                 </div>
               </div>
             </DialogContent>
           </Dialog>
+
+        
+
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <div className="hidden md:block md:mb-40"> &nbsp;</div>
         </>
       )}
     </div>
