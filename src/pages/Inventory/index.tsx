@@ -9,7 +9,7 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
   return (
     <div className="relative flex flex-col items-center">
       <div
-        className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg"
+        className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
         style={{
           background: "linear-gradient(180deg, #F43F5E 0%, #fff 100%)",
           border: "2px solid #fff",
@@ -25,8 +25,8 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
           bottom: "-14px",
           transform: "translateX(-50%) rotate(45deg)",
           background: "#F43F5E",
-          width: 28,
-          height: 28,
+          width: "10px",
+          height: "10px",
           border: "2px solid #fff",
           display: "flex",
           alignItems: "center",
@@ -38,7 +38,7 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
             transform: "rotate(-45deg)",
             color: "#fff",
             fontWeight: "bold",
-            fontSize: 16,
+            fontSize: "6px",
           }}
         >
           1
@@ -79,12 +79,12 @@ const Inventory: React.FC = () => {
                   <ItemSlot icon={Images.CatGreenBallon} alt="balloon" />
                 </div>
                 {/* 중앙 캐릭터 */}
-                <img src={charactorImageSrc} alt="character" className="mx-8 w-40 h-40" />
+                <img src={charactorImageSrc} alt="character" className="mx-4 w-40 h-40" />
                 {/* 우측 아이템 슬롯 */}
                 <div className="flex flex-col gap-6 items-center">
                   <ItemSlot icon={Images.CatGreenMuffler} alt="muffler" />
                   <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
-                  <div className="w-20 h-20" /> {/* 빈칸 맞춤용 */}
+                  <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
                 </div>
             </div>
 
