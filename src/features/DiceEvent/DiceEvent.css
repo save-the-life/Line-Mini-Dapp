@@ -98,7 +98,7 @@
   left: -50%;
   width: 200%; /* 배경 크기를 늘려서 회전 시 시각적으로 유지 */
   height: 200%;
-  background: url('@/shared/assets/images/dice-bg-effect.png') center/cover; /* 배경 이미지 경로 수정 */
+  background: url('@/shared/assets/images/board-background.png') center/cover; /* 배경 이미지 경로 수정 */
   animation: rotateBackground 10s linear infinite; /* 애니메이션 추가 */
   border-radius: inherit; /* 부모의 둥근 모서리 상속 */
 }
