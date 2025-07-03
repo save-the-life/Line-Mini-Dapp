@@ -27,7 +27,7 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
           background: "#F43F5E",
           width: "10px",
           height: "10px",
-          border: "2px solid #fff",
+          border: "1pxs #fff",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
