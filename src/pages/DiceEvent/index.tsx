@@ -565,17 +565,26 @@ const DiceEventPage: React.FC = () => {
 
           <div className="w-full flex justify-center mb-4 mt-5 gap-4">
             {/* 현재 캐릭터 레벨 및 AlertIcon 클릭 시 레벨 별 보상 다이얼로그 표시 */}
-            <UserLevel
-              userLv={userLv}
-              charactorImageSrc={charactorImageSrc}
-              exp={pet.exp}
-              characterType={characterType || 'cat'}
-              equippedItems={equippedItems}
-              onAlertClick={() => {
-                playSfx(Audios.button_click);
-                setShowLevelRewardsDialog(true);
-              }}
-            />
+            <div
+              onClick={() => navigate('/inventory')}
+              className="cursor-pointer"
+              role="button"
+              tabIndex={0}
+              aria-label="Go to inventory"
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate('/inventory'); }}
+            >
+              <UserLevel
+                userLv={userLv}
+                charactorImageSrc={charactorImageSrc}
+                exp={pet.exp}
+                characterType={characterType || 'cat'}
+                equippedItems={equippedItems}
+                onAlertClick={() => {
+                  playSfx(Audios.button_click);
+                  setShowLevelRewardsDialog(true);
+                }}
+              />
+            </div>
 
             {/* 현재 보유한 아이템 목록 표시 */}
             <div

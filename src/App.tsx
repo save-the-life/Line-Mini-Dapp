@@ -50,6 +50,7 @@ import PreviousRaffle from "./pages/PreviousRaffle";
 import PreviousAirdrop from "./pages/PreviousAirdrop";
 import EditNickname from "./pages/EditNickname";
 import Promotion from "./pages/Promotion";
+import Inventory from "./pages/Inventory";
 
 const App:React.FC = () =>{
   const [isInitialized, setIsInitialized] = useState(false);
@@ -187,7 +188,7 @@ const App:React.FC = () =>{
                   <Route path="/wallet-list" element={<DiceEventLayout><WalletList /></DiceEventLayout>} />
                   <Route path="/test" element={<DiceEventLayout><SlotMachine /></DiceEventLayout>} />
                   <Route path="/previous-rewards" element={<DiceEventLayout><PreviousRewards /></DiceEventLayout>} />
-
+                  <Route path="/inventory" element={<DiceEventLayout><Inventory /></DiceEventLayout>} />
 
                   {/* Hidden Pages */}
                   <Route path="/choose-character" element={<DiceEventLayout hidden={true}><SelectCharacterPage /></DiceEventLayout>} />
