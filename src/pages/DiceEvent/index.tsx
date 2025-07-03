@@ -483,7 +483,7 @@ const DiceEventPage: React.FC = () => {
                 display: 'flex',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
-                gap: 24,
+                gap: 12,
                 margin: '0 0 8px 0',
               }}
             >
