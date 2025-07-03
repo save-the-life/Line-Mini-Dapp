@@ -94,8 +94,8 @@
 .rotate-background::before {
   content: '';
   position: absolute;
-  top: -50%; /* 배경이 중앙에서 회전하도록 위치 조정 */
-  left: -50%;
+  top: -35%; /* 배경이 중앙에서 회전하도록 위치 조정 */
+  left: -35%;
   width: 170%; /* 배경 크기를 늘려서 회전 시 시각적으로 유지 */
   height: 170%;
   background: url('@/shared/assets/images/board-background.png') center/cover; /* 배경 이미지 경로 수정 */
