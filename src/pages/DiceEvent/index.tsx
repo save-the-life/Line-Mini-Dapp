@@ -489,12 +489,12 @@ const DiceEventPage: React.FC = () => {
             >
               {[{
                 key: 'raffle',
-                label: '래플박스',
+                label: 'Raffle Box',
                 image: Images.GoldRandomBox,
                 onClick: () => alert('래플박스 팝업 예정'),
               }, {
                 key: 'diamond',
-                label: '다이아 박스',
+                label: 'Diamond Box',
                 image: Images.DiamondRandomBox,
                 onClick: () => alert('다이아 박스 팝업 예정'),
               }].map(btn => (
@@ -513,13 +513,12 @@ const DiceEventPage: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      border: '1px solid #eee',
                       boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                       padding: 0,
                       marginBottom: 2,
                     }}
                   >
-                    <img src={btn.image} alt={btn.label} style={{ width: 34, height: 34, objectFit: 'contain' }} />
+                    <img src={btn.image} alt={btn.label} style={{ width: 36, height: 36, objectFit: 'contain' }} />
                   </button>
                   <div style={{
                     width: 50,
