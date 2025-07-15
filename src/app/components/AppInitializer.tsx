@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
-import DappPortalSDK from "@linenext/dapp-portal-sdk";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
 import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
@@ -27,7 +26,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const navigate = useNavigate();
   const { fetchUserData } = useUserStore();
   const [showSplash, setShowSplash] = useState(true);
-  const [showMaintenance, setShowMaintenance] = useState(true);
+  const [showMaintenance, setShowMaintenance] = useState(false);
   const initializedRef = useRef(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const is502ErrorRef = useRef(false);
@@ -324,8 +323,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
-          // onInitialized();
-          setShowMaintenance(true);
+          onInitialized();
+          // setShowMaintenance(true);
           return;
         }
 
@@ -373,8 +372,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             setShowMaintenance(true);
           } else {
             console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-            // onInitialized();
-            setShowMaintenance(true);
+            onInitialized();
+            // setShowMaintenance(true);
           }
         }
       }
@@ -389,9 +388,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   if (showSplash) {
     return <SplashScreen />;
   }
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
-  }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
   return null;
 };
 
