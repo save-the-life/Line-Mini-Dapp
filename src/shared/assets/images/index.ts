@@ -246,6 +246,13 @@ import BackgroundLobby from "./bg-lobby.png"
 import BackgroundRulette from "./bg-rulette.png"
 import BackgroundSlot from "./bg-slot.png"
 import BackgroundTopview from "./bg-topview.png"
+import DogSmile from "./dog-smile.png"
+import DogCrying from "./dog-crying.png"
+import CatSmile from "./cat-smile.png"
+import CatCrying from "./cat-crying.png"
+import SelectBox from "./select-box.png"
+import NormalBox from "./normal-box.png"
+
 
 const Images = {
   HorizontalLogo,
@@ -495,6 +502,12 @@ const Images = {
   BackgroundRulette,
   BackgroundSlot,
   BackgroundTopview,
+  DogSmile,
+  DogCrying,
+  CatSmile,
+  CatCrying,
+  SelectBox,
+  NormalBox,
 };
 
 export default Images;

@@ -30,29 +30,37 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
   };
 
   return (
-    <div className="flex flex-col text-white items-center mx-6">
+    <div className="flex flex-col text-white items-center mx-6 min-h-screen">
       <h2 className="font-semibold text-xl text-center mt-32">
         Lucky Dice!
         <br />
         {t("character_page.Choose_your_character!")}
       </h2>
       <div className="flex flex-row mt-14 gap-3">
+        {/* Dog */}
         <div
           className="flex flex-col items-center justify-center gap-3 cursor-pointer"
           onClick={() => handlePetSelection('DOG')}
         >
           <div
-            className={`w-40 h-48 rounded-[30px] border-2 ${
-              selectedPet === 'DOG'
-                ? 'border-[#0147E5] bg-[#1E1B4B]'
-                : 'border-[#737373] bg-[#1f1e27]'
-            } flex items-center justify-center`}
+            className="w-40 h-48 rounded-[30px] flex items-center justify-center"
+            style={{
+              backgroundImage: `url(${
+                selectedPet === 'DOG'
+                  ? Images.SelectBox
+                  : Images.NormalBox
+              })`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           >
             <img
               src={
                 selectedPet === 'DOG'
-                  ? Images.DogLv19to20
-                  : Images.DogLv1to2
+                  ? Images.DogSmile
+                  : selectedPet === 'CAT'
+                  ? Images.DogCrying
+                  : Images.DogSmile
               }
               alt="dog"
               className="w-36 h-36"
@@ -68,22 +76,30 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
             Dog
           </div>
         </div>
+        {/* Cat */}
         <div
           className="flex flex-col items-center justify-center gap-3 cursor-pointer"
           onClick={() => handlePetSelection('CAT')}
         >
           <div
-            className={`w-40 h-48 rounded-[30px] border-2 ${
-              selectedPet === 'CAT'
-                ? 'border-[#0147E5] bg-[#1E1B4B]'
-                : 'border-[#737373] bg-[#1f1e27]'
-            } flex items-center justify-center`}
+            className="w-40 h-48 rounded-[30px] flex items-center justify-center"
+            style={{
+              backgroundImage: `url(${
+                selectedPet === 'CAT'
+                  ? Images.SelectBox
+                  : Images.NormalBox
+              })`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           >
             <img
               src={
                 selectedPet === 'CAT'
-                  ? Images.CatLv19to20
-                  : Images.CatLv1to2
+                  ? Images.CatSmile
+                  : selectedPet === 'DOG'
+                  ? Images.CatCrying
+                  : Images.CatSmile
               }
               alt="cat"
               className="w-36 h-36"

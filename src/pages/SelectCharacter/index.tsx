@@ -28,9 +28,9 @@ const SelectCharacterPage: React.FC = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative min-h-screen">
       <SelectCharacter selectedPet={selectedPet} setSelectedPet={setSelectedPet} />
-      <div className="bottom-10 absolute flex w-full self-center">
+      <div className="bottom-10 left-0 right-0 absolute flex w-full self-center px-6">
           <button
             className={`h-14 bg-[#0147e5] text-white rounded-full w-full mx-6 ${
               selectedPet ? 'opacity-100' : 'opacity-50 cursor-not-allowed'
