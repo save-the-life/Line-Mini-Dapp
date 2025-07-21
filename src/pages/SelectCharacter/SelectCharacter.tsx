@@ -30,7 +30,7 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
   };
 
   return (
-    <div className="flex flex-col bg-[#0D1226] h-screen text-white items-center mx-6">
+    <div className="flex flex-col text-white items-center mx-6">
       <h2 className="font-semibold text-xl text-center mt-32">
         Lucky Dice!
         <br />
