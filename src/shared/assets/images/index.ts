@@ -241,6 +241,11 @@ import SilverRandomBox from "./silver-random-box.png"
 import GoldRandomBox from "./gold-random-box.png"
 import DiamondRandomBox from "./dia-random-box.png"
 import InventoryBackground from "./inventory-background.png"
+import BackgroundHome from "./bg-home.png"
+import BackgroundLobby from "./bg-lobby.png"
+import BackgroundRulette from "./bg-rulette.png"
+import BackgroundSlot from "./bg-slot.png"
+import BackgroundTopview from "./bg-topview.png"
 
 const Images = {
   HorizontalLogo,
@@ -485,6 +490,11 @@ const Images = {
   GoldRandomBox,
   DiamondRandomBox,
   InventoryBackground,
+  BackgroundHome,
+  BackgroundLobby,
+  BackgroundRulette,
+  BackgroundSlot,
+  BackgroundTopview,
 };
 
 export default Images;
