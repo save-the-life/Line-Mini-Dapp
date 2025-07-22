@@ -73,9 +73,10 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
               fontSize: 24,
               fontWeight: 400,
               color: selectedPet === 'DOG' ? '#64FF56' : '#FFFFFF',
+              WebkitTextStroke: '1px #000',
             }}
           >
-            Dog
+            강아지
           </div>
         </div>
         {/* Cat */}
@@ -114,9 +115,10 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
               fontSize: 24,
               fontWeight: 400,
               color: selectedPet === 'CAT' ? '#64FF56' : '#FFFFFF',
+              WebkitTextStroke: '1px #000',
             }}
           >
-            Cat
+            고양이이
           </div>
         </div>
       </div>
