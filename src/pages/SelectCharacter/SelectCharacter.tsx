@@ -43,7 +43,7 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
           onClick={() => handlePetSelection('DOG')}
         >
           <div
-            className="w-40 h-48 rounded-[30px] flex items-center justify-center"
+            className="w-40 h-48 rounded-[30px] flex items-center justify-center relative"
             style={{
               backgroundImage: `url(${
                 selectedPet === 'DOG'
@@ -54,6 +54,16 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
               backgroundPosition: 'center',
             }}
           >
+            {/* 오버레이: 반투명+블러+그림자 */}
+            <div
+              className="absolute inset-0 rounded-[30px]"
+              style={{
+                background: 'rgba(0,0,0,0.4)',
+                backdropFilter: 'blur(2px)',
+                boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+                zIndex: 1,
+              }}
+            />
             <img
               src={
                 selectedPet === 'DOG'
@@ -63,7 +73,7 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
                   : Images.DogSmile
               }
               alt="dog"
-              className="w-36 h-36"
+              className="w-36 h-36 relative z-10"
             />
           </div>
           <div
@@ -85,7 +95,7 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
           onClick={() => handlePetSelection('CAT')}
         >
           <div
-            className="w-40 h-48 rounded-[30px] flex items-center justify-center"
+            className="w-40 h-48 rounded-[30px] flex items-center justify-center relative"
             style={{
               backgroundImage: `url(${
                 selectedPet === 'CAT'
@@ -96,6 +106,16 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
               backgroundPosition: 'center',
             }}
           >
+            {/* 오버레이: 반투명+블러+그림자 */}
+            <div
+              className="absolute inset-0 rounded-[30px]"
+              style={{
+                background: 'rgba(0,0,0,0.4)',
+                backdropFilter: 'blur(2px)',
+                boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+                zIndex: 1,
+              }}
+            />
             <img
               src={
                 selectedPet === 'CAT'
@@ -105,7 +125,7 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
                   : Images.CatSmile
               }
               alt="cat"
-              className="w-36 h-36"
+              className="w-36 h-36 relative z-10"
             />
           </div>
           <div
