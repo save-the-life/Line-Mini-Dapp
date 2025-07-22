@@ -51,12 +51,13 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
               alt=""
               className="absolute inset-0 w-full h-full object-cover z-0"
             />
-            {/* 블러 오버레이 */}
+            {/* 블러 오버레이: 더 투명하게, blur 약하게 */}
             <div
               className="absolute inset-0 z-10"
               style={{
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
+                background: 'rgba(0,0,0,0.05)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
               }}
             />
             <img
