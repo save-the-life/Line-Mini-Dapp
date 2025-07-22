@@ -271,6 +271,12 @@ const MyAssets: React.FC = () => {
             case "3rd Ranking Awards":
                 contentKey = "3rd_awards";
                 break;
+            case "4th Ranking Awards":
+                contentKey = "4th_awards";
+                break;
+            case "5th Ranking Awards":
+                contentKey = "5th_awards";
+                break;
             default:
             contentKey = reward.content;
         }
