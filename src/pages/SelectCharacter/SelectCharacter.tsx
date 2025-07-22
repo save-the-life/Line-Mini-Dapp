@@ -31,10 +31,19 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
 
   return (
     <div className="flex flex-col text-white items-center mx-6 min-h-screen">
-      <h2 className="font-semibold text-xl text-center mt-32">
-        Lucky Dice!
-        <br />
-        {t("character_page.Choose_your_character!")}
+      <h2
+        className="text-center mt-32"
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: 30,
+          fontWeight: 400,
+          lineHeight: '36px',
+          letterSpacing: '-2.5%',
+          color: '#FFFFFF',
+          WebkitTextStroke: '2px #000',
+        }}
+      >
+        생명을 구해라!<br />주인공을 골라봐!
       </h2>
       <div className="flex flex-row mt-14 gap-3">
         {/* Dog */}
