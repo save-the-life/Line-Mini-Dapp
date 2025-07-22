@@ -108,6 +108,14 @@ img {
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'ONE Mobile POP';
+  src: url('@/shared/assets/fonts/ONE Mobile POP OTF.otf') format('opentype'),
+       url('@/shared/assets/fonts/ONE Mobile POP.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .font-pretendard {
   font-family: 'Pretendard Variable', Pretendard, -apple-system,
     BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',

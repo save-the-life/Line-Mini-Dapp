@@ -69,9 +69,15 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
           <div
             className={`flex w-11 h-7 border rounded-full items-center justify-center text-xs font-medium ${
               selectedPet === 'DOG'
-                ? 'border-white text-white'
+                ? 'border-[#64FF56]'
                 : 'border-[#737373]'
             }`}
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: 24,
+              fontWeight: 400,
+              color: selectedPet === 'DOG' ? '#64FF56' : '#FFFFFF',
+            }}
           >
             Dog
           </div>
@@ -108,9 +114,15 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
           <div
             className={`flex w-11 h-7 border rounded-full items-center justify-center text-xs font-medium ${
               selectedPet === 'CAT'
-                ? 'border-white text-white'
+                ? 'border-[#64FF56]'
                 : 'border-[#737373]'
             }`}
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: 24,
+              fontWeight: 400,
+              color: selectedPet === 'CAT' ? '#64FF56' : '#FFFFFF',
+            }}
           >
             Cat
           </div>
