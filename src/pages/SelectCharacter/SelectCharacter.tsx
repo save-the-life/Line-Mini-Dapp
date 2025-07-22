@@ -35,12 +35,12 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
         className="text-center mt-32"
         style={{
           fontFamily: "'ONE Mobile POP', sans-serif",
-          fontSize: 30,
+          fontSize: '30px',
           fontWeight: 400,
           lineHeight: '36px',
           letterSpacing: '-2.5%',
           color: '#FFFFFF',
-          WebkitTextStroke: '2px #000',
+          WebkitTextStroke: '1px #000',
         }}
       >
         생명을 구해라!<br />주인공을 골라봐!
