@@ -43,23 +43,20 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
           onClick={() => handlePetSelection('DOG')}
         >
           <div
-            className="w-40 h-48 rounded-[30px] flex items-center justify-center relative overflow-hidden"
+            className="flex items-center justify-center relative"
+            style={{
+              width: 165,
+              height: 194,
+              background: selectedPet === 'DOG'
+                ? 'rgba(255,255,255,0.65)'
+                : 'rgba(255,255,255,0.5)',
+              borderRadius: 20,
+              boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: selectedPet === 'DOG' ? '3px solid #64FF56' : 'none',
+            }}
           >
-            {/* 배경 이미지 */}
-            <img
-              src={selectedPet === 'DOG' ? Images.SelectBox : Images.NormalBox}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover z-0"
-            />
-            {/* 블러 오버레이: 더 투명하게, blur 약하게 */}
-            <div
-              className="absolute inset-0 z-10"
-              style={{
-                background: 'rgba(0,0,0,0.05)',
-                backdropFilter: 'blur(4px)',
-                WebkitBackdropFilter: 'blur(4px)',
-              }}
-            />
             <img
               src={
                 selectedPet === 'DOG'
@@ -91,22 +88,20 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
           onClick={() => handlePetSelection('CAT')}
         >
           <div
-            className="w-40 h-48 rounded-[30px] flex items-center justify-center relative overflow-hidden"
+            className="flex items-center justify-center relative"
+            style={{
+              width: 165,
+              height: 194,
+              background: selectedPet === 'CAT'
+                ? 'rgba(255,255,255,0.65)'
+                : 'rgba(255,255,255,0.5)',
+              borderRadius: 20,
+              boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              border: selectedPet === 'CAT' ? '3px solid #64FF56' : 'none',
+            }}
           >
-            {/* 배경 이미지 */}
-            <img
-              src={selectedPet === 'CAT' ? Images.SelectBox : Images.NormalBox}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover z-0"
-            />
-            {/* 블러 오버레이 */}
-            <div
-              className="absolute inset-0 z-10"
-              style={{
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-              }}
-            />
             <img
               src={
                 selectedPet === 'CAT'
