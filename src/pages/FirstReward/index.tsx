@@ -36,7 +36,7 @@ const FirstRewardPage: React.FC = () => {
             <div className="flex-1 overflow-y-auto px-6 pt-10 text-white">
                 {/* 상단 메시지 */}
                 <h1
-                  className="text-center mt-16"
+                  className="text-center mt-[120px]"
                   style={{
                     fontFamily: "'ONE Mobile POP', sans-serif",
                     fontSize: "24px",
