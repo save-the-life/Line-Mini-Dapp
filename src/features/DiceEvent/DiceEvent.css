@@ -94,8 +94,8 @@
 .rotate-background::before {
   content: '';
   position: absolute;
-  top: -25%; /* 배경이 중앙에서 회전하도록 위치 조정 */
-  left: -25%;
+  top: 0%; /* 배경이 중앙에서 회전하도록 위치 조정 */
+  left: 0%;
   width: 100%; /* 배경 크기를 늘려서 시각적으로 유지 */
   height: 100%;
   background: url('@/shared/assets/images/base-dice.png') center/cover; /* 배경 이미지 경로 base-dice.png로 변경 */
