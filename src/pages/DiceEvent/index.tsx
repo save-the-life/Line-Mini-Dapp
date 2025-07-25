@@ -289,8 +289,8 @@ const DiceEventPage: React.FC = () => {
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
-  const scheduledSlots = [20];
-  const itemGuideSlots = [0, 9, 18]; 
+  const scheduledSlots = [8, 19];
+  const itemGuideSlots = [8, 19]; 
 
   const [abuseModal , setabuseModal ] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
@@ -816,7 +816,7 @@ const DiceEventPage: React.FC = () => {
 
 
           {/* 지난 달 보상 다이얼로그 */}
-          {/* <Dialog open={showRankingModal}>
+          <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
@@ -853,19 +853,19 @@ const DiceEventPage: React.FC = () => {
 
                   
                   <a
-                    href="https://shorturl.at/bCrDT" 
+                    href="https://shorturl.at/6WPbD" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="underline text-[#3B82F6] text-base font-semibold text-center"
                   >
-                    👉 https://shorturl.at/bCrDT
+                    👉 https://shorturl.at/6WPbD
                   </a>
                 </div>
                 <button
                   onClick={() => {
                     playSfx(Audios.button_click);
                     handleCloseRankingModal();
-                    navigate("/previous-ranking", {state: {round:3}});
+                    navigate("/previous-ranking", {state: {round:4}});
                   }}
                   className="bg-[#0147E5] text-base font-medium rounded-full w-40 h-14 mt-8 mb-7"
                 >
@@ -873,7 +873,7 @@ const DiceEventPage: React.FC = () => {
                 </button>
               </div>
             </DialogContent>
-          </Dialog> */}
+          </Dialog>
 
           {/* 출석 보상 업데이트 모달 */}
           {/* <Dialog open={showItemGuideModal}>
