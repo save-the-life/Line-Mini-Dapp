@@ -35,9 +35,22 @@ const FirstRewardPage: React.FC = () => {
             {/* 스크롤 되는 상단 영역 */}
             <div className="flex-1 overflow-y-auto px-6 pt-10 text-white">
                 {/* 상단 메시지 */}
-                <h1 className="text-center mt-16 text-xl font-semibold">
-                    {t("reward_page.get_started")} <br />
-                    {t("reward_page.kick_off")}
+                <h1
+                  className="text-center mt-16"
+                  style={{
+                    fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                    fontSize: 24,
+                    fontWeight: 400,
+                    lineHeight: '24px',
+                    letterSpacing: '-2.5%',
+                    color: '#fff',
+                    WebkitTextStroke: '2px #000',
+                    textAlign: 'center',
+                    display: 'block',
+                  }}
+                >
+                    이제 시작해볼까요? <br />
+                    게임을 시작하기 위한 보상을 준비했어요!
                 </h1>
 
                 {/* 보상 아이콘 */}
@@ -66,12 +79,12 @@ const FirstRewardPage: React.FC = () => {
                         style={{
                           marginTop: 8,
                           fontFamily: "'ONE Mobile POP OTF', sans-serif",
-                          fontSize: 22,
-                          fontWeight: 700,
-                          color: '#000',
-                          WebkitTextStroke: '2px #fff',
-                          textShadow: '0 2px 2px rgba(0,0,0,0.25)',
-                          lineHeight: '22px',
+                          fontSize: 12,
+                          fontWeight: 400,
+                          lineHeight: '15px',
+                          letterSpacing: '-2.5%',
+                          color: '#fff',
+                          WebkitTextStroke: '2px #000',
                           textAlign: 'center',
                           display: 'block',
                         }}
@@ -103,12 +116,12 @@ const FirstRewardPage: React.FC = () => {
                         style={{
                           marginTop: 8,
                           fontFamily: "'ONE Mobile POP OTF', sans-serif",
-                          fontSize: 22,
-                          fontWeight: 700,
-                          color: '#000',
-                          WebkitTextStroke: '2px #fff',
-                          textShadow: '0 2px 2px rgba(0,0,0,0.25)',
-                          lineHeight: '22px',
+                          fontSize: 12,
+                          fontWeight: 400,
+                          lineHeight: '15px',
+                          letterSpacing: '-2.5%',
+                          color: '#fff',
+                          WebkitTextStroke: '2px #000',
                           textAlign: 'center',
                           display: 'block',
                         }}
@@ -140,12 +153,12 @@ const FirstRewardPage: React.FC = () => {
                         style={{
                           marginTop: 8,
                           fontFamily: "'ONE Mobile POP OTF', sans-serif",
-                          fontSize: 22,
-                          fontWeight: 700,
-                          color: '#000',
-                          WebkitTextStroke: '2px #fff',
-                          textShadow: '0 2px 2px rgba(0,0,0,0.25)',
-                          lineHeight: '22px',
+                          fontSize: 12,
+                          fontWeight: 400,
+                          lineHeight: '15px',
+                          letterSpacing: '-2.5%',
+                          color: '#fff',
+                          WebkitTextStroke: '2px #000',
                           textAlign: 'center',
                           display: 'block',
                         }}
