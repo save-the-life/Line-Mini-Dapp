@@ -507,6 +507,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           top: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: 1,
+          pointerEvents: 'none',
         }}
       />
       {/* 그리드(타일들) */}
