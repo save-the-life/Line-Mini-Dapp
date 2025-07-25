@@ -38,7 +38,7 @@ const SelectCharacterPage: React.FC = () => {
             style={{
               background: 'linear-gradient(135deg, #4FD9FF 0%, #02BCFF 100%)',
               border: '2px solid #82E4FF',
-              boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 0 0 4px #000, 0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)',
               fontFamily: "'ONE Mobile POP OTF', sans-serif",
               fontSize: '18px',
               fontWeight: 400,
@@ -47,6 +47,7 @@ const SelectCharacterPage: React.FC = () => {
               textAlign: 'center',
               verticalAlign: 'middle',
               color: '#FFFFFF',
+              WebkitTextStroke: '1px #000',
             }}
             disabled={!selectedPet}
             onClick={handleCharacterSelect}
