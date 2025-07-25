@@ -44,14 +44,15 @@ const FirstRewardPage: React.FC = () => {
                 <div className="mt-6 flex justify-center gap-2">
                     <div
                       style={{
-                        width: 96,
-                        height: 96,
+                        width: "115px",
+                        height: "120px",
                         background: 'rgba(255,255,255,0.65)',
                         borderRadius: 20,
                         boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
                         backdropFilter: 'blur(10px)',
                         WebkitBackdropFilter: 'blur(10px)',
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}
@@ -59,19 +60,36 @@ const FirstRewardPage: React.FC = () => {
                       <img
                         src={Images.Star}
                         alt="reward-icon"
-                        className="w-24 h-24"
+                        className="w-[62px] h-[62px]"
                       />
+                      <span
+                        style={{
+                          marginTop: 8,
+                          fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                          fontSize: 22,
+                          fontWeight: 700,
+                          color: '#000',
+                          WebkitTextStroke: '2px #fff',
+                          textShadow: '0 2px 2px rgba(0,0,0,0.25)',
+                          lineHeight: '22px',
+                          textAlign: 'center',
+                          display: 'block',
+                        }}
+                      >
+                        +7,777
+                      </span>
                     </div>
                     <div
                       style={{
-                        width: 96,
-                        height: 96,
+                        width: "115px",
+                        height: "120px",
                         background: 'rgba(255,255,255,0.65)',
                         borderRadius: 20,
                         boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
                         backdropFilter: 'blur(10px)',
                         WebkitBackdropFilter: 'blur(10px)',
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}
@@ -79,19 +97,36 @@ const FirstRewardPage: React.FC = () => {
                       <img
                         src={Images.Raffle}
                         alt="reward-icon"
-                        className="w-24 h-24"
+                        className="w-[62px] h-[62px]"
                       />
+                      <span
+                        style={{
+                          marginTop: 8,
+                          fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                          fontSize: 22,
+                          fontWeight: 700,
+                          color: '#000',
+                          WebkitTextStroke: '2px #fff',
+                          textShadow: '0 2px 2px rgba(0,0,0,0.25)',
+                          lineHeight: '22px',
+                          textAlign: 'center',
+                          display: 'block',
+                        }}
+                      >
+                        +10
+                      </span>
                     </div>
                     <div
                       style={{
-                        width: 96,
-                        height: 96,
+                        width: "115px",
+                        height: "120px",
                         background: 'rgba(255,255,255,0.65)',
                         borderRadius: 20,
                         boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
                         backdropFilter: 'blur(10px)',
                         WebkitBackdropFilter: 'blur(10px)',
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}
@@ -99,8 +134,24 @@ const FirstRewardPage: React.FC = () => {
                       <img
                         src={Images.Dice}
                         alt="reward-icon"
-                        className="w-24 h-24"
+                        className="w-[62px] h-[62px]"
                       />
+                      <span
+                        style={{
+                          marginTop: 8,
+                          fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                          fontSize: 22,
+                          fontWeight: 700,
+                          color: '#000',
+                          WebkitTextStroke: '2px #fff',
+                          textShadow: '0 2px 2px rgba(0,0,0,0.25)',
+                          lineHeight: '22px',
+                          textAlign: 'center',
+                          display: 'block',
+                        }}
+                      >
+                        +10
+                      </span>
                     </div>
                 </div>
             </div>
