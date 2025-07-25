@@ -32,9 +32,14 @@ const SelectCharacterPage: React.FC = () => {
       <SelectCharacter selectedPet={selectedPet} setSelectedPet={setSelectedPet} />
       <div className="bottom-10 left-0 right-0 absolute flex w-full self-center px-6">
           <button
-            className={`h-14 bg-[#0147e5] text-white rounded-full w-full mx-6 ${
+            className={`h-14 text-white rounded-[10px] w-full mx-6 ${
               selectedPet ? 'opacity-100' : 'opacity-50 cursor-not-allowed'
             }`}
+            style={{
+              background: 'linear-gradient(135deg, #4FD9FF 0%, #02BCFF 100%)',
+              border: '2px solid #82E4FF',
+              boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)',
+            }}
             disabled={!selectedPet}
             onClick={handleCharacterSelect}
             >
