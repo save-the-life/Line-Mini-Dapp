@@ -39,7 +39,7 @@ const FirstRewardPage: React.FC = () => {
                   className="text-center mt-16"
                   style={{
                     fontFamily: "'ONE Mobile POP OTF', sans-serif",
-                    fontSize: 24,
+                    fontSize: "24px",
                     fontWeight: 400,
                     lineHeight: '24px',
                     letterSpacing: '-2.5%',
@@ -79,7 +79,7 @@ const FirstRewardPage: React.FC = () => {
                         style={{
                           marginTop: 8,
                           fontFamily: "'ONE Mobile POP OTF', sans-serif",
-                          fontSize: 12,
+                          fontSize: "12px",
                           fontWeight: 400,
                           lineHeight: '15px',
                           letterSpacing: '-2.5%',
@@ -116,7 +116,7 @@ const FirstRewardPage: React.FC = () => {
                         style={{
                           marginTop: 8,
                           fontFamily: "'ONE Mobile POP OTF', sans-serif",
-                          fontSize: 12,
+                          fontSize: "12px",
                           fontWeight: 400,
                           lineHeight: '15px',
                           letterSpacing: '-2.5%',
@@ -153,7 +153,7 @@ const FirstRewardPage: React.FC = () => {
                         style={{
                           marginTop: 8,
                           fontFamily: "'ONE Mobile POP OTF', sans-serif",
-                          fontSize: 12,
+                          fontSize: "12px",
                           fontWeight: 400,
                           lineHeight: '15px',
                           letterSpacing: '-2.5%',
