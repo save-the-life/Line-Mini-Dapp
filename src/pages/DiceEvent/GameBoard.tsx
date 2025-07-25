@@ -307,7 +307,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <img
               src={Images.SpinImage}
               alt="Spin"
-              className="z-0 w-[41px] h-[41px]"
+              className="z-0 max-w-full max-h-full"
             />
           );
           break;
@@ -316,7 +316,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <img
               src={Images.RPSImage}
               alt="RPS"
-              className="z-0 w-[51px] h-[51px]"
+              className="z-0 max-w-full max-h-full"
             />
           );
           break;
@@ -328,7 +328,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             <img
               src={Images.DesertIsland}
               alt="Jail"
-              className="z-0 w-[41px] h-[41px]"
+              className="z-0 max-w-full max-h-full"
             />
           );
           break;
