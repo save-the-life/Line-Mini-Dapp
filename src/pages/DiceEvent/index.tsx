@@ -456,7 +456,7 @@ const DiceEventPage: React.FC = () => {
           {/* anywhere 시 표시되는 비행기 */}
           {game.selectingTile && !isAuto && (
             <div className="absolute md:top-0 top-0 left-0 w-full h-full flex justify-center items-center z-20">
-              <div className="absolute top-0 left-0 w-full h-full bg-black opacity-75"></div>
+              <div className="absolute top-0 left-0 w-full h-full bg-black opacity-75" style={{ pointerEvents: 'none' }}></div>
               <div className="text-white text-lg z-30 flex flex-col items-center justify-center mb-[200px] md:mb-[220px] font-semibold md:text-xl">
                 <img
                   src={Images.Airplane}
