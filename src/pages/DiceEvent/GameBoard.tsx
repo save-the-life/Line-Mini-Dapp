@@ -513,7 +513,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
       {renderTile(11)}
 
       {/* Central board */}
-      <div className="col-span-4 row-span-4 flex flex-col items-center justify-evenly bg-center rotate-background">
+      <div className="col-span-4 row-span-4 flex flex-col items-center justify-evenly bg-center rotate-background"
+        style={{ width: 280, height: 280, margin: '0 auto' }}
+      >
         <div  className="w-full flex justify-center mb-4">
           <Gauge  gaugeValue={gaugeValue} />
         </div>
