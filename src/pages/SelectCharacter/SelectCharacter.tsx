@@ -40,7 +40,7 @@ const SelectCharacter: React.FC<SelectCharacterProps> = ({ selectedPet, setSelec
           lineHeight: '36px',
           letterSpacing: '-2.5%',
           color: '#FFFFFF',
-          WebkitTextStroke: '1px #000',
+          WebkitTextStroke: '2px #000',
         }}
       >
         생명을 구해라!<br />주인공을 골라봐!
