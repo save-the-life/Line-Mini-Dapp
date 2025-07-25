@@ -46,8 +46,8 @@ const SelectCharacterPage: React.FC = () => {
               letterSpacing: '-2.5%',
               textAlign: 'center',
               verticalAlign: 'middle',
-              color: '#FFFFFF',
-              WebkitTextStroke: '1px #000',
+              color: '#fff',
+              WebkitTextStroke: '2px #000',
             }}
             disabled={!selectedPet}
             onClick={handleCharacterSelect}
