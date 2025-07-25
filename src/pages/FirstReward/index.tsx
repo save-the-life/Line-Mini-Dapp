@@ -57,7 +57,7 @@ const FirstRewardPage: React.FC = () => {
                       }}
                     >
                       <img
-                        src={Images.firstPoints}
+                        src={Images.Star}
                         alt="reward-icon"
                         className="w-24 h-24"
                       />
@@ -77,7 +77,7 @@ const FirstRewardPage: React.FC = () => {
                       }}
                     >
                       <img
-                        src={Images.firstRaffle}
+                        src={Images.Raffle}
                         alt="reward-icon"
                         className="w-24 h-24"
                       />
@@ -97,7 +97,7 @@ const FirstRewardPage: React.FC = () => {
                       }}
                     >
                       <img
-                        src={Images.firstDice}
+                        src={Images.Dice}
                         alt="reward-icon"
                         className="w-24 h-24"
                       />
