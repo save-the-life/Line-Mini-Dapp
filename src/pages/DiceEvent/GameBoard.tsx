@@ -495,7 +495,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="relative w-full h-full">
+    <div className="w-full h-full flex items-center justify-center relative">
       {/* 중앙 배경을 absolute로 배치 */}
       <div
         className="rotate-background"
