@@ -9,6 +9,7 @@ const backgroundMap: Record<string, string> = {
   "/reward": Images.BackgroundLobby,
   "/choose-character": Images.BackgroundLobby,
   "/dice-event": Images.BackgroundTopview,
+  "/first-reward": Images.BackgroundLobby,
   // 필요시 추가
 };
 

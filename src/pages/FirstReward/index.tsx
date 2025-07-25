@@ -42,44 +42,65 @@ const FirstRewardPage: React.FC = () => {
 
                 {/* 보상 아이콘 */}
                 <div className="mt-6 flex justify-center gap-2">
-                    <img
+                    <div
+                      style={{
+                        width: 96,
+                        height: 96,
+                        background: 'rgba(255,255,255,0.65)',
+                        borderRadius: 20,
+                        boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <img
                         src={Images.firstPoints}
                         alt="reward-icon"
                         className="w-24 h-24"
-                    />
-                    {/* <img
+                      />
+                    </div>
+                    <div
+                      style={{
+                        width: 96,
+                        height: 96,
+                        background: 'rgba(255,255,255,0.65)',
+                        borderRadius: 20,
+                        boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <img
                         src={Images.firstRaffle}
                         alt="reward-icon"
                         className="w-24 h-24"
-                    /> */}
-                    <img
+                      />
+                    </div>
+                    <div
+                      style={{
+                        width: 96,
+                        height: 96,
+                        background: 'rgba(255,255,255,0.65)',
+                        borderRadius: 20,
+                        boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <img
                         src={Images.firstDice}
                         alt="reward-icon"
                         className="w-24 h-24"
-                    />
-                </div>
-
-                {/* 보상 내역 */}
-                <h2 className="text-lg font-medium mb-4 mt-16 text-left w-full">
-                    {t("reward_page.your_rewards")}
-                </h2>
-                <div className="flex flex-col items-start bg-[#1F283C] rounded-2xl px-4 py-6 w-full">
-                    <div className="flex flex-col gap-2 text-base w-full">
-                        <div className="flex items-center gap-2">
-                            <img
-                                src={Images.Celebration}
-                                alt="gift-icon"
-                                className="w-6 h-6"
-                            />
-                            <p className="text-left text-base font-medium">
-                                {t("reward_page.welcom_gift")}
-                            </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <p className="text-left ml-9 text-base font-medium">
-                                : {t("reward_page.rewards")}
-                            </p>
-                        </div>
+                      />
                     </div>
                 </div>
             </div>
@@ -87,11 +108,25 @@ const FirstRewardPage: React.FC = () => {
             {/* 하단 버튼 영역 고정 */}
             <div className="w-full px-6 pb-6">
                 <button
-                    className="w-full py-4 rounded-full text-base font-medium text-white"
+                    className="w-full py-4 text-base font-medium"
                     onClick={handleReceiveReward}
-                    style={{ backgroundColor: "#0147E5" }}
-                    >
-                    {t("reward_page.start_now")}
+                    style={{
+                        background: 'rgba(255,255,255,0.65)',
+                        borderRadius: 20,
+                        boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                        fontSize: '18px',
+                        fontWeight: 400,
+                        lineHeight: '22px',
+                        letterSpacing: '-2.5%',
+                        color: '#000',
+                        textAlign: 'center',
+                        verticalAlign: 'middle',
+                    }}
+                >
+                    확인
                 </button>
             </div>
         </div>
