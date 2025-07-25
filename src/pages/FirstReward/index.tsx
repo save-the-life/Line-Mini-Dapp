@@ -84,7 +84,7 @@ const FirstRewardPage: React.FC = () => {
                           lineHeight: '15px',
                           letterSpacing: '-2.5%',
                           color: '#fff',
-                          WebkitTextStroke: '2px #000',
+                          WebkitTextStroke: '1px #000',
                           textAlign: 'center',
                           display: 'block',
                         }}
@@ -121,7 +121,7 @@ const FirstRewardPage: React.FC = () => {
                           lineHeight: '15px',
                           letterSpacing: '-2.5%',
                           color: '#fff',
-                          WebkitTextStroke: '2px #000',
+                          WebkitTextStroke: '1px #000',
                           textAlign: 'center',
                           display: 'block',
                         }}
@@ -158,7 +158,7 @@ const FirstRewardPage: React.FC = () => {
                           lineHeight: '15px',
                           letterSpacing: '-2.5%',
                           color: '#fff',
-                          WebkitTextStroke: '2px #000',
+                          WebkitTextStroke: '1px #000',
                           textAlign: 'center',
                           display: 'block',
                         }}
@@ -185,9 +185,10 @@ const FirstRewardPage: React.FC = () => {
                         fontWeight: 400,
                         lineHeight: '22px',
                         letterSpacing: '-2.5%',
-                        color: '#000',
+                        color: '#fff',
                         textAlign: 'center',
                         verticalAlign: 'middle',
+                        WebkitTextStroke: '1px #000',
                     }}
                 >
                     확인
