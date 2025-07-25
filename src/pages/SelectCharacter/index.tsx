@@ -39,11 +39,19 @@ const SelectCharacterPage: React.FC = () => {
               background: 'linear-gradient(135deg, #4FD9FF 0%, #02BCFF 100%)',
               border: '2px solid #82E4FF',
               boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)',
+              fontFamily: "'ONE Mobile POP OTF', sans-serif",
+              fontSize: '18px',
+              fontWeight: 400,
+              lineHeight: '22px',
+              letterSpacing: '-2.5%',
+              textAlign: 'center',
+              verticalAlign: 'middle',
+              color: '#FFFFFF',
             }}
             disabled={!selectedPet}
             onClick={handleCharacterSelect}
             >
-            {t("character_page.Continue")}
+            확인
           </button>
         </div>
     </div>
