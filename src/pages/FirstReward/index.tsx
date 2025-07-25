@@ -172,15 +172,12 @@ const FirstRewardPage: React.FC = () => {
             {/* 하단 버튼 영역 고정 */}
             <div className="w-full px-6 pb-6">
                 <button
-                    className="w-full py-4 text-base font-medium"
-                    onClick={handleReceiveReward}
+                    className="h-14 w-full mx-6 rounded-[10px] text-white"
                     style={{
-                        background: 'rgba(255,255,255,0.65)',
-                        borderRadius: 20,
-                        boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)',
-                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        background: 'linear-gradient(135deg, #4FD9FF 0%, #02BCFF 100%)',
+                        border: '2px solid #82E4FF',
+                        boxShadow: '0 0 0 4px #000, 0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)',
+                        fontFamily: "'ONE Mobile POP OTF', sans-serif",
                         fontSize: '18px',
                         fontWeight: 400,
                         lineHeight: '22px',
@@ -188,8 +185,9 @@ const FirstRewardPage: React.FC = () => {
                         color: '#fff',
                         textAlign: 'center',
                         verticalAlign: 'middle',
-                        WebkitTextStroke: '1px #000',
+                        WebkitTextStroke: '2px #000',
                     }}
+                    onClick={handleReceiveReward}
                 >
                     확인
                 </button>
