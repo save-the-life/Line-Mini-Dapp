@@ -510,7 +510,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         }}
       />
       {/* 그리드(타일들) */}
-      <div className="grid grid-cols-6 grid-rows-6 text-xs md:text-base relative z-10" style={{width: 332, height: 332, gap: 4}}>
+      <div className="grid grid-cols-6 grid-rows-6 text-xs md:text-base relative z-10" style={{width: 332, height: 332, gap: 0}}>
         {/* 에러 메시지 표시 */}
         {error && (
           <div className="absolute top-0 left-0 w-full bg-red-500 text-white p-2 text-center z-50">
