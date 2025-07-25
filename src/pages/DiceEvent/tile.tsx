@@ -22,7 +22,7 @@ const Tile: React.FC<TileProps> = ({
 }) => {
   const getTileStyle = (tileNumber: number): string => {
     const baseStyle =
-      "flex items-center justify-center w-[60px] h-[60px] md:w-24 md:h-24 text-center font-semibold text-xs md:text-sm cursor-pointer";
+      "flex items-center justify-center w-[60px] h-[60px] md:w-24 md:h-24 text-center font-semibold text-xs md:text-sm cursor-pointer box-border";
     const startStyle = `${baseStyle} start-tile text-white text-sm md:text-base font-jalnan`;
     const airplaneStyle = `${baseStyle} airplane-tile`;
     const gameStyle = `${baseStyle} game-tile`;
