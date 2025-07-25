@@ -38,7 +38,7 @@ const FirstRewardPage: React.FC = () => {
                 <h1
                   className="text-center mt-16"
                   style={{
-                    fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                    fontFamily: "'ONE Mobile POP', sans-serif",
                     fontSize: "24px",
                     fontWeight: 400,
                     lineHeight: '24px',
@@ -78,7 +78,7 @@ const FirstRewardPage: React.FC = () => {
                       <span
                         style={{
                           marginTop: 8,
-                          fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                            fontFamily: "'ONE Mobile POP', sans-serif",
                           fontSize: "12px",
                           fontWeight: 400,
                           lineHeight: '15px',
@@ -115,7 +115,7 @@ const FirstRewardPage: React.FC = () => {
                       <span
                         style={{
                           marginTop: 8,
-                          fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                          fontFamily: "'ONE Mobile POP', sans-serif",
                           fontSize: "12px",
                           fontWeight: 400,
                           lineHeight: '15px',
@@ -152,7 +152,7 @@ const FirstRewardPage: React.FC = () => {
                       <span
                         style={{
                           marginTop: 8,
-                          fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                          fontFamily: "'ONE Mobile POP', sans-serif",
                           fontSize: "12px",
                           fontWeight: 400,
                           lineHeight: '15px',
@@ -180,7 +180,7 @@ const FirstRewardPage: React.FC = () => {
                         boxShadow: '0px 2px 2px 0px rgba(0,0,0,0.4)',
                         backdropFilter: 'blur(10px)',
                         WebkitBackdropFilter: 'blur(10px)',
-                        fontFamily: "'ONE Mobile POP OTF', sans-serif",
+                        fontFamily: "'ONE Mobile POP', sans-serif",
                         fontSize: '18px',
                         fontWeight: 400,
                         lineHeight: '22px',
