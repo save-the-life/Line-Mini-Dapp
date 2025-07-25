@@ -252,6 +252,7 @@ import CatSmile from "./cat-smile.png"
 import CatCrying from "./cat-crying.png"
 import SelectBox from "./select-box.png"
 import NormalBox from "./normal-box.png"
+import BaseDice from "./base-dice.png"
 
 
 const Images = {
@@ -508,6 +509,7 @@ const Images = {
   CatCrying,
   SelectBox,
   NormalBox,
+  BaseDice,
 };
 
 export default Images;
