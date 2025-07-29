@@ -837,16 +837,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               </DialogContent>
             </Dialog> */}
 
-            {/* 수정된 Auto 스위치 부분 */}
-            <div id="fifth-step" className=" absolute flex flex-col items-center text-white -right-11 md:-right-24 md:-bottom-24 -bottom-14 ">
-              <Switch
-                className="w-[26px] h-4 md:h-6 md:w-11 text-[#0147E5]"
-                checked={isAuto} // isAuto 상태에 따라 스위치의 체크 상태를 설정
-                onCheckedChange={handleAutoSwitch} // 스위치 토글 시 isAuto 상태를 반전
-                disabled={items.autoNftCount < 1} // items.autoNftCount가 1 미만일 때 스위치 비활성화
-              />
-              <p className="text-xs font-semibold md:text-sm">Auto</p>
-            </div>
+
 
             {/* 수정된 "Roll Dice" 버튼 */}
             <button
@@ -865,7 +856,22 @@ const GameBoard: React.FC<GameBoardProps> = ({
               {isAuto ? "Auto Play" : "Roll Dice"}
             </button>
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-1 mt-9">
+          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-4 mt-9">
+            {/* Auto 스위치 부분 */}
+            <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
+              <Switch
+                className="w-[26px] h-4 md:h-6 md:w-11 text-[#0147E5]"
+                checked={isAuto} // isAuto 상태에 따라 스위치의 체크 상태를 설정
+                onCheckedChange={handleAutoSwitch} // 스위치 토글 시 isAuto 상태를 반전
+                disabled={items.autoNftCount < 1} // items.autoNftCount가 1 미만일 때 스위치 비활성화
+              />
+              <p style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: '12px',
+                fontWeight: 400,
+                color: '#2A294E',
+              }}>Auto</p>
+            </div>
             {timeUntilRefill === "Refill dice" ? (
               <motion.div
                 onClick={handleRefillDice}
