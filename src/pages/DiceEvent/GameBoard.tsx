@@ -291,7 +291,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
     if (tileData) {
       switch (tileData.tileType) {
         case "HOME":
-          content = "Home";
+          content = (
+            <div className="flex flex-col items-center">
+              <img src={Images.HomeIcon} alt="Home" className="h-4 w-4 max-w-full max-h-full" />
+              <p className="text-xs font-bold text-white drop-shadow">Home</p>
+            </div>
+          );
           break;
         case "REWARD":
           if (tileData.rewardType === "STAR") {
