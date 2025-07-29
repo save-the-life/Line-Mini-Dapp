@@ -11,19 +11,19 @@ const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => {
       id="second-step"
       className="z-0 w-[190px] h-[12px] top-[8px] absolute flex items-center justify-center"
     >
-      <div className="w-full h-[12px] bg-gray-300 rounded-full overflow-hidden relative border-[2px] border-[#000000]">
+      <div className="w-full h-[12px] bg-gray-300 rounded-full overflow-hidden relative border-[2px] border-[#000000]" style={{ zIndex: 10 }}>
         {/* 6개 세그먼트 구분선 - 더 명확한 격자 */}
         <div className="absolute inset-0 flex">
           {[...Array(6)].map((_, i) => (
             <div 
               key={i} 
-              className="flex-1 border-r-[2px] border-[#000000] last:border-r-0"
+              className="flex-1 border-r-[2px] border-[#000000] last:border-r-0" style={{ zIndex: 10 }}
             />
           ))}
         </div>
         {/* 게이지 채움 - 더 선명한 그라데이션 */}
         <div 
-          className="h-full bg-gradient-to-r from-orange-400 via-orange-500 to-red-500 transition-all duration-300 ease-out relative z-10"
+          className="h-full bg-gradient-to-r from-orange-400 via-orange-500 to-red-500 transition-all duration-300 ease-out relative z-5"
           style={{ width: `${percentage}%` }}
         />
       </div>

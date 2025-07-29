@@ -631,7 +631,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 gaugeValue={gaugeValue}
               />
             </div>
-            <p className="absolute font-['ONE_Mobile_POP_OTF'] text-[#FFFFFF] text-[18px] font-normal border-[1px] border-[#2A294E] bottom-6 right-5 z-20 md:bottom-11 md:right-9">
+            <p className="absolute font-['ONE_Mobile_POP_OTF'] text-[#FFFFFF] text-[18px] font-normal bottom-6 right-5 z-20 md:bottom-11 md:right-9" style={{ WebkitTextStroke: '1px #2A294E' }}>
               x {formatNumber(diceCount)}
             </p>
             {/* "LUCKY" image animation */}
@@ -859,7 +859,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               {isAuto ? "Auto Play" : "Roll Dice"}
             </button>
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-1 mt-6">
+          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-1 mt-8">
             {timeUntilRefill === "Refill dice" ? (
               <motion.div
                 onClick={handleRefillDice}
