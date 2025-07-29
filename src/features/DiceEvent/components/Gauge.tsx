@@ -6,8 +6,8 @@ import GaugeComponent from 'react-gauge-component';
 const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => (
   <GaugeComponent
   id="second-step"
-    className="z-0 w-64 -top-4 absolute md:w-96 md:top-2 max-h-24"
-    type="radial"
+    className="z-0 w-[190px] -top-4 absolute md:w-96 md:top-2 max-h-24"
+    type="grafana"
     value={(gaugeValue / 6) * 6}
     maxValue={6}
     arc={{
