@@ -266,6 +266,7 @@ import DiceIcon from "./dice-icon.png"
 import StarpointIcon from "./starpoint-icon.png"
 import HomeIcon from "./home-icon.png"
 import RefillDice from "./refill-dice.png"
+import RollDice from "./roll-dice.png"
 
 
 const Images = {
@@ -536,6 +537,7 @@ const Images = {
   StarpointIcon,
   HomeIcon,
   RefillDice,
+  RollDice,
 };
 
 export default Images;

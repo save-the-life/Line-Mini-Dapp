@@ -838,22 +838,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
 
 
-            {/* 수정된 "Roll Dice" 버튼 */}
-            <button
-              id="first-step"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onTouchStart={handleMouseDown}
-              onTouchEnd={handleMouseUp}
-              className={`bg-red-500 hover:bg-red-600 rounded-full h-10 w-24 self-center absolute -bottom-5 left-3 md:left-2 md:w-40 md:h-14 text-white text-sm md:text-lg font-medium ${
-                buttonDisabled || diceCount < 1 || isAuto
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
-              disabled={buttonDisabled || diceCount < 1 || isAuto} // isAuto일 때도 비활성화
-            >
-              {isAuto ? "Auto Play" : "Roll Dice"}
-            </button>
+
           </div>
           <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-4">
             {/* Auto 스위치 부분 - 왼쪽 */}
@@ -907,8 +892,38 @@ const GameBoard: React.FC<GameBoardProps> = ({
               )}
             </div>
             
-            {/* 오른쪽 여백을 위한 빈 div */}
-            <div className="w-[100px]"></div>
+            {/* Roll Dice 버튼 - 오른쪽 */}
+            <button
+              id="first-step"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onTouchStart={handleMouseDown}
+              onTouchEnd={handleMouseUp}
+              className={`w-[68px] h-[68px] flex flex-col items-center justify-center ${
+                buttonDisabled || diceCount < 1 || isAuto
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+              style={{
+                backgroundImage: `url(${Images.RollDice})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+              disabled={buttonDisabled || diceCount < 1 || isAuto}
+            >
+              <span style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: '18px',
+                fontWeight: 400,
+                color: '#FDE047',
+                WebkitTextStroke: '1px #2A294E',
+                textAlign: 'center',
+                lineHeight: '1.2',
+              }}>
+                Roll<br />Dice
+              </span>
+            </button>
           </div>
         </div>
 
