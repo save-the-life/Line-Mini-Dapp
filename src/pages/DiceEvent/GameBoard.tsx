@@ -631,7 +631,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 gaugeValue={gaugeValue}
               />
             </div>
-            <p className="absolute font-['ONE_Mobile_POP_OTF'] text-[#FFFFFF] text-[18px] font-normal bottom-6 right-5 z-20 md:bottom-11 md:right-9" style={{ WebkitTextStroke: '1px #2A294E' }}>
+            <p className="absolute bottom-6 right-5 z-20 md:bottom-11 md:right-9" style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: '18px',
+              fontWeight: 400,
+              color: '#FFFFFF',
+              WebkitTextStroke: '1px #2A294E',
+            }}>
               x {formatNumber(diceCount)}
             </p>
             {/* "LUCKY" image animation */}
@@ -873,12 +879,22 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 }}
               >
                 <BsDice5Fill className="w-3 h-3" />
-                <p className="font-['ONE_Mobile_POP_OTF'] text-[#2A294E] text-[12px] font-normal">: {t("dice_event.refill")}</p>
+                <p style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: '12px',
+                  fontWeight: 400,
+                  color: '#2A294E',
+                }}>: {t("dice_event.refill")}</p>
               </motion.div>
             ) : (
               <>
                 <BsDice5Fill className="w-3 h-3" />
-                <p className="font-['ONE_Mobile_POP_OTF'] text-[#2A294E] text-[12px] font-normal">: {timeUntilRefill}</p>
+                <p style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: '12px',
+                  fontWeight: 400,
+                  color: '#2A294E',
+                }}>: {timeUntilRefill}</p>
               </>
             )}
           </div>
