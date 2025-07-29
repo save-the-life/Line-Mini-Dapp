@@ -7,7 +7,7 @@ const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => (
   <GaugeComponent
   id="second-step"
     className="z-0 w-64 -top-4 absolute md:w-96 md:top-2 max-h-24"
-    type="semicircle"
+    type="radial"
     value={(gaugeValue / 6) * 6}
     maxValue={6}
     arc={{

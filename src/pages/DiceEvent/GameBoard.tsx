@@ -547,7 +547,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           </div>
 
           {/* 음소거 버튼 */}
-          <button
+          {/* <button
               onClick={handleMute}
               className="absolute top-1 left-1 z-50 bg-gray-800 rounded-full flex items-center justify-center"
             >
@@ -556,9 +556,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
               ) : (
                 <HiVolumeUp className="text-white w-5 h-5" />
               )}
-          </button>
+          </button> */}
 
-          <div className="relative w-[120px] h-[120px] bg-[#F59E0B] rounded-full md:w-44 md:h-44">
+          <div className="relative w-[120px] h-[120px] md:w-44 md:h-44">
             <AnimatePresence>
               {showDiceValue && (
                 <motion.div
@@ -621,7 +621,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 </motion.div>
               )}
             </AnimatePresence>
-            <div className="bg-[#FACC15] rounded-full w-[110px] h-[110px] object-center absolute left-[5px] top-[5px] md:left-2 md:top-2 md:w-40 md:h-40"></div>
+
             <div className="flex flex-col w-full h-full items-center justify-center dice-container">
               <Dice
                 ref={diceRef}
