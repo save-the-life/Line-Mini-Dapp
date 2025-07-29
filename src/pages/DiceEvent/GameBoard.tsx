@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Tile from "./tile";
 import { StarTile, DiceTile, AirplaneTile, Gauge } from "@/features/DiceEvent";
 import Dice from "@/widgets/Dice";
-import { BsDice5Fill } from "react-icons/bs";
 import Images from "@/shared/assets/images";
 import { Switch } from "@/shared/components/ui";
 import {
@@ -856,8 +855,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
               {isAuto ? "Auto Play" : "Roll Dice"}
             </button>
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-4 mt-10">
-            {/* Auto 스위치 부분 */}
+          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-4">
+            {/* Auto 스위치 부분 - 왼쪽 */}
             <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
               <Switch
                 className="w-[26px] h-4 md:h-6 md:w-11 text-[#0147E5]"
@@ -872,37 +871,44 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 color: '#2A294E',
               }}>Auto</p>
             </div>
-            {timeUntilRefill === "Refill dice" ? (
-              <motion.div
-                onClick={handleRefillDice}
-                className="flex flex-row items-center justify-center gap-1 cursor-pointer "
-                animate={{
-                  opacity: [1, 0.5, 1], // 반짝이는 효과
-                }}
-                transition={{
-                  duration: 1, // 1초 동안 애니메이션 반복
-                  repeat: Infinity, // 무한 반복
-                }}
-              >
-                <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
-                <p style={{
-                  fontFamily: "'ONE Mobile POP', sans-serif",
-                  fontSize: '12px',
-                  fontWeight: 400,
-                  color: '#2A294E',
-                }}>: {t("dice_event.refill")}</p>
-              </motion.div>
-            ) : (
-              <>
-                <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
-                <p style={{
-                  fontFamily: "'ONE Mobile POP', sans-serif",
-                  fontSize: '12px',
-                  fontWeight: 400,
-                  color: '#2A294E',
-                }}>: {timeUntilRefill}</p>
-              </>
-            )}
+            
+            {/* 리필 영역 - 중앙 */}
+            <div className="flex flex-row items-center justify-center">
+              {timeUntilRefill === "Refill dice" ? (
+                <motion.div
+                  onClick={handleRefillDice}
+                  className="flex flex-row items-center justify-center gap-1 cursor-pointer "
+                  animate={{
+                    opacity: [1, 0.5, 1], // 반짝이는 효과
+                  }}
+                  transition={{
+                    duration: 1, // 1초 동안 애니메이션 반복
+                    repeat: Infinity, // 무한 반복
+                  }}
+                >
+                  <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
+                  <p style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: '12px',
+                    fontWeight: 400,
+                    color: '#2A294E',
+                  }}>: {t("dice_event.refill")}</p>
+                </motion.div>
+              ) : (
+                <>
+                  <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
+                  <p style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: '12px',
+                    fontWeight: 400,
+                    color: '#2A294E',
+                  }}>: {timeUntilRefill}</p>
+                </>
+              )}
+            </div>
+            
+            {/* 오른쪽 여백을 위한 빈 div */}
+            <div className="w-[100px]"></div>
           </div>
         </div>
 
