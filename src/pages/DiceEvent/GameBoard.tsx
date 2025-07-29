@@ -856,7 +856,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               {isAuto ? "Auto Play" : "Roll Dice"}
             </button>
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-4 mt-9">
+          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-4 mt-10">
             {/* Auto 스위치 부분 */}
             <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
               <Switch
