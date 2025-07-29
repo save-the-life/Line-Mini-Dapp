@@ -631,7 +631,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 gaugeValue={gaugeValue}
               />
             </div>
-            <p className="absolute text-white text-sm font-semibold drop-shadow bottom-6 right-5 z-20 md:bottom-11 md:right-9">
+            <p className="absolute font-['ONE_Mobile_POP_OTF'] text-[#FFFFFF] text-[18px] font-normal border-[1px] border-[#2A294E] bottom-6 right-5 z-20 md:bottom-11 md:right-9">
               x {formatNumber(diceCount)}
             </p>
             {/* "LUCKY" image animation */}
@@ -873,12 +873,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 }}
               >
                 <BsDice5Fill className="w-3 h-3" />
-                <p>: {t("dice_event.refill")}</p>
+                <p className="font-['ONE_Mobile_POP_OTF'] text-[#2A294E] text-[12px] font-normal">: {t("dice_event.refill")}</p>
               </motion.div>
             ) : (
               <>
                 <BsDice5Fill className="w-3 h-3" />
-                <p>: {timeUntilRefill}</p>
+                <p className="font-['ONE_Mobile_POP_OTF'] text-[#2A294E] text-[12px] font-normal">: {timeUntilRefill}</p>
               </>
             )}
           </div>
