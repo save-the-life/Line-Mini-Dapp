@@ -630,7 +630,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 gaugeValue={gaugeValue}
               />
             </div>
-            <p className="absolute bottom-6 right-5 z-20 md:bottom-11 md:right-9" style={{
+            <p className="absolute bottom-[-30px] left-1/2 transform -translate-x-1/2 z-20" style={{
               fontFamily: "'ONE Mobile POP', sans-serif",
               fontSize: '18px',
               fontWeight: 400,
