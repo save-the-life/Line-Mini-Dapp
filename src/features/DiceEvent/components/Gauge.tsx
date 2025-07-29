@@ -11,7 +11,7 @@ const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => {
       id="second-step"
       className="z-0 w-[190px] h-[12px] top-[8px] absolute flex items-center justify-center"
     >
-      <div className="w-full h-[12px] bg-gray-300 rounded-full overflow-hidden relative border-1 border-[#000000]">
+      <div className="w-full h-[12px] bg-gray-300 rounded-full overflow-hidden relative border-[1px] border-[#000000]">
         {/* 6개 세그먼트 구분선 - 더 명확한 격자 */}
         <div className="absolute inset-0 flex">
           {[...Array(6)].map((_, i) => (
