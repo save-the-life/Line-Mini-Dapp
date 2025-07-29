@@ -719,9 +719,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
             </Dialog>
 
             {/**릴리스용 */}
-            <div onClick={()=>{setIsOpen(true)}} className="absolute cursor-pointer text-white -right-11 -top-8 md:-right-24 md:-top-20 font-semibold text-xs md:text-sm md:space-y-1">
+            {/* <div onClick={()=>{setIsOpen(true)}} className="absolute cursor-pointer text-white -right-11 -top-8 md:-right-24 md:-top-20 font-semibold text-xs md:text-sm md:space-y-1">
               <FaBookTanakh  className=" w-5 h-5 md:w-8 md:h-8  " />
-            </div>
+            </div> */}
 
             {/* *테스트용 마스터 컨텐츠 */}
             {/* <Dialog>
