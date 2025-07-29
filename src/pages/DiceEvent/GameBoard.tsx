@@ -865,7 +865,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               {isAuto ? "Auto Play" : "Roll Dice"}
             </button>
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-1 mt-8">
+          <div id="third-step" className="flex flex-row text-white items-center justify-center gap-1 mt-9">
             {timeUntilRefill === "Refill dice" ? (
               <motion.div
                 onClick={handleRefillDice}
@@ -878,7 +878,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   repeat: Infinity, // 무한 반복
                 }}
               >
-                <BsDice5Fill className="w-3 h-3" />
+                <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
                 <p style={{
                   fontFamily: "'ONE Mobile POP', sans-serif",
                   fontSize: '12px',
@@ -888,7 +888,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               </motion.div>
             ) : (
               <>
-                <BsDice5Fill className="w-3 h-3" />
+                <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
                 <p style={{
                   fontFamily: "'ONE Mobile POP', sans-serif",
                   fontSize: '12px',
