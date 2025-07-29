@@ -54,12 +54,12 @@
 .rotate-background::before {
   content: '';
   position: absolute;
-  top: -50%; /* 배경이 중앙에서 회전하도록 위치 조정 */
-  left: -50%;
-  width: 200%; /* 배경 크기를 늘려서 회전 시 시각적으로 유지 */
-  height: 200%;
-  background: url('@/shared/assets/images/dice-bg-effect.png') center/cover; /* 배경 이미지 경로 수정 */
-  animation: rotateBackground 10s linear infinite; /* 애니메이션 추가 */
+  top: 0%; /* 배경이 중앙에서 회전하도록 위치 조정 */
+  left: 0%;
+  width: 100%; /* 배경 크기를 늘려서 시각적으로 유지 */
+  height: 100%;
+  background: url('@/shared/assets/images/base-dice.png') center/cover; /* 배경 이미지 경로 base-dice.png로 변경 */
+  /* animation: rotateBackground 10s linear infinite;  애니메이션 제거 */
   border-radius: inherit; /* 부모의 둥근 모서리 상속 */
 }
 
