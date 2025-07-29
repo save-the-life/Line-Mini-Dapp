@@ -288,51 +288,57 @@ const GameBoard: React.FC<GameBoardProps> = ({
     let dataStar = "0";
     let dataDice = "0";
 
-    if (tileData) {
+    // 새로운 타일 구성에 따른 내용 설정
+    if (id === 0) {
+      // 홈 타일
+      content = (
+        <div className="flex flex-col items-center">
+          <img src={Images.HomeIcon} alt="Home" className="h-[44px] w-[44px]" />
+        </div>
+      );
+    } else if ([1, 2, 4, 6, 9, 11, 13, 14, 16, 19].includes(id)) {
+      // StarTile
+      content = <StarTile count={tileData?.rewardAmount || 0} />;
+      dataStar = (tileData?.rewardAmount || 0).toString();
+    } else if ([3, 7, 12, 17].includes(id)) {
+      // DiceTile
+      content = <DiceTile count={tileData?.rewardAmount || 0} />;
+      dataDice = (tileData?.rewardAmount || 0).toString();
+    } else if ([8, 18].includes(id)) {
+      // AirplaneTile
+      content = <AirplaneTile text={tileData?.moveType || ""} />;
+    } else if ([5, 10, 15].includes(id)) {
+      // 게임 타일들
+      let gameIcon;
+      switch (id) {
+        case 5:
+          gameIcon = Images.RpsIcon;
+          break;
+        case 10:
+          gameIcon = Images.CardIcon;
+          break;
+        case 15:
+          gameIcon = Images.SpinIcon;
+          break;
+        default:
+          gameIcon = Images.SpinImage;
+      }
+      content = (
+        <img
+          src={gameIcon}
+          alt="Game"
+          className="h-[44px] w-[44px]"
+        />
+      );
+    } else if (tileData) {
+      // 기존 서버 데이터 기반 타일들
       switch (tileData.tileType) {
-        case "HOME":
-          content = (
-            <div className="flex flex-col items-center">
-              <img src={Images.HomeIcon} alt="Home" className="h-[44px] w-[44px] max-w-full max-h-full" />
-            </div>
-          );
-          break;
-        case "REWARD":
-          if (tileData.rewardType === "STAR") {
-            content = <StarTile count={tileData.rewardAmount || 0} />;
-            dataStar = (tileData.rewardAmount || 0).toString();
-          } else if (tileData.rewardType === "DICE") {
-            content = <DiceTile count={tileData.rewardAmount || 0} />;
-            dataDice = (tileData.rewardAmount || 0).toString();
-          }
-          break;
-        case "SPIN":
-          content = (
-            <img
-              src={Images.SpinImage}
-              alt="Spin"
-              className="z-0 max-w-full max-h-full"
-            />
-          );
-          break;
-        case "RPS":
-          content = (
-            <img
-              src={Images.RPSImage}
-              alt="RPS"
-              className="z-0 max-w-full max-h-full"
-            />
-          );
-          break;
-        case "MOVE":
-          content = <AirplaneTile text={tileData.moveType || ""} />;
-          break;
         case "JAIL":
           content = (
             <img
               src={Images.DesertIsland}
               alt="Jail"
-              className="z-0 max-w-full max-h-full"
+              className="h-[44px] w-[44px]"
             />
           );
           break;

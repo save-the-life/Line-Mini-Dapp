@@ -24,25 +24,30 @@ const Tile: React.FC<TileProps> = ({
   const getTileImage = (tileNumber: number): string => {
     switch (tileNumber) {
       case 0:
-        return Images.TileHome;
-      case 2:
-      case 8:
-      case 13:
-      case 18:
-        return Images.TileAirplane;
+        return Images.TileHome; // 홈 타일
       case 1:
+      case 2:
       case 4:
       case 6:
       case 9:
       case 11:
+      case 13:
       case 14:
       case 16:
       case 19:
-        return Images.TileStar;
+        return Images.TileStar; // StarTile
+      case 3:
+      case 7:
+      case 12:
+      case 17:
+        return Images.TileDice; // DiceTile
+      case 8:
+      case 18:
+        return Images.TileAirplane; // AirplaneTile
       case 5:
       case 10:
       case 15:
-        return Images.TileGame;
+        return Images.TileGame; // 게임 타일 (SPIN, RPS)
       default:
         return Images.TileDice;
     }
