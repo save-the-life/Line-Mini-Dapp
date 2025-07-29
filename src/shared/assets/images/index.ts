@@ -253,6 +253,18 @@ import CatCrying from "./cat-crying.png"
 import SelectBox from "./select-box.png"
 import NormalBox from "./normal-box.png"
 import BaseDice from "./base-dice.png"
+import TileHome from "./tile-home.png"
+import TileStar from "./tile-star.png"
+import TileDice from "./tile-dice.png"
+import TileAirplane from "./tile-airplane.png"
+import TileGame from "./tile-game.png"
+import SpinIcon from "./spin-icon.png"
+import CardIcon from "./card-icon.png"
+import AirplaneIcon from "./airplane-icon.png"
+import RpsIcon from "./rps-icon.png"
+import DiceIcon from "./dice-icon.png"
+import StarpointIcon from "./starpoint-icon.png"
+import HomeIcon from "./home-icon.png"
 
 
 const Images = {
@@ -510,6 +522,18 @@ const Images = {
   SelectBox,
   NormalBox,
   BaseDice,
+  TileHome,
+  TileStar,
+  TileDice,
+  TileAirplane,
+  TileGame,
+  SpinIcon,
+  CardIcon,
+  AirplaneIcon,
+  RpsIcon,
+  DiceIcon,
+  StarpointIcon,
+  HomeIcon,
 };
 
 export default Images;

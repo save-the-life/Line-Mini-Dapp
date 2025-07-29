@@ -1,5 +1,6 @@
 import React from "react";
 import { StarTile, DiceTile, AirplaneTile } from "@/features/DiceEvent";
+import Images from "@/shared/assets/images";
 
 interface TileProps {
   id: number;
@@ -20,29 +21,15 @@ const Tile: React.FC<TileProps> = ({
   "data-star": dataStar,
   "data-dice": dataDice,
 }) => {
-  const getTileStyle = (tileNumber: number): string => {
-    const baseStyle =
-      "flex items-center justify-center w-[60px] h-[60px] md:w-24 md:h-24 text-center font-semibold text-xs md:text-sm cursor-pointer box-border";
-    const startStyle = `${baseStyle} start-tile text-white text-sm md:text-base font-jalnan`;
-    const airplaneStyle = `${baseStyle} airplane-tile`;
-    const gameStyle = `${baseStyle} game-tile`;
-    const starStyle = `${baseStyle} star-tile`;
-    const diceStyle = `${baseStyle} dice-tile`;
-    const activeStyle = "active-tile";
-
-    let zIndex = selectingTile ? "z-30" : "z-10";
+  const getTileImage = (tileNumber: number): string => {
     switch (tileNumber) {
       case 0:
-        return `${startStyle} ${
-          position === tileNumber ? activeStyle : ""
-        } ${zIndex}`;
+        return Images.TileHome;
       case 2:
       case 8:
       case 13:
       case 18:
-        return `${airplaneStyle} ${
-          position === tileNumber ? activeStyle : ""
-        } ${zIndex}`;
+        return Images.TileAirplane;
       case 1:
       case 4:
       case 6:
@@ -51,31 +38,35 @@ const Tile: React.FC<TileProps> = ({
       case 14:
       case 16:
       case 19:
-        return `${starStyle} ${
-          position === tileNumber ? activeStyle : ""
-        } ${zIndex}`;
+        return Images.TileStar;
       case 5:
       case 10:
       case 15:
-        return `${gameStyle} ${
-          position === tileNumber ? activeStyle : ""
-        } ${zIndex}`;
+        return Images.TileGame;
       default:
-        return `${diceStyle} ${
-          position === tileNumber ? activeStyle : ""
-        } ${zIndex}`;
+        return Images.TileDice;
     }
   };
 
   return (
     <div
       id={id.toString()}
-      className={getTileStyle(id)}
+      className={`tile-container ${selectingTile ? 'active' : ''}`}
       onClick={onClick}
       data-star={dataStar}
       data-dice={dataDice}
     >
-      {children}
+      {/* 타일 배경 이미지 */}
+      <img
+        src={getTileImage(id)}
+        alt={`Tile ${id}`}
+        className="tile-background"
+      />
+      
+      {/* 타일 내용 (아이콘, 텍스트 등) */}
+      <div className="tile-content">
+        {children}
+      </div>
     </div>
   );
 };
