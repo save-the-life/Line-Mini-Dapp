@@ -9,7 +9,7 @@ const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => {
   return (
     <div 
       id="second-step"
-      className="z-0 w-[190px] h-[12px] -top-[8px] absolute flex items-center justify-center"
+      className="z-0 w-[190px] h-[12px] top-[8px] absolute flex items-center justify-center"
     >
       <div className="w-full h-[12px] bg-gray-300 rounded-full overflow-hidden relative border-1 border-[#000000]">
         {/* 6개 세그먼트 구분선 - 더 명확한 격자 */}
