@@ -1,37 +1,24 @@
 //src\features\DiceEvent\components\Gauge.tsx
 
 import React from 'react';
-import GaugeComponent from 'react-gauge-component';
 
-const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => (
-  <GaugeComponent
-  id="second-step"
-    className="z-0 w-[190px] -top-4 absolute md:w-96 md:top-2 max-h-24"
-    type="grafana"
-    value={(gaugeValue / 6) * 6}
-    maxValue={6}
-    arc={{
-      colorArray: ['#ffffff', '#FF2121'],
-      padding: 0.02,
-      subArcs: [
-        { limit: 1 },
-        { limit: 2 },
-        { limit: 3 },
-        { limit: 4 },
-        { limit: 5 },
-        { limit: 6 },
-      ],
-    }}
-    pointer={{
-      type: 'blob',
-      animationDelay: 0,
-      animationDuration: 0,
-    }}
-    labels={{
-      valueLabel: { hide: true },
-      tickLabels: { hideMinMax: true, ticks: [] },
-    }}
-  />
-);
+const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => {
+  // 게이지 값을 0-100%로 변환
+  const percentage = Math.min((gaugeValue / 6) * 100, 100);
+  
+  return (
+    <div 
+      id="second-step"
+      className="z-0 w-64 -top-4 absolute md:w-96 md:top-2 max-h-24 flex items-center justify-center"
+    >
+      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-gradient-to-r from-white to-red-500 transition-all duration-300 ease-out"
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default Gauge;
