@@ -46,19 +46,6 @@ const AirplaneTile: React.FC<{ text: string }> = ({ text }) => (
       alt="airplane"
       className="h-[44px] w-[44px]"
     />
-    <p
-      className="text-xs"
-      style={{
-        fontFamily: "'ONE Mobile POP', sans-serif",
-        fontSize: "12px",
-        fontWeight: 400,
-        color: "#FFFFFF",
-        WebkitTextStroke: "1px #2A294E",
-        marginTop: "-4px",
-      }}
-    >
-      {text}
-    </p>
   </div>
 );
 
