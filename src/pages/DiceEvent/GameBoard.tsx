@@ -856,7 +856,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             {/* Auto 스위치 부분 - 왼쪽 */}
             <div
               id="fifth-step"
-              className="flex flex-row items-center gap-0.5 text-white"
+              className="flex flex-row items-center gap-0.5 text-white -translate-x-1"
             >
               <p
                 style={{
