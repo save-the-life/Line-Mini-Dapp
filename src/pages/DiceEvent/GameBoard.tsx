@@ -621,7 +621,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               )}
             </AnimatePresence>
 
-            <div className="flex flex-col w-full h-full items-center justify-center dice-container">
+            <div className="flex flex-col w-full h-full items-center justify-center dice-container translate-y-5">
               <Dice
                 ref={diceRef}
                 onRollComplete={(value: number, data: RollDiceResponseData) =>
@@ -840,7 +840,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
 
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-1 translate-y-2">
+          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 translate-y-2">
             {/* Auto 스위치 부분 - 왼쪽 */}
             <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
               <p style={{
