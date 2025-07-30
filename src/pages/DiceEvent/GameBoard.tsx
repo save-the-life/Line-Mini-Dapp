@@ -843,18 +843,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-4">
             {/* Auto 스위치 부분 - 왼쪽 */}
             <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
-              <Switch
-                className="w-[26px] h-4 md:h-6 md:w-11 text-[#0147E5]"
-                checked={isAuto} // isAuto 상태에 따라 스위치의 체크 상태를 설정
-                onCheckedChange={handleAutoSwitch} // 스위치 토글 시 isAuto 상태를 반전
-                disabled={items.autoNftCount < 1} // items.autoNftCount가 1 미만일 때 스위치 비활성화
-              />
               <p style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: '12px',
                 fontWeight: 400,
                 color: '#2A294E',
               }}>Auto</p>
+              <Switch
+                className="w-[26px] h-4 md:h-6 md:w-11 text-[#0147E5]"
+                checked={isAuto} // isAuto 상태에 따라 스위치의 체크 상태를 설정
+                onCheckedChange={handleAutoSwitch} // 스위치 토글 시 isAuto 상태를 반전
+                disabled={items.autoNftCount < 1} // items.autoNftCount가 1 미만일 때 스위치 비활성화
+              />
             </div>
             
             {/* 리필 영역 - 중앙 */}
