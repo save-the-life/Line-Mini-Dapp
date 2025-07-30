@@ -893,17 +893,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
             </div>
             
             {/* Roll Dice 버튼 - 오른쪽 */}
-            <button
-              id="first-step"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onTouchStart={handleMouseDown}
-              onTouchEnd={handleMouseUp}
-              className={`w-[68px] h-[68px] flex flex-col items-center justify-center ${
-                buttonDisabled || diceCount < 1 || isAuto
-                  ? "opacity-50 cursor-not-allowed"
-                  : "cursor-pointer"
-              }`}
+                         <button
+               id="first-step"
+               onMouseDown={handleMouseDown}
+               onMouseUp={handleMouseUp}
+               onTouchStart={handleMouseDown}
+               onTouchEnd={handleMouseUp}
+               className={`w-[68px] h-[68px] flex flex-col items-center justify-center translate-x-1 -translate-y-3 ${
+                 buttonDisabled || diceCount < 1 || isAuto
+                   ? "opacity-50 cursor-not-allowed"
+                   : "cursor-pointer"
+               }`}
               style={{
                 backgroundImage: `url(${Images.RollDice})`,
                 backgroundSize: 'cover',
