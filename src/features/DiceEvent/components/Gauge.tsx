@@ -3,8 +3,8 @@
 import React from 'react';
 
 const Gauge: React.FC<{ gaugeValue: number }> = ({ gaugeValue }) => {
-  // 게이지 값을 0-100%로 변환
-  const percentage = Math.min((gaugeValue / 6) * 100, 100);
+  // 게이지 값을 0-100%로 변환 (정확한 범위 보장)
+  const percentage = Math.max(0, Math.min((gaugeValue / 6) * 100, 100));
   
   return (
     <div 

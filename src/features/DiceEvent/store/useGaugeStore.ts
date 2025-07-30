@@ -7,7 +7,7 @@ interface GaugeStore {
 }
 
 const useGaugeStore = create<GaugeStore>((set) => ({
-  gaugeValue: 0.5,
+  gaugeValue: 0,
   setGaugeValue: (updater) => set((state) => ({
     gaugeValue: updater(state.gaugeValue),
   })),
