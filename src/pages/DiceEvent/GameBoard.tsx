@@ -893,13 +893,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
             </div>
             
             {/* Roll Dice 버튼 - 오른쪽 */}
-                         <button
+            <button
                id="first-step"
                onMouseDown={handleMouseDown}
                onMouseUp={handleMouseUp}
                onTouchStart={handleMouseDown}
                onTouchEnd={handleMouseUp}
-               className={`w-[68px] h-[68px] flex flex-col items-center justify-center translate-x-1 -translate-y-3 ${
+               className={`w-[68px] h-[68px] flex flex-col items-center justify-center translate-x-４ -translate-y-５ ${
                  buttonDisabled || diceCount < 1 || isAuto
                    ? "opacity-50 cursor-not-allowed"
                    : "cursor-pointer"
