@@ -843,18 +843,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-4">
             {/* Auto 스위치 부분 - 왼쪽 */}
             <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
-              <p style={{
-                fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: '12px',
-                fontWeight: 400,
-                color: '#2A294E',
-              }}>Auto</p>
               <Switch
                 className="w-[26px] h-4 md:h-6 md:w-11 text-[#0147E5]"
                 checked={isAuto} // isAuto 상태에 따라 스위치의 체크 상태를 설정
                 onCheckedChange={handleAutoSwitch} // 스위치 토글 시 isAuto 상태를 반전
                 disabled={items.autoNftCount < 1} // items.autoNftCount가 1 미만일 때 스위치 비활성화
               />
+              <p style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: '12px',
+                fontWeight: 400,
+                color: '#2A294E',
+              }}>Auto</p>
             </div>
             
             {/* 리필 영역 - 중앙 */}
@@ -899,7 +899,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               onMouseUp={handleMouseUp}
               onTouchStart={handleMouseDown}
               onTouchEnd={handleMouseUp}
-              className={`w-[68px] h-[68px] flex flex-col items-center justify-center absolute ${
+              className={`w-[68px] h-[68px] flex flex-col items-center justify-center ${
                 buttonDisabled || diceCount < 1 || isAuto
                   ? "opacity-50 cursor-not-allowed"
                   : "cursor-pointer"
@@ -909,8 +909,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
-                right: '-20px',
-                top: '-20px',
               }}
               disabled={buttonDisabled || diceCount < 1 || isAuto}
             >
