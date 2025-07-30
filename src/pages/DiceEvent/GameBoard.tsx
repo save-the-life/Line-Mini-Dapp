@@ -24,7 +24,7 @@ import { RollDiceResponseData } from "@/features/DiceEvent/api/rollDiceApi";
 import NFTRewardList from "@/widgets/NFTRewardCard";
 import { PiSpinnerBallFill } from "react-icons/pi";
 import { formatNumber } from "@/shared/utils/formatNumber";
-import { FaBookTanakh  } from "react-icons/fa6";
+import { FaBookTanakh } from "react-icons/fa6";
 import { useTour } from "@reactour/tour";
 import { useTranslation } from "react-i18next";
 import { useSound } from "@/shared/provider/SoundProvider";
@@ -32,7 +32,6 @@ import Audios from "@/shared/assets/audio";
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import { useSoundStore } from "@/shared/store/useSoundStore";
 import saveSoundSetting from "@/entities/User/api/saveSoundSetting";
-
 
 dayjs.extend(duration);
 dayjs.extend(utc); // UTC 플러그인 적용
@@ -105,9 +104,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
   } = useUserStore();
   const [timeUntilRefill, setTimeUntilRefill] = useState("");
   const [isRefilling, setIsRefilling] = useState(false); // 리필 중 상태 관리
-  const {setIsOpen} = useTour();
+  const { setIsOpen } = useTour();
   const { playSfx } = useSound();
-  const { masterMuted, bgmVolume, sfxVolume, masterVolume, bgmMuted, sfxMuted, toggleMasterMute } = useSoundStore();
+  const {
+    masterMuted,
+    bgmVolume,
+    sfxVolume,
+    masterVolume,
+    bgmMuted,
+    sfxMuted,
+    toggleMasterMute,
+  } = useSoundStore();
 
   // timeUntilRefill 최신값을 보관할 ref 생성
   const timeUntilRefillRef = useRef(timeUntilRefill);
@@ -123,14 +130,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
       const timer = setTimeout(() => {
         setIsOpen(true);
       }, 1000);
-  
+
       return () => clearTimeout(timer);
     }
   }, [completeTutorial, setIsOpen]);
-  
 
-   // 음소거 버튼 클릭
-   const handleMute = async () => {
+  // 음소거 버튼 클릭
+  const handleMute = async () => {
     // 현재 상태를 가져옴 (현재 음소거 여부는 아직 토글 전의 값)
     const {
       masterVolume,
@@ -141,13 +147,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
       sfxMuted,
       toggleMasterMute,
     } = useSoundStore.getState();
-  
+
     // 음소거 상태 토글 (UI 이미지 변경)
     toggleMasterMute();
-  
+
     // 토글 후의 새로운 음소거 상태 (현재 값의 반대)
     const newMasterMute = !masterMuted;
-  
+
     // 서버에 전송할 데이터: 볼륨 값은 상대값(0~0.3)을 0~10 범위로 변환
     const soundData = {
       masterVolume: Math.round((masterVolume / 0.3) * 10),
@@ -157,7 +163,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
       effectVolume: Math.round((sfxVolume / 0.3) * 10),
       effectMute: sfxMuted,
     };
-  
+
     try {
       await saveSoundSetting(soundData);
       // 서버 저장 성공 시 추가 처리(예: 토스트 메시지 등) 가능
@@ -166,9 +172,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
       // 실패 시 오류 처리 (예: alert 등)
     }
   };
-  
 
-    // Refill Dice API 호출 함수
+  // Refill Dice API 호출 함수
   const handleRefillDice = async () => {
     // 소리 추가
     playSfx(Audios.button_click);
@@ -189,7 +194,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const handleAutoSwitch = async () => {
     // 소리 추가
     playSfx(Audios.button_click);
-    
+
     try {
       await autoSwitch();
     } catch (error: any) {
@@ -222,7 +227,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     updateRefillTime();
     const interval = setInterval(updateRefillTime, 1000);
     return () => clearInterval(interval);
-  }, [diceRefilledAt, diceCount]); 
+  }, [diceRefilledAt, diceCount]);
   // fetchUserData, items.autoNftCount 의존성 제거(필요하면 남기되 최소화)
 
   useEffect(() => {
@@ -231,28 +236,29 @@ const GameBoard: React.FC<GameBoardProps> = ({
     if (isAuto) {
       autoInterval = setInterval(() => {
         // 이곳에서 최신 timeUntilRefill 값 참조
-        const currentTimeUntilRefill = timeUntilRefillRef.current; 
+        const currentTimeUntilRefill = timeUntilRefillRef.current;
 
         if (diceCount > 0 && !buttonDisabled) {
           // diceRef.current?.roll();
           rollDice();
         } else if (diceCount === 0) {
           if (currentTimeUntilRefill === "Refill dice" && !isRefilling) {
-            handleRefillDice().catch((err) => console.error("오토 리필 실패:", err));
+            handleRefillDice().catch((err) =>
+              console.error("오토 리필 실패:", err)
+            );
           } else {
           }
         }
       }, 1000);
-    } 
+    }
 
     return () => {
       if (autoInterval) {
         clearInterval(autoInterval);
       }
     };
-  }, [isAuto, diceCount, buttonDisabled, rollDice, isRefilling]); 
+  }, [isAuto, diceCount, buttonDisabled, rollDice, isRefilling]);
   // timeUntilRefill 제거
-
 
   // Mapping from front-end tile IDs to server tile sequences
   const tileIdToSequenceMap: { [key: number]: number } = {
@@ -322,13 +328,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         default:
           gameIcon = Images.SpinImage;
       }
-      content = (
-        <img
-          src={gameIcon}
-          alt="Game"
-          className="h-[44px] w-[44px]"
-        />
-      );
+      content = <img src={gameIcon} alt="Game" className="h-[44px] w-[44px]" />;
     } else if (tileData) {
       // 기존 서버 데이터 기반 타일들
       switch (tileData.tileType) {
@@ -360,8 +360,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
       </Tile>
     );
   };
-
-
 
   // 테스트용 아이템 추가/삭제 핸들러
   const handleAddGold = async () => {
@@ -500,7 +498,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     }
   };
 
-  
   const { t } = useTranslation();
 
   return (
@@ -511,16 +508,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
         style={{
           width: 280,
           height: 280,
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
           zIndex: 1,
-          pointerEvents: 'none',
+          pointerEvents: "none",
         }}
       />
-             {/* 그리드(타일들) */}
-       <div className="grid grid-cols-6 grid-rows-6 gap-0 text-xs relative z-10" style={{width: 360, height: 360}}>
+      {/* 그리드(타일들) */}
+      <div
+        className="grid grid-cols-6 grid-rows-6 gap-0 text-xs relative z-10"
+        style={{ width: 360, height: 360 }}
+      >
         {/* 에러 메시지 표시 */}
         {error && (
           <div className="absolute top-0 left-0 w-full bg-red-500 text-white p-2 text-center z-50">
@@ -538,11 +538,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
         {renderTile(11)}
 
         {/* Central board */}
-        <div className="col-span-4 row-span-4 flex flex-col items-center justify-evenly bg-center"
-          style={{ zIndex: 2, position: 'relative' }}
+        <div
+          className="col-span-4 row-span-4 flex flex-col items-center justify-evenly bg-center"
+          style={{ zIndex: 2, position: "relative" }}
         >
-          <div  className="w-full flex justify-center mb-4">
-            <Gauge  gaugeValue={gaugeValue} />
+          <div className="w-full flex justify-center mb-4">
+            <Gauge gaugeValue={gaugeValue} />
           </div>
 
           {/* 음소거 버튼 */}
@@ -630,13 +631,16 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 gaugeValue={gaugeValue}
               />
             </div>
-            <p className="absolute bottom-[-30px] left-1/2 transform -translate-x-1/2 z-20" style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
-              fontSize: '18px',
-              fontWeight: 400,
-              color: '#FFFFFF',
-              WebkitTextStroke: '1px #2A294E',
-            }}>
+            <p
+              className="absolute bottom-[-30px] left-1/2 transform -translate-x-1/2 z-20"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #2A294E",
+              }}
+            >
               x {formatNumber(diceCount)}
             </p>
             {/* "LUCKY" image animation */}
@@ -657,7 +661,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
             {/* 보유 아이템 다이얼로그 */}
             <Dialog>
               <DialogTrigger>
-                <div id="fourth-step" className="absolute text-white -left-11 -bottom-14 md:-left-24 md:-bottom-28 font-semibold text-xs md:text-sm md:space-y-1">
+                <div
+                  id="fourth-step"
+                  className="absolute text-white -left-11 -bottom-14 md:-left-24 md:-bottom-28 font-semibold text-xs md:text-sm md:space-y-1"
+                >
                   {/* NFT display */}
                   {/* <div className="flex flex-row gap-1 items-center ">
                     <img
@@ -701,15 +708,21 @@ const GameBoard: React.FC<GameBoardProps> = ({
                   <div className="flex flex-col bg-[#1F1E27] p-5 rounded-3xl border-2 border-[#35383F] font-medium gap-2">
                     <div className="flex flex-row items-center gap-2">
                       <IoGameController className="w-6 h-6" />
-                      <p>{t("dice_event.points")} : x{items.boardRewardTimes}</p>
+                      <p>
+                        {t("dice_event.points")} : x{items.boardRewardTimes}
+                      </p>
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <IoTicket className="w-6 h-6" />
-                      <p>{t("dice_event.tickets")} : x{items.ticketTimes}</p>
+                      <p>
+                        {t("dice_event.tickets")} : x{items.ticketTimes}
+                      </p>
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <PiSpinnerBallFill className="w-6 h-6" />
-                      <p>{t("dice_event.spin")}: x{items.spinTimes}</p>
+                      <p>
+                        {t("dice_event.spin")}: x{items.spinTimes}
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-row items-center justify-end gap-1">
@@ -835,20 +848,26 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 </div>
               </DialogContent>
             </Dialog> */}
-
-
-
-
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 translate-y-2">
+          <div
+            id="third-step"
+            className="flex flex-row text-white items-center justify-between mt-12 translate-y-2"
+          >
             {/* Auto 스위치 부분 - 왼쪽 */}
-            <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
-              <p style={{
-                fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: '12px',
-                fontWeight: 400,
-                color: '#2A294E',
-              }}>Auto</p>
+            <div
+              id="fifth-step"
+              className="flex flex-row items-center gap-2 text-white"
+            >
+              <p
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  color: "#2A294E",
+                }}
+              >
+                Auto
+              </p>
               <Switch
                 className="w-[26px] h-4 md:h-6 md:w-11 text-[#0147E5]"
                 checked={isAuto} // isAuto 상태에 따라 스위치의 체크 상태를 설정
@@ -856,13 +875,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 disabled={items.autoNftCount < 1} // items.autoNftCount가 1 미만일 때 스위치 비활성화
               />
             </div>
-            
+
             {/* 리필 영역 - 중앙 */}
-            <div className="flex flex-row items-center justify-center">
+            <div className="flex flex-row items-center justify-center w-[70px]">
               {timeUntilRefill === "Refill dice" ? (
                 <motion.div
                   onClick={handleRefillDice}
-                  className="flex flex-row items-center justify-center gap-1 cursor-pointer "
+                  className="flex flex-row items-center justify-center gap-1 cursor-pointer w-full"
                   animate={{
                     opacity: [1, 0.5, 1], // 반짝이는 효과
                   }}
@@ -871,57 +890,77 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     repeat: Infinity, // 무한 반복
                   }}
                 >
-                  <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
-                  <p style={{
-                    fontFamily: "'ONE Mobile POP', sans-serif",
-                    fontSize: '12px',
-                    fontWeight: 400,
-                    color: '#2A294E',
-                  }}>: {t("dice_event.refill")}</p>
+                  <img
+                    src={Images.RefillDice}
+                    alt="Refill Dice"
+                    className="w-4 h-4"
+                  />
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: "#2A294E",
+                    }}
+                  >
+                    : {t("dice_event.refill")}
+                  </p>
                 </motion.div>
               ) : (
-                <>
-                  <img src={Images.RefillDice} alt="Refill Dice" className="w-4 h-4" />
-                  <p style={{
-                    fontFamily: "'ONE Mobile POP', sans-serif",
-                    fontSize: '12px',
-                    fontWeight: 400,
-                    color: '#2A294E',
-                  }}>: {timeUntilRefill}</p>
-                </>
+                <div className="flex flex-row items-center justify-center gap-1 w-full">
+                  <img
+                    src={Images.RefillDice}
+                    alt="Refill Dice"
+                    className="w-4 h-4"
+                  />
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: "#2A294E",
+                    }}
+                  >
+                    : {timeUntilRefill}
+                  </p>
+                </div>
               )}
             </div>
-            
+
             {/* Roll Dice 버튼 - 오른쪽 */}
             <button
-               id="first-step"
-               onMouseDown={handleMouseDown}
-               onMouseUp={handleMouseUp}
-               onTouchStart={handleMouseDown}
-               onTouchEnd={handleMouseUp}
-               className={`w-[68px] h-[68px] flex flex-col items-center justify-center translate-x-1 -translate-y-8 ${
-                 buttonDisabled || diceCount < 1 || isAuto
-                   ? "opacity-50 cursor-not-allowed"
-                   : "cursor-pointer"
-               }`}
+              id="first-step"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onTouchStart={handleMouseDown}
+              onTouchEnd={handleMouseUp}
+              className={`w-[68px] h-[68px] flex flex-col items-center justify-center translate-x-1 -translate-y-8 ${
+                buttonDisabled || diceCount < 1 || isAuto
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
               style={{
                 backgroundImage: `url(${Images.RollDice})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
               disabled={buttonDisabled || diceCount < 1 || isAuto}
             >
-              <span style={{
-                fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: '18px',
-                fontWeight: 400,
-                color: '#FDE047',
-                WebkitTextStroke: '1px #2A294E',
-                textAlign: 'center',
-                lineHeight: '1.2',
-              }}>
-                Roll<br />Dice
+              <span
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 400,
+                  color: "#FDE047",
+                  WebkitTextStroke: "1px #2A294E",
+                  textAlign: "center",
+                  lineHeight: "1.2",
+                }}
+              >
+                Roll
+                <br />
+                Dice
               </span>
             </button>
           </div>
