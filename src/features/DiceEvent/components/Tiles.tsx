@@ -12,7 +12,7 @@ const StarTile: React.FC<{ count: number }> = ({ count }) => (
         fontWeight: 400,
         color: "#FFFFFF",
         WebkitTextStroke: "1px #2A294E",
-        marginTop: "-8px",
+        marginTop: "-4px",
       }}
     >
       x {count}
@@ -31,7 +31,7 @@ const DiceTile: React.FC<{ count: number }> = ({ count }) => (
         fontWeight: 400,
         color: "#FFFFFF",
         WebkitTextStroke: "1px #2A294E",
-        marginTop: "-8px",
+        marginTop: "-4px",
       }}
     >
       x {count}
@@ -54,7 +54,7 @@ const AirplaneTile: React.FC<{ text: string }> = ({ text }) => (
         fontWeight: 400,
         color: "#FFFFFF",
         WebkitTextStroke: "1px #2A294E",
-        marginTop: "-8px",
+        marginTop: "-4px",
       }}
     >
       {text}
