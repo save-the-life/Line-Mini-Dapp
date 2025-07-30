@@ -899,7 +899,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                onMouseUp={handleMouseUp}
                onTouchStart={handleMouseDown}
                onTouchEnd={handleMouseUp}
-               className={`w-[68px] h-[68px] flex flex-col items-center justify-center translate-x-４ -translate-y-５ ${
+               className={`w-[68px] h-[68px] flex flex-col items-center justify-center -translate-x-４ translate-y-５ ${
                  buttonDisabled || diceCount < 1 || isAuto
                    ? "opacity-50 cursor-not-allowed"
                    : "cursor-pointer"
