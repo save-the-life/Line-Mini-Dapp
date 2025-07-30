@@ -840,7 +840,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
 
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-4">
+          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-1">
             {/* Auto 스위치 부분 - 왼쪽 */}
             <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
               <p style={{
