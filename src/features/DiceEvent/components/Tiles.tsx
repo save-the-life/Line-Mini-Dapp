@@ -2,15 +2,16 @@ import React from "react";
 import Images from "@/shared/assets/images";
 
 const StarTile: React.FC<{ count: number }> = ({ count }) => (
-  <div className="flex flex-col gap-0 items-center">
+  <div className="flex flex-col -gap-1 items-center">
     <img src={Images.StarpointIcon} alt="star" className="h-[44px] w-[44px]" />
     <p
-      className="text-xs border border-[#2A294E]"
+      className="text-xs"
       style={{
         fontFamily: "'ONE Mobile POP OTF', sans-serif",
         fontSize: "12px",
         fontWeight: 400,
         color: "#FFFFFF",
+        WebkitTextStroke: "1px #2A294E",
       }}
     >
       x {count}
@@ -19,15 +20,16 @@ const StarTile: React.FC<{ count: number }> = ({ count }) => (
 );
 
 const DiceTile: React.FC<{ count: number }> = ({ count }) => (
-  <div className="flex flex-col gap-0 items-center">
+  <div className="flex flex-col -gap-1 items-center">
     <img src={Images.DiceIcon} alt="dice" className="h-[44px] w-[44px]" />
     <p
-      className="text-xs border border-[#2A294E]"
+      className="text-xs"
       style={{
         fontFamily: "'ONE Mobile POP OTF', sans-serif",
         fontSize: "12px",
         fontWeight: 400,
         color: "#FFFFFF",
+        WebkitTextStroke: "1px #2A294E",
       }}
     >
       x {count}
@@ -36,19 +38,20 @@ const DiceTile: React.FC<{ count: number }> = ({ count }) => (
 );
 
 const AirplaneTile: React.FC<{ text: string }> = ({ text }) => (
-  <div className="flex flex-col gap-0 items-center">
+  <div className="flex flex-col -gap-1 items-center">
     <img
       src={Images.AirplaneIcon}
       alt="airplane"
       className="h-[44px] w-[44px]"
     />
     <p
-      className="text-xs border border-[#2A294E]"
+      className="text-xs"
       style={{
         fontFamily: "'ONE Mobile POP OTF', sans-serif",
         fontSize: "12px",
         fontWeight: 400,
         color: "#FFFFFF",
+        WebkitTextStroke: "1px #2A294E",
       }}
     >
       {text}
