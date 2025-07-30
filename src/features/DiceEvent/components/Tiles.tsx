@@ -2,12 +2,12 @@ import React from "react";
 import Images from "@/shared/assets/images";
 
 const StarTile: React.FC<{ count: number }> = ({ count }) => (
-  <div className="flex flex-col -gap-1 items-center">
+  <div className="flex flex-col -gap-2 items-center">
     <img src={Images.StarpointIcon} alt="star" className="h-[44px] w-[44px]" />
     <p
       className="text-xs"
       style={{
-        fontFamily: "'ONE Mobile POP OTF', sans-serif",
+        fontFamily: "'ONE Mobile POP', sans-serif",
         fontSize: "12px",
         fontWeight: 400,
         color: "#FFFFFF",
@@ -20,12 +20,12 @@ const StarTile: React.FC<{ count: number }> = ({ count }) => (
 );
 
 const DiceTile: React.FC<{ count: number }> = ({ count }) => (
-  <div className="flex flex-col -gap-1 items-center">
+  <div className="flex flex-col -gap-2 items-center">
     <img src={Images.DiceIcon} alt="dice" className="h-[44px] w-[44px]" />
     <p
       className="text-xs"
       style={{
-        fontFamily: "'ONE Mobile POP OTF', sans-serif",
+        fontFamily: "'ONE Mobile POP', sans-serif",
         fontSize: "12px",
         fontWeight: 400,
         color: "#FFFFFF",
@@ -38,7 +38,7 @@ const DiceTile: React.FC<{ count: number }> = ({ count }) => (
 );
 
 const AirplaneTile: React.FC<{ text: string }> = ({ text }) => (
-  <div className="flex flex-col -gap-1 items-center">
+  <div className="flex flex-col -gap-2 items-center">
     <img
       src={Images.AirplaneIcon}
       alt="airplane"
@@ -47,7 +47,7 @@ const AirplaneTile: React.FC<{ text: string }> = ({ text }) => (
     <p
       className="text-xs"
       style={{
-        fontFamily: "'ONE Mobile POP OTF', sans-serif",
+        fontFamily: "'ONE Mobile POP', sans-serif",
         fontSize: "12px",
         fontWeight: 400,
         color: "#FFFFFF",
