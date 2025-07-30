@@ -15,7 +15,13 @@ import RPSGame from "../RPSGame";
 import SpinGame from "../SpinGame";
 import { useUserStore } from "@/entities/User/model/userModel";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
-import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogTrigger } from "@/shared/components/ui";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/shared/components/ui";
 import { formatNumber } from "@/shared/utils/formatNumber";
 import LevelRewards from "@/widgets/LevelRewards";
 import LeaderBoard from "@/widgets/LeaderBoard";
@@ -31,7 +37,6 @@ import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 import { useSDK } from "@/shared/hooks/useSDK";
-
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -89,23 +94,26 @@ const DiceEventPage: React.FC = () => {
   const { isInitialized } = useSDK();
   const { walletAddress } = useWalletStore();
 
-
   // AirDrop 팝업 표시를 위한 상태
   const [showAirDrop, setShowAirDrop] = useState<boolean>(false);
 
   // URL 보상 팝업 표시를 위한 상태
   const [showUrlReward, setShowUrlReward] = useState<boolean>(false);
-  
+
   // 레벨 업 시 팝업 표시를 위한 상태
   const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
-  
+
   // 레벨별 보상 다이얼로그 표시를 위한 상태
-  const [showLevelRewardsDialog, setShowLevelRewardsDialog] = useState<boolean>(false);
+  const [showLevelRewardsDialog, setShowLevelRewardsDialog] =
+    useState<boolean>(false);
 
   // 장착된 아이템 상태 (예시로 몇 개 아이템을 장착한 상태로 설정)
-  const [equippedItems, setEquippedItems] = useState<Array<'balloon' | 'crown' | 'muffler' | 'ribbon' | 'sunglasses' | 'wing'>>([
-    'crown', 'sunglasses' // 예시: 왕관과 선글라스 장착
+  const [equippedItems, setEquippedItems] = useState<
+    Array<"balloon" | "crown" | "muffler" | "ribbon" | "sunglasses" | "wing">
+  >([
+    "crown",
+    "sunglasses", // 예시: 왕관과 선글라스 장착
   ]);
 
   // 레벨 업 감지: userLv가 이전 레벨보다 커질 때만 팝업 표시
@@ -116,7 +124,6 @@ const DiceEventPage: React.FC = () => {
     }
     setPrevLevel(userLv);
   }, [userLv, prevLevel]);
-
 
   // 보상 링크를 통한 접근 여부 확인 및 보상 API 호출
   useEffect(() => {
@@ -148,7 +155,11 @@ const DiceEventPage: React.FC = () => {
     } else if (count === 1) {
       return <span className="text-white">{label}</span>;
     } else {
-      return <span className="text-white">{label} x{count}</span>;
+      return (
+        <span className="text-white">
+          {label} x{count}
+        </span>
+      );
     }
   };
 
@@ -185,7 +196,6 @@ const DiceEventPage: React.FC = () => {
       gradient: "linear-gradient(180deg, #FF4F4F 0%, #FFFFFF 100%)",
     },
   ];
-
 
   // 현재 레벨 보상 찾기
   const currentReward = levelRewards.find((r) => r.level === userLv);
@@ -234,11 +244,14 @@ const DiceEventPage: React.FC = () => {
     // SDK가 초기화되고 지갑이 연결된 후에 사용자 데이터를 가져옵니다.
     const initializeUserData = async () => {
       if (isInitialized && walletAddress) {
-        console.log("[DiceEvent] SDK is initialized and wallet is connected. Fetching user data.");
+        console.log(
+          "[DiceEvent] SDK is initialized and wallet is connected. Fetching user data."
+        );
         await fetchUserData();
 
         const userTimeZone = useUserStore.getState().timeZone;
-        const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const currentTimeZone =
+          Intl.DateTimeFormat().resolvedOptions().timeZone;
         if (userTimeZone === null || userTimeZone !== currentTimeZone) {
           try {
             await updateTimeZone(currentTimeZone);
@@ -248,15 +261,17 @@ const DiceEventPage: React.FC = () => {
         }
 
         const kaiaRedirect = localStorage.getItem("KaiaMission");
-        if(kaiaRedirect === "kaia-reward"){
-          try{
+        if (kaiaRedirect === "kaia-reward") {
+          try {
             await getKaiaRedirection();
-          } catch(error: any){
+          } catch (error: any) {
             console.log("[DiceEvent] kaia redirection error", error);
           }
         }
       } else {
-        console.log(`[DiceEvent] Waiting for SDK and wallet... SDK Initialized: ${isInitialized}, Wallet Connected: ${!!walletAddress}`);
+        console.log(
+          `[DiceEvent] Waiting for SDK and wallet... SDK Initialized: ${isInitialized}, Wallet Connected: ${!!walletAddress}`
+        );
       }
     };
 
@@ -282,15 +297,13 @@ const DiceEventPage: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  
-
   // ===============================
   //  모달 스케줄링 로직
   // ===============================
   const scheduledSlots = [16];
-  const itemGuideSlots = [0, 9, 18]; 
+  const itemGuideSlots = [0, 9, 18];
 
-  const [abuseModal , setabuseModal ] = useState<boolean>(false);
+  const [abuseModal, setabuseModal] = useState<boolean>(false);
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
   const [showItemGuideModal, setShowItemGuideModal] = useState(false);
@@ -299,7 +312,9 @@ const DiceEventPage: React.FC = () => {
     const checkAndShowModals = () => {
       const now = new Date();
       const hour = now.getHours();
-      const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+      const dateKey = `${now.getFullYear()}-${
+        now.getMonth() + 1
+      }-${now.getDate()}`;
 
       // ——————————————
       // 1) abuseModal + 래플권 모달
@@ -321,7 +336,9 @@ const DiceEventPage: React.FC = () => {
       // ——————————————
       // 2) 아이템 가이드 모달
       // ——————————————
-      const currentItemSlot = itemGuideSlots.filter(slot => hour >= slot).pop();
+      const currentItemSlot = itemGuideSlots
+        .filter((slot) => hour >= slot)
+        .pop();
       if (currentItemSlot != null) {
         const key = `${dateKey}-${currentItemSlot}-itemGuide`;
         if (!localStorage.getItem(key)) {
@@ -329,7 +346,6 @@ const DiceEventPage: React.FC = () => {
         }
       }
     };
-
 
     // 최초 5초간 2초마다
     const fastInterval = window.setInterval(checkAndShowModals, 2000);
@@ -352,14 +368,16 @@ const DiceEventPage: React.FC = () => {
   const handleCloseItemGuideModal = () => {
     const now = new Date();
     const hour = now.getHours();
-    const dateKey = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
-    const slot = itemGuideSlots.filter(s => hour >= s).pop();
+    const dateKey = `${now.getFullYear()}-${
+      now.getMonth() + 1
+    }-${now.getDate()}`;
+    const slot = itemGuideSlots.filter((s) => hour >= s).pop();
     if (slot != null) {
       localStorage.setItem(`${dateKey}-${slot}-itemGuide`, "shown");
     }
     setShowItemGuideModal(false);
   };
-  
+
   const handleCloseRankingModal = () => {
     const now = new Date();
     let currentSlot: number | null = null;
@@ -369,7 +387,9 @@ const DiceEventPage: React.FC = () => {
       }
     }
     if (currentSlot !== null) {
-      const slotId = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${currentSlot}`;
+      const slotId = `${now.getFullYear()}-${
+        now.getMonth() + 1
+      }-${now.getDate()}-${currentSlot}`;
       localStorage.setItem("abuseModalLastShown", slotId);
       localStorage.setItem("abuseModalDismissed", slotId);
     }
@@ -381,7 +401,7 @@ const DiceEventPage: React.FC = () => {
   const [showRaffleBoxModal, setShowRaffleBoxModal] = useState(false);
 
   if (isLoading) {
-    return <LoadingSpinner className="h-screen"/>;
+    return <LoadingSpinner className="h-screen" />;
   }
 
   if (error) {
@@ -406,6 +426,32 @@ const DiceEventPage: React.FC = () => {
       ) : (
         <>
           <div className="w-full flex justify-center mb-4 mt-8 gap-4">
+            {/* 현재 캐릭터 레벨 및 AlertIcon 클릭 시 레벨 별 보상 다이얼로그 표시 */}
+            <div
+              onClick={() =>
+                navigate("/inventory", { state: { charactorImageSrc } })
+              }
+              className="cursor-pointer"
+              role="button"
+              tabIndex={0}
+              aria-label="Go to inventory"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") navigate("/inventory");
+              }}
+            >
+              <UserLevel
+                userLv={userLv}
+                charactorImageSrc={charactorImageSrc}
+                exp={pet.exp}
+                characterType={characterType || "cat"}
+                equippedItems={equippedItems}
+                onAlertClick={() => {
+                  playSfx(Audios.button_click);
+                  setShowLevelRewardsDialog(true);
+                }}
+              />
+            </div>
+
             {/* 이번 달 보상 내용 */}
             <MonthlyPrize
               month={monthlyPrize.month}
@@ -413,28 +459,8 @@ const DiceEventPage: React.FC = () => {
               amount={monthlyPrize.amount}
               eventFinishTime={monthlyPrize.eventFinishTime}
             />
-                
-            {/* 아이템 구매 페이지 이동 */}
-            <div
-              className="relative flex flex-col items-center justify-center rounded-3xl w-32 h-36 md:w-[240px] md:h-44"
-              style={{
-                background: "linear-gradient(180deg, #19203C 70%, #304689 100%)"
-              }}
-              onClick={() => navigate("/item-store")}
-            >
-              <img
-                src={Images.Rocket}
-                className="w-20 h-20 md:w-32 md:h-32 z-20"
-                alt="itme store"
-                />
-                <div className="flex flex-row items-center justify-center w-full px-4 gap-2 mt-2">
-                  <p className="font-semibold text-center text-sm md:text-sm text-white">
-                    {t("dice_event.shop_item")}
-                  </p>
-                </div>
-            </div>
           </div>
-              
+
           <GameBoard
             position={position}
             selectingTile={game.selectingTile}
@@ -452,11 +478,14 @@ const DiceEventPage: React.FC = () => {
             handleMouseUp={game.handleMouseUp}
             isLuckyVisible={game.isLuckyVisible}
             rollDice={game.rollDice}
-              />
+          />
           {/* anywhere 시 표시되는 비행기 */}
           {game.selectingTile && !isAuto && (
             <div className="absolute md:top-0 top-0 left-0 w-full h-full flex justify-center items-center z-20">
-              <div className="absolute top-0 left-0 w-full h-full bg-black opacity-75" style={{ pointerEvents: 'none' }}></div>
+              <div
+                className="absolute top-0 left-0 w-full h-full bg-black opacity-75"
+                style={{ pointerEvents: "none" }}
+              ></div>
               <div className="text-white text-lg z-30 flex flex-col items-center justify-center mb-[200px] md:mb-[220px] font-semibold md:text-xl">
                 <img
                   src={Images.Airplane}
@@ -474,7 +503,7 @@ const DiceEventPage: React.FC = () => {
             initialY={initialY}
             delta={delta}
             equippedItems={equippedItems}
-            characterType={characterType || 'cat'}
+            characterType={characterType || "cat"}
           />
           <br />
 
@@ -482,139 +511,111 @@ const DiceEventPage: React.FC = () => {
           <div className="w-full max-w-[332px] md:max-w-full flex justify-center">
             <div
               style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
                 gap: 12,
-                margin: '0 0 8px 0',
+                margin: "0 0 8px 0",
               }}
             >
-              {[{
-                key: 'raffle',
-                label: 'Raffle Box',
-                image: Images.GoldRandomBox,
-                onClick: () => setShowRaffleBoxModal(true),
-              }, {
-                key: 'diamond',
-                label: 'Diamond Box',
-                image: Images.DiamondRandomBox,
-                onClick: () => alert('다이아 박스 팝업 예정'),
-              }].map(btn => (
-                <div key={btn.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {[
+                {
+                  key: "raffle",
+                  label: "Raffle Box",
+                  image: Images.GoldRandomBox,
+                  onClick: () => setShowRaffleBoxModal(true),
+                },
+                {
+                  key: "diamond",
+                  label: "Diamond Box",
+                  image: Images.DiamondRandomBox,
+                  onClick: () => alert("다이아 박스 팝업 예정"),
+                },
+              ].map((btn) => (
+                <div
+                  key={btn.key}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
                   <button
                     onClick={btn.onClick}
                     style={{
                       width: 50,
                       height: 50,
-                      borderRadius: '50%',
-                      background: btn.key === 'raffle'
-                        ? 'linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)'
-                        : btn.key === 'diamond'
-                          ? 'linear-gradient(180deg, #FDE047 0%, #FFFFFF 100%)'
-                          : '#fff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                      borderRadius: "50%",
+                      background:
+                        btn.key === "raffle"
+                          ? "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)"
+                          : btn.key === "diamond"
+                          ? "linear-gradient(180deg, #FDE047 0%, #FFFFFF 100%)"
+                          : "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                       padding: 0,
                       marginBottom: 2,
                     }}
                   >
-                    <img src={btn.image} alt={btn.label} style={{ width: 40, height: 40, objectFit: 'contain' }} />
+                    <img
+                      src={btn.image}
+                      alt={btn.label}
+                      style={{ width: 40, height: 40, objectFit: "contain" }}
+                    />
                   </button>
-                  <div style={{
-                    width: 50,
-                    height: 14,
-                    background: '#FAF0E7',
-                    borderRadius: 5,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 8,
-                    fontWeight: 600,
-                    color: '#511C0B',
-                    marginTop: 0,
-                    position: 'relative',
-                    top: -7,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                  }}>
+                  <div
+                    style={{
+                      width: 50,
+                      height: 14,
+                      background: "#FAF0E7",
+                      borderRadius: 5,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 8,
+                      fontWeight: 600,
+                      color: "#511C0B",
+                      marginTop: 0,
+                      position: "relative",
+                      top: -7,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                    }}
+                  >
                     {btn.label}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-              
+
           {/* my-rank 위젯 표시 */}
           <Dialog>
-            <DialogTrigger className="w-full flex justify-center" onClick={() => playSfx(Audios.button_click)}>
+            <DialogTrigger
+              className="w-full flex justify-center"
+              onClick={() => playSfx(Audios.button_click)}
+            >
               <InlineRanking />
             </DialogTrigger>
             <DialogContent className=" flex flex-col bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto  max-h-[80%]">
               <DialogHeader className="flex w-full items-end">
                 <DialogClose>
-                <HiX className="w-5 h-5" />
+                  <HiX className="w-5 h-5" />
                 </DialogClose>
               </DialogHeader>
               <ModalRanking />
               <LeaderBoard />
             </DialogContent>
           </Dialog>
-              
-
-          <div className="w-full flex justify-center mb-4 mt-5 gap-4">
-            {/* 현재 캐릭터 레벨 및 AlertIcon 클릭 시 레벨 별 보상 다이얼로그 표시 */}
-            <div
-              onClick={() => navigate('/inventory', { state: { charactorImageSrc } })}
-              className="cursor-pointer"
-              role="button"
-              tabIndex={0}
-              aria-label="Go to inventory"
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate('/inventory'); }}
-            >
-              <UserLevel
-                userLv={userLv}
-                charactorImageSrc={charactorImageSrc}
-                exp={pet.exp}
-                characterType={characterType || 'cat'}
-                equippedItems={equippedItems}
-                onAlertClick={() => {
-                  playSfx(Audios.button_click);
-                  setShowLevelRewardsDialog(true);
-                }}
-              />
-            </div>
-
-            {/* 현재 보유한 아이템 목록 표시 */}
-            <div
-                className="flex flex-col gap-1 w-48 h-36 md:w-[340px] md:h-44"
-                onClick={()=>navigate("/item-store")}>
-              {itemList.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center rounded-xl"
-                >
-                  <div
-                    className="w-6 md:w-8 h-6 md:h-8 rounded-lg flex items-center justify-center"
-                    style={{ background: item.gradient }}
-                  >
-                    <img
-                      src={item.icon}
-                      alt={item.label}
-                      className="w-[18px] h-auto object-contain" 
-                    />
-                  </div>
-                  <span className="ml-1 font-medium text-xs md:text-sm">
-                    {getItemLabel(item.label, item.count)}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
 
           {/* 레벨별 보상 다이얼로그 */}
-          <Dialog open={showLevelRewardsDialog} onOpenChange={setShowLevelRewardsDialog}>
+          <Dialog
+            open={showLevelRewardsDialog}
+            onOpenChange={setShowLevelRewardsDialog}
+          >
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <LevelRewards />
             </DialogContent>
@@ -635,7 +636,9 @@ const DiceEventPage: React.FC = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-6">
-                  <p className="font-jalnan text-center">{t("dice_event.grap_prize")}</p>
+                  <p className="font-jalnan text-center">
+                    {t("dice_event.grap_prize")}
+                  </p>
                   {currentReward && (
                     <div className="flex flex-row items-center gap-2">
                       <div className="box-bg rounded-xl w-16 h-16 border-2 border-[#2660f4] flex flex-col items-center gap-2 justify-center ">
@@ -720,12 +723,12 @@ const DiceEventPage: React.FC = () => {
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
-                  <HiX 
+                  <HiX
                     className="w-5 h-5"
                     onClick={() => {
                       playSfx(Audios.button_click);
                       setSuspend(false);
-                    }} 
+                    }}
                   />
                 </DialogClose>
               </div>
@@ -737,21 +740,22 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col mt-5">
                   <p className="font-Pretendard text-center text-base font-semibold">
-                    {t("dice_event.fair_play")}<br/>
+                    {t("dice_event.fair_play")}
+                    <br />
                     {t("dice_event.mistake")}
                   </p>
                 </div>
-                
+
                 <div className="flex flex-col mt-2">
                   <p className="font-Pretendard text-center text-sm font-semibold text-[#DD2726]">
                     {t("dice_event.reason")}
                   </p>
                 </div>
 
-                
                 <div className="flex flex-col mt-2">
                   <p className="font-Pretendard text-center text-sm font-normal text-[#A3A3A3]">
-                    {t("dice_event.if_error")}<br/>
+                    {t("dice_event.if_error")}
+                    <br />
                     {t("dice_event.contact_team")}
                   </p>
                 </div>
@@ -771,12 +775,12 @@ const DiceEventPage: React.FC = () => {
             <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[40%]">
               <div className="relative">
                 <DialogClose className="absolute top-0 right-0 p-2">
-                  <HiX 
+                  <HiX
                     className="w-5 h-5"
                     onClick={() => {
                       playSfx(Audios.button_click);
                       setShowUrlReward(false);
-                    }} 
+                    }}
                   />
                 </DialogClose>
               </div>
@@ -896,7 +900,6 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog> */}
-
 
           {/* 지난 달 보상 다이얼로그 */}
           {/* <Dialog open={showRankingModal}>
@@ -1045,7 +1048,6 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog> */}
 
-              
           {/* 아이템 추가 안내 모달창 */}
           {/* <Dialog open={showRankingModal}>
             <DialogTitle></DialogTitle>
@@ -1117,95 +1119,154 @@ const DiceEventPage: React.FC = () => {
               </div>
             </DialogContent>
           </Dialog> */}
-              
+
           {/* Raffle Random Box 모달 */}
-          <Dialog open={showRaffleBoxModal} onOpenChange={setShowRaffleBoxModal}>
+          <Dialog
+            open={showRaffleBoxModal}
+            onOpenChange={setShowRaffleBoxModal}
+          >
             <DialogContent className="bg-[#21212F] rounded-3xl text-white max-w-[90%] md:max-w-md p-6 border-none">
               <div className="flex flex-col items-center w-full">
                 <h2 className="font-bold text-lg mb-4">Raffle Random Box</h2>
                 <div className="flex items-center justify-center bg-[#252932] border-[#35383F] border-2 rounded-full px-6 py-2 mb-6">
-                  <img src={Images.LotteryTicket} className="w-6 h-6 mr-2" alt="ticket" />
+                  <img
+                    src={Images.LotteryTicket}
+                    className="w-6 h-6 mr-2"
+                    alt="ticket"
+                  />
                   <span className="font-semibold text-lg">1000</span>
                 </div>
                 <div className="flex flex-col gap-4 w-full">
                   {/* Bronze Lucky Box */}
                   <div className="flex items-center justify-between px-1 py-3">
                     <div className="flex items-center gap-3">
-                      <div style={{
-                        width: 70,
-                        height: 70,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 16,
-                        background: 'linear-gradient(180deg, #19203C 70%, #304689 100%)',
-                      }}>
-                        <img src={Images.BronzeRandomBox} style={{ width: 50, height: 50 }} alt="bronze" />
+                      <div
+                        style={{
+                          width: 70,
+                          height: 70,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: 16,
+                          background:
+                            "linear-gradient(180deg, #19203C 70%, #304689 100%)",
+                        }}
+                      >
+                        <img
+                          src={Images.BronzeRandomBox}
+                          style={{ width: 50, height: 50 }}
+                          alt="bronze"
+                        />
                       </div>
                       <div>
-                        <div className="font-semibold text-base">Bronze Lucky Box</div>
+                        <div className="font-semibold text-base">
+                          Bronze Lucky Box
+                        </div>
                         <div className="flex items-center gap-1 text-sm font-normal">
-                          <img src={Images.LotteryTicket} className="w-5 h-5" alt="ticket" />
+                          <img
+                            src={Images.LotteryTicket}
+                            className="w-5 h-5"
+                            alt="ticket"
+                          />
                           100
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center" disabled>OPEN</button>
+                    <button
+                      className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center"
+                      disabled
+                    >
+                      OPEN
+                    </button>
                   </div>
                   {/* Silver Lucky Box */}
                   <div className="flex items-center justify-between px-1 py-3">
                     <div className="flex items-center gap-3">
-                      <div style={{
-                        width: 70,
-                        height: 70,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 16,
-                        background: 'linear-gradient(180deg, #19203C 70%, #304689 100%)',
-                      }}>
-                        <img src={Images.SilverRandomBox} style={{ width: 50, height: 50 }} alt="silver" />
+                      <div
+                        style={{
+                          width: 70,
+                          height: 70,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: 16,
+                          background:
+                            "linear-gradient(180deg, #19203C 70%, #304689 100%)",
+                        }}
+                      >
+                        <img
+                          src={Images.SilverRandomBox}
+                          style={{ width: 50, height: 50 }}
+                          alt="silver"
+                        />
                       </div>
                       <div>
-                        <div className="font-semibold text-base">Silver Lucky Box</div>
+                        <div className="font-semibold text-base">
+                          Silver Lucky Box
+                        </div>
                         <div className="flex items-center gap-1 text-sm font-normal">
-                          <img src={Images.LotteryTicket} className="w-5 h-5" alt="ticket" />
+                          <img
+                            src={Images.LotteryTicket}
+                            className="w-5 h-5"
+                            alt="ticket"
+                          />
                           300
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center" disabled>OPEN</button>
+                    <button
+                      className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center"
+                      disabled
+                    >
+                      OPEN
+                    </button>
                   </div>
                   {/* Gold Lucky Box */}
                   <div className="flex items-center justify-between px-1 py-3">
                     <div className="flex items-center gap-3">
-                      <div style={{
-                        width: 70,
-                        height: 70,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: 16,
-                        background: 'linear-gradient(180deg, #19203C 70%, #304689 100%)',
-                      }}>
-                        <img src={Images.GoldRandomBox} style={{ width: 50, height: 50 }} alt="gold" />
+                      <div
+                        style={{
+                          width: 70,
+                          height: 70,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: 16,
+                          background:
+                            "linear-gradient(180deg, #19203C 70%, #304689 100%)",
+                        }}
+                      >
+                        <img
+                          src={Images.GoldRandomBox}
+                          style={{ width: 50, height: 50 }}
+                          alt="gold"
+                        />
                       </div>
                       <div>
-                        <div className="font-semibold text-base">Gold Lucky Box</div>
+                        <div className="font-semibold text-base">
+                          Gold Lucky Box
+                        </div>
                         <div className="flex items-center gap-1 text-sm font-normal">
-                          <img src={Images.LotteryTicket} className="w-5 h-5" alt="ticket" />
+                          <img
+                            src={Images.LotteryTicket}
+                            className="w-5 h-5"
+                            alt="ticket"
+                          />
                           1000
                         </div>
                       </div>
                     </div>
-                    <button className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center" disabled>OPEN</button>
+                    <button
+                      className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center"
+                      disabled
+                    >
+                      OPEN
+                    </button>
                   </div>
                 </div>
               </div>
             </DialogContent>
           </Dialog>
-
-        
 
           <br />
           <br />
