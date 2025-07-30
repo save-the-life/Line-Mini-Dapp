@@ -13,7 +13,7 @@ const useGauge = () => {
     if (isHolding) {
       interval = window.setInterval(() => {
         setGaugeValue((prevValue) => {
-          let newValue = isIncreasing ? prevValue + 0.3 : prevValue - 0.3;
+          let newValue = isIncreasing ? prevValue + 0.4 : prevValue - 0.4;
           
           // Gauge bounds and direction control - ensure full range coverage
           if (newValue >= 6) {
@@ -38,6 +38,8 @@ const useGauge = () => {
       }
     };
   }, [isHolding, isIncreasing, setGaugeValue]);
+
+
 
   return { gaugeValue, isHolding, setIsHolding };
 };
