@@ -877,7 +877,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             </div>
 
             {/* 리필 영역 - 중앙 */}
-            <div className="flex flex-row items-center justify-center w-[70px]">
+            <div className="flex flex-row items-center justify-center w-[72px]">
               {timeUntilRefill === "Refill dice" ? (
                 <motion.div
                   onClick={handleRefillDice}
@@ -896,6 +896,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     className="w-4 h-4"
                   />
                   <p
+                    className="whitespace-nowrap"
                     style={{
                       fontFamily: "'ONE Mobile POP', sans-serif",
                       fontSize: "12px",
@@ -914,6 +915,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     className="w-4 h-4"
                   />
                   <p
+                    className="whitespace-nowrap"
                     style={{
                       fontFamily: "'ONE Mobile POP', sans-serif",
                       fontSize: "12px",
