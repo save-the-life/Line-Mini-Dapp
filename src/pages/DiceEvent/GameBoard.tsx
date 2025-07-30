@@ -840,7 +840,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
 
           </div>
-          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-1 translate-y-1">
+          <div id="third-step" className="flex flex-row text-white items-center justify-between mt-12 px-1 translate-y-2">
             {/* Auto 스위치 부분 - 왼쪽 */}
             <div id="fifth-step" className="flex flex-row items-center gap-2 text-white">
               <p style={{
@@ -899,7 +899,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                onMouseUp={handleMouseUp}
                onTouchStart={handleMouseDown}
                onTouchEnd={handleMouseUp}
-               className={`w-[68px] h-[68px] flex flex-col items-center justify-center -translate-x-４ translate-y-５ ${
+               className={`w-[68px] h-[68px] flex flex-col items-center justify-center translate-x-1 -translate-y-3 ${
                  buttonDisabled || diceCount < 1 || isAuto
                    ? "opacity-50 cursor-not-allowed"
                    : "cursor-pointer"
