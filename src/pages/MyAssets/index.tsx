@@ -220,7 +220,7 @@ const MyAssets: React.FC = () => {
             case "Join Telegram":
                 contentKey = "join_telegram";
                 break;
-            case "Subscribe to Email":
+            case "Subscribe Email":
                 contentKey = "subscribe_to_email";
                 break;
             case "Follow on Medium":
