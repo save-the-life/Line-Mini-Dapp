@@ -1,10 +1,16 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import calculateTilePosition from '@/shared/utils/calculateTilePosition';
-import Images from '@/shared/assets/images';
+import React from "react";
+import { motion } from "framer-motion";
+import calculateTilePosition from "@/shared/utils/calculateTilePosition";
+import Images from "@/shared/assets/images";
 
 // 아이템 타입 정의
-export type ItemType = 'balloon' | 'crown' | 'muffler' | 'ribbon' | 'sunglasses' | 'wing';
+export type ItemType =
+  | "balloon"
+  | "crown"
+  | "muffler"
+  | "ribbon"
+  | "sunglasses"
+  | "wing";
 
 interface BoardProps {
   position: number;
@@ -13,7 +19,7 @@ interface BoardProps {
   initialY: number;
   delta: number;
   equippedItems?: ItemType[];
-  characterType?: 'cat' | 'dog';
+  characterType?: "cat" | "dog";
 }
 
 const Board: React.FC<BoardProps> = ({
@@ -23,12 +29,12 @@ const Board: React.FC<BoardProps> = ({
   initialY,
   delta,
   equippedItems = [],
-  characterType = 'cat',
+  characterType = "cat",
 }) => {
   const { x, y } = calculateTilePosition(position, initialX, initialY, delta);
 
   // position이 10보다 큰 경우 좌우 반전 스타일 적용
-  const flipStyle = position > 10 ? { transform: 'scaleX(-1)' } : {};
+  const flipStyle = position > 10 ? { transform: "scaleX(-1)" } : {};
 
   // 아이템 이미지 매핑
   const getItemImage = (itemType: ItemType): string => {
@@ -56,21 +62,21 @@ const Board: React.FC<BoardProps> = ({
 
   return (
     <motion.div
-      className={`absolute z-40`}
+      className={`absolute z-60`}
       initial={{ x: initialX, y: initialY }}
       animate={{ x, y }}
       transition={{
-        x: { type: 'spring', stiffness: 300, damping: 25 },
-        y: { type: 'spring', stiffness: 300, damping: 15 },
+        x: { type: "spring", stiffness: 300, damping: 25 },
+        y: { type: "spring", stiffness: 300, damping: 15 },
       }}
     >
       <div
         className="absolute w-full h-full rounded-full bottom-0 left-1/2 transform -translate-x-1/2"
         style={{
-          width: '70%',
-          height: '10%',
-          backgroundColor: 'rgba(0, 0, 0, 0.3)',
-          borderRadius: '50%',
+          width: "70%",
+          height: "10%",
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          borderRadius: "50%",
         }}
       ></div>
       <img
