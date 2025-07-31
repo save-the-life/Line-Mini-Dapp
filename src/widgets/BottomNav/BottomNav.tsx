@@ -1,11 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { AiOutlineGift, AiOutlineTrophy } from "react-icons/ai";
-import { TbTargetArrow } from "react-icons/tb";
-import { BiWallet } from "react-icons/bi";
 import { useNavigationStore } from "@/shared/store/navigationStore";
-import { IoGameControllerOutline } from "react-icons/io5";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Images from "@/shared/assets/images";
 import Audios from "@/shared/assets/audio";
@@ -32,180 +28,204 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
       }`}
       style={{
         background: "rgba(255,255,255,0.65)",
-        borderRadius: 20,
+        borderRadius: "52px",
         boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
       }}
     >
-      <Link to="/AI-menu" onClick={() => handleNavigation("/AI-menu")}>
+      <Link to="/inventory" onClick={() => handleNavigation("/inventory")}>
         <motion.div
-          className={`flex flex-col items-center justify-center rounded-lg w-12 h-12 ${
-            selected === "/AI-menu"
-              ? "text-[#0147e5] bg-[#e0f2fe]"
-              : "text-[#A3A3A3]"
-          }`}
+          className="flex flex-col items-center justify-center rounded-lg w-12 h-12 relative"
           animate={{
-            backgroundColor: selected === "/AI-menu" ? "#e0f2fe" : "#ffffff",
-            color: selected === "/AI-menu" ? "#0147e5" : "#A3A3A3",
+            scale: selected === "/inventory" ? 1 : 1,
           }}
           transition={{ duration: 0.3 }}
         >
-          <motion.div
-            className="flex items-center justify-center"
-            animate={{
-              scale: selected === "/AI-menu" ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            {selected === "/AI-menu" ? (
-              <img src={Images.SeletedBottomBarAI} className="w-6 h-6" />
-            ) : (
-              <img src={Images.BottomBarAI} className="w-6 h-6" />
-            )}
-          </motion.div>
-          {selected === "/AI-menu" && (
-            <motion.p
+          {selected === "/inventory" && (
+            <motion.div
+              className="absolute"
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "76px",
+                backgroundColor: "#005EAA80",
+                zIndex: 0,
+              }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-            >
-              AI
-            </motion.p>
+            />
           )}
+          <motion.div
+            className="flex items-center justify-center relative z-10"
+            animate={{
+              scale: selected === "/inventory" ? 1 : 1,
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <img
+              src={Images.MenuShop}
+              className="w-10 h-10"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </motion.div>
         </motion.div>
       </Link>
 
       <Link to="/reward" onClick={() => handleNavigation("/reward")}>
         <motion.div
-          className={`flex flex-col items-center justify-center rounded-lg w-12 h-12 ${
-            selected === "/reward"
-              ? "text-[#0147e5] bg-[#e0f2fe]"
-              : "text-[#A3A3A3]"
-          }`}
+          className="flex flex-col items-center justify-center rounded-lg w-12 h-12 relative"
           animate={{
-            backgroundColor: selected === "/reward" ? "#e0f2fe" : "#ffffff",
-            color: selected === "/reward" ? "#0147e5" : "#A3A3A3",
+            scale: selected === "/reward" ? 1 : 1,
           }}
           transition={{ duration: 0.3 }}
         >
-          <motion.div
-            className="flex items-center justify-center"
-            animate={{
-              scale: selected === "/reward" ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <AiOutlineGift className="w-6 h-6" />
-          </motion.div>
           {selected === "/reward" && (
-            <motion.p
+            <motion.div
+              className="absolute"
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "76px",
+                backgroundColor: "#005EAA80",
+                zIndex: 0,
+              }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-            >
-              Reward
-            </motion.p>
+            />
           )}
+          <motion.div
+            className="flex items-center justify-center relative z-10"
+            animate={{
+              scale: selected === "/reward" ? 1 : 1,
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <img
+              src={Images.MenuReward}
+              className="w-10 h-10"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </motion.div>
         </motion.div>
       </Link>
+
       <Link to="/dice-event" onClick={() => handleNavigation("/dice-event")}>
         <motion.div
-          className={`flex flex-col items-center justify-center rounded-lg w-12 h-12 ${
-            selected === "/dice-event"
-              ? "text-[#0147e5] bg-[#e0f2fe]"
-              : "text-[#A3A3A3]"
-          }`}
+          className="flex flex-col items-center justify-center rounded-lg w-12 h-12 relative"
           animate={{
-            backgroundColor: selected === "/dice-event" ? "#e0f2fe" : "#ffffff",
-            color: selected === "/dice-event" ? "#0147e5" : "#A3A3A3",
+            scale: selected === "/dice-event" ? 1 : 1,
           }}
           transition={{ duration: 0.3 }}
         >
-          <motion.div
-            className="flex items-center justify-center"
-            animate={{
-              scale: selected === "/dice-event" ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <IoGameControllerOutline className="w-6 h-6" />
-          </motion.div>
           {selected === "/dice-event" && (
-            <motion.p
+            <motion.div
+              className="absolute"
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "76px",
+                backgroundColor: "#005EAA80",
+                zIndex: 0,
+              }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-            >
-              Game
-            </motion.p>
+            />
           )}
+          <motion.div
+            className="flex items-center justify-center relative z-10"
+            animate={{
+              scale: selected === "/dice-event" ? 1 : 1,
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <img
+              src={Images.MenuMain}
+              className="w-10 h-10"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </motion.div>
         </motion.div>
       </Link>
+
       <Link to="/mission" onClick={() => handleNavigation("/mission")}>
         <motion.div
-          className={`flex flex-col items-center justify-center rounded-lg w-12 h-12 ${
-            selected === "/mission"
-              ? "text-[#0147e5] bg-[#e0f2fe]"
-              : "text-[#A3A3A3]"
-          }`}
+          className="flex flex-col items-center justify-center rounded-lg w-12 h-12 relative"
           animate={{
-            backgroundColor: selected === "/mission" ? "#e0f2fe" : "#ffffff",
-            color: selected === "/mission" ? "#0147e5" : "#A3A3A3",
+            scale: selected === "/mission" ? 1 : 1,
           }}
           transition={{ duration: 0.3 }}
         >
-          <motion.div
-            className="flex items-center justify-center"
-            animate={{
-              scale: selected === "/mission" ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <TbTargetArrow className="w-6 h-6" />
-          </motion.div>
           {selected === "/mission" && (
-            <motion.p
+            <motion.div
+              className="absolute"
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "76px",
+                backgroundColor: "#005EAA80",
+                zIndex: 0,
+              }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-            >
-              Mission
-            </motion.p>
+            />
           )}
+          <motion.div
+            className="flex items-center justify-center relative z-10"
+            animate={{
+              scale: selected === "/mission" ? 1 : 1,
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <img
+              src={Images.MenuMission}
+              className="w-10 h-10"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </motion.div>
         </motion.div>
       </Link>
+
       <Link to="/my-assets" onClick={() => handleNavigation("/my-assets")}>
         <motion.div
-          className={`flex flex-col items-center justify-center rounded-lg w-12 h-12 ${
-            selected === "/my-assets"
-              ? "text-[#0147e5] bg-[#e0f2fe]"
-              : "text-[#A3A3A3]"
-          }`}
+          className="flex flex-col items-center justify-center rounded-lg w-12 h-12 relative"
           animate={{
-            backgroundColor: selected === "/my-assets" ? "#e0f2fe" : "#ffffff",
-            color: selected === "/my-assets" ? "#0147e5" : "#A3A3A3",
+            scale: selected === "/my-assets" ? 1 : 1,
           }}
           transition={{ duration: 0.3 }}
         >
-          <motion.div
-            className="flex items-center justify-center"
-            animate={{
-              scale: selected === "/my-assets" ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <BiWallet className="w-6 h-6" />
-          </motion.div>
           {selected === "/my-assets" && (
-            <motion.p
+            <motion.div
+              className="absolute"
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "76px",
+                backgroundColor: "#005EAA80",
+                zIndex: 0,
+              }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-            >
-              Asset
-            </motion.p>
+            />
           )}
+          <motion.div
+            className="flex items-center justify-center relative z-10"
+            animate={{
+              scale: selected === "/my-assets" ? 1 : 1,
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <img
+              src={Images.MenuWallet}
+              className="w-10 h-10"
+              style={{ width: "40px", height: "40px" }}
+            />
+          </motion.div>
         </motion.div>
       </Link>
     </div>

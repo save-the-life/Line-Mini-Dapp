@@ -270,6 +270,11 @@ import RollDice from "./roll-dice.png"
 import Prizes from "./prizes.png"
 import InfoButton from "./info-button.png"
 import RandomBox from "./random-box.png"
+import MenuWallet from "./menu-wallet.png"
+import MenuMain from "./menu-main.png"
+import MenuMission from "./menu-mission.png"
+import MenuShop from "./menu-shop.png"
+import MenuReward from "./menu-reward.png"
 
 
 const Images = {
@@ -543,7 +548,12 @@ const Images = {
   RollDice,
   Prizes,
   InfoButton,
-  RandomBox
+  RandomBox,
+  MenuWallet,
+  MenuMain,
+  MenuMission,
+  MenuShop,
+  MenuReward,
 };
 
 export default Images;
