@@ -141,13 +141,6 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
     <div
       className={`flex flex-col items-center justify-center text-white cursor-pointer w-full ${className}`}
       role="button"
-      style={{
-        background: "rgba(255,255,255,0.65)",
-        borderRadius: 20,
-        boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
-      }}
     >
       {/* Title */}
       <h1
@@ -169,7 +162,16 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
         }}
       >
         {/* Rank text & number */}
-        <div className="relative w-[121px] h-full flex flex-col items-center justify-center gap-2">
+        <div
+          className="relative w-[121px] h-full flex flex-col items-center justify-center gap-2"
+          style={{
+            background: "rgba(255,255,255,0.65)",
+            borderRadius: 20,
+            boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+          }}
+        >
           <p
             className="text-base font-semibold invisible"
             style={{
