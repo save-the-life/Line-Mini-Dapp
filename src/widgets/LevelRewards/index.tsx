@@ -33,9 +33,15 @@ const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
   const { t } = useTranslation();
 
   // 다음 레벨 보상 찾기
-  const nextLevelReward = levelRewards.find(
-    (reward) => reward.level === currentLevel + 1
-  );
+  const getNextLevelReward = () => {
+    // 현재 레벨보다 큰 보상 중 가장 가까운 것 찾기
+    const availableRewards = levelRewards.filter(
+      (reward) => reward.level > currentLevel
+    );
+    return availableRewards.length > 0 ? availableRewards[0] : null;
+  };
+
+  const nextLevelReward = getNextLevelReward();
 
   return (
     <div className="flex flex-col gap-4 w-full">
