@@ -73,7 +73,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/inventory" && (
             <motion.p
-              className="absolute bottom-2"
+              className="absolute bottom-0"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -130,7 +130,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/reward" && (
             <motion.p
-              className="absolute bottom-2"
+              className="absolute bottom-0"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -187,7 +187,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/dice-event" && (
             <motion.p
-              className="absolute bottom-2"
+              className="absolute bottom-0"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -244,7 +244,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/mission" && (
             <motion.p
-              className="absolute bottom-2"
+              className="absolute bottom-0"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -301,7 +301,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/my-assets" && (
             <motion.p
-              className="absolute bottom-2"
+              className="absolute bottom-0"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
