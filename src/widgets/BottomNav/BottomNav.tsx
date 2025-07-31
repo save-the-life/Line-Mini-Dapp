@@ -14,7 +14,7 @@ interface BottomNavigationProps {
   hidden?: boolean;
 }
 
-const BottomNavigation: React.FC<BottomNavigationProps> = ({hidden}) => {
+const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
   const { selected, setSelected } = useNavigationStore();
   // 사운드 훅
   const { playSfx } = useSound();
@@ -27,9 +27,17 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({hidden}) => {
   return (
     <div
       id="bottomNav"
-      className={`fixed bottom-8 self-center rounded-full flex flex-row items-center justify-evenly bottomNav-bg h-16 w-80 font-medium text-[10px] bg-white shadow-lg z-40 ${hidden ? 'hidden' : ''}`}
-  
-   >
+      className={`fixed bottom-8 self-center rounded-full flex flex-row items-center justify-evenly bottomNav-bg h-16 w-80 font-medium text-[10px] shadow-lg z-40 ${
+        hidden ? "hidden" : ""
+      }`}
+      style={{
+        background: "rgba(255,255,255,0.65)",
+        borderRadius: 20,
+        boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+      }}
+    >
       <Link to="/AI-menu" onClick={() => handleNavigation("/AI-menu")}>
         <motion.div
           className={`flex flex-col items-center justify-center rounded-lg w-12 h-12 ${
@@ -50,8 +58,11 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({hidden}) => {
             }}
             transition={{ duration: 0.3 }}
           >
-            {  selected === "/AI-menu" ? <img src={Images.SeletedBottomBarAI} className="w-6 h-6" /> :  <img src={Images.BottomBarAI} className="w-6 h-6" /> }
-         
+            {selected === "/AI-menu" ? (
+              <img src={Images.SeletedBottomBarAI} className="w-6 h-6" />
+            ) : (
+              <img src={Images.BottomBarAI} className="w-6 h-6" />
+            )}
           </motion.div>
           {selected === "/AI-menu" && (
             <motion.p
@@ -64,7 +75,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({hidden}) => {
           )}
         </motion.div>
       </Link>
-   
+
       <Link to="/reward" onClick={() => handleNavigation("/reward")}>
         <motion.div
           className={`flex flex-col items-center justify-center rounded-lg w-12 h-12 ${

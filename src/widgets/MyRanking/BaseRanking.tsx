@@ -154,24 +154,15 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
           titleHidden ? "mt-0" : "mt-4"
         }`}
         style={{
-          fontFamily: "'ONE Mobile POP', sans-serif",
-          fontSize: "18px",
-          fontWeight: 400,
-          color: "#FFFFFF",
-          WebkitTextStroke: "1px #000000",
+          background: "rgba(255,255,255,0.65)",
+          borderRadius: 20,
+          boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
         }}
       >
         {/* Rank text & number */}
-        <div
-          className="relative w-[121px] h-full flex flex-col items-center justify-center gap-2"
-          style={{
-            background: "rgba(255,255,255,0.65)",
-            borderRadius: 20,
-            boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-          }}
-        >
+        <div className="relative w-[121px] h-full flex flex-col items-center justify-center gap-2">
           <p
             className="text-base font-semibold invisible"
             style={{
