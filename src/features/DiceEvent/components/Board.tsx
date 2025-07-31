@@ -62,7 +62,7 @@ const Board: React.FC<BoardProps> = ({
 
   return (
     <motion.div
-      className={`absolute z-80`}
+      className={`absolute z-50`}
       initial={{ x: initialX, y: initialY }}
       animate={{ x, y }}
       transition={{
