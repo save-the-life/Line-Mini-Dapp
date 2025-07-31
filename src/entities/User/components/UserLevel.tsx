@@ -172,8 +172,15 @@ const UserLevel: React.FC<{
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-center rounded-3xl w-[150px] h-[160px] ${levelClassName}`}
-      style={{ position: "relative" }}
+      className={`relative flex flex-col items-center justify-center rounded-3xl w-[150px] h-[160px]`}
+      style={{
+        position: "relative",
+        background: "rgba(255,255,255,0.65)",
+        borderRadius: 20,
+        boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+      }}
     >
       <Snowfall
         style={{ borderRadius: "24px" }}
