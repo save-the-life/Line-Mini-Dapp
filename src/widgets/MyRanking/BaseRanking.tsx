@@ -287,7 +287,15 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
               variants={scaleGlowImg}
               animate={starChanged ? "animate" : "initial"}
             />
-            <p>
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
               <CountUp start={0} end={starPoints} duration={1} separator="," />
             </p>
           </div>
@@ -299,7 +307,15 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
               variants={scaleGlowImg}
               animate={lotteryChanged ? "animate" : "initial"}
             />
-            <p>
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
               <CountUp
                 start={0}
                 end={lotteryCount}
@@ -316,7 +332,15 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
               variants={scaleGlowImg}
               animate={tokenChanged ? "animate" : "initial"}
             />
-            <p>
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
               <CountUp
                 start={0}
                 end={slToken}
