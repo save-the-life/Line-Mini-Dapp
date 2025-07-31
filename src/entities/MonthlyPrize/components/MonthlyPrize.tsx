@@ -40,19 +40,19 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
   const [showSnow, setShowSnow] = useState(false);
 
   // 10초 간격으로 2초 동안 눈이 내리고, 8초 쉬는 로직
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // 눈 내림 시작
-      setShowSnow(true);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     // 눈 내림 시작
+  //     setShowSnow(true);
 
-      // 3초 뒤 멈춤
-      setTimeout(() => {
-        setShowSnow(false);
-      }, 3000);
-    }, 30000);
+  //     // 3초 뒤 멈춤
+  //     setTimeout(() => {
+  //       setShowSnow(false);
+  //     }, 3000);
+  //   }, 30000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // 카운트다운 업데이트
   useEffect(() => {
@@ -103,44 +103,9 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
         overflow-visible gap-1 bg-neutral-900 
       "
     >
-      {/* AnimatePresence로 showSnow 토글 시 부드럽게 등장/사라짐 */}
-      <AnimatePresence>
-        {showSnow && (
-          <motion.div
-            key="snowfall"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }} // 1초 동안 서서히
-            style={{ position: 'absolute', width: '100%', height: '100%' }}
-          >
-            <Snowfall
-              snowflakeCount={20}
-              images={images}
-              wind={[-0.5, 0]}
-              radius={[10.0, 15.0]}
-              style={{
-                borderRadius: '24px',
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-              }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* -- 월 라벨 -- */}
-      <div
-        className="
-          absolute h-7 w-20 rounded-full border-2 border-[#FBDF86]
-          bg-white flex items-center justify-center text-xs
-          -top-4 text-black z-50 font-medium box-border
-          left-14 md:left-32
-        "
-      >
-        {/* {monthNames[month - 1]} */}
-        <p>3rd Round</p>
+      
+      <div className="flex flex-col items-center text-center">
+        <p className="font-semibold text-base text-center">이번 주 보상</p>
       </div>
 
       {/* 메인 상품 이미지 */}
@@ -158,40 +123,9 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
 
       {/* 상품 정보 */}
       <div className="flex flex-col items-center text-center">
-        <p className="font-semibold text-base text-center">{t("dice_event.monthly_rewards")}</p>
-        <p className="text-xs font-normal">(Approx. ${formatNumber(amount)})</p>
+        <p className="font-semibold text-base text-center">Toss Point</p>
+        <p className="text-xs font-normal">(총 100만원 상당당)</p>
       </div>
-
-      {/* 남은 기간 */}
-      <div className="text-[10px] font-light">{timeLeft}</div>
-
-      {/* 첫 번째 반짝이 */}
-      <motion.img
-        src={Images.GiveawayEffect}
-        alt="giveaway"
-        className="absolute w-32 z-30 -top-[20%] -right-[12%]
-                   md:right-[12%] md:-top-[10%]"
-        animate={{ opacity: [1, 0, 1], y: [0, -10, 0] }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
-      />
-
-      {/* 두 번째 반짝이 */}
-      <motion.img
-        src={Images.GiveawayEffect}
-        alt="giveaway"
-        className="absolute w-32 z-30 -bottom-[0%] -left-[12%]
-                   md:left-[12%] md:bottom-[12%]"
-        animate={{ opacity: [1, 0.2, 1], y: [0, 10, 0] }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
-      />
     </div>
   );
 };
