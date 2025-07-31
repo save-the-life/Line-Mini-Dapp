@@ -70,7 +70,17 @@ const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
         >
           다음 레벨 보상
         </h2>
-        <div className="bg-[#1F1E27] border-2 border-[#35383F] flex flex-col p-5 rounded-3xl">
+        <div
+          className="flex flex-col p-5 rounded-3xl"
+          style={{
+            backgroundColor: "#005EAA80",
+            borderRadius: "20px",
+            padding: "20px",
+            boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+          }}
+        >
           {nextLevelReward ? (
             <div className="flex flex-row justify-center items-center">
               <div className="w-20 h-20 bg-gradient-to-b from-[#2660f4] to-[#3937a3] rounded-2xl flex items-center justify-center">
@@ -107,7 +117,17 @@ const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
       </h2>
 
       {/* 레벨별 보상 섹션 */}
-      <div className="bg-[#1F1E27] border-2 border-[#35383F] flex flex-col p-5 rounded-3xl gap-4">
+      <div
+        className="flex flex-col p-5 rounded-3xl gap-4"
+        style={{
+          backgroundColor: "#005EAA80",
+          borderRadius: "20px",
+          padding: "20px",
+          boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+        }}
+      >
         {levelRewards.map((reward) => (
           <div key={reward.level} className="flex flex-col gap-4">
             <div className="flex flex-row items-center gap-2 ">
