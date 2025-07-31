@@ -264,16 +264,27 @@ const UserLevel: React.FC<{
       </div>
 
       <div className="flex flex-row items-center w-full px-4 gap-2">
-        <p className="font-semibold text-[8px] md:text-xs">Lv.{userLv}</p>
-        <div className="flex flex-row border border-[#F59E0B] rounded-full w-full h-2 relative overflow-hidden">
+        <p
+          className="font-semibold text-[8px] md:text-xs"
+          style={{
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "12px",
+            fontWeight: 400,
+            color: "#FFFFFF",
+            WebkitTextStroke: "1px #000000",
+          }}
+        >
+          Lv.{userLv}
+        </p>
+        <div
+          className="flex flex-row border rounded-full relative overflow-hidden"
+          style={{
+            borderColor: "#001D60BF",
+            width: "84px",
+            height: "14px",
+          }}
+        >
           {[...Array(100)].map((_, i) => {
-            let barColor = "";
-            if (i < 20) barColor = "#DD2726";
-            else if (i < 40) barColor = "#F59E0B";
-            else if (i < 60) barColor = "#FACC15";
-            else if (i < 80) barColor = "#22C55E";
-            else barColor = "#0147E5";
-
             return (
               <div
                 key={i}
@@ -281,7 +292,7 @@ const UserLevel: React.FC<{
                   i === 99 ? "rounded-r-full" : ""
                 }`}
                 style={{
-                  backgroundColor: i < roundedExp ? barColor : "transparent",
+                  backgroundColor: i < roundedExp ? "#64FF56" : "#001D60BF",
                 }}
               ></div>
             );
