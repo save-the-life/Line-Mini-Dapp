@@ -195,7 +195,10 @@ const UserLevel: React.FC<{
           alt="Alert"
           className="w-[30px] h-[30px] cursor-pointer"
           style={{ width: "20px", height: "20px" }}
-          onClick={onAlertClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAlertClick?.();
+          }}
         />
       </div>
 
