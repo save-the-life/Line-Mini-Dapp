@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Images from '@/shared/assets/images';
-import { formatNumber } from '@/shared/utils/formatNumber';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Images from "@/shared/assets/images";
+import { formatNumber } from "@/shared/utils/formatNumber";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useNavigationStore } from '@/shared/store/navigationStore';
-import { Snowfall } from 'react-snowfall';
+import { useNavigationStore } from "@/shared/store/navigationStore";
+import { Snowfall } from "react-snowfall";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 
 interface MonthlyPrizeProps {
-  month: number;            
-  prizeType: string;        
-  amount: number;           
-  eventFinishTime: string;  
+  month: number;
+  prizeType: string;
+  amount: number;
+  eventFinishTime: string;
 }
 
 const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
@@ -29,12 +29,22 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
 
   // 월 이름 배열
   const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   // 남은 시간 표시용 state
-  const [timeLeft, setTimeLeft] = useState('');
+  const [timeLeft, setTimeLeft] = useState("");
 
   // "눈 표시 여부" 관리
   const [showSnow, setShowSnow] = useState(false);
@@ -62,7 +72,7 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
       const now = Date.now();
       const distance = endDate.getTime() - now;
       if (distance < 0) {
-        setTimeLeft('Event has ended');
+        setTimeLeft("Event has ended");
         return;
       }
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -80,9 +90,9 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
   // 클릭 -> /reward
   const handleRankingClick = () => {
     playSfx(Audios.button_click);
-    setSelected('/reward');
-    if (window.location.pathname !== '/reward') {
-      navigate('/reward');
+    setSelected("/reward");
+    if (window.location.pathname !== "/reward") {
+      navigate("/reward");
     }
   };
 
@@ -96,17 +106,26 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
   return (
     <div
       onClick={handleRankingClick}
-      className="
-        relative z-10 flex flex-col items-center justify-center
-        w-[210px] h-[160px] md:w-[340px] md:h-44
-        text-white border-2 border-[#BBA361] rounded-3xl
-        overflow-visible bg-neutral-900 
-      "
+      // className="
+      //   relative z-10 flex flex-col items-center justify-center
+      //   w-[210px] h-[160px] md:w-[340px] md:h-44
+      //   text-white border-2 border-[#BBA361] rounded-3xl
+      //   overflow-visible bg-neutral-900
+      // "
+      className="flex items-center justify-center relative"
+      style={{
+        width: "210px",
+        height: "160px",
+        background: "rgba(255,255,255,0.65)",
+        borderRadius: 20,
+        boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+      }}
     >
-      
       {/* 상단 텍스트 - 위치 조정 */}
       <div className="flex flex-col items-center text-center mt-1">
-        <p 
+        <p
           className="text-center"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
@@ -114,8 +133,9 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
             fontWeight: 400,
             color: "#FFFFFF",
             WebkitTextStroke: "1px #000000",
-          }}>
-            이번 주 보상
+          }}
+        >
+          이번 주 보상
         </p>
       </div>
 
@@ -128,17 +148,18 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
 
       {/* 상품 정보 - 위치 조정 */}
       <div className="flex flex-col items-center text-center -mt-4">
-        <p 
+        <p
           className="text-center"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "18px",
             fontWeight: 400,
             color: "#0147E5",
-          }}>
+          }}
+        >
           Toss Point
         </p>
-        <p 
+        <p
           className="text-center"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
@@ -146,7 +167,8 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
             fontWeight: 400,
             color: "#FFFFFF",
             WebkitTextStroke: "1px #000000",
-          }}>
+          }}
+        >
           (총 100만원 상당)
         </p>
       </div>
