@@ -61,7 +61,7 @@ const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
       {/* 다음 레벨 보상 섹션 */}
       <div className="flex flex-col gap-2">
         <h2
-          className="text-white font-bold"
+          className="text-white font-bold text-center"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "18px",
@@ -106,7 +106,7 @@ const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
 
       {/* 보상을 획득하세요! 섹션 */}
       <h2
-        className="text-white font-bold"
+        className="text-white font-bold text-center"
         style={{
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "18px",

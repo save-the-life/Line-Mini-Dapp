@@ -518,8 +518,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
       />
       {/* 그리드(타일들) */}
       <div
-        className="grid grid-cols-6 grid-rows-6 gap-0 text-xs relative z-30"
-        style={{ width: 360, height: 360 }}
+        className="grid grid-cols-6 grid-rows-6 gap-0 text-xs relative z-50"
+        style={{
+          width: "300px",
+          height: "300px",
+          maxWidth: "100%",
+          maxHeight: "100%",
+        }}
       >
         {/* 에러 메시지 표시 */}
         {error && (
