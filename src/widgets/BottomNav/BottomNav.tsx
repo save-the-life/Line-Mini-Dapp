@@ -61,6 +61,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
             className="flex items-center justify-center relative z-10"
             animate={{
               scale: selected === "/inventory" ? 1 : 1,
+              y: selected === "/inventory" ? -8 : 0,
             }}
             transition={{ duration: 0.3 }}
           >
@@ -72,7 +73,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/inventory" && (
             <motion.p
-              className="absolute -bottom-6"
+              className="absolute bottom-1"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -117,6 +118,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
             className="flex items-center justify-center relative z-10"
             animate={{
               scale: selected === "/reward" ? 1 : 1,
+              y: selected === "/reward" ? -8 : 0,
             }}
             transition={{ duration: 0.3 }}
           >
@@ -128,7 +130,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/reward" && (
             <motion.p
-              className="absolute -bottom-6"
+              className="absolute bottom-1"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -173,6 +175,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
             className="flex items-center justify-center relative z-10"
             animate={{
               scale: selected === "/dice-event" ? 1 : 1,
+              y: selected === "/dice-event" ? -8 : 0,
             }}
             transition={{ duration: 0.3 }}
           >
@@ -184,7 +187,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/dice-event" && (
             <motion.p
-              className="absolute -bottom-6"
+              className="absolute bottom-1"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -229,6 +232,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
             className="flex items-center justify-center relative z-10"
             animate={{
               scale: selected === "/mission" ? 1 : 1,
+              y: selected === "/mission" ? -8 : 0,
             }}
             transition={{ duration: 0.3 }}
           >
@@ -240,7 +244,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/mission" && (
             <motion.p
-              className="absolute -bottom-6"
+              className="absolute bottom-1"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
@@ -285,6 +289,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
             className="flex items-center justify-center relative z-10"
             animate={{
               scale: selected === "/my-assets" ? 1 : 1,
+              y: selected === "/my-assets" ? -8 : 0,
             }}
             transition={{ duration: 0.3 }}
           >
@@ -296,7 +301,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
           </motion.div>
           {selected === "/my-assets" && (
             <motion.p
-              className="absolute -bottom-6"
+              className="absolute bottom-1"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "12px",
