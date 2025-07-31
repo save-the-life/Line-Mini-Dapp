@@ -1,38 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Snowfall } from 'react-snowfall';
-import Images from '@/shared/assets/images';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Snowfall } from "react-snowfall";
+import Images from "@/shared/assets/images";
 import { useTranslation } from "react-i18next";
 
 // 아이템 타입 정의
-type ItemType = 'balloon' | 'crown' | 'muffler' | 'ribbon' | 'sunglasses' | 'wing';
+type ItemType =
+  | "balloon"
+  | "crown"
+  | "muffler"
+  | "ribbon"
+  | "sunglasses"
+  | "wing";
 
 const UserLevel: React.FC<{
   userLv: number;
   charactorImageSrc: string;
   exp: number;
-  characterType?: 'cat' | 'dog';
+  characterType?: "cat" | "dog";
   equippedItems?: ItemType[];
   onAlertClick?: () => void;
-}> = ({ userLv, charactorImageSrc, exp, characterType = 'cat', equippedItems = [], onAlertClick }) => {
-  let levelClassName = '';
-  let mainColor = '';
+}> = ({
+  userLv,
+  charactorImageSrc,
+  exp,
+  characterType = "cat",
+  equippedItems = [],
+  onAlertClick,
+}) => {
+  let levelClassName = "";
+  let mainColor = "";
 
   if (userLv >= 1 && userLv <= 4) {
-    levelClassName = 'lv1to4-box';
-    mainColor = '#dd2726';
+    levelClassName = "lv1to4-box";
+    mainColor = "#dd2726";
   } else if (userLv >= 5 && userLv <= 8) {
-    levelClassName = 'lv5to8-box';
-    mainColor = '#f59e0b';
+    levelClassName = "lv5to8-box";
+    mainColor = "#f59e0b";
   } else if (userLv >= 9 && userLv <= 12) {
-    levelClassName = 'lv9to12-box';
-    mainColor = '#facc15';
+    levelClassName = "lv9to12-box";
+    mainColor = "#facc15";
   } else if (userLv >= 13 && userLv <= 16) {
-    levelClassName = 'lv13to16-box';
-    mainColor = '#22c55e';
+    levelClassName = "lv13to16-box";
+    mainColor = "#22c55e";
   } else if (userLv >= 17 && userLv <= 20) {
-    levelClassName = 'lv17to20-box';
-    mainColor = '#0147e5';
+    levelClassName = "lv17to20-box";
+    mainColor = "#0147e5";
   }
 
   // 레벨에 따른 캐릭터 이미지 선택 로직 (DiceEvent와 동일)
@@ -95,7 +108,7 @@ const UserLevel: React.FC<{
     t("user_level.message_3"),
     t("user_level.message_4"),
     t("user_level.message_5"),
-    t("user_level.message_6")
+    t("user_level.message_6"),
   ];
 
   const [currentMsgIndex, setCurrentMsgIndex] = useState(0);
@@ -104,31 +117,31 @@ const UserLevel: React.FC<{
   useEffect(() => {
     let showTimer: NodeJS.Timeout;
     let hideTimer: NodeJS.Timeout;
-  
+
     const startCycle = () => {
       const randomIndex = Math.floor(Math.random() * messages.length);
       setCurrentMsgIndex(randomIndex);
       setVisible(true);
-  
+
       hideTimer = setTimeout(() => {
         setVisible(false);
       }, 3000);
-  
+
       // 12초 후 다음 메시지
       showTimer = setTimeout(() => {
         startCycle();
       }, 12000);
     };
-  
+
     startCycle();
-  
+
     return () => {
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
     };
   }, [messages.length]);
 
-  const currentMessageParts = messages[currentMsgIndex].split('<br/>');
+  const currentMessageParts = messages[currentMsgIndex].split("<br/>");
 
   // 현재 날짜 기준 계절 구분
   const month = new Date().getMonth() + 1; // 1~12
@@ -159,22 +172,26 @@ const UserLevel: React.FC<{
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-center rounded-3xl w-32 h-36 md:w-[240px] md:h-44 ${levelClassName}`}
-      style={{ position: 'relative' }}
+      className={`relative flex flex-col items-center justify-center rounded-3xl w-[150px] h-[160px] ${levelClassName}`}
+      style={{ position: "relative" }}
     >
-      <Snowfall style={{ borderRadius:"24px" }} snowflakeCount={10} images={images} />
-      
+      <Snowfall
+        style={{ borderRadius: "24px" }}
+        snowflakeCount={10}
+        images={images}
+      />
+
       {/* AlertIcon - 좌측 상단 */}
       <div className="absolute top-[15px] left-[15px] z-50">
         <img
           src={Images.AlertIcon}
           alt="Alert"
           className="w-5 h-5 cursor-pointer"
-          style={{ width: '20px', height: '20px' }}
+          style={{ width: "20px", height: "20px" }}
           onClick={onAlertClick}
         />
       </div>
-      
+
       {/* 말풍선 + 문구 */}
       <div className="absolute top-1 right-1 flex justify-end w-full px-1 z-50">
         <AnimatePresence>
@@ -187,11 +204,11 @@ const UserLevel: React.FC<{
               transition={{ duration: 0.5 }}
               className="relative px-2 py-1 rounded-2xl shadow-lg font-semibold text-[10px]"
               style={{
-                background: '#fff',
-                color: '#333',
-                textAlign: 'center',
+                background: "#fff",
+                color: "#333",
+                textAlign: "center",
                 zIndex: 50,
-                overflow: 'visible',
+                overflow: "visible",
               }}
             >
               {currentMessageParts.map((part, index) => (
@@ -202,16 +219,16 @@ const UserLevel: React.FC<{
               ))}
               <div
                 style={{
-                  content: '',
-                  position: 'absolute' as const,
-                  bottom: '-3px',
-                  left: '30%',
-                  transform: 'translateX(-50%)',
+                  content: "",
+                  position: "absolute" as const,
+                  bottom: "-3px",
+                  left: "30%",
+                  transform: "translateX(-50%)",
                   width: 0,
                   height: 0,
-                  borderLeft: '6px solid transparent',
-                  borderRight: '6px solid transparent',
-                  borderTop: '6px solid #fff',
+                  borderLeft: "6px solid transparent",
+                  borderRight: "6px solid transparent",
+                  borderTop: "6px solid #fff",
                 }}
               ></div>
             </motion.div>
@@ -227,7 +244,7 @@ const UserLevel: React.FC<{
           className="w-24 h-24 md:w-32 md:h-32 z-20"
           alt={`Character Level ${userLv}`}
         />
-        
+
         {/* 장착된 아이템들을 기본 캐릭터 위에 겹쳐서 표시 */}
         {equippedItems.map((itemType, index) => (
           <img
@@ -243,18 +260,22 @@ const UserLevel: React.FC<{
         <p className="font-semibold text-[8px] md:text-xs">Lv.{userLv}</p>
         <div className="flex flex-row border border-[#F59E0B] rounded-full w-full h-2 relative overflow-hidden">
           {[...Array(100)].map((_, i) => {
-            let barColor = '';
-            if (i < 20) barColor = '#DD2726';
-            else if (i < 40) barColor = '#F59E0B';
-            else if (i < 60) barColor = '#FACC15';
-            else if (i < 80) barColor = '#22C55E';
-            else barColor = '#0147E5';
+            let barColor = "";
+            if (i < 20) barColor = "#DD2726";
+            else if (i < 40) barColor = "#F59E0B";
+            else if (i < 60) barColor = "#FACC15";
+            else if (i < 80) barColor = "#22C55E";
+            else barColor = "#0147E5";
 
             return (
               <div
                 key={i}
-                className={`w-[1%] ${i === 0 ? 'rounded-l-full' : ''} ${i === 99 ? 'rounded-r-full' : ''}`}
-                style={{ backgroundColor: i < roundedExp ? barColor : 'transparent' }}
+                className={`w-[1%] ${i === 0 ? "rounded-l-full" : ""} ${
+                  i === 99 ? "rounded-r-full" : ""
+                }`}
+                style={{
+                  backgroundColor: i < roundedExp ? barColor : "transparent",
+                }}
               ></div>
             );
           })}

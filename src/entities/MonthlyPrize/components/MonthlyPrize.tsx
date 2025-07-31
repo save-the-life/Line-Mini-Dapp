@@ -112,7 +112,7 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
       //   text-white border-2 border-[#BBA361] rounded-3xl
       //   overflow-visible bg-neutral-900
       // "
-      className="flex items-center justify-center relative"
+      className="z-10 flex flex-col items-center justify-center relative"
       style={{
         width: "210px",
         height: "160px",
