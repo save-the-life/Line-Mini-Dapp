@@ -141,12 +141,26 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
     <div
       className={`flex flex-col items-center justify-center text-white cursor-pointer w-full ${className}`}
       role="button"
+      style={{
+        background: "rgba(255,255,255,0.65)",
+        borderRadius: 20,
+        boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+      }}
     >
       {/* Title */}
       <h1
         className={`font-jalnan text-3xl ${titleHidden ? "hidden" : "block"}`}
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "18px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
       >
-        {t("dice_event.my_rank")}
+        나의 랭킹
       </h1>
 
       <div
@@ -156,8 +170,17 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
       >
         {/* Rank text & number */}
         <div className="relative w-[121px] h-full flex flex-col items-center justify-center gap-2">
-          <p className="text-base font-semibold invisible">
-            {t("dice_event.my_rank")}
+          <p
+            className="text-base font-semibold invisible"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            나의 랭킹
           </p>
           <div className="absolute top-[18%] md:top-[24%] w-full flex items-center justify-center">
             <AnimatePresence mode="wait">
