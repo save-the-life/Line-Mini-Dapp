@@ -152,13 +152,6 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
       {/* Title */}
       <h1
         className={`font-jalnan text-3xl ${titleHidden ? "hidden" : "block"}`}
-        style={{
-          fontFamily: "'ONE Mobile POP', sans-serif",
-          fontSize: "18px",
-          fontWeight: 400,
-          color: "#FFFFFF",
-          WebkitTextStroke: "1px #000000",
-        }}
       >
         나의 랭킹
       </h1>
@@ -167,6 +160,13 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
         className={`bg-box px-8 w-full h-24 md:h-32 flex font-semibold ${
           titleHidden ? "mt-0" : "mt-4"
         }`}
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "18px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
       >
         {/* Rank text & number */}
         <div className="relative w-[121px] h-full flex flex-col items-center justify-center gap-2">
@@ -192,6 +192,13 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
                   animate="animate"
                   exit="exit"
                   className="text-base font-semibold"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "18px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
                 >
                   {t("dice_event.my_rank")}
                 </motion.p>
@@ -204,6 +211,13 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
                   animate="animate"
                   exit="exit"
                   className="font-jalnan text-[#22C55E]"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "18px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
                 >
                   Rank Up!
                 </motion.p>
@@ -216,6 +230,13 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
                   animate="animate"
                   exit="exit"
                   className="font-jalnan text-[#DD2726]"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "18px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
                 >
                   Rank Down!
                 </motion.p>
@@ -225,9 +246,13 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
           <motion.p
             variants={scaleGlow}
             animate={rankChanged ? "animate" : "initial"}
-            className={`${
-              rank > 9999 ? "text-xl" : "text-2xl"
-            } text-[#fde047] font-jalnan`}
+            className={`${rank > 9999 ? "text-xl" : "text-2xl"} `}
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontWeight: 400,
+              color: "#fde047",
+              WebkitTextStroke: "1px #000000",
+            }}
           >
             <CountUp start={0} end={rank} duration={1} separator="," />
           </motion.p>
