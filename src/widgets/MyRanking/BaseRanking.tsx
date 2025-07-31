@@ -249,7 +249,7 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
 
         {/* Separator */}
         <div className="w-[1px] h-full mx-6 flex items-center">
-          <div className="bg-white h-16 w-full" />
+          <div className="bg-[#737373] h-16 w-full" />
         </div>
 
         {/* Star, Ticket, Token */}
