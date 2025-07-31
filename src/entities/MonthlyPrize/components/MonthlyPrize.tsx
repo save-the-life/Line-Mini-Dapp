@@ -100,16 +100,17 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
         relative z-10 flex flex-col items-center justify-center
         w-[210px] h-[160px] md:w-[340px] md:h-44
         text-white border-2 border-[#BBA361] rounded-3xl
-        overflow-visible gap-1 bg-neutral-900 
+        overflow-visible bg-neutral-900 
       "
     >
       
-      <div className="flex flex-col items-center text-center">
+      {/* 상단 텍스트 - 더 작은 마진으로 조정 */}
+      <div className="flex flex-col items-center text-center mt-2">
         <p 
           className="text-center"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
-            fontSize: "18px",
+            fontSize: "16px",
             fontWeight: 400,
             color: "#FFFFFF",
             WebkitTextStroke: "1px #000000",
@@ -118,20 +119,20 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
         </p>
       </div>
 
-      {/* 메인 상품 이미지 */}
+      {/* 메인 상품 이미지 - 크기 조정 및 위치 조정 */}
       <motion.img
         src={Images.Prizes}
         alt="token logo"
-        className="w-[150px] -mt-2"
+        className="w-[120px] md:w-[150px] -mt-1"
       />
 
-      {/* 상품 정보 */}
-      <div className="flex flex-col items-center text-center">
+      {/* 상품 정보 - 더 컴팩트하게 배치 */}
+      <div className="flex flex-col items-center text-center -mt-2">
         <p 
           className="text-center"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
-            fontSize: "18px",
+            fontSize: "16px",
             fontWeight: 400,
             color: "#0147E5",
           }}>
@@ -141,12 +142,12 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
           className="text-center"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
-            fontSize: "12px",
+            fontSize: "10px",
             fontWeight: 400,
             color: "#FFFFFF",
             WebkitTextStroke: "1px #000000",
           }}>
-          (총 100만원 상당당)
+          (총 100만원 상당)
         </p>
       </div>
     </div>
