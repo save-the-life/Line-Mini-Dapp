@@ -70,6 +70,23 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
               style={{ width: "40px", height: "40px" }}
             />
           </motion.div>
+          {selected === "/inventory" && (
+            <motion.p
+              className="absolute -bottom-6"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              인벤토리
+            </motion.p>
+          )}
         </motion.div>
       </Link>
 
@@ -109,6 +126,23 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
               style={{ width: "40px", height: "40px" }}
             />
           </motion.div>
+          {selected === "/reward" && (
+            <motion.p
+              className="absolute -bottom-6"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              리워드
+            </motion.p>
+          )}
         </motion.div>
       </Link>
 
@@ -148,6 +182,23 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
               style={{ width: "40px", height: "40px" }}
             />
           </motion.div>
+          {selected === "/dice-event" && (
+            <motion.p
+              className="absolute -bottom-6"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              게임
+            </motion.p>
+          )}
         </motion.div>
       </Link>
 
@@ -187,6 +238,23 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
               style={{ width: "40px", height: "40px" }}
             />
           </motion.div>
+          {selected === "/mission" && (
+            <motion.p
+              className="absolute -bottom-6"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              미션
+            </motion.p>
+          )}
         </motion.div>
       </Link>
 
@@ -226,6 +294,23 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
               style={{ width: "40px", height: "40px" }}
             />
           </motion.div>
+          {selected === "/my-assets" && (
+            <motion.p
+              className="absolute -bottom-6"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "12px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              에셋
+            </motion.p>
+          )}
         </motion.div>
       </Link>
     </div>
