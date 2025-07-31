@@ -507,7 +507,7 @@ const DiceEventPage: React.FC = () => {
           />
           <br />
 
-          {/* 래플박스, 다이아박스 아이콘 */}
+          {/* 랜덤박스스 아이콘 */}
           <div className="w-full max-w-[332px] md:max-w-full flex justify-center">
             <div
               style={{
@@ -519,76 +519,49 @@ const DiceEventPage: React.FC = () => {
                 margin: "0 0 8px 0",
               }}
             >
-              {[
-                {
-                  key: "raffle",
-                  label: "Raffle Box",
-                  image: Images.GoldRandomBox,
-                  onClick: () => setShowRaffleBoxModal(true),
-                },
-                {
-                  key: "diamond",
-                  label: "Diamond Box",
-                  image: Images.DiamondRandomBox,
-                  onClick: () => alert("다이아 박스 팝업 예정"),
-                },
-              ].map((btn) => (
-                <div
-                  key={btn.key}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <button
+                  onClick={() => setShowRaffleBoxModal(true)}
                   style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: "20px",
+                    background: "rgba(255,255,255,0.65)",
+                    boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
                     display: "flex",
-                    flexDirection: "column",
                     alignItems: "center",
+                    justifyContent: "center",
+                    padding: 0,
+                    marginBottom: 2,
                   }}
                 >
-                  <button
-                    onClick={btn.onClick}
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: "50%",
-                      background:
-                        btn.key === "raffle"
-                          ? "linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)"
-                          : btn.key === "diamond"
-                          ? "linear-gradient(180deg, #FDE047 0%, #FFFFFF 100%)"
-                          : "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                      padding: 0,
-                      marginBottom: 2,
-                    }}
-                  >
-                    <img
-                      src={btn.image}
-                      alt={btn.label}
-                      style={{ width: 40, height: 40, objectFit: "contain" }}
-                    />
-                  </button>
-                  <div
-                    style={{
-                      width: 50,
-                      height: 14,
-                      background: "#FAF0E7",
-                      borderRadius: 5,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 8,
-                      fontWeight: 600,
-                      color: "#511C0B",
-                      marginTop: 0,
-                      position: "relative",
-                      top: -7,
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-                    }}
-                  >
-                    {btn.label}
-                  </div>
-                </div>
-              ))}
+                  <img
+                    src={Images.RandomBox}
+                    alt="Random Box"
+                    style={{ width: 40, height: 40, objectFit: "contain" }}
+                  />
+                </button>
+                <p
+                  className="text-center mt-1"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #2A294E",
+                  }}
+                >
+                  랜덤 박스
+                </p>
+              </div>
             </div>
           </div>
 

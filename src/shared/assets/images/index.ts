@@ -269,6 +269,7 @@ import RefillDice from "./refill-dice.png"
 import RollDice from "./roll-dice.png"
 import Prizes from "./prizes.png"
 import InfoButton from "./info-button.png"
+import RandomBox from "./random-box.png"
 
 
 const Images = {
@@ -541,7 +542,8 @@ const Images = {
   RefillDice,
   RollDice,
   Prizes,
-  InfoButton
+  InfoButton,
+  RandomBox
 };
 
 export default Images;
