@@ -25,8 +25,17 @@ const levelRewards: LevelReward[] = [
   { level: 20, dice: 500, points: 100000, tickets: 100, bgColor: "#0147E5" },
 ];
 
-const LevelRewards: React.FC = () => {
+interface LevelRewardsProps {
+  currentLevel?: number;
+}
+
+const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
   const { t } = useTranslation();
+
+  // 다음 레벨 보상 찾기
+  const nextLevelReward = levelRewards.find(
+    (reward) => reward.level === currentLevel + 1
+  );
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -43,6 +52,55 @@ const LevelRewards: React.FC = () => {
         레벨 보상
       </h1>
 
+      {/* 다음 레벨 보상 섹션 */}
+      <div className="flex flex-col gap-2">
+        <h2
+          className="text-white font-bold"
+          style={{
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "18px",
+            fontWeight: 400,
+          }}
+        >
+          다음 레벨 보상
+        </h2>
+        <div className="bg-[#1F1E27] border-2 border-[#35383F] flex flex-col p-5 rounded-3xl">
+          {nextLevelReward ? (
+            <div className="flex flex-row justify-center items-center">
+              <div className="w-20 h-20 bg-gradient-to-b from-[#2660f4] to-[#3937a3] rounded-2xl flex items-center justify-center">
+                <div className="flex-col gap-1 w-[76px] h-[76px] logo-bg rounded-2xl flex items-center justify-center">
+                  <img
+                    src={Images.Star}
+                    className="w-8 h-8"
+                    alt="Points Reward"
+                  />
+                  <p className="text-xs">
+                    +{formatNumber(nextLevelReward.points)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-row justify-center items-center">
+              <p className="text-white text-sm">최고 레벨에 도달했습니다!</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* 보상을 획득하세요! 섹션 */}
+      <h2
+        className="text-white font-bold"
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "18px",
+          fontWeight: 400,
+        }}
+      >
+        보상을 획득하세요!
+      </h2>
+
+      {/* 레벨별 보상 섹션 */}
       <div className="bg-[#1F1E27] border-2 border-[#35383F] flex flex-col p-5 rounded-3xl gap-4">
         {levelRewards.map((reward) => (
           <div key={reward.level} className="flex flex-col gap-4">

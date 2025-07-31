@@ -609,7 +609,7 @@ const DiceEventPage: React.FC = () => {
               }}
             >
               <DialogTitle className="sr-only">레벨별 보상</DialogTitle>
-              <LevelRewards />
+              <LevelRewards currentLevel={userLv} />
             </DialogContent>
           </Dialog>
 
