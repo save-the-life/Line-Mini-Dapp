@@ -51,6 +51,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
                 borderRadius: "76px",
                 backgroundColor: "#005EAA80",
                 zIndex: 0,
+                boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
               }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
@@ -108,6 +111,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
                 borderRadius: "76px",
                 backgroundColor: "#005EAA80",
                 zIndex: 0,
+                boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
               }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
@@ -165,6 +171,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
                 borderRadius: "76px",
                 backgroundColor: "#005EAA80",
                 zIndex: 0,
+                boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
               }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
@@ -222,6 +231,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
                 borderRadius: "76px",
                 backgroundColor: "#005EAA80",
                 zIndex: 0,
+                boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
               }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
@@ -279,6 +291,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ hidden }) => {
                 borderRadius: "76px",
                 backgroundColor: "#005EAA80",
                 zIndex: 0,
+                boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
               }}
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
