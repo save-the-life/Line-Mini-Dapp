@@ -602,7 +602,13 @@ const DiceEventPage: React.FC = () => {
             open={showLevelRewardsDialog}
             onOpenChange={setShowLevelRewardsDialog}
           >
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+            <DialogContent
+              className="border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]"
+              style={{
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              }}
+            >
+              <DialogTitle className="sr-only">레벨별 보상</DialogTitle>
               <LevelRewards />
             </DialogContent>
           </Dialog>
