@@ -520,8 +520,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
       <div
         className="grid grid-cols-6 grid-rows-6 gap-0 text-xs relative z-50"
         style={{
-          width: "300px",
-          height: "300px",
+          width: "360px",
+          height: "360px",
           maxWidth: "100%",
           maxHeight: "100%",
         }}
