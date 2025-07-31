@@ -191,9 +191,9 @@ const UserLevel: React.FC<{
       {/* AlertIcon - 좌측 상단 */}
       <div className="absolute top-[15px] left-[15px] z-50">
         <img
-          src={Images.AlertIcon}
+          src={Images.InfoButton}
           alt="Alert"
-          className="w-5 h-5 cursor-pointer"
+          className="w-[30px] h-[30px] cursor-pointer"
           style={{ width: "20px", height: "20px" }}
           onClick={onAlertClick}
         />

@@ -268,6 +268,7 @@ import HomeIcon from "./home-icon.png"
 import RefillDice from "./refill-dice.png"
 import RollDice from "./roll-dice.png"
 import Prizes from "./prizes.png"
+import InfoButton from "./info-button.png"
 
 
 const Images = {
@@ -539,7 +540,8 @@ const Images = {
   HomeIcon,
   RefillDice,
   RollDice,
-  Prizes
+  Prizes,
+  InfoButton
 };
 
 export default Images;
