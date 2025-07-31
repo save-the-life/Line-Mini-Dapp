@@ -66,6 +66,7 @@ const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "18px",
             fontWeight: 400,
+            WebkitTextStroke: "1px #000000",
           }}
         >
           다음 레벨 보상
@@ -111,6 +112,7 @@ const LevelRewards: React.FC<LevelRewardsProps> = ({ currentLevel = 1 }) => {
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "18px",
           fontWeight: 400,
+          WebkitTextStroke: "1px #000000",
         }}
       >
         보상을 획득하세요!
