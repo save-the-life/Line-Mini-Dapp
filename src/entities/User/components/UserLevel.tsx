@@ -189,16 +189,19 @@ const UserLevel: React.FC<{
       />
 
       {/* AlertIcon - 좌측 상단 */}
-      <div className="absolute top-[15px] left-[15px] z-50">
+      <div
+        className="absolute top-[15px] left-[15px] z-50"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onAlertClick?.();
+        }}
+      >
         <img
           src={Images.InfoButton}
           alt="Alert"
           className="w-[30px] h-[30px] cursor-pointer"
           style={{ width: "20px", height: "20px" }}
-          onClick={(e) => {
-            e.stopPropagation();
-            onAlertClick?.();
-          }}
         />
       </div>
 

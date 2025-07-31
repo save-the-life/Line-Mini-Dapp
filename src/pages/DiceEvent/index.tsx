@@ -428,16 +428,33 @@ const DiceEventPage: React.FC = () => {
           <div className="w-full flex justify-center mb-4 mt-8 gap-[10px]">
             {/* 현재 캐릭터 레벨 및 AlertIcon 클릭 시 레벨 별 보상 다이얼로그 표시 */}
             <div
-              onClick={() =>
-                navigate("/inventory", { state: { charactorImageSrc } })
-              }
+              onClick={(e) => {
+                // AlertIcon 영역 클릭인지 확인 (좌측 상단 20x20 영역)
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const clickY = e.clientY - rect.top;
+
+                // AlertIcon은 좌측 상단 15px, 15px 위치에 20x20 크기
+                if (
+                  clickX >= 15 &&
+                  clickX <= 35 &&
+                  clickY >= 15 &&
+                  clickY <= 35
+                ) {
+                  // AlertIcon 영역 클릭이면 navigation 방지
+                  return;
+                }
+
+                // 다른 영역 클릭이면 inventory로 이동
+                // navigate("/inventory", { state: { charactorImageSrc } });
+              }}
               className="cursor-pointer"
               role="button"
               tabIndex={0}
               aria-label="Go to inventory"
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") navigate("/inventory");
-              }}
+              // onKeyDown={(e) => {
+              //   if (e.key === "Enter" || e.key === " ") navigate("/inventory");
+              // }}
             >
               <UserLevel
                 userLv={userLv}
