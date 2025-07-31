@@ -98,33 +98,56 @@ const MonthlyPrize: React.FC<MonthlyPrizeProps> = ({
       onClick={handleRankingClick}
       className="
         relative z-10 flex flex-col items-center justify-center
-        w-48 h-36 md:w-[340px] md:h-44
+        w-[210px] h-[160px] md:w-[340px] md:h-44
         text-white border-2 border-[#BBA361] rounded-3xl
         overflow-visible gap-1 bg-neutral-900 
       "
     >
       
       <div className="flex flex-col items-center text-center">
-        <p className="font-semibold text-base text-center">이번 주 보상</p>
+        <p 
+          className="text-center"
+          style={{
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "18px",
+            fontWeight: 400,
+            color: "#FFFFFF",
+            WebkitTextStroke: "1px #000000",
+          }}>
+            이번 주 보상
+        </p>
       </div>
 
       {/* 메인 상품 이미지 */}
       <motion.img
-        src={Images.PrizeImage}
+        src={Images.Prizes}
         alt="token logo"
-        className="h-14 mt-2"
-        animate={{ rotate: [0, 5, 0, -5, 0] }}
-        transition={{
-          duration: 2.5,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
+        className="w-[150px] -mt-2"
       />
 
       {/* 상품 정보 */}
       <div className="flex flex-col items-center text-center">
-        <p className="font-semibold text-base text-center">Toss Point</p>
-        <p className="text-xs font-normal">(총 100만원 상당당)</p>
+        <p 
+          className="text-center"
+          style={{
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "18px",
+            fontWeight: 400,
+            color: "#0147E5",
+          }}>
+          Toss Point
+        </p>
+        <p 
+          className="text-center"
+          style={{
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "12px",
+            fontWeight: 400,
+            color: "#FFFFFF",
+            WebkitTextStroke: "1px #000000",
+          }}>
+          (총 100만원 상당당)
+        </p>
       </div>
     </div>
   );
