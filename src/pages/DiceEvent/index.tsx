@@ -614,40 +614,107 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-          {/* 레벨 업 시 다이얼로그: 이전보다 레벨이 올라갔을 때만 표시 */}
-          <Dialog open={showLevelUpDialog}>
-            <DialogContent className=" bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]">
+                     {/* 레벨 업 시 다이얼로그: 이전보다 레벨이 올라갔을 때만 표시 */}
+           <Dialog open={showLevelUpDialog}>
+             <DialogContent 
+               className="border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]"
+               style={{
+                 background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+               }}
+             >
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
-                  <h1 className=" font-jalnan text-5xl text-[#FDE047]">
-                    {t("dice_event.level_up")}
+                  <h1 
+                    className="text-center"
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "30px",
+                      fontWeight: 400,
+                      color: "#FDE047",
+                      WebkitTextStroke: "2px #000000",
+                    }}>
+                    레벨 업
                   </h1>
-                  <img
-                    src={getLevelEffectImageSrc()}
-                    alt="levelupEffect"
-                    className=" w-36 h-36"
-                  />
+                  <div className="relative w-36 h-36">
+                    <img
+                      src={Images.LevelUpBase}
+                      alt="levelupEffect"
+                      className="w-36 h-36"
+                    />
+                    <div
+                       className="absolute inset-0 flex items-center justify-center"
+                       style={{
+                         fontFamily: "'ONE Mobile POP', sans-serif",
+                         fontSize: "40px",
+                         fontWeight: 400,
+                         background: "radial-gradient(circle, #FDE047 0%, #F56800 100%)",
+                         WebkitBackgroundClip: "text",
+                         WebkitTextFillColor: "transparent",
+                         backgroundClip: "text",
+                         WebkitTextStroke: "2px #000000",
+                         textAlign: "center",
+                         lineHeight: "1.2",
+                       }}
+                     >
+                       {userLv}
+                     </div>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-6">
-                  <p className="font-jalnan text-center">
-                    {t("dice_event.grap_prize")}
+                  <p 
+                    className="text-center"
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "18px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}>
+                    보상 받기
                   </p>
                   {currentReward && (
                     <div className="flex flex-row items-center gap-2">
-                      <div className="box-bg rounded-xl w-16 h-16 border-2 border-[#2660f4] flex flex-col items-center gap-2 justify-center ">
+                      <div 
+                        className="rounded-xl w-16 h-16 flex flex-col items-center gap-2 justify-center"
+                        style={{
+                          background: "rgba(194, 213, 232, 0.5)",
+                          border: "2px solid #B4CADA",
+                          boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+                          backdropFilter: "blur(10px)",
+                          WebkitBackdropFilter: "blur(10px)",
+                        }}
+                      >
                         <img src={Images.Dice} alt="dice" className="w-6 h-6" />
                         <p className=" font-semibold text-xs">
                           +{currentReward.dice}
                         </p>
                       </div>
-                      <div className="box-bg rounded-xl w-16 h-16 border-2 border-[#2660f4] flex flex-col items-center gap-2 justify-center ">
+                      <div 
+                        className="rounded-xl w-16 h-16 flex flex-col items-center gap-2 justify-center"
+                        style={{
+                          background: "rgba(194, 213, 232, 0.5)",
+                          border: "2px solid #B4CADA",
+                          boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+                          backdropFilter: "blur(10px)",
+                          WebkitBackdropFilter: "blur(10px)",
+                        }}
+                      >
                         <img src={Images.Star} alt="star" className="w-6 h-6" />
                         <p className=" font-semibold text-xs">
                           +{formatNumber(currentReward.points)}
                         </p>
                       </div>
                       {currentReward.tickets && (
-                        <div className="box-bg rounded-xl w-16 h-16 border-2 border-[#2660f4] flex flex-col items-center gap-2 justify-center ">
+                        <div 
+                          className="rounded-xl w-16 h-16 flex flex-col items-center gap-2 justify-center"
+                          style={{
+                            background: "rgba(194, 213, 232, 0.5)",
+                            border: "2px solid #B4CADA",
+                            boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+                            backdropFilter: "blur(10px)",
+                            WebkitBackdropFilter: "blur(10px)",
+                          }}
+                        >
                           <img
                             src={Images.LotteryTicket}
                             alt="rapple"
@@ -663,9 +730,18 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setShowLevelUpDialog(false)}
-                  className="bg-[#0147E5] font-medium rounded-full w-40 h-14"
+                  className="font-medium rounded-full w-40 h-14 text-white"
+                  style={{
+                    background: "linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)",
+                    border: "2px solid #FFD700",
+                    boxShadow: "0px 4px 8px rgba(255, 215, 0, 0.3)",
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "18px",
+                    fontWeight: 400,
+                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+                  }}
                 >
-                  {t("character_page.Continue")}
+                  확인
                 </button>
               </div>
             </DialogContent>

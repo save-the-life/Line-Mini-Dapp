@@ -275,6 +275,7 @@ import MenuMain from "./menu-main.png"
 import MenuMission from "./menu-mission.png"
 import MenuShop from "./menu-shop.png"
 import MenuReward from "./menu-reward.png"
+import LevelUpBase from "./levelup-base.png"
 
 
 const Images = {
@@ -554,6 +555,7 @@ const Images = {
   MenuMission,
   MenuShop,
   MenuReward,
+  LevelUpBase,
 };
 
 export default Images;
