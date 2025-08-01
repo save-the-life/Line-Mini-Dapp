@@ -673,7 +673,18 @@ const DiceEventPage: React.FC = () => {
                     보상 받기
                   </p>
                   {currentReward && (
-                    <div className="flex flex-row items-center gap-2">
+                    <div 
+                      className="flex flex-row items-center gap-2"
+                      style={{
+                        background: "rgba(194, 213, 232, 0.1)",
+                        border: "2px solid #B4CADA",
+                        borderRadius: "20px",
+                        padding: "16px",
+                        boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.1)",
+                        backdropFilter: "blur(15px)",
+                        WebkitBackdropFilter: "blur(15px)",
+                      }}
+                    >
                       <div 
                         className="rounded-xl w-16 h-16 flex flex-col items-center gap-2 justify-center"
                         style={{
@@ -730,14 +741,15 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setShowLevelUpDialog(false)}
-                  className="font-medium rounded-full w-40 h-14 text-white"
+                  className="font-medium rounded-[10px] w-[250px] h-14 text-white"
                   style={{
-                    background: "linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)",
-                    border: "2px solid #FFD700",
-                    boxShadow: "0px 4px 8px rgba(255, 215, 0, 0.3)",
+                    background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                    border: "2px solid #76C1FF",
+                    borderRadius: "10px",
+                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                     fontFamily: "'ONE Mobile POP', sans-serif",
                     fontSize: "18px",
-                    fontWeight: 400,
+                    fontWeight: 600,
                     textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                   }}
                 >
