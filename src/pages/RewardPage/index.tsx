@@ -367,7 +367,7 @@ const Reward: React.FC = () => {
         <div className="w-full max-w-md">
           {/* 1등 보상 - 큰 박스 */}
           <div
-            className="w-full rounded-2xl p-4 mb-3 flex justify-between items-center"
+            className="w-full rounded-[58px] p-4 mb-3 flex justify-between items-center"
             style={{
               background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
               boxShadow:
@@ -447,7 +447,7 @@ const Reward: React.FC = () => {
                     className="text-white text-base"
                     style={{
                       fontFamily: "'ONE Mobile POP', sans-serif",
-                      fontSize: "16px",
+                      fontSize: "14px",
                       fontWeight: 400,
                       color: "#FFFFFF",
                       WebkitTextStroke: "1px #000000",
@@ -464,16 +464,22 @@ const Reward: React.FC = () => {
         {/* View More 버튼 */}
         <button
           onClick={handleShowMoreRanking}
-          className="mt-6 px-6 py-3 rounded-full text-white text-sm font-semibold"
+          className="mt-6 text-white text-sm font-semibold"
           style={{
-            background: "rgba(128, 128, 128, 0.3)",
+            width: "89px",
+            height: "27px",
+            borderRadius: "20px",
+            background: "rgba(255, 255, 255, 0.5)",
             backdropFilter: "blur(10px)",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+            boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "14px",
             fontWeight: 600,
             color: "#FFFFFF",
             WebkitTextStroke: "1px #000000",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           View More
@@ -482,7 +488,7 @@ const Reward: React.FC = () => {
 
       {/* 명예의 전당 영역 */}
       <div
-        className="w-full max-w-md rounded-3xl p-6 cursor-pointer mx-auto"
+        className="w-[340px] max-w-md rounded-3xl p-6 cursor-pointer mx-auto"
         style={{
           background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
           boxShadow:
