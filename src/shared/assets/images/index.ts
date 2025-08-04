@@ -284,7 +284,7 @@ import InviteFriends from "./invite-friends.png"
 import IconCheck from "./icon-check.png"
 import IconClose from "./icon-close.png"
 import KeyIcon from "./key-icon.png"
-import StarIcon from "./star-icon.png"
+import StarIcon from "./star-coin.png"
 
 
 const Images = {

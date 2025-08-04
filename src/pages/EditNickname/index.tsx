@@ -55,7 +55,7 @@ const EditNickname: React.FC = () => {
       <div className="mt-8 w-full">
         <input
           type="text"
-          placeholder="닉네임을 입력해주세요."
+          placeholder="당신의 닉네임을 정해주세요!"
           value={newNickname}
           onChange={(e) => setNewNickname(e.target.value)}
           maxLength={8}
