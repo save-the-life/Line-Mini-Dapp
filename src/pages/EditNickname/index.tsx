@@ -67,8 +67,7 @@ const EditNickname: React.FC = () => {
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "14px",
             fontWeight: 400,
-            color: "#FFFFFF",
-            WebkitTextStroke: "1px #000000",
+            color: "#9FC7FF",
           }}
         />
       </div>
@@ -89,10 +88,12 @@ const EditNickname: React.FC = () => {
       {/* 취소 및 수정 버튼을 하단에 고정 */}
       <div className="w-full max-w-md absolute bottom-16 left-1/2 transform -translate-x-1/2 flex justify-between gap-4">
         <button
-          className="w-1/2 py-4 rounded-full text-base font-medium border-4"
+          className="w-1/2 py-4 rounded-full text-base font-medium"
           style={{
-            backgroundColor: "#252932",
-            borderColor: "#35383F",
+            background: "linear-gradient(180deg, #FF2F32 0%, #FF6D70 100%)",
+            border: "2px solid #FFA1A2",
+            boxShadow:
+              "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "18px",
             fontWeight: 400,
@@ -109,6 +110,10 @@ const EditNickname: React.FC = () => {
           className="w-1/2 py-4 rounded-full text-base font-medium"
           onClick={editBtn}
           style={{
+            background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+            border: "2px solid #76C1FF",
+            boxShadow:
+              "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "18px",
             fontWeight: 400,
