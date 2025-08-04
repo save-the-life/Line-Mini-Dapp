@@ -33,11 +33,24 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
   const location = useLocation();
   const bgImage = backgroundMap[location.pathname] || Images.BackgroundHome;
 
+  // 블러 처리할 페이지 목록
+  const blurPages = [
+    "/reward",
+    "/previous-ranking",
+    "/mission",
+    "/edit-nickname",
+    "/my-assets",
+    "/invite-friends",
+    "/invite-friends-list",
+    "/reward-history",
+  ];
+
+  const shouldBlur = blurPages.includes(location.pathname);
+
   return (
     <div className="relative">
-      {/* 블러된 배경 레이어 - 리워드 페이지와 이전 랭킹 페이지에 적용 */}
-      {(location.pathname === "/reward" ||
-        location.pathname === "/previous-ranking") && (
+      {/* 블러된 배경 레이어 - 여러 페이지에 적용 */}
+      {shouldBlur && (
         <>
           <div
             className="fixed inset-0 z-0"
@@ -63,17 +76,7 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
       <div
         className={`flex flex-col bg-[#0D1226] items-center ${className || ""}`}
         style={{
-          backgroundImage:
-            location.pathname === "/reward" ||
-            location.pathname === "/previous-ranking" ||
-            location.pathname === "/edit-nickname" ||
-            location.pathname === "/my-assets" ||
-            location.pathname === "/mission" ||
-            location.pathname === "/invite-friends" ||
-            location.pathname === "/invite-friends-list" ||
-            location.pathname === "/reward-history"
-              ? "none"
-              : `url(${bgImage})`,
+          backgroundImage: shouldBlur ? "none" : `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",
