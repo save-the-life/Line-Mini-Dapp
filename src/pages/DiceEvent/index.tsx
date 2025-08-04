@@ -635,7 +635,7 @@ const DiceEventPage: React.FC = () => {
                     }}>
                     레벨 업
                   </h1>
-                  <div className="relative w-36 h-36">
+                  <div className="relative w-[250px] h-[204px]">
                     <img
                       src={Images.LevelUpBase}
                       alt="levelupEffect"
@@ -688,7 +688,7 @@ const DiceEventPage: React.FC = () => {
                       }}
                     >
                       <div 
-                        className="rounded-xl w-16 h-16 flex flex-col items-center gap-2 justify-center"
+                        className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
                         style={{
                           background: "rgba(194, 213, 232, 0.5)",
                           border: "2px solid #B4CADA",
@@ -697,7 +697,7 @@ const DiceEventPage: React.FC = () => {
                           WebkitBackdropFilter: "blur(10px)",
                         }}
                       >
-                        <img src={Images.Dice} alt="dice" className="w-6 h-6" />
+                        <img src={Images.Dice} alt="dice" className="w-10 h-10" />
                         <p 
                           className=" font-semibold text-xs"
                           style={{
@@ -711,7 +711,7 @@ const DiceEventPage: React.FC = () => {
                         </p>
                       </div>
                       <div 
-                        className="rounded-xl w-16 h-16 flex flex-col items-center gap-2 justify-center"
+                        className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
                         style={{
                           background: "rgba(194, 213, 232, 0.5)",
                           border: "2px solid #B4CADA",
@@ -720,7 +720,7 @@ const DiceEventPage: React.FC = () => {
                           WebkitBackdropFilter: "blur(10px)",
                         }}
                       >
-                        <img src={Images.StarpointIcon} alt="star" className="w-6 h-6" />
+                        <img src={Images.StarpointIcon} alt="star" className="w-10 h-10" />
                         
                         <p 
                           className=" font-semibold text-xs"
@@ -736,7 +736,7 @@ const DiceEventPage: React.FC = () => {
                       </div>
                       {currentReward.tickets && (
                         <div 
-                          className="rounded-xl w-16 h-16 flex flex-col items-center gap-2 justify-center"
+                          className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
                           style={{
                             background: "rgba(194, 213, 232, 0.5)",
                             border: "2px solid #B4CADA",
@@ -748,7 +748,7 @@ const DiceEventPage: React.FC = () => {
                           <img
                             src={Images.LotteryTicket}
                             alt="rapple"
-                            className="w-6 h-6"
+                            className="w-10 h-10"
                           />
                           <p 
                             className=" font-semibold text-xs"
