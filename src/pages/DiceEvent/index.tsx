@@ -676,6 +676,7 @@ const DiceEventPage: React.FC = () => {
                     <div 
                       className="flex flex-row items-center gap-2"
                       style={{
+                        width: "70vw",
                         background: "rgba(194, 213, 232, 0.1)",
                         border: "2px solid #B4CADA",
                         borderRadius: "20px",
@@ -747,6 +748,7 @@ const DiceEventPage: React.FC = () => {
                     border: "2px solid #76C1FF",
                     borderRadius: "10px",
                     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    WebkitTextStroke: "1px #000000",
                     fontFamily: "'ONE Mobile POP', sans-serif",
                     fontSize: "18px",
                     fontWeight: 600,
