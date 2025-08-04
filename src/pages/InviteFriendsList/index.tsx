@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { TopTitle } from "@/shared/components/ui";
 import LoadingSpinner from "@/shared/components/ui/loadingSpinner";
 import Images from "@/shared/assets/images";
@@ -16,7 +15,6 @@ interface Friend {
 
 const InviteFriendsList: React.FC = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const { playSfx } = useSound();
   const [friends, setFriends] = useState<Friend[]>([]); // 친구 목록 상태
   const [loading, setLoading] = useState<boolean>(true); // 로딩 상태
@@ -56,13 +54,21 @@ const InviteFriendsList: React.FC = () => {
   return (
     <div className="flex flex-col items-center text-white mx-6 relative min-h-screen pb-32">
       {/* 상단 타이틀 */}
-      <TopTitle title={t("mission_page.friend_list")} back={true} />
+      <TopTitle title="친구 초대 리스트" back={true} />
 
       {/* 레퍼럴 보상 내용 */}
       <div className="w-full">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium">
-            {t("mission_page.total_reward")}
+          <h2
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            누적 추천 보상
           </h2>
           <button
             className="flex items-center text-white text-xs font-medium"
@@ -70,27 +76,57 @@ const InviteFriendsList: React.FC = () => {
               playSfx(Audios.button_click);
               navigate("/referral-rewards");
             }}
-            aria-label="View All NFTs"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
           >
-            {t("mission_page.view_detail")}{" "}
-            <FaChevronRight className="ml-1 w-3 h-3" />
+            상세 보기 <FaChevronRight className="ml-1 w-3 h-3" />
           </button>
         </div>
-        <div className="bg-[#1F1E27] rounded-3xl border-2 border-[#35383F] flex flex-col justify-center gap-4 h-36 p-5 mt-3">
+        <div
+          className="rounded-3xl flex flex-col justify-center gap-4 h-36 mt-3"
+          style={{
+            backgroundColor: "rgba(0, 136, 255, 0.75)",
+            padding: "16px 10px 16px 10px",
+            gap: "4px",
+            boxShadow: "0px 2px 2px 0px rgba(0, 0, 0, 0.4)",
+          }}
+        >
           <div className="flex items-center">
             <img
               src={Images.pointStar}
               alt="Points Earned"
               className="w-6 h-6"
             />
-            <p className="text-base font-medium flex-1 ml-1">
-              {t("mission_page.points")}
+            <p
+              className=" flex-1 ml-1"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              획득 포인트
             </p>
-            <p className="text-[#3B82F6] text-lg font-semibold">
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FEE900",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
               +{formattedStar}P
             </p>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <img src={Images.SLToken} alt="SL Earned" className="w-6 h-6" />
             <p className="text-base font-medium flex-1 ml-1">
               {t("mission_page.sl")}
@@ -107,7 +143,7 @@ const InviteFriendsList: React.FC = () => {
             <p className="text-[#3B82F6] text-lg font-semibold">
               +{formattedUSDT}USDT
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -115,8 +151,16 @@ const InviteFriendsList: React.FC = () => {
       {friends.length > 0 ? ( // 친구 목록이 존재하는 경우에만 렌더링
         <div className="flex flex-col mt-12 w-full gap-3">
           <div className="flex flex-row justify-between items-center mb-[6px]">
-            <p className="text-lg font-medium">
-              {t("mission_page.Invited_Friends")}
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FEE900",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              초대된 친구
             </p>
             <div className="flex items-center justify-center text-sm font-medium w-[72px] h-8 rounded-full bg-[#21212f]">
               Total : <span className="text-[#FDE047]">{friends.length}</span>
@@ -132,14 +176,44 @@ const InviteFriendsList: React.FC = () => {
                 boxShadow: "none",
               }}
             >
-              <p className="text-[#D4D4D4]">{index + 1}</p>
-              <p>{friend.userId}</p>
+              <p
+                className="text-[#D4D4D4]"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 400,
+                  color: "#FEE900",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                {index + 1}
+              </p>
+              <p
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  color: "#FEE900",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                {friend.userId}
+              </p>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-sm text-gray-400 mt-8">
-          {t("mission_page.invite_your_friend")}
+        <p
+          className="text-gray-400 mt-8"
+          style={{
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "18px",
+            fontWeight: 400,
+            color: "#FEE900",
+            WebkitTextStroke: "1px #000000",
+          }}
+        >
+          친구를 초대하세요!
         </p> // 친구가 없을 경우
       )}
     </div>
