@@ -285,6 +285,7 @@ import IconCheck from "./icon-check.png"
 import IconClose from "./icon-close.png"
 import KeyIcon from "./key-icon.png"
 import StarIcon from "./star-coin.png"
+import AdButton from "./ad-button.png"
 
 
 const Images = {
@@ -574,6 +575,7 @@ const Images = {
   IconClose,
   KeyIcon,
   StarIcon,
+  AdButton
 };
 
 export default Images;
