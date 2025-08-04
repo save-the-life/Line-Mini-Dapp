@@ -113,7 +113,7 @@ const Reward: React.FC = () => {
   return (
     <div className="flex flex-col text-white mb-44 w-full min-h-screen">
       {/* 나의 현재 상태 영역 */}
-      <div className="flex flex-col justify-center items-center mb-14 px-6 md:px-0">
+      <div className="flex flex-col justify-center items-center mb-14 px-6 md:px-0 mt-[76px]">
         <div
           className="w-full max-w-md rounded-3xl p-6"
           style={{
@@ -342,50 +342,142 @@ const Reward: React.FC = () => {
 
       {/* 주간 보상 */}
       <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
+        {/* 제목 영역 */}
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
-          <h1 className="z-30">주간 보상</h1>
           <img
-            src={Images.GoldMedal}
+            src={Images.GoldMedalIcon}
             alt="gold-medal"
-            className="absolute -top-1 -left-11 w-[70px] h-[70px] -z-10"
+            className="absolute -top-1 -left-11 w-[60px] h-[60px] -z-10"
           />
+          <h1
+            className="z-30"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "30px",
+              fontWeight: 700,
+              color: "#FDE047",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            주간 보상
+          </h1>
         </div>
 
-        {rankingProducts.map((award, idx) => (
-          <RewardItem key={idx} rank={idx + 1} award={award} isTop />
-        ))}
-
-        <AnimatePresence>
-          {showMoreRanking &&
-            rankingOthers.map((award, idx) => (
-              <motion.div
-                key={idx}
-                className="w-full"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <RewardItem
-                  rank={
-                    award.rangeStart === award.rangeEnd
-                      ? award.rangeStart
-                      : `${award.rangeStart}-${award.rangeEnd}`
-                  }
-                  award={award}
-                />
-              </motion.div>
-            ))}
-        </AnimatePresence>
-
-        {!showMoreRanking && rankingOthers.length > 0 && (
-          <button
-            onClick={handleShowMoreRanking}
-            className="border border-white text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
+        {/* 보상 티어 리스트 */}
+        <div className="w-full max-w-md">
+          {/* 1등 보상 - 큰 박스 */}
+          <div
+            className="w-full rounded-2xl p-4 mb-3 flex justify-between items-center"
+            style={{
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+              borderRadius: "16px",
+            }}
           >
-            View More
-          </button>
-        )}
+            <span
+              className="text-white text-lg font-bold"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 700,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              1
+            </span>
+            <div className="flex items-center gap-2">
+              <img
+                src={Images.TossPoint}
+                alt="toss-point"
+                className="w-7 h-7"
+                style={{ width: "28px", height: "28px" }}
+              />
+              <span
+                className="text-white text-lg font-bold"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                100,000
+              </span>
+            </div>
+          </div>
+
+          {/* 나머지 보상 티어들 */}
+          {[
+            { rank: "2-10", reward: "10,000" },
+            { rank: "11-100", reward: "1,000" },
+            { rank: "101-1,000", reward: "100" },
+            { rank: "1,001-100,000", reward: "1" },
+          ].map((tier, idx) => (
+            <div key={idx} className="w-full">
+              {/* 구분선 */}
+              {idx > 0 && (
+                <div className="w-full h-px bg-gray-400 opacity-30 my-2"></div>
+              )}
+
+              {/* 보상 티어 */}
+              <div className="w-full flex justify-between items-center py-2">
+                <span
+                  className="text-white text-base"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "16px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
+                >
+                  {tier.rank}
+                </span>
+                <div className="flex items-center gap-2">
+                  <img
+                    src={Images.TossPoint}
+                    alt="toss-point"
+                    className="w-6 h-6"
+                    style={{ width: "24px", height: "24px" }}
+                  />
+                  <span
+                    className="text-white text-base"
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "16px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
+                    {tier.reward}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* View More 버튼 */}
+        <button
+          onClick={handleShowMoreRanking}
+          className="mt-6 px-6 py-3 rounded-full text-white text-sm font-semibold"
+          style={{
+            background: "rgba(128, 128, 128, 0.3)",
+            backdropFilter: "blur(10px)",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "#FFFFFF",
+            WebkitTextStroke: "1px #000000",
+          }}
+        >
+          View More
+        </button>
       </div>
 
       {/* 명예의 전당 영역 */}
