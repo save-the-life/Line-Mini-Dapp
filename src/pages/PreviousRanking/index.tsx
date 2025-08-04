@@ -110,7 +110,7 @@ const PreviousRanking: React.FC = () => {
 
   return (
     <div className="flex flex-col mb-44 text-white items-center w-full min-h-screen">
-      <TopTitle title="랭킹 어워드드" className="px-6" back={true} />
+      <TopTitle title="랭킹 어워드" className="px-6" back={true} />
 
       <RankingSection
         myData={
