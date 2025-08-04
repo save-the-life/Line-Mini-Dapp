@@ -111,7 +111,14 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="basic-mission-card rounded-3xl p-5 text-white flex flex-col items-center gap-4">
+    <div
+      className="basic-mission-card rounded-3xl p-5 flex flex-col items-center gap-4"
+      style={{
+        background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+        borderRadius: "24px",
+        boxShadow: "none",
+      }}
+    >
       {/* 상단 이미지 */}
       <img src={image} alt={alt} className="w-[100px] h-[100px] object-cover" />
 
@@ -125,40 +132,85 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
       <div className="flex flex-col text-center item-center gap-2">
         {/* 1) +10,000 Star Points 메시지 */}
         <div>
-          <span className="font-normal text-sm mr-1">1)</span>
-          <Trans i18nKey="mission_page.starpoints_message">
-            <span className="font-semibold text-base text-[#FDE047]">
-              +10,000 Star Points
-            </span>
-            <br />
-            <span className="font-normal text-sm">
-              for both invitees and friends
-            </span>
-          </Trans>
+          <span
+            className="mr-1"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            1) 초대한 친구와 나, 모두에게
+          </span>
+          <span
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "#FDE047",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            +10,000 스타포인트!
+          </span>
         </div>
 
         {/* 2) 10% Payback 메시지 */}
         <div>
-          <span className="font-normal text-sm mr-1">2)</span>
-          <Trans i18nKey="mission_page.payback_message">
-            <span className="font-semibold text-base text-[#FDE047] mr-1">
-              10% Payback
-            </span>
-            <span className="font-normal text-sm">
-              on Your Friend's Purchase
-            </span>
-          </Trans>
+          <span
+            className="mr-1"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            2) 친구가 결제하면, 나는
+          </span>
+          <span
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "#FDE047",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            10% 페이백!
+          </span>
         </div>
 
         {/* NOTE 영역 */}
         <div className="flex items-center justify-center gap-1 mt-2">
           <img src={Images.Note} alt="Note" className="w-5 h-5 object-cover" />
-          <p className="text-sm font-semibold text-[#FDE047]">
-            {t("mission_page.note")}
+          <p
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: 400,
+              color: "#FDE047",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            NOTE
           </p>
         </div>
-        <p className="text-xs font-normal text-center">
-          {t("mission_page.only_user")}
+        <p
+          className="text-center"
+          style={{
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "12px",
+            fontWeight: 400,
+            color: "#FFFFFF",
+            WebkitTextStroke: "1px #000000",
+          }}
+        >
+          1회 이상 주사위 굴린 유저만 유효 참여자로 인정되며, 보상을 받을 수
+          있습니다.
         </p>
       </div>
     </div>
@@ -403,10 +455,18 @@ const MissionPage: React.FC = () => {
                         </div>
                       )}
                     </div>
-                    <p className="text-xs mb-8 mt-2 text-white whitespace-nowrap">
-                      {t(
-                        "mission_page.*_If_the_mission_is_not_performed_correctly,_you_may_be_excluded_from_the_final_reward."
-                      )}
+                    <p
+                      className="text-xs mb-8 mt-2 whitespace-nowrap"
+                      style={{
+                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        fontSize: "12px",
+                        fontWeight: 400,
+                        color: "#FFFFFF",
+                        WebkitTextStroke: "1px #000000",
+                      }}
+                    >
+                      * 미션을 정상적으로 수행하지 않을 경우 최종 보상에서
+                      제외될 수 있습니다.
                     </p>
                   </div>
                 );
@@ -423,9 +483,9 @@ const MissionPage: React.FC = () => {
       <div className="mx-6 mb-8">
         <Link to="/invite-friends" onClick={() => playSfx(Audios.button_click)}>
           <DailyMissionCard
-            title={t("mission_page.Invite_friends")}
+            title="친구 초대"
             alt="Invite Friend"
-            image={Images.InviteFriend}
+            image={Images.InviteFriends}
           />
         </Link>
       </div>

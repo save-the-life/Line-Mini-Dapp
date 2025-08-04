@@ -280,6 +280,7 @@ import HallofFame from "./hall-of-fame.png"
 import TossPoint from "./toss-point.png"
 import GoldMedalIcon from "./gold-medal-icon.png"
 import TrophyIcon from "./trophy-icon.png"
+import InviteFriends from "./invite-friends.png"
 
 
 const Images = {
@@ -564,6 +565,7 @@ const Images = {
   TossPoint,
   GoldMedalIcon,
   TrophyIcon,
+  InviteFriends,
 };
 
 export default Images;
