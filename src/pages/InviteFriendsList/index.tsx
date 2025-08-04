@@ -88,7 +88,7 @@ const InviteFriendsList: React.FC = () => {
           </button>
         </div>
         <div
-          className="rounded-3xl flex flex-col justify-center gap-4 h-36 mt-3"
+          className="rounded-3xl flex flex-col justify-center gap-4 h-[62px] mt-3"
           style={{
             backgroundColor: "rgba(0, 136, 255, 0.75)",
             padding: "16px 10px 16px 10px",
@@ -98,12 +98,12 @@ const InviteFriendsList: React.FC = () => {
         >
           <div className="flex items-center">
             <img
-              src={Images.pointStar}
+              src={Images.StarIcon}
               alt="Points Earned"
-              className="w-6 h-6"
+              className="w-[44px] h-[44px]"
             />
             <p
-              className=" flex-1 ml-1"
+              className=" flex-1 ml-12"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "14px",
@@ -207,7 +207,7 @@ const InviteFriendsList: React.FC = () => {
           className="text-gray-400 mt-8"
           style={{
             fontFamily: "'ONE Mobile POP', sans-serif",
-            fontSize: "18px",
+            fontSize: "12px",
             fontWeight: 400,
             color: "#FEE900",
             WebkitTextStroke: "1px #000000",

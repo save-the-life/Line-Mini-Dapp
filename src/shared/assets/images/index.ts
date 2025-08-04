@@ -284,6 +284,7 @@ import InviteFriends from "./invite-friends.png"
 import IconCheck from "./icon-check.png"
 import IconClose from "./icon-close.png"
 import KeyIcon from "./key-icon.png"
+import StarIcon from "./star-icon.png"
 
 
 const Images = {
@@ -572,6 +573,7 @@ const Images = {
   IconCheck,
   IconClose,
   KeyIcon,
+  StarIcon,
 };
 
 export default Images;
