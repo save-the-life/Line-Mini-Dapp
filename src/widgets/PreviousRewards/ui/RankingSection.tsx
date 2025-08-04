@@ -205,13 +205,13 @@ const RankingSection: React.FC<RankingSectionProps> = ({
             }}
           >
             {/* 하이라이트 효과 */}
-            <div
+            {/* <div
               className="absolute top-2 left-4 w-3 h-3 rounded-full"
               style={{
                 background: "rgba(255, 255, 255, 0.8)",
                 boxShadow: "0px 0px 4px rgba(255, 255, 255, 0.6)",
               }}
-            />
+            /> */}
 
             <p
               className="text-white text-base font-semibold"
