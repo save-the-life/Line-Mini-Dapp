@@ -261,9 +261,9 @@ const Reward: React.FC = () => {
         {/* 제목 영역 */}
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
           <img
-            src={Images.GoldMedalIcon}
+            src={Images.TrophyIcon}
             alt="gold-medal"
-            className="absolute -top-1 -left-11 w-[60px] h-[60px] -z-10"
+            className="absolute top-1 right-11 w-[60px] h-[60px] -z-10"
           />
           <h1
             className="z-30"
@@ -482,16 +482,64 @@ const Reward: React.FC = () => {
 
       {/* 명예의 전당 영역 */}
       <div
-        className="first-to-third-pace-box h-36 rounded-3xl mt-2 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
+        className="w-full max-w-md rounded-3xl p-6 cursor-pointer mx-auto"
+        style={{
+          background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          boxShadow:
+            "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+          borderRadius: "24px",
+        }}
         onClick={handlePreviousAirdropPage}
       >
-        <div className="flex flex-col gap-2">
-          <p className="text-xl font-semibold">
-            {t("reward_page.raffle_airdrop")}
-          </p>
-          <p className="text-sm">{t("reward_page.Check_winner")}</p>
+        <div className="flex justify-between items-center">
+          {/* 텍스트 영역 */}
+          <div className="flex flex-col gap-2">
+            <h2
+              className="text-xl font-bold"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "24px",
+                fontWeight: 400,
+                color: "#FDE047",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              명예의 전당
+            </h2>
+            <p
+              className="text-white text-sm"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              역대 우승자를 확인하고
+            </p>
+            <p
+              className="text-white text-sm"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              다음 회차 주인공에 도전하세요!
+            </p>
+          </div>
+
+          {/* 아이콘 영역 */}
+          <img
+            src={Images.HallofFame}
+            alt="hall-of-fame"
+            className="w-[120px] h-[120px]"
+            style={{ width: "120px", height: "120px" }}
+          />
         </div>
-        <img src={Images.airDropBox} alt="trophy" className="w-24 h-24" />
       </div>
 
       {/* 모달 */}
