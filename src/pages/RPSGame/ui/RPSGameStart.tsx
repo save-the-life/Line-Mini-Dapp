@@ -93,7 +93,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
           <Popover>
             <PopoverTrigger className="flex flex-row gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
               <AiFillQuestionCircle className="w-6 h-6" />
-              <p>게임</p>
+              <p>게임 방법</p>
             </PopoverTrigger>
             <PopoverContent
               className="rounded-3xl border-2 border-[#21212f] bg-white"
@@ -102,36 +102,64 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
                 overflowY: "auto",
               }}
             >
-              <div className="p-4 rounded-lg shadow-lg w-full max-w-lg">
-                <h2 className="text-xl font-bold text-center mb-4">
+              <div
+                className="p-4 rounded-lg shadow-lg w-full max-w-lg"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                <h2 className="text-left mb-4" style={{ color: "#FDE047" }}>
                   ✼ 게임 방법 ✼
                 </h2>
-                <ol className="text-sm leading-loose space-y-4">
+                <ol
+                  className="leading-loose space-y-4"
+                  style={{ color: "#FFFFFF" }}
+                >
                   <li>
-                    <strong>{t("dice_event.rps_game.enter")}</strong>
+                    <strong>1. 베팅하기</strong>
                     <ul className="list-disc pl-5">
-                      <li>{t("dice_event.rps_game.max")}</li>
+                      <li>
+                        행운을 시험해보세요! 최대 27배 보상까지!
+                        <br />
+                        원하는 스타 수를 입력해주세요.
+                        <br />
+                        베팅은 보유 스타의 절반까지 가능합니다.
+                      </li>
                     </ul>
                   </li>
                   <li>
-                    <strong>{t("dice_event.rps_game.play")}</strong>
+                    <strong>2. 가위바위보 진행</strong>
                     <ul className="list-disc pl-5">
-                      <li>{t("dice_event.rps_game.choose")}</li>
-                      <li>{t("dice_event.rps_game.3_rounds")}</li>
+                      <li>
+                        각 라운드마다 가위, 바위, 보 중 하나를 선택하세요.{" "}
+                        <br /> 최대 3라운드까지 진행됩니다.
+                      </li>
                     </ul>
                   </li>
                   <li>
-                    <strong>{t("dice_event.rps_game.win")}</strong>
+                    <strong>3. 보상 받기기</strong>
                     <ul className="list-disc pl-5">
-                      <li>{t("dice_event.rps_game.tripled")}</li>
-                      <li>{t("dice_event.rps_game.multifly")}</li>
+                      <li>
+                        한 번이라도 승리하면 보상은 3배! <br /> 3연승 시 최대
+                        27배까지 보상이 누적됩니다.
+                        <br />
+                        (예: 1라운드 승리 시 3배 → 2라운드 승리 시 9배 → 3라운드
+                        승리 시 27배)
+                      </li>
                     </ul>
                   </li>
                   <li>
-                    <strong>{t("dice_event.rps_game.continue")}</strong>
+                    <strong>4. 계속 도전 or 보상 수령 결정정</strong>
                     <ul className="list-disc pl-5">
-                      <li>{t("dice_event.rps_game.cash_out")}</li>
-                      <li>{t("dice_event.rps_game.losing")}</li>
+                      <li>
+                        매 라운드 승리 후, 도전을 계속할지 보상을 받을지
+                        선택하세요.
+                        <br />
+                        단, 한 번이라도 패배하면 모든 베팅이 사라집니다
+                      </li>
                     </ul>
                   </li>
                 </ol>
