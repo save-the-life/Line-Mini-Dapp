@@ -157,7 +157,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           </>
         )
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 items-center justify-center">
           {/* 상단 메시지 박스 */}
           <div
             className="w-full rounded-3xl p-6 text-center"
