@@ -263,7 +263,7 @@ const Reward: React.FC = () => {
           <img
             src={Images.TrophyIcon}
             alt="gold-medal"
-            className="absolute top-1 right-11 w-[60px] h-[60px] -z-10"
+            className="absolute -top-2 -left-14 w-[60px] h-[60px] -z-10"
           />
           <h1
             className="z-30"
@@ -347,7 +347,7 @@ const Reward: React.FC = () => {
           <img
             src={Images.GoldMedalIcon}
             alt="gold-medal"
-            className="absolute -top-1 -left-11 w-[60px] h-[60px] -z-10"
+            className="absolute -top-2 -left-14 w-[60px] h-[60px] -z-10"
           />
           <h1
             className="z-30"
