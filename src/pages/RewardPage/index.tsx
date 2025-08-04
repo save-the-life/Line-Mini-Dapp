@@ -321,7 +321,6 @@ const Reward: React.FC = () => {
           <div
             className="w-full rounded-2xl p-4 text-center"
             style={{
-              width: "302px",
               height: "74px",
               background: "rgba(0, 94, 170, 0.5)",
               backdropFilter: "blur(10px)",

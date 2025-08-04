@@ -51,7 +51,15 @@ const RankingSection: React.FC<RankingSectionProps> = ({
       {/* 상단 myData & topRankings 렌더링 */}
       {myData ? (
         myData.rank > 1000 ? (
-          <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-center items-center">
+          <div
+            className="relative flex flex-col rounded-3xl p-5 h-24 justify-center items-center"
+            style={{
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+              borderRadius: "24px",
+            }}
+          >
             <p
               className="text-center"
               style={{
@@ -92,7 +100,15 @@ const RankingSection: React.FC<RankingSectionProps> = ({
             >
               축하합니다! 보상은 다음과 같습니다:
             </p>
-            <div className="relative flex flex-row items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
+            <div
+              className="relative flex flex-row items-center rounded-3xl h-24 mt-3 p-5 gap-3"
+              style={{
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+                boxShadow:
+                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+                borderRadius: "24px",
+              }}
+            >
               <p
                 className="text-center w-1/6"
                 style={{
@@ -146,10 +162,12 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           <div
             className="w-full rounded-3xl p-6 text-center"
             style={{
+              width: "342px",
+              height: "90px",
               background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
               boxShadow:
                 "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
-              borderRadius: "24px",
+              borderRadius: "58px",
             }}
           >
             <p
@@ -173,10 +191,13 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           <div
             className="w-full rounded-3xl p-4 text-center cursor-pointer"
             style={{
-              background: "linear-gradient(180deg, #4A90E2 0%, #357ABD 100%)",
+              width: "336px",
+              height: "56px",
+              background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+              border: "2px solid #76C1FF",
               boxShadow:
-                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
-              borderRadius: "24px",
+                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+              borderRadius: "28px",
               position: "relative",
             }}
             onClick={() => {
@@ -246,7 +267,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           {/* Dialog 트리거 목록 */}
           <div className="space-y-2">
             <DialogTrigger
-              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 rounded-2xl"
               onClick={() => handleRangeClick(21, 100)}
             >
               <span>
@@ -258,7 +279,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               </span>
             </DialogTrigger>
             <DialogTrigger
-              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 rounded-2xl"
               onClick={() => handleRangeClick(101, 500)}
             >
               <span>
@@ -270,7 +291,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
               </span>
             </DialogTrigger>
             <DialogTrigger
-              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 bg-[#1F1F2E] rounded-2xl"
+              className="w-full cursor-pointer flex flex-row justify-between items-center p-4 rounded-2xl"
               onClick={() => handleRangeClick(501, 1000)}
             >
               <span>
@@ -283,7 +304,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
             </DialogTrigger>
           </div>
 
-          <DialogContent className="text-white rounded-3xl w-[80%] md:w-full border-none bg-[#21212F] max-h-[80%] flex flex-col overflow-hidden text-sm">
+          <DialogContent className="text-white rounded-3xl w-[80%] md:w-full border-none max-h-[80%] flex flex-col overflow-hidden text-sm">
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
