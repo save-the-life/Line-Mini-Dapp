@@ -11,6 +11,11 @@ const backgroundMap: Record<string, string> = {
   "/dice-event": Images.BackgroundTopview,
   "/first-reward": Images.BackgroundLobby,
   "/previous-ranking": Images.BackgroundLobby,
+  "/edit-nickname": Images.BackgroundLobby,
+  "/my-assets": Images.BackgroundLobby,
+  "/invite-friends": Images.BackgroundLobby,
+  "/invite-friends-list": Images.BackgroundLobby,
+  "/reward-history": Images.BackgroundLobby,
   // 필요시 추가
 };
 
@@ -60,7 +65,13 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
         style={{
           backgroundImage:
             location.pathname === "/reward" ||
-            location.pathname === "/previous-ranking"
+            location.pathname === "/previous-ranking" ||
+            location.pathname === "/edit-nickname" ||
+            location.pathname === "/my-assets" ||
+            location.pathname === "/mission" ||
+            location.pathname === "/invite-friends" ||
+            location.pathname === "/invite-friends-list" ||
+            location.pathname === "/reward-history"
               ? "none"
               : `url(${bgImage})`,
           backgroundSize: "cover",
