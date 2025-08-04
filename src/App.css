@@ -1,5 +1,14 @@
 @import 'pretendard/dist/web/static/pretendard.css';
 
+/* ONE Mobile POP OTF 폰트 정의 */
+@font-face {
+  font-family: 'ONE Mobile POP OTF';
+  src: url('/src/shared/assets/fonts/ONE Mobile POP OTF.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -114,6 +123,7 @@ img {
        url('@/shared/assets/fonts/ONE Mobile POP.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 .font-pretendard {

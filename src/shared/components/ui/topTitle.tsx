@@ -30,7 +30,7 @@ const TopTitle: React.FC<TopTitleProps> = ({ title, className, back }) => {
       <IoChevronBackOutline className={`w-6 h-6 ${back ? "" : "hidden"}`} />
       <p
         style={{
-          fontFamily: "'ONE Mobile POP OTF', sans-serif",
+          fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "30px",
           fontWeight: 400,
           color: "#FFFFFF",
