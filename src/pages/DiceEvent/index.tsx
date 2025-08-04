@@ -101,7 +101,7 @@ const DiceEventPage: React.FC = () => {
   const [showUrlReward, setShowUrlReward] = useState<boolean>(false);
 
   // 레벨 업 시 팝업 표시를 위한 상태
-  const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(true);
+  const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
 
   // 레벨별 보상 다이얼로그 표시를 위한 상태
@@ -614,17 +614,17 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-                     {/* 레벨 업 시 다이얼로그: 이전보다 레벨이 올라갔을 때만 표시 */}
-           <Dialog open={showLevelUpDialog}>
-             <DialogContent 
-               className="border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]"
-               style={{
-                 background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-               }}
-             >
+          {/* 레벨 업 시 다이얼로그: 이전보다 레벨이 올라갔을 때만 표시 */}
+          <Dialog open={showLevelUpDialog}>
+            <DialogContent
+              className="border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]"
+              style={{
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              }}
+            >
               <div className="flex flex-col items-center justify-around">
                 <div className=" flex flex-col items-center gap-2">
-                  <h1 
+                  <h1
                     className="text-center"
                     style={{
                       fontFamily: "'ONE Mobile POP', sans-serif",
@@ -632,7 +632,8 @@ const DiceEventPage: React.FC = () => {
                       fontWeight: 400,
                       color: "#FDE047",
                       WebkitTextStroke: "2px #000000",
-                    }}>
+                    }}
+                  >
                     레벨 업
                   </h1>
                   <div className="relative w-[250px] h-[204px]">
@@ -642,26 +643,27 @@ const DiceEventPage: React.FC = () => {
                       className="w-[250px] h-[204px]"
                     />
                     <div
-                       className="absolute inset-0 flex items-center justify-center"
-                       style={{
-                         fontFamily: "'ONE Mobile POP', sans-serif",
-                         fontSize: "40px",
-                         fontWeight: 400,
-                         background: "radial-gradient(circle, #FDE047 0%, #F56800 100%)",
-                         WebkitBackgroundClip: "text",
-                         WebkitTextFillColor: "transparent",
-                         backgroundClip: "text",
-                         WebkitTextStroke: "2px #000000",
-                         textAlign: "center",
-                         lineHeight: "1.2",
-                       }}
-                     >
-                       {userLv}
-                     </div>
+                      className="absolute inset-0 flex items-center justify-center"
+                      style={{
+                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        fontSize: "40px",
+                        fontWeight: 400,
+                        background:
+                          "radial-gradient(circle, #FDE047 0%, #F56800 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                        WebkitTextStroke: "2px #000000",
+                        textAlign: "center",
+                        lineHeight: "1.2",
+                      }}
+                    >
+                      {userLv}
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col gap-6">
-                  <p 
+                  <p
                     className="text-center"
                     style={{
                       fontFamily: "'ONE Mobile POP', sans-serif",
@@ -669,11 +671,12 @@ const DiceEventPage: React.FC = () => {
                       fontWeight: 400,
                       color: "#FFFFFF",
                       WebkitTextStroke: "1px #000000",
-                    }}>
+                    }}
+                  >
                     보상 받기
                   </p>
                   {currentReward && (
-                    <div 
+                    <div
                       className="flex flex-row items-center justify-center gap-2"
                       style={{
                         width: "70vw",
@@ -687,7 +690,7 @@ const DiceEventPage: React.FC = () => {
                         WebkitBackdropFilter: "blur(15px)",
                       }}
                     >
-                      <div 
+                      <div
                         className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
                         style={{
                           background: "rgba(194, 213, 232, 0.5)",
@@ -697,8 +700,12 @@ const DiceEventPage: React.FC = () => {
                           WebkitBackdropFilter: "blur(10px)",
                         }}
                       >
-                        <img src={Images.Dice} alt="dice" className="w-10 h-10" />
-                        <p 
+                        <img
+                          src={Images.Dice}
+                          alt="dice"
+                          className="w-10 h-10"
+                        />
+                        <p
                           className=" font-semibold text-xs"
                           style={{
                             fontFamily: "'ONE Mobile POP', sans-serif",
@@ -706,11 +713,12 @@ const DiceEventPage: React.FC = () => {
                             fontWeight: 400,
                             color: "#FFFFFF",
                             WebkitTextStroke: "1px #000000",
-                        }}>
+                          }}
+                        >
                           +{currentReward.dice}
                         </p>
                       </div>
-                      <div 
+                      <div
                         className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
                         style={{
                           background: "rgba(194, 213, 232, 0.5)",
@@ -720,9 +728,13 @@ const DiceEventPage: React.FC = () => {
                           WebkitBackdropFilter: "blur(10px)",
                         }}
                       >
-                        <img src={Images.StarpointIcon} alt="star" className="w-10 h-10" />
-                        
-                        <p 
+                        <img
+                          src={Images.StarpointIcon}
+                          alt="star"
+                          className="w-10 h-10"
+                        />
+
+                        <p
                           className=" font-semibold text-xs"
                           style={{
                             fontFamily: "'ONE Mobile POP', sans-serif",
@@ -730,12 +742,13 @@ const DiceEventPage: React.FC = () => {
                             fontWeight: 400,
                             color: "#FFFFFF",
                             WebkitTextStroke: "1px #000000",
-                        }}>
+                          }}
+                        >
                           +{formatNumber(currentReward.points)}
                         </p>
                       </div>
                       {currentReward.tickets && (
-                        <div 
+                        <div
                           className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
                           style={{
                             background: "rgba(194, 213, 232, 0.5)",
@@ -750,7 +763,7 @@ const DiceEventPage: React.FC = () => {
                             alt="rapple"
                             className="w-10 h-10"
                           />
-                          <p 
+                          <p
                             className=" font-semibold text-xs"
                             style={{
                               fontFamily: "'ONE Mobile POP', sans-serif",
@@ -758,7 +771,8 @@ const DiceEventPage: React.FC = () => {
                               fontWeight: 400,
                               color: "#FFFFFF",
                               WebkitTextStroke: "1px #000000",
-                          }}>
+                            }}
+                          >
                             +{currentReward.tickets}
                           </p>
                         </div>
@@ -770,7 +784,8 @@ const DiceEventPage: React.FC = () => {
                   onClick={() => setShowLevelUpDialog(false)}
                   className="font-medium rounded-[10px] w-[250px] h-14 text-white"
                   style={{
-                    background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                    background:
+                      "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
                     border: "2px solid #76C1FF",
                     borderRadius: "10px",
                     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",

@@ -10,6 +10,7 @@ const backgroundMap: Record<string, string> = {
   "/choose-character": Images.BackgroundLobby,
   "/dice-event": Images.BackgroundTopview,
   "/first-reward": Images.BackgroundLobby,
+  "/previous-ranking": Images.BackgroundLobby,
   // 필요시 추가
 };
 
@@ -29,8 +30,9 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
 
   return (
     <div className="relative">
-      {/* 블러된 배경 레이어 - 리워드 페이지에만 적용 */}
-      {location.pathname === "/reward" && (
+      {/* 블러된 배경 레이어 - 리워드 페이지와 이전 랭킹 페이지에 적용 */}
+      {(location.pathname === "/reward" ||
+        location.pathname === "/previous-ranking") && (
         <>
           <div
             className="fixed inset-0 z-0"
@@ -57,7 +59,10 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
         className={`flex flex-col bg-[#0D1226] items-center ${className || ""}`}
         style={{
           backgroundImage:
-            location.pathname === "/reward" ? "none" : `url(${bgImage})`,
+            location.pathname === "/reward" ||
+            location.pathname === "/previous-ranking"
+              ? "none"
+              : `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",

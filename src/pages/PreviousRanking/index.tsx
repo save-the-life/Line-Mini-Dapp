@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { TopTitle } from "@/shared/components/ui";
 import { useTranslation } from "react-i18next";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import "./PreviousRewards.css";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
@@ -34,13 +34,14 @@ const PreviousRanking: React.FC = () => {
   const location = useLocation();
   const round = location.state?.round || 1;
 
-  const { myRanking, topRankings, loadInitialRanking } = usePreviousRewardsEntityStore();
-  const { dialogRankings, isLoadingRange, rangeError, loadRangeRanking } = usePreviousRewardsFeatureStore();
+  const { myRanking, topRankings, loadInitialRanking } =
+    usePreviousRewardsEntityStore();
+  const { dialogRankings, isLoadingRange, rangeError, loadRangeRanking } =
+    usePreviousRewardsFeatureStore();
 
   // 기존 다이얼로그 관련 상태는 더 이상 사용하지 않아 제거 가능
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
-
 
   // 컴포넌트 마운트 시 초기 랭킹 데이터 로딩
   useEffect(() => {
@@ -57,7 +58,7 @@ const PreviousRanking: React.FC = () => {
   const myData = myRanking && myRanking.length > 0 ? myRanking[0] : null;
   const isReceived = myData?.selectedRewardType === "SL";
 
-  const dialogRankingsPlayerData: PlayerData[] = dialogRankings.map(r => ({
+  const dialogRankingsPlayerData: PlayerData[] = dialogRankings.map((r) => ({
     ...r,
     round: r.round,
     nftType: r.nftType ?? null,
@@ -81,16 +82,19 @@ const PreviousRanking: React.FC = () => {
     // Zustand 스토어 업데이트
     usePreviousRewardsEntityStore.setState((state) => {
       const newMyRanking = state.myRanking ? [...state.myRanking] : [];
-      if (newMyRanking.length > 0 && newMyRanking[0].rank === updatedData.rank) {
-        newMyRanking[0] = { 
+      if (
+        newMyRanking.length > 0 &&
+        newMyRanking[0].rank === updatedData.rank
+      ) {
+        newMyRanking[0] = {
           ...newMyRanking[0],
           selectedRewardType: updatedData.selectedRewardType,
         };
       }
       const newTopRankings = [...state.topRankings];
-      const idx = newTopRankings.findIndex(r => r.rank === updatedData.rank);
+      const idx = newTopRankings.findIndex((r) => r.rank === updatedData.rank);
       if (idx > -1) {
-        newTopRankings[idx] = { 
+        newTopRankings[idx] = {
           ...newTopRankings[idx],
           selectedRewardType: updatedData.selectedRewardType,
         };
@@ -106,29 +110,7 @@ const PreviousRanking: React.FC = () => {
 
   return (
     <div className="flex flex-col mb-44 text-white items-center w-full min-h-screen">
-      <TopTitle title={`${round} ${t("reward_page.this_month")} ${t("reward_page.result")}`} className="px-6" back={true} />
-
-      {/* 기존의 RewardSelectionDialog 대신 보상 수령 버튼 */}
-      {/* <div className="my-4">
-        <button
-          className="rounded-full w-40 h-12 font-medium bg-[#0147E5]"
-          onClick={() => {
-            if (!myData) return;
-            handleGetReward({
-              rank: myData.rank,
-              name: myData.name,
-              slRewards: myData.slRewards ?? 0,
-              usdtRewards: myData.usdtRewards ?? 0,
-              nftType: myData.nftType ?? null,
-              selectedRewardType: myData.selectedRewardType ?? null,
-              itsMe: myData.itsMe ?? false,
-            });
-          }}
-          disabled={isReceived || !myData}
-        >
-          {isReceived ? "보상 수령 완료" : "보상 수령하기"}
-        </button>
-      </div> */}
+      <TopTitle title="랭킹 어워드드" className="px-6" back={true} />
 
       <RankingSection
         myData={
@@ -157,7 +139,7 @@ const PreviousRanking: React.FC = () => {
             slRewards: myData.slRewards ?? 0,
             usdtRewards: myData.usdtRewards ?? 0,
             nftType: myData.nftType ?? null,
-            round:myData.round,
+            round: myData.round,
             selectedRewardType: myData.selectedRewardType ?? null,
             itsMe: myData.itsMe ?? false,
           });

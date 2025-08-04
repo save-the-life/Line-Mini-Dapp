@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Images from "@/shared/assets/images";
 import { IoCaretDown } from "react-icons/io5";
 import {
@@ -41,50 +42,98 @@ const RankingSection: React.FC<RankingSectionProps> = ({
   handleRangeClick,
 }) => {
   const { t } = useTranslation();
-  const showMyInDialog = myData !== null && dialogRankings.some((r) => r.rank === myData.rank);
-
-  // 내 순위 PASS 텍스트
-  const myPassText =
-    myData?.rank === 1
-      ? "+ GOLD PASS"
-      : myData?.rank === 2
-      ? "+ SILVER PASS"
-      : myData?.rank === 3
-      ? "+ BRONZE PASS"
-      : "";
+  const navigate = useNavigate();
+  const showMyInDialog =
+    myData !== null && dialogRankings.some((r) => r.rank === myData.rank);
 
   return (
-    <div className="p-6 bg-[#0D1226] text-white w-full">
+    <div className="p-6 w-full">
       {/* 상단 myData & topRankings 렌더링 */}
       {myData ? (
         myData.rank > 1000 ? (
           <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-24 justify-center items-center">
-            <p className="font-semibold text-sm text-center">
-              {t("reward_page.your_rank")}
-              <span className="text-[#FDE047] font-bold">{myData.rank}</span>
+            <p
+              className="text-center"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              당신의 순위:
+              <span
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  color: "#FDE047",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                #{myData.rank}
+              </span>
               <br />
-              {t("reward_page.keep_play")}
+              게임을 계속 플레이하고 다음에 다시 도전해 보세요!
             </p>
           </div>
         ) : (
           <>
-            <p className="font-semibold">{t("reward_page.congrate")}</p>
+            <p
+              className="font-semibold"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              축하합니다! 보상은 다음과 같습니다:
+            </p>
             <div className="relative flex flex-row items-center box-bg rounded-3xl h-24 border-2 border-[#0147E5] mt-3 p-5 gap-3">
-              <p className="text-center w-1/6">{myData.rank}</p>
+              <p
+                className="text-center w-1/6"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                {myData.rank}
+              </p>
               <div className="flex flex-col justify-center items-center gap-1 flex-1">
-                <p className="text-center">{myData.name}</p>
+                <p
+                  className="text-center"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "14px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
+                >
+                  {myData.name}
+                </p>
                 <div className="flex flex-row items-center gap-1">
                   <img
-                    src={
-                      myData.selectedRewardType === "USDT"
-                        ? Images.USDT
-                        : Images.TokenReward
-                    }
+                    src={Images.TossPoint}
                     alt="token"
-                    className="w-5 h-5"
+                    className="w-[34px] h-[34px]"
                   />
-                  <p className="text-sm font-semibold">
-                    {(myData.slRewards ?? 0).toLocaleString()} {myPassText}
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "14px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
+                    {(myData.slRewards ?? 0).toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -92,12 +141,70 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           </>
         )
       ) : (
-        <div className="relative flex flex-col box-bg rounded-3xl border-2 border-[#0147E5] p-5 h-full justify-center items-center">
-          <p className="font-semibold text-sm text-center">
-            {t("reward_page.you_didnt")}
-            <br />
-            {t("reward_page.keep_play")}
-          </p>
+        <div className="flex flex-col gap-4">
+          {/* 상단 메시지 박스 */}
+          <div
+            className="w-full rounded-3xl p-6 text-center"
+            style={{
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+              borderRadius: "24px",
+            }}
+          >
+            <p
+              className="text-white text-base font-semibold"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+                lineHeight: "1.5",
+              }}
+            >
+              아직 보상이 없습니다.
+              <br />
+              시작하려면 아래를 탭하세요!
+            </p>
+          </div>
+
+          {/* 하단 버튼 */}
+          <div
+            className="w-full rounded-3xl p-4 text-center cursor-pointer"
+            style={{
+              background: "linear-gradient(180deg, #4A90E2 0%, #357ABD 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+              borderRadius: "24px",
+              position: "relative",
+            }}
+            onClick={() => {
+              navigate("/dice-event");
+            }}
+          >
+            {/* 하이라이트 효과 */}
+            <div
+              className="absolute top-2 left-4 w-3 h-3 rounded-full"
+              style={{
+                background: "rgba(255, 255, 255, 0.8)",
+                boxShadow: "0px 0px 4px rgba(255, 255, 255, 0.6)",
+              }}
+            />
+
+            <p
+              className="text-white text-base font-semibold"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              게임에 참여하기
+            </p>
+          </div>
         </div>
       )}
 
@@ -106,15 +213,6 @@ const RankingSection: React.FC<RankingSectionProps> = ({
         <p className="font-semibold">{t("reward_page.ranking_reward")}</p>
         {topRankings.length > 0 ? (
           topRankings.slice(0, 20).map((r) => {
-            // 1~3위 패스 추가 텍스트
-            const passText =
-              r.rank === 1
-                ? "+ GOLD PASS"
-                : r.rank === 2
-                ? "+ SILVER PASS"
-                : r.rank === 3
-                ? "+ BRONZE PASS"
-                : "";
             return (
               <div
                 key={r.rank}
@@ -124,42 +222,21 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 <div className="flex flex-col flex-1">
                   <p>{r.name}</p>
                   <div className="flex flex-row items-center gap-1">
-                    {r.selectedRewardType === "USDT" ? (
-                      <>
-                        <img
-                          src={Images.USDT}
-                          alt="token"
-                          className="w-5 h-5"
-                        />
-                        <p className="text-sm font-semibold">
-                          {(r.usdtRewards ?? 0).toLocaleString()}{" "}
-                          <span className="font-normal text-[#a3a3a3]">
-                            (or {(r.slRewards ?? 0).toLocaleString()} SL)
-                          </span>
-                          {passText}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <img
-                          src={Images.TokenReward}
-                          alt="token"
-                          className="w-5 h-5"
-                        />
-                        <p className="text-sm font-semibold">
-                          {(r.slRewards ?? 0).toLocaleString()} {passText}
-                        </p>
-                      </>
-                    )}
+                    <img
+                      src={Images.TossPoint}
+                      alt="token"
+                      className="w-5 h-5"
+                    />
+                    <p className="text-sm font-semibold">
+                      {(r.slRewards ?? 0).toLocaleString()}
+                    </p>
                   </div>
                 </div>
               </div>
             );
           })
         ) : (
-          <p className="text-center text-sm mt-7">
-            {t("reward_page.no_ranking")}
-          </p>
+          <p className="text-center text-sm mt-7">랭킹 정보가 없습니다.</p>
         )}
       </div>
 
@@ -176,7 +253,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 21 - 100 <IoCaretDown className="inline-block ml-1" />
               </span>
               <span className="flex items-center gap-1">
-                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                <img src={Images.TossPoint} alt="token" className="w-5 h-5" />
                 <span className="text-sm font-semibold">500</span>
               </span>
             </DialogTrigger>
@@ -188,7 +265,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 101 - 500 <IoCaretDown className="inline-block ml-1" />
               </span>
               <span className="flex items-center gap-1">
-                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                <img src={Images.TossPoint} alt="token" className="w-5 h-5" />
                 <span className="text-sm font-semibold">300</span>
               </span>
             </DialogTrigger>
@@ -200,7 +277,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
                 501 - 1000 <IoCaretDown className="inline-block ml-1" />
               </span>
               <span className="flex items-center gap-1">
-                <img src={Images.TokenReward} alt="token" className="w-5 h-5" />
+                <img src={Images.TossPoint} alt="token" className="w-5 h-5" />
                 <span className="text-sm font-semibold">20</span>
               </span>
             </DialogTrigger>
@@ -215,7 +292,8 @@ const RankingSection: React.FC<RankingSectionProps> = ({
             <div className="overflow-y-auto flex-1">
               {isLoadingRange && <LoadingSpinner className="h-full" />}
               {rangeError && <ErrorMessage message={rangeError} />}
-              {!isLoadingRange && !rangeError &&
+              {!isLoadingRange &&
+                !rangeError &&
                 dialogRankings.map((r) => (
                   <div
                     key={r.rank}

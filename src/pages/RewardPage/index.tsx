@@ -321,8 +321,15 @@ const Reward: React.FC = () => {
           <div
             className="w-full rounded-2xl p-4 text-center"
             style={{
-              background: "linear-gradient(180deg, #4A90E2 0%, #357ABD 100%)",
+              width: "302px",
+              height: "74px",
+              background: "rgba(0, 94, 170, 0.5)",
+              backdropFilter: "blur(10px)",
+              boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
               borderRadius: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <p
