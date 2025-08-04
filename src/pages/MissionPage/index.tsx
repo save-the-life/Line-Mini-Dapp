@@ -339,29 +339,20 @@ const MissionPage: React.FC = () => {
 
   return (
     <div className="flex flex-col text-white mb-20 md:mb-96 min-h-screen">
-      <TopTitle title={t("mission_page.Mission")} />
-
-      {/* 이벤트 배너 */}
-      {eventShow && (
-        <div
-          className="w-full h-[150px] bg-cover bg-center flex items-center justify-between px-6 mb-4"
-          style={{ backgroundImage: `url(${Images.eventBanner})` }}
-        >
-          <div className="text-white">
-            <p className="font-bold text-2xl">{t("mission_page.air_drop")}</p>
-            <p className="font-bold text-2xl">{t("mission_page.grab")}</p>
-          </div>
-          <img
-            src={Images.eventBox}
-            alt="Event Box"
-            className="w-[100px] h-[108px]"
-          />
-        </div>
-      )}
+      <TopTitle title="미션" />
 
       {/* 출석 위젯 */}
-      <h1 className="font-semibold text-lg ml-7">
-        {t("dice_event.attendance")}
+      <h1
+        className="text-center ml-7"
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "18px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
+      >
+        일일 출석
       </h1>
       <div className="mx-6">
         <Attendance />
@@ -370,8 +361,17 @@ const MissionPage: React.FC = () => {
       {/* 미완료 미션 */}
       {incompleteMissions.length > 0 && (
         <>
-          <h1 className="font-semibold text-lg mb-4 ml-7 mt-5">
-            {t("mission_page.One_Time_Mission")}
+          <h1
+            className="text-center mb-4 ml-7 mt-5"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            원타임 미션
           </h1>
           <div className="grid grid-cols-2 gap-3 mx-6">
             {incompleteMissions.map((mission) => {
@@ -451,7 +451,18 @@ const MissionPage: React.FC = () => {
                             alt="Mission Completed"
                             className="w-5 h-5"
                           />
-                          <p>{t("mission_page.Completed")}</p>
+
+                          <p
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "18px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
+                            완료
+                          </p>
                         </div>
                       )}
                     </div>
@@ -477,8 +488,17 @@ const MissionPage: React.FC = () => {
       )}
 
       {/* 일일 미션 */}
-      <h1 className="font-semibold text-lg my-4 ml-7">
-        {t("mission_page.Daily_Mission")}
+      <h1
+        className="text-center my-4 ml-7"
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "18px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
+      >
+        일일 미션
       </h1>
       <div className="mx-6 mb-8">
         <Link to="/invite-friends" onClick={() => playSfx(Audios.button_click)}>
@@ -493,8 +513,17 @@ const MissionPage: React.FC = () => {
       {/* 완료된 미션 */}
       {completedMissions.length > 0 && (
         <>
-          <h1 className="font-semibold text-lg mb-4 ml-7">
-            {t("mission_page.Completed_mission")}
+          <h1
+            className="text-center mb-4 ml-7"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            미션 완료
           </h1>
           <div className="grid grid-cols-2 gap-3 mx-6">
             {completedMissions.map((mission) => {
@@ -574,7 +603,17 @@ const MissionPage: React.FC = () => {
                             alt="Mission Completed"
                             className="w-5 h-5"
                           />
-                          <p>{t("mission_page.Completed")}</p>
+                          <p
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "18px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
+                            완료
+                          </p>
                         </div>
                       )}
                     </div>
