@@ -31,15 +31,25 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
     <div className="relative">
       {/* 블러된 배경 레이어 - 리워드 페이지에만 적용 */}
       {location.pathname === "/reward" && (
-        <div
-          className="fixed inset-0 z-0"
-          style={{
-            backgroundImage: `url(${bgImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "blur(15px)",
-          }}
-        />
+        <>
+          <div
+            className="fixed inset-0 z-0"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(15px)",
+            }}
+          />
+          {/* 색상 오버레이 */}
+          <div
+            className="fixed inset-0 z-0"
+            style={{
+              backgroundColor: "#42617D",
+              opacity: 0.6,
+            }}
+          />
+        </>
       )}
 
       {/* 메인 컨테이너 */}

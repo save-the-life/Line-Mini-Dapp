@@ -276,6 +276,10 @@ import MenuMission from "./menu-mission.png"
 import MenuShop from "./menu-shop.png"
 import MenuReward from "./menu-reward.png"
 import LevelUpBase from "./levelup-base.png"
+import HallofFame from "./hall-of-fame.png"
+import TossPoint from "./toss-point.png"
+import GoldMedalIcon from "./gold-medal-icon.png"
+import TrophyIcon from "./trophy-icon.png"
 
 
 const Images = {
@@ -556,6 +560,10 @@ const Images = {
   MenuShop,
   MenuReward,
   LevelUpBase,
+  HallofFame,
+  TossPoint,
+  GoldMedalIcon,
+  TrophyIcon,
 };
 
 export default Images;

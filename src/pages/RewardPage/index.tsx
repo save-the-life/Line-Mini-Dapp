@@ -112,8 +112,6 @@ const Reward: React.FC = () => {
 
   return (
     <div className="flex flex-col text-white mb-44 w-full min-h-screen">
-      <TopTitle title={t("reward_page.reward")} />
-
       {/* 나의 현재 상태 영역 */}
       <div className="flex flex-col justify-center items-center mb-14 px-6 md:px-0">
         <div
@@ -131,7 +129,7 @@ const Reward: React.FC = () => {
               className="text-white text-lg font-semibold"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: "18px",
+                fontSize: "24px",
                 fontWeight: 400,
                 color: "#FFFFFF",
                 WebkitTextStroke: "1px #000000",
@@ -258,26 +256,94 @@ const Reward: React.FC = () => {
         </div>
       </div>
 
-      {/* 지난 달 보상 확인 */}
-      <div
-        className="first-to-third-pace-box h-36 rounded-3xl mt-5 mb-5 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
-        onClick={handlePreviousRewardPage}
-      >
-        <div className="flex flex-col gap-2">
-          <p className="text-xl font-semibold">{t("reward_page.previous")}</p>
-          <p className="text-sm">{t("reward_page.see_ranking_reward")}</p>
+      {/* 월간 보상 */}
+      <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
+        {/* 제목 영역 */}
+        <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
+          <img
+            src={Images.GoldMedalIcon}
+            alt="gold-medal"
+            className="absolute -top-1 -left-11 w-[60px] h-[60px] -z-10"
+          />
+          <h1
+            className="z-30"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "30px",
+              fontWeight: 400,
+              color: "#FEE900",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            월간 보상
+          </h1>
         </div>
-        <img src={Images.Trophy} alt="trophy" className="w-24 h-24" />
+
+        {/* 메인 콘텐츠 박스 */}
+        <div
+          className="w-full max-w-md rounded-3xl p-6 cursor-pointer"
+          style={{
+            background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+            boxShadow:
+              "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+            borderRadius: "24px",
+          }}
+          onClick={handlePreviousRewardPage}
+        >
+          {/* 상단 영역 */}
+          <div className="flex justify-between items-center mb-4">
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              매월 1등에게 특별 보상!
+            </p>
+            <p
+              className="text-white text-sm"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              지난달 랭킹 &gt;
+            </p>
+          </div>
+
+          {/* 하단 보상 금액 영역 */}
+          <div
+            className="w-full rounded-2xl p-4 text-center"
+            style={{
+              background: "linear-gradient(180deg, #4A90E2 0%, #357ABD 100%)",
+              borderRadius: "16px",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "24px",
+                fontWeight: 400,
+                color: "#FDE047",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              ₩10,000,000 + α
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* 이번 달 랭킹 보상 */}
+      {/* 주간 보상 */}
       <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
-          <h1 className="z-30">
-            {currentRound} {t("reward_page.this_month")}
-            <br />
-            {t("reward_page.awards")}
-          </h1>
+          <h1 className="z-30">주간 보상</h1>
           <img
             src={Images.GoldMedal}
             alt="gold-medal"
@@ -317,12 +383,12 @@ const Reward: React.FC = () => {
             onClick={handleShowMoreRanking}
             className="border border-white text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
           >
-            {t("reward_page.view_more")}
+            View More
           </button>
         )}
       </div>
 
-      {/* 래플-에어드랍 영역 */}
+      {/* 명예의 전당 영역 */}
       <div
         className="first-to-third-pace-box h-36 rounded-3xl mt-2 mb-14 flex flex-row items-center justify-around p-5 cursor-pointer px-6 md:px-0 mx-6"
         onClick={handlePreviousAirdropPage}
@@ -335,92 +401,6 @@ const Reward: React.FC = () => {
         </div>
         <img src={Images.airDropBox} alt="trophy" className="w-24 h-24" />
       </div>
-
-      {/** 지난 에어드랍 경품 보여주기 */}
-      {/* <div className="flex flex-col gap-3 justify-center items-center mb-8">
-        <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
-          <h1 className="z-30">
-            {slRound} {t("reward_page.this_month")}
-            <br />
-            {t("reward_page.air_drop")}
-          </h1>
-          <img
-            src={Images.LotteryTicket}
-            alt="Raffle"
-            className="absolute -top-1 -right-12 w-[68px] h-[68px] -z-10"
-          />
-        </div>
-      </div> */}
-
-      {/* USDT 보상 */}
-      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
-        <div className="relative text-center font-jalnan text-xl font-bold">
-          USDT WINNER
-        </div>
-        {usdtProducts.map((award, idx) => (
-          <RewardItem key={idx} rank={idx + 1} award={award} isTop />
-        ))}
-        <AnimatePresence>
-          {showMoreUSDT && usdtOthers.map((award, idx) => (
-            <motion.div
-              key={idx}
-              className="w-full"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <RewardItem
-                rank={award.rangeStart === award.rangeEnd ? award.rangeStart : `${award.rangeStart}-${award.rangeEnd}`}
-                award={award}
-              />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        {!showMoreUSDT && usdtOthers.length > 0 && (
-          <button
-            onClick={handleShowMoreUSDT}
-            className="border border-white text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
-          >
-            {t("reward_page.view_more")}
-          </button>
-        )}
-      </div> */}
-
-      {/* SL 보상 */}
-      {/* <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
-        <div className="relative text-center font-jalnan text-xl font-bold">
-          SL WINNER
-        </div>
-        {slProducts.map((award, idx) => (
-          <RewardItem key={idx} rank={idx + 1} award={award} isTop />
-        ))}
-        <AnimatePresence>
-          {showMoreSL && slOthers.map((award, idx) => (
-            <motion.div
-              key={idx}
-              className="w-full"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <RewardItem
-                rank={award.rangeStart === award.rangeEnd ? award.rangeStart : `${award.rangeStart}-${award.rangeEnd}`}
-                award={award}
-              />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        {!showMoreSL && slOthers.length > 0 && (
-          <button
-            onClick={handleShowMoreSL}
-            className="border border-white text-white text-xs font-semibold px-4 py-2 rounded-full mt-4"
-          >
-            {t("reward_page.view_more")}
-          </button>
-        )}
-      </div> */}
 
       {/* 모달 */}
       {showModal && (
