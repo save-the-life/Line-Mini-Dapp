@@ -20,9 +20,9 @@ interface RPSGameProps {
 }
 
 const rpsImages = {
-  rock: Images.Rock,
-  paper: Images.Paper,
-  scissors: Images.Scissors,
+  rock: Images.IconRock,
+  paper: Images.IconPaper,
+  scissors: Images.IconScissors,
 };
 
 const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
@@ -118,8 +118,8 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
 
   const handleSpin = async (userChoice: string) => {
     playSfx(Audios.button_click);
-    
-    if (isSpinning || !isAnySlotSpinning) return; 
+
+    if (isSpinning || !isAnySlotSpinning) return;
     spin();
 
     playSfx(Audios.rps_slot);
@@ -138,7 +138,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
             newStates[currentRound - 1] = "stopped";
             return newStates;
           });
-          
+
           // 모든 라운드 다 돌았다면 애니메이션 종료
           if (currentRound >= totalRounds) {
             setIsAnimating(false);
@@ -148,7 +148,9 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
         }
       } catch (error) {
         // console.error("Error during RPS playRound:", error);
-        alert("An error occurred while playing Rock-Paper-Scissors. The page will reload.");
+        alert(
+          "An error occurred while playing Rock-Paper-Scissors. The page will reload."
+        );
         window.location.reload();
       }
     }, 2000);
@@ -191,7 +193,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
   // 2) 로딩 중이면 스피너, 아니라면 실제 화면
   // -----------------------
   if (isLoading) {
-    return <LoadingSpinner className="h-screen"/>;
+    return <LoadingSpinner className="h-screen" />;
   }
 
   // -----------------------
@@ -201,7 +203,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
     <div
       className="flex flex-col z-50 bg-white h-screen justify-items-center drop-shadow overflow-x-hidden"
       style={{
-        backgroundImage: `url(${Images.BGRPSGame})`,
+        backgroundImage: `url(${Images.BackgroundSlot})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -230,12 +232,33 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
           {/* 배팅 금액, 배율 */}
           <div className="flex flex-row items-center justify-center h-[86px] w-[264px] border-2 border-[#21212f] rounded-3xl bg-white gap-3">
             <div className="flex flex-row items-center gap-1">
-              <img src={Images.Star} alt="Star" className="w-9 h-9" />
-              <p className="text-3xl font-semibold">
+              <img
+                src={Images.StarIcon}
+                alt="Star"
+                className="w-[46px] h-[46px]"
+              />
+              <p
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "24px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
                 {formatNumber(betAmount)}
               </p>
             </div>
-            <div className="bg-[#21212f] rounded-full flex items-center justify-center h-8 w-11 text-sm font-semibold text-white">
+            <div
+              className="bg-[#005EAA80] rounded-full flex items-center justify-center h-[35px] w-[68px]"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FDE047",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
               x{winMultiplier * 3 > 27 ? 27 : winMultiplier * 3}
             </div>
           </div>
@@ -251,7 +274,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
             className="mt-8 relative"
           >
             <img
-              src={Images.RPSGame}
+              src={Images.NewRPSGame}
               alt="RPS Game"
               className="w-[352px] mx-auto"
             />
@@ -272,9 +295,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
                   initial={{ y: 0 }}
                   animate={{
                     y:
-                      slotStates[index] === "spinning"
-                        ? ["-100%", "0%"]
-                        : "0%", 
+                      slotStates[index] === "spinning" ? ["-100%", "0%"] : "0%",
                   }}
                   transition={{
                     duration: slotStates[index] === "spinning" ? 0.1 : 0.5,
@@ -329,7 +350,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
               className="flex flex-row gap-2 items-center"
             >
               <img
-                src={Images.RockButton}
+                src={Images.IconRock}
                 alt="Rock"
                 className={`w-[68px] h-[68px] cursor-pointer ${
                   isSpinning || !isAnySlotSpinning
@@ -339,7 +360,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
                 onClick={() => handleSpin("rock")}
               />
               <img
-                src={Images.PaperButton}
+                src={Images.IconPaper}
                 alt="Paper"
                 className={`w-[68px] h-[68px] cursor-pointer ${
                   isSpinning || !isAnySlotSpinning
@@ -349,7 +370,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
                 onClick={() => handleSpin("paper")}
               />
               <img
-                src={Images.ScissorsButton}
+                src={Images.IconScissors}
                 alt="Scissors"
                 className={`w-[68px] h-[68px] cursor-pointer ${
                   isSpinning || !isAnySlotSpinning

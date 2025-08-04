@@ -286,6 +286,10 @@ import IconClose from "./icon-close.png"
 import KeyIcon from "./key-icon.png"
 import StarIcon from "./star-coin.png"
 import AdButton from "./ad-button.png"
+import NewRPSGame from "./rps-new.png"
+import IconRock from "./icon-rock.png"
+import IconPaper from "./icon-paper.png"
+import IconScissors from "./icon-scissors.png"
 
 
 const Images = {
@@ -575,7 +579,11 @@ const Images = {
   IconClose,
   KeyIcon,
   StarIcon,
-  AdButton
+  AdButton,
+  NewRPSGame,
+  IconRock,
+  IconPaper,
+  IconScissors,
 };
 
 export default Images;

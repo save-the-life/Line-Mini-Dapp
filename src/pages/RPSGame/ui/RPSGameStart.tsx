@@ -26,14 +26,13 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
   const [betAmount, setBetAmount] = useState<string>("");
   const setBetAmountStore = useRPSGameStore((state) => state.setBetAmount);
   const { t } = useTranslation();
-  
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const numericValue = parseInt(value);
     if (
       value === "" ||
-      (/^\d+$/.test(value) && numericValue <= allowedBetting+1)
+      (/^\d+$/.test(value) && numericValue <= allowedBetting + 1)
     ) {
       setBetAmount(value);
       // console.log(`betAmount set to: ${value}`);
@@ -41,17 +40,23 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
   };
 
   const handleStartClick = (
-    event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault(); // 기본 폼 제출을 막습니다.
     const amount = parseInt(betAmount);
     // console.log(`handleStartClick called with amount: ${amount}`);
-    if (amount > 0 && amount <= allowedBetting+1) {
+    if (amount > 0 && amount <= allowedBetting + 1) {
       // console.log("Starting game with betAmount:", amount);
       setBetAmountStore(amount); // betAmount를 설정
       onStart(); // 게임 시작
     } else {
-      alert(`The betting amount must be at least 1 star and up to a maximum of ${allowedBetting + 1} stars.`);
+      alert(
+        `The betting amount must be at least 1 star and up to a maximum of ${
+          allowedBetting + 1
+        } stars.`
+      );
     }
   };
 
@@ -62,10 +67,19 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
 
   return (
     <div className="h-screen md:min-w-[600px] flex flex-col items-center justify-center px-12">
-      <h1 className="text-[#E20100] font-jalnan text-center text-[26px] mt-4 whitespace-nowrap">
-        {t("dice_event.rps_game.title_1")}
+      <h1
+        className="text-center mt-4 whitespace-nowrap"
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "30px",
+          fontWeight: 400,
+          color: "#FDE047",
+          WebkitTextStroke: "1px #000000",
+        }}
+      >
+        삼세판의 승부!
         <br />
-        {t("dice_event.rps_game.title_2")}
+        당신의 기회를 돌려보세요!
       </h1>
 
       <div className="flex flex-col items-center justify-center mt-4">
@@ -79,7 +93,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
           <Popover>
             <PopoverTrigger className="flex flex-row gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
               <AiFillQuestionCircle className="w-6 h-6" />
-              <p>{t("dice_event.rps_game.how_to")}</p>
+              <p>게임</p>
             </PopoverTrigger>
             <PopoverContent
               className="rounded-3xl border-2 border-[#21212f] bg-white"
@@ -88,9 +102,9 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
                 overflowY: "auto",
               }}
             >
-              <div className="text-black p-4 rounded-lg shadow-lg w-full max-w-lg">
+              <div className="p-4 rounded-lg shadow-lg w-full max-w-lg">
                 <h2 className="text-xl font-bold text-center mb-4">
-                  ✼ {t("dice_event.rps_game.instruction")} ✼
+                  ✼ 게임 방법 ✼
                 </h2>
                 <ol className="text-sm leading-loose space-y-4">
                   <li>
@@ -125,7 +139,9 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
             </PopoverContent>
           </Popover>
           <div className="flex flex-col gap-1 border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[165px] h-[72px] items-center justify-center">
-            <p className="text-xs text-[#737373]">{t("dice_event.rps_game.allowed")}</p>
+            <p className="text-xs text-[#737373]">
+              {t("dice_event.rps_game.allowed")}
+            </p>
             <div className="flex flex-row items-center justify-center gap-3">
               <img src={Images.Star} alt="Star" className="w-6 h-6" />
               <p>{formatNumber(allowedBetting)}</p>
@@ -160,7 +176,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
               disabled={
                 !betAmount ||
                 parseInt(betAmount) <= 0 ||
-                parseInt(betAmount) > allowedBetting+1
+                parseInt(betAmount) > allowedBetting + 1
               }
               // onClick={handleStartClick} // 이미 onSubmit에서 처리하므로 제거
             >
