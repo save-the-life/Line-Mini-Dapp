@@ -1,7 +1,7 @@
-import React from 'react';
-import BottomNavigation from '@/widgets/BottomNav/BottomNav';
-import Images from '@/shared/assets/images';
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import BottomNavigation from "@/widgets/BottomNav/BottomNav";
+import Images from "@/shared/assets/images";
+import { useLocation } from "react-router-dom";
 
 const backgroundMap: Record<string, string> = {
   "/previous-rewards": Images.BackgroundLobby,
@@ -16,7 +16,7 @@ const backgroundMap: Record<string, string> = {
 interface DiveEventLayoutProps {
   children: React.ReactNode;
   className?: string;
-  hidden? : boolean;
+  hidden?: boolean;
 }
 
 const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
@@ -28,17 +28,36 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
   const bgImage = backgroundMap[location.pathname] || Images.BackgroundHome;
 
   return (
-    <div
-      className={`flex flex-col bg-[#0D1226] items-center  ${className || ''}`}
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        minHeight: '100vh',
-      }}
-    >
-      <div className={`max-w-[600px] w-full h-full`}>{children}</div>
-      <BottomNavigation hidden={hidden} />
+    <div className="relative">
+      {/* 블러된 배경 레이어 - 리워드 페이지에만 적용 */}
+      {location.pathname === "/reward" && (
+        <div
+          className="fixed inset-0 z-0"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(15px)",
+          }}
+        />
+      )}
+
+      {/* 메인 컨테이너 */}
+      <div
+        className={`flex flex-col bg-[#0D1226] items-center ${className || ""}`}
+        style={{
+          backgroundImage:
+            location.pathname === "/reward" ? "none" : `url(${bgImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <div className={`max-w-[600px] w-full h-full relative z-10`}>
+          {children}
+        </div>
+        <BottomNavigation hidden={hidden} />
+      </div>
     </div>
   );
 };
