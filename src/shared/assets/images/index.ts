@@ -281,6 +281,8 @@ import TossPoint from "./toss-point.png"
 import GoldMedalIcon from "./gold-medal-icon.png"
 import TrophyIcon from "./trophy-icon.png"
 import InviteFriends from "./invite-friends.png"
+import IconCheck from "./icon-check.png"
+import IconClose from "./icon-close.png"
 
 
 const Images = {
@@ -566,6 +568,8 @@ const Images = {
   GoldMedalIcon,
   TrophyIcon,
   InviteFriends,
+  IconCheck,
+  IconClose,
 };
 
 export default Images;
