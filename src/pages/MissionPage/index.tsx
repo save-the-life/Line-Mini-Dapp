@@ -221,7 +221,6 @@ const MissionPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const { playSfx } = useSound();
-  const [eventShow, setEventShow] = useState(false);
   const { missions, fetchMissions, clearMission } = useMissionStore();
 
   // 보상 다이얼로그 상태
@@ -240,27 +239,6 @@ const MissionPage: React.FC = () => {
       return stored ? JSON.parse(stored) : [];
     }
   );
-
-  // 지갑 연결 취소 플래그 관련 유틸리티 함수들
-  const getWalletCancelDate = (): string | null => {
-    return localStorage.getItem("walletCancelDate");
-  };
-
-  const setWalletCancelDate = (date: string) => {
-    localStorage.setItem("walletCancelDate", date);
-  };
-
-  const isWalletCanceledToday = (): boolean => {
-    const cancelDate = getWalletCancelDate();
-    if (!cancelDate) return false;
-
-    const today = new Date().toDateString();
-    return cancelDate === today;
-  };
-
-  const clearWalletCancelDate = () => {
-    localStorage.removeItem("walletCancelDate");
-  };
 
   const mappedImages = Object.values(missionImageMap).flatMap((item) =>
     Images[item.imageKey] ? [Images[item.imageKey]] : []
@@ -420,10 +398,27 @@ const MissionPage: React.FC = () => {
                       )}
                       <div className="relative flex flex-row items-center justify-between z-0 w-full">
                         <div className="md:space-y-3">
-                          <p className="text-sm font-medium">
+                          <p
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "12px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
                             {translatedName}
                           </p>
-                          <p className="font-semibold flex flex-row items-center gap-1 mt-2">
+                          <p
+                            className="flex flex-row items-center gap-1 mt-2"
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "14px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
                             +{mission.diceReward}{" "}
                             <img
                               src={Images.Dice}
@@ -572,10 +567,27 @@ const MissionPage: React.FC = () => {
                       )}
                       <div className="relative flex flex-row items-center justify-between z-0 w-full">
                         <div className="md:space-y-3">
-                          <p className="text-sm font-medium">
+                          <p
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "12px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
                             {translatedName}
                           </p>
-                          <p className="font-semibold flex flex-row items-center gap-1 mt-2">
+                          <p
+                            className="flex flex-row items-center gap-1 mt-2"
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "14px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
                             +{mission.diceReward}{" "}
                             <img
                               src={Images.Dice}
