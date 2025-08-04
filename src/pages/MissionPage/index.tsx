@@ -110,6 +110,24 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
   alt,
 }) => {
   const { t } = useTranslation();
+
+  // 공통 텍스트 스타일 정의
+  const commonTextStyle = {
+    fontFamily: "'ONE Mobile POP', sans-serif",
+    fontWeight: 400,
+    WebkitTextStroke: "1px #000000",
+  };
+
+  const whiteTextStyle = {
+    ...commonTextStyle,
+    color: "#FFFFFF",
+  };
+
+  const yellowTextStyle = {
+    ...commonTextStyle,
+    color: "#FDE047",
+  };
+
   return (
     <div
       className="basic-mission-card rounded-3xl p-5 flex flex-col items-center gap-4"
@@ -135,53 +153,42 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
           <span
             className="mr-1"
             style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
+              ...whiteTextStyle,
               fontSize: "14px",
-              fontWeight: 400,
-              color: "#FFFFFF",
-              WebkitTextStroke: "1px #000000",
             }}
           >
-            1) 초대한 친구와 나, 모두에게
+            친구를 초대하면 랜덤박스
           </span>
           <span
             style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
+              ...yellowTextStyle,
               fontSize: "14px",
-              fontWeight: 400,
-              color: "#FDE047",
-              WebkitTextStroke: "1px #000000",
             }}
           >
-            +10,000 스타포인트!
+            열쇠 10개
+          </span>
+          <span
+            className="mr-1"
+            style={{
+              ...whiteTextStyle,
+              fontSize: "14px",
+            }}
+          >
+            지급!
           </span>
         </div>
 
         {/* 2) 10% Payback 메시지 */}
         <div>
-          <span
+          <p
             className="mr-1"
             style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
+              ...whiteTextStyle,
               fontSize: "14px",
-              fontWeight: 400,
-              color: "#FFFFFF",
-              WebkitTextStroke: "1px #000000",
             }}
           >
-            2) 친구가 결제하면, 나는
-          </span>
-          <span
-            style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
-              fontSize: "14px",
-              fontWeight: 400,
-              color: "#FDE047",
-              WebkitTextStroke: "1px #000000",
-            }}
-          >
-            10% 페이백!
-          </span>
+            열쇠로 랜덤박스를 열어 특별보상을 만나보세요!
+          </p>
         </div>
 
         {/* NOTE 영역 */}
@@ -189,11 +196,8 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
           <img src={Images.Note} alt="Note" className="w-5 h-5 object-cover" />
           <p
             style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
+              ...yellowTextStyle,
               fontSize: "18px",
-              fontWeight: 400,
-              color: "#FDE047",
-              WebkitTextStroke: "1px #000000",
             }}
           >
             NOTE
@@ -202,11 +206,8 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({
         <p
           className="text-center"
           style={{
-            fontFamily: "'ONE Mobile POP', sans-serif",
+            ...whiteTextStyle,
             fontSize: "12px",
-            fontWeight: 400,
-            color: "#FFFFFF",
-            WebkitTextStroke: "1px #000000",
           }}
         >
           1회 이상 주사위 굴린 유저만 유효 참여자로 인정되며, 보상을 받을 수
@@ -222,6 +223,23 @@ const MissionPage: React.FC = () => {
   const { t } = useTranslation();
   const { playSfx } = useSound();
   const { missions, fetchMissions, clearMission } = useMissionStore();
+
+  // 공통 텍스트 스타일 정의
+  const commonTextStyle = {
+    fontFamily: "'ONE Mobile POP', sans-serif",
+    fontWeight: 400,
+    WebkitTextStroke: "1px #000000",
+  };
+
+  const whiteTextStyle = {
+    ...commonTextStyle,
+    color: "#FFFFFF",
+  };
+
+  const yellowTextStyle = {
+    ...commonTextStyle,
+    color: "#FDE047",
+  };
 
   // 보상 다이얼로그 상태
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -323,11 +341,8 @@ const MissionPage: React.FC = () => {
       <h1
         className="text-center ml-7"
         style={{
-          fontFamily: "'ONE Mobile POP', sans-serif",
+          ...whiteTextStyle,
           fontSize: "18px",
-          fontWeight: 400,
-          color: "#FFFFFF",
-          WebkitTextStroke: "1px #000000",
         }}
       >
         일일 출석
@@ -342,11 +357,8 @@ const MissionPage: React.FC = () => {
           <h1
             className="text-center mb-4 ml-7 mt-5"
             style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
+              ...whiteTextStyle,
               fontSize: "18px",
-              fontWeight: 400,
-              color: "#FFFFFF",
-              WebkitTextStroke: "1px #000000",
             }}
           >
             원타임 미션
@@ -400,11 +412,8 @@ const MissionPage: React.FC = () => {
                         <div className="md:space-y-3">
                           <p
                             style={{
-                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              ...whiteTextStyle,
                               fontSize: "12px",
-                              fontWeight: 400,
-                              color: "#FFFFFF",
-                              WebkitTextStroke: "1px #000000",
                             }}
                           >
                             {translatedName}
@@ -412,11 +421,8 @@ const MissionPage: React.FC = () => {
                           <p
                             className="flex flex-row items-center gap-1 mt-2"
                             style={{
-                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              ...whiteTextStyle,
                               fontSize: "14px",
-                              fontWeight: 400,
-                              color: "#FFFFFF",
-                              WebkitTextStroke: "1px #000000",
                             }}
                           >
                             +{mission.diceReward}{" "}
@@ -449,11 +455,8 @@ const MissionPage: React.FC = () => {
 
                           <p
                             style={{
-                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              ...whiteTextStyle,
                               fontSize: "18px",
-                              fontWeight: 400,
-                              color: "#FFFFFF",
-                              WebkitTextStroke: "1px #000000",
                             }}
                           >
                             완료
@@ -464,11 +467,8 @@ const MissionPage: React.FC = () => {
                     <p
                       className="text-xs mb-8 mt-2 whitespace-nowrap"
                       style={{
-                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        ...whiteTextStyle,
                         fontSize: "12px",
-                        fontWeight: 400,
-                        color: "#FFFFFF",
-                        WebkitTextStroke: "1px #000000",
                       }}
                     >
                       * 미션을 정상적으로 수행하지 않을 경우 최종 보상에서
@@ -486,11 +486,8 @@ const MissionPage: React.FC = () => {
       <h1
         className="text-center my-4 ml-7"
         style={{
-          fontFamily: "'ONE Mobile POP', sans-serif",
+          ...whiteTextStyle,
           fontSize: "18px",
-          fontWeight: 400,
-          color: "#FFFFFF",
-          WebkitTextStroke: "1px #000000",
         }}
       >
         일일 미션
@@ -511,11 +508,8 @@ const MissionPage: React.FC = () => {
           <h1
             className="text-center mb-4 ml-7"
             style={{
-              fontFamily: "'ONE Mobile POP', sans-serif",
+              ...whiteTextStyle,
               fontSize: "18px",
-              fontWeight: 400,
-              color: "#FFFFFF",
-              WebkitTextStroke: "1px #000000",
             }}
           >
             미션 완료
@@ -569,11 +563,8 @@ const MissionPage: React.FC = () => {
                         <div className="md:space-y-3">
                           <p
                             style={{
-                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              ...whiteTextStyle,
                               fontSize: "12px",
-                              fontWeight: 400,
-                              color: "#FFFFFF",
-                              WebkitTextStroke: "1px #000000",
                             }}
                           >
                             {translatedName}
@@ -581,11 +572,8 @@ const MissionPage: React.FC = () => {
                           <p
                             className="flex flex-row items-center gap-1 mt-2"
                             style={{
-                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              ...whiteTextStyle,
                               fontSize: "14px",
-                              fontWeight: 400,
-                              color: "#FFFFFF",
-                              WebkitTextStroke: "1px #000000",
                             }}
                           >
                             +{mission.diceReward}{" "}
@@ -617,11 +605,8 @@ const MissionPage: React.FC = () => {
                           />
                           <p
                             style={{
-                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              ...whiteTextStyle,
                               fontSize: "18px",
-                              fontWeight: 400,
-                              color: "#FFFFFF",
-                              WebkitTextStroke: "1px #000000",
                             }}
                           >
                             완료
