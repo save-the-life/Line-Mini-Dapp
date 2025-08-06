@@ -84,13 +84,13 @@ const ResultWin: React.FC<ResultWinProps> = ({
                 className="rounded-full h-14 w-32 bg-gray-200 text-[#171717] font-medium"
                 onClick={onQuit}
               >
-                {t("dice_event.rps_game.collect")}
+                받기
               </button>
               <button
                 className="rounded-full h-14 w-32 bg-[#21212f] text-white font-medium"
                 onClick={onContinue}
               >
-                {t("dice_event.rps_game.gamble")}
+                도전하기
               </button>
             </>
           )}
@@ -162,7 +162,6 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
   consecutiveWins,
   winMultiplier,
 }) => {
-
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
@@ -179,7 +178,7 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
             onContinue={onContinue}
             onQuit={onQuit}
             consecutiveWins={consecutiveWins}
-            winMultiplier={winMultiplier*3}
+            winMultiplier={winMultiplier * 3}
           />
         ) : result === "lose" ? (
           <ResultLose winnings={winnings} onQuit={onQuit} />

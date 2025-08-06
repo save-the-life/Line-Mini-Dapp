@@ -276,7 +276,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
             <img
               src={Images.NewRPSGame}
               alt="RPS Game"
-              className="w-[352px] mx-auto"
+              className="w-[373px] mx-auto"
             />
 
             {/* 슬롯(라운드) 3개 표시 */}
