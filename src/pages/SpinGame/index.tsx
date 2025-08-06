@@ -385,12 +385,12 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       </motion.div>
 
       <motion.img
-        src={Images.SpinPin}
+        src={Images.NewPin}
         alt="Spin-game"
-        className="w-[126px] h-[142px] absolute z-10 transform rotate-45"
+        className="w-[126px] h-[142px] absolute z-10 top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         loading="lazy"
         initial={{ x: -200 }}
-        animate={{ x: 0, rotate: "45deg" }}
+        animate={{ x: 0 }}
         transition={{
           duration: 1,
           ease: "easeOut",
@@ -444,6 +444,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         {isSpinning ? "돌리는 중..." : "룰렛 돌리기"}
       </button>
 
+      {/* 결과 모달 */}
       <AlertDialog open={isDialogOpen}>
         <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none max-w-[90%] md:max-w-lg">
           <div className="flex flex-col items-center justify-center w-full h-full gap-4">
