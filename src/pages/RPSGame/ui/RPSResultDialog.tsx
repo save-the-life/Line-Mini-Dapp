@@ -45,12 +45,13 @@ const ResultWin: React.FC<ResultWinProps> = ({
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
+          marginTop: "200px",
         }}
       >
         {/* 컨텐츠 영역 */}
         <div className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-2">
           <div
-            className="flex rounded-3xl w-[264px] h-[86px] flex-row items-center justify-center gap-1"
+            className="flex rounded-[20px] w-[200px] h-[70px] flex-row items-center justify-center gap-[26px]"
             style={{
               background:
                 "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
@@ -88,7 +89,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
               베팅 금액의 27배를 획득하셨습니다!
             </div>
           ) : (
-            <div className="font-jalnan text-[30px] text-center">
+            <div className="text-center">
               <div
                 className="flex flex-col justify-center items-center"
                 style={{
@@ -231,12 +232,13 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
+          marginTop: "200px",
         }}
       >
         {/* 컨텐츠 영역 */}
         <div className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-4">
           <div
-            className="flex rounded-3xl w-[264px] h-[86px] flex-row items-center justify-center gap-1"
+            className="flex rounded-[20px] w-[200px] h-[70px] flex-row items-center justify-center gap-[26px]"
             style={{
               background:
                 "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
