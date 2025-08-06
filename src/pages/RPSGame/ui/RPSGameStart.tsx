@@ -246,13 +246,12 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
               value={betAmount}
               onChange={handleInputChange}
               max={formatNumber(allowedBetting)}
-              className="mt-4 w-[342px] h-[48px] rounded-3xl px-4 border-none outline-none"
+              className="mt-4 w-[342px] h-[48px] rounded-[44px] px-4 border-none outline-none"
               style={{
-                background:
-                  "linear-gradient(180deg, #0088FF 75%, transparent 75%)",
+                background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
                 boxShadow: "inset 0px 4px 3px 0px #FFFFFF",
                 fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: "12px",
+                fontSize: "14px",
                 fontWeight: 400,
                 color: "#FFFFFF",
                 WebkitTextStroke: "1px #000000",

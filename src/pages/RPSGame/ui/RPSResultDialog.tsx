@@ -242,7 +242,14 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
       <AlertDialogContent
         className="rounded-3xl text-white border-none w-[342px] h-[384px]"
         style={{
-          background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          background:
+            result === "win"
+              ? `url(${Images.RPSWin})`
+              : result === "lose"
+              ? `url(${Images.RPSDefeat})`
+              : "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           boxShadow: "0px 2px 0px 0px #000000, inset 0px 4px 2px 0px #FFFFFF",
         }}
       >
