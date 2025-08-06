@@ -84,8 +84,8 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
 
       <div className="flex flex-col items-center justify-center mt-4">
         <img
-          src={Images.RPSGameExample}
-          alt="RPSGameExample"
+          src={Images.RPSExample}
+          alt="RPSExample"
           className="w-[240px]"
         />
 

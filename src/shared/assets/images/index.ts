@@ -290,6 +290,7 @@ import NewRPSGame from "./rps-game.png"
 import IconRock from "./icon-rock.png"
 import IconPaper from "./icon-paper.png"
 import IconScissors from "./icon-scissors.png"
+import RPSExample from "./rps-ex.png"
 
 
 const Images = {
@@ -584,6 +585,7 @@ const Images = {
   IconRock,
   IconPaper,
   IconScissors,
+  RPSExample,
 };
 
 export default Images;

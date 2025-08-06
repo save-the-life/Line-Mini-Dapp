@@ -36,7 +36,7 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
   // -----------------------
   const imagesToLoad = [
     Images.BGRPSGame,
-    Images.RPSGameExample,
+    Images.RPSExample,
     Images.RPSGame,
     Images.Rock,
     Images.Paper,
