@@ -48,9 +48,9 @@ const ResultWin: React.FC<ResultWinProps> = ({
         </div>
         {isFinalWin ? (
           <div className="font-jalnan text-[24px] text-center">
-            {t("dice_event.rps_game.congrate")}
+            축하합니다!
             <br />
-            {t("dice_event.rps_game.27x")}
+            베팅 금액의 27배를 획득하셨습니다!
           </div>
         ) : (
           <div className="font-jalnan text-[30px] text-center">
@@ -68,22 +68,57 @@ const ResultWin: React.FC<ResultWinProps> = ({
         <div className="flex flex-row gap-2">
           {isFinalWin ? (
             <button
-              className="rounded-full h-14 w-32 bg-[#21212f] text-white font-medium"
+              className="flex items-center justify-center rounded-[10px] font-medium h-14 w-32"
               onClick={onQuit}
+              style={{
+                background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                border: "2px solid #76C1FF",
+                boxShadow:
+                  "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
             >
-              {t("dice_event.rps_game.finish")}
+              완료
             </button>
           ) : (
             <>
               <button
-                className="rounded-full h-14 w-32 bg-gray-200 text-[#171717] font-medium"
+                className="flex items-center justify-center rounded-[10px] font-medium h-14 w-32"
                 onClick={onQuit}
+                style={{
+                  background:
+                    "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                  border: "2px solid #76C1FF",
+                  boxShadow:
+                    "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
               >
                 받기
               </button>
               <button
-                className="rounded-full h-14 w-32 bg-[#21212f] text-white font-medium"
+                className="flex items-center justify-center rounded-[10px] font-medium h-14 w-32"
                 onClick={onContinue}
+                style={{
+                  background:
+                    "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                  border: "2px solid #76C1FF",
+                  boxShadow:
+                    "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
               >
                 도전하기
               </button>
@@ -124,7 +159,7 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
           className="rounded-full h-14 w-32 bg-[#21212f] text-white font-medium"
           onClick={onQuit}
         >
-          {t("dice_event.rps_game.quit")}
+          그만두기
         </button>
       </div>
     </div>
