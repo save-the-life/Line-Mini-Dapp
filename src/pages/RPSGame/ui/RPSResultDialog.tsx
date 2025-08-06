@@ -45,7 +45,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
-          marginTop: "200px",
+          marginTop: "180px",
         }}
       >
         {/* 컨텐츠 영역 */}
@@ -232,7 +232,7 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
-          marginTop: "200px",
+          marginTop: "180px",
         }}
       >
         {/* 컨텐츠 영역 */}
