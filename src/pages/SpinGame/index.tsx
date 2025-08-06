@@ -158,7 +158,7 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
       <img
         src={Images.SpinExample}
         alt="spin-example"
-        className="md:w-[306px] md:h-[372px] w-[230px] mt-4 self-center"
+        className="w-[328px] h-[471px] mt-4 self-center"
       />
       <div
         className="rounded-[20px] text-center w-[300px] h-[110px] flex items-center justify-center mt-4"
@@ -379,7 +379,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         <img
           src={Images.Spin}
           alt="Spin-game"
-          className="w-[320px] md:w-[360px] md:mt-16"
+          className="w-[328px] h-[471px] md:mt-16"
           loading="lazy"
         />
       </motion.div>
@@ -387,7 +387,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       <motion.img
         src={Images.NewPin}
         alt="Spin-game"
-        className="w-[126px] h-[142px] absolute z-10 top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        className="w-[70px] h-[87px] absolute z-10 top-[calc(50%-235px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         loading="lazy"
         initial={{ x: -200 }}
         animate={{ x: 0 }}
