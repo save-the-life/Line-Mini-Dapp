@@ -73,7 +73,16 @@ const ResultWin: React.FC<ResultWinProps> = ({
             <img src={Images.StarIcon} className="w-9 h-9" />
           </div>
           {isFinalWin ? (
-            <div className="font-jalnan text-[24px] text-center">
+            <div
+              className="text-center"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "24px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
               축하합니다!
               <br />
               베팅 금액의 27배를 획득하셨습니다!
@@ -317,11 +326,10 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
           background:
             result === "win"
               ? `url(${Images.RPSWin})`
-              : result === "lose"
-              ? `url(${Images.RPSDefeat})`
-              : "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              : `url(${Images.RPSDefeat})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          border: "none",
         }}
       >
         {result === "win" ? (
