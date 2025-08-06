@@ -135,15 +135,24 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
     <div
       className="flex flex-col items-center justify-center px-12 pb-8 h-full w-full"
       style={{
-        backgroundImage: `url(${Images.BGSpinGame})`,
+        backgroundImage: `url(${Images.BackgroundRulette})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <h1 className="text-[#fde047] font-jalnan text-center text-[36px] mt-8 ">
-        {t("dice_event.spin_game.spin_wheel")}
+      <h1
+        className="text-center mt-8 "
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "30px",
+          fontWeight: 400,
+          color: "#FDE047",
+          WebkitTextStroke: "1px #000000",
+        }}
+      >
+        돌림판을 돌리고,
         <br />
-        {t("dice_event.spin_game.win_prize")}
+        상품을 받아보세요!
       </h1>
 
       <img
@@ -173,7 +182,7 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
         </p>
       </div>
       <button
-        className="flex items-center justify-center h-14 mt-4 w-[342px] rounded-[10px]"
+        className="flex items-center justify-center h-14 mt-4 w-[300px] rounded-[10px]"
         onClick={onStart}
         style={{
           background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
@@ -512,7 +521,7 @@ const SpinGame: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
 
   // preload할 이미지 목록
   const imagesToLoad = [
-    Images.BGSpinGame,
+    Images.BackgroundRulette,
     Images.SpinExample,
     Images.Spin,
     Images.SpinPin,
