@@ -389,8 +389,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         alt="Spin-game"
         className="w-[70px] h-[87px] absolute z-10 top-[220px]"
         style={{ 
-          left: '50%', 
-          transform: 'translateX(-50%)',
+          left: 'calc(50% - 35px)', 
           position: 'absolute'
         }}
         loading="lazy"
