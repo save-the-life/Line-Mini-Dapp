@@ -293,6 +293,7 @@ import IconScissors from "./icon-scissors.png"
 import RPSExample from "./rps-ex.png"
 import RPSDefeat from "./rps-defeat.png"
 import RPSWin from "./rps-win.png"
+import InfoBtn from "./info-btn.png"
 
 
 const Images = {
@@ -590,6 +591,7 @@ const Images = {
   RPSExample,
   RPSDefeat,
   RPSWin,
+  InfoBtn,
 };
 
 export default Images;
