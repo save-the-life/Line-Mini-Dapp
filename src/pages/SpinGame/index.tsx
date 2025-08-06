@@ -10,10 +10,7 @@ import { useTranslation } from "react-i18next";
 import { formatNumber } from "@/shared/utils/formatNumber";
 import { IoGameController } from "react-icons/io5";
 import { Wheel } from "react-custom-roulette";
-import {
-  AlertDialog,
-  AlertDialogContent,
-} from "@/shared/components/ui";
+import { AlertDialog, AlertDialogContent } from "@/shared/components/ui";
 import api from "@/shared/api/axiosInstance";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
@@ -154,18 +151,42 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
         alt="spin-example"
         className="md:w-[306px] md:h-[372px] w-[230px] mt-4 self-center"
       />
-      <div className="border-2 border-[#21212f] rounded-3xl text-center bg-white text-[#171717] font-medium w-[342px] h-[110px] flex items-center justify-center mt-4">
+      <div
+        className="rounded-[20px] text-center w-[300px] h-[110px] flex items-center justify-center mt-4"
+        style={{
+          background: "rgba(0, 94, 170, 0.5)",
+          backdropFilter: "blur(10px)",
+          boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "14px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
+      >
         <p>
-          ※ {t("dice_event.spin_game.note")} ※
-          <br /> {t("dice_event.spin_game.if_you")} <br />
-          {t("dice_event.spin_game.lose_turn")}
+          ※ 안내 ※
+          <br />
+          룰렛을 돌리지 않고 나가면,
+          <br />
+          차례가 사라집니다.
         </p>
       </div>
       <button
-        className="flex items-center justify-center bg-[#21212f] text-white h-14 mt-4 w-[342px] rounded-full font-medium"
+        className="flex items-center justify-center h-14 mt-4 w-[342px] rounded-[10px]"
         onClick={onStart}
+        style={{
+          background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+          border: "2px solid #76C1FF",
+          boxShadow: "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "18px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
       >
-        {t("dice_event.spin_game.start")}
+        시작하기
       </button>
     </div>
   );
@@ -318,15 +339,24 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
     <div
       className="relative flex flex-col items-center h-screen justify-center w-full"
       style={{
-        backgroundImage: `url(${Images.BGSpinGame})`,
+        backgroundImage: `url(${Images.BackgroundRulette})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <h1 className="text-[#fde047] font-jalnan text-center text-[36px] mt-8 md:mb-12">
-        {t("dice_event.spin_game.spin_wheel")}
+      <h1
+        className="text-center mt-8 md:mb-12"
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "30px",
+          fontWeight: 400,
+          color: "#FDE047",
+          WebkitTextStroke: "1px #000000",
+        }}
+      >
+        돌림판을 돌리고,
         <br />
-        {t("dice_event.spin_game.win_prize")}
+        상품을 받아보세요!
       </h1>
 
       <motion.div
@@ -395,13 +425,17 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
             : "bg-[#21212f] text-white"
         }`}
       >
-        {isSpinning ? t("dice_event.spin_game.spinning") : t("dice_event.spin_game.spin")}
+        {isSpinning
+          ? t("dice_event.spin_game.spinning")
+          : t("dice_event.spin_game.spin")}
       </button>
 
       <AlertDialog open={isDialogOpen}>
         <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none max-w-[90%] md:max-w-lg">
           <div className="flex flex-col items-center justify-center w-full h-full gap-4">
-            <h1 className="mt-10 font-jalnan">{t("dice_event.spin_game.get_reward")}</h1>
+            <h1 className="mt-10 font-jalnan">
+              {t("dice_event.spin_game.get_reward")}
+            </h1>
             <div className="w-32 h-32 bg-gradient-to-b from-[#2660f4] to-[#3937a3] rounded-[24px] flex items-center justify-center">
               <div className="w-[126px] h-[126px] logo-bg rounded-[24px] flex items-center justify-center flex-col gap-2">
                 <img
@@ -414,14 +448,19 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
             <div className="text-center space-y-2">
               {prizeData?.spinType?.toUpperCase() === "BOOM" ? (
                 <>
-                  <p className="text-xl font-semibold">{t("dice_event.spin_game.boom")}</p>
-                  <p className="text-[#a3a3a3]">{t("dice_event.spin_game.better_luck")}</p>
+                  <p className="text-xl font-semibold">
+                    {t("dice_event.spin_game.boom")}
+                  </p>
+                  <p className="text-[#a3a3a3]">
+                    {t("dice_event.spin_game.better_luck")}
+                  </p>
                 </>
               ) : (
                 <>
                   <p className="text-xl font-semibold">
                     {t("dice_event.spin_game.congrate")} <br />
-                    {t("dice_event.spin_game.you_won")} {prizeData && formatNumber(prizeData?.amount)}{" "}
+                    {t("dice_event.spin_game.you_won")}{" "}
+                    {prizeData && formatNumber(prizeData?.amount)}{" "}
                     {getPrizeDisplayName(prizeData?.spinType)}!
                   </p>
                 </>
@@ -436,11 +475,15 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
                     alt="rewardBooster"
                     className="w-6 h-6"
                   />
-                  <p className="font-semibold">{t("dice_event.spin_game.booster")}</p>
+                  <p className="font-semibold">
+                    {t("dice_event.spin_game.booster")}
+                  </p>
                 </div>
                 <div className="flex flex-row items-center gap-1 mt-2 ml-6">
                   <IoGameController className="text-xl" />
-                  <p className="text-sm">{t("dice_event.spin_game.spin_reward")} : x{items.spinTimes}</p>
+                  <p className="text-sm">
+                    {t("dice_event.spin_game.spin_reward")} : x{items.spinTimes}
+                  </p>
                 </div>
               </div>
             </div>
@@ -516,7 +559,7 @@ const SpinGame: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
 
   // 로딩 중이면 LoadingSpinner 보여주고, 끝나면 실제 화면
   if (isLoading) {
-    return <LoadingSpinner className="h-screen"/>;
+    return <LoadingSpinner className="h-screen" />;
   }
 
   return (

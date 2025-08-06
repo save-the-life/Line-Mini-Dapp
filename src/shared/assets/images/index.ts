@@ -62,7 +62,7 @@ import BGRPSGame from './bg-rpsgame.png';
 import BGSpinGame from './bg-spingame.png';
 import Spin from './spin.png';
 import SpinPin from './spin-pin.png';
-import SpinExample from './spin-example.png';
+import SpinExample from './spin-ex.png';
 import RPSGameExample from './RPSGame-example.png';
 import RPSGame from './RPSGame.png';
 import Rock from './rock.png';
