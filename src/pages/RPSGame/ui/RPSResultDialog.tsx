@@ -41,7 +41,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
     <div className="relative w-full h-full flex flex-col items-center">
       {/* 파란색 배경 영역 */}
       <div
-        className="relative rounded-[10px] w-[234px] h-[228px] mb-4"
+        className="relative rounded-[10px] w-[234px] h-[228px] mb-8"
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
@@ -124,16 +124,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
                       ×{winMultiplier}
                     </p>
                   </div>
-                  <div
-                    className="flex flex-row items-center justify-center w-[66px] h-[35px] px-[20px]"
-                    style={{
-                      background: "rgba(0, 94, 170, 0.5)",
-                      borderRadius: "53px",
-                      backdropFilter: "blur(10px)",
-                      boxShadow:
-                        "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
-                    }}
-                  >
+                  <div className="flex flex-row items-center justify-centers">
                     <p
                       style={{
                         fontFamily: "'ONE Mobile POP', sans-serif",
@@ -153,10 +144,10 @@ const ResultWin: React.FC<ResultWinProps> = ({
         </div>
       </div>
       {/* 버튼들을 바깥 영역으로 이동 */}
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-[27px]">
         {isFinalWin ? (
           <button
-            className="flex items-center justify-center rounded-[10px] font-medium h-14 w-32"
+            className="flex items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
             onClick={onQuit}
             style={{
               background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
@@ -175,7 +166,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
         ) : (
           <>
             <button
-              className="flex items-center justify-center rounded-[10px] font-medium h-14 w-32"
+              className="flex items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
               onClick={onQuit}
               style={{
                 background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
@@ -228,7 +219,7 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
     <div className="relative w-full h-full flex flex-col items-center">
       {/* 파란색 배경 영역 */}
       <div
-        className="relative rounded-[10px] w-[234px] h-[228px] mb-4"
+        className="relative rounded-[10px] w-[234px] h-[228px] mb-8"
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
