@@ -284,9 +284,9 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
               <div
                 key={index}
                 style={{
-                  left: `${32 + index * 88}px`,
+                  left: `${56 + index * 88}px`,
                   position: "absolute",
-                  bottom: "204px",
+                  bottom: "192px",
                 }}
                 className="gap-2 flex flex-row items-center justify-center pl-1 w-[87px] overflow-y-hidden h-[80px]"
               >
@@ -344,8 +344,8 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
             <div
               style={{
                 position: "absolute",
-                bottom: "80px",
-                left: "54px",
+                bottom: "86px",
+                left: "86px",
               }}
               className="flex flex-row gap-2 items-center"
             >

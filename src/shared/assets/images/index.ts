@@ -291,6 +291,8 @@ import IconRock from "./icon-rock.png"
 import IconPaper from "./icon-paper.png"
 import IconScissors from "./icon-scissors.png"
 import RPSExample from "./rps-ex.png"
+import RPSDefeat from "./rps-defeat.png"
+import RPSWin from "./rps-win.png"
 
 
 const Images = {
@@ -586,6 +588,8 @@ const Images = {
   IconPaper,
   IconScissors,
   RPSExample,
+  RPSDefeat,
+  RPSWin,
 };
 
 export default Images;
