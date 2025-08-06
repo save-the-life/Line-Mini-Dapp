@@ -40,11 +40,26 @@ const ResultWin: React.FC<ResultWinProps> = ({
   return (
     <div>
       <div className="flex flex-col items-center justify-center w-full h-full gap-2">
-        <div className="flex bg-white rounded-3xl w-[264px] h-[86px] border-2 border-[#21212f] flex-row items-center justify-center gap-1">
-          <p className="font-semibold text-[30px] text-[#171717]">
+        <div
+          className="flex rounded-3xl w-[264px] h-[86px] flex-row items-center justify-center gap-1"
+          style={{
+            background: "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
+            border: "2px solid #76C1FF",
+            boxShadow: "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "24px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
             +{formatNumber(winnings)}
           </p>
-          <img src={Images.Star} className="w-9 h-9" />
+          <img src={Images.StarIcon} className="w-9 h-9" />
         </div>
         {isFinalWin ? (
           <div className="font-jalnan text-[24px] text-center">
@@ -142,24 +157,59 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center w-full h-full gap-4">
-        <div className="flex bg-white rounded-3xl w-[264px] h-[86px] border-2 border-[#21212f] flex-row items-center justify-center gap-1">
-          <p className="font-semibold text-[30px] text-[#171717]">
+        <div
+          className="flex rounded-3xl w-[264px] h-[86px] flex-row items-center justify-center gap-1"
+          style={{
+            background: "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
+            border: "2px solid #76C1FF",
+            boxShadow: "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "24px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
             {formatNumber(winnings)}
           </p>
-          <img src={Images.Star} className="w-9 h-9" />
+          <img src={Images.StarIcon} className="w-9 h-9" />
         </div>
-        <div className="font-jalnan text-[20px] text-center">
-          <p>
-            {t("dice_event.rps_game.better_luck")} <br />
-            {t("dice_event.rps_game.next_time")}
+        <div className="text-center">
+          <p
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            아쉬웠어요! <br />
+            다음엔 행운이 함께하길!
           </p>
         </div>
 
         <button
-          className="rounded-full h-14 w-32 bg-[#21212f] text-white font-medium"
+          className="flex items-center justify-center rounded-3xl font-medium"
           onClick={onQuit}
+          style={{
+            width: "300px",
+            height: "56px",
+            background: "linear-gradient(180deg, #FF2F32 0%, #FF6D70 100%)",
+            border: "2px solid #FFA1A2",
+            boxShadow: "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
+            fontFamily: "'ONE Mobile POP', sans-serif",
+            fontSize: "18px",
+            fontWeight: 400,
+            color: "#FFFFFF",
+            WebkitTextStroke: "1px #000000",
+          }}
         >
-          그만두기
+          나가기
         </button>
       </div>
     </div>
@@ -190,13 +240,10 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
-        className="rounded-3xl bg-[#21212F] text-white border-none w-[342px] h-[384px]"
+        className="rounded-3xl text-white border-none w-[342px] h-[384px]"
         style={{
-          background: `url(${
-            result === "win" ? Images.RPSWin : Images.RPSDefeat
-          })`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          boxShadow: "0px 2px 0px 0px #000000, inset 0px 4px 2px 0px #FFFFFF",
         }}
       >
         {result === "win" ? (
