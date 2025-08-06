@@ -387,8 +387,12 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       <motion.img
         src={Images.NewPin}
         alt="Spin-game"
-        className="w-[70px] h-[87px] absolute z-10 left-1/2 transform -translate-x-1/2 top-[220px]"
-        style={{ left: '50%', transform: 'translateX(-50%)' }}
+        className="w-[70px] h-[87px] absolute z-10 top-[220px]"
+        style={{ 
+          left: '50%', 
+          transform: 'translateX(-50%)',
+          position: 'absolute'
+        }}
         loading="lazy"
         initial={{ x: -200 }}
         animate={{ x: 0 }}
