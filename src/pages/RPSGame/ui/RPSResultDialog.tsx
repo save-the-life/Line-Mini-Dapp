@@ -41,7 +41,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
     <div className="relative w-full h-full">
       {/* 파란색 배경 영역 */}
       <div
-        className="absolute inset-0 rounded-3xl"
+        className="absolute inset-0 rounded-[10px] w-[234px] h-[228px]"
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
@@ -168,7 +168,7 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
     <div className="relative w-full h-full">
       {/* 파란색 배경 영역 */}
       <div
-        className="absolute inset-0 rounded-3xl"
+        className="absolute inset-0 rounded-[10px] w-[234px] h-[228px]"
         style={{
           background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
           opacity: 0.9,
@@ -260,13 +260,14 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent
-        className="rounded-3xl text-white border-none w-[342px] h-[384px]"
+        className="rounded-3xl text-white border-none w-[373px] h-[490px] object-cover"
         style={{
-          background: result === "win" 
-            ? `url(${Images.RPSWin})` 
-            : result === "lose" 
-            ? `url(${Images.RPSDefeat})` 
-            : "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          background:
+            result === "win"
+              ? `url(${Images.RPSWin})`
+              : result === "lose"
+              ? `url(${Images.RPSDefeat})`
+              : "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           boxShadow: "0px 2px 0px 0px #000000, inset 0px 4px 2px 0px #FFFFFF",
@@ -288,4 +289,4 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
   );
 };
 
-export default RPSResultDialog; 
+export default RPSResultDialog;
