@@ -39,11 +39,6 @@ const ResultWin: React.FC<ResultWinProps> = ({
 
   return (
     <div>
-      <img
-        src={Images.Victory}
-        alt="rps-result"
-        className="w-[250px] h-[157px] absolute -top-[96px] left-1/2 transform -translate-x-1/2"
-      />
       <div className="flex flex-col items-center justify-center w-full h-full gap-2">
         <div className="flex bg-white rounded-3xl w-[264px] h-[86px] border-2 border-[#21212f] flex-row items-center justify-center gap-1">
           <p className="font-semibold text-[30px] text-[#171717]">
@@ -111,11 +106,6 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
 
   return (
     <div>
-      <img
-        src={Images.Defeat}
-        alt="rps-result"
-        className="w-[250px] h-[157px] absolute -top-[96px] left-1/2 transform -translate-x-1/2"
-      />
       <div className="flex flex-col items-center justify-center w-full h-full gap-4">
         <div className="flex bg-white rounded-3xl w-[264px] h-[86px] border-2 border-[#21212f] flex-row items-center justify-center gap-1">
           <p className="font-semibold text-[30px] text-[#171717]">
@@ -167,7 +157,9 @@ const RPSResultDialog: React.FC<RPSResultDialogProps> = ({
       <AlertDialogContent
         className="rounded-3xl bg-[#21212F] text-white border-none w-[342px] h-[384px]"
         style={{
-          background: `url(${Images.RPSResultBG})`,
+          background: `url(${
+            result === "win" ? Images.RPSWin : Images.RPSDefeat
+          })`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
