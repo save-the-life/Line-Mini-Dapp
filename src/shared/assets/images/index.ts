@@ -294,6 +294,7 @@ import RPSExample from "./rps-ex.png"
 import RPSDefeat from "./rps-defeat.png"
 import RPSWin from "./rps-win.png"
 import InfoBtn from "./info-btn.png"
+import NewPin from "./new-pin.png"
 
 
 const Images = {
@@ -592,6 +593,7 @@ const Images = {
   RPSDefeat,
   RPSWin,
   InfoBtn,
+  NewPin,
 };
 
 export default Images;
