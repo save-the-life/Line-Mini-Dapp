@@ -428,15 +428,20 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       <button
         onClick={handleSpinClick}
         disabled={isSpinning || mustSpin}
-        className={`flex items-center justify-center h-14 mt-4 w-[342px] rounded-full font-medium ${
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "18px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
+        className={`flex items-center justify-center h-14 mt-4 w-[342px] rounded-full ${
           isSpinning || mustSpin
             ? "bg-[#21212f] opacity-65 text-white cursor-not-allowed"
             : "bg-[#21212f] text-white"
         }`}
       >
-        {isSpinning
-          ? t("dice_event.spin_game.spinning")
-          : t("dice_event.spin_game.spin")}
+        {isSpinning ? "돌리는 중..." : "룰렛 돌리기"}
       </button>
 
       <AlertDialog open={isDialogOpen}>
@@ -457,18 +462,14 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
             <div className="text-center space-y-2">
               {prizeData?.spinType?.toUpperCase() === "BOOM" ? (
                 <>
-                  <p className="text-xl font-semibold">
-                    {t("dice_event.spin_game.boom")}
-                  </p>
-                  <p className="text-[#a3a3a3]">
-                    {t("dice_event.spin_game.better_luck")}
-                  </p>
+                  <p className="text-xl font-semibold">꽝</p>
+                  <p className="text-[#a3a3a3]">다음 기회에 행운을 빌어요!</p>
                 </>
               ) : (
                 <>
                   <p className="text-xl font-semibold">
-                    {t("dice_event.spin_game.congrate")} <br />
-                    {t("dice_event.spin_game.you_won")}{" "}
+                    축하합니다 <br />
+                    당첨되셨습니다!{" "}
                     {prizeData && formatNumber(prizeData?.amount)}{" "}
                     {getPrizeDisplayName(prizeData?.spinType)}!
                   </p>
