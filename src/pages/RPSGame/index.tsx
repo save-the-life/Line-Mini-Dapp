@@ -230,11 +230,12 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
       ) : (
         <div className="flex flex-col items-center justify-center h-full w-[600px] overflow-hidden mx-auto">
           {/* 배팅 금액, 배율 */}
-          <div 
+          <div
             className="flex flex-row items-center justify-center h-[86px] w-[264px] rounded-[58px] gap-3 relative"
             style={{
-              background: 'linear-gradient(180deg, #282F4E 0%, #0044A3 100%)',
-              boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)',
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
             }}
           >
             <div className="flex flex-row items-center gap-1">
@@ -255,23 +256,23 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
                 {formatNumber(betAmount)}
               </p>
             </div>
-                         <div
-               className="flex items-center justify-center h-[35px] w-[66px] rounded-[53px]"
-               style={{
-                 background: 'rgba(0, 94, 170, 0.5)',
-                 backdropFilter: 'blur(10px)',
-                 boxShadow: 'inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)',
-                 fontFamily: "'ONE Mobile POP', sans-serif",
-                 fontSize: "18px",
-                 fontWeight: 400,
-                 color: "#FDE047",
-                 WebkitTextStroke: "1px #000000",
-                 padding: "20px",
-                 gap: "25px"
-               }}
-             >
-               x{winMultiplier * 3 > 27 ? 27 : winMultiplier * 3}
-             </div>
+            <div
+              className="flex items-center justify-center h-[35px] w-[66px] rounded-[53px]"
+              style={{
+                background: "rgba(0, 94, 170, 0.5)",
+                backdropFilter: "blur(10px)",
+                boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FDE047",
+                WebkitTextStroke: "1px #000000",
+                padding: "20px",
+                gap: "25px",
+              }}
+            >
+              x{winMultiplier * 3 > 27 ? 27 : winMultiplier * 3}
+            </div>
           </div>
 
           {/* 게임 보드 */}

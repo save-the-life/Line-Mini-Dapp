@@ -80,8 +80,17 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       {/* 2. 카드 애니메이션 */}
       <div className="flex flex-col items-center justify-center mt-4 mb-6">
         <AnimatedCard />
-        {/* 3. 설명/포인트 영역 */}
-        <div className="flex flex-row gap-3 mt-4">
+      </div>
+      {/* 3. 설명/포인트 영역 - 중앙으로 이동 */}
+      <div className="flex flex-col items-center justify-center flex-1">
+        <div
+          className="flex flex-row gap-3"
+          style={{
+            background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+            boxShadow:
+              "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+          }}
+        >
           <Popover>
             <PopoverTrigger
               className="flex flex-row gap-1 rounded-[56px] text-center w-[165px] h-[72px] items-center justify-center"
@@ -91,62 +100,83 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 fontWeight: 400,
                 color: "#FFFFFF",
                 WebkitTextStroke: "1px #000000",
-                background:
-                  "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
-                border: "2px solid #76C1FF",
-                boxShadow:
-                  "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
               }}
             >
               <img src={Images.QuestionCircle} className="w-[30px] h-[30px]" />
               게임 방법
             </PopoverTrigger>
             <PopoverContent
-              className="rounded-3xl border-2 border-[#21212f] bg-white"
+              className="rounded-[24px]"
               style={{
                 maxHeight: "65vh",
                 overflowY: "auto",
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+                boxShadow:
+                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
               }}
             >
-              <div className="text-black p-4 rounded-lg shadow-lg w-full max-w-lg">
-                <h2 className="text-xl font-bold text-center mb-4">
-                  ✼ Game Instructions ✼
+              <div className="p-4 rounded-lg shadow-lg w-full max-w-lg">
+                <h2
+                  className="text-start mb-4"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    color: "#FDE047",
+                    WebkitTextStroke: "1px #000000",
+                  }}
+                >
+                  ✼ 게임 방법 ✼
                 </h2>
-                <ol className="text-sm leading-loose space-y-4">
+                <ol
+                  className=" leading-loose space-y-4"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
+                >
                   <li>
-                    <strong>1. Place Your Bet</strong>
+                    <strong>1. 베팅하기</strong>
                     <ul className="list-disc pl-5">
-                      <li>Feeling lucky? Enter your desired bet amount.</li>
                       <li>
-                        Maximum bet is limited to half of your total stars.
+                        오늘의 행운을 믿어보세요! 원하는 스타 수를 입력하세요.
+                      </li>
+                      <li>최대 베팅은 보유 스타의 절반까지만 가능합니다.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>2. 카드 색상 / 문양 맞추기</strong>
+                    <ul className="list-disc pl-5">
+                      <li>카드를 뽑기 전에 다음 중 하나를 선택하세요:</li>
+                      <li>색상: 🔴레드 / ⚫블랙(확률 50%)</li>
+                      <li>
+                        문양: ♠스페이드 / ♦다이아 / ♥하트 / ♣클로버 (확률 25%)
                       </li>
                     </ul>
                   </li>
                   <li>
-                    <strong>
-                      2. Play Card Guessing ◦ Choose RED, BLACK, ♠, ♦, ♥, or ♣
-                      before drawing.
-                    </strong>
+                    <strong>3. 보상 받기</strong>
                     <ul className="list-disc pl-5">
-                      <li>
-                        Color guess has a 50% chance; suit guess has a 25%
-                        chance.
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <strong>3. Win Rewards</strong>
-                    <ul className="list-disc pl-5">
-                      <li>Correct color guess pays 2× your bet.</li>
-                      <li>Correct suit guess pays 4× your bet.</li>
-                      <li>Losing any round forfeits your bet.</li>
+                      <li>색상을 맞추면 베팅 금액의 2배를 획득합니다.</li>
+                      <li>문양을 맞추면 베팅 금액의 4배를 획득합니다.</li>
+                      <li>틀릴 경우 베팅한 스타는 소멸됩니다.</li>
                     </ul>
                   </li>
                 </ol>
               </div>
             </PopoverContent>
           </Popover>
-          <div className="flex flex-col gap-1 rounded-[56px] text-center w-[165px] h-[72px] items-center justify-center">
+          <div
+            className="flex flex-col gap-1 rounded-[56px] text-center w-[165px] h-[72px] items-center justify-center"
+            style={{
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+            }}
+          >
             <span
               className="text-center"
               style={{
@@ -155,11 +185,6 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 fontWeight: 400,
                 color: "#FFFFFF",
                 WebkitTextStroke: "1px #000000",
-                background:
-                  "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
-                border: "2px solid #76C1FF",
-                boxShadow:
-                  "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
               }}
             >
               내 포인트
@@ -254,11 +279,6 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
       }
 
       setAnimationDistance(distance);
-      console.log("📱 화면 높이 감지:", {
-        screenHeight: height,
-        calculatedDistance: distance,
-        timestamp: new Date().toISOString(),
-      });
     };
 
     updateScreenHeight();
@@ -276,15 +296,6 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
   const handleSelect = (type: any, value: any) => {
     if (isAnimating) return; // 애니메이션 중에는 추가 선택 방지
 
-    console.log("🎯 사용자 선택:", {
-      type,
-      value,
-      previousMode: mode,
-      previousTopSelected: topSelected,
-      previousBottomSelected: bottomSelected,
-      timestamp: new Date().toISOString(),
-    });
-
     setIsAnimating(true);
 
     if (type === "color") {
@@ -292,19 +303,16 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
       setSelectedColor(value as "RED" | "BLACK");
       setSelectedSuit(null);
       setTopSelected(true);
-      console.log("🔴 색상 선택 완료 - 상단 영역 활성화, 하단 영역 비활성화");
     } else if (type === "suit") {
       setMode("suit");
       setSelectedSuit(value as string);
       setSelectedColor(null);
       setBottomSelected(true);
-      console.log("♠️ 무늬 선택 완료 - 하단 영역 활성화, 상단 영역 비활성화");
     }
 
     // 애니메이션 완료 후 상태 리셋
     setTimeout(() => {
       setIsAnimating(false);
-      console.log("⏰ 애니메이션 락 해제 - 새로운 선택 가능");
     }, 500);
   };
   const handleSubmit = () => {
@@ -334,51 +342,15 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               exit={{ opacity: 0, y: animationDistance }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
-              onUpdate={(latest) => {
-                console.log("🔄 상단 영역 애니메이션 진행 중:", {
-                  currentY: latest.y,
-                  currentOpacity: latest.opacity,
-                  bottomSelected,
-                  animationDistance,
-                  screenHeight,
-                  timestamp: new Date().toISOString(),
-                });
-              }}
-              onAnimationStart={() => {
-                console.log("🚀 상단 영역 애니메이션 시작:", {
-                  initialY: 0,
-                  targetY: bottomSelected ? animationDistance : 0,
-                  targetOpacity: bottomSelected ? 0 : 1,
-                  action: bottomSelected
-                    ? "하단 선택으로 인한 사라짐"
-                    : "정상 표시",
-                  animationDistance,
-                  screenHeight,
-                  timestamp: new Date().toISOString(),
-                });
-              }}
-              onAnimationComplete={() => {
-                console.log("✅ 상단 영역 애니메이션 완료:", {
-                  finalY: bottomSelected ? animationDistance : 0,
-                  finalOpacity: bottomSelected ? 0 : 1,
-                  totalDistance: Math.abs(
-                    bottomSelected ? animationDistance : 0
-                  ),
-                  animationDistance,
-                  screenHeight,
-                  timestamp: new Date().toISOString(),
-                });
-              }}
             >
               {/* 배팅 금액, 2배율 */}
               <div
                 className="flex flex-row items-center justify-center h-[54px] w-[264px] rounded-[58px] gap-3 mb-3 mx-auto"
                 style={{
                   background:
-                    "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
-                  border: "2px solid #76C1FF",
+                    "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
                   boxShadow:
-                    "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
+                    "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
                 }}
               >
                 <div className="flex flex-row items-center gap-1">
@@ -450,58 +422,6 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           }}
           transition={{ duration: 0.4, delay: 0.1 }}
           className="flex flex-col items-center mb-8"
-          onUpdate={(latest) => {
-            console.log("🔄 카드 애니메이션 진행 중:", {
-              currentY: latest.y,
-              topSelected,
-              bottomSelected,
-              animationDistance,
-              screenHeight,
-              timestamp: new Date().toISOString(),
-            });
-          }}
-          onAnimationStart={() => {
-            console.log("🚀 카드 애니메이션 시작:", {
-              initialY: 0,
-              targetY: topSelected
-                ? animationDistance
-                : bottomSelected
-                ? -animationDistance
-                : 0,
-              direction: topSelected
-                ? "아래로"
-                : bottomSelected
-                ? "위로"
-                : "제자리",
-              animationDistance,
-              screenHeight,
-              timestamp: new Date().toISOString(),
-            });
-          }}
-          onAnimationComplete={() => {
-            console.log("✅ 카드 애니메이션 완료:", {
-              finalY: topSelected
-                ? animationDistance
-                : bottomSelected
-                ? -animationDistance
-                : 0,
-              totalDistance: Math.abs(
-                topSelected
-                  ? animationDistance
-                  : bottomSelected
-                  ? -animationDistance
-                  : 0
-              ),
-              direction: topSelected
-                ? "아래로 이동 완료"
-                : bottomSelected
-                ? "위로 이동 완료"
-                : "제자리 유지",
-              animationDistance,
-              screenHeight,
-              timestamp: new Date().toISOString(),
-            });
-          }}
         >
           <img
             src={Images.CardBack}
@@ -532,49 +452,15 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               exit={{ opacity: 0, y: -animationDistance }}
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center"
-              onUpdate={(latest) => {
-                console.log("🔄 하단 영역 애니메이션 진행 중:", {
-                  currentY: latest.y,
-                  currentOpacity: latest.opacity,
-                  topSelected,
-                  animationDistance,
-                  screenHeight,
-                  timestamp: new Date().toISOString(),
-                });
-              }}
-              onAnimationStart={() => {
-                console.log("🚀 하단 영역 애니메이션 시작:", {
-                  initialY: 0,
-                  targetY: topSelected ? -animationDistance : 0,
-                  targetOpacity: topSelected ? 0 : 1,
-                  action: topSelected
-                    ? "상단 선택으로 인한 사라짐"
-                    : "정상 표시",
-                  animationDistance,
-                  screenHeight,
-                  timestamp: new Date().toISOString(),
-                });
-              }}
-              onAnimationComplete={() => {
-                console.log("✅ 하단 영역 애니메이션 완료:", {
-                  finalY: topSelected ? -animationDistance : 0,
-                  finalOpacity: topSelected ? 0 : 1,
-                  totalDistance: Math.abs(topSelected ? -animationDistance : 0),
-                  animationDistance,
-                  screenHeight,
-                  timestamp: new Date().toISOString(),
-                });
-              }}
             >
               {/* 배팅 금액, 4배율 */}
               <div
                 className="flex flex-row items-center justify-center h-[54px] w-[264px] gap-3 mb-3 mx-auto rounded-[58px]"
                 style={{
                   background:
-                    "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
-                  border: "2px solid #76C1FF",
+                    "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
                   boxShadow:
-                    "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
+                    "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
                 }}
               >
                 <div className="flex flex-row items-center gap-1">
