@@ -67,6 +67,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
           fontWeight: 400,
           color: "#FDE047",
           WebkitTextStroke: "1px #000000",
+          lineHeight: "36px",
         }}
       >
         당신의 선택이
@@ -391,7 +392,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                 </div>
               </div>
               {/* Red 버튼 + Black 버튼 */}
-              <div className="flex flex-row gap-5 mb-8">
+              <div className="flex flex-row gap-3 mb-[21px]">
                 <button
                   onClick={() => handleSelect("color", "RED")}
                   className={`flex flex-row gap-1 rounded-[10px] text-center font-bold text-xl w-[150px] h-[45px] items-center justify-center ${
