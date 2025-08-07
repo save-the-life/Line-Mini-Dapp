@@ -4,11 +4,6 @@ import { FaStar } from "react-icons/fa6";
 import Images from "@/shared/assets/images";
 import ReactCardFlip from "react-card-flip";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/shared/components/ui";
 
 const COLORS: ("RED" | "BLACK")[] = ["RED", "BLACK"];
 const SUITS = [
@@ -45,6 +40,7 @@ const AnimatedCard = () => {
 const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   const [bet, setBet] = useState("");
   const [error, setError] = useState("");
+  const [showGameGuide, setShowGameGuide] = useState(false);
 
   const handleBet = () => {
     const amount = Number(bet);
@@ -84,86 +80,23 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       {/* 3. 설명/포인트 영역 - 중앙으로 이동 */}
       <div className="flex flex-col items-center justify-center flex-1">
         <div className="flex flex-row gap-3">
-          <Popover>
-            <PopoverTrigger
-              className="flex flex-row gap-1 rounded-[56px] text-center w-[165px] h-[72px] items-center justify-center"
-              style={{
-                fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: "14px",
-                fontWeight: 400,
-                color: "#FFFFFF",
-                WebkitTextStroke: "1px #000000",
-                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-                boxShadow:
-                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
-              }}
-            >
-              <img src={Images.QuestionCircle} className="w-[30px] h-[30px]" />
-              게임 방법
-            </PopoverTrigger>
-            <PopoverContent
-              className="rounded-[24px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60]"
-              style={{
-                maxHeight: "65vh",
-                overflowY: "auto",
-                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-                boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)",
-              }}
-            >
-              <div className="p-4 rounded-lg shadow-lg w-full max-w-lg">
-                <h2
-                  className="text-start mb-4"
-                  style={{
-                    fontFamily: "'ONE Mobile POP', sans-serif",
-                    fontSize: "12px",
-                    fontWeight: 400,
-                    color: "#FDE047",
-                    WebkitTextStroke: "1px #000000",
-                  }}
-                >
-                  ✼ 게임 방법 ✼
-                </h2>
-                <ol
-                  className=" leading-loose space-y-4"
-                  style={{
-                    fontFamily: "'ONE Mobile POP', sans-serif",
-                    fontSize: "12px",
-                    fontWeight: 400,
-                    color: "#FFFFFF",
-                    WebkitTextStroke: "1px #000000",
-                  }}
-                >
-                  <li>
-                    <p>1. 베팅하기</p>
-                    <ul className="list-disc pl-5">
-                      <li>
-                        오늘의 행운을 믿어보세요! 원하는 스타 수를 입력하세요.
-                      </li>
-                      <li>최대 베팅은 보유 스타의 절반까지만 가능합니다.</li>
-                    </ul>
-                  </li>
-                  <li>
-                    <p>2. 카드 색상 / 문양 맞추기</p>
-                    <ul className="list-disc pl-5">
-                      <li>카드를 뽑기 전에 다음 중 하나를 선택하세요:</li>
-                      <li>색상: 🔴레드 / ⚫블랙(확률 50%)</li>
-                      <li>
-                        문양: ♠스페이드 / ♦다이아 / ♥하트 / ♣클로버 (확률 25%)
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <p>3. 보상 받기</p>
-                    <ul className="list-disc pl-5">
-                      <li>색상을 맞추면 베팅 금액의 2배를 획득합니다.</li>
-                      <li>문양을 맞추면 베팅 금액의 4배를 획득합니다.</li>
-                      <li>틀릴 경우 베팅한 스타는 소멸됩니다.</li>
-                    </ul>
-                  </li>
-                </ol>
-              </div>
-            </PopoverContent>
-          </Popover>
+          <button
+            className="flex flex-row gap-1 rounded-[56px] text-center w-[165px] h-[72px] items-center justify-center"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "14px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+            }}
+            onClick={() => setShowGameGuide(true)}
+          >
+            <img src={Images.QuestionCircle} className="w-[30px] h-[30px]" />
+            게임 방법
+          </button>
           <div
             className="flex flex-col gap-1 rounded-[56px] text-center w-[165px] h-[72px] items-center justify-center"
             style={{
@@ -238,6 +171,80 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
           </div>
         </form>
       </div>
+
+      {/* 게임 가이드 모달 */}
+      {showGameGuide && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50">
+          <div
+            className="rounded-[24px] max-w-lg w-full mx-4 max-h-[65vh] overflow-y-auto"
+            style={{
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <div className="p-4 rounded-lg shadow-lg w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h2
+                  className="text-start"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    color: "#FDE047",
+                    WebkitTextStroke: "1px #000000",
+                  }}
+                >
+                  ✼ 게임 방법 ✼
+                </h2>
+                <button
+                  onClick={() => setShowGameGuide(false)}
+                  className="text-white hover:text-gray-300 text-xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <ol
+                className="leading-loose space-y-4"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                <li>
+                  <p>1. 베팅하기</p>
+                  <ul className="list-disc pl-5">
+                    <li>
+                      오늘의 행운을 믿어보세요! 원하는 스타 수를 입력하세요.
+                    </li>
+                    <li>최대 베팅은 보유 스타의 절반까지만 가능합니다.</li>
+                  </ul>
+                </li>
+                <li>
+                  <p>2. 카드 색상 / 문양 맞추기</p>
+                  <ul className="list-disc pl-5">
+                    <li>카드를 뽑기 전에 다음 중 하나를 선택하세요:</li>
+                    <li>색상: 🔴레드 / ⚫블랙(확률 50%)</li>
+                    <li>
+                      문양: ♠스페이드 / ♦다이아 / ♥하트 / ♣클로버 (확률 25%)
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <p>3. 보상 받기</p>
+                  <ul className="list-disc pl-5">
+                    <li>색상을 맞추면 베팅 금액의 2배를 획득합니다.</li>
+                    <li>문양을 맞추면 베팅 금액의 4배를 획득합니다.</li>
+                    <li>틀릴 경우 베팅한 스타는 소멸됩니다.</li>
+                  </ul>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
