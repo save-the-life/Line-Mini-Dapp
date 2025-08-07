@@ -235,8 +235,6 @@ const RPSGame: React.FC<RPSGameProps> = ({ onGameEnd, onCancel }) => {
             style={{
               background: 'linear-gradient(180deg, #282F4E 0%, #0044A3 100%)',
               boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)',
-              top: '94px',
-              left: '63px'
             }}
           >
             <div className="flex flex-row items-center gap-1">
