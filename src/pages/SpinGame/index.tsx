@@ -470,7 +470,6 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           loading="lazy"
           style={{
             left: "50%",
-            transform: "translateX(-50%)",
           }}
         />
 
@@ -482,7 +481,6 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           style={{
             top: "35%", // 더 위로 이동
             left: "50%",
-            transform: "translateX(-50%)",
           }}
           loading="lazy"
           initial={{ x: -200 }}
@@ -497,7 +495,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         <div
           className="absolute z-10"
           style={{
-            top: "45%", // 더 위로 이동
+            top: "35%", // 더 위로 이동
             left: "50%",
             transform: "translateX(-50%) translateY(-50%)",
           }}
@@ -571,25 +569,19 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
                 />
               </div>
             </div>
-            <div className="text-center space-y-2">
-              {prizeData?.spinType?.toUpperCase() === "BOOM" ? (
-                <>
-                  <p className="text-xl font-semibold">꽝</p>
-                  <p className="text-[#a3a3a3]">다음 기회에 행운을 빌어요!</p>
-                </>
-              ) : (
-                <>
-                  <p className="text-xl font-semibold">
-                    축하합니다 <br />
-                    당첨되셨습니다!{" "}
-                    {prizeData && formatNumber(prizeData?.amount)}{" "}
-                    {getPrizeDisplayName(prizeData?.spinType)}!
-                  </p>
-                </>
-              )}
-            </div>
             <div className="flex flex-col w-full mt-4">
-              <p>{t("dice_event.spin_game.include")} : </p>
+              <p
+                className="text-center"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                다음 보상을 받았습니다:{" "}
+              </p>
               <div className="rounded-3xl border-2 border-[#35383f] bg-[#1f1e27] p-5 mt-2">
                 <div className="flex flex-row items-center gap-2">
                   <img
@@ -597,24 +589,46 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
                     alt="rewardBooster"
                     className="w-6 h-6"
                   />
-                  <p className="font-semibold">
-                    {t("dice_event.spin_game.booster")}
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "14px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
+                    보상 부스터
                   </p>
                 </div>
                 <div className="flex flex-row items-center gap-1 mt-2 ml-6">
                   <IoGameController className="text-xl" />
-                  <p className="text-sm">
-                    {t("dice_event.spin_game.spin_reward")} : x{items.spinTimes}
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "14px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
+                    돌림판 보상 업그레이드 : x{items.spinTimes}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="space-y-3 w-[165px] mt-4">
+            <div className="space-y-3 w-[300px] h-14 mt-4">
               <button
                 className="w-full h-14 rounded-full bg-[#0147e5]"
                 onClick={handleCloseDialog}
+                style={{
+                  fontFamily: "8px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
               >
-                {t("dice_event.spin_game.ok")}
+                닫기
               </button>
             </div>
           </div>
