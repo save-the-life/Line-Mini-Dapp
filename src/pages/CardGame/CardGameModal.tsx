@@ -32,7 +32,7 @@ const AnimatedCard = () => {
     <img
       src={CARD_IMAGES[index].url}
       alt={CARD_IMAGES[index].suit}
-      className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mb-6 object-cover"
+      className="w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent mb-6 object-cover border-none"
     />
   );
 };
@@ -430,12 +430,12 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               : 0,
           }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex flex-col items-center mb-8"
+          className="flex flex-col items-center mb-8 border-none"
         >
           <img
             src={Images.CardBack}
             alt="card"
-            className="mb-[10px] w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer"
+            className="mb-[10px] w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer border-none"
             onClick={() => {
               if (!cardRevealed && (mode === "color" || mode === "suit")) {
                 // TODO: API 호출로 카드 오픈 (추후 개발)
