@@ -141,13 +141,13 @@ const CustomWheel: React.FC<{
   useEffect(() => {
     if (mustSpin && !isSpinning) {
       setIsSpinning(true);
-      
+
       // 회전 애니메이션 계산
       const totalRotation = 360 * 5 + (360 / data.length) * prizeNumber; // 5바퀴 + 당첨 위치
       const duration = 3000; // 3초
-      
+
       setRotation(totalRotation);
-      
+
       // 회전 완료 후 콜백
       setTimeout(() => {
         setIsSpinning(false);
@@ -159,11 +159,13 @@ const CustomWheel: React.FC<{
   return (
     <div className="relative">
       {/* 배경 돌림판 이미지 */}
-      <div 
+      <div
         className="relative w-[328px] h-[328px]"
         style={{
           transform: `rotate(${rotation}deg)`,
-          transition: isSpinning ? `transform ${3000}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` : 'none',
+          transition: isSpinning
+            ? `transform ${3000}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`
+            : "none",
         }}
       >
         <img
@@ -171,14 +173,14 @@ const CustomWheel: React.FC<{
           alt="Spin Wheel"
           className="w-full h-full"
         />
-        
+
         {/* 보상 내용 오버레이 */}
         {data.map((item, index) => {
           const angle = (360 / data.length) * index;
           const radius = 120; // 중앙에서의 거리
-          const x = Math.cos((angle - 90) * Math.PI / 180) * radius;
-          const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
-          
+          const x = Math.cos(((angle - 90) * Math.PI) / 180) * radius;
+          const y = Math.sin(((angle - 90) * Math.PI) / 180) * radius;
+
           return (
             <div
               key={index}
@@ -195,9 +197,9 @@ const CustomWheel: React.FC<{
                   alt={item.option}
                   className="w-8 h-8 mx-auto mb-1"
                 />
-                <div 
+                <div
                   className="text-xs font-bold"
-                  style={{ color: item.style.textColor || '#000000' }}
+                  style={{ color: item.style.textColor || "#000000" }}
                 >
                   {item.option}
                 </div>
@@ -240,10 +242,10 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
       <img
         src={Images.SpinExample}
         alt="spin-example"
-        className="w-[328px] h-[471px] mt-4 self-center"
+        className="w-[328px] h-[470px] self-center"
       />
       <div
-        className="rounded-[20px] text-center w-[300px] h-[110px] flex items-center justify-center mt-4"
+        className="rounded-[20px] text-center w-[300px] h-[110px] flex items-center justify-center -mt-10"
         style={{
           background: "rgba(0, 94, 170, 0.5)",
           backdropFilter: "blur(10px)",
@@ -470,9 +472,9 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         src={Images.NewPin}
         alt="Spin-game"
         className="w-[70px] h-[87px] absolute z-10 top-[260px]"
-        style={{ 
-          left: 'calc(50% - 35px)', 
-          position: 'absolute'
+        style={{
+          left: "calc(50% - 35px)",
+          position: "absolute",
         }}
         loading="lazy"
         initial={{ x: -200 }}
@@ -588,8 +590,6 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
     </div>
   );
 };
-
-
 
 // 메인 SpinGame 컴포넌트
 const SpinGame: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
