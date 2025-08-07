@@ -460,7 +460,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           duration: 1,
           ease: "easeOut",
         }}
-        className="relative w-[280px] h-[402px] md:w-[328px] md:h-[471px] md:mt-16"
+        className="relative w-[150px] h-[150px] md:w-[220px] md:h-[220px] md:mt-16"
       >
         {/* SpinProp을 받침대로 사용 */}
         <img
@@ -476,8 +476,8 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           alt="Spin-pin"
           className="absolute z-20 w-[18%] h-auto"
           style={{
-            top: "35%", // 더 위로 이동
-            left: "30%",
+            top: "5%", // 더 위로 이동
+            left: "40%",
             transform: "translateX(-50%)",
           }}
           loading="lazy"
@@ -493,7 +493,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         <div
           className="absolute z-10"
           style={{
-            top: "45%", // 더 위로 이동
+            top: "25%", // 더 위로 이동
             left: "50%",
             transform: "translateX(-50%) translateY(-50%)",
           }}
