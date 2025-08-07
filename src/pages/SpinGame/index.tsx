@@ -466,10 +466,12 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         <img
           src={Images.SpinProp}
           alt="Spin-prop"
-          className="w-[220px] h-[220px]"
+          className="w-[220px] h-[220px] absolute"
           loading="lazy"
           style={{
+            top: "80%",
             left: "50%",
+            transform: "translateX(-50%)",
           }}
         />
 
