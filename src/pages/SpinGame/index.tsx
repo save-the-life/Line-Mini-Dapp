@@ -469,7 +469,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           className="w-[220px] h-[220px] absolute"
           loading="lazy"
           style={{
-            top: "80%",
+            top: "50%",
             left: "50%",
             transform: "translateX(-50%)",
           }}
@@ -481,8 +481,8 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           alt="Spin-pin"
           className="absolute z-20 w-[70px] h-auto"
           style={{
-            top: "35%", // 더 위로 이동
             left: "50%",
+            transform: "translateX(-50%)",
           }}
           loading="lazy"
           initial={{ x: -200 }}
