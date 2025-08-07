@@ -298,6 +298,7 @@ import InfoBtn from "./info-btn.png"
 import NewPin from "./new-pin.png"
 import NewWheel from "./new-wheel.png"
 import QuestionCircle from "./q-circle.png"
+import SpinProp from "./spin-prop.png"
 
 
 const Images = {
@@ -600,6 +601,7 @@ const Images = {
   NewWheel,
   BackgroundCard,
   QuestionCircle,
+  SpinProp,
 };
 
 export default Images;

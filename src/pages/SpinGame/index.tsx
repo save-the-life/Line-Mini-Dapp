@@ -157,10 +157,10 @@ const CustomWheel: React.FC<{
   }, [mustSpin, prizeNumber, data.length, onSpinEnd, isSpinning]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full h-full">
       {/* 배경 돌림판 이미지 */}
       <div
-        className="relative w-[280px] h-[280px] md:w-[328px] md:h-[328px]"
+        className="relative w-full h-full"
         style={{
           transform: `rotate(${rotation}deg)`,
           transition: isSpinning
@@ -177,19 +177,18 @@ const CustomWheel: React.FC<{
         {/* 보상 내용 오버레이 */}
         {data.map((item, index) => {
           const angle = (360 / data.length) * index;
-          // 반응형 radius 계산 (화면 크기에 따라 동적 조정)
-          const isMobile = window.innerWidth < 768; // md 브레이크포인트
-          const radius = isMobile ? 102 : 120; // 모바일에서는 더 작은 반지름
+          // 반응형 radius 계산 (비율 기반)
+          const radius = 35; // 휠 크기의 35% 반지름
           const x = Math.cos(((angle - 90) * Math.PI) / 180) * radius;
           const y = Math.sin(((angle - 90) * Math.PI) / 180) * radius;
 
           return (
             <div
               key={index}
-              className="absolute w-16 h-16 flex items-center justify-center"
+              className="absolute w-[12%] h-[12%] flex items-center justify-center"
               style={{
-                left: `calc(50% + ${x}px - 32px)`,
-                top: `calc(50% + ${y}px - 32px)`,
+                left: `calc(50% + ${x}% - 6%)`,
+                top: `calc(50% + ${y}% - 6%)`,
                 transform: `rotate(${-rotation}deg)`, // 텍스트가 회전하지 않도록
               }}
             >
@@ -197,10 +196,10 @@ const CustomWheel: React.FC<{
                 <img
                   src={item.image.uri}
                   alt={item.option}
-                  className="w-8 h-8 mx-auto mb-1"
+                  className="w-[60%] h-[60%] mx-auto mb-1"
                 />
                 <div
-                  className="text-xs font-bold"
+                  className="text-[2.5vw] md:text-xs font-bold"
                   style={{ color: item.style.textColor || "#000000" }}
                 >
                   {item.option}
@@ -243,7 +242,7 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
 
       <img
         src={Images.SpinExample}
-        alt="spin-example"
+        alt="spin-prop"
         className="w-[280px] h-[402px] md:w-[328px] md:h-[470px] self-center"
       />
       <div
@@ -461,49 +460,61 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           duration: 1,
           ease: "easeOut",
         }}
+        className="relative w-[280px] h-[402px] md:w-[328px] md:h-[471px] md:mt-16"
       >
+        {/* SpinProp을 받침대로 사용 */}
         <img
-          src={Images.SpinExample}
-          alt="Spin-game"
-          className="w-[280px] h-[402px] md:w-[328px] md:h-[471px] md:mt-16"
+          src={Images.SpinProp}
+          alt="Spin-prop"
+          className="w-full h-full"
           loading="lazy"
         />
-      </motion.div>
 
-      <motion.img
-        src={Images.NewPin}
-        alt="Spin-game"
-        className="w-[60px] h-[75px] md:w-[70px] md:h-[87px] absolute z-10 top-[220px] md:top-[260px]"
-        style={{
-          left: "calc(50% - 30px)",
-          position: "absolute",
-        }}
-        loading="lazy"
-        initial={{ x: -200 }}
-        animate={{ x: 0 }}
-        transition={{
-          duration: 1,
-          ease: "easeOut",
-        }}
-      />
-
-      <div className="absolute top-[1/2] left-1/2 transform -translate-x-1/2 z-0">
-        <motion.div
+        {/* NewPin을 받침대 위에 고정 - 비율 기반 위치 */}
+        <motion.img
+          src={Images.NewPin}
+          alt="Spin-pin"
+          className="absolute z-20 w-[15%] h-auto"
+          style={{
+            top: "54.7%", // 220/402 ≈ 54.7%
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+          loading="lazy"
           initial={{ x: -200 }}
           animate={{ x: 0 }}
           transition={{
             duration: 1,
             ease: "easeOut",
           }}
+        />
+
+        {/* NewWheel을 받침대 위에서 회전 - 비율 기반 위치 */}
+        <div
+          className="absolute z-10 w-[85%] h-auto"
+          style={{
+            top: "54.7%", // 220/402 ≈ 54.7%
+            left: "50%",
+            transform: "translateX(-50%) translateY(-50%)",
+          }}
         >
-          <CustomWheel
-            mustSpin={mustSpin}
-            prizeNumber={prizeNumber}
-            onSpinEnd={handleSpinEnd}
-            data={data}
-          />
-        </motion.div>
-      </div>
+          <motion.div
+            initial={{ x: -200 }}
+            animate={{ x: 0 }}
+            transition={{
+              duration: 1,
+              ease: "easeOut",
+            }}
+          >
+            <CustomWheel
+              mustSpin={mustSpin}
+              prizeNumber={prizeNumber}
+              onSpinEnd={handleSpinEnd}
+              data={data}
+            />
+          </motion.div>
+        </div>
+      </motion.div>
 
       <button
         onClick={handleSpinClick}
@@ -605,9 +616,11 @@ const SpinGame: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
   const imagesToLoad = [
     Images.BackgroundRulette,
     Images.SpinExample,
+    Images.SpinProp,
     Images.Spin,
     Images.SpinPin,
     Images.NewWheel, // 새로운 회전판 이미지 추가
+    Images.NewPin, // 핀 이미지 추가
     Images.RewardNFT,
     Images.Star,
     Images.Dice,
