@@ -375,11 +375,16 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                 <div
                   className="rounded-full flex items-center justify-center h-8 w-11 "
                   style={{
+                    background: "rgba(0, 94, 170, 0.5)",
+                    backdropFilter: "blur(10px)",
+                    boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
                     fontFamily: "'ONE Mobile POP', sans-serif",
                     fontSize: "18px",
                     fontWeight: 400,
                     color: "#FDE047",
                     WebkitTextStroke: "1px #000000",
+                    padding: "20px",
+                    gap: "25px",
                   }}
                 >
                   x2
@@ -489,11 +494,16 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                 <div
                   className="rounded-full flex items-center justify-center h-8 w-11"
                   style={{
+                    background: "rgba(0, 94, 170, 0.5)",
+                    backdropFilter: "blur(10px)",
+                    boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
                     fontFamily: "'ONE Mobile POP', sans-serif",
                     fontSize: "18px",
                     fontWeight: 400,
                     color: "#FDE047",
                     WebkitTextStroke: "1px #000000",
+                    padding: "20px",
+                    gap: "25px",
                   }}
                 >
                   x4

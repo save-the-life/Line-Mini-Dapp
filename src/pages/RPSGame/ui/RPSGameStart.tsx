@@ -2,11 +2,7 @@
 
 import React, { useState } from "react";
 import { AiFillQuestionCircle } from "react-icons/ai";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/shared/components/ui";
+
 import Images from "@/shared/assets/images";
 import { formatNumber } from "@/shared/utils/formatNumber";
 import { useRPSGameStore } from "../store";
@@ -99,112 +95,30 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
           <img src={Images.RPSExample} alt="RPSExample" className="w-[240px]" />
 
           <div className="flex flex-row gap-3 mt-4">
-            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-              <PopoverTrigger
-                className="flex flex-row gap-1 rounded-3xl text-center font-medium w-[165px] h-[72px] items-center justify-center"
-                style={{
-                  background:
-                    "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-                  boxShadow:
-                    "0px 2px 0px 0px #4A95FF, inset 0px 2px 0px 0px #000000",
-                  fontFamily: "'ONE Mobile POP', sans-serif",
-                  fontSize: "14px",
-                  fontWeight: 400,
-                  color: "#FFFFFF",
-                  WebkitTextStroke: "1px #000000",
-                }}
-              >
-                <img src={Images.InfoBtn} alt="InfoBtn" className="w-6 h-6" />
-                <p>게임 방법</p>
-              </PopoverTrigger>
-              <PopoverContent
-                className="rounded-3xl border-none"
-                style={{
-                  position: "fixed",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  width: "300px",
-                  height: "335px",
-                  background:
-                    "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-                  boxShadow:
-                    "inset 0px 4px 2px 0px #FFFFFF, 0px 2px 0px 0px #000000",
-                  zIndex: 9999,
-                  backdropFilter: "blur(4px)",
-                }}
-              >
-                <div
-                  className="p-4 w-full h-full"
-                  style={{
-                    fontFamily: "'ONE Mobile POP', sans-serif",
-                    fontSize: "12px",
-                    fontWeight: 400,
-                    WebkitTextStroke: "1px #000000",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  <h2 className="text-left mb-4" style={{ color: "#FDE047" }}>
-                    ✼ 게임 방법 ✼
-                  </h2>
-                  <ol
-                    className="leading-loose space-y-4"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    <li>
-                      <strong>1. 베팅하기</strong>
-                      <ul className="list-disc pl-5">
-                        <li>
-                          행운을 시험해보세요! 최대 27배 보상까지!
-                          <br />
-                          원하는 스타 수를 입력해주세요.
-                          <br />
-                          베팅은 보유 스타의 절반까지 가능합니다.
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <strong>2. 가위바위보 진행</strong>
-                      <ul className="list-disc pl-5">
-                        <li>
-                          각 라운드마다 가위, 바위, 보 중 하나를 선택하세요.{" "}
-                          <br /> 최대 3라운드까지 진행됩니다.
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <strong>3. 보상 받기기</strong>
-                      <ul className="list-disc pl-5">
-                        <li>
-                          한 번이라도 승리하면 보상은 3배! <br /> 3연승 시 최대
-                          27배까지 보상이 누적됩니다.
-                          <br />
-                          (예: 1라운드 승리 시 3배 → 2라운드 승리 시 9배 →
-                          3라운드 승리 시 27배)
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <strong>4. 계속 도전 or 보상 수령 결정정</strong>
-                      <ul className="list-disc pl-5">
-                        <li>
-                          매 라운드 승리 후, 도전을 계속할지 보상을 받을지
-                          선택하세요.
-                          <br />
-                          단, 한 번이라도 패배하면 모든 베팅이 사라집니다
-                        </li>
-                      </ul>
-                    </li>
-                  </ol>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <button
+              className="flex flex-row gap-1 rounded-3xl text-center font-medium w-[165px] h-[72px] items-center justify-center"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+                boxShadow:
+                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+              }}
+              onClick={() => setIsPopoverOpen(true)}
+            >
+              <img src={Images.InfoBtn} alt="InfoBtn" className="w-6 h-6" />
+              <p>게임 방법</p>
+            </button>
+
             <div
               className="flex flex-col gap-1 rounded-3xl text-center font-medium w-[165px] h-[72px] items-center justify-center"
               style={{
                 background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
                 boxShadow:
-                  "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #4A95FF",
+                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
               }}
             >
               <p
@@ -312,6 +226,98 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
           </form>
         </div>
       </div>
+
+      {/* 게임 가이드 모달 */}
+      {isPopoverOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50">
+          <div
+            className="rounded-3xl max-w-lg w-full mx-4 max-h-[65vh] overflow-y-auto"
+            style={{
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+            }}
+          >
+            <div className="p-4 rounded-lg shadow-lg w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h2
+                  className="text-start"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    color: "#FDE047",
+                    WebkitTextStroke: "1px #000000",
+                  }}
+                >
+                  ✼ 게임 방법 ✼
+                </h2>
+                <button
+                  onClick={() => setIsPopoverOpen(false)}
+                  className="text-white hover:text-gray-300 text-xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <ol
+                className="leading-loose space-y-4"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                <li>
+                  <strong>1. 베팅하기</strong>
+                  <ul className="list-disc pl-5">
+                    <li>
+                      행운을 시험해보세요! 최대 27배 보상까지!
+                      <br />
+                      원하는 스타 수를 입력해주세요.
+                      <br />
+                      베팅은 보유 스타의 절반까지 가능합니다.
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>2. 가위바위보 진행</strong>
+                  <ul className="list-disc pl-5">
+                    <li>
+                      각 라운드마다 가위, 바위, 보 중 하나를 선택하세요. <br />{" "}
+                      최대 3라운드까지 진행됩니다.
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>3. 보상 받기</strong>
+                  <ul className="list-disc pl-5">
+                    <li>
+                      한 번이라도 승리하면 보상은 3배! <br /> 3연승 시 최대
+                      27배까지 보상이 누적됩니다.
+                      <br />
+                      (예: 1라운드 승리 시 3배 → 2라운드 승리 시 9배 → 3라운드
+                      승리 시 27배)
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>4. 계속 도전 or 보상 수령 결정</strong>
+                  <ul className="list-disc pl-5">
+                    <li>
+                      매 라운드 승리 후, 도전을 계속할지 보상을 받을지
+                      선택하세요.
+                      <br />
+                      단, 한 번이라도 패배하면 모든 베팅이 사라집니다
+                    </li>
+                  </ul>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
