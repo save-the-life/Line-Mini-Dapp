@@ -461,12 +461,12 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               : 0,
           }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex flex-col items-center mb-8 border-none"
+          className="flex flex-col items-center mb-[28px] border-none"
         >
           <img
             src={Images.CardBack}
             alt="card"
-            className="mb-[10px] w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer border-none"
+            className="mb-4 w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer border-none"
             onClick={() => {
               if (!cardRevealed && (mode === "color" || mode === "suit")) {
                 // TODO: API 호출로 카드 오픈 (추후 개발)
