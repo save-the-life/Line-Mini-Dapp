@@ -246,6 +246,7 @@ import BackgroundLobby from "./bg-lobby.png"
 import BackgroundRulette from "./bg-rulette.png"
 import BackgroundSlot from "./bg-slot.png"
 import BackgroundTopview from "./bg-topview.png"
+import BackgroundCard from "./bg-card.png"
 import DogSmile from "./dog-smile.png"
 import DogCrying from "./dog-cry.png"
 import CatSmile from "./cat-smile.png"
@@ -296,6 +297,7 @@ import RPSWin from "./rps-win.png"
 import InfoBtn from "./info-btn.png"
 import NewPin from "./new-pin.png"
 import NewWheel from "./new-wheel.png"
+import QuestionCircle from "./q-circle.png"
 
 
 const Images = {
@@ -596,6 +598,8 @@ const Images = {
   InfoBtn,
   NewPin,
   NewWheel,
+  BackgroundCard,
+  QuestionCircle,
 };
 
 export default Images;

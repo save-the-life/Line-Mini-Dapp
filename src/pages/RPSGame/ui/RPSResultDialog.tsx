@@ -43,8 +43,9 @@ const ResultWin: React.FC<ResultWinProps> = ({
       <div
         className="relative rounded-[10px] w-[234px] h-[228px] mb-8"
         style={{
-          background: 'linear-gradient(180deg, #282F4E 0%, #0044A3 100%)',
-          boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)',
+          background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          boxShadow:
+            "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
           marginTop: "180px",
           opacity: 0.9,
         }}
@@ -222,8 +223,9 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
       <div
         className="relative rounded-[10px] w-[234px] h-[228px] mb-8"
         style={{
-          background: 'linear-gradient(180deg, #282F4E 0%, #0044A3 100%)',
-          boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)',
+          background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          boxShadow:
+            "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
           marginTop: "180px",
           opacity: 0.9,
         }}
