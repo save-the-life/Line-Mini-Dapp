@@ -460,7 +460,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           duration: 1,
           ease: "easeOut",
         }}
-        className="relative w-[280px] h-[402px] md:w-[328px] md:h-[471px] md:mt-16"
+        className="relative w-full h-[402px] md:h-[471px] md:mt-16"
       >
         {/* SpinProp을 받침대로 사용 */}
         <img
@@ -468,16 +468,20 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           alt="Spin-prop"
           className="w-[220px] h-[220px]"
           loading="lazy"
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
         />
 
         {/* NewPin을 받침대 위에 고정 - 비율 기반 위치 */}
         <motion.img
           src={Images.NewPin}
           alt="Spin-pin"
-          className="absolute z-20 w-[21%] h-auto"
+          className="absolute z-20 w-[70px] h-auto"
           style={{
             top: "35%", // 더 위로 이동
-            left: "30%",
+            left: "50%",
             transform: "translateX(-50%)",
           }}
           loading="lazy"
@@ -537,10 +541,26 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
 
       {/* 결과 모달 */}
       <AlertDialog open={isDialogOpen}>
-        <AlertDialogContent className="rounded-3xl bg-[#21212F] text-white border-none max-w-[90%] md:max-w-lg">
+        <AlertDialogContent
+          className="rounded-3xl  border-none max-w-[90%] md:max-w-lg"
+          style={{
+            background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+            boxShadow:
+              "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+          }}
+        >
           <div className="flex flex-col items-center justify-center w-full h-full gap-4">
-            <h1 className="mt-10 font-jalnan">
-              {t("dice_event.spin_game.get_reward")}
+            <h1
+              className="mt-10 text-center"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              보상 받기
             </h1>
             <div className="w-32 h-32 bg-gradient-to-b from-[#2660f4] to-[#3937a3] rounded-[24px] flex items-center justify-center">
               <div className="w-[126px] h-[126px] logo-bg rounded-[24px] flex items-center justify-center flex-col gap-2">
