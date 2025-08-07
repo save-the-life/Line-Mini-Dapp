@@ -83,14 +83,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       </div>
       {/* 3. 설명/포인트 영역 - 중앙으로 이동 */}
       <div className="flex flex-col items-center justify-center flex-1">
-        <div
-          className="flex flex-row gap-3"
-          style={{
-            background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-            boxShadow:
-              "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
-          }}
-        >
+        <div className="flex flex-row gap-3">
           <Popover>
             <PopoverTrigger
               className="flex flex-row gap-1 rounded-[56px] text-center w-[165px] h-[72px] items-center justify-center"
@@ -100,19 +93,21 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 fontWeight: 400,
                 color: "#FFFFFF",
                 WebkitTextStroke: "1px #000000",
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+                boxShadow:
+                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
               }}
             >
               <img src={Images.QuestionCircle} className="w-[30px] h-[30px]" />
               게임 방법
             </PopoverTrigger>
             <PopoverContent
-              className="rounded-[24px]"
+              className="rounded-[24px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60]"
               style={{
                 maxHeight: "65vh",
                 overflowY: "auto",
                 background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-                boxShadow:
-                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+                boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)",
               }}
             >
               <div className="p-4 rounded-lg shadow-lg w-full max-w-lg">
@@ -139,7 +134,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                   }}
                 >
                   <li>
-                    <strong>1. 베팅하기</strong>
+                    <p>1. 베팅하기</p>
                     <ul className="list-disc pl-5">
                       <li>
                         오늘의 행운을 믿어보세요! 원하는 스타 수를 입력하세요.
@@ -148,7 +143,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                     </ul>
                   </li>
                   <li>
-                    <strong>2. 카드 색상 / 문양 맞추기</strong>
+                    <p>2. 카드 색상 / 문양 맞추기</p>
                     <ul className="list-disc pl-5">
                       <li>카드를 뽑기 전에 다음 중 하나를 선택하세요:</li>
                       <li>색상: 🔴레드 / ⚫블랙(확률 50%)</li>
@@ -158,7 +153,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                     </ul>
                   </li>
                   <li>
-                    <strong>3. 보상 받기</strong>
+                    <p>3. 보상 받기</p>
                     <ul className="list-disc pl-5">
                       <li>색상을 맞추면 베팅 금액의 2배를 획득합니다.</li>
                       <li>문양을 맞추면 베팅 금액의 4배를 획득합니다.</li>
@@ -327,6 +322,8 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
     }
     onResult(win, reward, answer);
   };
+
+  // 게임 플레이 화면
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center px-6">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl my-8">
@@ -477,11 +474,6 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                       fontWeight: 400,
                       color: "#FFFFFF",
                       WebkitTextStroke: "1px #000000",
-                      background:
-                        "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
-                      border: "2px solid #76C1FF",
-                      boxShadow:
-                        "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
                     }}
                   >
                     {betAmount}
