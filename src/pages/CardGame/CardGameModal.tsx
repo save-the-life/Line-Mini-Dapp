@@ -394,25 +394,55 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
               <div className="flex flex-row gap-5 mb-8">
                 <button
                   onClick={() => handleSelect("color", "RED")}
-                  className={`flex flex-row gap-1 rounded-[7px] text-center font-bold text-xl w-[150px] h-[40px] items-center justify-center ${
+                  className={`flex flex-row gap-1 rounded-[10px] text-center font-bold text-xl w-[150px] h-[45px] items-center justify-center ${
                     selectedColor === "RED"
-                      ? "bg-[#DD2726] text-black red-inner-shadow"
+                      ? "text-black"
                       : selectedColor === "BLACK"
                       ? "bg-[#35383F] text-white"
-                      : "bg-[#DD2726] text-black red-inner-shadow"
+                      : "text-black"
                   }`}
+                  style={{
+                    background:
+                      selectedColor === "RED" || selectedColor === "BLACK"
+                        ? "rgba(255, 0, 4, 0.75)"
+                        : "rgba(255, 0, 4, 0.75)",
+                    boxShadow:
+                      selectedColor === "RED" || selectedColor === "BLACK"
+                        ? "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)"
+                        : "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "24px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
                 >
                   Red
                 </button>
                 <button
                   onClick={() => handleSelect("color", "BLACK")}
-                  className={`flex flex-row gap-1 rounded-[7px] text-center font-bold text-xl w-[150px] h-[40px] items-center justify-center ${
+                  className={`flex flex-row gap-1 rounded-[10px] text-center font-bold text-xl w-[150px] h-[45px] items-center justify-center ${
                     selectedColor === "BLACK"
-                      ? "bg-black text-[#DD2726] black-inner-shadow"
+                      ? "text-white"
                       : selectedColor === "RED"
-                      ? "bg-[#35383F] text-white"
-                      : "bg-black text-[#DD2726] black-inner-shadow"
+                      ? "text-white"
+                      : "text-white"
                   }`}
+                  style={{
+                    background:
+                      selectedColor === "BLACK" || selectedColor === "RED"
+                        ? "rgba(0, 0, 0, 0.75)"
+                        : "rgba(0, 0, 0, 0.75)",
+                    boxShadow:
+                      selectedColor === "BLACK" || selectedColor === "RED"
+                        ? "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)"
+                        : "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "24px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
                 >
                   Black
                 </button>
