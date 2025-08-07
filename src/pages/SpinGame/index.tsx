@@ -160,7 +160,7 @@ const CustomWheel: React.FC<{
     <div className="relative">
       {/* 배경 돌림판 이미지 */}
       <div
-        className="relative w-[328px] h-[328px]"
+        className="relative w-[280px] h-[280px] md:w-[328px] md:h-[328px]"
         style={{
           transform: `rotate(${rotation}deg)`,
           transition: isSpinning
@@ -177,7 +177,9 @@ const CustomWheel: React.FC<{
         {/* 보상 내용 오버레이 */}
         {data.map((item, index) => {
           const angle = (360 / data.length) * index;
-          const radius = 120; // 중앙에서의 거리
+          // 반응형 radius 계산 (화면 크기에 따라 동적 조정)
+          const isMobile = window.innerWidth < 768; // md 브레이크포인트
+          const radius = isMobile ? 102 : 120; // 모바일에서는 더 작은 반지름
           const x = Math.cos(((angle - 90) * Math.PI) / 180) * radius;
           const y = Math.sin(((angle - 90) * Math.PI) / 180) * radius;
 
@@ -242,10 +244,10 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
       <img
         src={Images.SpinExample}
         alt="spin-example"
-        className="w-[328px] h-[470px] self-center"
+        className="w-[280px] h-[402px] md:w-[328px] md:h-[470px] self-center"
       />
       <div
-        className="rounded-[20px] text-center w-[300px] h-[110px] flex items-center justify-center -mt-10"
+        className="rounded-[20px] text-center w-[260px] md:w-[300px] h-[110px] flex items-center justify-center -mt-10"
         style={{
           background: "rgba(0, 94, 170, 0.5)",
           backdropFilter: "blur(10px)",
@@ -266,7 +268,7 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
         </p>
       </div>
       <button
-        className="flex items-center justify-center h-14 mt-4 w-[300px] rounded-[10px]"
+        className="flex items-center justify-center h-14 mt-4 w-[260px] md:w-[300px] rounded-[10px]"
         onClick={onStart}
         style={{
           background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
@@ -463,7 +465,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         <img
           src={Images.SpinExample}
           alt="Spin-game"
-          className="w-[328px] h-[471px] md:mt-16"
+          className="w-[280px] h-[402px] md:w-[328px] md:h-[471px] md:mt-16"
           loading="lazy"
         />
       </motion.div>
@@ -471,9 +473,9 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       <motion.img
         src={Images.NewPin}
         alt="Spin-game"
-        className="w-[70px] h-[87px] absolute z-10 top-[260px]"
+        className="w-[60px] h-[75px] md:w-[70px] md:h-[87px] absolute z-10 top-[220px] md:top-[260px]"
         style={{
-          left: "calc(50% - 35px)",
+          left: "calc(50% - 30px)",
           position: "absolute",
         }}
         loading="lazy"
@@ -513,7 +515,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           color: "#FFFFFF",
           WebkitTextStroke: "1px #000000",
         }}
-        className={`flex items-center justify-center h-14 mt-4 w-[342px] rounded-full ${
+        className={`flex items-center justify-center h-14 mt-4 w-[300px] md:w-[342px] rounded-full ${
           isSpinning || mustSpin
             ? "bg-[#21212f] opacity-65 text-white cursor-not-allowed"
             : "bg-[#21212f] text-white"
@@ -654,7 +656,7 @@ const SpinGame: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
   }
 
   return (
-    <div className="flex flex-col z-50 h-screen w-full items-center min-w-[600px]">
+    <div className="flex flex-col z-50 h-screen w-full items-center min-w-[320px] md:min-w-[600px]">
       {showSpin ? (
         <Spin onSpinEnd={onSpinEnd} />
       ) : (
