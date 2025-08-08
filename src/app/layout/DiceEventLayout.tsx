@@ -16,6 +16,7 @@ const backgroundMap: Record<string, string> = {
   "/invite-friends": Images.BackgroundLobby,
   "/invite-friends-list": Images.BackgroundLobby,
   "/reward-history": Images.BackgroundLobby,
+  "/hall-of-fame": Images.BackgroundLobby,
   // 필요시 추가
 };
 
@@ -43,6 +44,7 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
     "/invite-friends",
     "/invite-friends-list",
     "/reward-history",
+    "/hall-of-fame",
   ];
 
   const shouldBlur = blurPages.includes(location.pathname);

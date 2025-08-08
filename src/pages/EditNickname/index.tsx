@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { TopTitle } from "@/shared/components/ui";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
@@ -9,7 +8,6 @@ import { useUserStore } from "@/entities/User/model/userModel";
 
 const EditNickname: React.FC = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const { playSfx } = useSound();
   const { nickName } = useUserStore();
 
@@ -35,15 +33,15 @@ const EditNickname: React.FC = () => {
         navigate("/dice-event");
       } else if (updateNick.message === "Exist User Name.") {
         setShowModal(true);
-        setModalMessage(t("setting.duplicate"));
+        setModalMessage("중복된 닉네임입니다.");
       } else {
         setShowModal(true);
-        setModalMessage(t("asset_page.try_again"));
+        setModalMessage("다시 시도해주세요.");
       }
     } catch (error: any) {
       // console.log("error 확인: ", error);
       setShowModal(true);
-      setModalMessage(t("asset_page.try_again"));
+      setModalMessage("다시 시도해주세요.");
     }
   };
 

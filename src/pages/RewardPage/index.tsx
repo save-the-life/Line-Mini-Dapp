@@ -95,16 +95,6 @@ const Reward: React.FC = () => {
     }
   };
 
-  const handlePreviousAirdropPage = async () => {
-    playSfx(Audios.button_click);
-    const response = await api.get("/leader/raffle/initial");
-    if (response.data.data === null) {
-      setShowModal(true);
-    } else {
-      navigate("/previous-raffle");
-    }
-  };
-
   const handleCloseModal = () => {
     playSfx(Audios.button_click);
     setShowModal(false);
@@ -259,11 +249,11 @@ const Reward: React.FC = () => {
       {/* 월간 보상 */}
       <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         {/* 제목 영역 */}
-        <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
+        <div className="flex items-center justify-center mb-6 z-10">
           <img
             src={Images.TrophyIcon}
             alt="gold-medal"
-            className="absolute -top-2 -left-14 w-[60px] h-[60px] -z-10"
+            className="w-[60px] h-[60px] mr-1"
           />
           <h1
             className="z-30"
@@ -349,11 +339,11 @@ const Reward: React.FC = () => {
       {/* 주간 보상 */}
       <div className="flex flex-col gap-3 justify-center items-center mb-14 px-6 md:px-0">
         {/* 제목 영역 */}
-        <div className="relative text-center font-jalnan text-3xl mb-6 z-10">
+        <div className="flex items-center justify-center mb-6 z-10">
           <img
             src={Images.GoldMedalIcon}
             alt="gold-medal"
-            className="absolute -top-2 -left-14 w-[60px] h-[60px] -z-10"
+            className="w-[60px] h-[60px] mr-1"
           />
           <h1
             className="z-30"
@@ -501,7 +491,7 @@ const Reward: React.FC = () => {
             "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
           borderRadius: "24px",
         }}
-        onClick={handlePreviousAirdropPage}
+        onClick={() => navigate("/hall-of-fame")}
       >
         <div className="flex justify-between items-center">
           {/* 텍스트 영역 */}

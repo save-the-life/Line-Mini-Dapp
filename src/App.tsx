@@ -51,6 +51,7 @@ import PreviousAirdrop from "./pages/PreviousAirdrop";
 import EditNickname from "./pages/EditNickname";
 import Promotion from "./pages/Promotion";
 import Inventory from "./pages/Inventory";
+import HallofFame from "./pages/HallofFame";
 
 const App:React.FC = () =>{
   const [isInitialized, setIsInitialized] = useState(false);
@@ -216,8 +217,7 @@ const App:React.FC = () =>{
                   <Route path="/previous-airdrop" element={<DiceEventLayout hidden={true}><PreviousAirdrop /></DiceEventLayout>} />
                   <Route path="/edit-nickname" element={<DiceEventLayout hidden={true}><EditNickname /></DiceEventLayout>} />
                   <Route path="/promotion" element={<DiceEventLayout hidden={true}><Promotion /></DiceEventLayout>} />
-                  
-              
+                  <Route path="/hall-of-fame" element={<DiceEventLayout hidden={true}><HallofFame /></DiceEventLayout>} />
 
               </Routes>
             </SoundProvider>
