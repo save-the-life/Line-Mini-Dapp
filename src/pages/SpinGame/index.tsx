@@ -439,7 +439,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       }}
     >
       <h1
-        className="text-center mt-8 md:mb-12"
+        className="text-center md:mb-12"
         style={{
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "30px",
@@ -471,7 +471,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           style={{
             top: "50%",
             left: "50%",
-            transform: "translateX(-50%)",
+            transform: "translateX(-50%) translateY(calc(-50% - 30px))",
           }}
         />
 
@@ -482,7 +482,8 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           className="absolute z-20 w-[70px] h-auto"
           style={{
             left: "50%",
-            transform: "translateX(-50%)",
+            top: "35%",
+            transform: "translateX(-50%)"
           }}
           loading="lazy"
           initial={{ x: -200 }}
