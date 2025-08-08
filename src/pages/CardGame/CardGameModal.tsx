@@ -152,19 +152,39 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
           {/* 5. 버튼 영역 */}
           <div className="flex flex-row mt-4 gap-3">
             <button
-              className="flex items-center justify-center bg-gray-200 text-[#171717] rounded-full font-medium h-14 w-[165px]"
+              className="font-medium h-14 w-[165px] rounded-[10px]"
               type="button"
               onClick={onCancel}
+              style={{
+                background: "linear-gradient(180deg, #FF6B6B 0%, #FF4757 100%)",
+                border: "2px solid #FF8E8E",
+                boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                color: "#FFFFFF",
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "16px",
+                fontWeight: "400",
+                WebkitTextStroke: "1px #000000",
+              }}
             >
               취소
             </button>
             <button
               type="submit"
-              className={`bg-[#21212F] text-white rounded-full font-medium h-14 w-[165px] ${
+              className={`font-medium h-14 w-[165px] rounded-[10px] ${
                 !bet || parseInt(bet) <= 0
                   ? "opacity-70 cursor-not-allowed"
                   : ""
               }`}
+              style={{
+                background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                border: "2px solid #76C1FF",
+                boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                color: "#FFFFFF",
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "16px",
+                fontWeight: "400",
+                WebkitTextStroke: "1px #000000",
+              }}
               disabled={!bet || parseInt(bet) <= 0}
             >
               베팅

@@ -439,7 +439,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       }}
     >
       <h1
-        className="text-center md:mb-12"
+        className="text-center -mt-5 md:mb-12"
         style={{
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "30px",
