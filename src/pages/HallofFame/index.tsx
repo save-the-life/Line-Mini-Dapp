@@ -167,7 +167,7 @@ const HallofFame: React.FC = () => {
                      <span
                         style={{
                             fontFamily: "'ONE Mobile POP', sans-serif",
-                            fontSize: "18px",
+                            fontSize: "16px",
                             fontWeight: 400,
                             color: "#FFFFFF",
                             WebkitTextStroke: "1px #000000",
