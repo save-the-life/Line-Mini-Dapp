@@ -146,7 +146,20 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
             value={bet}
             onChange={(e) => setBet(e.target.value)}
             max={myPoint}
-            className="border-2 border-[#21212f] rounded-2xl h-12 text-sm font-medium px-4 mt-4 w-[342px] text-center text-black"
+            className="h-12 px-4 mt-4 w-[342px] text-start"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "12px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+              borderRadius: "44px",
+              border: "none",
+              background: "#0088FFBF",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+            }}
           />
           {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
           {/* 5. 버튼 영역 */}

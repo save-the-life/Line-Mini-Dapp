@@ -547,7 +547,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           outline: "2px solid #000000",
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
         }}
-        className={`flex relative items-center justify-center h-14 mt-4 w-[300px] md:w-[342px] rounded-full ${
+        className={`flex relative items-center justify-center h-14 mt-4 w-[300px] md:w-[342px] rounded-[10px] ${
           isSpinning || mustSpin
             ? "cursor-not-allowed"
             : ""
@@ -649,7 +649,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
             </div>
             <div className="space-y-3 w-[300px] h-14 mt-4">
               <button
-                className="w-full h-14 rounded-full relative"
+                className="w-full h-14 rounded-[10px] relative"
                 onClick={handleCloseDialog}
                 style={{
                   background: "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",

@@ -158,17 +158,21 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
               placeholder="베팅할 별 개수를 선택하세요!"
               type="number"
               value={betAmount}
-              onChange={handleInputChange}
-              max={formatNumber(allowedBetting)}
-              className="mt-4 w-[342px] h-[48px] rounded-[44px] px-4 border-none outline-none"
+              onChange={(e) => setBetAmount(e.target.value)}
+              max={allowedBetting}
+              className="h-12 px-4 mt-4 w-[342px] text-start"
               style={{
-                background: "linear-gradient(180deg, #0088FF 0%, #0066CC 100%)",
-                boxShadow: "inset 0px 4px 3px 0px #FFFFFF",
                 fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: "14px",
+                fontSize: "12px",
                 fontWeight: 400,
                 color: "#FFFFFF",
                 WebkitTextStroke: "1px #000000",
+                borderRadius: "44px",
+                border: "none",
+                background: "#0088FFBF",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
               }}
             />
 
