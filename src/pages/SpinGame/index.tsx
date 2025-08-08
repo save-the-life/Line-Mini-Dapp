@@ -267,12 +267,13 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
         </p>
       </div>
       <button
-        className="flex items-center justify-center h-14 mt-4 w-[260px] md:w-[300px] rounded-[10px]"
+        className="flex relative items-center justify-center h-14 mt-8 w-[260px] md:w-[300px] rounded-[10px]"
         onClick={onStart}
         style={{
-          background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+          background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
           border: "2px solid #76C1FF",
-          boxShadow: "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
+          outline: "2px solid #000000",
+          boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "18px",
           fontWeight: 400,
@@ -280,6 +281,17 @@ const SpinGameStart: React.FC<{ onStart: () => void }> = ({ onStart }) => {
           WebkitTextStroke: "1px #000000",
         }}
       >
+        <img
+          src={Images.ButtonPointBlue}
+          alt="button-point-blue"
+          style={{
+            position: "absolute",
+            top: "3px",
+            left: "3px",
+            width: "8.47px",
+            height: "6.3px",
+            pointerEvents: "none",
+          }}/>
         시작하기
       </button>
     </div>
@@ -530,14 +542,29 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           fontWeight: 400,
           color: "#FFFFFF",
           WebkitTextStroke: "1px #000000",
+          background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+          border: "2px solid #76C1FF",
+          outline: "2px solid #000000",
+          boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
         }}
-        className={`flex items-center justify-center h-14 mt-4 w-[300px] md:w-[342px] rounded-full ${
+        className={`flex relative items-center justify-center h-14 mt-4 w-[300px] md:w-[342px] rounded-full ${
           isSpinning || mustSpin
-            ? "bg-[#21212f] opacity-65 text-white cursor-not-allowed"
-            : "bg-[#21212f] text-white"
+            ? "cursor-not-allowed"
+            : ""
         }`}
       >
-        {isSpinning ? "돌리는 중..." : "룰렛 돌리기"}
+        <img
+          src={Images.ButtonPointBlue}
+          alt="button-point-blue"
+          style={{
+            position: "absolute",
+            top: "3px",
+            left: "3px",
+            width: "8.47px",
+            height: "6.3px",
+            pointerEvents: "none",
+          }}/>
+        {isSpinning ? "돌리는 중..." : "스핀을 돌려라!"}
       </button>
 
       {/* 결과 모달 */}
@@ -622,15 +649,30 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
             </div>
             <div className="space-y-3 w-[300px] h-14 mt-4">
               <button
-                className="w-full h-14 rounded-full bg-[#0147e5]"
+                className="w-full h-14 rounded-full relative"
                 onClick={handleCloseDialog}
                 style={{
+                  background: "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
+                  border: "2px solid #FF8E8E",
+                  outline: "2px solid #000000",
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                   fontFamily: "8px",
                   fontWeight: 400,
                   color: "#FFFFFF",
                   WebkitTextStroke: "1px #000000",
                 }}
               >
+                <img
+                  src={Images.ButtonPointRed}
+                  alt="button-point-red"
+                  style={{
+                    position: "absolute",
+                    top: "3px",
+                    left: "3px",
+                    width: "8.47px",
+                    height: "6.3px",
+                    pointerEvents: "none",
+                  }}/>
                 닫기
               </button>
             </div>

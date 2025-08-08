@@ -172,54 +172,71 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
               }}
             />
 
-            <div className="flex flex-row mt-4 gap-[22px]">
-              <button
-                className="flex items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+            <div className="flex flex-row mt-4 gap-3">
+                <button
+                className="font-medium h-14 w-[160px] rounded-[10px] relative"
                 type="button"
-                onClick={handleCancelClick}
+                onClick={onCancel}
                 style={{
-                  background:
-                    "linear-gradient(180deg, #FF2F32 0%, #FF6D70 100%)",
-                  border: "2px solid #FFA1A2",
-                  boxShadow:
-                    "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
+                  background: "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
+                  border: "2px solid #FF8E8E",
+                  outline: "2px solid #000000",
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                  color: "#FFFFFF",
                   fontFamily: "'ONE Mobile POP', sans-serif",
                   fontSize: "18px",
-                  fontWeight: 400,
-                  color: "#FFFFFF",
+                  fontWeight: "400",
                   WebkitTextStroke: "1px #000000",
+                  opacity: 1,
                 }}
               >
+                <img
+                  src={Images.ButtonPointRed}
+                  alt="button-point-red"
+                  style={{
+                    position: "absolute",
+                    top: "3px",
+                    left: "3px",
+                    width: "8.47px",
+                    height: "6.3px",
+                    pointerEvents: "none",
+                  }}
+                />
                 취소
               </button>
               <button
                 type="submit"
-                className="flex items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+                className={`font-medium h-14 w-[160px] rounded-[10px] relative ${
+                  !betAmount || parseInt(betAmount) <= 0
+                    ? "opacity-70 cursor-not-allowed"
+                    : ""
+                }`}
                 style={{
-                  background:
-                    betAmount && parseInt(betAmount) > 0
-                      ? "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)"
-                      : "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                  background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
                   border: "2px solid #76C1FF",
-                  boxShadow:
-                    "0px 4px 0px 0px #000000, inset 0px 3px 0px 0px #000000",
-                  opacity: betAmount && parseInt(betAmount) > 0 ? 1 : 0.7,
-                  cursor:
-                    betAmount && parseInt(betAmount) > 0
-                      ? "pointer"
-                      : "not-allowed",
+                  outline: "2px solid #000000",
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                  color: "#FFFFFF",
                   fontFamily: "'ONE Mobile POP', sans-serif",
                   fontSize: "18px",
-                  fontWeight: 400,
-                  color: "#FFFFFF",
+                  fontWeight: "400",
                   WebkitTextStroke: "1px #000000",
+                  opacity: !betAmount || parseInt(betAmount) <= 0 ? 0.7 : 1,
                 }}
-                disabled={
-                  !betAmount ||
-                  parseInt(betAmount) <= 0 ||
-                  parseInt(betAmount) > allowedBetting + 1
-                }
+                disabled={!betAmount || parseInt(betAmount) <= 0}
               >
+                <img
+                  src={Images.ButtonPointBlue}
+                  alt="button-point-blue"
+                  style={{
+                    position: "absolute",
+                    top: "3px",
+                    left: "3px",
+                    width: "8.47px",
+                    height: "6.3px",
+                    pointerEvents: "none",
+                  }}
+                />
                 베팅
               </button>
             </div>

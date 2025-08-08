@@ -3,6 +3,7 @@ import SelectCharacter from './SelectCharacter';
 import chooseCharacter from '@/entities/User/api/chooseCharacter';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
+import Images from '@/shared/assets/images';
 
 const SelectCharacterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -32,13 +33,14 @@ const SelectCharacterPage: React.FC = () => {
       <SelectCharacter selectedPet={selectedPet} setSelectedPet={setSelectedPet} />
       <div className="bottom-10 left-0 right-0 absolute flex w-full self-center px-6">
           <button
-            className={`h-14 text-white rounded-[10px] w-full mx-6 ${
+            className={`h-14 text-white rounded-[10px] w-full mx-6 relative ${
               selectedPet ? 'opacity-100' : 'opacity-50 cursor-not-allowed'
             }`}
             style={{
-              background: 'linear-gradient(135deg, #4FD9FF 0%, #02BCFF 100%)',
-              border: '2px solid #82E4FF',
-              boxShadow: '0 0 0 4px #000, 0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)',
+              background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+              border: "2px solid #76C1FF",
+              outline: "2px solid #000000",
+              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
               fontFamily: "'ONE Mobile POP OTF', sans-serif",
               fontSize: '18px',
               fontWeight: 400,
@@ -52,7 +54,18 @@ const SelectCharacterPage: React.FC = () => {
             disabled={!selectedPet}
             onClick={handleCharacterSelect}
             >
-            확인
+              <img
+                src={Images.ButtonPointBlue}
+                alt="button-point-blue"
+                style={{
+                  position: "absolute",
+                  top: "3px",
+                  left: "3px",
+                  width: "8.47px",
+                  height: "6.3px",
+                  pointerEvents: "none",
+                }}/>
+              확인
           </button>
         </div>
     </div>
