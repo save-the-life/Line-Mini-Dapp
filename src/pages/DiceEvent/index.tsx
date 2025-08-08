@@ -1074,46 +1074,44 @@ const DiceEventPage: React.FC = () => {
                   {showResult ? "축하합니다!" : "랜덤 박스"}
                 </h2>
                 
-                {/* 랜덤박스 이미지 컨테이너 */}
-                <div 
-                  className="relative mb-6"
-                  style={{
-                    width: 120,
-                    height: 120,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {/* 배경 레이어 */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: 16,
-                      background: "#C2D5E8",
-                      opacity: 0.5,
-                      backdropFilter: "blur(10px)",
-                      boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.04)",
-                    }}
-                  />
-                  
-                  {/* 랜덤박스 이미지 */}
-                  <img
-                    src={Images.RandomBox}
-                    style={{
-                      width: 100,
-                      height: 100,
-                      position: "relative",
-                      zIndex: 1,
-                      animation: isVibrating ? "vibrate 0.1s infinite" : "none",
-                    }}
-                    alt="random-box"
-                  />
-                </div>
+                                 {/* 랜덤박스 이미지 컨테이너 - 결과가 표시되지 않을 때만 보임 */}
+                 {!showResult && (
+                   <div 
+                     className="relative mb-6"
+                     style={{
+                       width: 160,
+                       height: 165,
+                       display: "flex",
+                       alignItems: "center",
+                       justifyContent: "center",
+                     }}
+                   >
+                     {/* 배경 레이어 */}
+                     <div
+                       style={{
+                         position: "absolute",
+                         top: 0,
+                         left: 0,
+                         width: "100%",
+                         height: "100%",
+                         opacity: 0.5,
+                       }}
+                     />
+                     
+                     {/* 랜덤박스 이미지 */}
+                     <img
+                       src={Images.RandomBox}
+                       style={{
+                         width: "100%",
+                         height: "100%",
+                         position: "relative",
+                         zIndex: 1,
+                         animation: isVibrating ? "vibrate 0.1s infinite" : "none",
+                       }}
+                       alt="random-box"
+                     />
+                   </div>
+                 )}
 
                 {/* 결과 표시 */}
                 {showResult && boxResult && (
