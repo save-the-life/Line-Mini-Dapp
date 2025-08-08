@@ -399,6 +399,10 @@ const DiceEventPage: React.FC = () => {
 
   // 1. 상태 추가
   const [showRaffleBoxModal, setShowRaffleBoxModal] = useState(false);
+  const [showRaffleBoxOpenModal, setShowRaffleBoxOpenModal] = useState(false);
+  const [isVibrating, setIsVibrating] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [boxResult, setBoxResult] = useState<{ type: string; value: number; image: string } | null>(null);
 
   if (isLoading) {
     return <LoadingSpinner className="h-screen" />;
@@ -407,6 +411,37 @@ const DiceEventPage: React.FC = () => {
   if (error) {
     return <div>Error loading data: {error}</div>;
   }
+
+  // 랜덤박스 열기 함수
+  const handleOpenRaffleBox = () => {
+    setShowRaffleBoxOpenModal(true);
+    setIsVibrating(false);
+    setShowResult(false);
+    setBoxResult(null);
+    
+    // 2초 후 진동 시작
+    setTimeout(() => {
+      setIsVibrating(true);
+      playSfx(Audios.button_click);
+      
+      // 2초 진동 후 결과 표시
+      setTimeout(() => {
+        setIsVibrating(false);
+        setShowResult(true);
+        
+        // 랜덤 결과 생성 (예시)
+        const results = [
+          { type: "포인트", value: 1000, image: Images.StarpointIcon },
+          { type: "다이스", value: 50, image: Images.DiceIcon },
+          { type: "티켓", value: 5, image: Images.LotteryTicket },
+        ];
+        const randomResult = results[Math.floor(Math.random() * results.length)];
+        setBoxResult(randomResult);
+        
+        // 자동 닫기 제거 - 사용자가 "받기" 버튼을 클릭해야 닫힘
+      }, 2000);
+    }, 500);
+  };
 
   const handleRPSGameEnd = (result: "win" | "lose", winnings: number) => {
     // console.log(`RPS Game Ended: ${result}, Winnings: ${winnings}`);
@@ -854,7 +889,7 @@ const DiceEventPage: React.FC = () => {
             </DialogContent>
           </Dialog>
 
-          {/* Raffle Random Box 모달 */}
+          {/* Random Box 모달 */}
           <Dialog
             open={showRaffleBoxModal}
             onOpenChange={setShowRaffleBoxModal}
@@ -978,6 +1013,7 @@ const DiceEventPage: React.FC = () => {
                       </div>
                     </div>
                     <button
+                      onClick={handleOpenRaffleBox}
                       className="w-[80px] h-14 rounded-[10px] flex items-center justify-center relative"
                       style={{
                         background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
@@ -1008,6 +1044,136 @@ const DiceEventPage: React.FC = () => {
                     </button>
                   </div>
                 </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          
+          {/* Random Box 열기 모달 */}
+          <Dialog
+            open={showRaffleBoxOpenModal}
+            onOpenChange={setShowRaffleBoxOpenModal}
+          >
+            <DialogContent 
+              className="rounded-[24px] max-w-[90%] md:max-w-md p-6 border-none"
+              style={{
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+                boxShadow:
+                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+              }}>
+              <div className="flex flex-col items-center w-full">
+                <h2 
+                  className="font-bold text-lg mb-6"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "24px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}>
+                  {showResult ? "축하합니다!" : "랜덤 박스"}
+                </h2>
+                
+                {/* 랜덤박스 이미지 컨테이너 */}
+                <div 
+                  className="relative mb-6"
+                  style={{
+                    width: 120,
+                    height: 120,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {/* 배경 레이어 */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: 16,
+                      background: "#C2D5E8",
+                      opacity: 0.5,
+                      backdropFilter: "blur(10px)",
+                      boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.04)",
+                    }}
+                  />
+                  
+                  {/* 랜덤박스 이미지 */}
+                  <img
+                    src={Images.RandomBox}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      position: "relative",
+                      zIndex: 1,
+                      animation: isVibrating ? "vibrate 0.1s infinite" : "none",
+                    }}
+                    alt="random-box"
+                  />
+                </div>
+
+                {/* 결과 표시 */}
+                {showResult && boxResult && (
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <img
+                        src={boxResult.image}
+                        style={{ width: 40, height: 40 }}
+                        alt={boxResult.type}
+                      />
+                      <span
+                        style={{
+                          fontFamily: "'ONE Mobile POP', sans-serif",
+                          fontSize: "20px",
+                          fontWeight: 400,
+                          color: "#FFFFFF",
+                          WebkitTextStroke: "1px #000000",
+                        }}
+                      >
+                        {boxResult.value} {boxResult.type}
+                      </span>
+                    </div>
+                    <p
+                      style={{
+                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        fontSize: "16px",
+                        fontWeight: 400,
+                        color: "#FFFFFF",
+                        WebkitTextStroke: "0.5px #000000",
+                      }}
+                    >
+                      획득하셨습니다!
+                    </p>
+                  </div>
+                )}
+
+                {/* 받기 버튼 - 결과가 표시될 때만 보임 */}
+                {showResult && (
+                  <button
+                    onClick={() => {
+                      setShowRaffleBoxOpenModal(false);
+                      setShowResult(false);
+                      setBoxResult(null);
+                    }}
+                    className="w-32 h-10 rounded-[10px] flex items-center justify-center"
+                    style={{
+                      background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                      border: "2px solid #76C1FF",
+                      outline: "2px solid #000000",
+                      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                      color: "#FFFFFF",
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "16px",
+                      fontWeight: "400",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
+                    받기
+                  </button>
+                )}
               </div>
             </DialogContent>
           </Dialog>
