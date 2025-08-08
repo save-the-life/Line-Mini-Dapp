@@ -887,7 +887,7 @@ const DiceEventPage: React.FC = () => {
                     background: "#0088FFBF",
                     backdropFilter: "blur(10px)",
                     WebkitBackdropFilter: "blur(10px)",
-                    boxShadow: "0px 2px 2px 0px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
                   }}
                 >
                   <img
@@ -911,21 +911,38 @@ const DiceEventPage: React.FC = () => {
                         style={{
                           width: 70,
                           height: 70,
+                          position: "relative",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          borderRadius: 13,
-                          background: "#C2D5E8",
-                          opacity: 0.5,
-                          border: "2px solid #B4CADA",
-                          padding: 5,
-                          backdropFilter: "blur(10px)",
-                          boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.04)",
                         }}
                       >
+                        {/* Background layer with blur effect */}
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: 13,
+                            background: "#C2D5E8",
+                            opacity: 0.5,
+                            border: "2px solid #B4CADA",
+                            padding: 5,
+                            backdropFilter: "blur(10px)",
+                            boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.04)",
+                          }}
+                        />
+                        {/* Image layer without blur */}
                         <img
                           src={Images.RandomBox}
-                          style={{ width: 60, height: 60 }}
+                          style={{ 
+                            width: 60, 
+                            height: 60,
+                            position: "relative",
+                            zIndex: 1
+                          }}
                           alt="bronze"
                         />
                       </div>
@@ -941,7 +958,15 @@ const DiceEventPage: React.FC = () => {
                           }}>
                           럭키 랜덤박스
                         </div>
-                        <div className="flex items-center gap-1 text-sm font-normal">
+                        <div 
+                          className="flex items-center gap-1"
+                          style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "14px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}>
                           <img
                             src={Images.KeyIcon}
                             className="w-[30px] h-[30px]"
