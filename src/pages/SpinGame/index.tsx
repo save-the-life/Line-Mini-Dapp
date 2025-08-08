@@ -471,7 +471,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           style={{
             top: "50%",
             left: "50%",
-            transform: "translateX(-50%) translateY(calc(-50% - 30px))",
+            transform: "translateX(-50%)",
           }}
         />
 
@@ -480,11 +480,11 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           src={Images.NewPin}
           alt="Spin-pin"
           className="absolute z-20 w-[70px] h-auto"
-          style={{
-            left: "50%",
-            top: "35%",
-            transform: "translateX(-50%)"
-          }}
+                      style={{
+              left: "50%",
+              top: "80px",
+              transform: "translateX(-50%)",
+            }}
           loading="lazy"
           initial={{ x: -200 }}
           animate={{ x: 0 }}
