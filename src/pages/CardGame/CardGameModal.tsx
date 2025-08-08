@@ -156,7 +156,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
               type="button"
               onClick={onCancel}
               style={{
-                background: "linear-gradient(90deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
+                background: "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
                 border: "2px solid #FF8E8E",
                 boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                 color: "#FFFFFF",
@@ -176,7 +176,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                   : ""
               }`}
               style={{
-                background: "linear-gradient(90deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
                 border: "2px solid #76C1FF",
                 boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                 color: "#FFFFFF",
