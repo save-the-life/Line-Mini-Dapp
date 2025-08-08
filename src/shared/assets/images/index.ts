@@ -299,6 +299,8 @@ import NewPin from "./new-pin.png"
 import NewWheel from "./new-wheel.png"
 import QuestionCircle from "./q-circle.png"
 import SpinProp from "./spin-prop.png"
+import ButtonPointBlue from "./button-point-blue.png"
+import ButtonPointRed from "./button-point-red.png"
 
 
 const Images = {
@@ -602,6 +604,8 @@ const Images = {
   BackgroundCard,
   QuestionCircle,
   SpinProp,
+  ButtonPointBlue,
+  ButtonPointRed,
 };
 
 export default Images;

@@ -168,16 +168,16 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 opacity: 1,
               }}
             >
-              <div
+              <img
+                src={Images.ButtonPointRed}
+                alt="button-point-red"
                 style={{
                   position: "absolute",
                   top: "3px",
                   left: "3px",
                   width: "8.47px",
                   height: "6.3px",
-                  backgroundColor: "#FFE4E4",
-                  transform: "rotate(39.23deg)",
-                  borderRadius: "full",
+                  pointerEvents: "none",
                 }}
               />
               취소
@@ -203,16 +203,16 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
               }}
               disabled={!bet || parseInt(bet) <= 0}
             >
-              <div
+              <img
+                src={Images.ButtonPointBlue}
+                alt="button-point-blue"
                 style={{
                   position: "absolute",
                   top: "3px",
                   left: "3px",
                   width: "8.47px",
                   height: "6.3px",
-                  backgroundColor: "#84DEFF",
-                  transform: "rotate(39.23deg)",
-                  borderRadius: "full",
+                  pointerEvents: "none",
                 }}
               />
               베팅
