@@ -32,54 +32,87 @@ const HallofFame: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      {/* 헤더 */}
-      <div className="bg-white/80 backdrop-blur-sm">
-        <TopTitle title="명예의 전당" back={true} />
-      </div>
+    <div className="min-h-screen mb-20 flex-col items-center mx-6 relative ">
+    <TopTitle title="명예의 전당" back={true} />
 
-      {/* 메인 컨텐츠 */}
-      <div className="px-4 py-6 space-y-4">
-        {winners.map((winner, index) => (
-          <div
-            key={winner.round}
-            className={`bg-white/70 backdrop-blur-sm rounded-2xl p-4 ${
-              index === 0 ? "ring-2 ring-yellow-400 shadow-lg" : ""
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              {/* 캐릭터 이미지와 사용자 정보 */}
-              <div className="flex items-center space-x-3">
-                <div className="w-16 h-16 flex-shrink-0">
-                  <img
-                    src={winner.characterImage}
-                    alt={`Round ${winner.round} Winner`}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-gray-800">
-                    {winner.round}회차 우승자
-                  </span>
-                  <span className="text-sm text-gray-600">{winner.username}</span>
-                </div>
-              </div>
+             {/* 메인 컨텐츠 */}
+       <div className="px-4 py-6">
+         {winners.map((winner, index) => (
+           <div key={winner.round}>
+             {index === 0 ? (
+               // 가장 최근 회차 - 카드 형태
+               <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 mb-4">
+                 <div className="flex items-center justify-between">
+                   {/* 캐릭터 이미지와 사용자 정보 */}
+                   <div className="flex items-center space-x-3">
+                     <div className="w-16 h-16 flex-shrink-0">
+                       <img
+                         src={winner.characterImage}
+                         alt={`Round ${winner.round} Winner`}
+                         className="w-full h-full object-contain"
+                       />
+                     </div>
+                     <div className="flex flex-col">
+                       <span className="text-lg font-bold text-gray-800">
+                         {winner.round}회차 우승자
+                       </span>
+                       <span className="text-sm text-gray-600">{winner.username}</span>
+                     </div>
+                   </div>
 
-              {/* 보상 정보 */}
-              <div className="bg-blue-600 rounded-xl px-3 py-2 flex items-center space-x-2">
-                <img
-                  src={Images.Star}
-                  alt="Star"
-                  className="w-5 h-5"
-                />
-                <span className="text-white font-bold text-lg">
-                  {formatNumber(winner.reward)}
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+                   {/* 보상 정보 */}
+                   <div className="bg-blue-600 rounded-xl px-3 py-2 flex items-center space-x-2">
+                     <img
+                       src={Images.Star}
+                       alt="Star"
+                       className="w-5 h-5"
+                     />
+                     <span className="text-white font-bold text-lg">
+                       {formatNumber(winner.reward)}
+                     </span>
+                   </div>
+                 </div>
+               </div>
+             ) : (
+               // 나머지 회차 - 경계선으로 구분
+               <div className="py-3">
+                 <div className="flex items-center justify-between">
+                   {/* 캐릭터 이미지와 사용자 정보 */}
+                   <div className="flex items-center space-x-3">
+                     <div className="w-16 h-16 flex-shrink-0">
+                       <img
+                         src={winner.characterImage}
+                         alt={`Round ${winner.round} Winner`}
+                         className="w-full h-full object-contain"
+                       />
+                     </div>
+                     <div className="flex flex-col">
+                       <span className="text-lg font-bold text-gray-800">
+                         {winner.round}회차 우승자
+                       </span>
+                       <span className="text-sm text-gray-600">{winner.username}</span>
+                     </div>
+                   </div>
+
+                   {/* 보상 정보 */}
+                   <div className="bg-blue-600 rounded-xl px-3 py-2 flex items-center space-x-2">
+                     <img
+                       src={Images.Star}
+                       alt="Star"
+                       className="w-5 h-5"
+                     />
+                     <span className="text-white font-bold text-lg">
+                       {formatNumber(winner.reward)}
+                     </span>
+                   </div>
+                 </div>
+                 {/* 하단 경계선 */}
+                 <div className="border-b border-gray-300 mt-3"></div>
+               </div>
+             )}
+           </div>
+         ))}
+       </div>
     </div>
   );
 };
