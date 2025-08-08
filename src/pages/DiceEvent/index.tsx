@@ -915,6 +915,9 @@ const DiceEventPage: React.FC = () => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          borderRadius: 13,
+                          border: "2px solid #B4CADA",
+                          padding: 5,
                         }}
                       >
                         {/* Background layer with blur effect */}
@@ -925,11 +928,9 @@ const DiceEventPage: React.FC = () => {
                             left: 0,
                             width: "100%",
                             height: "100%",
-                            borderRadius: 13,
+                            borderRadius: 11,
                             background: "#C2D5E8",
                             opacity: 0.5,
-                            border: "2px solid #B4CADA",
-                            padding: 5,
                             backdropFilter: "blur(10px)",
                             boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.04)",
                           }}
