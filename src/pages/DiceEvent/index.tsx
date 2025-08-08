@@ -859,19 +859,52 @@ const DiceEventPage: React.FC = () => {
             open={showRaffleBoxModal}
             onOpenChange={setShowRaffleBoxModal}
           >
-            <DialogContent className="bg-[#21212F] rounded-3xl text-white max-w-[90%] md:max-w-md p-6 border-none">
+            <DialogContent 
+              className="rounded-[24px]  max-w-[90%] md:max-w-md p-6 border-none"
+              style={{
+                background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+                boxShadow:
+                  "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+              }}>
               <div className="flex flex-col items-center w-full">
-                <h2 className="font-bold text-lg mb-4">Raffle Random Box</h2>
-                <div className="flex items-center justify-center bg-[#252932] border-[#35383F] border-2 rounded-full px-6 py-2 mb-6">
+                <h2 
+                  className="font-bold text-lg mb-4"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "24px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}>
+                    랜덤 박스
+                </h2>
+                <div 
+                  className="flex items-center justify-center px-6 py-2 mb-6"
+                  style={{
+                    width: "165px",
+                    height: "56px",
+                    borderRadius: "62px",
+                    background: "#0088FFBF",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    boxShadow: "0px 2px 2px 0px rgba(0, 0, 0, 0.4)",
+                  }}
+                >
                   <img
-                    src={Images.LotteryTicket}
-                    className="w-6 h-6 mr-2"
+                    src={Images.KeyIcon}
+                    className="w-[44px] h-[44px] mr-2"
                     alt="ticket"
                   />
-                  <span className="font-semibold text-lg">1000</span>
+                  <span className="font-semibold text-lg"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "18px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                  }}>1000</span>
                 </div>
                 <div className="flex flex-col gap-4 w-full">
-                  {/* Bronze Lucky Box */}
+                  {/* 랜덤 박스 */}
                   <div className="flex items-center justify-between px-1 py-3">
                     <div className="flex items-center gap-3">
                       <div
@@ -881,25 +914,37 @@ const DiceEventPage: React.FC = () => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          borderRadius: 16,
-                          background:
-                            "linear-gradient(180deg, #19203C 70%, #304689 100%)",
+                          borderRadius: 13,
+                          background: "#C2D5E8",
+                          opacity: 0.5,
+                          border: "2px solid #B4CADA",
+                          padding: 5,
+                          backdropFilter: "blur(10px)",
+                          boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.04)",
                         }}
                       >
                         <img
-                          src={Images.BronzeRandomBox}
-                          style={{ width: 50, height: 50 }}
+                          src={Images.RandomBox}
+                          style={{ width: 60, height: 60 }}
                           alt="bronze"
                         />
                       </div>
                       <div>
-                        <div className="font-semibold text-base">
-                          Bronze Lucky Box
+                        <div 
+                          className="font-semibold text-base"
+                          style={{
+                            fontFamily: "'ONE Mobile POP', sans-serif",
+                            fontSize: "14px",
+                            fontWeight: 400,
+                            color: "#FFFFFF",
+                            WebkitTextStroke: "1px #000000",
+                          }}>
+                          럭키 랜덤박스
                         </div>
                         <div className="flex items-center gap-1 text-sm font-normal">
                           <img
-                            src={Images.LotteryTicket}
-                            className="w-5 h-5"
+                            src={Images.KeyIcon}
+                            className="w-[30px] h-[30px]"
                             alt="ticket"
                           />
                           100
@@ -907,94 +952,33 @@ const DiceEventPage: React.FC = () => {
                       </div>
                     </div>
                     <button
-                      className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center"
-                      disabled
+                      className="w-[80px] h-14 rounded-[10px] flex items-center justify-center relative"
+                      style={{
+                        background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                        border: "2px solid #76C1FF",
+                        outline: "2px solid #000000",
+                        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                        color: "#FFFFFF",
+                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        fontSize: "18px",
+                        fontWeight: "400",
+                        WebkitTextStroke: "1px #000000",
+                        opacity: 1,
+                      }}
                     >
-                      OPEN
-                    </button>
-                  </div>
-                  {/* Silver Lucky Box */}
-                  <div className="flex items-center justify-between px-1 py-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        style={{
-                          width: 70,
-                          height: 70,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: 16,
-                          background:
-                            "linear-gradient(180deg, #19203C 70%, #304689 100%)",
-                        }}
-                      >
-                        <img
-                          src={Images.SilverRandomBox}
-                          style={{ width: 50, height: 50 }}
-                          alt="silver"
-                        />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-base">
-                          Silver Lucky Box
-                        </div>
-                        <div className="flex items-center gap-1 text-sm font-normal">
-                          <img
-                            src={Images.LotteryTicket}
-                            className="w-5 h-5"
-                            alt="ticket"
-                          />
-                          300
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center"
-                      disabled
-                    >
-                      OPEN
-                    </button>
-                  </div>
-                  {/* Gold Lucky Box */}
-                  <div className="flex items-center justify-between px-1 py-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        style={{
-                          width: 70,
-                          height: 70,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: 16,
-                          background:
-                            "linear-gradient(180deg, #19203C 70%, #304689 100%)",
-                        }}
-                      >
-                        <img
-                          src={Images.GoldRandomBox}
-                          style={{ width: 50, height: 50 }}
-                          alt="gold"
-                        />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-base">
-                          Gold Lucky Box
-                        </div>
-                        <div className="flex items-center gap-1 text-sm font-normal">
-                          <img
-                            src={Images.LotteryTicket}
-                            className="w-5 h-5"
-                            alt="ticket"
-                          />
-                          1000
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="w-[55px] h-[25px] bg-[#DBEAFE] text-[#0147E5] font-medium rounded-2xl text-xs flex items-center justify-center"
-                      disabled
-                    >
-                      OPEN
+                    <img
+                      src={Images.ButtonPointBlue}
+                      alt="button-point-blue"
+                      style={{
+                        position: "absolute",
+                        top: "3px",
+                        left: "3px",
+                        width: "8.47px",
+                        height: "6.3px",
+                        pointerEvents: "none",
+                      }}
+                    />
+                    열기
                     </button>
                   </div>
                 </div>
