@@ -152,7 +152,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
           {/* 5. 버튼 영역 */}
           <div className="flex flex-row mt-4 gap-3">
             <button
-              className="font-medium h-14 w-[160px] rounded-[10px]"
+              className="font-medium h-14 w-[160px] rounded-[10px] relative"
               type="button"
               onClick={onCancel}
               style={{
@@ -165,13 +165,26 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 fontSize: "18px",
                 fontWeight: "400",
                 WebkitTextStroke: "1px #000000",
+                opacity: 1,
               }}
             >
+              <div
+                style={{
+                  position: "absolute",
+                  top: "3px",
+                  left: "3px",
+                  width: "8.47px",
+                  height: "6.3px",
+                  backgroundColor: "#FFE4E4",
+                  transform: "rotate(39.23deg)",
+                  borderRadius: "full",
+                }}
+              />
               취소
             </button>
             <button
               type="submit"
-              className={`font-medium h-14 w-[160px] rounded-[10px] ${
+              className={`font-medium h-14 w-[160px] rounded-[10px] relative ${
                 !bet || parseInt(bet) <= 0
                   ? "opacity-70 cursor-not-allowed"
                   : ""
@@ -186,9 +199,22 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 fontSize: "18px",
                 fontWeight: "400",
                 WebkitTextStroke: "1px #000000",
+                opacity: !bet || parseInt(bet) <= 0 ? 0.7 : 1,
               }}
               disabled={!bet || parseInt(bet) <= 0}
             >
+              <div
+                style={{
+                  position: "absolute",
+                  top: "3px",
+                  left: "3px",
+                  width: "8.47px",
+                  height: "6.3px",
+                  backgroundColor: "#84DEFF",
+                  transform: "rotate(39.23deg)",
+                  borderRadius: "full",
+                }}
+              />
               베팅
             </button>
           </div>
