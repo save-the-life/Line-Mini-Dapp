@@ -55,7 +55,6 @@ function OwnedItemCard({ icon, alt, quantity, gradient }: OwnedItemCardProps) {
 
 const Inventory: React.FC = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
   const location = useLocation();
   const charactorImageSrc = location.state?.charactorImageSrc || Images.Cat1;
 
@@ -179,12 +178,12 @@ const Inventory: React.FC = () => {
 
       {/* 보유 중인 아이템 목록 영역 */}
       <div
-        className="w-full h-[50vh] mx-6 rounded-2xl overflow-hidden"
+        className="w-full h-[50vh] mx-6 overflow-hidden"
         style={{
           background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
         }}
       >
-        <div className="h-full w-full overflow-y-auto p-4">
+        <div className="h-full w-full overflow-y-auto p-4 pb-16">
           <div
             className="text-center mb-3"
             style={{
@@ -197,7 +196,7 @@ const Inventory: React.FC = () => {
           >
             내 아이템
           </div>
-          <div className="grid grid-cols-4 gap-3 justify-items-center">
+          <div className="grid grid-cols-4 gap-3 gap-y-4 justify-items-center">
             {dummyItems.map((item, index) => (
               <OwnedItemCard
                 key={`${item.alt}-${index}`}
