@@ -28,11 +28,117 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
   );
 }
 
+interface OwnedItemCardProps {
+  icon: string;
+  alt: string;
+  quantity: number;
+  gradient: string;
+}
+
+function OwnedItemCard({ icon, alt, quantity, gradient }: OwnedItemCardProps) {
+  return (
+    <div
+      className="relative rounded-2xl flex items-center justify-center shadow-md w-[72px] h-[72px] sm:w-[80px] sm:h-[80px]"
+      style={{
+        background: gradient,
+        boxShadow:
+          "0px 2px 2px 0px rgba(0, 0, 0, 0.35), inset 0px 0px 2px 2px rgba(255, 255, 255, 0.2)",
+      }}
+    >
+      <img src={icon} alt={alt} className="w-9 h-9 sm:w-10 sm:h-10" />
+      <div className="absolute left-1/2 -translate-x-1/2 -bottom-3 bg-[#FF5E5E] w-[22px] h-[22px] rounded-full flex items-center justify-center">
+        <span className="text-white text-[10px] font-bold">{quantity}</span>
+      </div>
+    </div>
+  );
+}
+
 const Inventory: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation();
   const charactorImageSrc = location.state?.charactorImageSrc || Images.Cat1;
+
+  const dummyItems: OwnedItemCardProps[] = [
+    {
+      icon: Images.CatGreenCrown,
+      alt: "crown",
+      quantity: 5,
+      gradient: "linear-gradient(180deg, #FECACA 0%, #FDA4AF 100%)",
+    },
+    {
+      icon: Images.CatGreenCrown,
+      alt: "crown",
+      quantity: 5,
+      gradient: "linear-gradient(180deg, #FECACA 0%, #FDA4AF 100%)",
+    },
+    {
+      icon: Images.CatGreenCrown,
+      alt: "crown",
+      quantity: 5,
+      gradient: "linear-gradient(180deg, #FECACA 0%, #FDA4AF 100%)",
+    },
+    {
+      icon: Images.CatGreenCrown,
+      alt: "crown",
+      quantity: 5,
+      gradient: "linear-gradient(180deg, #FECACA 0%, #FDA4AF 100%)",
+    },
+    {
+      icon: Images.CatGreenCrown,
+      alt: "crown",
+      quantity: 5,
+      gradient: "linear-gradient(180deg, #FECACA 0%, #FDA4AF 100%)",
+    },
+    {
+      icon: Images.CatGreenCrown,
+      alt: "crown",
+      quantity: 5,
+      gradient: "linear-gradient(180deg, #FECACA 0%, #FDA4AF 100%)",
+    },
+    {
+      icon: Images.CatGreenMuffler,
+      alt: "muffler",
+      quantity: 4,
+      gradient: "linear-gradient(180deg, #D9F99D 0%, #A7F3D0 100%)",
+    },
+    {
+      icon: Images.CatGreenMuffler,
+      alt: "muffler",
+      quantity: 4,
+      gradient: "linear-gradient(180deg, #D9F99D 0%, #A7F3D0 100%)",
+    },
+    {
+      icon: Images.CatGreenMuffler,
+      alt: "muffler",
+      quantity: 4,
+      gradient: "linear-gradient(180deg, #D9F99D 0%, #A7F3D0 100%)",
+    },
+    {
+      icon: Images.CatGreenBallon,
+      alt: "balloon",
+      quantity: 3,
+      gradient: "linear-gradient(180deg, #BBF7D0 0%, #86EFAC 100%)",
+    },
+    {
+      icon: Images.CatGreenBallon,
+      alt: "balloon",
+      quantity: 3,
+      gradient: "linear-gradient(180deg, #BBF7D0 0%, #86EFAC 100%)",
+    },
+    {
+      icon: Images.CatGreenBallon,
+      alt: "balloon",
+      quantity: 3,
+      gradient: "linear-gradient(180deg, #BBF7D0 0%, #86EFAC 100%)",
+    },
+    {
+      icon: Images.CatGreenRibbon,
+      alt: "ribbon",
+      quantity: 2,
+      gradient: "linear-gradient(180deg, #BFDBFE 0%, #93C5FD 100%)",
+    },
+  ];
 
   return (
     <div className="flex flex-col items-center text-white relative min-h-screen">
@@ -73,11 +179,37 @@ const Inventory: React.FC = () => {
 
       {/* 보유 중인 아이템 목록 영역 */}
       <div
-        className="w-full h-[50vh] mx-6"
+        className="w-full h-[50vh] mx-6 rounded-2xl overflow-hidden"
         style={{
           background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
         }}
-      ></div>
+      >
+        <div className="h-full w-full overflow-y-auto p-4">
+          <div
+            className="text-center mb-3"
+            style={{
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "24px",
+              fontWeight: 400,
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            내 아이템
+          </div>
+          <div className="grid grid-cols-4 gap-3 justify-items-center">
+            {dummyItems.map((item, index) => (
+              <OwnedItemCard
+                key={`${item.alt}-${index}`}
+                icon={item.icon}
+                alt={item.alt}
+                quantity={item.quantity}
+                gradient={item.gradient}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
