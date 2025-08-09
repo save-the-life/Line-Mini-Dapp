@@ -78,7 +78,7 @@ const Inventory: React.FC = () => {
           <img
             src={charactorImageSrc}
             alt="character"
-            className="w-[200px] h-[200px]"
+            className="w-[200px] h-[200px] top-8"
           />
           {/* 우측 아이템 슬롯 */}
           <div className="flex flex-col gap-6 items-center">
@@ -94,8 +94,6 @@ const Inventory: React.FC = () => {
         className="w-full h-[55vh] mx-6"
         style={{
           background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-          boxShadow:
-            "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
         }}
       ></div>
     </div>
