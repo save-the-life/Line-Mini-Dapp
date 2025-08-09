@@ -53,8 +53,7 @@ const Inventory: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center text-white relative min-h-screen pb-20">
-      <TopTitle title={"인벤토리"} back={false} />
-      {/* 착용 중인 아이템 및 캐릭터 표시 영역 */}
+      {/* 상단 40% (TopTitle 포함) */}
       <div
         style={{
           backgroundImage: `url(${Images.BackgroundHome})`,
@@ -66,25 +65,29 @@ const Inventory: React.FC = () => {
           borderRadius: 24,
           marginBottom: 24,
         }}
-        className="flex items-center justify-center h-full w-full mx-6"
+        className="w-full mx-6 flex flex-col"
       >
-        {/* 좌측 아이템 슬롯 */}
-        <div className="flex flex-col gap-6 items-center">
-          <ItemSlot icon={Images.CatGreenCrown} alt="crown" />
-          <ItemSlot icon={Images.CatGreenSunglasses} alt="sunglasses" />
-          <ItemSlot icon={Images.CatGreenBallon} alt="balloon" />
-        </div>
-        {/* 중앙 캐릭터 */}
-        <img
-          src={charactorImageSrc}
-          alt="character"
-          className="w-[200px] h-[200px]"
-        />
-        {/* 우측 아이템 슬롯 */}
-        <div className="flex flex-col gap-6 items-center">
-          <ItemSlot icon={Images.CatGreenMuffler} alt="muffler" />
-          <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
-          <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
+        <TopTitle title={"인벤토리"} back={false} />
+        {/* 착용 중인 아이템 및 캐릭터 표시 영역 */}
+        <div className="flex items-center justify-center flex-1 w-full">
+          {/* 좌측 아이템 슬롯 */}
+          <div className="flex flex-col gap-6 items-center">
+            <ItemSlot icon={Images.CatGreenCrown} alt="crown" />
+            <ItemSlot icon={Images.CatGreenSunglasses} alt="sunglasses" />
+            <ItemSlot icon={Images.CatGreenBallon} alt="balloon" />
+          </div>
+          {/* 중앙 캐릭터 */}
+          <img
+            src={charactorImageSrc}
+            alt="character"
+            className="w-[200px] h-[200px]"
+          />
+          {/* 우측 아이템 슬롯 */}
+          <div className="flex flex-col gap-6 items-center">
+            <ItemSlot icon={Images.CatGreenMuffler} alt="muffler" />
+            <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
+            <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
+          </div>
         </div>
       </div>
 
