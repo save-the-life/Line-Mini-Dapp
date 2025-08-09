@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { TopTitle } from '@/shared/components/ui';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Images from '@/shared/assets/images';
+import { TopTitle } from "@/shared/components/ui";
+import { useNavigate, useLocation } from "react-router-dom";
+import Images from "@/shared/assets/images";
 
 // 아이템 슬롯 컴포넌트: 아이콘과 하단 중앙 마름모 숫자(1) 표시
 function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
@@ -46,52 +46,58 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
 }
 
 const Inventory: React.FC = () => {
-    const navigate = useNavigate();
-    const { t } = useTranslation();
-    const location = useLocation();
-    const charactorImageSrc = location.state?.charactorImageSrc || Images.Cat1;
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const location = useLocation();
+  const charactorImageSrc = location.state?.charactorImageSrc || Images.Cat1;
 
-    
-    return (
-        <div className="flex flex-col items-center text-white mx-6 relative min-h-screen pb-20">
-            <TopTitle title={""} back={true} />
-            {/* 착용 중인 아이템 및 캐릭터 표시 영역 */}
-            <div
-                style={{
-                    backgroundImage: `url(${Images.InventoryBackground})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    width: '100%',
-                    height: '40vh',
-                    minHeight: 200,
-                    borderRadius: 24,
-                    marginBottom: 24,
-                }}
-                className="flex items-center justify-center h-full w-full"
-            >
-                {/* 좌측 아이템 슬롯 */}
-                <div className="flex flex-col gap-6 items-center">
-                  <ItemSlot icon={Images.CatGreenCrown} alt="crown" />
-                  <ItemSlot icon={Images.CatGreenSunglasses} alt="sunglasses" />
-                  <ItemSlot icon={Images.CatGreenBallon} alt="balloon" />
-                </div>
-                {/* 중앙 캐릭터 */}
-                <img src={charactorImageSrc} alt="character" className="w-[200px] h-[200px]" />
-                {/* 우측 아이템 슬롯 */}
-                <div className="flex flex-col gap-6 items-center">
-                  <ItemSlot icon={Images.CatGreenMuffler} alt="muffler" />
-                  <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
-                  <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
-                </div>
-            </div>
-
-            {/* 보유 중인 아이템 목록 영역 */}
-            <div>
-                
-            </div>
-
+  return (
+    <div className="flex flex-col items-center text-white mx-6 relative min-h-screen pb-20">
+      <TopTitle title={"인벤토리"} back={false} />
+      {/* 착용 중인 아이템 및 캐릭터 표시 영역 */}
+      <div
+        style={{
+          backgroundImage: `url(${Images.BackgroundHome})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          width: "100%",
+          height: "40vh",
+          minHeight: 200,
+          borderRadius: 24,
+          marginBottom: 24,
+        }}
+        className="flex items-center justify-center h-full w-full"
+      >
+        {/* 좌측 아이템 슬롯 */}
+        <div className="flex flex-col gap-6 items-center">
+          <ItemSlot icon={Images.CatGreenCrown} alt="crown" />
+          <ItemSlot icon={Images.CatGreenSunglasses} alt="sunglasses" />
+          <ItemSlot icon={Images.CatGreenBallon} alt="balloon" />
         </div>
-    )
-}
+        {/* 중앙 캐릭터 */}
+        <img
+          src={charactorImageSrc}
+          alt="character"
+          className="w-[200px] h-[200px]"
+        />
+        {/* 우측 아이템 슬롯 */}
+        <div className="flex flex-col gap-6 items-center">
+          <ItemSlot icon={Images.CatGreenMuffler} alt="muffler" />
+          <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
+          <ItemSlot icon={Images.CatGreenRibbon} alt="ribbon" />
+        </div>
+      </div>
+
+      {/* 보유 중인 아이템 목록 영역 */}
+      <div
+        style={{
+          background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+          boxShadow:
+            "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+        }}
+      ></div>
+    </div>
+  );
+};
 
 export default Inventory;

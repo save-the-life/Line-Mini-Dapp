@@ -17,6 +17,7 @@ const backgroundMap: Record<string, string> = {
   "/invite-friends-list": Images.BackgroundLobby,
   "/reward-history": Images.BackgroundLobby,
   "/hall-of-fame": Images.BackgroundLobby,
+  "/inventory": Images.BackgroundHome,
   // 필요시 추가
 };
 
@@ -33,6 +34,7 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
 }) => {
   const location = useLocation();
   const bgImage = backgroundMap[location.pathname] || Images.BackgroundHome;
+  const isInventory = location.pathname === "/inventory";
 
   // 블러 처리할 페이지 목록
   const blurPages = [
@@ -78,7 +80,8 @@ const DiceEventLayout: React.FC<DiveEventLayoutProps> = ({
       <div
         className={`flex flex-col bg-[#0D1226] items-center ${className || ""}`}
         style={{
-          backgroundImage: shouldBlur ? "none" : `url(${bgImage})`,
+          backgroundImage:
+            shouldBlur || isInventory ? "none" : `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "100vh",
