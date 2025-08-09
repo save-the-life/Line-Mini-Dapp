@@ -183,7 +183,7 @@ const Inventory: React.FC = () => {
           background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
         }}
       >
-        <div className="h-full w-full overflow-y-auto p-4 pb-24">
+        <div className="h-full w-full overflow-y-auto p-4 pb-28">
           <div
             className="text-center mb-3"
             style={{
