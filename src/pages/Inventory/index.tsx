@@ -62,7 +62,6 @@ const Inventory: React.FC = () => {
           width: "100%",
           height: "40vh",
           minHeight: 200,
-          marginBottom: 24,
         }}
         className="w-full mx-6 flex flex-col"
       >
