@@ -52,7 +52,7 @@ const Inventory: React.FC = () => {
   const charactorImageSrc = location.state?.charactorImageSrc || Images.Cat1;
 
   return (
-    <div className="flex flex-col items-center text-white mx-6 relative min-h-screen pb-20">
+    <div className="flex flex-col items-center text-white relative min-h-screen pb-20">
       <TopTitle title={"인벤토리"} back={false} />
       {/* 착용 중인 아이템 및 캐릭터 표시 영역 */}
       <div
@@ -66,7 +66,7 @@ const Inventory: React.FC = () => {
           borderRadius: 24,
           marginBottom: 24,
         }}
-        className="flex items-center justify-center h-full w-full"
+        className="flex items-center justify-center h-full w-full mx-6"
       >
         {/* 좌측 아이템 슬롯 */}
         <div className="flex flex-col gap-6 items-center">
@@ -90,6 +90,7 @@ const Inventory: React.FC = () => {
 
       {/* 보유 중인 아이템 목록 영역 */}
       <div
+        className="w-full h-full mx-6"
         style={{
           background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
           boxShadow:
