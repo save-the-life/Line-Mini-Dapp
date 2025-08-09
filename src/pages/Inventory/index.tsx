@@ -60,7 +60,7 @@ const Inventory: React.FC = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           width: "100%",
-          height: "40vh",
+          height: "45vh",
           minHeight: 200,
         }}
         className="w-full mx-6 flex flex-col"
@@ -91,7 +91,7 @@ const Inventory: React.FC = () => {
 
       {/* 보유 중인 아이템 목록 영역 */}
       <div
-        className="w-full h-[60vh] mx-6"
+        className="w-full h-[55vh] mx-6"
         style={{
           background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
           boxShadow:
