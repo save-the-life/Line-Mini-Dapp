@@ -9,10 +9,14 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
   return (
     <div className="relative flex flex-col items-center">
       <div
-        className="w-[60px] h-[60px] sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shadow-lg"
+        className="w-20 h-20 max-[375px]:w-[60px] max-[375px]:h-[60px] rounded-2xl flex items-center justify-center shadow-lg"
         style={{ background: "linear-gradient(180deg, #F43F5E 0%, #fff 100%)" }}
       >
-        <img src={icon} alt={alt} className="w-9 h-9 sm:w-12 sm:h-12" />
+        <img
+          src={icon}
+          alt={alt}
+          className="w-12 h-12 max-[375px]:w-9 max-[375px]:h-9"
+        />
       </div>
       {/* 등급 표시: 원형, 초소형 화면 대응 */}
       <div className="absolute left-1/2 translate-x-[-50%] bottom-[-6px] sm:bottom-[-8px] bg-[#F43F5E] w-[18px] h-[18px] sm:w-[22px] sm:h-[22px] rounded-full flex items-center justify-center">
