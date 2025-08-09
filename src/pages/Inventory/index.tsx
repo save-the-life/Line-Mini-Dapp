@@ -57,7 +57,7 @@ const Inventory: React.FC = () => {
       <div
         style={{
           backgroundImage: `url(${Images.BackgroundHome})`,
-          backgroundSize: "auto 100%",
+          backgroundSize: "100% auto",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center top",
           width: "100%",
