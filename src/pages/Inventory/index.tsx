@@ -9,34 +9,18 @@ function ItemSlot({ icon, alt }: { icon: string; alt: string }) {
   return (
     <div className="relative flex flex-col items-center">
       <div
-        className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg"
+        className="w-6 h-6 sm:w-20 sm:h-20 max-[360px]:w-5 max-[360px]:h-5 rounded-2xl flex items-center justify-center shadow-lg"
         style={{ background: "linear-gradient(180deg, #F43F5E 0%, #fff 100%)" }}
       >
-        <img src={icon} alt={alt} className="w-12 h-12" />
+        <img
+          src={icon}
+          alt={alt}
+          className="w-4 h-4 sm:w-12 sm:h-12 max-[360px]:w-3 max-[360px]:h-3"
+        />
       </div>
-      {/* 등급 표시: 원형 22x22 */}
-      <div
-        className="absolute"
-        style={{
-          left: "50%",
-          bottom: "-11px",
-          transform: "translateX(-50%)",
-          background: "#F43F5E",
-          width: "22px",
-          height: "22px",
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <span
-          style={{
-            color: "#fff",
-            fontWeight: "bold",
-            fontSize: "6px",
-          }}
-        >
+      {/* 등급 표시: 원형, 초소형 화면 대응 */}
+      <div className="absolute left-1/2 translate-x-[-50%] bottom-[-8px] bg-[#F43F5E] w-[22px] h-[22px] rounded-full flex items-center justify-center max-[360px]:w-[18px] max-[360px]:h-[18px] max-[360px]:bottom-[-6px]">
+        <span className="text-[6px] font-bold text-white max-[360px]:text-[5px]">
           1
         </span>
       </div>
