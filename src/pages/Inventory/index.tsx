@@ -52,7 +52,7 @@ const Inventory: React.FC = () => {
   const charactorImageSrc = location.state?.charactorImageSrc || Images.Cat1;
 
   return (
-    <div className="flex flex-col items-center text-white relative min-h-screen pb-20">
+    <div className="flex flex-col items-center text-white relative min-h-screen">
       {/* 상단 40% (TopTitle 포함) */}
       <div
         style={{
