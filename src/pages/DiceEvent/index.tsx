@@ -101,7 +101,7 @@ const DiceEventPage: React.FC = () => {
   const [showUrlReward, setShowUrlReward] = useState<boolean>(false);
 
   // 레벨 업 시 팝업 표시를 위한 상태
-  const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(true);
+  const [showLevelUpDialog, setShowLevelUpDialog] = useState<boolean>(false);
   const [prevLevel, setPrevLevel] = useState<number>(userLv);
 
   // 레벨별 보상 다이얼로그 표시를 위한 상태
@@ -831,8 +831,8 @@ const DiceEventPage: React.FC = () => {
                     opacity: 1,
                   }}>
                    <img
-                    src={Images.ButtonPointRed}
-                    alt="button-point-red"
+                    src={Images.ButtonPointBlue}
+                    alt="button-point-blue"
                     style={{
                       position: "absolute",
                       top: "3px",
