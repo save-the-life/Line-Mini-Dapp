@@ -42,13 +42,13 @@ function ItemModal({ isOpen, onClose, item }: ItemModalProps) {
 
   return (
     <div 
-      className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 px-3 py-[30px] w-[80%] h-[70%] rounded-3xl"
       style={{
         background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
         boxShadow:
           "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
       }}>
-      <div className="p-6 w-full max-w-sm max-h-[90vh] overflow-y-auto">
+      <div className="w-full max-w-sm max-h-[90vh] overflow-y-auto">
         {/* 헤더 */}
         <div className="text-center mb-6">
           <h2 
@@ -75,7 +75,19 @@ function ItemModal({ isOpen, onClose, item }: ItemModalProps) {
         </div>
 
         {/* 강화 효과 목록 */}
-        <div className="space-y-3 mb-6">
+        <div 
+          className="space-y-3 mb-6"
+          style={
+            {
+              background: "rgba(194, 213, 232, 0.1)",
+              border: "2px solid #B4CADA",
+              borderRadius: "20px",
+              padding: "16px",
+              boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.1)",
+              backdropFilter: "blur(15px)",
+              WebkitBackdropFilter: "blur(15px)",
+            }
+          }>
           {enhancementEffects.map((enhancement) => (
             <div key={enhancement.level} className="flex items-center space-x-3">
               <div className={`w-8 h-8 rounded-full ${getLevelColor(enhancement.level)} flex items-center justify-center`}>
