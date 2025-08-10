@@ -113,24 +113,72 @@ function ItemModal({ isOpen, onClose, item }: ItemModalProps) {
 
         {/* 액션 버튼 */}
         <div className="flex space-x-3">
-          <button
-            className={`flex-1 py-3 rounded-2xl font-bold text-white ${
-              item.isEquipped ? 'bg-red-500' : 'bg-blue-500'
-            }`}
+                           <button
+                   className={`w-[150px] h-14 flex-1 py-3 rounded-[10px] relative`}
+                   style={{
+                     background: item.isEquipped 
+                       ? "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)"
+                       : "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                     border: item.isEquipped ? "2px solid #FF8E8E" : "2px solid #76C1FF",
+                     outline: "2px solid #000000",
+                     boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                     color: "#FFFFFF",
+                     fontFamily: "'ONE Mobile POP', sans-serif",
+                     fontSize: "18px",
+                     fontWeight: "400",
+                     WebkitTextStroke: "1px #000000",
+                     opacity: 1,
+                   }}
             onClick={() => {
               // TODO: 장착/해제 로직 구현
               console.log(item.isEquipped ? '해제' : '장착');
             }}
           >
+            <img
+              src={item.isEquipped ? Images.ButtonPointRed : Images.ButtonPointBlue}
+              alt={item.isEquipped ? "button-point-red" : "button-point-blue"}
+              style={{
+                position: "absolute",
+                top: "3px",
+                left: "3px",
+                width: "8.47px",
+                height: "6.3px",
+                pointerEvents: "none",
+              }}
+            />
             {item.isEquipped ? '해제' : '장착'}
           </button>
           <button
-            className="flex-1 py-3 rounded-2xl font-bold text-white bg-blue-500"
+            className="w-[150px] h-14 flex-1 py-3 rounded-[10px] relative"
+            style={{
+              background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+              border: "2px solid #76C1FF",
+              outline: "2px solid #000000",
+              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+              color: "#FFFFFF",
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: "400",
+              WebkitTextStroke: "1px #000000",
+              opacity: 1,
+            }}
             onClick={() => {
               // TODO: 강화 로직 구현
               console.log('강화');
             }}
           >
+            <img
+              src={Images.ButtonPointBlue}
+              alt="button-point-blue"
+              style={{
+                position: "absolute",
+                top: "3px",
+                left: "3px",
+                width: "8.47px",
+                height: "6.3px",
+                pointerEvents: "none",
+              }}
+            />
             강화
           </button>
         </div>

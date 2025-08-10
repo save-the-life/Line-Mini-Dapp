@@ -708,11 +708,11 @@ const DiceEventPage: React.FC = () => {
                       WebkitTextStroke: "1px #000000",
                     }}
                   >
-                    보상 받기
+                    지금 바로 당신의 보상을 챙기세요!
                   </p>
                   {currentReward && (
                     <div
-                      className="flex flex-row items-center justify-center gap-2"
+                      className="flex flex-row items-center justify-center gap-6"
                       style={{
                         width: "70vw",
                         height: "120px",
@@ -817,20 +817,31 @@ const DiceEventPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setShowLevelUpDialog(false)}
-                  className="font-medium rounded-[10px] w-[250px] h-14 text-white"
+                  className="rounded-[10px] w-[250px] h-14 relative"
                   style={{
-                    background:
-                      "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+                    background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
                     border: "2px solid #76C1FF",
-                    borderRadius: "10px",
-                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                    WebkitTextStroke: "1px #000000",
+                    outline: "2px solid #000000",
+                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                    color: "#FFFFFF",
                     fontFamily: "'ONE Mobile POP', sans-serif",
                     fontSize: "18px",
-                    fontWeight: 600,
-                    textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-                  }}
-                >
+                    fontWeight: "400",
+                    WebkitTextStroke: "1px #000000",
+                    opacity: 1,
+                  }}>
+                   <img
+                    src={Images.ButtonPointRed}
+                    alt="button-point-red"
+                    style={{
+                      position: "absolute",
+                      top: "3px",
+                      left: "3px",
+                      width: "8.47px",
+                      height: "6.3px",
+                      pointerEvents: "none",
+                    }}
+                  />
                   확인
                 </button>
               </div>
