@@ -41,14 +41,20 @@ function ItemModal({ isOpen, onClose, item }: ItemModalProps) {
   };
 
   return (
-    <div 
-      className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 px-3 py-[30px] w-[80%] h-[70%] rounded-3xl"
-      style={{
-        background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
-        boxShadow:
-          "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
-      }}>
-      <div className="w-full max-w-sm max-h-[90vh] overflow-y-auto">
+    <>
+      {/* 배경 블러 오버레이 */}
+      <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-md z-40" />
+      
+      {/* 모달 컨테이너 */}
+      <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+        <div 
+          className="w-full max-w-sm max-h-[90vh] overflow-y-auto rounded-3xl"
+          style={{
+            background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+            boxShadow:
+              "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+          }}>
+          <div className="p-6">
         {/* 헤더 */}
         <div className="text-center mb-6">
           <h2 
@@ -136,8 +142,10 @@ function ItemModal({ isOpen, onClose, item }: ItemModalProps) {
         >
           ×
         </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
