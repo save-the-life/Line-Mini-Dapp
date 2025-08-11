@@ -452,6 +452,17 @@ const DiceEventPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center relative w-full h-full overflow-x-hidden min-h-screen">
+      {/* 배경화면 추가 */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: `url(${Images.BackgroundTopview})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      {/* 메인 컨텐츠를 위한 z-index 설정 */}
+      <div className="relative z-10 w-full h-full flex flex-col items-center">
       {game.isRPSGameActive ? (
         <RPSGame
           onGameEnd={handleRPSGameEnd}
@@ -1199,6 +1210,7 @@ const DiceEventPage: React.FC = () => {
       
       {/* BottomNav - SpinGame이 활성화되지 않을 때만 표시 */}
       {!game.isSpinGameActive && !game.isRPSGameActive && <BottomNav />}
+      </div>
     </div>
   );
 };
