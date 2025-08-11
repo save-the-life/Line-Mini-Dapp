@@ -43,10 +43,10 @@ function ItemModal({ isOpen, onClose, item }: ItemModalProps) {
   return (
     <>
       {/* 배경 블러 오버레이 */}
-      <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-md z-40" />
+      <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-md z-[60]" />
       
       {/* 모달 컨테이너 */}
-      <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+      <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
         <div 
           className="w-full max-w-sm max-h-[90vh] overflow-y-auto rounded-3xl"
           style={{
