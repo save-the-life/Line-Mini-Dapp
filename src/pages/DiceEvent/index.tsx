@@ -37,6 +37,7 @@ import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 import { useSDK } from "@/shared/hooks/useSDK";
+import BottomNav from "@/widgets/BottomNav/BottomNav";
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -1195,6 +1196,9 @@ const DiceEventPage: React.FC = () => {
           <div className="hidden md:block md:mb-40"> &nbsp;</div>
         </>
       )}
+      
+      {/* BottomNav - SpinGame이 활성화되지 않을 때만 표시 */}
+      {!game.isSpinGameActive && !game.isRPSGameActive && <BottomNav />}
     </div>
   );
 };
