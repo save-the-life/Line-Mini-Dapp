@@ -305,7 +305,7 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
       </div>
       {/* 버튼을 바깥 영역으로 이동 */}
       <button
-        className="flex relative items-center justify-center rounded-3xl font-medium mt-20"
+        className="flex relative items-center justify-center rounded-[10px] font-medium mt-20"
         onClick={onQuit}
         style={{
           width: "300px",
