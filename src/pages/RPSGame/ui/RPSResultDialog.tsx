@@ -149,7 +149,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
       <div className="flex flex-row gap-[27px]">
         {isFinalWin ? (
           <button
-            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px] mt-20"
             onClick={onQuit}
             style={{
               background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
@@ -178,7 +178,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
         ) : (
           <>
             <button
-              className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+              className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px] mt-20"
               onClick={onQuit}
               style={{
                 background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
@@ -305,7 +305,7 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
       </div>
       {/* 버튼을 바깥 영역으로 이동 */}
       <button
-        className="flex relative items-center justify-center rounded-3xl font-medium"
+        className="flex relative items-center justify-center rounded-3xl font-medium mt-20"
         onClick={onQuit}
         style={{
           width: "300px",
