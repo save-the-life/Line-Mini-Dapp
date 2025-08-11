@@ -435,7 +435,7 @@ const Inventory: React.FC = () => {
           <img
             src={charactorImageSrc}
             alt="character"
-            className="min-[376px]:w-[200px] min-[376px]:h-[200px] w-[180px] h-[180px] min-[376px]:-translate-y-4 -translate-y-10"
+            className="min-[376px]:w-[200px] min-[376px]:h-[200px] w-[180px] h-[180px] min-[376px]:-translate-y-4 -translate-y-12"
           />
           {/* 우측 아이템 슬롯 */}
           <div className="flex flex-col gap-[30px] items-center">
