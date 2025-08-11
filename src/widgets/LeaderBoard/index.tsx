@@ -45,7 +45,16 @@ const Leaderboard: React.FC = () => {
 
   return (
     <div className="leaderboard-container flex flex-col md:px-0 text-white mb-44 w-full mt-7">
-      <h1 className="font-jalnan text-3xl mb-6 text-center">{t("rank_page.Leader_Board")}</h1>
+      <h1 className="mb-6 text-center"
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "24px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}>
+          나의 랭킹킹
+      </h1>
 
       {/* Top 3 Leader Board Entries */}
       <div className="top-leaders flex flex-col gap-3 w-full justify-center items-center">
