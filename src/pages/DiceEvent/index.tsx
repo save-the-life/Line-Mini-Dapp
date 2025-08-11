@@ -642,7 +642,14 @@ const DiceEventPage: React.FC = () => {
                 backgroundRepeat: 'no-repeat',
               }}
             >
-              <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+                  <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+               <div 
+                 className="absolute inset-0 z-0"
+                 style={{
+                   backgroundColor: "#42617D",
+                   opacity: 0.6,
+                 }}
+               />
               <div className="relative z-10 flex flex-col h-full">
               <DialogHeader className="flex w-full items-end">
                 <DialogClose>
