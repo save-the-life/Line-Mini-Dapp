@@ -435,7 +435,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                   </p>
                 </div>
                 <div
-                  className="rounded-full flex items-center justify-center h-8 w-11 "
+                  className="rounded-full flex items-center justify-center h-[35px] w-[66px] "
                   style={{
                     background: "rgba(0, 94, 170, 0.5)",
                     backdropFilter: "blur(10px)",
@@ -584,7 +584,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                   </p>
                 </div>
                 <div
-                  className="rounded-full flex items-center justify-center h-8 w-11"
+                  className="rounded-full flex items-center justify-center h-[35px] w-[66px]"
                   style={{
                     background: "rgba(0, 94, 170, 0.5)",
                     backdropFilter: "blur(10px)",

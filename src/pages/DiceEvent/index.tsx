@@ -634,7 +634,16 @@ const DiceEventPage: React.FC = () => {
             >
               <InlineRanking />
             </DialogTrigger>
-            <DialogContent className=" flex flex-col bg-[#21212F] border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold  overflow-y-auto  max-h-[80%]">
+            <DialogContent className="flex flex-col border-none text-white h-screen w-screen max-w-none max-h-none overflow-x-hidden font-semibold overflow-y-auto"
+              style={{
+                background: `url(${Images.BackgroundLobby})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+              <div className="relative z-10 flex flex-col h-full">
               <DialogHeader className="flex w-full items-end">
                 <DialogClose>
                   <HiX className="w-5 h-5" />
@@ -642,6 +651,7 @@ const DiceEventPage: React.FC = () => {
               </DialogHeader>
               <ModalRanking />
               <LeaderBoard />
+              </div>
             </DialogContent>
           </Dialog>
 
