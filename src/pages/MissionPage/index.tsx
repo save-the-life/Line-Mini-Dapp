@@ -339,7 +339,7 @@ const MissionPage: React.FC = () => {
 
       {/* 출석 위젯 */}
       <h1
-        className="text-center ml-7"
+        className="text-center"
         style={{
           ...whiteTextStyle,
           fontSize: "18px",
@@ -355,7 +355,7 @@ const MissionPage: React.FC = () => {
       {incompleteMissions.length > 0 && (
         <>
           <h1
-            className="text-center mb-4 ml-7 mt-5"
+            className="text-center mb-4 mt-5"
             style={{
               ...whiteTextStyle,
               fontSize: "18px",
@@ -484,7 +484,7 @@ const MissionPage: React.FC = () => {
 
       {/* 일일 미션 */}
       <h1
-        className="text-center my-4 ml-7"
+        className="text-center my-4"
         style={{
           ...whiteTextStyle,
           fontSize: "18px",
@@ -506,7 +506,7 @@ const MissionPage: React.FC = () => {
       {completedMissions.length > 0 && (
         <>
           <h1
-            className="text-center mb-4 ml-7"
+            className="text-center mb-4"
             style={{
               ...whiteTextStyle,
               fontSize: "18px",

@@ -144,9 +144,16 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
     >
       {/* Title */}
       <h1
-        className={`font-jalnan text-3xl ${titleHidden ? "hidden" : "block"}`}
+        className={` ${titleHidden ? "hidden" : "block"}`}
+        style={{
+          fontFamily: "'ONE Mobile POP', sans-serif",
+          fontSize: "30px",
+          fontWeight: 400,
+          color: "#FFFFFF",
+          WebkitTextStroke: "1px #000000",
+        }}
       >
-        나의 랭킹
+        랭킹
       </h1>
 
       <div
