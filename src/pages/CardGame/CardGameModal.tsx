@@ -71,22 +71,27 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
     console.log("입력된 베팅 금액:", bet);
     console.log("입력된 베팅 금액 (숫자):", Number(bet));
     console.log("보유 포인트:", myPoint);
+    console.log("베팅 버튼 클릭됨!");
 
     const amount = Number(bet);
 
     // 100단위 검증
     if (amount % 100 !== 0) {
       console.log("❌ 100단위 검증 실패:", amount, "는 100의 배수가 아님");
+      console.log("모달창 열기 시도...");
       setAlertMessage("베팅 금액은 100단위로 입력해주세요.");
       setIsAlertOpen(true);
+      console.log("모달창 상태:", isAlertOpen);
       return;
     }
     console.log("✅ 100단위 검증 통과:", amount, "는 100의 배수");
 
     if (amount > myPoint) {
       console.log("❌ 포인트 초과:", amount, ">", myPoint);
+      console.log("모달창 열기 시도...");
       setAlertMessage("베팅 가능한 금액보다 많이 입력하였습니다.");
       setIsAlertOpen(true);
+      console.log("모달창 상태:", isAlertOpen);
       return;
     }
     console.log("✅ 포인트 검증 통과:", amount, "<=", myPoint);
@@ -181,7 +186,14 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
           </div>
         </div>
         {/* 4. 배팅 입력 */}
-        <form className="w-full" onSubmit={handleBet}>
+        <form
+          className="w-full"
+          onSubmit={(e) => {
+            console.log("폼 제출 이벤트 발생!");
+            e.preventDefault();
+            handleBet();
+          }}
+        >
           <input
             placeholder="베팅할 별 개수를 입력하세요!(100단위로 입력)"
             type="number"
