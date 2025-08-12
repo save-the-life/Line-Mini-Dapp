@@ -73,7 +73,10 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       setIsAlertOpen(true);
       return;
     }
+
+    // 모든 검증을 통과한 경우 에러와 알림 초기화
     setError("");
+    setIsAlertOpen(false);
     onStart(amount);
   };
 
@@ -184,7 +187,6 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
               boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
             }}
           />
-          {error && <div className="text-red-400 text-xs mb-2">{error}</div>}
           {/* 5. 버튼 영역 */}
           <div className="flex flex-row mt-4 gap-3">
             <button

@@ -71,6 +71,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
     if (amount > 0 && amount <= allowedBetting + 1) {
       // console.log("Starting game with betAmount:", amount);
       setBetAmountStore(amount); // betAmount를 설정
+      setIsAlertOpen(false); // 알림 모달 닫기
       onStart(); // 게임 시작
     } else {
       setAlertMessage(
