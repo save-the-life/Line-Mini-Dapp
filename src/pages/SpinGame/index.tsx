@@ -475,7 +475,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           duration: 1,
           ease: "easeOut",
         }}
-        className="relative w-full h-[402px] md:h-[471px] mt-16"
+        className="relative w-full h-[402px] md:h-[471px] mt-8"
       >
         {/* SpinProp을 받침대로 사용 */}
         <img
