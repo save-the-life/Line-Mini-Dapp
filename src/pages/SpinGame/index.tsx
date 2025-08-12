@@ -446,7 +446,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
 
   return (
     <div
-      className="relative flex flex-col items-center min-h-screen justify-center w-full"
+      className="relative flex flex-col items-center h-screen justify-start w-full"
       style={{
         backgroundImage: `url(${Images.BackgroundRulette})`,
         backgroundSize: "cover",
@@ -454,7 +454,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       }}
     >
       <h1
-        className="text-center md:mb-12"
+        className="text-center md:mb-12 pt-8"
         style={{
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "30px",
