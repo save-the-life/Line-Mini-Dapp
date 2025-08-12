@@ -488,9 +488,9 @@ const MyAssets: React.FC = () => {
       </div>
 
       {/* 광고 버튼 영역 */}
-      <div className="mt-10 mb-5 w-full flex justify-center relative">
+      <div className="mt-10 mb-5 w-full flex justify-center">
         <button
-          className="flex items-center justify-center gap-3 px-6 py-4 rounded-[10px] transition-transform active:scale-95"
+          className="relative flex items-center justify-center gap-3 px-6 py-4 rounded-[10px] transition-transform active:scale-95"
           style={{
             background:
               "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
