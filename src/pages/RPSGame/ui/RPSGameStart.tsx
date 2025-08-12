@@ -44,8 +44,22 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
       | React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault(); // 기본 폼 제출을 막습니다.
+
+    // 빈 값 체크
+    if (!betAmount || betAmount.trim() === "") {
+      setAlertMessage("베팅 금액을 입력해주세요.");
+      setIsAlertOpen(true);
+      return;
+    }
+
     const amount = parseInt(betAmount);
-    // console.log(`handleStartClick called with amount: ${amount}`);
+
+    // 유효한 숫자인지 체크
+    if (isNaN(amount) || amount <= 0) {
+      setAlertMessage("유효한 베팅 금액을 입력해주세요.");
+      setIsAlertOpen(true);
+      return;
+    }
 
     // 100단위 검증 추가
     if (amount % 100 !== 0) {

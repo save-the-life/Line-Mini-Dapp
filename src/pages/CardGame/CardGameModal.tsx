@@ -45,9 +45,18 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   const [alertMessage, setAlertMessage] = useState<string>("");
 
   const handleBet = () => {
+    // 빈 값 체크
+    if (!bet || bet.trim() === "") {
+      setAlertMessage("베팅 금액을 입력해주세요.");
+      setIsAlertOpen(true);
+      return;
+    }
+
     const amount = Number(bet);
-    if (!amount || amount <= 0) {
-      setAlertMessage("Please enter a valid amount.");
+
+    // 유효한 숫자인지 체크
+    if (isNaN(amount) || amount <= 0) {
+      setAlertMessage("유효한 베팅 금액을 입력해주세요.");
       setIsAlertOpen(true);
       return;
     }
