@@ -199,7 +199,7 @@ const MyRankingWidget: React.FC<MyRankingWidgetProps> = ({
                   exit="exit"
                   className="text-base font-semibold"
                 >
-                  {t("dice_event.my_rank")}
+                  내 랭킹
                 </motion.p>
               )}
               {showRankText === "rankUp" && (

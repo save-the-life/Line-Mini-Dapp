@@ -91,7 +91,7 @@
     },
     "rank_page": {
       "Ranking": "랭킹",
-      "My_Rank": "나의 랭킹",
+      "My_Rank": "내 랭킹",
       "*_Rankings_are_based_on_Star_Points": "* 랭킹은 스타 포인트를 기준으로 합니다.",
       "Leader_Board": "리더보드",
       "Campaign_Prize": "캠페인 상품",
@@ -447,7 +447,7 @@
       "select_tile": "이동할 칸을 선택하세요",
       "level_up": "레벨 업!",
       "grap_prize": "보상을 받아가세요!",
-      "my_rank": "나의 랭킹",
+      "my_rank": "내 랭킹",
       "ranking_base": "랭킹은 스타 포인트를 기준으로 합니다",
       "star_rewards": "보상: 3,000 스타 포인트 + 주사위 10개",
       "7th": "7일차 보상: 100,000 스타 포인트 + 래플권 100개",

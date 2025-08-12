@@ -200,7 +200,7 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
                     WebkitTextStroke: "1px #000000",
                   }}
                 >
-                  {t("dice_event.my_rank")}
+                  내 랭킹
                 </motion.p>
               )}
               {showRankText === "rankUp" && (

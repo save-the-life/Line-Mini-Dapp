@@ -41,22 +41,27 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   const [bet, setBet] = useState("");
   const [error, setError] = useState("");
   const [showGameGuide, setShowGameGuide] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
 
   const handleBet = () => {
     const amount = Number(bet);
     if (!amount || amount <= 0) {
-      setError("Please enter a valid amount.");
+      setAlertMessage("Please enter a valid amount.");
+      setIsAlertOpen(true);
       return;
     }
 
     // 100단위 검증 추가
     if (amount % 100 !== 0) {
-      setError("베팅 금액은 100단위로 입력해주세요. (예: 100, 200, 300...)");
+      setAlertMessage("베팅 금액은 100단위로 입력해주세요.");
+      setIsAlertOpen(true);
       return;
     }
 
     if (amount > myPoint) {
-      setError("Not enough points.");
+      setAlertMessage("Not enough points.");
+      setIsAlertOpen(true);
       return;
     }
     setError("");
@@ -317,6 +322,53 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 </li>
               </ol>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* 안내 모달 */}
+      {isAlertOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div
+            className="rounded-[24px] max-w-md w-full mx-4 p-6"
+            style={{
+              background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+              boxShadow:
+                "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+            }}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2
+                className="text-start"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  color: "#FDE047",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                안내
+              </h2>
+              <button
+                onClick={() => setIsAlertOpen(false)}
+                className="text-white hover:text-gray-300 text-xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            <p
+              className="text-center mb-4"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              {alertMessage}
+            </p>
           </div>
         </div>
       )}
