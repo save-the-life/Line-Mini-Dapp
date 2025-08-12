@@ -44,6 +44,13 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
     event.preventDefault(); // 기본 폼 제출을 막습니다.
     const amount = parseInt(betAmount);
     // console.log(`handleStartClick called with amount: ${amount}`);
+
+    // 100단위 검증 추가
+    if (amount % 100 !== 0) {
+      alert("베팅 금액은 100단위로 입력해주세요. (예: 100, 200, 300...)");
+      return;
+    }
+
     if (amount > 0 && amount <= allowedBetting + 1) {
       // console.log("Starting game with betAmount:", amount);
       setBetAmountStore(amount); // betAmount를 설정
@@ -160,12 +167,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
               step="100"
               min="100"
               value={betAmount}
-              onChange={(e) => {
-                const value = parseInt(e.target.value);
-                if (value % 100 === 0) {
-                  setBetAmount(e.target.value);
-                }
-              }}
+              onChange={(e) => setBetAmount(e.target.value)}
               max={allowedBetting}
               className="h-12 px-4 mt-4 w-[342px] text-start"
               style={{

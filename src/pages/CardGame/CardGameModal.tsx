@@ -48,6 +48,13 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
       setError("Please enter a valid amount.");
       return;
     }
+
+    // 100단위 검증 추가
+    if (amount % 100 !== 0) {
+      setError("베팅 금액은 100단위로 입력해주세요. (예: 100, 200, 300...)");
+      return;
+    }
+
     if (amount > myPoint) {
       setError("Not enough points.");
       return;
@@ -146,12 +153,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
             step="100"
             min="100"
             value={bet}
-            onChange={(e) => {
-              const value = parseInt(e.target.value);
-              if (value % 100 === 0) {
-                setBet(e.target.value);
-              }
-            }}
+            onChange={(e) => setBet(e.target.value)}
             max={myPoint}
             className="h-12 px-4 mt-4 w-[342px] text-start"
             style={{
