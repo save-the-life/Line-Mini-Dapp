@@ -157,7 +157,7 @@ const CustomWheel: React.FC<{
   }, [mustSpin, prizeNumber, data.length, onSpinEnd, isSpinning]);
 
   return (
-    <div className="relative w-[328px] h-[328px]">
+    <div className="relative min-[376px]:w-[328px] min-[376px]:h-[328px] w-[280px] h-[280px]">
       {/* 배경 돌림판 이미지 */}
       <div
         className="relative w-full h-full"
@@ -481,7 +481,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         <img
           src={Images.SpinProp}
           alt="Spin-prop"
-          className="w-[220px] h-[220px] absolute"
+          className="min-[376px]:w-[220px] min-[376px]:h-[220px] w-[190px] h-[190px] absolute"
           loading="lazy"
           style={{
             top: "50%",
@@ -494,7 +494,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
         <motion.img
           src={Images.NewPin}
           alt="Spin-pin"
-          className="absolute z-20 w-[70px] h-auto"
+          className="absolute z-20 min-[376px]:w-[70px] min-[376px]:h-[70px] w-[50px] h-[50px]"
           style={{
             left: "calc(50% - 35px)", // 핀 너비의 절반만큼 왼쪽으로 조정
             top: "-40px",
