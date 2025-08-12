@@ -41,51 +41,58 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   const [bet, setBet] = useState("");
   const [error, setError] = useState("");
   const [showGameGuide, setShowGameGuide] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(true);
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const numericValue = parseInt(value);
 
+    console.log("=== 입력값 변화 ===");
+    console.log("입력된 값:", value);
+    console.log("숫자 변환 결과:", numericValue);
+    console.log("보유 포인트:", myPoint);
+    console.log(
+      "입력 허용 조건:",
+      value === "" || (/^\d+$/.test(value) && numericValue <= myPoint + 1)
+    );
+
     // 빈 값이거나 숫자인 경우에만 입력 허용 (100단위 제한 제거)
     if (value === "" || (/^\d+$/.test(value) && numericValue <= myPoint + 1)) {
       setBet(value);
-      // console.log(`bet set to: ${value}`);
+      console.log("✅ 입력값 설정됨:", value);
+    } else {
+      console.log("❌ 입력값 거부됨:", value);
     }
   };
 
   const handleBet = () => {
-    // 빈 값 체크
-    if (!bet || bet.trim() === "") {
-      setAlertMessage("베팅 금액을 입력해주세요.");
-      setIsAlertOpen(true);
-      return;
-    }
+    console.log("=== 베팅 시도 ===");
+    console.log("입력된 베팅 금액:", bet);
+    console.log("입력된 베팅 금액 (숫자):", Number(bet));
+    console.log("보유 포인트:", myPoint);
 
     const amount = Number(bet);
 
-    // 유효한 숫자인지 체크
-    if (isNaN(amount) || amount <= 0) {
-      setAlertMessage("유효한 베팅 금액을 입력해주세요.");
-      setIsAlertOpen(true);
-      return;
-    }
-
-    // 100단위 검증 추가
+    // 100단위 검증
     if (amount % 100 !== 0) {
+      console.log("❌ 100단위 검증 실패:", amount, "는 100의 배수가 아님");
       setAlertMessage("베팅 금액은 100단위로 입력해주세요.");
       setIsAlertOpen(true);
       return;
     }
+    console.log("✅ 100단위 검증 통과:", amount, "는 100의 배수");
 
     if (amount > myPoint) {
-      setAlertMessage("Not enough points.");
+      console.log("❌ 포인트 초과:", amount, ">", myPoint);
+      setAlertMessage("베팅 가능한 금액보다 많이 입력하였습니다.");
       setIsAlertOpen(true);
       return;
     }
+    console.log("✅ 포인트 검증 통과:", amount, "<=", myPoint);
 
     // 모든 검증을 통과한 경우 에러와 알림 초기화
+    console.log("🎉 모든 검증 통과! 게임 시작:", amount);
     setError("");
     setIsAlertOpen(false);
     onStart(amount);
@@ -236,7 +243,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
             <button
               type="submit"
               className={`font-medium h-14 w-[160px] rounded-[10px] relative ${
-                !bet || parseInt(bet) <= 0
+                !bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint
                   ? "opacity-70 cursor-not-allowed"
                   : ""
               }`}
@@ -252,9 +259,12 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                 fontSize: "18px",
                 fontWeight: "400",
                 WebkitTextStroke: "1px #000000",
-                opacity: !bet || parseInt(bet) <= 0 ? 0.7 : 1,
+                opacity:
+                  !bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint
+                    ? 0.7
+                    : 1,
               }}
-              disabled={!bet || parseInt(bet) <= 0}
+              disabled={!bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint}
             >
               <img
                 src={Images.ButtonPointBlue}
