@@ -391,7 +391,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
                 className="text-start"
                 style={{
                   fontFamily: "'ONE Mobile POP', sans-serif",
-                  fontSize: "16px",
+                  fontSize: "24px",
                   fontWeight: 400,
                   color: "#FDE047",
                   WebkitTextStroke: "1px #000000",
@@ -410,7 +410,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
               className="text-center mb-4"
               style={{
                 fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: "14px",
+                fontSize: "18px",
                 fontWeight: 400,
                 color: "#FFFFFF",
                 WebkitTextStroke: "1px #000000",
