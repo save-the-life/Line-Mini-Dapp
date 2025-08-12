@@ -134,7 +134,7 @@ const NewMyRanking: React.FC = () => {
       </h1>
 
       {/* 랭킹 리스트 */}
-      <div className="flex flex-col gap-1 px-4">
+      <div className="flex flex-col gap-1 px-4 mb-4">
         {rankings.map((entry, index) => (
           <div
             key={`${entry.rank}-${index}`}
@@ -152,7 +152,7 @@ const NewMyRanking: React.FC = () => {
           >
             {/* 순위 */}
             <div
-              className={`text-lg font-medium ${
+              className={`${
                 entry.rank === myRank?.rank ? "text-[#FDE047]" : "text-white"
               }`}
             >
@@ -161,7 +161,7 @@ const NewMyRanking: React.FC = () => {
 
             {/* 사용자명 */}
             <div
-              className={`text-lg font-medium ${
+              className={`${
                 entry.rank === myRank?.rank ? "text-[#FDE047]" : "text-white"
               }`}
             >
@@ -170,7 +170,7 @@ const NewMyRanking: React.FC = () => {
 
             {/* 점수 */}
             <div
-              className={`text-lg font-medium ${
+              className={`${
                 entry.rank === myRank?.rank ? "text-[#FDE047]" : "text-white"
               }`}
             >
