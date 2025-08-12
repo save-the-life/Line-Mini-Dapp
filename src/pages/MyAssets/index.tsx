@@ -488,20 +488,22 @@ const MyAssets: React.FC = () => {
       </div>
 
       {/* 광고 버튼 영역 */}
-      <div className="mt-10 mb-5 w-full flex justify-center">
+      <div className="mt-10 mb-5 w-full flex justify-center relative">
         <button
-          className="flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-white font-bold transition-transform active:scale-95"
+          className="flex items-center justify-center gap-3 px-6 py-4 rounded-[10px] transition-transform active:scale-95"
           style={{
-            width: "340px",
-            height: "56px",
-            background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+            background:
+              "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
             border: "2px solid #76C1FF",
-            borderRadius: "12px",
+            outline: "2px solid #000000",
             boxShadow:
               "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+            color: "#FFFFFF",
             fontFamily: "'ONE Mobile POP', sans-serif",
-            fontSize: "16px",
-            fontWeight: "700",
+            fontSize: "18px",
+            fontWeight: "400",
+            WebkitTextStroke: "1px #000000",
+            opacity: 1,
           }}
           onClick={() => {
             playSfx(Audios.button_click);
@@ -510,6 +512,18 @@ const MyAssets: React.FC = () => {
           }}
         >
           <img
+            src={Images.ButtonPointBlue}
+            alt="button-point-blue"
+            style={{
+              position: "absolute",
+              top: "3px",
+              left: "3px",
+              width: "8.47px",
+              height: "6.3px",
+              pointerEvents: "none",
+            }}
+          />
+          <img
             src={Images.AdButton}
             alt="광고 버튼"
             style={{
@@ -517,6 +531,7 @@ const MyAssets: React.FC = () => {
               height: "32px",
             }}
           />
+
           <span>광고 시청 후 랜덤박스 얻기</span>
         </button>
       </div>
