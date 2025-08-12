@@ -130,7 +130,7 @@ const NewMyRanking: React.FC = () => {
           WebkitTextStroke: "1px #000000",
         }}
       >
-        나의 랭킹
+        내 랭킹
       </h1>
 
       {/* 랭킹 리스트 */}

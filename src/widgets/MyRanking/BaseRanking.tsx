@@ -180,7 +180,7 @@ export const BaseRanking: React.FC<BaseRankingProps> = ({
               WebkitTextStroke: "1px #000000",
             }}
           >
-            나의 랭킹
+            내 랭킹
           </p>
           <div className="absolute top-[18%] md:top-[24%] w-full flex items-center justify-center">
             <AnimatePresence mode="wait">
