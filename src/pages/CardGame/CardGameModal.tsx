@@ -41,7 +41,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   const [bet, setBet] = useState("");
   const [error, setError] = useState("");
   const [showGameGuide, setShowGameGuide] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(true);
   const [alertMessage, setAlertMessage] = useState<string>("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
