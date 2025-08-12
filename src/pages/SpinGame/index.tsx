@@ -497,7 +497,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           className="absolute z-20 w-[70px] h-auto"
           style={{
             left: "calc(50% - 35px)", // 핀 너비의 절반만큼 왼쪽으로 조정
-            top: "-10px",
+            top: "-40px",
           }}
           loading="lazy"
           initial={{ x: -200 }}
