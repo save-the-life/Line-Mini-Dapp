@@ -593,8 +593,15 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
             >
               보상 받기
             </h1>
-            <div className="w-32 h-32 bg-gradient-to-b from-[#2660f4] to-[#3937a3] rounded-[24px] flex items-center justify-center">
-              <div className="w-[126px] h-[126px] logo-bg rounded-[24px] flex items-center justify-center flex-col gap-2">
+            <div className="flex items-center justify-center">
+              <div
+                className="w-[120px] h-[120px] rounded-[12px] flex items-center justify-center flex-col gap-2"
+                style={{
+                  background: "rgba(0, 94, 170, 0.5)",
+                  backdropFilter: "blur(10px)",
+                  boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                }}
+              >
                 <img
                   src={getPrizeImage(prizeData?.spinType)}
                   className="w-12 h-12"
@@ -615,7 +622,14 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
               >
                 다음 보상을 받았습니다:{" "}
               </p>
-              <div className="rounded-3xl border-2 border-[#35383f] bg-[#1f1e27] p-5 mt-2">
+              <div
+                className="rounded-[20px] p-5 mt-2"
+                style={{
+                  background: "rgba(0, 94, 170, 0.5)",
+                  backdropFilter: "blur(10px)",
+                  boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+                }}
+              >
                 <div className="flex flex-row items-center gap-2">
                   <img
                     src={Images.RewardNFT}
@@ -661,7 +675,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
                   outline: "2px solid #000000",
                   boxShadow:
                     "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
-                  fontFamily: "8px",
+                  fontFamily: "18px",
                   fontWeight: 400,
                   color: "#FFFFFF",
                   WebkitTextStroke: "1px #000000",
