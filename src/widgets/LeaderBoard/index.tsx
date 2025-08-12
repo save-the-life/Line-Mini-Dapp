@@ -53,7 +53,7 @@ const Leaderboard: React.FC = () => {
           color: "#FFFFFF",
           WebkitTextStroke: "1px #000000",
         }}>
-          나의 랭킹킹
+          나의 랭킹
       </h1>
 
       {/* Top 3 Leader Board Entries */}

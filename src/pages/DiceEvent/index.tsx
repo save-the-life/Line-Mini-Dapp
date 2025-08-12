@@ -38,6 +38,7 @@ import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 import { useSDK } from "@/shared/hooks/useSDK";
 import BottomNav from "@/widgets/BottomNav/BottomNav";
+import NewMyRanking from "@/widgets/NewMyRanking";
 
 const levelRewards = [
   // 2~9 레벨 보상 예시
@@ -657,7 +658,7 @@ const DiceEventPage: React.FC = () => {
                 </DialogClose>
               </DialogHeader>
               <ModalRanking />
-              <LeaderBoard />
+              <NewMyRanking />
               </div>
             </DialogContent>
           </Dialog>
