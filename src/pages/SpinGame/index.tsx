@@ -454,7 +454,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
       }}
     >
       <h1
-        className="text-center -mt-5 md:mb-12"
+        className="text-center md:mb-12"
         style={{
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "30px",
@@ -475,7 +475,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           duration: 1,
           ease: "easeOut",
         }}
-        className="relative w-full h-[402px] md:h-[471px] md:mt-16"
+        className="relative w-full h-[402px] md:h-[471px] mt-16"
       >
         {/* SpinProp을 받침대로 사용 */}
         <img
@@ -497,7 +497,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           className="absolute z-20 w-[70px] h-auto"
           style={{
             left: "calc(50% - 35px)", // 핀 너비의 절반만큼 왼쪽으로 조정
-            top: "10px",
+            top: "0px",
           }}
           loading="lazy"
           initial={{ x: -200 }}
