@@ -13,7 +13,7 @@ const NewMyRanking: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   // 테스트용 설정 - 이 값을 변경하여 다른 순위 테스트 가능
-  const TEST_MY_RANK = 23; // 1로 변경하면 1위 테스트, 23으로 하면 23위 테스트
+  const TEST_MY_RANK = 2; // 1로 변경하면 1위 테스트, 23으로 하면 23위 테스트
 
   // 더미 데이터 생성
   useEffect(() => {
@@ -103,13 +103,13 @@ const NewMyRanking: React.FC = () => {
 
   return (
     <div 
-      className="flex flex-col md:px-0 mb-44 w-full mt-7"
+      className="flex flex-col md:px-0 mb-44 w-full mt-7 rounded-[25px]"
       style={{
         background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
         boxShadow:
           "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
       }}>
-      <h1 className="mb-6 text-center"
+      <h1 className="mb-6 text-center mt-5"
         style={{
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "24px",
