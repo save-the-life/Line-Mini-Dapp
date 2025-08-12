@@ -444,6 +444,25 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
     }
   };
 
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth >= 376);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  // 핀 위치를 반응형으로 설정
+  const pinStyle = {
+    left: isLargeScreen ? "calc(50% - 35px)" : "calc(50% - 25px)", // 70px vs 50px
+    top: isLargeScreen ? "-40px" : "-20px", // 큰 화면 vs 작은 화면
+  };
+
   return (
     <div
       className="relative flex flex-col items-center h-screen justify-start w-full pt-4"
@@ -496,8 +515,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
           alt="Spin-pin"
           className="absolute z-20 min-[376px]:w-[70px] min-[376px]:h-[70px] w-[50px] h-[50px]"
           style={{
-            left: "calc(50% - 35px)", // 핀 너비의 절반만큼 왼쪽으로 조정
-            top: "-40px",
+            ...pinStyle,
           }}
           loading="lazy"
           initial={{ x: -200 }}
