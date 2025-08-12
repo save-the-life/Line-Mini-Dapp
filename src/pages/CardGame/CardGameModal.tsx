@@ -255,7 +255,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
               취소
             </button>
             <button
-              type="submit"
+              type="button"
               className={`font-medium h-14 w-[160px] rounded-[10px] relative ${
                 !bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint
                   ? "opacity-70 cursor-not-allowed"
@@ -279,6 +279,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                     : 1,
               }}
               disabled={!bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint}
+              onClick={handleBet}
             >
               <img
                 src={Images.ButtonPointBlue}
