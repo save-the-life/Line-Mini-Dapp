@@ -446,7 +446,7 @@ const Spin: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
 
   return (
     <div
-      className="relative flex flex-col items-center h-screen justify-center w-full"
+      className="relative flex flex-col items-center min-h-screen justify-center w-full"
       style={{
         backgroundImage: `url(${Images.BackgroundRulette})`,
         backgroundSize: "cover",
@@ -768,7 +768,7 @@ const SpinGame: React.FC<{ onSpinEnd: () => void }> = ({ onSpinEnd }) => {
   }
 
   return (
-    <div className="flex flex-col z-50 h-screen w-full items-center min-w-[320px] md:min-w-[600px]">
+    <div className="flex flex-col z-50 min-h-screen w-full items-center min-w-[320px] md:min-w-[600px]">
       {showSpin ? (
         <Spin onSpinEnd={onSpinEnd} />
       ) : (
