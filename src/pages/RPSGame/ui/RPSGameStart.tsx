@@ -155,10 +155,17 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
           </div>
           <form onSubmit={handleStartClick}>
             <input
-              placeholder="베팅할 별 개수를 선택하세요!"
+              placeholder="베팅할 별 개수를 입력하세요!(100단위로 입력)"
               type="number"
+              step="100"
+              min="100"
               value={betAmount}
-              onChange={(e) => setBetAmount(e.target.value)}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (value % 100 === 0) {
+                  setBetAmount(e.target.value);
+                }
+              }}
               max={allowedBetting}
               className="h-12 px-4 mt-4 w-[342px] text-start"
               style={{
@@ -177,15 +184,17 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
             />
 
             <div className="flex flex-row mt-4 gap-3">
-                <button
+              <button
                 className="font-medium h-14 w-[160px] rounded-[10px] relative"
                 type="button"
                 onClick={onCancel}
                 style={{
-                  background: "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
+                  background:
+                    "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
                   border: "2px solid #FF8E8E",
                   outline: "2px solid #000000",
-                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                  boxShadow:
+                    "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                   color: "#FFFFFF",
                   fontFamily: "'ONE Mobile POP', sans-serif",
                   fontSize: "18px",
@@ -216,10 +225,12 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
                     : ""
                 }`}
                 style={{
-                  background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                  background:
+                    "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
                   border: "2px solid #76C1FF",
                   outline: "2px solid #000000",
-                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                  boxShadow:
+                    "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                   color: "#FFFFFF",
                   fontFamily: "'ONE Mobile POP', sans-serif",
                   fontSize: "18px",
