@@ -29,6 +29,8 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const numericValue = parseInt(value);
+
+    // 빈 값이거나 숫자인 경우에만 입력 허용 (100단위 제한 제거)
     if (
       value === "" ||
       (/^\d+$/.test(value) && numericValue <= allowedBetting + 1)

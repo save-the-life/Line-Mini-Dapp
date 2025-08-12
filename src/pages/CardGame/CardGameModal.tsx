@@ -44,6 +44,17 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const numericValue = parseInt(value);
+
+    // 빈 값이거나 숫자인 경우에만 입력 허용 (100단위 제한 제거)
+    if (value === "" || (/^\d+$/.test(value) && numericValue <= myPoint + 1)) {
+      setBet(value);
+      // console.log(`bet set to: ${value}`);
+    }
+  };
+
   const handleBet = () => {
     // 빈 값 체크
     if (!bet || bet.trim() === "") {
@@ -170,7 +181,7 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
             step="100"
             min="100"
             value={bet}
-            onChange={(e) => setBet(e.target.value)}
+            onChange={handleInputChange}
             max={myPoint}
             className="h-12 px-4 mt-4 w-[342px] text-start"
             style={{
@@ -694,7 +705,7 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                       }}
                       className={`focus:outline-none rounded-[7px] bg-transparent p-0 ${
                         selectedSuit === card.key
-                          ? "border-2 border-[#21212F] shadow-lg"
+                          ? "border-2 border-none shadow-lg"
                           : ""
                       }`}
                       style={{ lineHeight: 0 }}
@@ -706,13 +717,13 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
                         <img
                           src={card.img}
                           alt={card.alt}
-                          className="w-[80px] h-[110px] bg-transparent object-cover"
+                          className="w-[80px] h-[110px] bg-transparent object-cover border-none"
                           key="front"
                         />
                         <img
                           src={Images.CardBack}
                           alt="card-back"
-                          className="w-[80px] h-[110px] bg-transparent object-cover"
+                          className="w-[80px] h-[110px] bg-transparent object-cover border-none"
                           key="back"
                         />
                       </ReactCardFlip>
