@@ -241,7 +241,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
                 취소
               </button>
               <button
-                type="submit"
+                type="button"
                 className={`font-medium h-14 w-[160px] rounded-[10px] relative ${
                   !betAmount || parseInt(betAmount) <= 0
                     ? "opacity-70 cursor-not-allowed"
@@ -262,6 +262,7 @@ const RPSGameStart: React.FC<RPSGameStartProps> = ({
                   opacity: !betAmount || parseInt(betAmount) <= 0 ? 0.7 : 1,
                 }}
                 disabled={!betAmount || parseInt(betAmount) <= 0}
+                onClick={handleStartClick}
               >
                 <img
                   src={Images.ButtonPointBlue}
