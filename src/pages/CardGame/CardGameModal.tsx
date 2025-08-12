@@ -61,6 +61,8 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
     if (value === "" || (/^\d+$/.test(value) && numericValue <= myPoint + 1)) {
       setBet(value);
       console.log("✅ 입력값 설정됨:", value);
+      console.log("현재 bet 상태:", value);
+      console.log("bet 상태 타입:", typeof value);
     } else {
       console.log("❌ 입력값 거부됨:", value);
     }
@@ -277,6 +279,21 @@ const CardBettingModal = ({ myPoint, onStart, onCancel }: any) => {
                     : 1,
               }}
               disabled={!bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint}
+              onClick={() => {
+                console.log("=== 베팅 버튼 직접 클릭 ===");
+                console.log("bet 값:", bet);
+                console.log("bet 타입:", typeof bet);
+                console.log("parseInt(bet):", parseInt(bet));
+                console.log("myPoint:", myPoint);
+                console.log(
+                  "버튼 disabled 조건:",
+                  !bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint
+                );
+                console.log(
+                  "버튼이 비활성화됨:",
+                  !bet || parseInt(bet) <= 0 || parseInt(bet) > myPoint
+                );
+              }}
             >
               <img
                 src={Images.ButtonPointBlue}
