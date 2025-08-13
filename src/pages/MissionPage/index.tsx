@@ -795,7 +795,7 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
-      {/* kaia 미션 - 2레벨 달성 시 활성화 */}
+      {/* kaia 미션 - 10레벨 달성 시 활성화 */}
       {kaiaMission && kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
@@ -838,7 +838,7 @@ const MissionPage: React.FC = () => {
 
             {/* 배경 이미지 (z-10) */}
             <img
-              src={Images.KaiaLevel5}
+              src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="
                 absolute
@@ -963,7 +963,7 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
-      {/* kaia 미션 - 2레벨 달성 시 활성화 */}
+      {/* kaia 미션 - 10레벨 달성 시 활성화 */}
       {kaiaMission && !kaiaMission.hasEventAccess && (
          <>
           <h1 className="font-semibold text-lg my-4 ml-7">
@@ -1006,7 +1006,7 @@ const MissionPage: React.FC = () => {
 
             {/* 배경 이미지 (z-10) */}
             <img
-              src={Images.KaiaLevel5}
+              src={Images.KaiaLevel10}
               alt="kaia-level2"
               className="
                 absolute
