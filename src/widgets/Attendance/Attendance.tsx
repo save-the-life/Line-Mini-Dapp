@@ -14,12 +14,12 @@ import testingAttendance from "@/entities/User/api/testAttendance";
 import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import okxAttendance from "@/entities/User/api/okxAttendance";
-import { useSDK } from '@/shared/hooks/useSDK';
+import { useSDK } from "@/shared/hooks/useSDK";
 
 // const contractAddress = "0xa616BED7Db9c4C188c4078778980C2776EEa46ac"; //mainnet  checkin contractaddress
 // const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a"; //mainnet feepayer
 
-const contractAddress ="0xf2c2CE3aD1d5eBBC831071848AE76bBEE8762624"; //testnet checkin contractaddress
+const contractAddress = "0xf2c2CE3aD1d5eBBC831071848AE76bBEE8762624"; //testnet checkin contractaddress
 const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; //testnet feepayer
 
 //mainnet abi
@@ -110,100 +110,100 @@ const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; //testnet feepaye
 //    }
 //  ];
 
- //testnet abi
- const abi = [
-   {
-      "anonymous": false,
-      "inputs": [
-         {
-            "indexed": true,
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "name": "AttendanceChecked",
-      "type": "event"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "bytes32",
-            "name": "messageHash",
-            "type": "bytes32"
-         },
-         {
-            "internalType": "uint8",
-            "name": "v",
-            "type": "uint8"
-         },
-         {
-            "internalType": "bytes32",
-            "name": "r",
-            "type": "bytes32"
-         },
-         {
-            "internalType": "bytes32",
-            "name": "s",
-            "type": "bytes32"
-         }
-      ],
-      "name": "checkAttendance",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [],
-      "name": "checkAttendanceWithoutSignature",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-         }
-      ],
-      "name": "users",
-      "outputs": [
-         {
-            "internalType": "uint256",
-            "name": "lastAttendance",
-            "type": "uint256"
-         },
-         {
-            "internalType": "uint256",
-            "name": "consecutiveDays",
-            "type": "uint256"
-         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-   }
-]
+//testnet abi
+const abi = [
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "lastAttendance",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "consecutiveDays",
+        type: "uint256",
+      },
+    ],
+    name: "AttendanceChecked",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "messageHash",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint8",
+        name: "v",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes32",
+        name: "r",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "s",
+        type: "bytes32",
+      },
+    ],
+    name: "checkAttendance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "checkAttendanceWithoutSignature",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "users",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "lastAttendance",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "consecutiveDays",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 type DayKeys = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
 interface AttendanceProps {
   /** Tailwind width 클래스를 지정해 너비를 커스터마이징 */
   customWidth?: string;
-};
+}
 
 const getTodayDay = (): DayKeys => {
   const days: DayKeys[] = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -212,15 +212,15 @@ const getTodayDay = (): DayKeys => {
 };
 
 const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
-   const { weekAttendance, setWeekAttendance } = useUserStore();
-   const [today] = useState<DayKeys>(getTodayDay());
-   const { t } = useTranslation();
-   const { playSfx } = useSound();
-   const { walletAddress, provider, sdk, walletType } = useWalletStore();
-   const [isConnecting, setIsConnecting] = useState(false);
-   const [showModal, setShowModal] = useState(false);
-   const [message, setMessage] = useState("");
-   const { isInitialized } = useSDK();
+  const { weekAttendance, setWeekAttendance } = useUserStore();
+  const [today] = useState<DayKeys>(getTodayDay());
+  const { t } = useTranslation();
+  const { playSfx } = useSound();
+  const { walletAddress, provider, sdk, walletType } = useWalletStore();
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("");
+  const { isInitialized } = useSDK();
 
   // 출석 상태 결정 로직
   const getStatus = (day: DayKeys) => {
@@ -231,13 +231,21 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
       WED: weekAttendance.wed,
       THU: weekAttendance.thu,
       FRI: weekAttendance.fri,
-      SAT: weekAttendance.sat
+      SAT: weekAttendance.sat,
     };
 
     if (attendanceData[day]) return "checked";
     if (day === today) return "today";
 
-    const daysOfWeek: DayKeys[] = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+    const daysOfWeek: DayKeys[] = [
+      "MON",
+      "TUE",
+      "WED",
+      "THU",
+      "FRI",
+      "SAT",
+      "SUN",
+    ];
     const todayIndex = daysOfWeek.indexOf(today);
     const dayIndex = daysOfWeek.indexOf(day);
 
@@ -247,102 +255,111 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
   const days: DayKeys[] = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   const isTodayUnattended = days.some((day) => getStatus(day) === "today");
 
-
-
-   const handleAttendanceClick = async () => {
-      try {
-         if (!isInitialized) {
-            console.log('[Attendance] SDK가 아직 초기화되지 않았습니다.');
-            setShowModal(true);
-            setMessage(t("attendance.attendance_err"));
-            return;
-         }
-
-         if (!sdk) {
-            console.log('[Attendance] SDK가 초기화되지 않았습니다.');
-            setShowModal(true);
-            setMessage(t("attendance.attendance_err"));
-            return;
-         }
-
-         const provider = sdk.getWalletProvider();
-         const accounts = await provider.request({ method: 'kaia_accounts' }) as string[];
-         const isConnected = accounts && accounts.length > 0;
-
-         if (!isConnected) {
-            console.log('[Attendance] 지갑이 연결되어 있지 않습니다.');
-            setShowModal(true);
-            setMessage(t("attendance.attendance_err"));
-            return;
-         }
-
-         const ethersProvider = new Web3Provider(provider);
-         const signer = ethersProvider.getSigner();
-         const contract = new ethers.Contract(contractAddress, abi, signer);
-
-         // 출석 체크 메시지 생성 및 서명
-         const message = `출석 체크: ${walletAddress}`;
-         const messageHash = ethers.utils.hashMessage(message);
-         const signature = await signer.signMessage(message);
-         const sig = ethers.utils.splitSignature(signature);
-
-         // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
-         if (provider.getWalletType() === "OKX") {
-            const tx = await contract.checkAttendance(messageHash, sig.v, sig.r, sig.s);
-            const receipt = await tx.wait();
-            // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
-
-            if (receipt.status === 1) {
-               await okxAttendance();
-               setShowModal(true);
-               setMessage(t("attendance.attendance_success"));
-               const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
-               setWeekAttendance(updatedAttendance);
-            } else {
-               setShowModal(true);
-               setMessage(t("attendance.attendance_failed"));
-            }
-            return;
-         }
-
-         // OKX가 아닌 경우: Fee Delegation 로직 적용
-         const contractCallData = contract.interface.encodeFunctionData("checkAttendance", [
-            messageHash,
-            sig.v,
-            sig.r,
-            sig.s,
-         ]);
-
-         const tx = {
-            typeInt: TxType.FeeDelegatedSmartContractExecution,
-            from: walletAddress,
-            to: contractAddress,
-            input: contractCallData,
-            value: "0x0",
-            feePayer,
-         };
-
-         const signedTx = await provider.request({
-            method: "kaia_signTransaction",
-            params: [tx],
-         });
-
-         const testing = await testingAttendance(signedTx.raw);
-         if (testing) {
-            setShowModal(true);
-            setMessage(t("attendance.attendance_success"));
-            const updatedAttendance = { ...weekAttendance, [today.toLowerCase()]: true };
-            setWeekAttendance(updatedAttendance);
-         } else {
-            setShowModal(true);
-            setMessage(t("attendance.attendance_failed"));
-         }
-      } catch (error: any) {
-         console.error('[Attendance] 출석체크 중 오류 발생:', error);
-         setShowModal(true);
-         setMessage(t("attendance.attendance_err"));
+  const handleAttendanceClick = async () => {
+    try {
+      if (!isInitialized) {
+        console.log("[Attendance] SDK가 아직 초기화되지 않았습니다.");
+        setShowModal(true);
+        setMessage(t("attendance.attendance_err"));
+        return;
       }
-   };
+
+      if (!sdk) {
+        console.log("[Attendance] SDK가 초기화되지 않았습니다.");
+        setShowModal(true);
+        setMessage(t("attendance.attendance_err"));
+        return;
+      }
+
+      const provider = sdk.getWalletProvider();
+      const accounts = (await provider.request({
+        method: "kaia_accounts",
+      })) as string[];
+      const isConnected = accounts && accounts.length > 0;
+
+      if (!isConnected) {
+        console.log("[Attendance] 지갑이 연결되어 있지 않습니다.");
+        setShowModal(true);
+        setMessage(t("attendance.attendance_err"));
+        return;
+      }
+
+      const ethersProvider = new Web3Provider(provider);
+      const signer = ethersProvider.getSigner();
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+
+      // 출석 체크 메시지 생성 및 서명
+      const message = `출석 체크: ${walletAddress}`;
+      const messageHash = ethers.utils.hashMessage(message);
+      const signature = await signer.signMessage(message);
+      const sig = ethers.utils.splitSignature(signature);
+
+      // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
+      if (provider.getWalletType() === "OKX") {
+        const tx = await contract.checkAttendance(
+          messageHash,
+          sig.v,
+          sig.r,
+          sig.s
+        );
+        const receipt = await tx.wait();
+        // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
+
+        if (receipt.status === 1) {
+          await okxAttendance();
+          setShowModal(true);
+          setMessage(t("attendance.attendance_success"));
+          const updatedAttendance = {
+            ...weekAttendance,
+            [today.toLowerCase()]: true,
+          };
+          setWeekAttendance(updatedAttendance);
+        } else {
+          setShowModal(true);
+          setMessage(t("attendance.attendance_failed"));
+        }
+        return;
+      }
+
+      // OKX가 아닌 경우: Fee Delegation 로직 적용
+      const contractCallData = contract.interface.encodeFunctionData(
+        "checkAttendance",
+        [messageHash, sig.v, sig.r, sig.s]
+      );
+
+      const tx = {
+        typeInt: TxType.FeeDelegatedSmartContractExecution,
+        from: walletAddress,
+        to: contractAddress,
+        input: contractCallData,
+        value: "0x0",
+        feePayer,
+      };
+
+      const signedTx = await provider.request({
+        method: "kaia_signTransaction",
+        params: [tx],
+      });
+
+      const testing = await testingAttendance(signedTx.raw);
+      if (testing) {
+        setShowModal(true);
+        setMessage(t("attendance.attendance_success"));
+        const updatedAttendance = {
+          ...weekAttendance,
+          [today.toLowerCase()]: true,
+        };
+        setWeekAttendance(updatedAttendance);
+      } else {
+        setShowModal(true);
+        setMessage(t("attendance.attendance_failed"));
+      }
+    } catch (error: any) {
+      console.error("[Attendance] 출석체크 중 오류 발생:", error);
+      setShowModal(true);
+      setMessage(t("attendance.attendance_err"));
+    }
+  };
 
   return (
     <div className="mt-4">
@@ -351,7 +368,11 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
         onClick={isTodayUnattended ? handleAttendanceClick : undefined}
         className={`relative grid grid-cols-7 gap-2 bg-box min-h-24 md:h-32 text-white text-xs ${
           customWidth ? customWidth : "w-full md:w-[552px]"
-        } ${isTodayUnattended ? "border-2 border-yellow-400 animate-pulse rounded-lg" : ""}`}
+        } ${
+          isTodayUnattended
+            ? "border-2 border-yellow-400 animate-pulse rounded-lg"
+            : ""
+        }`}
       >
         {days.map((day) => {
           const status = getStatus(day);
@@ -373,27 +394,27 @@ const Attendance: React.FC<AttendanceProps> = ({ customWidth }) => {
           />
         )}
       </div>
-      <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 text-white">
+      {/* <p className="flex items-start justify-start w-full font-medium text-xs md:text-sm mt-2 text-white">
         * {t("dice_event.star_rewards")} <br/> * {t("dice_event.7th")}
-      </p>
-      
+      </p> */}
 
       {/* 출첵 성공 여부 알림 모달창 */}
       {showModal && (
-         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full z-[9999]">
-            <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
-                  {/* 문구 설정 */}
-                  <p>{message}</p>
-                  <button
-                     className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
-                     onClick={() => {
-                        playSfx(Audios.button_click);
-                        setShowModal(false);
-                     }}>
-                     {t("OK")}
-                  </button>
-            </div>
-         </div>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full z-[9999]">
+          <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+            {/* 문구 설정 */}
+            <p>{message}</p>
+            <button
+              className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
+              onClick={() => {
+                playSfx(Audios.button_click);
+                setShowModal(false);
+              }}
+            >
+              {t("OK")}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
