@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Snowfall } from "react-snowfall";
 import Images from "@/shared/assets/images";
 import { useTranslation } from "react-i18next";
 
@@ -143,30 +142,6 @@ const UserLevel: React.FC<{
 
   const currentMessageParts = messages[currentMsgIndex].split("<br/>");
 
-  // 현재 날짜 기준 계절 구분
-  const month = new Date().getMonth() + 1; // 1~12
-  let images: HTMLImageElement[] | undefined;
-
-  if (month >= 3 && month <= 5) {
-    // 봄: 벚꽃잎(예: Images.Spring)
-    const springImg = new Image();
-    springImg.src = Images.Spring;
-    images = [springImg];
-  } else if (month >= 6 && month <= 8) {
-    // 여름: 잎사귀(예: Images.Summer)
-    const summerImg = new Image();
-    summerImg.src = Images.Summer;
-    images = [summerImg];
-  } else if (month >= 9 && month <= 11) {
-    // 가을: 낙엽(예: Images.Fall)
-    const fallImg = new Image();
-    fallImg.src = Images.Fall;
-    images = [fallImg];
-  } else {
-    // 겨울: 이미지 사용 안함(눈송이 기본 형태)
-    images = undefined;
-  }
-
   // 레벨에 따른 캐릭터 이미지 사용
   const characterImageSrc = getCharacterImageSrc();
 
@@ -182,12 +157,6 @@ const UserLevel: React.FC<{
         WebkitBackdropFilter: "blur(10px)",
       }}
     >
-      <Snowfall
-        style={{ borderRadius: "24px" }}
-        snowflakeCount={10}
-        images={images}
-      />
-
       {/* AlertIcon - 좌측 상단 */}
       <div
         className="absolute top-[15px] left-[15px] z-50"
