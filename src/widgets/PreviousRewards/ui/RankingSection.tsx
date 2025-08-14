@@ -190,7 +190,7 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           {/* 하단 버튼 */}
           <div className="w-full">
             <button
-              className="font-medium h-14 w-[160px] rounded-[10px] relative"
+              className="h-14 w-full rounded-[10px] relative"
               type="button"
               onClick={() => navigate("/dice-event")}
               style={{
