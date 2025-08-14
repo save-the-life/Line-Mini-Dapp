@@ -188,43 +188,40 @@ const RankingSection: React.FC<RankingSectionProps> = ({
           </div>
 
           {/* 하단 버튼 */}
-          <div
-            className="w-full rounded-3xl p-4 text-center cursor-pointer"
-            style={{
-              width: "336px",
-              height: "56px",
-              background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
-              border: "2px solid #76C1FF",
-              boxShadow:
-                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
-              borderRadius: "28px",
-              position: "relative",
-            }}
-            onClick={() => {
-              navigate("/dice-event");
-            }}
-          >
-            {/* 하이라이트 효과 */}
-            {/* <div
-              className="absolute top-2 left-4 w-3 h-3 rounded-full"
+          <div className="w-full">
+            <button
+              className="font-medium h-14 w-[160px] rounded-[10px] relative"
+              type="button"
+              onClick={() => navigate("/dice-event")}
               style={{
-                background: "rgba(255, 255, 255, 0.8)",
-                boxShadow: "0px 0px 4px rgba(255, 255, 255, 0.6)",
-              }}
-            /> */}
-
-            <p
-              className="text-white text-base font-semibold"
-              style={{
-                fontFamily: "'ONE Mobile POP', sans-serif",
-                fontSize: "16px",
-                fontWeight: 600,
+                background:
+                  "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                border: "2px solid #76C1FF",
+                outline: "2px solid #000000",
+                boxShadow:
+                  "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                 color: "#FFFFFF",
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: "400",
                 WebkitTextStroke: "1px #000000",
+                opacity: 1,
               }}
             >
-              게임에 참여하기
-            </p>
+              <img
+                src={Images.ButtonPointBlue}
+                alt="button-point-blue"
+                style={{
+                  position: "absolute",
+                  top: "3px",
+                  left: "3px",
+                  width: "8.47px",
+                  height: "6.3px",
+                  pointerEvents: "none",
+                }}
+              />
+              게임에 참여하기기
+            </button>
           </div>
         </div>
       )}
