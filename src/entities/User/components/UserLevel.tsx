@@ -116,7 +116,7 @@ const UserLevel: React.FC<{
       </div>
 
       {/* 말풍선 + 문구 */}
-      <div className="absolute top-1 right-1 flex justify-end w-full px-1 z-50">
+      {/* <div className="absolute top-1 right-1 flex justify-end w-full px-1 z-50">
         <AnimatePresence>
           {visible && (
             <motion.div
@@ -151,7 +151,7 @@ const UserLevel: React.FC<{
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </div> */}
 
       {/* 캐릭터와 아이템 겹치기 */}
       <div className="relative">
