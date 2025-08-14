@@ -27,26 +27,6 @@ const UserLevel: React.FC<{
   equippedItems = [],
   onAlertClick,
 }) => {
-  let levelClassName = "";
-  let mainColor = "";
-
-  if (userLv >= 1 && userLv <= 4) {
-    levelClassName = "lv1to4-box";
-    mainColor = "#dd2726";
-  } else if (userLv >= 5 && userLv <= 8) {
-    levelClassName = "lv5to8-box";
-    mainColor = "#f59e0b";
-  } else if (userLv >= 9 && userLv <= 12) {
-    levelClassName = "lv9to12-box";
-    mainColor = "#facc15";
-  } else if (userLv >= 13 && userLv <= 16) {
-    levelClassName = "lv13to16-box";
-    mainColor = "#22c55e";
-  } else if (userLv >= 17 && userLv <= 20) {
-    levelClassName = "lv17to20-box";
-    mainColor = "#0147e5";
-  }
-
   // 레벨에 따른 캐릭터 이미지 선택 로직 (DiceEvent와 동일)
   const getCharacterImageSrc = () => {
     const index = Math.floor((userLv - 1) / 4);
@@ -99,48 +79,9 @@ const UserLevel: React.FC<{
   };
 
   const roundedExp = Math.floor(exp);
-  const { t } = useTranslation();
-
-  const messages = [
-    t("user_level.message_1"),
-    t("user_level.message_2"),
-    t("user_level.message_3"),
-    t("user_level.message_4"),
-    t("user_level.message_5"),
-    t("user_level.message_6"),
-  ];
 
   const [currentMsgIndex, setCurrentMsgIndex] = useState(0);
   const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
-    let showTimer: NodeJS.Timeout;
-    let hideTimer: NodeJS.Timeout;
-
-    const startCycle = () => {
-      const randomIndex = Math.floor(Math.random() * messages.length);
-      setCurrentMsgIndex(randomIndex);
-      setVisible(true);
-
-      hideTimer = setTimeout(() => {
-        setVisible(false);
-      }, 3000);
-
-      // 12초 후 다음 메시지
-      showTimer = setTimeout(() => {
-        startCycle();
-      }, 12000);
-    };
-
-    startCycle();
-
-    return () => {
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
-    };
-  }, [messages.length]);
-
-  const currentMessageParts = messages[currentMsgIndex].split("<br/>");
 
   // 레벨에 따른 캐릭터 이미지 사용
   const characterImageSrc = getCharacterImageSrc();
@@ -193,12 +134,6 @@ const UserLevel: React.FC<{
                 overflow: "visible",
               }}
             >
-              {currentMessageParts.map((part, index) => (
-                <React.Fragment key={index}>
-                  {part}
-                  {index < currentMessageParts.length - 1 && <br />}
-                </React.Fragment>
-              ))}
               <div
                 style={{
                   content: "",
