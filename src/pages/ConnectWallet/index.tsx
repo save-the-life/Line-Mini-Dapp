@@ -6,7 +6,10 @@ import webLoginWithAddress from "@/entities/User/api/webLogin";
 import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
 import i18n from "@/shared/lib/il8n";
-import { connectWallet, verifyWalletConnection } from "@/shared/services/walletService";
+import {
+  connectWallet,
+  verifyWalletConnection,
+} from "@/shared/services/walletService";
 import requestWallet from "@/entities/User/api/addWallet";
 import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
@@ -15,7 +18,9 @@ import SDKService from "@/shared/services/sdkServices";
 
 // 간단한 모바일 체크 함수
 const checkIsMobile = (): boolean =>
-  /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
 
 // 502 에러 여부를 판단하는 헬퍼 함수
 const is502Error = (error: any): boolean => {
@@ -48,7 +53,8 @@ const ConnectWalletPage: React.FC = () => {
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
-  const [isAutoLoginInProgress, setIsAutoLoginInProgress] = useState<boolean>(false);
+  const [isAutoLoginInProgress, setIsAutoLoginInProgress] =
+    useState<boolean>(false);
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
@@ -68,11 +74,15 @@ const ConnectWalletPage: React.FC = () => {
 
     try {
       // 1. localStorage에서 지갑 연결 정보 확인
-      const savedAddress = localStorage.getItem('walletAddress');
-      const isConnected = localStorage.getItem('isWalletConnected') === 'true';
-      const accessToken = localStorage.getItem('accessToken');
+      const savedAddress = localStorage.getItem("walletAddress");
+      const isConnected = localStorage.getItem("isWalletConnected") === "true";
+      const accessToken = localStorage.getItem("accessToken");
 
-      console.log("[ConnectWallet] 저장된 지갑 정보:", { savedAddress, isConnected, hasToken: !!accessToken });
+      console.log("[ConnectWallet] 저장된 지갑 정보:", {
+        savedAddress,
+        isConnected,
+        hasToken: !!accessToken,
+      });
 
       if (!savedAddress || !isConnected) {
         console.log("[ConnectWallet] 저장된 지갑 연결 정보 없음");
@@ -89,8 +99,8 @@ const ConnectWalletPage: React.FC = () => {
       if (!isActuallyConnected) {
         console.log("[ConnectWallet] 실제 지갑 연결 상태 불일치");
         // localStorage 정리
-        localStorage.removeItem('walletAddress');
-        localStorage.removeItem('isWalletConnected');
+        localStorage.removeItem("walletAddress");
+        localStorage.removeItem("isWalletConnected");
         setIsAutoLoginInProgress(false);
         return;
       }
@@ -136,25 +146,30 @@ const ConnectWalletPage: React.FC = () => {
             navigate("/dice-event");
           }
         } catch (error: any) {
-          console.log("[ConnectWallet] 자동 로그인 성공 -> /dice-event 이동 (프로모션 에러)");
+          console.log(
+            "[ConnectWallet] 자동 로그인 성공 -> /dice-event 이동 (프로모션 에러)"
+          );
           navigate("/dice-event");
         }
       } else {
         console.log("[ConnectWallet] 자동 로그인 성공 -> /dice-event 이동");
         navigate("/dice-event");
       }
-
     } catch (error: any) {
       console.log("[ConnectWallet] 자동 로그인 실패:", error);
-      
+
       if (is502Error(error)) {
-        console.log("[ConnectWallet] 502 에러 감지됨 -> MaintenanceScreen 표시");
+        console.log(
+          "[ConnectWallet] 502 에러 감지됨 -> MaintenanceScreen 표시"
+        );
         setShowMaintenance(true);
         return;
       }
 
       if (error.message === "Please choose your character first.") {
-        console.log("[ConnectWallet] 캐릭터 선택 필요 -> /choose-character 이동");
+        console.log(
+          "[ConnectWallet] 캐릭터 선택 필요 -> /choose-character 이동"
+        );
         navigate("/choose-character");
         return;
       }
@@ -163,8 +178,8 @@ const ConnectWalletPage: React.FC = () => {
       if (error.response?.data === "Token not found in Redis or expired") {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        localStorage.removeItem('walletAddress');
-        localStorage.removeItem('isWalletConnected');
+        localStorage.removeItem("walletAddress");
+        localStorage.removeItem("isWalletConnected");
       }
 
       setIsAutoLoginInProgress(false);
@@ -182,7 +197,8 @@ const ConnectWalletPage: React.FC = () => {
       await connectWallet();
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
-      const { walletAddress, walletType, clearWallet } = useWalletStore.getState();
+      const { walletAddress, walletType, clearWallet } =
+        useWalletStore.getState();
 
       // 테스터 지갑 주소 목록에 포함되어 있는지 확인
       // if (!testerWallets.includes(walletAddress)) {
@@ -266,9 +282,9 @@ const ConnectWalletPage: React.FC = () => {
     }
   };
 
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
-  // }
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
 
   return (
     <div

@@ -11,7 +11,11 @@ import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import SDKService from "@/shared/services/sdkServices";
 
 // API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
-const withTimeout = <T,>(promise: Promise<T>, ms: number, errorMessage = "Timeout") => {
+const withTimeout = <T,>(
+  promise: Promise<T>,
+  ms: number,
+  errorMessage = "Timeout"
+) => {
   const timeout = new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error(errorMessage)), ms)
   );
@@ -33,7 +37,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const isMountedRef = useRef(true);
 
   useEffect(() => {
-    return () => { isMountedRef.current = false; };
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
 
   const knownRoutes = [
@@ -97,7 +103,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       const liffReferrer = url.searchParams.get("liff.referrer");
       if (liffReferrer) {
         referralCode = "dapp-portal-promotions";
-        console.log("[Step 0-3] liff.referrer 감지, 프로모션 코드 설정:", referralCode);
+        console.log(
+          "[Step 0-3] liff.referrer 감지, 프로모션 코드 설정:",
+          referralCode
+        );
         localStorage.removeItem("KaiaMission");
       }
     }
@@ -113,7 +122,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       return;
     }
     if (referralCode === "dapp-portal-promotions") {
-      console.log(`[Step 0] "${referralCode}" 감지 (프로모션 레퍼럴 코드) -> localStorage에 저장`);
+      console.log(
+        `[Step 0] "${referralCode}" 감지 (프로모션 레퍼럴 코드) -> localStorage에 저장`
+      );
       localStorage.setItem("referralCode", referralCode);
       localStorage.removeItem("KaiaMission");
       return;
@@ -124,7 +135,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       return;
     }
     if (knownRoutes.includes(referralCode)) {
-      console.log(`[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`);
+      console.log(
+        `[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`
+      );
       localStorage.removeItem("referralCode");
       localStorage.removeItem("KaiaMission");
       return;
@@ -171,11 +184,20 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
 
       const userTimeZone = useUserStore.getState().timeZone;
       const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("[Step 6] 서버 타임존:", userTimeZone, "| 사용자 타임존:", currentTimeZone);
+      console.log(
+        "[Step 6] 서버 타임존:",
+        userTimeZone,
+        "| 사용자 타임존:",
+        currentTimeZone
+      );
 
       if (userTimeZone === null || userTimeZone !== currentTimeZone) {
         try {
-          await withTimeout(updateTimeZone(currentTimeZone), 5000, "updateTimeZone Timeout");
+          await withTimeout(
+            updateTimeZone(currentTimeZone),
+            5000,
+            "updateTimeZone Timeout"
+          );
           console.log("[Step 6] 타임존 업데이트 성공");
         } catch (error: any) {
           console.log("[Step 6] 타임존 업데이트 에러:", error);
@@ -186,7 +208,11 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       if (referralCode === "dapp-portal-promotions") {
         console.log("[Step 6] 프로모션 레퍼럴 코드 감지, getPromotion() 호출");
         try {
-          const promo = await withTimeout(getPromotion(), 5000, "getPromotion Timeout");
+          const promo = await withTimeout(
+            getPromotion(),
+            5000,
+            "getPromotion Timeout"
+          );
           console.log("[Step 6] getPromotion 결과:", promo);
           if (promo === "Success") {
             console.log("[Step 6] 프로모션 첫 수령 -> /promotion 이동");
@@ -205,7 +231,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
     } catch (error: any) {
       if (is502Error(error)) {
-        console.log("[Step 6] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
+        console.log(
+          "[Step 6] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단"
+        );
         is502ErrorRef.current = true;
         return;
       }
@@ -217,7 +245,10 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         return;
       }
 
-      if (error.message === "Request failed with status code 403" || error.response?.status === 403) {
+      if (
+        error.message === "Request failed with status code 403" ||
+        error.response?.status === 403
+      ) {
         console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
         localStorage.removeItem("accessToken");
         if (retryCount < MAX_RETRY_COUNT) {
@@ -234,7 +265,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
 
       if (isMountedRef.current) {
-        setErrorMessage("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
+        setErrorMessage(
+          "사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요."
+        );
       }
       return;
     }
@@ -257,9 +290,15 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       }
 
       try {
-        console.log("[Step 4~5] userAuthenticationWithServer 호출, referralCode:", localStorage.getItem("referralCode"));
+        console.log(
+          "[Step 4~5] userAuthenticationWithServer 호출, referralCode:",
+          localStorage.getItem("referralCode")
+        );
         const isInitial = await withTimeout(
-          userAuthenticationWithServer(lineToken, localStorage.getItem("referralCode")),
+          userAuthenticationWithServer(
+            lineToken,
+            localStorage.getItem("referralCode")
+          ),
           5000,
           "userAuthentication Timeout"
         );
@@ -280,13 +319,17 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         }
       } catch (error: any) {
         if (is502Error(error)) {
-          console.log("[Step 4~5] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
+          console.log(
+            "[Step 4~5] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단"
+          );
           is502ErrorRef.current = true;
           return;
         }
         console.error("[Step 4~5] userAuthenticationWithServer 에러:", error);
         if (isMountedRef.current) {
-          setErrorMessage("인증 과정에서 에러가 발생했습니다. 다시 시도해주세요.");
+          setErrorMessage(
+            "인증 과정에서 에러가 발생했습니다. 다시 시도해주세요."
+          );
         }
         return;
       }
@@ -312,19 +355,22 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         const lang = browserLanguage.slice(0, 2);
         const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
         const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
-        console.log("[Step 1] 브라우저 언어:", browserLanguage, "-> 설정 언어:", i18nLanguage);
+        console.log(
+          "[Step 1] 브라우저 언어:",
+          browserLanguage,
+          "-> 설정 언어:",
+          i18nLanguage
+        );
         i18n.changeLanguage(i18nLanguage);
 
         console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
-
-
 
         if (!liff.isInClient()) {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
-          onInitialized();
-          // setShowMaintenance(true);
+          // onInitialized();
+          setShowMaintenance(true);
           return;
         }
 
@@ -342,19 +388,22 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         // SDKService를 통해 SDK 초기화 (싱글톤)
         const sdkService = SDKService.getInstance();
         await sdkService.initialize();
-        
 
         await handleTokenFlow();
       } catch (error: any) {
         if (is502Error(error)) {
-          console.log("[InitializeApp] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단");
+          console.log(
+            "[InitializeApp] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단"
+          );
           is502ErrorRef.current = true;
           return;
         }
         console.error("[InitializeApp] 초기화 중 에러 발생:", error);
 
         if (error.message === "Please choose your character first.") {
-          console.log("[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동");
+          console.log(
+            "[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동"
+          );
           navigate("/choose-character");
           return;
         }
@@ -368,12 +417,16 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         if (isMountedRef.current) {
           setShowSplash(false);
           if (is502ErrorRef.current) {
-            console.log("[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시");
+            console.log(
+              "[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시"
+            );
             setShowMaintenance(true);
           } else {
-            console.log("[InitializeApp] 정상 초기화 완료, onInitialized() 호출");
-            onInitialized();
-            // setShowMaintenance(true);
+            console.log(
+              "[InitializeApp] 정상 초기화 완료, onInitialized() 호출"
+            );
+            // onInitialized();
+            setShowMaintenance(true);
           }
         }
       }
@@ -383,14 +436,16 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   }, [fetchUserData, navigate, onInitialized]);
 
   if (errorMessage) {
-    return <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>;
+    return (
+      <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>
+    );
   }
-  if (showSplash) {
-    return <SplashScreen />;
-  }
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
+  // if (showSplash) {
+  //   return <SplashScreen />;
   // }
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
   return null;
 };
 
