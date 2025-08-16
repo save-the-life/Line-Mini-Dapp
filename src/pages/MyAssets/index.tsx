@@ -418,16 +418,22 @@ const MyAssets: React.FC = () => {
           {nonNftItems.length === 0 ? (
             <div className="mx-0 w-full h-[150px] flex flex-col items-center justify-center">
               <p className="text-center text-[#737373] text-sm font-medium">
-                <span className="whitespace-nowrap">
-                  {t("asset_page.no_item")}
+                <span
+                  className="whitespace-nowrap"
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "14px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
+                >
+                  아직 보유 중인 item이 없습니다.
                 </span>
                 <br />
-                <span className="whitespace-nowrap">
-                  {t("asset_page.own_item")}
-                </span>
               </p>
 
-              <button
+              {/* <button
                 className="w-48 py-4 rounded-full text-base font-medium mt-12"
                 style={{ backgroundColor: "#0147E5" }}
                 onClick={() => {
@@ -438,7 +444,7 @@ const MyAssets: React.FC = () => {
                 }}
               >
                 {t("asset_page.shop_item")}
-              </button>
+              </button> */}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center">
@@ -470,7 +476,7 @@ const MyAssets: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <button
+              {/* <button
                 className="w-48 h-14 py-4 rounded-full text-base font-medium mt-12"
                 style={{ backgroundColor: "#0147E5" }}
                 onClick={() => {
@@ -481,7 +487,7 @@ const MyAssets: React.FC = () => {
                 }}
               >
                 {t("asset_page.shop_item")}
-              </button>
+              </button> */}
             </div>
           )}
         </div>
@@ -568,7 +574,14 @@ const MyAssets: React.FC = () => {
             <FaChevronRight className="ml-1 w-2 h-2" />
           </button>
         </div>
-        <div className="mt-4 bg-[#1F1E27] rounded-3xl border-[2px] border-[#35383F] py-3 px-4">
+        <div
+          className="mt-4 rounded-3xl py-3 px-4"
+          style={{
+            background: "rgba(0, 136, 255, 0.75)",
+            boxShadow: "0px 2px 2px 0px rgba(0, 0, 0, 0.4)",
+            backdropFilter: "blur(10px)",
+          }}
+        >
           {displayHistory.length > 0 ? (
             displayHistory.map((reward, index) => (
               <div
