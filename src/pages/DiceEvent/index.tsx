@@ -309,6 +309,7 @@ const DiceEventPage: React.FC = () => {
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
   const [showItemGuideModal, setShowItemGuideModal] = useState(false);
+  const [showItemDialog, setShowItemDialog] = useState(true);
 
   useEffect(() => {
     const checkAndShowModals = () => {
@@ -498,8 +499,8 @@ const DiceEventPage: React.FC = () => {
                     return;
                   }
 
-                  // 다른 영역 클릭이면 inventory로 이동
-                  // navigate("/inventory", { state: { charactorImageSrc } });
+                  // 다른 영역 클릭이면 착용중인 아이템 모달창 표시
+                  setShowItemDialog(true);
                 }}
                 className="cursor-pointer"
                 role="button"
@@ -1242,6 +1243,209 @@ const DiceEventPage: React.FC = () => {
                       받기
                     </button>
                   )}
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* 장착 중인 아이템 모달달 */}
+            <Dialog open={showItemDialog}>
+              <DialogContent
+                className="border-none rounded-3xl text-white h-svh overflow-x-hidden font-semibold overflow-y-auto max-w-[90%] md:max-w-lg max-h-[80%]"
+                style={{
+                  background:
+                    "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+                }}
+              >
+                <div className="flex flex-col items-center justify-around">
+                  <div className=" flex flex-col items-center gap-2">
+                    <h1
+                      className="text-center"
+                      style={{
+                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        fontSize: "30px",
+                        fontWeight: 400,
+                        color: "#FDE047",
+                        WebkitTextStroke: "2px #000000",
+                      }}
+                    >
+                      장착 중인 아이템
+                    </h1>
+                    <div className="relative w-[250px] h-[204px]">
+                      <img
+                        src={Images.LevelUpBase}
+                        alt="levelupEffect"
+                        className="w-[250px] h-[204px]"
+                      />
+                      <div
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{
+                          fontFamily: "'ONE Mobile POP', sans-serif",
+                          fontSize: "40px",
+                          fontWeight: 400,
+                          background:
+                            "radial-gradient(circle, #FDE047 0%, #F56800 100%)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                          WebkitTextStroke: "2px #000000",
+                          textAlign: "center",
+                          lineHeight: "1.2",
+                        }}
+                      >
+                        {userLv}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    <p
+                      className="text-center"
+                      style={{
+                        fontFamily: "'ONE Mobile POP', sans-serif",
+                        fontSize: "18px",
+                        fontWeight: 400,
+                        color: "#FFFFFF",
+                        WebkitTextStroke: "1px #000000",
+                      }}
+                    >
+                      지금 바로 당신의 보상을 챙기세요!
+                    </p>
+                    {currentReward && (
+                      <div
+                        className="flex flex-row items-center justify-center gap-6"
+                        style={{
+                          width: "70vw",
+                          height: "120px",
+                          background: "rgba(194, 213, 232, 0.1)",
+                          border: "2px solid #B4CADA",
+                          borderRadius: "20px",
+                          padding: "16px",
+                          boxShadow: "0px 4px 8px 0px rgba(0, 0, 0, 0.1)",
+                          backdropFilter: "blur(15px)",
+                          WebkitBackdropFilter: "blur(15px)",
+                        }}
+                      >
+                        <div
+                          className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
+                          style={{
+                            background: "rgba(194, 213, 232, 0.5)",
+                            border: "2px solid #B4CADA",
+                            boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+                            backdropFilter: "blur(10px)",
+                            WebkitBackdropFilter: "blur(10px)",
+                          }}
+                        >
+                          <img
+                            src={Images.Dice}
+                            alt="dice"
+                            className="w-10 h-10"
+                          />
+                          <p
+                            className=" font-semibold text-xs"
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "12px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
+                            +{currentReward.dice}
+                          </p>
+                        </div>
+                        <div
+                          className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
+                          style={{
+                            background: "rgba(194, 213, 232, 0.5)",
+                            border: "2px solid #B4CADA",
+                            boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+                            backdropFilter: "blur(10px)",
+                            WebkitBackdropFilter: "blur(10px)",
+                          }}
+                        >
+                          <img
+                            src={Images.StarpointIcon}
+                            alt="star"
+                            className="w-10 h-10"
+                          />
+
+                          <p
+                            className=" font-semibold text-xs"
+                            style={{
+                              fontFamily: "'ONE Mobile POP', sans-serif",
+                              fontSize: "12px",
+                              fontWeight: 400,
+                              color: "#FFFFFF",
+                              WebkitTextStroke: "1px #000000",
+                            }}
+                          >
+                            +{formatNumber(currentReward.points)}
+                          </p>
+                        </div>
+                        {currentReward.tickets && (
+                          <div
+                            className="rounded-xl w-20 h-20 flex flex-col items-center gap-2 justify-center"
+                            style={{
+                              background: "rgba(194, 213, 232, 0.5)",
+                              border: "2px solid #B4CADA",
+                              boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.04)",
+                              backdropFilter: "blur(10px)",
+                              WebkitBackdropFilter: "blur(10px)",
+                            }}
+                          >
+                            <img
+                              src={Images.LotteryTicket}
+                              alt="rapple"
+                              className="w-10 h-10"
+                            />
+                            <p
+                              className=" font-semibold text-xs"
+                              style={{
+                                fontFamily: "'ONE Mobile POP', sans-serif",
+                                fontSize: "12px",
+                                fontWeight: 400,
+                                color: "#FFFFFF",
+                                WebkitTextStroke: "1px #000000",
+                              }}
+                            >
+                              +{currentReward.tickets}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setShowLevelUpDialog(false)}
+                    className="rounded-[10px] w-[250px] h-14 relative"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                      border: "2px solid #76C1FF",
+                      outline: "2px solid #000000",
+                      boxShadow:
+                        "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                      color: "#FFFFFF",
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "18px",
+                      fontWeight: "400",
+                      WebkitTextStroke: "1px #000000",
+                      opacity: 1,
+                    }}
+                  >
+                    <img
+                      src={Images.ButtonPointBlue}
+                      alt="button-point-blue"
+                      style={{
+                        position: "absolute",
+                        top: "3px",
+                        left: "3px",
+                        width: "8.47px",
+                        height: "6.3px",
+                        pointerEvents: "none",
+                      }}
+                    />
+                    확인
+                  </button>
                 </div>
               </DialogContent>
             </Dialog>

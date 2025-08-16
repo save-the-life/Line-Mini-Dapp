@@ -13,7 +13,7 @@ const NewMyRanking: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   // 테스트용 설정 - 이 값을 변경하여 다른 순위 테스트 가능
-  const TEST_MY_RANK = 2; // 1로 변경하면 1위 테스트, 23으로 하면 23위 테스트
+  const TEST_MY_RANK = 1; // 1로 변경하면 1위 테스트, 23으로 하면 23위 테스트
 
   // 더미 데이터 생성
   useEffect(() => {
