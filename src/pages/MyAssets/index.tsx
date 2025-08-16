@@ -398,7 +398,7 @@ const MyAssets: React.FC = () => {
           >
             내 아이템
           </h2>
-          <button
+          {/* <button
             className="flex items-center text-white text-xs"
             // onClick={handlePaymentHistory}
             aria-label="View All Items"
@@ -412,11 +412,11 @@ const MyAssets: React.FC = () => {
           >
             상세 보기
             <FaChevronRight className="ml-1 w-2 h-2" />
-          </button>
+          </button> */}
         </div>
         <div className="mt-10 w-full">
           {nonNftItems.length === 0 ? (
-            <div className="mx-0 w-full h-[150px] flex flex-col items-center justify-center">
+            <div className="mx-0 w-full h-[80px] flex flex-col items-center justify-center">
               <p className="text-center">
                 <span
                   className="whitespace-nowrap"

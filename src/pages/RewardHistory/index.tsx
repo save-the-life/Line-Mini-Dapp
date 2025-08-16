@@ -15,7 +15,6 @@ import getRewardsHistory from "@/entities/Asset/api/getRewardsHistory";
 import { format } from "date-fns";
 
 const RewardHistory: React.FC = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const { playSfx } = useSound();
 
@@ -24,7 +23,6 @@ const RewardHistory: React.FC = () => {
   // 필터링
   const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
   const [selectedChange, setSelectedChange] = useState<string | null>(null);
-  
 
   // 날짜 필터
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -123,8 +121,10 @@ const RewardHistory: React.FC = () => {
 
   // 보상 내역 표시용 변환 (STAR → POINT, REWARD → INCREASE, USE → DECREASE) 및 번역 키 매핑
   const displayHistory = rewardHistory.map((reward) => {
-    const displayAsset = reward.currencyType === "STAR" ? "POINT" : reward.currencyType;
-    const displayChangeType = reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
+    const displayAsset =
+      reward.currencyType === "STAR" ? "POINT" : reward.currencyType;
+    const displayChangeType =
+      reward.changeType === "REWARD" ? "INCREASE" : "DECREASE";
     let contentKey = "";
     switch (reward.content) {
       case "Dice Game Reward":
@@ -179,32 +179,32 @@ const RewardHistory: React.FC = () => {
         contentKey = "invite_friend_reward";
         break;
       case "RPS Game Betting":
-          contentKey = "rps_game_betting";
+        contentKey = "rps_game_betting";
         break;
       case "Mystery Gift":
-          contentKey = "mystery_gift";
-          break;
+        contentKey = "mystery_gift";
+        break;
       case "1st Ranking Awards":
-          contentKey = "1st_awards";
-          break;
+        contentKey = "1st_awards";
+        break;
       case "AI Examination":
-          contentKey = "ai_exam";
-          break;
+        contentKey = "ai_exam";
+        break;
       case "1st Raffle Awards":
-          contentKey = "1st_raffle";
-          break;
+        contentKey = "1st_raffle";
+        break;
       case "Request Claim":
-          contentKey = "request_claim";
-          break;
+        contentKey = "request_claim";
+        break;
       case "Shop Purchase":
-          contentKey = "shop_purchase";
-          break;
+        contentKey = "shop_purchase";
+        break;
       case "2nd Ranking Awards":
-          contentKey = "2nd_awards";
-          break;
+        contentKey = "2nd_awards";
+        break;
       case "3rd Ranking Awards":
-          contentKey = "3rd_awards";
-          break;
+        contentKey = "3rd_awards";
+        break;
       default:
         contentKey = reward.content;
     }
@@ -232,110 +232,8 @@ const RewardHistory: React.FC = () => {
   CustomDateInput.displayName = "CustomDateInput";
 
   return (
-    <div className="flex flex-col text-white mb-32 px-6 min-h-screen">
-      <TopTitle title={t("asset_page.Rewards_History")} back={true} />
-
-      {/* 필터 드롭다운 */}
-      <div>
-        <div
-          className="flex items-center justify-between cursor-pointer"
-          onClick={() => {
-            playSfx(Audios.button_click);
-            setIsOpen(!isOpen);
-          }}
-        >
-          <div className="flex items-center">
-            <p className="text-lg font-semibold">{t("asset_page.filter_option")}</p>
-          </div>
-          {isOpen ? <FaCaretUp className="w-4 h-4" /> : <FaCaretDown className="w-4 h-4" />}
-        </div>
-
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="overflow-hidden"
-        >
-          <div className="mt-4 mx-3">
-            {/* 자산 종류 (단일 선택) */}
-            <p className="text-lg font-medium text-left mb-2">{t("asset_page.asset_types")}</p>
-            <div className="flex flex-col gap-2 ml-3">
-              {["전체", "SL", "USDT", "STAR"].map((asset) => (
-                <label key={asset} className="flex items-center text-base font-medium">
-                  <input
-                    type="radio"
-                    name="assetType"
-                    value={asset}
-                    checked={asset === "전체" ? selectedAsset === null : selectedAsset === asset}
-                    onChange={() => handleAssetChange(asset)}
-                    className="mr-2"
-                  />
-                  {asset === "전체"
-                    ? t("asset_page.all")
-                    : asset === "STAR"
-                    ? t("asset_page.point")
-                    : asset}
-                </label>
-              ))}
-            </div>
-
-            {/* 증감 필터 (단일 선택) */}
-            <p className="text-lg font-medium text-left mt-4 mb-2">{t("asset_page.change_types")}</p>
-            <div className="flex flex-col gap-2 ml-3">
-              {["전체", "INCREASE", "DECREASE"].map((change) => (
-                <label key={change} className="flex items-center text-base font-medium">
-                  <input
-                    type="radio"
-                    name="changeType"
-                    value={change}
-                    checked={change === "전체" ? selectedChange === null : selectedChange === change}
-                    onChange={() => handleChangeType(change)}
-                    className="mr-2"
-                  />
-                  {change === "전체" ? t("asset_page.all") : t(`asset_page.${change.toLowerCase()}`)}
-                </label>
-              ))}
-            </div>
-
-            {/* 날짜 범위 선정 */}
-            <div className="flex justify-between items-center mt-4">
-              <p className="text-lg font-medium">{t("asset_page.date_ranges")}</p>
-              <button
-                className="text-sm text-blue-500 hover:underline"
-                onClick={() => {
-                  playSfx(Audios.button_click);
-                  setStartDate(null);
-                  setEndDate(null);
-                }}
-              >
-                {t("asset_page.reset_date")}
-              </button>
-            </div>
-            <div className="flex items-center gap-4 mt-4">
-              <div className="w-full">
-                <DatePicker
-                  selected={startDate}
-                  onChange={handleStartDateChange}
-                  placeholderText={t("asset_page.start_date")}
-                  customInput={<CustomDateInput placeholder={t("asset_page.start_date")} />}
-                  dateFormat="yyyy-MM-dd"
-                  maxDate={endDate || undefined}
-                />
-              </div>
-              <div className="w-full">
-                <DatePicker
-                  selected={endDate}
-                  onChange={handleEndDateChange}
-                  placeholderText={t("asset_page.end_date")}
-                  customInput={<CustomDateInput placeholder={t("asset_page.end_date")} />}
-                  dateFormat="yyyy-MM-dd"
-                  minDate={startDate || undefined}
-                />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
+    <div className="flex flex-col mb-32 px-6 min-h-screen">
+      <TopTitle title="보상 내역" back={true} />
 
       {/* 보상 내역 리스트 */}
       <div className="w-full mt-3">
@@ -347,18 +245,43 @@ const RewardHistory: React.FC = () => {
                 className="flex justify-between items-center py-4 border-b border-[#35383F]"
               >
                 <div>
-                  <p className="text-sm font-medium">
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "14px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
                     {t(`reward_page.${reward.contentKey}`)}
                   </p>
-                  <p className="text-xs text-gray-400">{reward.loggedAt}</p>
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
+                    {reward.loggedAt}
+                  </p>
                 </div>
                 <div className="flex flex-col items-end">
                   <p
-                    className={`text-sm font-bold ${
+                    className={`${
                       reward.displayChangeType === "INCREASE"
-                        ? "text-[#3B82F6]"
+                        ? "text-[#ABEE7D]"
                         : "text-[#DD2726]"
                     }`}
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "18px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
                   >
                     {reward.displayChangeType === "INCREASE" ? "+" : "-"}
                     {reward.amount} {reward.displayAsset}
@@ -367,7 +290,18 @@ const RewardHistory: React.FC = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-sm text-gray-400">{t("asset_page.no_records")}</p>
+            <p
+              className="text-center"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              아직 기록이 없습니다.
+            </p>
           )}
 
           {/* 더보기 버튼 */}
@@ -375,9 +309,16 @@ const RewardHistory: React.FC = () => {
             <div className="flex justify-center mt-4">
               <button
                 onClick={handleLoadMore}
-                className="px-4 py-2 bg-[#3B82F6] rounded-md text-white font-semibold hover:bg-[#3B82F6]"
+                className="px-4 py-2 bg-[#3B82F6] rounded-md"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "14px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
               >
-                {t("asset_page.load_more")}
+                더 불러오기
               </button>
             </div>
           )}
