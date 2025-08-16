@@ -4,6 +4,8 @@ import { FaStar } from "react-icons/fa6";
 import Images from "@/shared/assets/images";
 import ReactCardFlip from "react-card-flip";
 import { motion, AnimatePresence } from "framer-motion";
+import { AlertDialog, AlertDialogContent } from "@/shared/components/ui";
+import { formatNumber } from "@/shared/utils/formatNumber";
 
 const COLORS: ("RED" | "BLACK")[] = ["RED", "BLACK"];
 const SUITS = [
@@ -491,17 +493,27 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
       setIsAnimating(false);
     }, 500);
   };
-  const handleSubmit = () => {
-    let win = false;
-    let reward = 0;
-    if (mode === "color") {
-      win = selectedColor === answer.color;
-      reward = win ? betAmount * 2 : 0;
-    } else if (mode === "suit") {
-      win = selectedSuit === answer.suit.value;
-      reward = win ? betAmount * 4 : 0;
+
+  const handleCardReveal = () => {
+    if (!cardRevealed && (mode === "color" || mode === "suit")) {
+      setCardRevealed(true);
+
+      // 카드 뒤집기 후 결과 처리
+      setTimeout(() => {
+        let win = false;
+        let reward = 0;
+
+        if (mode === "color") {
+          win = selectedColor === answer.color;
+          reward = win ? betAmount * 2 : 0;
+        } else if (mode === "suit") {
+          win = selectedSuit === answer.suit.value;
+          reward = win ? betAmount * 4 : 0;
+        }
+
+        onResult(win, reward, answer);
+      }, 1000); // 1초 후 결과 표시
     }
-    onResult(win, reward, answer);
   };
 
   // 게임 플레이 화면
@@ -637,15 +649,15 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           className="flex flex-col items-center mb-[28px] border-none"
         >
           <img
-            src={Images.CardBack}
+            src={
+              cardRevealed
+                ? CARD_IMAGES.find((card) => card.suit === answer.suit.value)
+                    ?.url || Images.CardBack
+                : Images.CardBack
+            }
             alt="card"
             className="mb-4 w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer border-none"
-            onClick={() => {
-              if (!cardRevealed && (mode === "color" || mode === "suit")) {
-                // TODO: API 호출로 카드 오픈 (추후 개발)
-                setCardRevealed(true);
-              }
-            }}
+            onClick={handleCardReveal}
           />
           <img
             src={Images.CardGame}
@@ -770,28 +782,295 @@ const CardGameResultDialog = ({
   reward,
   answer,
   onClose,
+  onNewGame,
 }: any) => {
   if (!isOpen) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-      <div className="bg-[#2d2060] rounded-3xl p-8 max-w-md w-full mx-4 text-white text-center">
-        <h3 className="text-2xl font-bold mb-4">{win ? "성공!" : "실패!"}</h3>
-        <div className="mb-4">
-          <p className="text-lg">
-            정답: {answer.color} / {answer.suit.label}
-          </p>
-          <p className="text-xl font-bold text-yellow-400 mt-2">
-            획득 금액: {reward.toLocaleString()}
-          </p>
-        </div>
-        <button
-          className="w-full py-3 rounded-xl bg-blue-500 text-white font-bold"
-          onClick={onClose}
+
+  const ResultWin: React.FC<{
+    reward: number;
+    answer: any;
+    onClose: () => void;
+    onNewGame: () => void;
+  }> = ({ reward, answer, onClose, onNewGame }) => {
+    return (
+      <div className="relative w-full h-full flex flex-col items-center">
+        {/* 파란색 배경 영역 */}
+        <div
+          className="relative rounded-[10px] w-[234px] h-[228px] mb-8"
+          style={{
+            background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+            boxShadow:
+              "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+            marginTop: "180px",
+            opacity: 0.9,
+          }}
         >
-          종료
-        </button>
+          {/* 컨텐츠 영역 */}
+          <div className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-2">
+            <div
+              className="flex rounded-[20px] w-[200px] h-[70px] flex-row items-center justify-center gap-[26px]"
+              style={{
+                background:
+                  "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
+                border: "2px solid #76C1FF",
+                boxShadow:
+                  "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "24px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                +{formatNumber(reward)}
+              </p>
+              <img src={Images.StarIcon} className="w-9 h-9" />
+            </div>
+            <div className="text-center">
+              <div
+                className="flex flex-col justify-center items-center"
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                정답: {answer.color} / {answer.suit.label}
+                <br />
+                축하합니다!
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* 버튼 영역 */}
+        <div className="flex flex-col gap-3">
+          <button
+            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+            onClick={onClose}
+            style={{
+              background:
+                "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+              border: "2px solid #76C1FF",
+              outline: "2px solid #000000",
+              boxShadow:
+                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: "400",
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            <img
+              src={Images.ButtonPointBlue}
+              alt="button-point-blue"
+              style={{
+                position: "absolute",
+                top: "3px",
+                left: "3px",
+                width: "8.47px",
+                height: "6.3px",
+                pointerEvents: "none",
+              }}
+            />
+            확인
+          </button>
+          <button
+            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+            onClick={onNewGame}
+            style={{
+              background:
+                "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+              border: "2px solid #76C1FF",
+              outline: "2px solid #000000",
+              boxShadow:
+                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: "400",
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            <img
+              src={Images.ButtonPointBlue}
+              alt="button-point-blue"
+              style={{
+                position: "absolute",
+                top: "3px",
+                left: "3px",
+                width: "8.47px",
+                height: "6.3px",
+                pointerEvents: "none",
+              }}
+            />
+            새 게임
+          </button>
+        </div>
       </div>
-    </div>
+    );
+  };
+
+  const ResultLose: React.FC<{
+    answer: any;
+    onClose: () => void;
+    onNewGame: () => void;
+  }> = ({ answer, onClose, onNewGame }) => {
+    return (
+      <div className="relative w-full h-full flex flex-col items-center">
+        {/* 파란색 배경 영역 */}
+        <div
+          className="relative rounded-[10px] w-[234px] h-[228px] mb-8"
+          style={{
+            background: "linear-gradient(180deg, #282F4E 0%, #0044A3 100%)",
+            boxShadow:
+              "0px 2px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 2px 2px rgba(74, 149, 255, 0.5)",
+            marginTop: "180px",
+            opacity: 0.9,
+          }}
+        >
+          {/* 컨텐츠 영역 */}
+          <div className="relative z-10 flex flex-col items-center justify-center w-full h-full gap-4">
+            <div
+              className="flex rounded-[20px] w-[200px] h-[70px] flex-row items-center justify-center gap-[26px]"
+              style={{
+                background:
+                  "linear-gradient(180deg, #0088FF 75%, transparent 25%)",
+                border: "2px solid #76C1FF",
+                boxShadow:
+                  "0px 2px 0px 0px #000000, inset 0px 2px 0px 0px #FFFFFF",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "24px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                0
+              </p>
+              <img src={Images.StarIcon} className="w-9 h-9" />
+            </div>
+            <div className="text-center">
+              <p
+                style={{
+                  fontFamily: "'ONE Mobile POP', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 400,
+                  color: "#FFFFFF",
+                  WebkitTextStroke: "1px #000000",
+                }}
+              >
+                정답: {answer.color} / {answer.suit.label}
+                <br />
+                아쉬웠어요! 다음엔 행운이 함께하길!
+              </p>
+            </div>
+          </div>
+        </div>
+        {/* 버튼 영역 */}
+        <div className="flex flex-col gap-3">
+          <button
+            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+            onClick={onClose}
+            style={{
+              background:
+                "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+              border: "2px solid #76C1FF",
+              outline: "2px solid #000000",
+              boxShadow:
+                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: "400",
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            <img
+              src={Images.ButtonPointBlue}
+              alt="button-point-blue"
+              style={{
+                position: "absolute",
+                top: "3px",
+                left: "3px",
+                width: "8.47px",
+                height: "6.3px",
+                pointerEvents: "none",
+              }}
+            />
+            확인
+          </button>
+          <button
+            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+            onClick={onNewGame}
+            style={{
+              background:
+                "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+              border: "2px solid #76C1FF",
+              outline: "2px solid #000000",
+              boxShadow:
+                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+              fontFamily: "'ONE Mobile POP', sans-serif",
+              fontSize: "18px",
+              fontWeight: "400",
+              color: "#FFFFFF",
+              WebkitTextStroke: "1px #000000",
+            }}
+          >
+            <img
+              src={Images.ButtonPointBlue}
+              alt="button-point-blue"
+              style={{
+                position: "absolute",
+                top: "3px",
+                left: "3px",
+                width: "8.47px",
+                height: "6.3px",
+                pointerEvents: "none",
+              }}
+            />
+            새 게임
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
+      <AlertDialogContent
+        className="w-[373px] h-[490px] object-cover"
+        style={{
+          background: win
+            ? `url(${Images.RPSWin})`
+            : `url(${Images.RPSDefeat})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          border: "none",
+        }}
+      >
+        {win ? (
+          <ResultWin
+            reward={reward}
+            answer={answer}
+            onClose={onClose}
+            onNewGame={onNewGame}
+          />
+        ) : (
+          <ResultLose answer={answer} onClose={onClose} onNewGame={onNewGame} />
+        )}
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
@@ -807,6 +1086,37 @@ const CardGameModal = ({ onClose }: any) => {
   );
   const [selectedSuit, setSelectedSuit] = useState<string | null>(null);
   const [cardRevealed, setCardRevealed] = useState(false);
+
+  // 게임 결과 처리
+  const handleGameResult = (win: boolean, reward: number, answer: any) => {
+    setResult({ win, reward, answer });
+    setIsResultOpen(true);
+
+    // 포인트 업데이트
+    if (win) {
+      setMyPoint((p: number) => p + reward);
+    } else {
+      setMyPoint((p: number) => p - betAmount);
+    }
+  };
+
+  // 새 게임 시작
+  const handleNewGame = () => {
+    setIsResultOpen(false);
+    setIsGameStarted(false);
+    setBetAmount(500);
+    setMode(null);
+    setSelectedColor(null);
+    setSelectedSuit(null);
+    setCardRevealed(false);
+    setResult({ win: false, reward: 0, answer: null });
+  };
+
+  // 게임 종료
+  const handleGameClose = () => {
+    setIsResultOpen(false);
+    onClose();
+  };
 
   return (
     <div
@@ -846,12 +1156,7 @@ const CardGameModal = ({ onClose }: any) => {
         ) : (
           <CardGameBoard
             betAmount={betAmount}
-            onResult={(win: boolean, reward: number, answer: any) => {
-              setResult({ win, reward, answer });
-              setIsResultOpen(true);
-              if (win) setMyPoint((p: number) => p + reward);
-              else setMyPoint((p: number) => p - betAmount);
-            }}
+            onResult={handleGameResult}
             onCancel={onClose}
           />
         )}
@@ -860,7 +1165,8 @@ const CardGameModal = ({ onClose }: any) => {
           win={result.win}
           reward={result.reward}
           answer={result.answer || { color: "", suit: { label: "" } }}
-          onClose={onClose}
+          onClose={handleGameClose}
+          onNewGame={handleNewGame}
         />
       </div>
     </div>
