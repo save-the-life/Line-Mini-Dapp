@@ -342,9 +342,9 @@ const MyAssets: React.FC = () => {
             }}
           >
             <img
-              src={charactorImageSrc}
+              src={Images.DogSmile}
               alt="User Profile"
-              className="w-8 h-8 rounded-full"
+              className="w-[50px] h-[50px] rounded-full"
             />
           </div>
           <div className="ml-2">
