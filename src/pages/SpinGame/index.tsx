@@ -178,7 +178,7 @@ const CustomWheel: React.FC<{
         {data.map((item, index) => {
           const angle = (360 / data.length) * index;
           // 반응형 radius 계산 (비율 기반)
-          const radius = 35; // 휠 크기의 35% 반지름
+          const radius = 25; // 휠 크기의 35% 반지름
           const x = Math.cos(((angle - 90) * Math.PI) / 180) * radius;
           const y = Math.sin(((angle - 90) * Math.PI) / 180) * radius;
 
@@ -187,8 +187,8 @@ const CustomWheel: React.FC<{
               key={index}
               className="absolute w-[12%] h-[12%] flex items-center justify-center"
               style={{
-                left: `calc(50% + ${x}% - 6%)`,
-                top: `calc(50% + ${y}% - 6%)`,
+                left: `calc(50% + ${x}% - 4%)`,
+                top: `calc(50% + ${y}% - 4%)`,
                 transform: `rotate(${angle}deg)`, // 휠의 각도에 맞게 회전
               }}
             >
