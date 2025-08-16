@@ -37,9 +37,9 @@ const Reward: React.FC = () => {
 
   // 날짜 포맷 및 번역
   const dateFormat = t("date_format_md");
-  const event2 = new Date(2025, 9, 15);
-  const event3 = new Date(2025, 10, 15);
-  const event4 = new Date(2025, 11, 15);
+  const event2 = new Date(2025, 8, 15);
+  const event3 = new Date(2025, 9, 15);
+  const event4 = new Date(2025, 10, 15);
 
   useEffect(() => {
     fetchLeaderHome();
