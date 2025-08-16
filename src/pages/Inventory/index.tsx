@@ -231,16 +231,59 @@ function ItemSlot({
   icon,
   alt,
   onClick,
+  level = 1,
 }: {
   icon: string;
   alt: string;
   onClick: () => void;
+  level?: number;
 }) {
+  // 강화도에 따른 배경 색상과 테두리 색상 결정
+  const getEnhancementStyle = (level: number) => {
+    if (level <= 2) {
+      return {
+        background: "linear-gradient(180deg, #C655FD 0%, #EECAFF 100%)",
+        numberBackground: "#C655FD",
+        numberBorder: "1px solid #EECAFF",
+      };
+    } else if (level <= 4) {
+      return {
+        background: "linear-gradient(180deg, #1FC9FE 0%, #87E2FF 100%)",
+        numberBackground: "#1FC9FE",
+        numberBorder: "1px solid #87E2FF",
+      };
+    } else if (level <= 6) {
+      return {
+        background: "linear-gradient(180deg, #73DF28 0%, #ABEE7D 100%)",
+        numberBackground: "#73DF28",
+        numberBorder: "1px solid #ABEE7D",
+      };
+    } else if (level <= 8) {
+      return {
+        background: "linear-gradient(180deg, #FDE328 0%, #FFF3A1 100%)",
+        numberBackground: "#FDE328",
+        numberBorder: "1px solid #FFF3A1",
+      };
+    } else {
+      return {
+        background: "linear-gradient(180deg, #FE5A1F 0%, #FFAC8E 100%)",
+        numberBackground: "#FE5A1F",
+        numberBorder: "1px solid #FFAC8E",
+      };
+    }
+  };
+
+  const enhancementStyle = getEnhancementStyle(level);
+
   return (
     <div className="relative flex flex-col items-center">
       <div
         className="w-[60px] h-[60px] min-[376px]:w-20 min-[376px]:h-20 rounded-2xl flex items-center justify-center shadow-lg cursor-pointer"
-        style={{ background: "linear-gradient(180deg, #F43F5E 0%, #fff 100%)" }}
+        style={{
+          background: enhancementStyle.background,
+          boxShadow:
+            "0px 2px 2px 0px rgba(0, 0, 0, 0.35), inset 0px 0px 2px 2px rgba(255, 255, 255, 0.2)",
+        }}
         onClick={onClick}
       >
         <img
@@ -250,9 +293,15 @@ function ItemSlot({
         />
       </div>
       {/* 등급 표시: 원형, 모바일 퍼스트 분기 */}
-      <div className="absolute left-1/2 translate-x-[-50%] bottom-[-6px] min-[376px]:bottom-[-8px] bg-[#F43F5E] w-[18px] h-[18px] min-[376px]:w-[22px] min-[376px]:h-[22px] rounded-full flex items-center justify-center">
+      <div
+        className="absolute left-1/2 translate-x-[-50%] bottom-[-6px] min-[376px]:bottom-[-8px] w-[18px] h-[18px] min-[376px]:w-[22px] min-[376px]:h-[22px] rounded-full flex items-center justify-center"
+        style={{
+          background: enhancementStyle.numberBackground,
+          border: enhancementStyle.numberBorder,
+        }}
+      >
         <span className="text-[5px] min-[376px]:text-[6px] font-bold text-white">
-          1
+          {level}
         </span>
       </div>
     </div>
@@ -510,6 +559,7 @@ const Inventory: React.FC = () => {
             <ItemSlot
               icon={Images.CatGreenCrown}
               alt="crown"
+              level={3}
               onClick={() =>
                 handleEquippedItemClick(Images.CatGreenCrown, "crown")
               }
@@ -517,6 +567,7 @@ const Inventory: React.FC = () => {
             <ItemSlot
               icon={Images.CatGreenBallon}
               alt="balloon"
+              level={5}
               onClick={() =>
                 handleEquippedItemClick(Images.CatGreenBallon, "balloon")
               }
@@ -524,7 +575,7 @@ const Inventory: React.FC = () => {
           </div>
           {/* 중앙 캐릭터 */}
           <img
-            src={charactorImageSrc}
+            src={Images.DogSmile}
             alt="character"
             className="min-[376px]:w-[200px] min-[376px]:h-[200px] w-[180px] h-[180px] min-[376px]:-translate-y-4 -translate-y-12"
           />
@@ -533,6 +584,7 @@ const Inventory: React.FC = () => {
             <ItemSlot
               icon={Images.CatGreenMuffler}
               alt="muffler"
+              level={7}
               onClick={() =>
                 handleEquippedItemClick(Images.CatGreenMuffler, "muffler")
               }
@@ -540,6 +592,7 @@ const Inventory: React.FC = () => {
             <ItemSlot
               icon={Images.CatGreenRibbon}
               alt="ribbon"
+              level={2}
               onClick={() =>
                 handleEquippedItemClick(Images.CatGreenRibbon, "ribbon")
               }
@@ -547,6 +600,7 @@ const Inventory: React.FC = () => {
             <ItemSlot
               icon={Images.CatGreenRibbon}
               alt="ribbon"
+              level={9}
               onClick={() =>
                 handleEquippedItemClick(Images.CatGreenRibbon, "ribbon")
               }
