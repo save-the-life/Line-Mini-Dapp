@@ -309,7 +309,7 @@ const DiceEventPage: React.FC = () => {
   // 랭킹 보상 팝업 표시를 위한 상태
   const [showRankingModal, setShowRankingModal] = useState<boolean>(false);
   const [showItemGuideModal, setShowItemGuideModal] = useState(false);
-  const [showItemDialog, setShowItemDialog] = useState(true);
+  const [showItemDialog, setShowItemDialog] = useState(false);
 
   useEffect(() => {
     const checkAndShowModals = () => {
