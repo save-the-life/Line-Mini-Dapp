@@ -242,7 +242,7 @@ const RewardHistory: React.FC = () => {
             displayHistory.map((reward, index) => (
               <div
                 key={`${reward.loggedAt}-${index}`}
-                className="flex justify-between items-center py-4 border-b border-[#35383F]"
+                className="flex justify-between items-center py-4 border-b border-[#FFFFFF]"
               >
                 <div>
                   <p
@@ -279,7 +279,6 @@ const RewardHistory: React.FC = () => {
                       fontFamily: "'ONE Mobile POP', sans-serif",
                       fontSize: "18px",
                       fontWeight: 400,
-                      color: "#FFFFFF",
                       WebkitTextStroke: "1px #000000",
                     }}
                   >
