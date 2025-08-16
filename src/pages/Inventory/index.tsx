@@ -43,10 +43,10 @@ function ItemModal({ isOpen, onClose, item }: ItemModalProps) {
   return (
     <>
       {/* 배경 블러 오버레이 */}
-      <div className="fixed inset-0 bg-opacity-30 backdrop-blur-md z-[999]" />
+      <div className="fixed inset-0 bg-opacity-30 backdrop-blur-md z-[9999]" />
 
       {/* 모달 컨테이너 */}
-      <div className="fixed inset-0 flex items-center justify-center z-[1000] p-4">
+      <div className="fixed inset-0 flex items-center justify-center z-[10000] p-4">
         <div
           className="w-full max-w-sm max-h-[90vh] overflow-y-auto rounded-3xl"
           style={{
@@ -243,30 +243,35 @@ function ItemSlot({
     if (level <= 2) {
       return {
         background: "linear-gradient(180deg, #C655FD 0%, #EECAFF 100%)",
+        border: "2px solid #EECAFF",
         numberBackground: "#C655FD",
         numberBorder: "1px solid #EECAFF",
       };
     } else if (level <= 4) {
       return {
         background: "linear-gradient(180deg, #1FC9FE 0%, #87E2FF 100%)",
+        border: "2px solid #87E2FF",
         numberBackground: "#1FC9FE",
         numberBorder: "1px solid #87E2FF",
       };
     } else if (level <= 6) {
       return {
         background: "linear-gradient(180deg, #73DF28 0%, #ABEE7D 100%)",
+        border: "2px solid #ABEE7D",
         numberBackground: "#73DF28",
         numberBorder: "1px solid #ABEE7D",
       };
     } else if (level <= 8) {
       return {
         background: "linear-gradient(180deg, #FDE328 0%, #FFF3A1 100%)",
+        border: "2px solid #FFF3A1",
         numberBackground: "#FDE328",
         numberBorder: "1px solid #FFF3A1",
       };
     } else {
       return {
         background: "linear-gradient(180deg, #FE5A1F 0%, #FFAC8E 100%)",
+        border: "2px solid #FFAC8E",
         numberBackground: "#FE5A1F",
         numberBorder: "1px solid #FFAC8E",
       };
@@ -281,6 +286,7 @@ function ItemSlot({
         className="w-[60px] h-[60px] min-[376px]:w-20 min-[376px]:h-20 rounded-2xl flex items-center justify-center shadow-lg cursor-pointer"
         style={{
           background: enhancementStyle.background,
+          border: enhancementStyle.border,
           boxShadow:
             "0px 2px 2px 0px rgba(0, 0, 0, 0.35), inset 0px 0px 2px 2px rgba(255, 255, 255, 0.2)",
         }}
