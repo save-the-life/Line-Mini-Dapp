@@ -116,16 +116,16 @@ const data = [
     prize: { type: "TICKET", amount: 1 },
     style: { backgroundColor: "#CA3D77" },
   },
-  {
-    option: "Boom!",
-    image: {
-      uri: `${Images.Boom}`,
-      sizeMultiplier: 0.7,
-      offsetY: 150,
-    },
-    prize: { type: "BOOM", amount: 0 },
-    style: { backgroundColor: "#333333" },
-  },
+  // {
+  //   option: "Boom!",
+  //   image: {
+  //     uri: `${Images.Boom}`,
+  //     sizeMultiplier: 0.7,
+  //     offsetY: 150,
+  //   },
+  //   prize: { type: "BOOM", amount: 0 },
+  //   style: { backgroundColor: "#333333" },
+  // },
 ];
 
 // 커스텀 휠 컴포넌트
@@ -189,18 +189,28 @@ const CustomWheel: React.FC<{
               style={{
                 left: `calc(50% + ${x}% - 6%)`,
                 top: `calc(50% + ${y}% - 6%)`,
-                transform: `rotate(${-rotation}deg)`, // 텍스트가 회전하지 않도록
+                transform: `rotate(${angle}deg)`, // 휠의 각도에 맞게 회전
               }}
             >
               <div className="text-center">
                 <img
                   src={item.image.uri}
                   alt={item.option}
-                  className="w-[60%] h-[60%] mx-auto mb-1"
+                  className="w-[44px] h-[44px] mx-auto mb-1"
+                  style={{
+                    transform: `rotate(${-angle}deg)`, // 이미지가 휠과 함께 회전하도록
+                  }}
                 />
                 <div
-                  className="text-[2.5vw] md:text-xs font-bold"
-                  style={{ color: item.style.textColor || "#000000" }}
+                  style={{ 
+                    // color: item.style.textColor || "#000000",
+                    transform: `rotate(${-angle}deg)`, // 텍스트가 휠과 함께 회전하도록
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    color: "#FFFFFF",
+                    WebkitTextStroke: "1px #000000",
+                  }}
                 >
                   {item.option}
                 </div>
