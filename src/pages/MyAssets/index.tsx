@@ -331,11 +331,14 @@ const MyAssets: React.FC = () => {
       <div className="flex items-center justify-between w-full mt-6">
         <div className="flex items-center">
           <div
-            className={`flex flex-col items-center justify-center rounded-full w-9 h-9 md:w-10 md:h-10`}
+            className={`flex flex-col items-center justify-center rounded-full w-[60px] h-[60px] md:w-10 md:h-10`}
             style={{
-              background: "rgba(0, 94, 170, 0.5)",
+              background: "rgba(255,255,255,0.65)",
+              borderRadius: 20,
+              boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
               backdropFilter: "blur(10px)",
-              boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+              border: "none",
+              WebkitBackdropFilter: "blur(10px)",
             }}
           >
             <img
