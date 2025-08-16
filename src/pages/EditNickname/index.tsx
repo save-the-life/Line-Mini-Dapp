@@ -5,6 +5,7 @@ import { useSound } from "@/shared/provider/SoundProvider";
 import Audios from "@/shared/assets/audio";
 import updateNickname from "@/entities/User/api/updateNickname";
 import { useUserStore } from "@/entities/User/model/userModel";
+import Images from "@/shared/assets/images";
 
 const EditNickname: React.FC = () => {
   const navigate = useNavigate();
@@ -59,13 +60,17 @@ const EditNickname: React.FC = () => {
           maxLength={8}
           className="w-full p-4 rounded-2xl mb-4 focus:outline-none"
           style={{
-            backgroundColor: "rgba(0, 136, 255, 0.75)",
-            backdropFilter: "blur(10px)",
-            boxShadow: "0px 2px 2px 0px rgba(0, 0, 0, 0.4)",
             fontFamily: "'ONE Mobile POP', sans-serif",
-            fontSize: "14px",
+            fontSize: "12px",
             fontWeight: 400,
-            color: "#9FC7FF",
+            color: "#FFFFFF",
+            WebkitTextStroke: "1px #000000",
+            borderRadius: "44px",
+            border: "none",
+            background: "#0088FFBF",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
           }}
         />
       </div>
@@ -86,39 +91,69 @@ const EditNickname: React.FC = () => {
       {/* 취소 및 수정 버튼을 하단에 고정 */}
       <div className="w-full max-w-md absolute bottom-16 left-1/2 transform -translate-x-1/2 flex justify-between gap-4">
         <button
-          className="w-1/2 py-4 rounded-full text-base font-medium"
+          className="font-medium h-14 w-[160px] rounded-[10px] relative"
           style={{
-            background: "linear-gradient(180deg, #FF2F32 0%, #FF6D70 100%)",
-            border: "2px solid #FFA1A2",
+            background:
+              "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
+            border: "2px solid #FF8E8E",
+            outline: "2px solid #000000",
             boxShadow:
               "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+            color: "#FFFFFF",
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "18px",
-            fontWeight: 400,
-            color: "#FFFFFF",
+            fontWeight: "400",
             WebkitTextStroke: "1px #000000",
+            opacity: 1,
           }}
           onClick={() => {
             navigate(-1);
           }}
         >
+          <img
+            src={Images.ButtonPointRed}
+            alt="button-point-red"
+            style={{
+              position: "absolute",
+              top: "3px",
+              left: "3px",
+              width: "8.47px",
+              height: "6.3px",
+              pointerEvents: "none",
+            }}
+          />
           취소
         </button>
         <button
-          className="w-1/2 py-4 rounded-full text-base font-medium"
+          className="font-medium h-14 w-[160px] rounded-[10px] relative"
           onClick={editBtn}
           style={{
-            background: "linear-gradient(180deg, #50B0FF 0%, #008DFF 100%)",
+            background:
+              "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
             border: "2px solid #76C1FF",
+            outline: "2px solid #000000",
             boxShadow:
               "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+            color: "#FFFFFF",
             fontFamily: "'ONE Mobile POP', sans-serif",
             fontSize: "18px",
-            fontWeight: 400,
-            color: "#FFFFFF",
+            fontWeight: "400",
             WebkitTextStroke: "1px #000000",
+            opacity: 1,
           }}
         >
+          <img
+            src={Images.ButtonPointBlue}
+            alt="button-point-blue"
+            style={{
+              position: "absolute",
+              top: "3px",
+              left: "3px",
+              width: "8.47px",
+              height: "6.3px",
+              pointerEvents: "none",
+            }}
+          />
           편집
         </button>
       </div>
