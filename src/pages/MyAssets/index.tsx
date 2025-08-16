@@ -334,7 +334,7 @@ const MyAssets: React.FC = () => {
             className={`flex flex-col items-center justify-center rounded-full w-[60px] h-[60px] md:w-10 md:h-10`}
             style={{
               background: "rgba(255,255,255,0.65)",
-              borderRadius: 20,
+              borderRadius: "100%",
               boxShadow: "0px 2px 2px 0px rgba(0,0,0,0.4)",
               backdropFilter: "blur(10px)",
               border: "none",
