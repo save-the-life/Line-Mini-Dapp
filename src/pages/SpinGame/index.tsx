@@ -196,12 +196,12 @@ const CustomWheel: React.FC<{
                 <img
                   src={item.image.uri}
                   alt={item.option}
-                  className="w-[44px] h-[44px] mx-auto mb-1"
+                  className="w-[60%] h-[60%] mx-auto mb-1"
                   style={{
                     transform: `rotate(${-angle}deg)`, // 이미지가 휠과 함께 회전하도록
                   }}
                 />
-                <div
+                {/* <div
                   style={{ 
                     // color: item.style.textColor || "#000000",
                     transform: `rotate(${-angle}deg)`, // 텍스트가 휠과 함께 회전하도록
@@ -213,7 +213,7 @@ const CustomWheel: React.FC<{
                   }}
                 >
                   {item.option}
-                </div>
+                </div> */}
               </div>
             </div>
           );
