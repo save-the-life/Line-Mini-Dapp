@@ -417,7 +417,7 @@ const MyAssets: React.FC = () => {
         <div className="mt-10 w-full">
           {nonNftItems.length === 0 ? (
             <div className="mx-0 w-full h-[150px] flex flex-col items-center justify-center">
-              <p className="text-center text-[#737373] text-sm font-medium">
+              <p className="text-center">
                 <span
                   className="whitespace-nowrap"
                   style={{
@@ -578,7 +578,8 @@ const MyAssets: React.FC = () => {
           className="mt-4 rounded-3xl py-3 px-4"
           style={{
             background: "rgba(0, 136, 255, 0.75)",
-            boxShadow: "0px 2px 2px 0px rgba(0, 0, 0, 0.4)",
+            boxShadow:
+              "0px 2px 2px 0px rgba(0, 0, 0, 0.4), inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
             backdropFilter: "blur(10px)",
           }}
         >
@@ -588,24 +589,46 @@ const MyAssets: React.FC = () => {
                 key={`${reward.loggedAt}-${index}`}
                 className={`flex justify-between items-center py-4 ${
                   index !== displayHistory.length - 1
-                    ? "border-b border-[#35383F]"
+                    ? "border-b border-[#FFFFFF]"
                     : ""
                 }`}
               >
                 <div>
-                  <p className="text-sm font-normal">
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "14px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
                     {t(`reward_page.${reward.contentKey}`)}
                   </p>
-                  <p className="text-xs font-normal text-[#A3A3A3]">
+                  <p
+                    style={{
+                      fontFamily: "'ONE Mobile POP', sans-serif",
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      color: "#FFFFFF",
+                      WebkitTextStroke: "1px #000000",
+                    }}
+                  >
                     {formatDate(reward.loggedAt)}
                   </p>
                 </div>
                 <p
                   className={`text-base font-semibold ${
                     reward.displayChangeType === "INCREASE"
-                      ? "text-[#3B82F6]"
+                      ? "text-[#ABEE7D]"
                       : "text-[#DD2726]"
                   }`}
+                  style={{
+                    fontFamily: "'ONE Mobile POP', sans-serif",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    WebkitTextStroke: "1px #000000",
+                  }}
                 >
                   {reward.displayChangeType === "INCREASE" ? "+" : "-"}
                   {reward.amount} {reward.displayAsset}
@@ -613,8 +636,17 @@ const MyAssets: React.FC = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-sm text-gray-400">
-              {t("asset_page.no_records") || "No records found"}
+            <p
+              className="text-center"
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              아직 기록이 존재하지 않습니다.
             </p>
           )}
         </div>
@@ -623,16 +655,33 @@ const MyAssets: React.FC = () => {
       {/* 서비스 준비중 알림 모달창 */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
-          <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
-            <p>{t("asset_page.prepare_service")}</p>
+          <div className="bg-white p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              현재 서비스 준비중입니다.
+            </p>
             <button
               className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
               onClick={() => {
                 playSfx(Audios.button_click);
                 setShowModal(false);
               }}
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
             >
-              {t("OK")}
+              확인
             </button>
           </div>
         </div>
@@ -642,15 +691,32 @@ const MyAssets: React.FC = () => {
       {copySuccess && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
           <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
-            <p>{t("asset_page.uid")}</p>
+            <p
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
+            >
+              UID가 클립보드에 복사되었습니다.
+            </p>
             <button
               className="mt-4 px-4 py-2 bg-[#0147E5] text-white rounded-lg"
               onClick={() => {
                 playSfx(Audios.button_click);
                 setCopySuccess(false);
               }}
+              style={{
+                fontFamily: "'ONE Mobile POP', sans-serif",
+                fontSize: "14px",
+                fontWeight: 400,
+                color: "#FFFFFF",
+                WebkitTextStroke: "1px #000000",
+              }}
             >
-              {t("OK")}
+              확인
             </button>
           </div>
         </div>
