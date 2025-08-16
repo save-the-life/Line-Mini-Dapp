@@ -149,42 +149,48 @@ const ResultWin: React.FC<ResultWinProps> = ({
       <div className="flex flex-row gap-[27px]">
         {isFinalWin ? (
           <button
-            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px] mt-20"
+            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px] mt-10"
             onClick={onQuit}
             style={{
-              background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+              background:
+                "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
               border: "2px solid #76C1FF",
               outline: "2px solid #000000",
-              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+              boxShadow:
+                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
               fontFamily: "'ONE Mobile POP', sans-serif",
               fontSize: "18px",
               fontWeight: 400,
               color: "#FFFFFF",
               WebkitTextStroke: "1px #000000",
-            }}>
-              <img
-                src={Images.ButtonPointBlue}
-                alt="button-point-blue"
-                style={{
-                  position: "absolute",
-                  top: "3px",
-                  left: "3px",
-                  width: "8.47px",
-                  height: "6.3px",
-                  pointerEvents: "none",
-                }}/>
+            }}
+          >
+            <img
+              src={Images.ButtonPointBlue}
+              alt="button-point-blue"
+              style={{
+                position: "absolute",
+                top: "3px",
+                left: "3px",
+                width: "8.47px",
+                height: "6.3px",
+                pointerEvents: "none",
+              }}
+            />
             완료
           </button>
         ) : (
           <>
             <button
-              className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px] mt-20"
+              className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px] mt-10"
               onClick={onQuit}
               style={{
-                background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                background:
+                  "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
                 border: "2px solid #76C1FF",
                 outline: "2px solid #000000",
-                boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                boxShadow:
+                  "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "18px",
                 fontWeight: 400,
@@ -202,17 +208,20 @@ const ResultWin: React.FC<ResultWinProps> = ({
                   width: "8.47px",
                   height: "6.3px",
                   pointerEvents: "none",
-                }}/>
+                }}
+              />
               받기
             </button>
             <button
               className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
               onClick={onContinue}
               style={{
-                background: "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
+                background:
+                  "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
                 border: "2px solid #76C1FF",
                 outline: "2px solid #000000",
-                boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+                boxShadow:
+                  "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
                 fontFamily: "'ONE Mobile POP', sans-serif",
                 fontSize: "18px",
                 fontWeight: 400,
@@ -230,7 +239,8 @@ const ResultWin: React.FC<ResultWinProps> = ({
                   width: "8.47px",
                   height: "6.3px",
                   pointerEvents: "none",
-                }}/>
+                }}
+              />
               도전하기
             </button>
           </>
@@ -305,15 +315,17 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
       </div>
       {/* 버튼을 바깥 영역으로 이동 */}
       <button
-        className="flex relative items-center justify-center rounded-[10px] font-medium mt-20"
+        className="flex relative items-center justify-center rounded-[10px] font-medium mt-10"
         onClick={onQuit}
         style={{
           width: "300px",
           height: "56px",
-          background: "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
+          background:
+            "linear-gradient(180deg, #FF6D70 0%, #FF6D70 50%, #FF2F32 50%, #FF2F32 100%)",
           border: "2px solid #FF8E8E",
           outline: "2px solid #000000",
-          boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
+          boxShadow:
+            "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
           fontFamily: "'ONE Mobile POP', sans-serif",
           fontSize: "18px",
           fontWeight: 400,
@@ -331,8 +343,9 @@ const ResultLose: React.FC<ResultLoseProps> = ({ winnings, onQuit }) => {
             width: "8.47px",
             height: "6.3px",
             pointerEvents: "none",
-          }}/>
-          나가기
+          }}
+        />
+        나가기
       </button>
     </div>
   );
