@@ -648,17 +648,32 @@ const CardGameBoard = ({ betAmount, onResult, onCancel }: any) => {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="flex flex-col items-center mb-[28px] border-none"
         >
-          <img
-            src={
-              cardRevealed
-                ? CARD_IMAGES.find((card) => card.suit === answer.suit.value)
-                    ?.url || Images.CardBack
-                : Images.CardBack
-            }
-            alt="card"
-            className="mb-4 w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer border-none"
-            onClick={handleCardReveal}
-          />
+          <ReactCardFlip
+            isFlipped={cardRevealed}
+            flipDirection="horizontal"
+            flipSpeedBackToFront={0.6}
+            flipSpeedFrontToBack={0.6}
+          >
+            {/* 뒷면 - 카드 뒤집기 전 */}
+            <img
+              src={Images.CardBack}
+              alt="card-back"
+              className="mb-4 w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer border-none"
+              onClick={handleCardReveal}
+              key="back"
+            />
+            {/* 앞면 - 카드 뒤집기 후 */}
+            <img
+              src={
+                CARD_IMAGES.find((card) => card.suit === answer.suit.value)
+                  ?.url || Images.CardBack
+              }
+              alt="card-front"
+              className="mb-4 w-[200px] h-[280px] rounded-xl shadow-lg bg-transparent object-cover cursor-pointer border-none"
+              onClick={handleCardReveal}
+              key="front"
+            />
+          </ReactCardFlip>
           <img
             src={Images.CardGame}
             alt="card-game"
@@ -849,7 +864,7 @@ const CardGameResultDialog = ({
           </div>
         </div>
         {/* 버튼 영역 */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mt-10">
           <button
             className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
             onClick={onClose}
@@ -947,7 +962,7 @@ const CardGameResultDialog = ({
           </div>
         </div>
         {/* 버튼 영역 */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mt-10">
           <button
             className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
             onClick={onClose}
