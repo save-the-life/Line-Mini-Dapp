@@ -331,7 +331,12 @@ const MyAssets: React.FC = () => {
       <div className="flex items-center justify-between w-full mt-6">
         <div className="flex items-center">
           <div
-            className={`flex flex-col items-center justify-center rounded-full w-9 h-9 md:w-10 md:h-10 ${levelClassName}`}
+            className={`flex flex-col items-center justify-center rounded-full w-9 h-9 md:w-10 md:h-10`}
+            style={{
+              background: "rgba(0, 94, 170, 0.5)",
+              backdropFilter: "blur(10px)",
+              boxShadow: "inset 0px 0px 4px 3px rgba(255, 255, 255, 0.6)",
+            }}
           >
             <img
               src={charactorImageSrc}
