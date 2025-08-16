@@ -881,37 +881,6 @@ const CardGameResultDialog = ({
             />
             확인
           </button>
-          <button
-            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
-            onClick={onNewGame}
-            style={{
-              background:
-                "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
-              border: "2px solid #76C1FF",
-              outline: "2px solid #000000",
-              boxShadow:
-                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
-              fontFamily: "'ONE Mobile POP', sans-serif",
-              fontSize: "18px",
-              fontWeight: "400",
-              color: "#FFFFFF",
-              WebkitTextStroke: "1px #000000",
-            }}
-          >
-            <img
-              src={Images.ButtonPointBlue}
-              alt="button-point-blue"
-              style={{
-                position: "absolute",
-                top: "3px",
-                left: "3px",
-                width: "8.47px",
-                height: "6.3px",
-                pointerEvents: "none",
-              }}
-            />
-            새 게임
-          </button>
         </div>
       </div>
     );
@@ -1009,37 +978,6 @@ const CardGameResultDialog = ({
               }}
             />
             확인
-          </button>
-          <button
-            className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
-            onClick={onNewGame}
-            style={{
-              background:
-                "linear-gradient(180deg, #50B0FF 0%, #50B0FF 50%, #008DFF 50%, #008DFF 100%)",
-              border: "2px solid #76C1FF",
-              outline: "2px solid #000000",
-              boxShadow:
-                "0px 4px 4px 0px rgba(0, 0, 0, 0.25), inset 0px 3px 0px 0px rgba(0, 0, 0, 0.1)",
-              fontFamily: "'ONE Mobile POP', sans-serif",
-              fontSize: "18px",
-              fontWeight: "400",
-              color: "#FFFFFF",
-              WebkitTextStroke: "1px #000000",
-            }}
-          >
-            <img
-              src={Images.ButtonPointBlue}
-              alt="button-point-blue"
-              style={{
-                position: "absolute",
-                top: "3px",
-                left: "3px",
-                width: "8.47px",
-                height: "6.3px",
-                pointerEvents: "none",
-              }}
-            />
-            새 게임
           </button>
         </div>
       </div>
