@@ -19,6 +19,9 @@ const calculateTilePosition = (
     x -= delta * (20 - tileNumber);
   }
 
+  // 캐릭터 위치 오프셋 조정 (오른쪽으로 이동)
+  x += 8;
+
   return { x, y };
 };
 
