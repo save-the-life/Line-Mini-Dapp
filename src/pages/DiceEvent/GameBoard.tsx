@@ -627,21 +627,18 @@ const GameBoard: React.FC<GameBoardProps> = ({
               )}
             </AnimatePresence>
 
-            <div 
-              className="flex flex-col w-full h-full items-center justify-center dice-container translate-y-5"
-              style={{
-                zIndex: selectingTile ? 1 : 10, // anywhere 비행기 활성화 시 z-index를 낮춤
-              }}
-            >
-              <Dice
-                ref={diceRef}
-                onRollComplete={(value: number, data: RollDiceResponseData) =>
-                  handleRollComplete(value, data)
-                }
-                gaugeValue={gaugeValue}
-                selectingTile={selectingTile}
-              />
-            </div>
+            {/* anywhere 비행기 활성화 시에는 주사위를 숨김 */}
+            {!selectingTile && (
+              <div className="flex flex-col w-full h-full items-center justify-center dice-container translate-y-5">
+                <Dice
+                  ref={diceRef}
+                  onRollComplete={(value: number, data: RollDiceResponseData) =>
+                    handleRollComplete(value, data)
+                  }
+                  gaugeValue={gaugeValue}
+                />
+              </div>
+            )}
             <p
               className="absolute bottom-[-30px] left-1/2 transform -translate-x-1/2 z-20"
               style={{

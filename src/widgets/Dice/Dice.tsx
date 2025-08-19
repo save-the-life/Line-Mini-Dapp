@@ -10,10 +10,9 @@ import { useUserStore } from '@/entities/User/model/userModel';
 interface DiceProps {
   onRollComplete?: (value: number, data: RollDiceResponseData) => void;
   gaugeValue: number;
-  selectingTile?: boolean; // anywhere 비행기 활성화 상태
 }
 
-const Dice = forwardRef(({ onRollComplete, gaugeValue, selectingTile }: DiceProps, ref) => {
+const Dice = forwardRef(({ onRollComplete, gaugeValue }: DiceProps, ref) => {
   const controls = useAnimation();
   const [rotation, setRotation] = useState({ rotateX: -30, rotateY: 30 });
   const [faceOrder, setFaceOrder] = useState<number[]>([1, 2, 3, 4, 5, 6]);
@@ -103,12 +102,7 @@ const Dice = forwardRef(({ onRollComplete, gaugeValue, selectingTile }: DiceProp
   };
 
   return (
-    <div 
-      className="flex flex-col items-center justify-center gap-16 h-screen"
-      style={{
-        zIndex: selectingTile ? 1 : 10, // anywhere 비행기 활성화 시 z-index를 낮춤
-      }}
-    >
+    <div className="flex flex-col items-center justify-center gap-16 h-screen">
       <div className="scene">
         <motion.div
           className="cube"
