@@ -575,7 +575,7 @@ const DiceEventPage: React.FC = () => {
             />
             <br />
 
-            {/* 랜덤박스스 아이콘 */}
+            {/* 랜덤박스 아이콘 */}
             <div className="w-full max-w-[332px] md:max-w-full flex justify-center">
               <div
                 style={{

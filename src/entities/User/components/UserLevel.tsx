@@ -29,28 +29,10 @@ const UserLevel: React.FC<{
 }) => {
   // 레벨에 따른 캐릭터 이미지 선택 로직 (DiceEvent와 동일)
   const getCharacterImageSrc = () => {
-    const index = Math.floor((userLv - 1) / 4);
-
-    const catImages = [
-      Images.Cat1,
-      Images.Cat2,
-      Images.Cat3,
-      Images.Cat4,
-      Images.Cat5,
-    ];
-
-    const dogImages = [
-      Images.Dog1,
-      Images.Dog2,
-      Images.Dog3,
-      Images.Dog4,
-      Images.Dog5,
-    ];
-
     if (characterType === "cat") {
-      return catImages[index] || catImages[catImages.length - 1];
+      return Images.CatSmile;
     } else {
-      return dogImages[index] || dogImages[dogImages.length - 1];
+      return Images.DogSmile;
     }
   };
 
@@ -163,14 +145,14 @@ const UserLevel: React.FC<{
         />
 
         {/* 장착된 아이템들을 기본 캐릭터 위에 겹쳐서 표시 */}
-        {equippedItems.map((itemType, index) => (
+        {/* {equippedItems.map((itemType, index) => (
           <img
             key={`${itemType}-${index}`}
             src={getItemImage(itemType)}
             alt={`${characterType} ${itemType}`}
             className="absolute inset-0 w-24 h-24 md:w-32 md:h-32 z-30"
           />
-        ))}
+        ))} */}
       </div>
 
       <div className="flex flex-row items-center w-full px-4 gap-2">
