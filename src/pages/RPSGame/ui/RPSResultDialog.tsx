@@ -213,7 +213,7 @@ const ResultWin: React.FC<ResultWinProps> = ({
               받기
             </button>
             <button
-              className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px]"
+              className="flex relative items-center justify-center rounded-[10px] font-medium h-14 w-[160px] mt-10"
               onClick={onContinue}
               style={{
                 background:
