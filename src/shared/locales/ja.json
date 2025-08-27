@@ -87,7 +87,10 @@
         "Diagnosis_information_not_available.": "診断情報を利用できません。",
         "Failed_to_load_records._Please_try_again_later.": "記録を読み込めませんでした。後でもう一度試してください。",
         "Failed_to_load_filter_options._Please_try_again_later.": "フィルターオプションを読み込めませんでした。後でもう一度試してください。",
-        "Records": "診断リスト"
+        "Records": "診断リスト",
+        "updating": "機能更新中",
+        "updating_message": "現在、AIメニュー機能が更新中です。",
+        "ok": "OK"
     },
     "rank_page": {
         "Ranking": "ランキング",

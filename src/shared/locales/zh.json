@@ -87,7 +87,10 @@
       "Diagnosis_information_not_available.": "無法提供診斷信息。",
       "Failed_to_load_records._Please_try_again_later.": "加載記錄失敗，請稍後重試。",
       "Failed_to_load_filter_options._Please_try_again_later.": "加載過濾器選項失敗，請稍後重試。",
-      "Records": "診斷記錄"
+      "Records": "診斷記錄",
+      "updating": "功能更新中",
+      "updating_message": "目前AI菜單功能正在更新中。",
+      "ok": "確定"
     },
     "rank_page": {
       "Ranking": "排名",

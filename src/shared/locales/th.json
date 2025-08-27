@@ -87,7 +87,10 @@
       "Diagnosis_information_not_available.": "ไม่มีข้อมูลการวินิจฉัย",
       "Failed_to_load_records._Please_try_again_later.": "ไม่สามารถโหลดบันทึกได้ กรุณาลองใหม่ภายหลัง",
       "Failed_to_load_filter_options._Please_try_again_later.": "ไม่สามารถโหลดตัวเลือกการกรองได้ กรุณาลองใหม่ภายหลัง",
-      "Records": "ประวัติ"
+      "Records": "ประวัติ",
+      "updating": "กำลังอัปเดตฟังก์ชัน",
+      "updating_message": "ฟังก์ชัน AI ปัจจุบันกำลังอัปเดต",
+      "ok": "ตกลง"
     },
     "rank_page": {
       "Ranking": "อันดับ",

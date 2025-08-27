@@ -48,6 +48,7 @@ const AIMenu: React.FC = () => {
   const setSelectedMenu = useMainPageStore((state) => state.setSelectedMenu);
   const [slToken, setSlToken] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [showMaintenanceModal, setShowMaintenanceModal] = useState(true);
 
   // useEffect(()=>{
   //   const getMyTokenCount = async () => {
@@ -107,6 +108,12 @@ const AIMenu: React.FC = () => {
   //   return <LoadingSpinner className="h-screen"/>;
   // }
 
+  // 모달 닫기/확인 버튼 클릭 시 dice-event 페이지로 이동
+  const handleMaintenanceModalClose = () => {
+    playSfx(Audios.button_click);
+    navigate('/dice-event');
+  };
+
   return (
     <div className="flex flex-col text-white mx-6 md:mx-28 min-h-screen">
       {/* <div className="flex items-center w-full mt-8 relative">
@@ -162,6 +169,22 @@ const AIMenu: React.FC = () => {
             </div>
         </div>
       )} */}
+
+      {/* 기능 업데이트 중 알림 모달창 */}
+      {showMaintenanceModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full z-50">
+          <div className="bg-white text-black p-6 rounded-lg text-center w-[70%] max-w-[550px]">
+            <h3 className="text-lg font-bold mb-4">{t("ai_page.updating")}</h3>
+            <p className="mb-6">{t("ai_page.updating_message")}</p>
+            <button
+              className="px-6 py-2 bg-[#0147E5] text-white rounded-lg hover:bg-[#0139B8] transition-colors"
+              onClick={handleMaintenanceModalClose}
+            >
+              {t("ai_page.ok")}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -87,7 +87,10 @@
       "Diagnosis_information_not_available.": "Diagnosis information not available.",
       "Failed_to_load_records._Please_try_again_later.": "Failed to load records. Please try again later.",
       "Failed_to_load_filter_options._Please_try_again_later.": "Failed to load filter options. Please try again later.",
-      "Records": "Records"
+      "Records": "Records",
+      "updating": "Function Update in Progress",
+      "updating_message": "The AI menu function is currently being updated.",
+      "ok": "OK"
     },
     "rank_page": {
       "Ranking": "Ranking",
