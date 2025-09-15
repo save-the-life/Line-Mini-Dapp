@@ -52,7 +52,7 @@ const ConnectWalletPage: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const { fetchUserData } = useUserStore();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
+  const [showMaintenance, setShowMaintenance] = useState<boolean>(true);
   const [isAutoLoginInProgress, setIsAutoLoginInProgress] =
     useState<boolean>(false);
 
@@ -69,7 +69,7 @@ const ConnectWalletPage: React.FC = () => {
 
   // 자동 로그인 시도 함수
   const attemptAutoLogin = async () => {
-    console.log("[ConnectWallet] 자동 로그인 시도 시작");
+    console.log("[ConnectWallet] 자동 로그인 시도 시작"); 
     setIsAutoLoginInProgress(true);
 
     try {
@@ -282,9 +282,9 @@ const ConnectWalletPage: React.FC = () => {
     }
   };
 
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
-  // }
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
 
   return (
     <div
