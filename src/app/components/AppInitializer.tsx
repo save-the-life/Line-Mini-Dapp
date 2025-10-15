@@ -369,8 +369,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
-          // onInitialized();
-          setShowMaintenance(true);
+          onInitialized();
+          // setShowMaintenance(true);
           return;
         }
 
@@ -425,8 +425,8 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
             console.log(
               "[InitializeApp] 정상 초기화 완료, onInitialized() 호출"
             );
-            // onInitialized();
-            setShowMaintenance(true);
+            onInitialized();
+            // setShowMaintenance(true);
           }
         }
       }
@@ -440,12 +440,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>
     );
   }
-  // if (showSplash) {
-  //   return <SplashScreen />;
-  // }
-  if (showMaintenance) {
-    return <MaintenanceScreen />;
+  if (showSplash) {
+    return <SplashScreen />;
   }
+  // if (showMaintenance) {
+  //   return <MaintenanceScreen />;
+  // }
   return null;
 };
 
