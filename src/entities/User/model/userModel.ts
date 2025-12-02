@@ -3,12 +3,14 @@
 import create from 'zustand';
 import { fetchHomeData } from '@/entities/User/api/userApi';
 import api from '@/shared/api/axiosInstance';
+import { tokenManager } from '@/shared/api/tokenManager';
 import { rollDiceAPI, RollDiceResponseData } from '@/features/DiceEvent/api/rollDiceApi';
-import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi'; // 분리된 API 함수 임포트
+import { refillDiceAPI } from '@/features/DiceEvent/api/refillDiceApi';
 import { autoAPI } from '@/features/DiceEvent/api/autoApi';
-import { completeTutorialAPI} from '@/features/DiceEvent/api/completeTutorialApi';
+import { completeTutorialAPI } from '@/features/DiceEvent/api/completeTutorialApi';
 import { useSoundStore } from '@/shared/store/useSoundStore';
 import { fetchLeaderTabAPI } from '@/entities/Leaderboard/api/leaderboardAPI';
+import { AxiosError } from 'axios';
 
 
 // 월간 보상 정보 인터페이스
@@ -184,10 +186,28 @@ export interface Board {
 }
 
 interface Pet {
-  type: 'DOG' | 'CAT' | null; // 수정된 부분: null 허용
-  level: number | null; // 수정된 부분: null 허용
-  exp: number; // 경험치 추가
+  type: 'DOG' | 'CAT' | null;
+  level: number | null;
+  exp: number;
 }
+
+// 에러 메시지 추출 유틸리티 함수
+const getErrorMessage = (error: unknown, defaultMessage: string): string => {
+  if (error instanceof AxiosError) {
+    // 네트워크 에러
+    if (!error.response) {
+      return 'Network error. Please check your connection.';
+    }
+    // 서버 에러 응답
+    return error.response.data?.message || defaultMessage;
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return defaultMessage;
+};
 
 // 사용자 상태를 관리하는 Zustand 스토어 생성
 export const useUserStore = create<UserState>((set, get) => ({
@@ -511,91 +531,68 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   // 로그인 함수
   login: async (initData: string): Promise<void> => {
-    // console.log('Step: login 시작, initData:', initData);
     set({ isLoading: true, error: null });
+
     try {
       const response = await api.post('/auth/login', { initData });
+      const { code, data, message } = response.data;
 
-      if (response.data.code === 'OK') {
-        const { userId, accessToken, refreshToken } = response.data.data;
-        // console.log('Step: login 성공, userId:', userId);
-        // 토큰 및 userId 저장
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        set({  });
+      if (code === 'OK') {
+        const { accessToken } = data;
+        // accessToken 저장 (refreshToken은 서버에서 Set-Cookie로 설정)
+        tokenManager.setAccessToken(accessToken);
 
         // 사용자 데이터 가져오기
         await get().fetchUserData();
         set({ isLoading: false, error: null });
-      } else if (response.data.code === 'ENTITY_NOT_FOUND') {
-        // console.warn('Step: login 응답 코드 ENTITY_NOT_FOUND:', response.data.message);
-        throw new Error(response.data.message || 'User not found');
-      } else {
-        // console.warn('Step: login 응답 코드가 OK가 아님:', response.data.message);
-        throw new Error(response.data.message || 'Login failed');
+        return;
       }
-    } catch (error: any) {
-      // console.error('Step: login 실패:', error);
-      let errorMessage = 'Login failed. Please try again.';
-      if (error.response) {
-        // 서버가 응답을 했지만, 상태 코드가 2xx가 아닌 경우
-        errorMessage = error.response.data.message || errorMessage;
-      } else if (error.request) {
-        // 요청이 이루어졌으나, 응답을 받지 못한 경우
-        errorMessage = 'No response from server. Please try again later.';
-      } else {
-        // 다른 에러
-        errorMessage = error.message;
-      }
+
+      // 서버에서 OK가 아닌 응답 코드를 반환한 경우
+      const errorMessage = message || (code === 'ENTITY_NOT_FOUND' ? 'User not found' : 'Login failed');
+      throw new Error(errorMessage);
+    } catch (error) {
+      const errorMessage = getErrorMessage(error, 'Login failed. Please try again.');
       set({ isLoading: false, error: errorMessage });
-      throw new Error(errorMessage); // 에러를 다시 던져 호출한 쪽에서 인지할 수 있도록 함
+      throw new Error(errorMessage);
     }
   },
 
   // 회원가입 함수
   signup: async (initData: string, petType: 'DOG' | 'CAT'): Promise<void> => {
-    // console.log('Step: signup 시작, initData:', initData, 'petType:', petType);
     set({ isLoading: true, error: null });
-    try {
-      // 회원가입 요청 보내기
-      await api.post('/auth/signup', { initData, petType });
 
+    try {
+      await api.post('/auth/signup', { initData, petType });
       set({ isLoading: false, error: null });
-    } catch (error: any) {
-      // console.error('Step: signup 실패:', error);
-      let errorMessage = 'Signup failed. Please try again.';
-      if (error.response) {
-        errorMessage = error.response.data.message || errorMessage;
-      } else if (error.request) {
-        errorMessage = 'No response from server. Please try again later.';
-      } else {
-        errorMessage = error.message;
-      }
+    } catch (error) {
+      const errorMessage = getErrorMessage(error, 'Signup failed. Please try again.');
       set({ isLoading: false, error: errorMessage });
-      throw new Error(errorMessage); // 에러를 다시 던져 호출한 쪽에서 인지할 수 있도록 함
+      throw new Error(errorMessage);
     }
   },
 
   // 로그아웃 함수
   logout: () => {
-    // console.log('Step: logout 실행. 토큰 및 userId 제거 및 상태 초기화.');
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken'); // 추가된 부분: refreshToken 제거
+    // 모든 토큰 제거
+    tokenManager.clearAllTokens();
+
+    // 상태 초기화
     set({
       nickName: null,
       uid: null,
       walletAddress: null,
-      referrerId: null, // 추가된 부분: referrerId 초기화
-      isAuto: false, // 추가된 부분: isAuto 초기화
+      referrerId: null,
+      isAuto: false,
       timeZone: null,
-      suspend: false, // 추가된 부분: suspend 초기화
-      redirect:false,
+      suspend: false,
+      redirect: false,
       position: 0,
       diceCount: 0,
       starPoints: 0,
       lotteryCount: 0,
       userLv: 100,
-      characterType: null, // 수정된 부분: characterType 초기화
+      characterType: null,
       slToken: 0,
       rank: 0,
       monthlyPrize: {
@@ -603,7 +600,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         month: 0,
         prizeType: '',
         amount: 0,
-        eventFinishTime: "",
+        eventFinishTime: '',
       },
       weekAttendance: {
         mon: null,
@@ -624,9 +621,9 @@ export const useUserStore = create<UserState>((set, get) => ({
         timeDiceTimes: 0,
         boardRewardTimes: 0,
         ticketTimes: 0,
-        spinTimes: 0, // 추가된 필드 초기화
-        autoNftCount: 0, // 추가된 필드 초기화
-        rewardNftCount: 0, // 추가된 필드 초기화
+        spinTimes: 0,
+        autoNftCount: 0,
+        rewardNftCount: 0,
       },
       boards: [],
     });
@@ -634,22 +631,19 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   // 토큰 갱신 함수
   refreshToken: async (): Promise<boolean> => {
-    // console.log('Step: refreshToken 시작');
     try {
       const response = await api.get('/auth/refresh');
-      // console.log('Step: refreshToken 응답:', response);
-  
-      const newAccessToken = response.headers['authorization'];
+      const newAccessToken = tokenManager.extractTokenFromHeader(
+        response.headers['authorization']
+      );
+
       if (newAccessToken) {
-        localStorage.setItem('accessToken', newAccessToken.replace('Bearer ', ''));
-        // console.log('Step: 새로운 accessToken 저장 완료');
+        tokenManager.setAccessToken(newAccessToken);
         return true;
-      } else {
-        // console.warn('Step: Authorization 헤더가 없습니다.');
-        throw new Error('Token refresh failed: Authorization header is missing');
       }
-    } catch (error: any) {
-      // console.error('Step: refreshToken 실패:', error);
+
+      throw new Error('Token refresh failed: Authorization header is missing');
+    } catch (error) {
       // Refresh 실패 시 로그아웃 처리
       get().logout();
       set({ error: 'Token refresh failed. Please log in again.' });

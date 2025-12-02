@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import liff from "@line/liff";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/entities/User/model/userModel";
-import userAuthenticationWithServer from "@/entities/User/api/userAuthentication";
+import userAuthenticationWithServer, {
+  AuthenticationError,
+} from "@/entities/User/api/userAuthentication";
+import { tokenManager } from "@/shared/api/tokenManager";
 import i18n from "@/shared/lib/il8n";
 import SplashScreen from "./SplashScreen";
 import MaintenanceScreen from "./Maintenance";
@@ -10,16 +13,165 @@ import getPromotion from "@/entities/User/api/getPromotion";
 import updateTimeZone from "@/entities/User/api/updateTimeZone";
 import SDKService from "@/shared/services/sdkServices";
 
-// API 호출에 타임아웃을 적용하기 위한 헬퍼 함수
+// 상수 정의
+const TIMEOUT_MS = 5000;
+const MAX_RETRY_COUNT = 3;
+const SUPPORTED_LANGUAGES = ["en", "ko", "ja", "zh", "th"];
+const KNOWN_ROUTES = [
+  "",
+  "dice-event",
+  "choose-character",
+  "AI-menu",
+  "mission",
+  "reward",
+  "invite-friends",
+  "my-assets",
+  "wallet",
+  "wallet-list",
+  "test",
+  "previous-rewards",
+  "select-pet",
+  "regist-pet",
+  "edit-pet",
+  "diagnosis-list",
+  "diagnosis-detail",
+  "ai-xray-analysis",
+  "ai-dental-analysis",
+  "my-nfts",
+  "reward-history",
+  "first-reward",
+  "settings",
+  "policy-detail",
+  "referral-rewards",
+  "claim-history",
+  "sdk-test",
+  "choose-language",
+  "sound-setting",
+  "connect-wallet",
+  "invite-friends-list",
+  "edit-nickname",
+  "previous-ranking",
+  "item-store",
+];
+const REFERRAL_PATTERN = /^[A-Za-z0-9]{4,16}$/;
+
+// 특수 레퍼럴 코드
+const SPECIAL_REFERRAL_CODES = {
+  FROM_DAPP_PORTAL: "from-dapp-portal",
+  DAPP_PORTAL_PROMOTIONS: "dapp-portal-promotions",
+  KAIA_REWARD: "kaia-reward",
+} as const;
+
+// 타임아웃 헬퍼 함수
 const withTimeout = <T,>(
   promise: Promise<T>,
   ms: number,
   errorMessage = "Timeout"
-) => {
+): Promise<T> => {
   const timeout = new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error(errorMessage)), ms)
   );
   return Promise.race([promise, timeout]);
+};
+
+// 502 에러 판별 함수
+const isServerError = (error: unknown): boolean => {
+  if (!error || typeof error !== "object") return false;
+
+  const err = error as Record<string, unknown>;
+
+  // Axios 에러 코드 체크
+  if (err.code === "ERR_BAD_RESPONSE") return true;
+
+  // 타임아웃 에러 체크
+  if (err.message === "fetchUserData Timeout") return true;
+
+  // 응답 상태 코드 체크
+  const response = err.response as Record<string, unknown> | undefined;
+  if (response?.status === 502) return true;
+
+  // 에러 메시지 체크
+  if (typeof err.message === "string" && err.message.includes("502")) return true;
+
+  // HTML 응답 체크 (서버 에러 페이지)
+  if (typeof response?.data === "string" && response.data.includes("<html>")) return true;
+
+  return false;
+};
+
+// 레퍼럴 코드 추출 및 저장
+const extractAndSaveReferralCode = (): void => {
+  localStorage.removeItem("referralCode");
+  let referralCode = "";
+
+  // 1. 해시에서 추출
+  if (window.location.hash?.startsWith("#/")) {
+    referralCode = window.location.hash.slice(2);
+  }
+
+  // 2. liff.state에서 추출
+  if (!referralCode) {
+    const url = new URL(window.location.href);
+    const liffState = url.searchParams.get("liff.state");
+    if (liffState?.startsWith("#/")) {
+      referralCode = liffState.slice(2);
+    }
+  }
+
+  // 3. liff.referrer 체크 (프로모션)
+  if (!referralCode) {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("liff.referrer")) {
+      referralCode = SPECIAL_REFERRAL_CODES.DAPP_PORTAL_PROMOTIONS;
+      localStorage.removeItem("KaiaMission");
+    }
+  }
+
+  // 4. URL 경로에서 추출
+  if (!referralCode) {
+    const parts = window.location.pathname.split("/");
+    referralCode = parts[parts.length - 1];
+  }
+
+  // 특수 레퍼럴 코드 처리
+  if (
+    referralCode === SPECIAL_REFERRAL_CODES.FROM_DAPP_PORTAL ||
+    referralCode === SPECIAL_REFERRAL_CODES.DAPP_PORTAL_PROMOTIONS
+  ) {
+    localStorage.setItem("referralCode", referralCode);
+    localStorage.removeItem("KaiaMission");
+    return;
+  }
+
+  if (referralCode === SPECIAL_REFERRAL_CODES.KAIA_REWARD) {
+    localStorage.setItem("KaiaMission", referralCode);
+    return;
+  }
+
+  // 알려진 라우트는 레퍼럴 코드가 아님
+  if (KNOWN_ROUTES.includes(referralCode)) {
+    localStorage.removeItem("referralCode");
+    localStorage.removeItem("KaiaMission");
+    return;
+  }
+
+  // 패턴 매칭으로 유효한 레퍼럴 코드인지 확인
+  if (REFERRAL_PATTERN.test(referralCode)) {
+    localStorage.setItem("referralCode", referralCode);
+    localStorage.removeItem("KaiaMission");
+  } else {
+    localStorage.removeItem("referralCode");
+    localStorage.removeItem("KaiaMission");
+  }
+};
+
+// 브라우저 언어 설정
+const initializeLanguage = (): void => {
+  const browserLanguage = navigator.language.slice(0, 2);
+  const language = SUPPORTED_LANGUAGES.includes(browserLanguage)
+    ? browserLanguage
+    : "en";
+  i18n.changeLanguage(language);
 };
 
 interface AppInitializerProps {
@@ -29,423 +181,264 @@ interface AppInitializerProps {
 const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const navigate = useNavigate();
   const { fetchUserData } = useUserStore();
+
   const [showSplash, setShowSplash] = useState(true);
   const [showMaintenance, setShowMaintenance] = useState(false);
-  const initializedRef = useRef(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const is502ErrorRef = useRef(false);
+
+  const initializedRef = useRef(false);
+  const isServerErrorRef = useRef(false);
   const isMountedRef = useRef(true);
 
+  // 컴포넌트 언마운트 시 플래그 설정
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
     };
   }, []);
 
-  const knownRoutes = [
-    "",
-    "dice-event",
-    "choose-character",
-    "AI-menu",
-    "mission",
-    "reward",
-    "invite-friends",
-    "my-assets",
-    "wallet",
-    "wallet-list",
-    "test",
-    "previous-rewards",
-    "select-pet",
-    "regist-pet",
-    "edit-pet",
-    "diagnosis-list",
-    "diagnosis-detail",
-    "ai-xray-analysis",
-    "ai-dental-analysis",
-    "my-nfts",
-    "reward-history",
-    "first-reward",
-    "settings",
-    "policy-detail",
-    "referral-rewards",
-    "claim-history",
-    "sdk-test",
-    "choose-language",
-    "sound-setting",
-    "connect-wallet",
-    "invite-friends-list",
-    "edit-nickname",
-    "previous-ranking",
-    "item-store",
-  ];
-  const referralPattern = /^[A-Za-z0-9]{4,16}$/;
-  const MAX_RETRY_COUNT = 3;
+  // 안전한 에러 메시지 설정
+  const safeSetError = useCallback((message: string) => {
+    if (isMountedRef.current) {
+      setErrorMessage(message);
+    }
+  }, []);
 
-  const setReferralCode = () => {
-    console.log("[Step 0] 시작 - 현재 URL:", window.location.href);
-    localStorage.removeItem("referralCode");
-    let referralCode = "";
-
-    if (window.location.hash && window.location.hash.startsWith("#/")) {
-      referralCode = window.location.hash.slice(2);
-      console.log("[Step 0-1] 해시에서 추출:", referralCode);
-    }
-    if (!referralCode) {
-      const url = new URL(window.location.href);
-      const liffState = url.searchParams.get("liff.state");
-      if (liffState && liffState.startsWith("#/")) {
-        referralCode = liffState.slice(2);
-        console.log("[Step 0-2] liff.state에서 추출:", referralCode);
-      }
-    }
-    if (!referralCode) {
-      const url = new URL(window.location.href);
-      const liffReferrer = url.searchParams.get("liff.referrer");
-      if (liffReferrer) {
-        referralCode = "dapp-portal-promotions";
-        console.log(
-          "[Step 0-3] liff.referrer 감지, 프로모션 코드 설정:",
-          referralCode
-        );
-        localStorage.removeItem("KaiaMission");
-      }
-    }
-    if (!referralCode) {
-      const parts = window.location.pathname.split("/");
-      referralCode = parts[parts.length - 1];
-      console.log("[Step 0-4] URL 마지막 세그먼트 추출:", referralCode);
-    }
-    if (referralCode === "from-dapp-portal") {
-      console.log(`[Step 0] "${referralCode}" 감지 -> localStorage에 저장`);
-      localStorage.setItem("referralCode", referralCode);
-      localStorage.removeItem("KaiaMission");
-      return;
-    }
-    if (referralCode === "dapp-portal-promotions") {
-      console.log(
-        `[Step 0] "${referralCode}" 감지 (프로모션 레퍼럴 코드) -> localStorage에 저장`
-      );
-      localStorage.setItem("referralCode", referralCode);
-      localStorage.removeItem("KaiaMission");
-      return;
-    }
-    if (referralCode === "kaia-reward") {
-      console.log(`[Step 0] "${referralCode}" 감지 -> localStorage에 저장`);
-      localStorage.setItem("KaiaMission", referralCode);
-      return;
-    }
-    if (knownRoutes.includes(referralCode)) {
-      console.log(
-        `[Step 0] "${referralCode}"는 knownRoutes에 있음 -> 레퍼럴 코드 아님`
-      );
-      localStorage.removeItem("referralCode");
-      localStorage.removeItem("KaiaMission");
-      return;
-    }
-    if (referralPattern.test(referralCode)) {
-      console.log(`[Step 0] "${referralCode}" 패턴 일치 -> 레퍼럴 코드로 설정`);
-      localStorage.setItem("referralCode", referralCode);
-      localStorage.removeItem("KaiaMission");
-    } else {
-      console.log(`[Step 0] "${referralCode}" 패턴 불일치 -> 레퍼럴 코드 아님`);
-      localStorage.removeItem("referralCode");
-      localStorage.removeItem("KaiaMission");
-    }
-  };
-
-  // 502 에러 여부 판단 함수 (추가 조건 포함)
-  const is502Error = (error: any): boolean => {
-    if (error?.code === "ERR_BAD_RESPONSE") {
-      console.log("Axios code is ERR_BAD_RESPONSE -> 502로 간주");
-      return true;
-    }
-    // fetchUserData Timeout도 502로 간주 (테스트용)
-    if (error?.message === "fetchUserData Timeout") {
-      console.log("Error message is 'fetchUserData Timeout' -> 502로 간주");
-      return true;
-    }
-    if (
-      error?.response?.status === 502 ||
-      (error?.message && error.message.includes("502")) ||
-      (error?.response?.data &&
-        typeof error.response.data === "string" &&
-        error.response.data.includes("<html>"))
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  const getUserInfo = async (retryCount = 0) => {
-    console.log("[Step 6] getUserInfo() 호출, 재시도 횟수:", retryCount);
-    try {
-      await withTimeout(fetchUserData(), 5000, "fetchUserData Timeout");
-      console.log("[Step 6] 사용자 데이터 fetch 성공");
-
-      const userTimeZone = useUserStore.getState().timeZone;
-      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log(
-        "[Step 6] 서버 타임존:",
-        userTimeZone,
-        "| 사용자 타임존:",
-        currentTimeZone
-      );
-
-      if (userTimeZone === null || userTimeZone !== currentTimeZone) {
-        try {
-          await withTimeout(
-            updateTimeZone(currentTimeZone),
-            5000,
-            "updateTimeZone Timeout"
-          );
-          console.log("[Step 6] 타임존 업데이트 성공");
-        } catch (error: any) {
-          console.log("[Step 6] 타임존 업데이트 에러:", error);
-        }
-      }
-
-      const referralCode = localStorage.getItem("referralCode");
-      if (referralCode === "dapp-portal-promotions") {
-        console.log("[Step 6] 프로모션 레퍼럴 코드 감지, getPromotion() 호출");
-        try {
-          const promo = await withTimeout(
-            getPromotion(),
-            5000,
-            "getPromotion Timeout"
-          );
-          console.log("[Step 6] getPromotion 결과:", promo);
-          if (promo === "Success") {
-            console.log("[Step 6] 프로모션 첫 수령 -> /promotion 이동");
-            if (isMountedRef.current) navigate("/promotion");
-          } else {
-            console.log("[Step 6] 프로모션 이미 수령됨 -> /dice-event 이동");
-            if (isMountedRef.current) navigate("/dice-event");
-          }
-        } catch (error: any) {
-          console.error("[Step 6] 프로모션 확인 중 에러:", error);
-          if (isMountedRef.current) navigate("/dice-event");
-        }
-      } else {
-        console.log("[Step 6] 일반 사용자 -> /dice-event 이동");
-        if (isMountedRef.current) navigate("/dice-event");
-      }
-    } catch (error: any) {
-      if (is502Error(error)) {
-        console.log(
-          "[Step 6] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단"
-        );
-        is502ErrorRef.current = true;
-        return;
-      }
-      console.error("[Step 6] getUserInfo() 에러 발생:", error);
-
-      if (error.message === "Please choose your character first.") {
-        console.log("[Step 6] 캐릭터 선택 필요 -> /choose-character 이동");
-        if (isMountedRef.current) navigate("/choose-character");
-        return;
-      }
-
-      if (
-        error.message === "Request failed with status code 403" ||
-        error.response?.status === 403
-      ) {
-        console.log("[Step 6] 403 에러 감지 -> 재인증 필요");
-        localStorage.removeItem("accessToken");
-        if (retryCount < MAX_RETRY_COUNT) {
-          await handleTokenFlow();
-        }
-        return;
-      }
-
-      if (retryCount < 1) {
-        console.log("[Step 6] 기타 에러 -> accessToken 삭제 후 재시도");
-        localStorage.removeItem("accessToken");
-        await getUserInfo(retryCount + 1);
-        return;
-      }
-
+  // 안전한 네비게이션
+  const safeNavigate = useCallback(
+    (path: string) => {
       if (isMountedRef.current) {
-        setErrorMessage(
-          "사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요."
-        );
+        navigate(path);
       }
-      return;
-    }
-  };
+    },
+    [navigate]
+  );
 
-  const handleTokenFlow = async () => {
-    console.log("[Step 3~5] handleTokenFlow() 시작");
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      console.log("[Step 3] accessToken 없음, 라인 토큰 발급 시도");
-      const lineToken = liff.getAccessToken();
-      console.log("[Step 3] liff.getAccessToken() 결과:", lineToken);
-
-      if (!lineToken) {
-        console.error("[Step 3] LINE 토큰 발급 실패");
-        if (isMountedRef.current) {
-          setErrorMessage("LINE앱으로 로그인 후 사용 바랍니다.");
-        }
-        return;
-      }
-
+  // 사용자 정보 조회
+  const getUserInfo = useCallback(
+    async (retryCount = 0): Promise<void> => {
       try {
-        console.log(
-          "[Step 4~5] userAuthenticationWithServer 호출, referralCode:",
-          localStorage.getItem("referralCode")
-        );
-        const isInitial = await withTimeout(
-          userAuthenticationWithServer(
-            lineToken,
-            localStorage.getItem("referralCode")
-          ),
-          5000,
-          "userAuthentication Timeout"
-        );
-        console.log("[Step 4~5] userAuthenticationWithServer 결과:", isInitial);
+        await withTimeout(fetchUserData(), TIMEOUT_MS, "fetchUserData Timeout");
 
-        if (isInitial === undefined) {
-          console.error("[Step 4~5] 사용자 인증 실패 (isInitial undefined)");
-          if (isMountedRef.current) {
-            setErrorMessage("사용자 인증 실패");
+        // 타임존 업데이트
+        const userTimeZone = useUserStore.getState().timeZone;
+        const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        if (userTimeZone === null || userTimeZone !== currentTimeZone) {
+          try {
+            await withTimeout(
+              updateTimeZone(currentTimeZone),
+              TIMEOUT_MS,
+              "updateTimeZone Timeout"
+            );
+          } catch {
+            // 타임존 업데이트 실패는 무시
+          }
+        }
+
+        // 프로모션 레퍼럴 코드 처리
+        const referralCode = localStorage.getItem("referralCode");
+        if (referralCode === SPECIAL_REFERRAL_CODES.DAPP_PORTAL_PROMOTIONS) {
+          try {
+            const promo = await withTimeout(
+              getPromotion(),
+              TIMEOUT_MS,
+              "getPromotion Timeout"
+            );
+            safeNavigate(promo === "Success" ? "/promotion" : "/dice-event");
+          } catch {
+            safeNavigate("/dice-event");
+          }
+        } else {
+          safeNavigate("/dice-event");
+        }
+      } catch (error) {
+        // 서버 에러 처리
+        if (isServerError(error)) {
+          isServerErrorRef.current = true;
+          return;
+        }
+
+        const err = error as Error;
+
+        // 캐릭터 선택 필요
+        if (err.message === "Please choose your character first.") {
+          safeNavigate("/choose-character");
+          return;
+        }
+
+        // 403 에러 - 재인증 필요
+        const axiosError = error as { response?: { status?: number } };
+        if (
+          err.message === "Request failed with status code 403" ||
+          axiosError.response?.status === 403
+        ) {
+          tokenManager.removeAccessToken();
+          if (retryCount < MAX_RETRY_COUNT) {
+            await handleTokenFlow();
           }
           return;
-        } else if (isInitial) {
-          console.log("[Step 4~5] 신규 사용자 감지 -> /choose-character 이동");
-          if (isMountedRef.current) navigate("/choose-character");
-        } else {
-          console.log("[Step 4~5] 기존 사용자 -> getUserInfo() 호출");
-          await getUserInfo();
         }
-      } catch (error: any) {
-        if (is502Error(error)) {
-          console.log(
-            "[Step 4~5] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단"
-          );
-          is502ErrorRef.current = true;
+
+        // 기타 에러 - 한 번 재시도
+        if (retryCount < 1) {
+          tokenManager.removeAccessToken();
+          await getUserInfo(retryCount + 1);
           return;
         }
-        console.error("[Step 4~5] userAuthenticationWithServer 에러:", error);
-        if (isMountedRef.current) {
-          setErrorMessage(
-            "인증 과정에서 에러가 발생했습니다. 다시 시도해주세요."
-          );
-        }
+
+        safeSetError("사용자 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
+      }
+    },
+    [fetchUserData, safeNavigate, safeSetError]
+  );
+
+  // 토큰 흐름 처리
+  const handleTokenFlow = useCallback(async (): Promise<void> => {
+    const accessToken = tokenManager.getAccessToken();
+
+    if (accessToken) {
+      // 토큰이 있으면 사용자 정보 조회
+      await getUserInfo();
+      return;
+    }
+
+    // 토큰이 없으면 LINE 인증 시도
+    const lineToken = liff.getAccessToken();
+
+    if (!lineToken) {
+      safeSetError("LINE앱으로 로그인 후 사용 바랍니다.");
+      return;
+    }
+
+    try {
+      const referralCode = localStorage.getItem("referralCode");
+      const isInitial = await withTimeout(
+        userAuthenticationWithServer(lineToken, referralCode),
+        TIMEOUT_MS,
+        "userAuthentication Timeout"
+      );
+
+      if (isInitial) {
+        // 신규 사용자
+        safeNavigate("/choose-character");
+      } else {
+        // 기존 사용자
+        await getUserInfo();
+      }
+    } catch (error) {
+      if (isServerError(error)) {
+        isServerErrorRef.current = true;
         return;
       }
-    } else {
-      console.log("[Step 3] accessToken 존재 -> 바로 getUserInfo() 호출");
-      await getUserInfo();
-    }
-  };
 
+      if (error instanceof AuthenticationError) {
+        safeSetError(
+          error.code === "NETWORK_ERROR"
+            ? "네트워크 연결을 확인해주세요."
+            : "인증에 실패했습니다. 다시 시도해주세요."
+        );
+      } else {
+        safeSetError("인증 과정에서 에러가 발생했습니다. 다시 시도해주세요.");
+      }
+    }
+  }, [getUserInfo, safeNavigate, safeSetError]);
+
+  // 앱 초기화
   useEffect(() => {
     const initializeApp = async () => {
-      console.log("[InitializeApp] 초기화 시작");
-      if (initializedRef.current) {
-        console.log("[InitializeApp] 이미 초기화됨, 종료");
-        return;
-      }
+      if (initializedRef.current) return;
       initializedRef.current = true;
 
       try {
-        setReferralCode();
+        // 레퍼럴 코드 설정
+        extractAndSaveReferralCode();
 
-        const browserLanguage = navigator.language;
-        const lang = browserLanguage.slice(0, 2);
-        const supportedLanguages = ["en", "ko", "ja", "zh", "th"];
-        const i18nLanguage = supportedLanguages.includes(lang) ? lang : "en";
-        console.log(
-          "[Step 1] 브라우저 언어:",
-          browserLanguage,
-          "-> 설정 언어:",
-          i18nLanguage
-        );
-        i18n.changeLanguage(i18nLanguage);
+        // 언어 설정
+        initializeLanguage();
 
-        console.log("[Step 2] 라인브라우저 여부 확인:", liff.isInClient());
-
+        // 외부 브라우저 체크
         if (!liff.isInClient()) {
-          console.log("[Step 2-2] 외부 브라우저 감지 -> /connect-wallet 이동");
           navigate("/connect-wallet");
           setShowSplash(false);
           onInitialized();
-          // setShowMaintenance(true);
           return;
         }
 
-        console.log("[InitializeApp] LIFF 초기화 시작");
+        // LIFF 초기화
         await withTimeout(
           liff.init({
             liffId: import.meta.env.VITE_LIFF_ID,
             withLoginOnExternalBrowser: true,
           }),
-          5000,
+          TIMEOUT_MS,
           "LIFF init Timeout"
         );
-        console.log("[InitializeApp] LIFF 초기화 완료");
 
-        // SDKService를 통해 SDK 초기화 (싱글톤)
+        // SDK 초기화
         const sdkService = SDKService.getInstance();
         await sdkService.initialize();
 
+        // 토큰 흐름 처리
         await handleTokenFlow();
-      } catch (error: any) {
-        if (is502Error(error)) {
-          console.log(
-            "[InitializeApp] 502 Bad Gateway 에러 감지 -> 추가 동작 없이 중단"
-          );
-          is502ErrorRef.current = true;
+      } catch (error) {
+        if (isServerError(error)) {
+          isServerErrorRef.current = true;
           return;
         }
-        console.error("[InitializeApp] 초기화 중 에러 발생:", error);
 
-        if (error.message === "Please choose your character first.") {
-          console.log(
-            "[InitializeApp] 캐릭터 선택 필요 -> /choose-character 이동"
-          );
+        const err = error as Error;
+        if (err.message === "Please choose your character first.") {
           navigate("/choose-character");
           return;
         }
 
-        localStorage.clear();
-        if (isMountedRef.current) {
-          setErrorMessage("초기화에 실패했습니다. 다시 시도해주세요.");
-        }
-        return;
+        // 초기화 실패 시 로컬 스토리지 정리
+        tokenManager.clearAllTokens();
+        safeSetError("초기화에 실패했습니다. 다시 시도해주세요.");
       } finally {
         if (isMountedRef.current) {
           setShowSplash(false);
-          if (is502ErrorRef.current) {
-            console.log(
-              "[InitializeApp] 502 에러 감지됨, MaintenanceScreen 표시"
-            );
+
+          if (isServerErrorRef.current) {
             setShowMaintenance(true);
           } else {
-            console.log(
-              "[InitializeApp] 정상 초기화 완료, onInitialized() 호출"
-            );
             onInitialized();
-            // setShowMaintenance(true);
           }
         }
       }
     };
 
     initializeApp();
-  }, [fetchUserData, navigate, onInitialized]);
+  }, [fetchUserData, navigate, onInitialized, handleTokenFlow, safeSetError]);
 
+  // 에러 화면
   if (errorMessage) {
     return (
-      <div style={{ padding: "20px", textAlign: "center" }}>{errorMessage}</div>
+      <div className="flex items-center justify-center min-h-screen p-5 text-center">
+        <div>
+          <p className="text-red-500 mb-4">{errorMessage}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            다시 시도
+          </button>
+        </div>
+      </div>
     );
   }
+
+  // 스플래시 화면
   if (showSplash) {
     return <SplashScreen />;
   }
-  // if (showMaintenance) {
-  //   return <MaintenanceScreen />;
-  // }
+
+  // 점검 화면
+  if (showMaintenance) {
+    return <MaintenanceScreen />;
+  }
+
   return null;
 };
 

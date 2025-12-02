@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import Images from "@/shared/assets/images";
-import webLoginWithAddress from "@/entities/User/api/webLogin";
+import webLoginWithAddress, { WebLoginError } from "@/entities/User/api/webLogin";
+import { tokenManager } from "@/shared/api/tokenManager";
 import { useUserStore } from "@/entities/User/model/userModel";
 import useWalletStore from "@/shared/store/useWalletStore";
 import i18n from "@/shared/lib/il8n";
@@ -174,10 +175,9 @@ const ConnectWalletPage: React.FC = () => {
         return;
       }
 
-      // 토큰 관련 에러 시 localStorage 정리
+      // 토큰 관련 에러 시 토큰 정리
       if (error.response?.data === "Token not found in Redis or expired") {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        tokenManager.clearAllTokens();
         localStorage.removeItem("walletAddress");
         localStorage.removeItem("isWalletConnected");
       }
@@ -262,13 +262,12 @@ const ConnectWalletPage: React.FC = () => {
       }
 
       // 토큰 관련 에러라면 한 번만 재시도
-      if (
-        !retry &&
-        (error.response?.data === "Token not found in Redis or expired" ||
-          error.message === "Web login failed.")
-      ) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+      const isTokenError =
+        error.response?.data === "Token not found in Redis or expired" ||
+        (error instanceof WebLoginError && error.code === "LOGIN_FAILED");
+
+      if (!retry && isTokenError) {
+        tokenManager.clearAllTokens();
         return handleConnectWallet(true);
       }
 
@@ -276,9 +275,13 @@ const ConnectWalletPage: React.FC = () => {
         navigate("/choose-character");
         return;
       }
-      console.error("에러 발생 메시지:", error.message);
-      console.error("에러 발생 코드:", error.code);
-      console.error("에러 응답:", error.response?.data || "응답 없음");
+
+      // 에러 로깅
+      if (error instanceof WebLoginError) {
+        console.error(`[WebLogin Error] ${error.code}: ${error.message}`);
+      } else {
+        console.error("에러 발생:", error.message || error);
+      }
     }
   };
 
