@@ -223,6 +223,12 @@ const RewardHistory: React.FC = () => {
       case "9th Ranking Awards":
           contentKey = "9th_awards";
           break;
+      case "10th Ranking Awards":
+          contentKey = "10th_awards";
+          break;
+      case "11th Ranking Awards":
+          contentKey = "11th_awards";
+          break;
       default:
         contentKey = reward.content;
     }
