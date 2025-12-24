@@ -182,7 +182,8 @@ import RewardIcon from "./reward-icon.png"
 import AutoIcon from "./auto-icon.png"
 import RewardBanner from "./rewardBanner.png"
 import RedTriangle from "./redTriangle.png"
-import Discount from "./discount.png"
+import Discount from "./discount40.png"
+import Discount50 from "./discount50.png"
 import NoticeCaution from "./notice-caution.png"
 import NoticeBox from "./notice-box.png"
 import Pylon from "./pylon.png"
@@ -397,6 +398,7 @@ const Images = {
   RewardBanner,
   RedTriangle,
   Discount,
+  Discount50,
   NoticeCaution,
   NoticeBox,
   Pylon,
@@ -424,7 +426,7 @@ const Images = {
   CardDiamond,
   CardSpade,
   CardHeart,
-  CardGame
+  CardGame,
 };
 
 export default Images;

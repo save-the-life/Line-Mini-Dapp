@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { IoChevronBackOutline, IoChevronDownOutline, IoChevronUpOutline  } from "react-icons/io5";
+import { IoChevronBackOutline, IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -49,7 +49,7 @@ const ItemStore: React.FC = () => {
   const balanceFromState = location.state?.balance || null;
   const [itemData, setItemData] = useState<any[]>([]);
   const [paymentId, setPaymentId] = useState<string | null>(null);
-  
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
   const [isConsumableOpen, setIsConsumableOpen] = useState(true);
 
@@ -97,7 +97,7 @@ const ItemStore: React.FC = () => {
     () => itemData.filter(item => consumableNames.includes(item.itemName.toUpperCase())),
     [itemData]
   );
-  
+
 
   // 계정(account)이 변경되면 잔액 조회 진행
   useEffect(() => {
@@ -195,67 +195,67 @@ const ItemStore: React.FC = () => {
     switch (itemName.toUpperCase()) {
       case "AUTO ITEM":
         return <div className="mt-1 text-center">
-                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
-                  <p>{t("asset_page.one_month")}</p>
-                  <p>({t("asset_page.purchase")})</p>
-                </div>
-                <p className="text-lg font-semibold">{t("dice_event.auto_roller")}</p>
-                <p className="text-base font-normal">{t("dice_event.automatically")}</p>
-              </div>;
+          <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+            <p>{t("asset_page.one_month")}</p>
+            <p>({t("asset_page.purchase")})</p>
+          </div>
+          <p className="text-lg font-semibold">{t("dice_event.auto_roller")}</p>
+          <p className="text-base font-normal">{t("dice_event.automatically")}</p>
+        </div>;
       case "REWARD BOOSTER":
         return <div className="mt-1 text-center">
-                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
-                  <p>{t("asset_page.one_month")}</p>
-                  <p>({t("asset_page.purchase")})</p>
-                </div>
-                <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
-                <p className="text-base font-normal">{t("dice_event.board_spin_reward")} : x2</p>
-              </div>;
+          <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+            <p>{t("asset_page.one_month")}</p>
+            <p>({t("asset_page.purchase")})</p>
+          </div>
+          <p className="text-lg font-semibold">{t("dice_event.reward_booster")}</p>
+          <p className="text-base font-normal">{t("dice_event.board_spin_reward")} : x2</p>
+        </div>;
       case "GOLD PASS":
         return <div className="mt-1 text-center">
-                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
-                  <p>{t("asset_page.one_month")}</p>
-                  <p>({t("asset_page.purchase")})</p>
-                </div>
-                <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
-                <p className="text-base font-normal">{t("dice_event.game_board_points")} : x3</p><br />
-                <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
-                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
-              </div>;
+          <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+            <p>{t("asset_page.one_month")}</p>
+            <p>({t("asset_page.purchase")})</p>
+          </div>
+          <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
+          <p className="text-base font-normal">{t("dice_event.game_board_points")} : x3</p><br />
+          <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
+          <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
+        </div>;
       case "SILVER PASS":
         return <div className="mt-1 text-center">
-                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
-                  <p>{t("asset_page.one_month")}</p>
-                  <p>({t("asset_page.purchase")})</p>
-                </div>
-                <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
-                <p className="text-base font-normal">{t("dice_event.game_board_points")} : x2</p><br />
-                <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
-                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
-              </div>;
+          <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+            <p>{t("asset_page.one_month")}</p>
+            <p>({t("asset_page.purchase")})</p>
+          </div>
+          <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
+          <p className="text-base font-normal">{t("dice_event.game_board_points")} : x2</p><br />
+          <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
+          <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
+        </div>;
       case "BRONZE PASS":
         return <div className="mt-1 text-center">
-                <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
-                  <p>{t("asset_page.one_month")}</p>
-                  <p>({t("asset_page.purchase")})</p>
-                </div>
-                <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
-                <p className="text-base font-normal">{t("dice_event.game_board_points")} : x1</p><br />
-                <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
-                <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
-              </div>;
+          <div className="my-2 text-base font-normal text-[#A3A3A3] text-center">
+            <p>{t("asset_page.one_month")}</p>
+            <p>({t("asset_page.purchase")})</p>
+          </div>
+          <p className="text-lg font-semibold">{t("dice_event.reward_multiplier")}</p>
+          <p className="text-base font-normal">{t("dice_event.game_board_points")} : x1</p><br />
+          <p className="text-lg font-semibold mt-4">{t("dice_event.turbo")}</p>
+          <p className="text-base font-normal">{t("dice_event.raffle_tickets")} : x2</p>
+        </div>;
       case "DICE":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">+100 {t("dice_event.dice_pack")}</p>
-              </div>;
+          <p className="text-lg font-semibold">+100 {t("dice_event.dice_pack")}</p>
+        </div>;
       case "POINTS":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">+100,000 {t("dice_event.point_pack")}</p>
-              </div>;
+          <p className="text-lg font-semibold">+100,000 {t("dice_event.point_pack")}</p>
+        </div>;
       case "RAFFLE TICKET":
         return <div className="mt-1 text-center">
-                <p className="text-lg font-semibold">+100 {t("dice_event.raffle_pack")}</p>
-              </div>;
+          <p className="text-lg font-semibold">+100 {t("dice_event.raffle_pack")}</p>
+        </div>;
       default:
         return <div></div>;
     }
@@ -265,45 +265,45 @@ const ItemStore: React.FC = () => {
     switch (itemName.toUpperCase()) {
       case "AUTO ITEM":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.auto")}</p>
-              </div>;
+          <p className="text-xs font-medium">{t("dice_event.auto")}</p>
+        </div>;
       case "REWARD BOOSTER":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.board_spin_reward")} : x2</p>
-              </div>;
+          <p className="text-xs font-medium">{t("dice_event.board_spin_reward")} : x2</p>
+        </div>;
       case "GOLD PASS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x3</p>
-                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
-              </div>;
+          <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x3</p>
+          <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+        </div>;
       case "SILVER PASS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x2</p>
-                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
-              </div>;
+          <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x2</p>
+          <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+        </div>;
       case "BRONZE PASS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x1</p>
-                <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
-              </div>;
+          <p className="text-xs font-medium">{t("dice_event.game_board_points")} : x1</p>
+          <p className="text-xs font-medium">{t("dice_event.raffle_tickets")} : x2</p>
+        </div>;
       case "DICE":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">+100 {t("dice_event.dice_pack")}</p>
-              </div>;
+          <p className="text-xs font-medium">+100 {t("dice_event.dice_pack")}</p>
+        </div>;
       case "POINTS":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">+100,000 {t("dice_event.point_pack")}</p>
-              </div>;
+          <p className="text-xs font-medium">+100,000 {t("dice_event.point_pack")}</p>
+        </div>;
       case "RAFFLE TICKET":
         return <div className="mt-1 text-center">
-                <p className="text-xs font-medium">+100 {t("dice_event.raffle_pack")}</p>
-              </div>;
+          <p className="text-xs font-medium">+100 {t("dice_event.raffle_pack")}</p>
+        </div>;
       default:
         return <div></div>;
     }
   }
 
-  
+
   // 결제 로직 진행
   const handleCheckout = async (
     paymentMethod: "STRIPE" | "CRYPTO"
@@ -341,7 +341,7 @@ const ItemStore: React.FC = () => {
       }
     } catch (error: any) {
       // console.error(`${paymentMethod} 결제 진행 중 오류 발생:`, error);
-      
+
       if (paymentMethod === "STRIPE") {
         if (error.code === -31001) {
           setPaymentMessage("Purchase Canceled.");
@@ -353,7 +353,7 @@ const ItemStore: React.FC = () => {
           setPaymentMessage("Purchase Failed.");
         } else if (error.message && error.message.includes("expiration")) {
           setPaymentMessage("Purchase Canceled.");
-        } else if(paymentStartTime){
+        } else if (paymentStartTime) {
           const elapsedSeconds = (Date.now() - paymentStartTime) / 1000;
           if (elapsedSeconds >= 580 && elapsedSeconds < 2280) {
             // Case.2 : startPayment 실행 후 사용자가 승인하지 않아 취소된 경우
@@ -398,36 +398,36 @@ const ItemStore: React.FC = () => {
   };
 
 
-    // 지갑 연결 및 잔액 조회 (외부 함수 connectWallet 호출)
-    const handleConnectWallet = async () => {
-      playSfx(Audios.button_click);
-      setNeedWallet(false);
-      try {
-        // connectWallet이 연결 정보를 반환하도록 수정(예: { walletAddress, provider, walletType, sdk })
-        const connection = await connectWallet();
-        if (connection && connection.walletAddress && connection.provider) {
-          try {
-            const response: KaiaRpcResponse<string> = await kaiaGetBalance(connection.walletAddress);
-            if (response.error) {
-              // console.log("잔고 확인 에러: ", response.error);
-            } else if (response.result) {
-              const KAIA_DECIMALS = 18;
-              const balanceBigNumber = BigNumber.from(response.result);
-              const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
-              setBalance(Number(formattedBalance).toFixed(2));
-            }
-          } catch (err: any) {
-            // console.error("Failed to fetch balance:", err);
+  // 지갑 연결 및 잔액 조회 (외부 함수 connectWallet 호출)
+  const handleConnectWallet = async () => {
+    playSfx(Audios.button_click);
+    setNeedWallet(false);
+    try {
+      // connectWallet이 연결 정보를 반환하도록 수정(예: { walletAddress, provider, walletType, sdk })
+      const connection = await connectWallet();
+      if (connection && connection.walletAddress && connection.provider) {
+        try {
+          const response: KaiaRpcResponse<string> = await kaiaGetBalance(connection.walletAddress);
+          if (response.error) {
+            // console.log("잔고 확인 에러: ", response.error);
+          } else if (response.result) {
+            const KAIA_DECIMALS = 18;
+            const balanceBigNumber = BigNumber.from(response.result);
+            const formattedBalance = ethers.utils.formatUnits(balanceBigNumber, KAIA_DECIMALS);
+            setBalance(Number(formattedBalance).toFixed(2));
           }
-          // console.log("지갑 연결 성공:", connection.walletAddress);
-        } else {
-          // console.error("지갑 연결 상태 업데이트 실패");
+        } catch (err: any) {
+          // console.error("Failed to fetch balance:", err);
         }
-      } catch (error: any) {
-        // console.error("지갑 연결 에러:", error.message);
+        // console.log("지갑 연결 성공:", connection.walletAddress);
+      } else {
+        // console.error("지갑 연결 상태 업데이트 실패");
       }
-    };
-  
+    } catch (error: any) {
+      // console.error("지갑 연결 에러:", error.message);
+    }
+  };
+
 
   // 선택된 아이템 정보 조회 (selectedItem의 itemId와 매칭)
   const selectedItemInfo = useMemo(() => {
@@ -516,55 +516,55 @@ const ItemStore: React.FC = () => {
 
         {/* 드롭다운: Premium Boosts */}
         <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsDropdownOpen(!isDropdownOpen); }}>
-          <span className="text-base font-semibold">Premium Boosts</span>
-          {isDropdownOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
-        </button>
-        <AnimatePresence>
-          {isDropdownOpen && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-              <div className="grid grid-cols-2 gap-4 mt-4 mb-6">
-                {premiumItems.map(item => (
-                  <div key={item.itemId} className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${selectedItem===item.itemId ? "border-blue-400" : "border-[#737373]"}`} onClick={() => handleSelectItem(item.itemId)}>
-                    <div className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center" style={{ background: getBackgroundGradient(item.itemName) }}>
-                      <img src={Images.Discount} alt="Discount" className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover" />
-                      <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
+          <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsDropdownOpen(!isDropdownOpen); }}>
+            <span className="text-base font-semibold">Premium Boosts</span>
+            {isDropdownOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
+          </button>
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
+                <div className="grid grid-cols-2 gap-4 mt-4 mb-6">
+                  {premiumItems.map(item => (
+                    <div key={item.itemId} className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${selectedItem === item.itemId ? "border-blue-400" : "border-[#737373]"}`} onClick={() => handleSelectItem(item.itemId)}>
+                      <div className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center" style={{ background: getBackgroundGradient(item.itemName) }}>
+                        <img src={["REWARD BOOSTER", "DICE"].includes(item.itemName.toUpperCase()) ? Images.Discount50 : Images.Discount} alt="Discount" className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover" />
+                        <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
+                      </div>
+                      <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+                      <div className="mt-1">{customText(item.itemName)}</div>
                     </div>
-                    <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
-                    <div className="mt-1">{customText(item.itemName)}</div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-      {/* Consumable Items */}
-      <div className="w-full mb-4">
-        <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(!isConsumableOpen); }}>
-          <span className="text-base font-semibold">Consumable Items</span>
-          {isConsumableOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
-        </button>
-        <AnimatePresence>
-          {isConsumableOpen && (
-            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-              <div className="grid grid-cols-2 gap-4 mt-4 mb-6">
-                {consumableItemsFromApi.map(item => (
-                  <div key={item.itemId} className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${selectedItem===item.itemId ? "border-blue-400" : "border-[#737373]"}`} onClick={() => handleSelectItem(item.itemId)}>
-                    <div className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center" style={{ background: getBackgroundGradient(item.itemName) }}>
-                      <img src={Images.Discount} alt="Discount" className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover" />
-                      <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
+        {/* Consumable Items */}
+        <div className="w-full mb-4">
+          <button className="flex items-start justify-between w-full" onClick={() => { playSfx(Audios.button_click); setIsConsumableOpen(!isConsumableOpen); }}>
+            <span className="text-base font-semibold">Consumable Items</span>
+            {isConsumableOpen ? <IoChevronUpOutline className="w-5 h-5" /> : <IoChevronDownOutline className="w-5 h-5" />}
+          </button>
+          <AnimatePresence>
+            {isConsumableOpen && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
+                <div className="grid grid-cols-2 gap-4 mt-4 mb-6">
+                  {consumableItemsFromApi.map(item => (
+                    <div key={item.itemId} className={`bg-[#1F1E27] border-2 p-[10px] rounded-xl flex flex-col items-center ${selectedItem === item.itemId ? "border-blue-400" : "border-[#737373]"}`} onClick={() => handleSelectItem(item.itemId)}>
+                      <div className="relative w-full aspect-[145/102] rounded-md mt-1 mx-1 overflow-hidden flex items-center justify-center" style={{ background: getBackgroundGradient(item.itemName) }}>
+                        <img src={["REWARD BOOSTER", "DICE"].includes(item.itemName.toUpperCase()) ? Images.Discount50 : Images.Discount} alt="Discount" className="absolute top-1 left-1 w-[45px] md:w-[90px] h-[20px] md:h-[40px] object-cover" />
+                        <img src={item.itemUrl} alt={item.itemName} className="w-[80px] h-[80px] object-cover" />
+                      </div>
+                      <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
+                      <div className="mt-1">{customText(item.itemName)}</div>
                     </div>
-                    <p className="mt-2 text-sm font-semibold">{item.itemName}</p>
-                    <div className="mt-1">{customText(item.itemName)}</div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* 체크박스 및 결제 버튼 영역 */}
         <div className="mt-5 px-6">
@@ -613,16 +613,16 @@ const ItemStore: React.FC = () => {
                 </a>
               </span>
             </label>
-            
+
             {/* 아이템 효과 중첩 안내 */}
             <div className="flex justify-center items-center gap-2">
               <img
-                  src={Images.Note}
-                  alt="gift-icon"
-                  className="w-7 h-7"
+                src={Images.Note}
+                alt="gift-icon"
+                className="w-7 h-7"
               />
               <p className="text-center text-lg font-normal text-[#FDE047]">
-                  {t("asset_page.note")}
+                {t("asset_page.note")}
               </p>
             </div>
           </div>
@@ -750,7 +750,7 @@ const ItemStore: React.FC = () => {
             </AlertDialogHeader>
             <div className="flex flex-col items-center justify-center text-center space-y-4">
               <p className="text-sm font-semibold mt-4">
-                {t("asset_page.need_wallet_balance")}                
+                {t("asset_page.need_wallet_balance")}
               </p>
               <img
                 src={Images.ConnectButton}
