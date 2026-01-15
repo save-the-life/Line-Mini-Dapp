@@ -37,9 +37,9 @@ const Reward: React.FC = () => {
 
   // 날짜 포맷 및 번역
   const dateFormat = t("date_format_md");
-  const event2 = new Date(2026, 0, 15);
-  const event3 = new Date(2026, 1, 15);
-  const event4 = new Date(2026, 2, 15);
+  const event2 = new Date(2026, 1, 15);
+  const event3 = new Date(2026, 2, 15);
+  const event4 = new Date(2026, 3, 15);
 
   useEffect(() => {
     fetchLeaderHome();
@@ -131,7 +131,7 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.ten")} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.eleven")} {t("reward_page.this_month")}</p>
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
             <img 
               className="w-4 h-4"
@@ -151,7 +151,7 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.eleven")} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.twelve")} {t("reward_page.this_month")}</p>
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
             <img 
               className="w-4 h-4"
@@ -171,7 +171,7 @@ const Reward: React.FC = () => {
             flex flex-col items-center justify-center
             p-2
           ">
-            <p className="text-xs font-normal text-white text-center">{t("reward_page.twelve")} {t("reward_page.this_month")}</p>
+            <p className="text-xs font-normal text-white text-center">{t("reward_page.thirdteen")} {t("reward_page.this_month")}</p>
             <p className="text-xs font-normal text-white text-center">{t("reward_page.ranking_rewards")}</p>
             <img 
               className="w-4 h-4"
