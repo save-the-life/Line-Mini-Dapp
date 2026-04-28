@@ -54,7 +54,7 @@ export async function connectWallet(): Promise<{
 
   const walletProvider = sdk.getWalletProvider();
   
-  const message = "Welcome to Mini Dapp";
+  const message = "Welcome to Unifi";
   const [account, signature] = (await walletProvider.request({
     method: "kaia_connectAndSign",
     params: [message],

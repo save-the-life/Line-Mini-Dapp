@@ -304,13 +304,18 @@ const ConnectWalletPage: React.FC = () => {
       />
       <motion.button
         onClick={() => handleConnectWallet()}
-        className="relative w-[342px] h-[56px]"
+        className="relative w-[342px] h-[56px] flex items-center justify-center gap-3 rounded-2xl bg-white shadow-md disabled:opacity-60"
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
         animate={shouldReduceMotion ? {} : { opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
         disabled={isAutoLoginInProgress}
       >
-        <img src={Images.ConnectButton} alt="Wallet Icon" />
+        <img
+          src="/Unifi_Logo_Primary_1024_1024.svg"
+          alt="Unifi"
+          className="h-8 w-auto"
+        />
+        <span className="text-base font-semibold text-[#111111]">Connect</span>
       </motion.button>
       {isAutoLoginInProgress && (
         <motion.div
