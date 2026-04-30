@@ -4,7 +4,9 @@
       "Bash(dir \"C:\\Users\\dhwan\\Desktop\\work\\line\" /B /A:D)",
       "Bash(npm run build:*)",
       "WebFetch(domain:docs.unifi.me)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(npm install *)",
+      "Bash(npm ls *)"
     ],
     "deny": [],
     "ask": []
