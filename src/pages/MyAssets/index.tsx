@@ -25,7 +25,7 @@ import getMyAssets from "@/entities/Asset/api/getMyAssets";
 import requestClaim from "@/entities/Asset/api/requestClaim";
 import requestUSDTClaim from "@/entities/Asset/requrstUSDTClaim";
 import useWalletStore from "@/shared/store/useWalletStore";
-import { connectWallet } from "@/shared/services/walletService";
+import { connectWallet, disconnectWallet } from "@/shared/services/walletService";
 
 interface TruncateMiddleProps {
     text: any;
@@ -84,7 +84,7 @@ const MyAssets: React.FC = () => {
     const [showHistoryModal, setShowHistoryModal] = useState(false);
       const [copySuccess, setCopySuccess] = useState(false);
     
-    const { walletAddress, provider, sdk, clearWallet } = useWalletStore();
+    const { walletAddress, provider, sdk } = useWalletStore();
 
     // 지갑 연결 취소 플래그 관련 유틸리티 함수들
     const getWalletCancelDate = (): string | null => {
@@ -401,11 +401,14 @@ const MyAssets: React.FC = () => {
             } else {
                 // console.log("지갑 주소 X >> 지갑 연결 후 잔액 조회 진행");
                 if (provider && provider.disconnectWallet) {
-                    // console.log("provider가 존재한다면 지갑 연결 해제");
-                    provider.disconnectWallet();
-                    clearWallet();
+                    // 다음 연결에서 다른 wallet 타입을 선택할 수 있도록 SDK 측 연결도 해제한다.
+                    try {
+                        await disconnectWallet();
+                    } catch (e) {
+                        // 사용자가 SDK 확인 팝업을 닫은 경우 등은 무시하고 진행
+                    }
                 }
-                
+
                 // 오늘 취소한 경우가 아니면 지갑 연결 시도
                 if (!isWalletCanceledToday()) {
                     await handleBalance();
@@ -458,10 +461,11 @@ const MyAssets: React.FC = () => {
             // console.log("결제 내역 확인 중 에러 발생: ", error);
             if (error instanceof TypeError) {
                 // console.error("TypeError 발생:", error);
-                if (provider && provider.disconnectWallet) {
-                    // console.log("지갑 연결 해제");
-                    provider.disconnectWallet();
-                    clearWallet();
+                // 다음 연결에서 다른 wallet 타입을 선택할 수 있도록 SDK 측 연결을 해제한다.
+                try {
+                    await disconnectWallet();
+                } catch (e) {
+                    // disconnect 단계의 오류는 무시하고 재연결 흐름으로 진행
                 }
                 alert("TypeError가 발생했습니다. 지갑을 다시 연결합니다.");
                 try {

@@ -595,7 +595,12 @@
         "save": "貯蔵",
         "edit_nickname": "ニックネームの編集",
         "max_length": "ニックネームの長さは最大 8 文字です。",
-        "duplicate": "ニックネームが重複しています。"
+        "duplicate": "ニックネームが重複しています。",
+        "disconnect_wallet": "ウォレットの接続解除",
+        "disconnect_wallet_desc": "現在接続中のウォレットを切断します。\n次回の接続時に別のウォレットタイプを選択できます。",
+        "disconnect_confirm": "接続解除",
+        "disconnecting": "接続を解除中...",
+        "cancel": "キャンセル"
     },
     "user_level": {
         "message_1": "こんにちは、<br/>サイコロを振る準備はできましたか？",

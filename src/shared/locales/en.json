@@ -594,7 +594,12 @@
       "save": "Save",
       "edit_nickname": "Edit Nickname",
       "max_length": "Nicknames can be up to 8 characters long.",
-      "duplicate": "Duplicate nickname."
+      "duplicate": "Duplicate nickname.",
+      "disconnect_wallet": "Disconnect Wallet",
+      "disconnect_wallet_desc": "You will be disconnected from the current wallet.\nNext time you connect, you can choose a different wallet type.",
+      "disconnect_confirm": "Disconnect",
+      "disconnecting": "Disconnecting...",
+      "cancel": "Cancel"
     },
     "user_level": {
       "message_1": "Hey there, <br/>ready to roll?",
