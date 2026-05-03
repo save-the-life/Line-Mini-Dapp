@@ -6,7 +6,9 @@
       "WebFetch(domain:docs.unifi.me)",
       "Bash(npx tsc *)",
       "Bash(npm install *)",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:registry.npmjs.org)"
     ],
     "deny": [],
     "ask": []

@@ -64,9 +64,27 @@ class SDKService {
   private async performInitialization(): Promise<any> {
     try {
       console.log("[SDK Service] SDK 초기화 시작...");
+      const rawClientId = import.meta.env.VITE_LINE_CLIENT_ID;
+      const clientId = rawClientId || "";
+      const chainId = "8217";
+      // 환경변수가 빌드 타임에 제대로 주입됐는지 확인 (값 자체는 노출 회피용으로 마스킹)
+      console.log("[SDK Service] init params:", {
+        hasClientId: !!rawClientId,
+        clientIdLength: clientId.length,
+        clientIdPreview: clientId
+          ? `${clientId.slice(0, 6)}...${clientId.slice(-4)}`
+          : "EMPTY",
+        clientIdType: typeof rawClientId,
+        chainId,
+      });
+      if (!rawClientId) {
+        console.warn(
+          "[SDK Service] ⚠️ VITE_LINE_CLIENT_ID 가 비어 있습니다. 빌드 환경변수 누락 가능성. SDK 가 빈 clientId 로 초기화됩니다."
+        );
+      }
       globalSDKInstance = await DappPortalSDK.init({
-        clientId: import.meta.env.VITE_LINE_CLIENT_ID || "",
-        chainId: "8217",
+        clientId,
+        chainId,
       });
       console.log("[SDK Service] SDK 초기화 성공:", globalSDKInstance);
       return globalSDKInstance;
