@@ -23,6 +23,45 @@ const checkIsMobile = (): boolean =>
     navigator.userAgent
   );
 
+// 브라우저에 익스텐션 wallet 이 주입되어 있는지 감지.
+// 익스텐션이 있으면 SDK 가 reown 모달을 거치지 않고 직접 provider 와 통신하므로
+// 현재 SDK 1.6.0 의 reown 모달 버그를 우회 가능하다.
+const hasExtensionWallet = (): boolean => {
+  if (typeof window === "undefined") return false;
+  const w = window as unknown as Record<string, unknown>;
+  return Boolean(
+    w.ethereum ||
+      w.bitkeep ||
+      w.bitget ||
+      w.okxwallet ||
+      w.kaia ||
+      w.klaytn
+  );
+};
+
+// 추천 지갑 익스텐션 목록. SDK 가 지원하는 wallet 우선.
+const RECOMMENDED_WALLETS: ReadonlyArray<{
+  name: string;
+  url: string;
+  description: string;
+}> = [
+  {
+    name: "Bitget Wallet",
+    url: "https://web3.bitget.com/en/wallet-download",
+    description: "Multi-chain wallet supporting Kaia",
+  },
+  {
+    name: "OKX Wallet",
+    url: "https://www.okx.com/web3",
+    description: "Multi-chain wallet supporting Kaia",
+  },
+  {
+    name: "Kaia Wallet",
+    url: "https://www.kaiawallet.io/",
+    description: "Official Kaia wallet",
+  },
+];
+
 // 502 에러 여부를 판단하는 헬퍼 함수
 const is502Error = (error: any): boolean => {
   if (error?.code === "ERR_BAD_RESPONSE") {
@@ -57,6 +96,7 @@ const ConnectWalletPage: React.FC = () => {
   const [isAutoLoginInProgress, setIsAutoLoginInProgress] =
     useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
+  const [showExtensionGuide, setShowExtensionGuide] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
@@ -197,6 +237,15 @@ const ConnectWalletPage: React.FC = () => {
     // 중복 클릭 방지: 이미 진행 중이면 무시 (SDK 내부 -32603 "Already processing" 락 방지)
     if (!retry && isConnecting) {
       console.warn("[ConnectWallet] 이미 지갑 연결 진행 중 - 중복 클릭 무시");
+      return;
+    }
+    // PC 환경에서 익스텐션 wallet 미설치 시 안내 모달 표시 후 종료.
+    // (SDK 1.6.0 의 reown 모달 플로우 버그로, PC 는 익스텐션 경로만 정상 동작)
+    if (!retry && !checkIsMobile() && !hasExtensionWallet()) {
+      console.log(
+        "[ConnectWallet] PC 환경 + 익스텐션 미설치 감지 → 설치 안내 모달 표시"
+      );
+      setShowExtensionGuide(true);
       return;
     }
     if (!retry) setIsConnecting(true);
@@ -361,7 +410,82 @@ const ConnectWalletPage: React.FC = () => {
           {isConnecting ? "지갑 연결 중..." : "자동 로그인 중..."}
         </motion.div>
       )}
+
+      {showExtensionGuide && (
+        <ExtensionGuideModal onClose={() => setShowExtensionGuide(false)} />
+      )}
     </div>
+  );
+};
+
+// PC 환경 + 익스텐션 미설치 사용자에게 표시할 안내 모달.
+// 임시 mitigation 용 — Tech 측 SDK 패치 후 reown 모달 플로우가 복구되면 노출 빈도가 줄어든다.
+const ExtensionGuideModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  return (
+    <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Wallet extension required"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-5"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="w-full max-w-[360px] rounded-2xl bg-[#1c1f2a] p-6 shadow-xl"
+        initial={{ y: 24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-white text-lg font-bold mb-2">
+          지갑 익스텐션이 필요합니다
+        </h2>
+        <p className="text-white/70 text-sm leading-relaxed mb-4">
+          PC 웹에서 연결하려면 아래 지갑 익스텐션 중 하나를 설치한 뒤
+          페이지를 새로고침해주세요.
+          <br />
+          <span className="text-white/50 text-xs">
+            Please install one of the wallet extensions below and refresh the
+            page.
+          </span>
+        </p>
+
+        <ul className="flex flex-col gap-2 mb-5">
+          {RECOMMENDED_WALLETS.map((w) => (
+            <li key={w.name}>
+              <a
+                href={w.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col gap-0.5 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white hover:bg-white/10 transition-colors"
+              >
+                <span className="text-sm font-semibold">{w.name}</span>
+                <span className="text-xs text-white/60">{w.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="flex-1 rounded-xl bg-white py-3 text-sm font-semibold text-[#111] hover:bg-white/90"
+          >
+            새로고침
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 rounded-xl border border-white/20 py-3 text-sm font-semibold text-white hover:bg-white/10"
+          >
+            닫기
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
