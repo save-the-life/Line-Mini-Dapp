@@ -192,9 +192,11 @@ const ConnectWalletPage: React.FC = () => {
   }, []);
 
   const handleConnectWallet = async (retry = false) => {
+    console.log("[ConnectWallet] handleConnectWallet 시작", { retry });
     try {
       // 외부 모듈에서 지갑 연결 및 전역 상태 업데이트 수행
       await connectWallet();
+      console.log("[ConnectWallet] connectWallet 완료");
 
       // 연결된 지갑 주소와 지갑 타입을 상태에서 가져옴
       const { walletAddress, walletType, clearWallet } =
@@ -255,6 +257,23 @@ const ConnectWalletPage: React.FC = () => {
         navigate("/dice-event");
       }
     } catch (error: any) {
+      // 에러 객체를 가능한 모든 형태로 풀어서 출력 (LIFF/모바일에서 Eruda 로 봐야 하므로)
+      console.error("[ConnectWallet] handleConnectWallet 에러 발생");
+      console.error("[ConnectWallet] message:", error?.message);
+      console.error("[ConnectWallet] code:", error?.code);
+      console.error("[ConnectWallet] data:", error?.data);
+      console.error("[ConnectWallet] name:", error?.name);
+      console.error("[ConnectWallet] response.status:", error?.response?.status);
+      console.error("[ConnectWallet] response.data:", error?.response?.data);
+      console.error("[ConnectWallet] stack:", error?.stack);
+      try {
+        const ownKeys = error ? Object.getOwnPropertyNames(error) : [];
+        const dump: Record<string, unknown> = {};
+        ownKeys.forEach((k) => { try { dump[k] = error[k]; } catch { /* noop */ } });
+        console.error("[ConnectWallet] ownProps:", dump);
+      } catch { /* noop */ }
+      console.error("[ConnectWallet] raw:", error);
+
       if (is502Error(error)) {
         console.log("502 에러 감지됨 -> MaintenanceScreen 표시");
         setShowMaintenance(true);

@@ -1,6 +1,44 @@
 // walletService.ts
+import liff from "@line/liff";
 import useWalletStore from "../store/useWalletStore";
 import SDKService from "./sdkServices";
+
+// 디버그 로그 helper — 에러 객체를 가능한 모든 형태로 풀어서 출력한다.
+// (LIFF/모바일 환경은 Eruda 로 콘솔을 봐야 하므로 한눈에 들어오게 prefix 통일)
+const logError = (tag: string, error: any) => {
+  console.error(`[지갑 연결][${tag}] 에러 발생`);
+  try {
+    console.error(`[지갑 연결][${tag}] message:`, error?.message);
+    console.error(`[지갑 연결][${tag}] code:`, error?.code);
+    console.error(`[지갑 연결][${tag}] data:`, error?.data);
+    console.error(`[지갑 연결][${tag}] name:`, error?.name);
+    console.error(`[지갑 연결][${tag}] stack:`, error?.stack);
+    // 일부 SDK 에러는 enumerable 하지 않은 프로퍼티를 가진다.
+    const ownKeys = error ? Object.getOwnPropertyNames(error) : [];
+    const dump: Record<string, unknown> = {};
+    ownKeys.forEach((k) => {
+      try { dump[k] = (error as any)[k]; } catch { /* noop */ }
+    });
+    console.error(`[지갑 연결][${tag}] ownProps:`, dump);
+    console.error(`[지갑 연결][${tag}] raw:`, error);
+  } catch (e) {
+    console.error(`[지갑 연결][${tag}] 에러 직렬화 실패:`, e);
+  }
+};
+
+const logEnv = () => {
+  let isInClient: unknown = "unknown";
+  try { isInClient = liff?.isInClient ? liff.isInClient() : "liff-not-ready"; } catch (e) { isInClient = `err:${(e as Error).message}`; }
+  console.log("[지갑 연결] 환경 정보:", {
+    origin: window.location.origin,
+    host: window.location.host,
+    href: window.location.href,
+    protocol: window.location.protocol,
+    isInClient,
+    userAgent: navigator.userAgent,
+    timestamp: new Date().toISOString(),
+  });
+};
 
 /**
  * 지갑 연결 해제 함수 (Unifi Apps SDK 가이드 준수)
@@ -81,43 +119,95 @@ export async function connectWallet(): Promise<{
 }> {
   const { setWalletAddress, setProvider, setWalletType, setSdk, setInitialized } =
     useWalletStore.getState();
-  
-  // SDKService를 통해 SDK 초기화 (싱글톤)
-  const sdkService = SDKService.getInstance();
-  const sdk = await sdkService.initialize();
-  
-  // SDK 초기화 성공 시, 콘솔 로그 출력 및 상태 업데이트
-  console.log("[지갑 연결] sdk 초기화 성공: ", sdk);
-  setInitialized(true);
 
-  const walletProvider = sdk.getWalletProvider();
-  
+  console.log("[지갑 연결] connectWallet 호출 시작");
+  logEnv();
+
+  // 1) SDK 초기화
+  let sdk: any;
+  try {
+    const sdkService = SDKService.getInstance();
+    sdk = await sdkService.initialize();
+    console.log("[지갑 연결] SDK 초기화 성공:", sdk);
+    setInitialized(true);
+  } catch (error) {
+    logError("SDK init", error);
+    throw error;
+  }
+
+  // 2) walletProvider 획득
+  let walletProvider: any;
+  try {
+    walletProvider = sdk.getWalletProvider();
+    let preWalletType: unknown = "unknown";
+    try { preWalletType = walletProvider?.getWalletType?.(); } catch (e) { preWalletType = `err:${(e as Error).message}`; }
+    console.log("[지갑 연결] walletProvider 획득:", {
+      hasProvider: !!walletProvider,
+      preWalletType,
+    });
+  } catch (error) {
+    logError("getWalletProvider", error);
+    throw error;
+  }
+
+  // 3) kaia_connectAndSign 요청 (연결 + 서명 동시)
   const message = "Welcome to Unifi";
-  const [account, signature] = (await walletProvider.request({
-    method: "kaia_connectAndSign",
-    params: [message],
-  })) as string[];
+  let account: string | undefined;
+  let signature: string | undefined;
+  try {
+    console.log("[지갑 연결] kaia_connectAndSign 요청 시작:", { message });
+    const startedAt = Date.now();
+    const result = (await walletProvider.request({
+      method: "kaia_connectAndSign",
+      params: [message],
+    })) as string[];
+    const elapsedMs = Date.now() - startedAt;
+    console.log("[지갑 연결] kaia_connectAndSign 응답 수신:", {
+      elapsedMs,
+      isArray: Array.isArray(result),
+      length: Array.isArray(result) ? result.length : null,
+      raw: result,
+    });
+    [account, signature] = result || [];
+    console.log("[지갑 연결] 응답 분해:", {
+      account,
+      signaturePreview: signature ? `${signature.slice(0, 10)}...${signature.slice(-6)}` : signature,
+    });
+  } catch (error) {
+    logError("kaia_connectAndSign", error);
+    throw error;
+  }
 
-  const walletType = walletProvider.getWalletType() || null;
-  
+  // 4) walletType 확인
+  let walletType: any = null;
+  try {
+    walletType = walletProvider.getWalletType() || null;
+    console.log("[지갑 연결] walletType:", walletType);
+  } catch (error) {
+    logError("getWalletType", error);
+  }
+
   if (!account) {
+    console.error("[지갑 연결] account 가 비어 있음. 연결 실패로 간주.");
     throw new Error("지갑 연결 실패");
   }
-  
+
   const walletAddress = account;
-  
+
   if (account && walletType) {
     // Zustand Store 업데이트
     setWalletAddress(account);
     setWalletType(walletType);
     setSdk(sdk);
     setProvider(walletProvider);
-    
+
     // localStorage에 지갑 연결 정보 저장 (메인 브랜치와 동일한 방식)
     localStorage.setItem('walletAddress', account);
     localStorage.setItem('isWalletConnected', 'true');
     console.log("[지갑 연결] localStorage에 연결 정보 저장 완료:", account);
+  } else {
+    console.warn("[지갑 연결] walletType 누락 - store 갱신 생략", { account, walletType });
   }
-  
+
   return { walletAddress, provider: walletProvider, walletType, sdk };
 }
