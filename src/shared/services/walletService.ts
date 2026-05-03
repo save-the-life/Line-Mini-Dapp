@@ -40,6 +40,37 @@ const logEnv = () => {
   });
 };
 
+// kaia_connectAndSign 이 응답 없이 영원히 hang 되는 케이스 방지용 타임아웃 헬퍼.
+// SDK 1.6.0 의 reown 호출이 실패하면 응답이 안 오므로, 일정 시간 후 명시적으로 에러를 발생시킨다.
+const KAIA_CONNECT_TIMEOUT_MS = 60_000;
+
+class ConnectTimeoutError extends Error {
+  code = -32099;
+  constructor(elapsedMs: number) {
+    super(`kaia_connectAndSign 응답 대기 ${elapsedMs}ms 초과 (timeout)`);
+    this.name = "ConnectTimeoutError";
+  }
+}
+
+const withTimeout = <T,>(promise: Promise<T>, ms: number): Promise<T> => {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new ConnectTimeoutError(ms)), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => {
+    if (timer) clearTimeout(timer);
+  }) as Promise<T>;
+};
+
+// "Already processing request to wallet" 같은 SDK 내부 락 에러 식별용.
+// 한 번 락이 걸리면 SDK 인스턴스를 reset 해야 다음 클릭이 동작한다.
+const isStuckLockError = (error: any): boolean => {
+  if (!error) return false;
+  if (error?.code === -32603) return true;
+  if (typeof error?.message === "string" && /already processing/i.test(error.message)) return true;
+  return false;
+};
+
 /**
  * 지갑 연결 해제 함수 (Unifi Apps SDK 가이드 준수)
  *
@@ -150,17 +181,20 @@ export async function connectWallet(): Promise<{
     throw error;
   }
 
-  // 3) kaia_connectAndSign 요청 (연결 + 서명 동시)
+  // 3) kaia_connectAndSign 요청 (연결 + 서명 동시) — 60초 타임아웃 + 락 자동 복구
   const message = "Welcome to Unifi";
   let account: string | undefined;
   let signature: string | undefined;
   try {
-    console.log("[지갑 연결] kaia_connectAndSign 요청 시작:", { message });
+    console.log("[지갑 연결] kaia_connectAndSign 요청 시작:", { message, timeoutMs: KAIA_CONNECT_TIMEOUT_MS });
     const startedAt = Date.now();
-    const result = (await walletProvider.request({
-      method: "kaia_connectAndSign",
-      params: [message],
-    })) as string[];
+    const result = (await withTimeout(
+      walletProvider.request({
+        method: "kaia_connectAndSign",
+        params: [message],
+      }) as Promise<string[]>,
+      KAIA_CONNECT_TIMEOUT_MS
+    )) as string[];
     const elapsedMs = Date.now() - startedAt;
     console.log("[지갑 연결] kaia_connectAndSign 응답 수신:", {
       elapsedMs,
@@ -175,6 +209,18 @@ export async function connectWallet(): Promise<{
     });
   } catch (error) {
     logError("kaia_connectAndSign", error);
+    // 타임아웃이거나 SDK 내부 락 에러("Already processing")인 경우, SDK 인스턴스를 reset 해
+    // 다음 사용자 시도가 곧바로 락 에러를 또 만나는 상황을 방지한다.
+    const isTimeout = error instanceof ConnectTimeoutError;
+    if (isTimeout || isStuckLockError(error)) {
+      try {
+        console.warn("[지갑 연결] SDK 락/타임아웃 감지 → SDKService reset & store 정리");
+        useWalletStore.getState().clearWallet();
+        SDKService.getInstance().reset();
+      } catch (resetErr) {
+        console.error("[지갑 연결] SDK reset 중 추가 오류:", resetErr);
+      }
+    }
     throw error;
   }
 

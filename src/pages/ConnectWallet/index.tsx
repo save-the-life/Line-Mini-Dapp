@@ -56,6 +56,7 @@ const ConnectWalletPage: React.FC = () => {
   const [showMaintenance, setShowMaintenance] = useState<boolean>(false);
   const [isAutoLoginInProgress, setIsAutoLoginInProgress] =
     useState<boolean>(false);
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMobile(checkIsMobile());
@@ -193,6 +194,12 @@ const ConnectWalletPage: React.FC = () => {
 
   const handleConnectWallet = async (retry = false) => {
     console.log("[ConnectWallet] handleConnectWallet 시작", { retry });
+    // 중복 클릭 방지: 이미 진행 중이면 무시 (SDK 내부 -32603 "Already processing" 락 방지)
+    if (!retry && isConnecting) {
+      console.warn("[ConnectWallet] 이미 지갑 연결 진행 중 - 중복 클릭 무시");
+      return;
+    }
+    if (!retry) setIsConnecting(true);
     try {
       // 외부 모듈에서 지갑 연결 및 전역 상태 업데이트 수행
       await connectWallet();
@@ -301,6 +308,12 @@ const ConnectWalletPage: React.FC = () => {
       } else {
         console.error("에러 발생:", error.message || error);
       }
+    } finally {
+      // 외곽 호출(retry=false) 종료 시점에만 상태 해제 — 재귀 retry 도중에는 유지
+      if (!retry) {
+        setIsConnecting(false);
+        console.log("[ConnectWallet] handleConnectWallet 종료 - isConnecting 해제");
+      }
     }
   };
 
@@ -323,27 +336,29 @@ const ConnectWalletPage: React.FC = () => {
       />
       <motion.button
         onClick={() => handleConnectWallet()}
-        className="relative w-[342px] h-[56px] flex items-center justify-center gap-3 rounded-2xl bg-white shadow-md disabled:opacity-60"
+        className="relative w-[342px] h-[56px] flex items-center justify-center gap-3 rounded-2xl bg-white shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
         animate={shouldReduceMotion ? {} : { opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeInOut", delay: 0.4 }}
-        disabled={isAutoLoginInProgress}
+        disabled={isAutoLoginInProgress || isConnecting}
       >
         <img
           src="/Unifi_Logo_Primary_1024_1024.svg"
           alt="Unifi"
           className="h-8 w-auto"
         />
-        <span className="text-base font-semibold text-[#111111]">Connect</span>
+        <span className="text-base font-semibold text-[#111111]">
+          {isConnecting ? "Connecting..." : "Connect"}
+        </span>
       </motion.button>
-      {isAutoLoginInProgress && (
+      {(isAutoLoginInProgress || isConnecting) && (
         <motion.div
           className="mt-4 text-white text-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          자동 로그인 중...
+          {isConnecting ? "지갑 연결 중..." : "자동 로그인 중..."}
         </motion.div>
       )}
     </div>
