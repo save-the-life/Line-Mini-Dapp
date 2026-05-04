@@ -236,6 +236,25 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           }
         }
 
+        // [실험] 지갑 미연결 시 wallet selection 페이지로 우선 이동.
+        // LIFF/모바일도 웹처럼 진입 직후 wallet 연결을 유도하면 SuperZ 처럼 reown 모달이 정상
+        // 표시되는지 확인하기 위함. ConnectWallet 의 attemptAutoLogin 이 이미 연결된 케이스를
+        // 자동 처리하므로 별도 분기 불필요.
+        const isWalletConnected = localStorage.getItem("isWalletConnected") === "true";
+        const savedWalletAddress = localStorage.getItem("walletAddress");
+        console.log("[AppInitializer] (5) wallet 연결 상태 체크", {
+          isWalletConnected,
+          hasSavedAddress: !!savedWalletAddress,
+        });
+
+        if (!isWalletConnected || !savedWalletAddress) {
+          console.log("[AppInitializer] (5) 지갑 미연결 → /connect-wallet 으로 이동 (LIFF wallet-first 실험)");
+          safeNavigate("/connect-wallet");
+          return;
+        }
+
+        console.log("[AppInitializer] (5) 지갑 이미 연결됨 → 기존 흐름 (dice-event/promotion)");
+
         // 프로모션 레퍼럴 코드 처리
         const referralCode = localStorage.getItem("referralCode");
         if (referralCode === SPECIAL_REFERRAL_CODES.DAPP_PORTAL_PROMOTIONS) {
@@ -350,6 +369,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       if (initializedRef.current) return;
       initializedRef.current = true;
 
+      console.log("[AppInitializer] ===== 앱 초기화 시작 =====");
+      console.log("[AppInitializer] 실험 모드: liff.init() 후 isInClient() 체크 + SDK init 을 wallet connect 시점으로 deferral");
+
       try {
         // 레퍼럴 코드 설정
         extractAndSaveReferralCode();
@@ -357,15 +379,12 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
         // 언어 설정
         initializeLanguage();
 
-        // 외부 브라우저 체크
-        if (!liff.isInClient()) {
-          navigate("/connect-wallet");
-          setShowSplash(false);
-          onInitialized();
-          return;
-        }
-
-        // LIFF 초기화
+        // [실험] LIFF 초기화 — isInClient() 체크보다 먼저 실행해야 LIFF SDK 가 환경 컨텍스트를 정확히 잡는다.
+        // (이전엔 isInClient() 가 init() 이전에 호출되고 있었음)
+        console.log("[AppInitializer] (1) liff.init() 호출 — 환경 무관 모두 실행", {
+          liffId: import.meta.env.VITE_LIFF_ID ? `${String(import.meta.env.VITE_LIFF_ID).slice(0, 6)}...` : "EMPTY",
+        });
+        const liffInitStart = Date.now();
         await withTimeout(
           liff.init({
             liffId: import.meta.env.VITE_LIFF_ID,
@@ -374,13 +393,45 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
           TIMEOUT_MS,
           "LIFF init Timeout"
         );
+        console.log("[AppInitializer] (1) liff.init() 완료", {
+          elapsedMs: Date.now() - liffInitStart,
+        });
 
-        // SDK 초기화
-        const sdkService = SDKService.getInstance();
-        await sdkService.initialize();
+        // [실험] LIFF init 완료 후 환경 체크
+        let isInClient = false;
+        try { isInClient = liff.isInClient(); } catch (e) { console.warn("[AppInitializer] liff.isInClient() 호출 실패:", e); }
+        let isLoggedIn: boolean | string = "unknown";
+        try { isLoggedIn = liff.isLoggedIn(); } catch (e) { isLoggedIn = `err:${(e as Error).message}`; }
+        let hasAccessToken = false;
+        try { hasAccessToken = !!liff.getAccessToken(); } catch { hasAccessToken = false; }
+        console.log("[AppInitializer] (2) LIFF 환경 체크", {
+          isInClient,
+          isLoggedIn,
+          hasAccessToken,
+        });
 
-        // 토큰 흐름 처리
+        // 외부 브라우저(PC 웹 등) → connect-wallet 페이지로 이동
+        if (!isInClient) {
+          console.log("[AppInitializer] (3) 외부 브라우저 감지 → /connect-wallet 으로 이동 (SDK init 은 ConnectWallet 페이지의 attemptAutoLogin/handleConnectWallet 에서 lazy)");
+          navigate("/connect-wallet");
+          setShowSplash(false);
+          onInitialized();
+          return;
+        }
+
+        // [실험] SDK init 을 여기서 하지 않음 — wallet connect 시점의 lazy init 으로 미룸.
+        // 가설: Unifi 백엔드의 clientId↔projectId 매핑 활성화가 LIFF 로그인 컨텍스트에 의존할 가능성.
+        //       SDK init 이 LIFF 로그인 토큰 확보 전에 실행되면 매핑이 부분적으로만 적용될 수 있음.
+        console.log("[AppInitializer] (3) LINE LIFF 환경 — SDK init 은 wallet connect 시점으로 미룸 (deferred lazy init)");
+
+        // 토큰 흐름 처리 (LIFF 인증 → 서버 액세스 토큰)
+        console.log("[AppInitializer] (4) handleTokenFlow 시작");
+        const tokenFlowStart = Date.now();
         await handleTokenFlow();
+        console.log("[AppInitializer] (4) handleTokenFlow 완료", {
+          elapsedMs: Date.now() - tokenFlowStart,
+        });
+        console.log("[AppInitializer] ===== 앱 초기화 정상 완료 =====");
       } catch (error) {
         if (isServerError(error)) {
           isServerErrorRef.current = true;
