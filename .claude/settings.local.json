@@ -16,6 +16,7 @@
       "PowerShell(npm.cmd run build 2>&1 | Out-String; Write-Output \"===EXIT CODE: $LASTEXITCODE===\")"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "defaultMode": "bypassPermissions"
   }
 }
