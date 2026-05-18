@@ -13,7 +13,8 @@
       "PowerShell(npm.cmd install 2>&1 | Out-String; Write-Output \"===EXIT CODE: $LASTEXITCODE===\")",
       "Bash(node -e \"const pl=require\\('./package-lock.json'\\); const want=['@linenext/dapp-portal-sdk','@reown/appkit','@reown/appkit-wallet-button','@reown/appkit-controllers','@reown/appkit-scaffold-ui','@walletconnect/universal-provider']; for\\(const k of want\\){const v=pl.packages['node_modules/'+k]; console.log\\(k.padEnd\\(45\\), v?v.version:'\\(not found\\)'\\)}\")",
       "PowerShell(npx.cmd tsc --noEmit 2>&1 | Out-String; Write-Output \"===EXIT CODE: $LASTEXITCODE===\")",
-      "PowerShell(npm.cmd run build 2>&1 | Out-String; Write-Output \"===EXIT CODE: $LASTEXITCODE===\")"
+      "PowerShell(npm.cmd run build 2>&1 | Out-String; Write-Output \"===EXIT CODE: $LASTEXITCODE===\")",
+      "Bash(npm ci *)"
     ],
     "deny": [],
     "ask": [],
