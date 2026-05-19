@@ -2,9 +2,7 @@ name: Frontend Build and Deploy
 
 on:
   push:
-    branches: [ "chore/migrate-deploy-to-hpe" ]
-    # TEMP: deploying from migration branch for live workflow validation.
-    # Restore to [ "main" ] before merging this branch into main.
+    branches: [ "main" ]
   workflow_dispatch: {}
     # Manual trigger — kept permanently as a redeploy safety net.
 
