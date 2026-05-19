@@ -10,7 +10,11 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, korea]
+    # Self-hosted runner on the HPE server (Korean IP).
+    # The HPE server's SSH is restricted to Korean IPs, so GitHub-hosted runners
+    # can't reach it. The runner runs as the digiray user, with direct local
+    # access to DEPLOY_PATH — no SSH/rsync-over-network needed.
 
     steps:
       - name: Checkout code
@@ -35,24 +39,18 @@ jobs:
       - name: List dist folder
         run: ls -alh dist
 
-      - name: Setup SSH for deploy
+      - name: Deploy via local rsync
         run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Deploy via rsync
-        run: |
-          rsync -avz --delete-after \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o IdentitiesOnly=yes" \
+          rsync -av --delete-after \
             dist/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
+            ${{ secrets.DEPLOY_PATH }}
 
       - name: Post-deploy verification
         run: |
-          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} -o IdentitiesOnly=yes \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "cd ${{ secrets.DEPLOY_PATH }} && echo '== file count ==' && find . -type f | wc -l && echo '== total size ==' && du -sh . && echo '== index.html sha256 ==' && sha256sum index.html"
+          cd ${{ secrets.DEPLOY_PATH }}
+          echo "== file count =="
+          find . -type f | wc -l
+          echo "== total size =="
+          du -sh .
+          echo "== index.html sha256 =="
+          sha256sum index.html
