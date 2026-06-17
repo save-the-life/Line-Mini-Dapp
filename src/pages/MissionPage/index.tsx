@@ -426,23 +426,25 @@ const MissionPage: React.FC = () => {
       const kaia = await requestKaiaMission(address);
 
       if (kaia.message === "Success") {
-        setKaiaLoading(false);
         setKaiaModal(true);
         setKaiaMessage(t("mission_page.success"));
       } else if (kaia.message === "You've already claimed your Level 2 KAIA reward.") {
-        setKaiaLoading(false);
         setKaiaModal(true);
         setKaiaMessage(t("mission_page.already"));
       } else if (kaia.message === "You're not eligible for the reward.") {
-        setKaiaLoading(false);
         setKaiaModal(true);
         setKaiaMessage(t("mission_page.not_eligible"));
+      } else {
+        // 예상치 못한 응답: 로딩이 멈추지 않도록 실패 처리
+        setKaiaModal(true);
+        setKaiaMessage(t("mission_page.failed"));
       }
     } catch (error: any) {
       console.log("에러 확인: ", error);
-      setKaiaLoading(false);
       setKaiaModal(true);
       setKaiaMessage(t("mission_page.failed"));
+    } finally {
+      setKaiaLoading(false);
     }
   };
 
