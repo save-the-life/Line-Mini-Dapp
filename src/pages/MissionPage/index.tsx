@@ -22,189 +22,7 @@ import Attendance from "@/widgets/Attendance";
 import useWalletStore from "@/shared/store/useWalletStore";
 import { connectWallet } from "@/shared/services/walletService";
 import requestKaiaMission from "@/entities/Mission/api/kaiaMission";
-import { Web3Provider } from "@kaiachain/ethers-ext"; 
-import { TxType } from "@kaiachain/js-ext-core"; // ✅ Fee Delegation 타입 추가
-import { ethers } from "ethers";
-import testingKaia from "@/entities/User/api/kaiaTX";
 
-//test-net
-// const contractAddress = "0xe68302943974E7f63d466918516DbaFA196c0F7a";
-// const feePayer = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-// const abi = [
-//    {
-//       "anonymous": false,
-//       "inputs": [
-//          {
-//             "indexed": true,
-//             "internalType": "address",
-//             "name": "user",
-//             "type": "address"
-//          },
-//          {
-//             "indexed": false,
-//             "internalType": "uint256",
-//             "name": "userClaimCount",
-//             "type": "uint256"
-//          },
-//          {
-//             "indexed": false,
-//             "internalType": "uint256",
-//             "name": "totalClaimCount",
-//             "type": "uint256"
-//          }
-//       ],
-//       "name": "Claimed",
-//       "type": "event"
-//    },
-//    {
-//       "inputs": [
-//          {
-//             "internalType": "address",
-//             "name": "",
-//             "type": "address"
-//          }
-//       ],
-//       "name": "claimCount",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [
-//          {
-//             "internalType": "address",
-//             "name": "user",
-//             "type": "address"
-//          }
-//       ],
-//       "name": "getClaimCount",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [],
-//       "name": "markClaimed",
-//       "outputs": [],
-//       "stateMutability": "nonpayable",
-//       "type": "function"
-//    },
-//    {
-//       "inputs": [],
-//       "name": "totalClaims",
-//       "outputs": [
-//          {
-//             "internalType": "uint256",
-//             "name": "",
-//             "type": "uint256"
-//          }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//    }
-// ]
-
-
-//main-net
-const contractAddress = "0x53aeFEF6f3C1C9Eb3C8C3b084D647d82aB700aB1";
-const feePayer = "0x22a4ebd6c88882f7c5907ec5a2ee269fecb5ed7a";
-const abi = [
-   {
-      "anonymous": false,
-      "inputs": [
-         {
-            "indexed": true,
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "userClaimCount",
-            "type": "uint256"
-         },
-         {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "totalClaimCount",
-            "type": "uint256"
-         }
-      ],
-      "name": "Claimed",
-      "type": "event"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-         }
-      ],
-      "name": "claimCount",
-      "outputs": [
-         {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-   },
-   {
-      "inputs": [
-         {
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-         }
-      ],
-      "name": "getClaimCount",
-      "outputs": [
-         {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-   },
-   {
-      "inputs": [],
-      "name": "markClaimed",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-   },
-   {
-      "inputs": [],
-      "name": "totalClaims",
-      "outputs": [
-         {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-         }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-   }
-]
 
 interface OneTimeMissionCardProps {
   mission: Mission;
@@ -347,6 +165,67 @@ const DailyMissionCard: React.FC<DailyMissionProps> = ({ title, image, alt }) =>
           {t("mission_page.only_user")}
         </p>
       </div>
+    </div>
+  );
+};
+
+interface KaiaMissionCardProps {
+  mission: Mission;
+  onClick: () => void;
+}
+
+const KaiaMissionCard: React.FC<KaiaMissionCardProps> = ({ mission, onClick }) => {
+  const { t } = useTranslation();
+  const disabled = !mission.isAvailable || mission.isCleared;
+
+  return (
+    <div
+      className={`
+        relative
+        h-[132px] flex items-center justify-between
+        rounded-3xl overflow-hidden
+        mx-6 mb-6
+        ${disabled ? "pointer-events-none" : ""}
+      `}
+      style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
+      onClick={() => {
+        if (mission.isAvailable && !mission.isCleared) {
+          onClick();
+        }
+      }}
+    >
+      {/* 비활성화 시 전체 덮는 오버레이 */}
+      {disabled && (
+        <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-30" />
+      )}
+
+      {/* 텍스트 블록 */}
+      <div className="pl-8 relative z-20">
+        <p className="text-sm font-medium text-white whitespace-nowrap">
+          {t("mission_page.level2")}
+        </p>
+        <div className="flex items-center">
+          <p className="text-base font-semibold text-white">+0.1</p>
+          <img
+            src={Images.USDT}
+            alt="USDT Icon"
+            className="ml-2 w-5 h-5 rounded-full object-cover"
+          />
+        </div>
+      </div>
+
+      {/* 배경 이미지 */}
+      <img
+        src={Images.KaiaLevel3}
+        alt="usdt-level3"
+        className="
+          absolute
+          right-0 bottom-0
+          w-[142px] h-[142px]
+          object-cover
+          z-10
+        "
+      />
     </div>
   );
 };
@@ -504,9 +383,12 @@ const MissionPage: React.FC = () => {
   );
   
 
-  const handleKaiaMission = async() => {
+  const handleKaiaMission = async () => {
     playSfx(Audios.button_click);
-    
+
+    let address = walletAddress;
+
+    // 지갑 미연결 시 연결 시도 (USDT 수령에는 지갑 주소만 필요)
     if (!provider || !walletAddress || !sdk || !walletType) {
       if (isConnecting) return;
       setIsConnecting(true);
@@ -518,134 +400,51 @@ const MissionPage: React.FC = () => {
           setMessage(t("attendance.wallet_fail"));
           return;
         }
+        address = connection.walletAddress;
         // 연결 성공 시 취소 플래그 제거
         clearWalletCancelDate();
       } catch (error: any) {
         setIsConnecting(false);
         console.error("Wallet connection failed:", error);
-        
+
         // 사용자가 취소한 경우 (코드 -32001)
         if (error?.code === -32001 && error?.message === "User canceled") {
           const today = new Date().toDateString();
           setWalletCancelDate(today);
           return;
         }
-        
+
         setShowModal(true);
         setMessage(t("attendance.wallet_fail"));
         return;
       }
     }
 
-    // Kaia 미션 트랜젝션 실행
-    try{
-      const ethersProvider = new Web3Provider(provider);
-      const signer = ethersProvider.getSigner();
-      const contract = new ethers.Contract(contractAddress, abi, signer);
+    // USDT 보상 요청 (지갑 주소만 백엔드로 전송)
+    setKaiaLoading(true);
+    try {
+      const kaia = await requestKaiaMission(address);
 
-      // 출석 체크 메시지 생성 및 서명
-      const message = `Kaia Mission Rewards: ${walletAddress}`;
-      const messageHash = ethers.utils.hashMessage(message);
-      const signature = await signer.signMessage(message);
-      const sig = ethers.utils.splitSignature(signature);
-
-      // OKX 지갑 타입인 경우: 다른 로직으로 컨트랙트 실행
-      if (provider.getWalletType() === "OKX") {
-        const tx = await contract.markClaimed();
-        const receipt = await tx.wait();
-        // OKX의 경우 tx.hash를 사용하여 testingAttendance 호출 (백엔드에서 이를 처리할 수 있도록 구성 필요)
-
-        if (receipt.status === 1) {
-          // await okxAttendance();
-          setShowModal(true);
-          setMessage(t("attendance.attendance_success"));
-        } else {
-          setShowModal(true);
-          setMessage(t("attendance.attendance_failed"));
-        }
-        return;
+      if (kaia.message === "Success") {
+        setKaiaLoading(false);
+        setKaiaModal(true);
+        setKaiaMessage(t("mission_page.success"));
+      } else if (kaia.message === "You've already claimed your Level 2 KAIA reward.") {
+        setKaiaLoading(false);
+        setKaiaModal(true);
+        setKaiaMessage(t("mission_page.already"));
+      } else if (kaia.message === "You're not eligible for the reward.") {
+        setKaiaLoading(false);
+        setKaiaModal(true);
+        setKaiaMessage(t("mission_page.not_eligible"));
       }
-
-      // OKX가 아닌 경우: Fee Delegation 로직 적용
-      const contractCallData = contract.interface.encodeFunctionData("markClaimed", []);
-
-      const tx = {
-        typeInt: TxType.FeeDelegatedSmartContractExecution,
-        from: walletAddress,
-        to: contractAddress,
-        input: contractCallData,
-        value: "0x0",
-        feePayer,
-        gas: "0x186A0",
-      };
-
-      const signedTx = await provider.request({
-        method: "kaia_signTransaction",
-        params: [tx],
-      });
-
-      // const test = await testingKaia(signedTx.raw, walletAddress);
-
-      if(signedTx){
-        setKaiaLoading(true);
-        try{
-          const kaia = await requestKaiaMission(signedTx.raw, walletAddress);
-
-          if(kaia.message === "Success"){
-            setKaiaLoading(false);
-            setKaiaModal(true);
-            setKaiaMessage(t("mission_page.success"));
-          } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
-            setKaiaLoading(false);
-            setKaiaModal(true);
-            setKaiaMessage(t("mission_page.already"));
-          } else if( kaia.message === "You're not eligible for the reward."){
-            setKaiaLoading(false);
-            setKaiaModal(true);
-            setKaiaMessage(t("mission_page.not_eligible"));
-          }
-        } catch(error: any){
-          setKaiaLoading(false);
-          setKaiaModal(true);
-          setKaiaMessage(t("mission_page.failed"));
-        }
-      }
-    } catch(error: any){
+    } catch (error: any) {
       console.log("에러 확인: ", error);
       setKaiaLoading(false);
       setKaiaModal(true);
       setKaiaMessage(t("mission_page.failed"));
     }
-
-    // 지갑 주소가 존재하는 경우에 진행
-    // if(walletAddress != null){
-    //   // 시간이 걸리므로 로딩창 표시
-    //   setKaiaLoading(true);
-    //   try{
-    //     const kaia = await requestKaiaMission(walletAddress);
-
-    //     if(kaia.message === "Success"){
-    //       setKaiaLoading(false);
-    //       setKaiaModal(true);
-    //       setKaiaMessage(t("mission_page.success"));
-    //     } else if (kaia.message === "You've already claimed your Level 2 KAIA reward."){
-    //       setKaiaLoading(false);
-    //       setKaiaModal(true);
-    //       setKaiaMessage(t("mission_page.already"));
-    //     } else if( kaia.message === "You're not eligible for the reward."){
-    //       setKaiaLoading(false);
-    //       setKaiaModal(true);
-    //       setKaiaMessage(t("mission_page.not_eligible"));
-    //     }
-    //   } catch(error: any){
-    //     setKaiaLoading(false);
-    //     setKaiaModal(true);
-    //     setKaiaMessage(t("mission_page.failed"));
-    //   }
-    // } else {
-    //   setNeedWallet(true);
-    // }
-  }
+  };
 
   const handleConnectWallet = async() => {
     playSfx(Audios.button_click)
@@ -795,60 +594,13 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
-      {/* kaia 미션 - 10레벨 달성 시 활성화 */}
+      {/* USDT 미션 - 레벨3 달성 시 활성화 */}
       {kaiaMission && kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
           </h1>
-          <div
-            className={`
-              relative
-              h-[132px] flex items-center justify-between
-              rounded-3xl overflow-hidden
-              mx-6 mb-6
-              ${(!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""}
-            `}
-            style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
-            onClick={() => {
-              if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
-                handleKaiaMission();
-              }
-            }}
-          >
-            {/* 비활성화 시 전체 덮는 오버레이 (z-30으로 상향) */}
-            {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
-              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-30" />
-            )}
-
-            {/* 텍스트 블록 (z-20) */}
-            <div className="pl-8 relative z-20">
-              <p className="text-sm font-medium text-white whitespace-nowrap">
-                {t("mission_page.level2")}
-              </p>
-              <div className="flex items-center">
-                <p className="text-base font-semibold text-white">+0.1</p>
-                <img
-                  src={Images.KaiaLogo}
-                  alt="Kaia Icon"
-                  className="ml-2 w-5 h-5 rounded-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* 배경 이미지 (z-10) */}
-            <img
-              src={Images.KaiaLevel10}
-              alt="kaia-level2"
-              className="
-                absolute
-                right-0 bottom-0
-                w-[142px] h-[142px]
-                object-cover
-                z-10
-              "
-            />
-          </div>
+          <KaiaMissionCard mission={kaiaMission} onClick={handleKaiaMission} />
         </>
       )}
 
@@ -963,60 +715,13 @@ const MissionPage: React.FC = () => {
         </>
       )}
 
-      {/* kaia 미션 - 10레벨 달성 시 활성화 */}
+      {/* USDT 미션 - 레벨3 미달성(비활성) */}
       {kaiaMission && !kaiaMission.hasEventAccess && (
-         <>
+        <>
           <h1 className="font-semibold text-lg my-4 ml-7">
             KAIA {t("mission_page.Mission")}
           </h1>
-          <div
-            className={`
-              relative
-              h-[132px] flex items-center justify-between
-              rounded-3xl overflow-hidden
-              mx-6 mb-6
-              ${(!kaiaMission?.isAvailable || kaiaMission?.isCleared) ? "pointer-events-none" : ""}
-            `}
-            style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
-            onClick={() => {
-              if (kaiaMission?.isAvailable && !kaiaMission?.isCleared) {
-                handleKaiaMission();
-              }
-            }}
-          >
-            {/* 비활성화 시 전체 덮는 오버레이 (z-30으로 상향) */}
-            {(!kaiaMission?.isAvailable || kaiaMission?.isCleared) && (
-              <div className="absolute inset-0 bg-gray-950 bg-opacity-60 rounded-3xl z-30" />
-            )}
-
-            {/* 텍스트 블록 (z-20) */}
-            <div className="pl-8 relative z-20">
-              <p className="text-sm font-medium text-white whitespace-nowrap">
-                {t("mission_page.level2")}
-              </p>
-              <div className="flex items-center">
-                <p className="text-base font-semibold text-white">+0.1</p>
-                <img
-                  src={Images.KaiaLogo}
-                  alt="Kaia Icon"
-                  className="ml-2 w-5 h-5 rounded-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* 배경 이미지 (z-10) */}
-            <img
-              src={Images.KaiaLevel10}
-              alt="kaia-level2"
-              className="
-                absolute
-                right-0 bottom-0
-                w-[142px] h-[142px]
-                object-cover
-                z-10
-              "
-            />
-          </div>
+          <KaiaMissionCard mission={kaiaMission} onClick={handleKaiaMission} />
         </>
       )}
 
