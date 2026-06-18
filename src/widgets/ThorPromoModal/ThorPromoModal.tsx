@@ -166,7 +166,7 @@ function Section({ imgSrc, imgAlt, titleBlue, titleBlack, body }: SectionProps) 
   return (
     <div className="flex items-start gap-4">
       <div className="flex-shrink-0 w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center overflow-hidden">
-        <img src={imgSrc} alt={imgAlt} className="w-12 h-12 object-contain" />
+        <img src={imgSrc} alt={imgAlt} className="w-full h-full object-contain p-1.5" />
       </div>
       <div className="flex-1 min-w-0 pt-1">
         <div className="text-sm font-bold text-blue-600 leading-tight">
