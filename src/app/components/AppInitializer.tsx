@@ -183,7 +183,7 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   const { fetchUserData } = useUserStore();
 
   const [showSplash, setShowSplash] = useState(true);
-  const [showMaintenance, setShowMaintenance] = useState(false);
+  const [showMaintenance, setShowMaintenance] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const initializedRef = useRef(false);
@@ -481,9 +481,9 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
   }
 
   // 스플래시 화면
-  if (showSplash) {
-    return <SplashScreen />;
-  }
+  // if (showSplash) {
+  //   return <SplashScreen />;
+  // }
 
   // 점검 화면
   if (showMaintenance) {
