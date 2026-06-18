@@ -187,7 +187,7 @@ const KaiaMissionCard: React.FC<KaiaMissionCardProps> = ({ mission, onClick }) =
         mx-6 mb-6
         ${disabled ? "pointer-events-none" : ""}
       `}
-      style={{ background: "linear-gradient(to bottom, #9DE325 0%, #306E0A 100%)" }}
+      style={{ background: "linear-gradient(to bottom, #50AF95 0%, #1A6F5A 100%)" }}
       onClick={() => {
         if (mission.isAvailable && !mission.isCleared) {
           onClick();
@@ -600,7 +600,7 @@ const MissionPage: React.FC = () => {
       {kaiaMission && kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
-            KAIA {t("mission_page.Mission")}
+            USDT {t("mission_page.Mission")}
           </h1>
           <KaiaMissionCard mission={kaiaMission} onClick={handleKaiaMission} />
         </>
@@ -721,7 +721,7 @@ const MissionPage: React.FC = () => {
       {kaiaMission && !kaiaMission.hasEventAccess && (
         <>
           <h1 className="font-semibold text-lg my-4 ml-7">
-            KAIA {t("mission_page.Mission")}
+            USDT {t("mission_page.Mission")}
           </h1>
           <KaiaMissionCard mission={kaiaMission} onClick={handleKaiaMission} />
         </>
