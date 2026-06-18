@@ -24,7 +24,13 @@ jobs:
           node-version: 20
 
       - name: Install deps
-        run: npm ci
+        # Use `npm install`, not `npm ci`. An all-optional transitive chain
+        # (@base-org/account → @coinbase/cdp-sdk → @solana/kit) leaves a dangling
+        # dependency reference that npm cannot materialize into the lockfile, so
+        # strict `npm ci` fails with "Missing: @solana/kit@... from lock file".
+        # `npm install` tolerates the skipped optional dep while still installing
+        # required platform optionals (e.g. esbuild's native binary).
+        run: npm install --no-audit --no-fund
 
       - name: Build
         env:
