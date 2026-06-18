@@ -95,8 +95,8 @@ export default function ThorPromoModal() {
           </button>
 
           <div className="text-center mb-3 mt-2">
-            <div className="inline-flex items-center gap-1.5 text-2xl font-extrabold text-gray-900">
-              <img src={slLogo} alt="THOR" className="w-16 h-16 object-contain" />
+            <div className="inline-flex items-center gap-1 text-2xl font-extrabold text-gray-900">
+              <img src={slLogo} alt="THOR" className="w-10 h-10 object-cover object-left" />
               <span>THOR</span>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function ThorPromoModal() {
             <Section
               imgSrc={giftbox}
               imgAlt="Gift box"
-              imgClassName="w-32 h-32 max-w-none flex-shrink-0 object-contain"
+              imgClassName="w-full h-full object-cover"
               titleBlue={t("thor_promo.airdrop_title_1")}
               titleBlack={t("thor_promo.airdrop_title_2")}
               body={t("thor_promo.airdrop_body")}
@@ -133,7 +133,7 @@ export default function ThorPromoModal() {
             <Section
               imgSrc={coins}
               imgAlt="Coins"
-              imgClassName="w-32 h-32 max-w-none flex-shrink-0 object-contain"
+              imgClassName="w-full h-full object-cover"
               titleBlue={t("thor_promo.points_title_1")}
               titleBlack={t("thor_promo.points_title_2")}
               body={t("thor_promo.points_body")}
