@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { useTranslation } from "react-i18next";
 import liff from "@line/liff";
 import slLogo from "@/shared/assets/images/sl-logo.png";
 import slWatch from "@/shared/assets/images/sl-watch.png";
@@ -29,6 +30,7 @@ const markAsShown = (): void => {
 };
 
 export default function ThorPromoModal() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(() => shouldShowInitially());
   const [secondsLeft, setSecondsLeft] = useState<number>(COUNTDOWN_SECONDS);
 
@@ -102,10 +104,10 @@ export default function ThorPromoModal() {
           <DialogPrimitive.Title asChild>
             <div className="text-center mb-7">
               <div className="text-2xl font-extrabold text-gray-900 leading-tight">
-                JOIN THE FIRST
+                {t("thor_promo.join_first")}
               </div>
               <div className="text-2xl font-extrabold text-blue-600 leading-tight">
-                SL AMBASSADORS
+                {t("thor_promo.ambassadors")}
               </div>
             </div>
           </DialogPrimitive.Title>
@@ -114,25 +116,25 @@ export default function ThorPromoModal() {
             <Section
               imgSrc={slWatch}
               imgAlt="SL Smart Watch"
-              titleBlue="1,000 TOP AMBASSADORS"
-              titleBlack="RECEIVE AN SL SMART WATCH"
-              body="Top 1,000 outstanding users will receive an SL Smart Watch."
+              titleBlue={t("thor_promo.watch_title_1")}
+              titleBlack={t("thor_promo.watch_title_2")}
+              body={t("thor_promo.watch_body")}
             />
             <hr className="border-gray-100" />
             <Section
               imgSrc={giftbox}
               imgAlt="Gift box"
-              titleBlue="ONGOING"
-              titleBlack="AIRDROP EVENTS"
-              body="Join regular campaigns and special airdrop events."
+              titleBlue={t("thor_promo.airdrop_title_1")}
+              titleBlack={t("thor_promo.airdrop_title_2")}
+              body={t("thor_promo.airdrop_body")}
             />
             <hr className="border-gray-100" />
             <Section
               imgSrc={coins}
               imgAlt="Coins"
-              titleBlue="EARN POINTS,"
-              titleBlack="UNLOCK FUTURE BENEFITS"
-              body="Earn points by completing missions and growing the community. Points can be used for future SL ecosystem benefits."
+              titleBlue={t("thor_promo.points_title_1")}
+              titleBlack={t("thor_promo.points_title_2")}
+              body={t("thor_promo.points_body")}
             />
           </div>
 
@@ -141,12 +143,12 @@ export default function ThorPromoModal() {
             onClick={handleJoinThor}
             className="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-base font-bold flex items-center justify-center gap-2 transition"
           >
-            <span>JOIN THOR</span>
+            <span>{t("thor_promo.join_button")}</span>
             <span aria-hidden="true">→</span>
           </button>
 
           <p className="text-center text-xs text-gray-400 mt-4">
-            Start your ambassador journey today.
+            {t("thor_promo.footer")}
           </p>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>

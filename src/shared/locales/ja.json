@@ -303,6 +303,21 @@
         "not_eligible": "あなたは報酬の対象ではありません。",
         "failed": "USDTミッションに失敗しました。"
       },
+    "thor_promo": {
+      "join_first": "第1期",
+      "ambassadors": "SL アンバサダー募集",
+      "watch_title_1": "トップ1,000名のアンバサダー",
+      "watch_title_2": "SLスマートウォッチ進呈",
+      "watch_body": "優秀なユーザー上位1,000名にSLスマートウォッチを進呈します。",
+      "airdrop_title_1": "常時開催",
+      "airdrop_title_2": "エアドロップイベント",
+      "airdrop_body": "定期キャンペーンや特別なエアドロップイベントに参加しましょう。",
+      "points_title_1": "ポイント獲得、",
+      "points_title_2": "今後の特典をアンロック",
+      "points_body": "ミッション達成とコミュニティ活動でポイントを貯めましょう。ポイントは今後のSLエコシステム特典に利用できます。",
+      "join_button": "THORに参加",
+      "footer": "今日からアンバサダーの旅を始めましょう。"
+    },
     "asset_page": {
         "Shop_Unique_NFTs_Now!": "ユニークなアイテムを今すぐ購入！",
         "boost_rank": "強力なアイテムで素早くランクを上げましょう！",

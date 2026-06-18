@@ -303,6 +303,21 @@
       "not_eligible": "您不符合領取獎勵的資格。",
       "failed": "USDT 任務失敗。"
     },
+    "thor_promo": {
+      "join_first": "加入首批",
+      "ambassadors": "SL 大使",
+      "watch_title_1": "前 1,000 名頂級大使",
+      "watch_title_2": "獲贈 SL 智能手錶",
+      "watch_body": "前 1,000 名優秀用戶將獲贈 SL 智能手錶。",
+      "airdrop_title_1": "持續進行",
+      "airdrop_title_2": "空投活動",
+      "airdrop_body": "參與定期活動與特別空投活動。",
+      "points_title_1": "賺取積分，",
+      "points_title_2": "解鎖未來權益",
+      "points_body": "透過完成任務與壯大社群來賺取積分。積分可用於未來的 SL 生態系權益。",
+      "join_button": "加入 THOR",
+      "footer": "立即開始您的大使旅程。"
+    },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "现在购买独特的物品！",
       "boost_rank": "用强大的物品快速提升你的排名！",

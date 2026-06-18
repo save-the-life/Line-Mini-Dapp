@@ -302,6 +302,21 @@
       "not_eligible": "You're not eligible for the reward.",
       "failed": "USDT Mission failed."
     },
+    "thor_promo": {
+      "join_first": "JOIN THE FIRST",
+      "ambassadors": "SL AMBASSADORS",
+      "watch_title_1": "1,000 TOP AMBASSADORS",
+      "watch_title_2": "RECEIVE AN SL SMART WATCH",
+      "watch_body": "Top 1,000 outstanding users will receive an SL Smart Watch.",
+      "airdrop_title_1": "ONGOING",
+      "airdrop_title_2": "AIRDROP EVENTS",
+      "airdrop_body": "Join regular campaigns and special airdrop events.",
+      "points_title_1": "EARN POINTS,",
+      "points_title_2": "UNLOCK FUTURE BENEFITS",
+      "points_body": "Earn points by completing missions and growing the community. Points can be used for future SL ecosystem benefits.",
+      "join_button": "JOIN THOR",
+      "footer": "Start your ambassador journey today."
+    },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "Shop Unique ITEMs Now!",
       "boost_rank": "Boost your rank quickly with powerful items!",
