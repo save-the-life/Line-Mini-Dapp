@@ -31,6 +31,7 @@ import getKaiaRedirection from "@/entities/User/api/getKaiaRedirect";
 import { InlineRanking } from "@/widgets/MyRanking/InlineRanking";
 import { ModalRanking } from "@/widgets/MyRanking/ModalRanking";
 import { useSDK } from "@/shared/hooks/useSDK";
+import ThorPromoModal from "@/widgets/ThorPromoModal";
 
 
 const levelRewards = [
@@ -395,6 +396,7 @@ const DiceEventPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center relative w-full h-full overflow-x-hidden min-h-screen">
+      <ThorPromoModal />
       {game.isRPSGameActive ? (
         <RPSGame
           onGameEnd={handleRPSGameEnd}

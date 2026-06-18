@@ -36,6 +36,9 @@ jobs:
           VITE_LIFF_ID: ${{ secrets.VITE_LIFF_ID }}
           VITE_LINE_CLIENT_ID: ${{ secrets.VITE_LINE_CLIENT_ID }}
           VITE_OPEN_AI_API_KEY: ${{ secrets.VITE_OPEN_AI_API_KEY }}
+          # Thor promo modal is ON by default. To turn it OFF, set repo secret
+          # VITE_THOR_PROMO_ENABLED="false" and re-run the workflow.
+          VITE_THOR_PROMO_ENABLED: ${{ secrets.VITE_THOR_PROMO_ENABLED }}
         run: npm run build
 
       - name: List dist folder
