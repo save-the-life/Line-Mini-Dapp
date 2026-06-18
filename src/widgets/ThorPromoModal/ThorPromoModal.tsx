@@ -96,7 +96,7 @@ export default function ThorPromoModal() {
 
           <div className="text-center mb-3 mt-2">
             <div className="inline-flex items-center gap-1.5 text-2xl font-extrabold text-gray-900">
-              <img src={slLogo} alt="THOR" className="w-8 h-8 object-contain" />
+              <img src={slLogo} alt="THOR" className="w-16 h-16 object-contain" />
               <span>THOR</span>
             </div>
           </div>
@@ -124,6 +124,7 @@ export default function ThorPromoModal() {
             <Section
               imgSrc={giftbox}
               imgAlt="Gift box"
+              imgClassName="w-32 h-32 max-w-none flex-shrink-0 object-contain"
               titleBlue={t("thor_promo.airdrop_title_1")}
               titleBlack={t("thor_promo.airdrop_title_2")}
               body={t("thor_promo.airdrop_body")}
@@ -132,6 +133,7 @@ export default function ThorPromoModal() {
             <Section
               imgSrc={coins}
               imgAlt="Coins"
+              imgClassName="w-32 h-32 max-w-none flex-shrink-0 object-contain"
               titleBlue={t("thor_promo.points_title_1")}
               titleBlack={t("thor_promo.points_title_2")}
               body={t("thor_promo.points_body")}
@@ -159,16 +161,21 @@ export default function ThorPromoModal() {
 interface SectionProps {
   imgSrc: string;
   imgAlt: string;
+  imgClassName?: string;
   titleBlue: string;
   titleBlack: string;
   body: string;
 }
 
-function Section({ imgSrc, imgAlt, titleBlue, titleBlack, body }: SectionProps) {
+function Section({ imgSrc, imgAlt, imgClassName, titleBlue, titleBlack, body }: SectionProps) {
   return (
     <div className="flex items-start gap-4">
       <div className="flex-shrink-0 w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center overflow-hidden">
-        <img src={imgSrc} alt={imgAlt} className="w-full h-full object-contain p-1.5" />
+        <img
+          src={imgSrc}
+          alt={imgAlt}
+          className={imgClassName ?? "w-full h-full object-contain p-1.5"}
+        />
       </div>
       <div className="flex-1 min-w-0 pt-1">
         <div className="text-sm font-bold text-blue-600 leading-tight">
