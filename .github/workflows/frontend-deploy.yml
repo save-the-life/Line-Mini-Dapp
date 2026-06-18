@@ -6,13 +6,13 @@ on:
   workflow_dispatch: {}
     # Manual trigger — kept permanently as a redeploy safety net.
 
+# NOTE: Production is still served from AWS S3 + CloudFront. The DNS cutover to
+# the HPE server is NOT complete yet, so deploys must target AWS (the live
+# origin). The HPE rsync deploy is parked until DNS is switched over.
+
 jobs:
   build-and-deploy:
-    runs-on: [self-hosted, korea]
-    # Self-hosted runner on the HPE server (Korean IP).
-    # The HPE server's SSH is restricted to Korean IPs, so GitHub-hosted runners
-    # can't reach it. The runner runs as the digiray user, with direct local
-    # access to DEPLOY_PATH — no SSH/rsync-over-network needed.
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -28,8 +28,6 @@ jobs:
         # (@base-org/account → @coinbase/cdp-sdk → @solana/kit) leaves a dangling
         # dependency reference that npm cannot materialize into the lockfile, so
         # strict `npm ci` fails with "Missing: @solana/kit@... from lock file".
-        # `npm install` tolerates the skipped optional dep while still installing
-        # required platform optionals (e.g. esbuild's native binary).
         run: npm install --no-audit --no-fund
 
       - name: Build
@@ -43,18 +41,16 @@ jobs:
       - name: List dist folder
         run: ls -alh dist
 
-      - name: Deploy via local rsync
-        run: |
-          rsync -av --delete-after \
-            dist/ \
-            ${{ secrets.DEPLOY_PATH }}
+      - name: Deploy to S3
+        run: aws s3 sync dist/ s3://digiray-prd-s3 --delete
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-1
 
-      - name: Post-deploy verification
-        run: |
-          cd ${{ secrets.DEPLOY_PATH }}
-          echo "== file count =="
-          find . -type f | wc -l
-          echo "== total size =="
-          du -sh .
-          echo "== index.html sha256 =="
-          sha256sum index.html
+      - name: Invalidate CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id E2CL56B2QXHA8S --paths "/*"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-1
