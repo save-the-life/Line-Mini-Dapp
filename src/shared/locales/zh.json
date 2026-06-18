@@ -301,7 +301,7 @@
       "success": "已成功接收 0.1 USDT 獎勵。",
       "already": "您已領取過等級3的 USDT 獎勵。",
       "not_eligible": "您不符合領取獎勵的資格。",
-      "failed": "KAIA 任務失敗。"
+      "failed": "USDT 任務失敗。"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "现在购买独特的物品！",

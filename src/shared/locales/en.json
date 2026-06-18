@@ -300,7 +300,7 @@
       "success": "0.1 USDT Rewards have been received successfully.",
       "already": "You've already claimed your Level 3 USDT reward.",
       "not_eligible": "You're not eligible for the reward.",
-      "failed": "kaia Mission failed."
+      "failed": "USDT Mission failed."
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "Shop Unique ITEMs Now!",

@@ -301,7 +301,7 @@
         "success": "0.1 USDT報酬の受け取りに成功しました。",
         "already": "すでにレベル3のUSDT報酬を受け取っています。",
         "not_eligible": "あなたは報酬の対象ではありません。",
-        "failed": "KAIAミッションに失敗しました。"
+        "failed": "USDTミッションに失敗しました。"
       },
     "asset_page": {
         "Shop_Unique_NFTs_Now!": "ユニークなアイテムを今すぐ購入！",

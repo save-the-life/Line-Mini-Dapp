@@ -301,7 +301,7 @@
       "success": "0.1 USDT 보상을 성공적으로 수령했습니다.",
       "already": "이미 레벨 3 USDT 보상을 받으셨습니다.",
       "not_eligible": "보상 대상이 아닙니다.",
-      "failed": "KAIA 미션 실패."
+      "failed": "USDT 미션 실패."
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "지금 바로 아이템을 쇼핑하세요!",

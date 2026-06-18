@@ -428,7 +428,7 @@ const MissionPage: React.FC = () => {
       if (kaia.message === "Success") {
         setKaiaModal(true);
         setKaiaMessage(t("mission_page.success"));
-      } else if (kaia.message === "You've already claimed your Level 2 KAIA reward.") {
+      } else if (kaia.message === "You've already claimed your Level 3 USDT reward.") {
         setKaiaModal(true);
         setKaiaMessage(t("mission_page.already"));
       } else if (kaia.message === "You're not eligible for the reward.") {
