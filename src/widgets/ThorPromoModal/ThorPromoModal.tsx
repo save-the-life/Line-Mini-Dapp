@@ -8,7 +8,7 @@ import giftbox from "@/shared/assets/images/giftbox-icon.png";
 import coins from "@/shared/assets/images/coins-icon.png";
 
 const STORAGE_KEY = "thorAmbassadorModalShown";
-const THOR_URL = "https://thor.savethelife.io/?ref=luckydice";
+const THOR_URL = "https://thor.savethelife.io/";
 const COUNTDOWN_SECONDS = 5;
 
 // 기본 노출 ON. VITE_THOR_PROMO_ENABLED 를 "false" 로 명시할 때만 끔(운영 off-switch).
@@ -52,6 +52,14 @@ export default function ThorPromoModal() {
   const handleJoinThor = () => {
     markAsShown();
     setOpen(false);
+    // GA: 모달 "JOIN THOR" 링크 클릭 수 집계 (GA4 이벤트)
+    try {
+      (window as any).gtag?.("event", "thor_join_click", {
+        source: "luckydice_modal",
+      });
+    } catch {
+      // analytics not available — ignore
+    }
     try {
       if (liff.isInClient?.()) {
         liff.openWindow({ url: THOR_URL, external: true });
