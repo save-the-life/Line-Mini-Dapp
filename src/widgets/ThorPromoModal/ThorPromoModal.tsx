@@ -11,10 +11,9 @@ const STORAGE_KEY = "thorAmbassadorModalShown";
 const THOR_URL = "https://thor.savethelife.io/";
 const COUNTDOWN_SECONDS = 5;
 
-// 기본 비노출(숨김). VITE_THOR_PROMO_ENABLED 가 "true" 일 때만 노출.
-// 다시 열려면: GitHub Secret VITE_THOR_PROMO_ENABLED="true" 설정 후 재배포(또는 이 조건을 되돌림).
+// 기본 노출 ON. VITE_THOR_PROMO_ENABLED 를 "false" 로 명시할 때만 끔(운영 off-switch).
 const shouldShowInitially = (): boolean => {
-  if (import.meta.env.VITE_THOR_PROMO_ENABLED !== "true") return false;
+  if (import.meta.env.VITE_THOR_PROMO_ENABLED === "false") return false;
   try {
     return localStorage.getItem(STORAGE_KEY) !== "true";
   } catch {
