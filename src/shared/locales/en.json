@@ -315,7 +315,8 @@
       "points_title_2": "UNLOCK FUTURE BENEFITS",
       "points_body": "Earn points by completing missions and growing the community. Points can be used for future SL ecosystem benefits.",
       "join_button": "JOIN THOR",
-      "footer": "Start your ambassador journey today."
+      "footer": "Start your ambassador journey today.",
+      "hide_today": "Don't show again today"
     },
     "asset_page": {
       "Shop_Unique_NFTs_Now!": "Shop Unique ITEMs Now!",

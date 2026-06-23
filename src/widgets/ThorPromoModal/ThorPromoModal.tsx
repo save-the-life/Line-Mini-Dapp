@@ -7,23 +7,34 @@ import slWatch from "@/shared/assets/images/sl-watch.png";
 import giftbox from "@/shared/assets/images/giftbox-icon.png";
 import coins from "@/shared/assets/images/coins-icon.png";
 
-const STORAGE_KEY = "thorAmbassadorModalShown";
+// "오늘 하루 그만 보기" 체크 시 그날 날짜(YYYY-MM-DD)를 저장. 그 날짜와 오늘이 같으면 숨김.
+const STORAGE_KEY = "thorPromoHideDate";
 const THOR_URL = "https://thor.savethelife.io/";
 const COUNTDOWN_SECONDS = 5;
 
+// 로컬 기준 오늘 날짜 (YYYY-MM-DD)
+const todayStr = (): string => {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+
 // 기본 노출 ON. VITE_THOR_PROMO_ENABLED 를 "false" 로 명시할 때만 끔(운영 off-switch).
+// "오늘 하루 그만 보기" 체크해 둔 날에는 숨김. 다음 날 다시 노출.
 const shouldShowInitially = (): boolean => {
   if (import.meta.env.VITE_THOR_PROMO_ENABLED === "false") return false;
   try {
-    return localStorage.getItem(STORAGE_KEY) !== "true";
+    return localStorage.getItem(STORAGE_KEY) !== todayStr();
   } catch {
     return true;
   }
 };
 
-const markAsShown = (): void => {
+const hideForToday = (): void => {
   try {
-    localStorage.setItem(STORAGE_KEY, "true");
+    localStorage.setItem(STORAGE_KEY, todayStr());
   } catch {
     // storage quota / private mode — silently ignore
   }
@@ -33,6 +44,7 @@ export default function ThorPromoModal() {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(() => shouldShowInitially());
   const [secondsLeft, setSecondsLeft] = useState<number>(COUNTDOWN_SECONDS);
+  const [hideToday, setHideToday] = useState<boolean>(false);
 
   useEffect(() => {
     if (!open) return;
@@ -43,15 +55,19 @@ export default function ThorPromoModal() {
 
   const canClose = secondsLeft <= 0;
 
-  const handleClose = () => {
-    if (!canClose) return;
-    markAsShown();
+  // 닫을 때: "오늘 하루 그만 보기" 체크돼 있으면 오늘 날짜 저장(그날 숨김), 아니면 다음 진입에 다시 노출
+  const dismiss = () => {
+    if (hideToday) hideForToday();
     setOpen(false);
   };
 
+  const handleClose = () => {
+    if (!canClose) return;
+    dismiss();
+  };
+
   const handleJoinThor = () => {
-    markAsShown();
-    setOpen(false);
+    dismiss();
     // GA: 모달 "JOIN THOR" 링크 클릭 수 집계 (GA4 이벤트)
     try {
       (window as any).gtag?.("event", "thor_join_click", {
@@ -160,6 +176,16 @@ export default function ThorPromoModal() {
           <p className="text-center text-xs text-gray-400 mt-4">
             {t("thor_promo.footer")}
           </p>
+
+          <label className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={hideToday}
+              onChange={(e) => setHideToday(e.target.checked)}
+              className="w-4 h-4 accent-blue-600"
+            />
+            {t("thor_promo.hide_today")}
+          </label>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
