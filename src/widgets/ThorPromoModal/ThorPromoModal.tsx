@@ -8,7 +8,7 @@ import giftbox from "@/shared/assets/images/giftbox-icon.png";
 import coins from "@/shared/assets/images/coins-icon.png";
 
 const STORAGE_KEY = "thorAmbassadorModalShown";
-const THOR_URL = "https://thor.savethelife.io/";
+const THOR_URL = "https://thor.savethelife.io/?ref=luckydice";
 const COUNTDOWN_SECONDS = 5;
 
 // 기본 노출 ON. VITE_THOR_PROMO_ENABLED 를 "false" 로 명시할 때만 끔(운영 off-switch).
