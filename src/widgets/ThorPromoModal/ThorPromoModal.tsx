@@ -10,6 +10,9 @@ import coins from "@/shared/assets/images/coins-icon.png";
 // "오늘 하루 그만 보기" 체크 시 그날 날짜(YYYY-MM-DD)를 저장. 그 날짜와 오늘이 같으면 숨김.
 const STORAGE_KEY = "thorPromoHideDate";
 const THOR_URL = "https://thor.savethelife.io/";
+// 백엔드 클릭 집계 엔드포인트 (광고차단 무관). Thor 백엔드가 이 경로로 POST 를 받아 카운트.
+// ⚠️ Thor 측 구현 경로와 반드시 일치해야 함.
+const THOR_CLICK_ENDPOINT = "https://thor.savethelife.io/api/promo/luckydice-click";
 const COUNTDOWN_SECONDS = 5;
 
 // 로컬 기준 오늘 날짜 (YYYY-MM-DD)
@@ -66,9 +69,18 @@ export default function ThorPromoModal() {
     dismiss();
   };
 
-  const handleJoinThor = () => {
-    dismiss();
-    // GA: 모달 "JOIN THOR" 링크 클릭 수 집계 (GA4 이벤트)
+  const recordClick = () => {
+    // 1) 백엔드 집계 (광고차단 무관, 정확한 클릭 수). sendBeacon 은 새 창 이동에도 전송 보장.
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(THOR_CLICK_ENDPOINT);
+      } else {
+        fetch(THOR_CLICK_ENDPOINT, { method: "POST", keepalive: true, mode: "no-cors" });
+      }
+    } catch {
+      // 집계 실패가 클릭 동작을 막지 않도록 무시
+    }
+    // 2) GA4 이벤트 (기기/소스 분해용 보조 지표 — 광고차단 시 누락될 수 있음)
     try {
       (window as any).gtag?.("event", "thor_join_click", {
         source: "luckydice_modal",
@@ -76,6 +88,11 @@ export default function ThorPromoModal() {
     } catch {
       // analytics not available — ignore
     }
+  };
+
+  const handleJoinThor = () => {
+    dismiss();
+    recordClick();
     try {
       if (liff.isInClient?.()) {
         liff.openWindow({ url: THOR_URL, external: true });
