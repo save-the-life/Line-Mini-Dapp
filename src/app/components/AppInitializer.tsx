@@ -369,6 +369,13 @@ const AppInitializer: React.FC<AppInitializerProps> = ({ onInitialized }) => {
       if (initializedRef.current) return;
       initializedRef.current = true;
 
+      // [임시 점검] 메인 페이지 진입 차단 — 점검 화면(MaintenanceScreen)만 노출.
+      // 아래 블록을 삭제하면 정상 초기화 흐름으로 복구됨.
+      console.log("[AppInitializer] ⚠️ 임시 점검 모드: 메인 진입 차단");
+      setShowSplash(false);
+      setShowMaintenance(true);
+      return;
+
       console.log("[AppInitializer] ===== 앱 초기화 시작 =====");
       console.log("[AppInitializer] 실험 모드: liff.init() 후 isInClient() 체크 + SDK init 을 wallet connect 시점으로 deferral");
 
